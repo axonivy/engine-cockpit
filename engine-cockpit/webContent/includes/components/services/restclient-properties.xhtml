@@ -10,19 +10,35 @@
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-cog"></i>
         <h6 class="m-0">Features and properties</h6>
-        <p:commandButton id="newServicePropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
-          actionListener="#{restClientDetailBean.setProperty(null)}" update="restClientProperty:propertyForm" title="Add" icon="si si-add"
-          styleClass="col-fixed ml-auto rounded-button" />
       </div>
     </div>
-    
-    <p:dataTable value="#{restClientDetailBean.restClient.features}" var="feature"
-      id="restClientFeaturesTable" styleClass="mb-3">
+
+    <p:dataTable value="#{restClientDetailBean.restClient.features}"
+      var="feature" id="restClientFeaturesTable" styleClass="mb-3">
       <p:column headerText="Features">
         <p:outputLabel value="#{feature}" styleClass="restclient-feature" />
       </p:column>
+      <p:column styleClass="table-btn-2">
+        <f:facet name="header">
+          <p:commandButton id="newServicePropertyBtn"
+            oncomplete="PF('featureModal').show();" process="@this"
+            actionListener="#{restClientDetailBean.setProperty(null)}"
+            update="restClientProperty:propertyForm" title="Add"
+            icon="si si-add" styleClass="col-fixed ml-auto rounded-button" />
+        </f:facet>
+        <p:commandButton id="editFeatureBtn"
+          actionListener="#{restClientDetailBean.setFeature(feature)}"
+          icon="si si-pencil" title="Edit"
+          update="restClientFeature:featureModal"
+          styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
+          oncomplete="PF('featureModal').show();" process="@this" />
+        <p:commandButton id="deleteFeatureBtn"
+          actionListener="#{restClientDetailBean.removeFeature(feature)}"
+          update="@form" icon="si si-bin-1" title="Delete"
+          styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
+      </p:column>
     </p:dataTable>
-    
+
     <p:dataTable value="#{restClientDetailBean.restClient.properties}" var="property" id="restClientPropertiesTable">
       <p:column headerText="Name">
         <h:outputText value="#{property.name}" styleClass="restclient-property-name" />
@@ -31,6 +47,11 @@
         <h:outputText value="#{property.sensitive ? '*****' : property.value}" styleClass="restclient-property-value" />
       </p:column>
       <p:column styleClass="table-btn-2">
+        <f:facet name="header">
+          <p:commandButton id="newServicePropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
+          actionListener="#{restClientDetailBean.setProperty(null)}" update="restClientProperty:propertyForm" title="Add" icon="si si-add"
+          styleClass="col-fixed ml-auto rounded-button" />
+        </f:facet>
         <p:commandButton id="editPropertyBtn" actionListener="#{restClientDetailBean.setProperty(property.name)}"
           icon="si si-pencil" title="Edit" update="restClientProperty:propertyModal" styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
           oncomplete="PF('propertyModal').show();" process="@this" />
@@ -43,5 +64,6 @@
 </div>
 
 <cc:PropertyEditor id="restClientProperty" bean="#{restClientDetailBean}" formName="restClientAdditionalConfigForm"/>
+<cc:FeatureEditor id="restClientFeature" bean="#{restClientDetailBean}" formName="restClientAdditionalConfigForm"/>
 
 </html>

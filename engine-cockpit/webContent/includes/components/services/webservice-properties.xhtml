@@ -10,9 +10,6 @@
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-cog"></i>
         <h6 class="m-0">Features and properties</h6>
-        <p:commandButton id="newServicePropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
-          actionListener="#{webserviceDetailBean.setProperty(null)}" update="webServiceProperty:propertyForm" title="Add" icon="si si-add"
-          styleClass="col-fixed ml-auto rounded-button" />
       </div>
     </div>
     
@@ -20,6 +17,18 @@
       id="webserviceFeaturesTable" styleClass="mb-3">
       <p:column headerText="Features">
         <p:outputLabel value="#{feature}" styleClass="webservice-feature" />
+      </p:column>
+      <p:column styleClass="table-btn-2">
+        <f:facet name="header">
+          <p:commandButton id="newServiceFeatureBtn" oncomplete="PF('featureModal').show();" process="@this"
+            actionListener="#{webserviceDetailBean.setFeature(null)}" update="webServiceFeature:featureForm" title="Add" icon="si si-add"
+            styleClass="col-fixed ml-auto rounded-button" />
+        </f:facet>
+        <p:commandButton id="editFeatureBtn" actionListener="#{webserviceDetailBean.setFeature(feature)}"
+          icon="si si-pencil" title="Edit" update="webServiceFeature:featureModal" styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
+          oncomplete="PF('featureModal').show();" process="@this" />
+        <p:commandButton id="deleteFeatureBtn" actionListener="#{webserviceDetailBean.removeFeature(feature)}"
+          update="@form" icon="si si-bin-1" title="Delete" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
       </p:column>
     </p:dataTable>
     
@@ -31,10 +40,15 @@
         <h:outputText value="#{property.sensitive ? '*****' : property.value}" styleClass="webservice-property-value" />
       </p:column>
       <p:column styleClass="table-btn-2">
+        <f:facet name="header">
+          <p:commandButton id="newServicePropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
+            actionListener="#{webserviceDetailBean.setProperty(null)}" update="webServiceProperty:propertyForm" title="Add" icon="si si-add"
+            styleClass="col-fixed ml-auto rounded-button" />
+        </f:facet>
         <p:commandButton id="editPropertyBtn" actionListener="#{webserviceDetailBean.setProperty(property.name)}"
           icon="si si-pencil" title="Edit" update="webServiceProperty:propertyModal" styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
           oncomplete="PF('propertyModal').show();" process="@this" />
-        <p:commandButton id="deletePropertyBtn" actionListener="#{webserviceDetailBean.removeProperty()}"
+        <p:commandButton id="deletePropertyBtn" actionListener="#{webserviceDetailBean.removeProperty(property.name)}"
           update="@form" icon="si si-bin-1" title="Delete" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
       </p:column>
     </p:dataTable>
@@ -43,5 +57,6 @@
 </div>
 
 <cc:PropertyEditor id="webServiceProperty" bean="#{webserviceDetailBean}" formName="webservcieAdditionalConfigForm"/>
+<cc:FeatureEditor id="webServiceFeature" bean="#{webserviceDetailBean}" formName="webservcieAdditionalConfigForm"/>
 
 </html>

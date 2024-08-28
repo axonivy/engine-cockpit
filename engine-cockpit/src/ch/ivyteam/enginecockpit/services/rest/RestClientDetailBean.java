@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.services.rest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -42,6 +43,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   private final ConnectionTestWrapper connectionTest;
   private Property activeProperty;
+private String activeFeature;
 
   public RestClientDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -96,6 +98,29 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   public RestClientDto getRestClient() {
     return restClient;
   }
+
+  public void setFeature(String feature) {
+      if (feature != null) {
+          this.activeFeature = feature;
+      }
+    }
+
+    public String getFeature() {
+      return activeFeature;
+  }
+    
+    public void saveFeature() {
+      saveRestClient(wsBuilder().feature(activeFeature));
+      loadRestClient();
+    }
+
+    public void removeFeature(String name) {
+      var mutableList = new ArrayList<>(restClient.getFeatures());
+      restClients.remove(restClient.getName()+ "." +"Features");
+      mutableList.remove(name);
+      restClients.set(wsBuilder().features(mutableList).toRestClient());
+      loadRestClient();
+    }
 
   public boolean isSensitive() {
     if (activeProperty == null || activeProperty.getName() == null || restClient.getProperties() == null) {

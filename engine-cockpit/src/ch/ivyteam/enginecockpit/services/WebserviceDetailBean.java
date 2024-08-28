@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -50,6 +51,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private WebServiceMonitor liveStats;
   private WebServiceClients webServiceClients;
   private Property activeProperty;
+  private String activeFeature;
 
   public WebserviceDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -98,17 +100,41 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   public Webservice getWebservice() {
     return webservice;
   }
+
+  public void setFeature(String feature) {
+    if (feature != null) {
+        this.activeFeature = feature;
+    }
+  }
+
+  public String getFeature() {
+    return activeFeature;
+}
   
-  public void setProperty(String key) {
+  public void saveFeature() {
+    saveWebService(wsBuilder().feature(activeFeature));
+    loadWebService();
+  }
+
+  public void removeFeature(String name) {
+    var mutableList = new ArrayList<>(webservice.getFeatures());
+    mutableList.remove(name);
+    webServiceClients.remove(webservice.getName()+ "." +"Features");
+    var config = ch.ivyteam.ivy.application.config.Config.of(app);
+    config.set("WebServiceClients"+ "." +webservice.getName()+ "." +"Features", mutableList);
+    loadWebService();
+  }
+
+  public void setProperty(String name) {
     this.activeProperty = new Property();
-    if (key != null) {
+    if (name != null) {
       this.activeProperty = webservice.getProperties().stream()
-          .filter(property -> property.getName().equals(key))
+          .filter(property -> property.getName().equals(name))
           .findFirst()
           .orElse(new Property());
     }
   }
-  
+
   public boolean isSensitive() {
     if (activeProperty == null || activeProperty.getName() == null || webservice.getProperties() == null) {
       return false;
@@ -129,8 +155,8 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     loadWebService();
   }
 
-  public void removeProperty() {
-    removeWebService(webservice.getName());
+  public void removeProperty(String name) {
+    webServiceClients.remove(webservice.getName()+ "." +"Properties"+ "." +name);
     loadWebService();
   }
   
@@ -267,8 +293,5 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   
   private void saveWebService(Builder builder) {
     webServiceClients.set(builder.toWebServiceClient());
-  }
-  private void removeWebService(String string) {
-    webServiceClients.remove(string);
   }
 }
