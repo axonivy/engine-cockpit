@@ -42,7 +42,7 @@ public class WebTestCockpitLinkFactory {
       link.click();
       webdriver().shouldHave(urlContaining(url));
       webdriver().shouldNotHave(title("Not Found"));
-      webdriver().shouldHave(titles("Axon Ivy Engine", "Axon Ivy Cockpit"));
+      webdriver().shouldHave(titles("Axon Ivy Engine", "Axon Ivy Cockpit", "Engine Cockpit"));
       Selenide.back();
       $("h1").shouldBe(text("CockpitLinkFactory"));
       links = $$(".ui-link");
