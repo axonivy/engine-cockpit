@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.services.rest;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.faces.application.FacesMessage;
@@ -14,6 +15,7 @@ import org.apache.commons.lang.text.StrSubstitutor;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.RestClientMonitor;
+import ch.ivyteam.enginecockpit.services.PropertyEditor;
 import ch.ivyteam.enginecockpit.services.help.HelpServices;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
@@ -28,7 +30,7 @@ import ch.ivyteam.ivy.rest.client.RestClient.Builder;
 
 @ManagedBean
 @ViewScoped
-public class RestClientDetailBean extends HelpServices implements IConnectionTestResult {
+public class RestClientDetailBean extends HelpServices implements IConnectionTestResult, PropertyEditor {
 
   private RestClientDto restClient;
   private String restClientName;
@@ -42,6 +44,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   private final ConnectionTestWrapper connectionTest;
   private Property activeProperty;
+  private String activeFeature;
 
   public RestClientDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -97,42 +100,20 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     return restClient;
   }
 
-  public boolean isSensitive() {
-    if (activeProperty == null || activeProperty.getName() == null || restClient.getProperties() == null) {
-      return false;
-    }
-    return restClient.getProperties().stream()
-             .filter(property -> activeProperty.getName().equals(property.getName()))
-             .findFirst()
-             .map(Property::isSensitive)
-             .orElse(false);
+  public List<Property> getProperties() {
+    return restClient.getProperties();
   }
 
-  public void setProperty(String key) {
-    this.activeProperty = new Property();
-      if (key != null) {
-        this.activeProperty = restClient.getProperties().stream()
-            .filter(property -> property.getName().equals(key))
-            .findFirst()
-            .orElse(new Property());
-      }
-    }
+  public void saveProperty() {
+    saveRestClient(restBuilder().property(getProperty().getName(), getProperty().getValue()));
+    loadRestClient();
+  }
 
-    public Property getProperty() {
-      return activeProperty;
-    }
+  public void removeProperty(String name) {
+    restClients.remove(restClient.getName()+ "." +"Properties"+ "." +name);
+    loadRestClient();
+  }
 
-    public void saveProperty() {
-      saveRestClient(restBuilder().property(activeProperty.getName(),activeProperty.getValue()));
-      loadRestClient();
-    }
-
-    public void removeProperty(String name) {
-      restClients.remove(restClient.getName()+ "." +"Properties"+ "." +name);
-      loadRestClient();
-    }
-
-  @Override
   public String getTitle() {
     return "Rest Client '" + restClientName + "'";
   }
@@ -148,7 +129,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     valuesMap.put("name", restClient.getName());
     valuesMap.put("url", restClient.getUrl());
     valuesMap.put("features", parseFeaturesToYaml(restClient.getFeatures()));
-    valuesMap.put("properties", parsePropertiesToYaml(restClient.getProperties()));
+    valuesMap.put("properties", parsePropertiesToYaml(getProperties()));
     var templateString = readTemplateString("restclient.yaml");
     var strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
@@ -205,5 +186,30 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   private void saveRestClient(Builder builder) {
     restClients.set(builder.toRestClient());
+  }
+
+  @Override
+  public Property getProperty() {
+    return activeProperty;
+  }
+
+  @Override
+  public void setProperty(String key) {
+    this.activeProperty = findProperty(key);
+  }
+
+  @Override
+  public List<String> getFeatures() {
+    return restClient.getFeatures();
+  }
+
+  @Override
+  public String getFeature() {
+    return activeFeature;
+  }
+
+  @Override
+  public void setFeature(String key) {
+    this.activeFeature = findFeature(key);
   }
 }

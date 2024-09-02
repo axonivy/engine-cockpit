@@ -83,34 +83,36 @@ class WebTestDatabaseDetail {
   
   @Test
   void addProperty() {
-    $(By.id("databasePropertiesForm:newServicePropertyBtn")).shouldBe(visible).click();
-    $(By.id("databaseProperty:propertyForm:nameInput")).sendKeys("testProperty");
-    $(By.id("databaseProperty:propertyForm:valueInput")).sendKeys("testValue");
-    
-    $(By.id("databaseProperty:propertyForm:saveProperty")).click();
-    
+    String propertyEditor = "databasePropertiesForm:databasePropertiesTable:newPropertyEditor:";
+    $(By.id(propertyEditor + "newServicePropertyBtn")).shouldBe(visible).click();
+    $(By.id(propertyEditor + "propertyForm:nameInput")).sendKeys("testProperty");
+    $(By.id(propertyEditor + "propertyForm:valueInput")).sendKeys("testValue");
+
+    $(By.id(propertyEditor + "propertyForm:saveProperty")).click();
+
     $(By.id("databasePropertiesForm:databasePropertiesTable")).shouldHave(text("testProperty"));
     $(By.id("databasePropertiesForm:databasePropertiesTable")).shouldHave(text("testValue"));
     
-    $(By.id("databasePropertiesForm:databasePropertiesTable:0:deletePropertyBtn")).click();
+    $(By.id("databasePropertiesForm:databasePropertiesTable:0:editPropertyEditor:deletePropertyBtn")).click();
   }
   
   @Test
   void editProperty() {
-    $(By.id("databasePropertiesForm:databasePropertiesTable:1:editPropertyBtn")).shouldBe(visible).click();
+    String property = "databasePropertiesForm:databasePropertiesTable:1:editPropertyEditor:";
+    $(By.id(property + "editPropertyBtn")).shouldBe(visible).click();
 
-    $(By.id("databaseProperty:propertyForm:valueInput")).clear();
-    $(By.id("databaseProperty:propertyForm:valueInput")).sendKeys("editValue");
+    $(By.id(property + "propertyForm:valueInput")).clear();
+    $(By.id(property + "propertyForm:valueInput")).sendKeys("editValue");
     
-    $(By.id("databaseProperty:propertyForm:saveProperty")).click();
+    $(By.id(property + "propertyForm:saveProperty")).click();
     
     $(By.id("databasePropertiesForm:databasePropertiesTable")).shouldHave(text("editValue"));
     
-    $(By.id("databasePropertiesForm:databasePropertiesTable:1:editPropertyBtn")).shouldBe(visible).click();
-    $(By.id("databaseProperty:propertyForm:valueInput")).clear();
-    $(By.id("databaseProperty:propertyForm:valueInput")).sendKeys("testvalue");
+    $(By.id(property + "editPropertyBtn")).shouldBe(visible).click();
+    $(By.id(property + "propertyForm:valueInput")).clear();
+    $(By.id(property + "propertyForm:valueInput")).sendKeys("testvalue");
 
-    $(By.id("databaseProperty:propertyForm:saveProperty")).click();
+    $(By.id(property + "propertyForm:saveProperty")).click();
   }
 
   @Test

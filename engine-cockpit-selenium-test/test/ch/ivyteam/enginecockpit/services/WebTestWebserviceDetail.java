@@ -176,35 +176,33 @@ class WebTestWebserviceDetail {
   
   @Test
   void addProperty() {
-    $(By.id("webserviceAdditionalConfigForm:newServicePropertyBtn")).shouldBe(visible).click();
-    $(By.id("webServiceProperty:propertyForm:nameInput")).sendKeys("testProperty");
-    $(By.id("webServiceProperty:propertyForm:valueInput")).sendKeys("testValue");
-    
-    $(By.id("webServiceProperty:propertyForm:saveProperty")).click();
+    String propertyEditor = "webserviceAdditionalConfigForm:webservicePropertiesTable:newPropertyEditor:";
+    $(By.id(propertyEditor + "newServicePropertyBtn")).shouldBe(visible).click();
+    $(By.id(propertyEditor + "propertyForm:nameInput")).sendKeys("testProperty");
+    $(By.id(propertyEditor + "propertyForm:valueInput")).sendKeys("testValue");
+    $(By.id(propertyEditor + "propertyForm:saveProperty")).click();
     
     var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
     table.row(2).shouldHave(text("testProperty"), text("testValue"));
     
-    $(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable:2:deletePropertyBtn")).click();
+    $(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyEditor:deletePropertyBtn")).click();
   }
   
   @Test
   void editProperty() {
-    $(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyBtn")).shouldBe(visible).click();
-
-    $(By.id("webServiceProperty:propertyForm:valueInput")).clear();
-    $(By.id("webServiceProperty:propertyForm:valueInput")).sendKeys("editValue");
-    
-    $(By.id("webServiceProperty:propertyForm:saveProperty")).click();
+    String propertyEditor = "webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyEditor:";
+    $(By.id(propertyEditor + "editPropertyBtn")).shouldBe(visible).click();
+    $(By.id(propertyEditor + "propertyForm:valueInput")).clear();
+    $(By.id(propertyEditor + "propertyForm:valueInput")).sendKeys("editValue");
+    $(By.id(propertyEditor + "propertyForm:saveProperty")).click();
     
     var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
     table.row(2).shouldHave(text("username"), text("editValue"));
     
-    $(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyBtn")).shouldBe(visible).click();
-    $(By.id("webServiceProperty:propertyForm:valueInput")).clear();
-    $(By.id("webServiceProperty:propertyForm:valueInput")).sendKeys("admin");
-    
-    $(By.id("webServiceProperty:propertyForm:saveProperty")).click();
+    $(By.id(propertyEditor + "editPropertyBtn")).shouldBe(visible).click();
+    $(By.id(propertyEditor + "propertyForm:valueInput")).clear();
+    $(By.id(propertyEditor + "propertyForm:valueInput")).sendKeys("admin");
+    $(By.id(propertyEditor + "propertyForm:saveProperty")).click();
   }
 
   @Test

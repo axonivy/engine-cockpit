@@ -54,5 +54,4 @@ public abstract class HelpServices {
   public static String parseFeaturesToYaml(Collection<String> features) {
     return features.stream().collect(Collectors.joining("\n      - "));
   }
-
 }
