@@ -98,7 +98,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   public Webservice getWebservice() {
     return webservice;
   }
-  
+
   public void setProperty(String key) {
     this.activeProperty = new Property();
     if (key != null) {
@@ -133,7 +133,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     webServiceClients.remove(webservice.getName()+ "." +"Properties"+ "." +name);
     loadWebService();
   }
-  
+
 @Override
   public String getTitle() {
     return "Web Service '" + webservice.getName() + "'";

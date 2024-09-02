@@ -123,12 +123,12 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     }
 
     public void saveProperty() {
-      saveRestClient(wsBuilder().property(activeProperty.getName(),activeProperty.getValue()));
+      saveRestClient(restBuilder().property(activeProperty.getName(),activeProperty.getValue()));
       loadRestClient();
     }
 
     public void removeProperty(String name) {
-      restClients.remove(restClients+ "." +"Properties"+ "." +name);
+      restClients.remove(restClient.getName()+ "." +"Properties"+ "." +name);
       loadRestClient();
     }
 
@@ -199,7 +199,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     return liveStats;
   }
   
-  private Builder wsBuilder() {
+  private Builder restBuilder() {
     return restClients.find(restClientName).toBuilder();
   }
 

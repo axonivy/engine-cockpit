@@ -13,9 +13,6 @@
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-cog"></i>
         <h6 class="m-0">Properties</h6>
-        <p:commandButton id="newServicePropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
-          actionListener="#{databaseDetailBean.setProperty(null)}" update="databaseProperty:propertyForm" title="Add" icon="si si-add"
-          styleClass="col-fixed ml-auto rounded-button" />
       </div>
     </div>
     
@@ -27,16 +24,15 @@
         <h:outputText value="#{property.value}" styleClass="database-property-value" />
       </p:column>
       <p:column styleClass="table-btn-2">
-        <p:commandButton id="editPropertyBtn" actionListener="#{databaseDetailBean.setProperty(property.name)}"
-          icon="si si-pencil" title="Edit" update="databaseProperty:propertyModal" styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
-          oncomplete="PF('propertyModal').show();" process="@this" />
-        <p:commandButton id="deletePropertyBtn" actionListener="#{databaseDetailBean.removeProperty()}"
-          update="@form" icon="si si-bin-1" title="Delete" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
+        <f:facet name="header">
+          <cc:PropertyEditor id="newPropertyEditor" bean="#{databaseDetailBean}" 
+            isNewProperty="true" formName="databasePropertiesForm" />
+        </f:facet>
+        <cc:PropertyEditor id="editPropertyEditor" bean="#{databaseDetailBean}" 
+          isNewProperty="false" formName="databasePropertiesForm" />
       </p:column>
     </p:dataTable>
   </h:form>
 </div>
-
-<cc:PropertyEditor id="databaseProperty" bean="#{databaseDetailBean}" formName="databasePropertiesForm"/>
 
 </html>

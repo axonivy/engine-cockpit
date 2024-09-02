@@ -6,10 +6,28 @@
 <cc:interface>
   <cc:attribute name="bean" />
   <cc:attribute name="formName" />
+  <cc:attribute name="isNewProperty" />
 </cc:interface>
 <cc:implementation>
-<p:dialog header="Property" id="propertyModal" widgetVar="propertyModal" modal="true"
-  responsive="true" closeOnEscape="true">
+  <p:commandButton id="editPropertyBtn"
+    actionListener="#{cc.attrs.bean.setProperty(property.name)}"
+    icon="si si-pencil" title="Edit"
+    update="propertyModal" rendered="#{!cc.attrs.isNewProperty}"
+    styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
+    oncomplete="PF('propertyModal').show();" process="@this" />
+  <p:commandButton id="deletePropertyBtn"
+    actionListener="#{cc.attrs.bean.removeProperty(property.name)}"
+    update="#{cc.attrs.formName}" icon="si si-bin-1" title="Delete"
+    rendered="#{!cc.attrs.isNewProperty}"
+    styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
+  <p:commandButton id="newServicePropertyBtn" 
+    oncomplete="PF('propertyModal').show();" process="@this"
+    actionListener="#{cc.attrs.bean.setProperty(null)}" update="propertyModal" 
+    title="Add" icon="si si-add" rendered="#{cc.attrs.isNewProperty}"
+    styleClass="col-fixed ml-auto rounded-button" />
+
+  <p:dialog header="Property" style="text-align: left;" id="propertyModal" widgetVar="propertyModal" modal="true"
+    responsive="true" closeOnEscape="true">
   <h:form id="propertyForm" styleClass="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9"
       styleClass="grey-label-panel ui-fluid">
@@ -21,7 +39,6 @@
       </h:panelGroup>
       <h:outputText id="propertyName" rendered="#{not empty cc.attrs.bean.property.name}"
         value="#{cc.attrs.bean.property.name}" />
-        
       <p:outputLabel rendered="#{cc.attrs.bean.sensitive}" for="sensitiveValueInput" value="Value" />
       <h:panelGroup rendered="#{cc.attrs.bean.sensitive}" styleClass="md-inputfield">
         <p:password id="sensitiveValueInput" requiredMessage="Value is required"
@@ -38,9 +55,10 @@
       
     </p:panelGrid>
     <div class="custom-dialog-footer">
-      <p:commandButton id="saveProperty" validateClient="true" onsuccess="PF('propertyModal').hide()"
-        actionListener="#{cc.attrs.bean.saveProperty}" value="Save" icon="si si-floppy-disk" update="#{cc.attrs.formName}"
-        styleClass="modal-input-button" />
+      <p:commandButton id="saveProperty" validateClient="true" 
+        onsuccess="PF('propertyModal').hide()" action="#{cc.attrs.bean.saveProperty}" 
+        value="Save" icon="si si-floppy-disk" update="#{cc.attrs.formName}"
+        styleClass="modal-input-button" process="@form" />
       <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
     </div>

@@ -10,9 +10,6 @@
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-cog"></i>
         <h6 class="m-0">Features and properties</h6>
-        <p:commandButton id="newServicePropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
-          actionListener="#{restClientDetailBean.setProperty(null)}" update="restClientProperty:propertyForm" title="Add" icon="si si-add"
-          styleClass="col-fixed ml-auto rounded-button" />
       </div>
     </div>
     
@@ -31,17 +28,16 @@
         <h:outputText value="#{property.sensitive ? '*****' : property.value}" styleClass="restclient-property-value" />
       </p:column>
       <p:column styleClass="table-btn-2">
-        <p:commandButton id="editPropertyBtn" actionListener="#{restClientDetailBean.setProperty(property.name)}"
-          icon="si si-pencil" title="Edit" update="restClientProperty:propertyModal" styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
-          oncomplete="PF('propertyModal').show();" process="@this" />
-        <p:commandButton id="deletePropertyBtn" actionListener="#{restClientDetailBean.removeProperty(property.name)}"
-          update="@form" icon="si si-bin-1" title="Delete" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
+        <f:facet name="header">
+          <cc:PropertyEditor id="newPropertyEditor" bean="#{restClientDetailBean}" 
+            isNewProperty="true" formName="restClientAdditionalConfigForm" />
+        </f:facet>
+        <cc:PropertyEditor id="editPropertyEditor" bean="#{restClientDetailBean}" 
+          isNewProperty="false" formName="restClientAdditionalConfigForm" />
       </p:column>
     </p:dataTable>
   
   </h:form>
 </div>
-
-<cc:PropertyEditor id="restClientProperty" bean="#{restClientDetailBean}" formName="restClientAdditionalConfigForm"/>
 
 </html>
