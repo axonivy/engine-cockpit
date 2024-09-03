@@ -24,6 +24,7 @@ import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.PropertyEditor;
 import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
@@ -83,36 +84,19 @@ class WebTestDatabaseDetail {
   
   @Test
   void addProperty() {
-    String propertyEditor = "databasePropertiesForm:databasePropertiesTable:newPropertyEditor:";
-    $(By.id(propertyEditor + "newServicePropertyBtn")).shouldBe(visible).click();
-    $(By.id(propertyEditor + "propertyForm:nameInput")).sendKeys("testProperty");
-    $(By.id(propertyEditor + "propertyForm:valueInput")).sendKeys("testValue");
-
-    $(By.id(propertyEditor + "propertyForm:saveProperty")).click();
-
+    var editor = new PropertyEditor("databasePropertiesForm:databasePropertiesTable:newPropertyEditor:");
+    editor.addProperty("testProperty", "testValue");
     $(By.id("databasePropertiesForm:databasePropertiesTable")).shouldHave(text("testProperty"));
     $(By.id("databasePropertiesForm:databasePropertiesTable")).shouldHave(text("testValue"));
-    
     $(By.id("databasePropertiesForm:databasePropertiesTable:0:editPropertyEditor:deletePropertyBtn")).click();
   }
   
   @Test
   void editProperty() {
-    String property = "databasePropertiesForm:databasePropertiesTable:1:editPropertyEditor:";
-    $(By.id(property + "editPropertyBtn")).shouldBe(visible).click();
-
-    $(By.id(property + "propertyForm:valueInput")).clear();
-    $(By.id(property + "propertyForm:valueInput")).sendKeys("editValue");
-    
-    $(By.id(property + "propertyForm:saveProperty")).click();
-    
+    var editor = new PropertyEditor("databasePropertiesForm:databasePropertiesTable:1:editPropertyEditor:");
+    editor.editProperty("editValue");
     $(By.id("databasePropertiesForm:databasePropertiesTable")).shouldHave(text("editValue"));
-    
-    $(By.id(property + "editPropertyBtn")).shouldBe(visible).click();
-    $(By.id(property + "propertyForm:valueInput")).clear();
-    $(By.id(property + "propertyForm:valueInput")).sendKeys("testvalue");
-
-    $(By.id(property + "propertyForm:saveProperty")).click();
+    editor.editProperty("testvalue");
   }
 
   @Test
