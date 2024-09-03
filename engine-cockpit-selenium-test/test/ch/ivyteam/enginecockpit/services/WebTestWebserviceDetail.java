@@ -29,6 +29,7 @@ import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.PropertyEditor;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
@@ -168,10 +169,28 @@ class WebTestWebserviceDetail {
 
   @Test
   void properties() {
-    var table = PrimeUi.table(By.id("webservcieAdditionalConfigForm:webservicePropertiesTable"));
+    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
     table.row(0).shouldHave(text("password"), text("*****"));
     table.row(1).shouldHave(text("sensitive"), text("*****"));
     table.row(2).shouldHave(text("username"), text("admin"));
+  }
+  
+  @Test
+  void addProperty() {
+    var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable:newPropertyEditor:");
+    editor.addProperty("testProperty", "testValue");
+    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
+    table.row(2).shouldHave(text("testProperty"), text("testValue"));
+    $(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyEditor:deletePropertyBtn")).click();
+  }
+  
+  @Test
+  void editProperty() {
+    var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyEditor:");
+    editor.editProperty("editValue");
+    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
+    table.row(2).shouldHave(text("username"), text("editValue"));
+    editor.editProperty("admin");
   }
 
   @Test

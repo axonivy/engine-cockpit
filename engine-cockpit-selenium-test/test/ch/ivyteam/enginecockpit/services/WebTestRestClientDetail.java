@@ -22,6 +22,7 @@ import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.PropertyEditor;
 import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
@@ -114,6 +115,24 @@ class WebTestRestClientDetail {
     table.row(3).shouldHave(text("sensitive"), text("*****"));
     table.row(4).shouldHave(text("PATH.port"), text("91"));
     table.row(5).shouldHave(text("username"), text("admin"));
+  }
+  
+  @Test
+  void addProperty() {
+    var editor = new PropertyEditor("restClientAdditionalConfigForm:restClientPropertiesTable:newPropertyEditor:");
+    editor.addProperty("testProperty", "testValue");
+    var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
+    table.row(2).shouldHave(text("testProperty"), text("testValue"));
+    $(By.id("restClientAdditionalConfigForm:restClientPropertiesTable:2:editPropertyEditor:deletePropertyBtn")).click();
+  }
+  
+  @Test
+  void editProperty() {
+    var editor = new PropertyEditor("restClientAdditionalConfigForm:restClientPropertiesTable:5:editPropertyEditor:");
+    editor.editProperty("editValue");
+    var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
+    table.row(5).shouldHave(text("username"), text("editValue"));
+    editor.editProperty("admin");
   }
 
   @Test
