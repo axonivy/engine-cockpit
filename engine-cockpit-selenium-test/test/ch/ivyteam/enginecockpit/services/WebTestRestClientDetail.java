@@ -118,33 +118,33 @@ class WebTestRestClientDetail {
   
   @Test
   void addProperty() {
-    $(By.id("restClientAdditionalConfigForm:newServicePropertyBtn")).shouldBe(visible).click();
-    $(By.id("restClientProperty:propertyForm:nameInput")).sendKeys("testProperty");
-    $(By.id("restClientProperty:propertyForm:valueInput")).sendKeys("testValue");
-    
-    $(By.id("restClientProperty:propertyForm:saveProperty")).click();
+    String propertyEditor = "restClientAdditionalConfigForm:restClientPropertiesTable:newPropertyEditor:";
+    $(By.id(propertyEditor + "newServicePropertyBtn")).shouldBe(visible).click();
+    $(By.id(propertyEditor + "propertyForm:nameInput")).sendKeys("testProperty");
+    $(By.id(propertyEditor + "propertyForm:valueInput")).sendKeys("testValue");
+    $(By.id(propertyEditor + "propertyForm:saveProperty")).click();
     
     var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
     table.row(2).shouldHave(text("testProperty"), text("testValue"));
     
-    $(By.id("restClientAdditionalConfigForm:restClientPropertiesTable:2:deletePropertyBtn")).click();
+    $(By.id("restClientAdditionalConfigForm:restClientPropertiesTable:2:editPropertyEditor:deletePropertyBtn")).click();
   }
   
   @Test
   void editProperty() {
-    $(By.id("restClientAdditionalConfigForm:restClientPropertiesTable:5:editPropertyBtn")).shouldBe(visible).click();
-
-    $(By.id("restClientProperty:propertyForm:valueInput")).clear();
-    $(By.id("restClientProperty:propertyForm:valueInput")).sendKeys("editValue");
-    
-    $(By.id("restClientProperty:propertyForm:saveProperty")).click();
+    String propertyEditor = "restClientAdditionalConfigForm:restClientPropertiesTable:5:editPropertyEditor:";
+    $(By.id(propertyEditor + "editPropertyBtn")).shouldBe(visible).click();
+    $(By.id(propertyEditor + "propertyForm:valueInput")).clear();
+    $(By.id(propertyEditor + "propertyForm:valueInput")).sendKeys("editValue");
+    $(By.id(propertyEditor + "propertyForm:saveProperty")).click();
     
     var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
     table.row(5).shouldHave(text("username"), text("editValue"));
     
-    $(By.id("restClientAdditionalConfigForm:restClientPropertiesTable:5:editPropertyBtn")).shouldBe(visible).click();
-    $(By.id("restClientProperty:propertyForm:valueInput")).clear();
-    $(By.id("restClientProperty:propertyForm:valueInput")).sendKeys("admin");
+    $(By.id(propertyEditor + "editPropertyBtn")).shouldBe(visible).click();
+    $(By.id(propertyEditor + "propertyForm:valueInput")).clear();
+    $(By.id(propertyEditor + "propertyForm:valueInput")).sendKeys("admin");
+    $(By.id(propertyEditor + "propertyForm:saveProperty")).click();
   }
 
   @Test

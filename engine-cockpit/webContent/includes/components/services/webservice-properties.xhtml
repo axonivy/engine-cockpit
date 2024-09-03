@@ -22,10 +22,10 @@
     
     <p:dataTable value="#{webserviceDetailBean.webservice.properties}" var="property" id="webservicePropertiesTable">
       <p:column headerText="Name">
-        <h:outputText value="#{property.name}" styleClass="webservice-property-name" />
+        <p:outputLabel value="#{property.name}" styleClass="webservice-property-name" />
       </p:column>
       <p:column headerText="Value">
-        <h:outputText value="#{property.sensitive ? '*****' : property.value}" styleClass="webservice-property-value" />
+        <p:outputLabel value="#{property.sensitive ? '*****' : property.value}" styleClass="webservice-property-value" />
       </p:column>
       <p:column styleClass="table-btn-2">
         <f:facet name="header">

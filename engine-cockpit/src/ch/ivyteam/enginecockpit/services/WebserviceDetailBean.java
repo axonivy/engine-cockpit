@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.services;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
 @ManagedBean
 @ViewScoped
-public class WebserviceDetailBean extends HelpServices implements IConnectionTestResult {
+public class WebserviceDetailBean extends HelpServices implements IConnectionTestResult, PropertyEditor {
 
   private Webservice webservice;
   private String webserviceId;
@@ -99,33 +100,12 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     return webservice;
   }
 
-  public void setProperty(String key) {
-    this.activeProperty = new Property();
-    if (key != null) {
-      this.activeProperty = webservice.getProperties().stream()
-          .filter(property -> property.getName().equals(key))
-          .findFirst()
-          .orElse(new Property());
-    }
-  }
-
-  public boolean isSensitive() {
-    if (activeProperty == null || activeProperty.getName() == null || webservice.getProperties() == null) {
-      return false;
-    }
-    return webservice.getProperties().stream()
-             .filter(property -> activeProperty.getName().equals(property.getName()))
-             .findFirst()
-             .map(Property::isSensitive)
-             .orElse(false);
-  }
-
-  public Property getProperty() {
-    return activeProperty;
+  public List<Property> getProperties() {
+    return webservice.getProperties();
   }
 
   public void saveProperty() {
-    saveWebService(wsBuilder().property(activeProperty.getName(),activeProperty.getValue()));
+    saveWebService(wsBuilder().property(getProperty().getName(), getProperty().getValue()));
     loadWebService();
   }
 
@@ -134,7 +114,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     loadWebService();
   }
 
-@Override
+  @Override
   public String getTitle() {
     return "Web Service '" + webservice.getName() + "'";
   }
@@ -150,7 +130,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     valuesMap.put("name", webservice.getName());
     valuesMap.put("endpoints", parseEndpointsToYaml(webservice.getPortTypeMap()));
     valuesMap.put("features", parseFeaturesToYaml(webservice.getFeatures()));
-    valuesMap.put("properties", parsePropertiesToYaml(webservice.getProperties()));
+    valuesMap.put("properties", parsePropertiesToYaml(getProperties()));
     var templateString = readTemplateString("webservice.yaml");
     var strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
@@ -267,5 +247,15 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   
   private void saveWebService(Builder builder) {
     webServiceClients.set(builder.toWebServiceClient());
+  }
+
+  @Override
+  public Property getProperty() {
+    return activeProperty;
+  }
+
+  @Override
+  public void setProperty(String key) {
+    this.activeProperty = findProperty(key);
   }
 }
