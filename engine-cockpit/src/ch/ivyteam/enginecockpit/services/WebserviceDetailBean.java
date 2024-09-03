@@ -286,6 +286,11 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   @Override
   public void setFeature(String key) {
-    this.activeFeature = findFeature(key);
+      if (getFeatures().contains(key)) {
+        removeFeature(key);
+        this.activeFeature = key; 
+    } else {
+      this.activeFeature = key; 
+    }
   }
 }

@@ -28,16 +28,6 @@ public interface PropertyEditor {
   
   void setProperty(String key);
   
-  default String findFeature(String key) {
-    if (key != null) {
-      return getFeatures().stream()
-          .filter(property -> property.equals(key))
-          .findFirst()
-          .orElse("");
-    }
-    return "";
-  }
-  
   void setFeature(String key);
 
   default boolean isSensitive() {

@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:jc="http://xmlns.jcp.org/jsf/composite/demo-jsfcomponents">
+<cc:interface>
+  <cc:attribute name="bean" />
+  <cc:attribute name="formName" />
+  <cc:attribute name="isNewFeature" />
+</cc:interface>
+<cc:implementation>
+  <p:commandButton id="editFeatureBtn"
+    actionListener="#{cc.attrs.bean.setFeature(feature)}"
+    icon="si si-pencil" title="Edit"
+    update="featureModal" rendered="#{!cc.attrs.isNewFeature}"
+    styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
+    oncomplete="PF('featureModal').show();" process="@this" />
+  <p:commandButton id="deleteFeatureBtn"
+    actionListener="#{cc.attrs.bean.removeFeature(feature)}"
+    update="#{cc.attrs.formName}" icon="si si-bin-1" title="Delete"
+    rendered="#{!cc.attrs.isNewFeature}"
+    styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
+  <p:commandButton id="newServiceFeatureBtn" 
+    oncomplete="PF('featureModal').show();" process="@this"
+    actionListener="#{cc.attrs.bean.setFeature(null)}" update="featureModal" 
+    title="Add" icon="si si-add" rendered="#{cc.attrs.isNewFeature}"
+    styleClass="col-fixed ml-auto rounded-button" />
+
+  <p:dialog header="Feature" style="text-align: left;" id="featureModal" widgetVar="featureModal" modal="true"
+    responsive="true" closeOnEscape="true">
+  <h:form id="featureForm" styleClass="custom-dialog-form">
+    <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9"
+       styleClass="grey-label-panel ui-fluid">
+      <p:outputLabel for="featureInput" value="Feature" />
+      <h:panelGroup styleClass="md-inputfield">
+        <p:inputText id="featureInput" requiredMessage="Value is required"
+          value="#{cc.attrs.bean.feature}" required="true" />
+        <p:message for="featureInput" id="featureMessage" />
+      </h:panelGroup>
+    </p:panelGrid>
+      
+      <div class="custom-dialog-footer">
+      <p:commandButton id="saveFeature" validateClient="true" 
+        onsuccess="PF('featureModal').hide()" action="#{cc.attrs.bean.saveFeature}" 
+        value="Save" icon="si si-floppy-disk" update="#{cc.attrs.formName}"
+        styleClass="modal-input-button" process="@form" />
+      <p:commandButton id="cancelFeature" onclick="PF('featureModal').hide();" value="Cancel" type="button"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+    </div>
+    
+  </h:form>
+</p:dialog>
+</cc:implementation>
+
+</html>
