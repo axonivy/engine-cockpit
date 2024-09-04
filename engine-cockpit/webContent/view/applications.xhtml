@@ -74,6 +74,9 @@
                 <h:outputText rendered="#{not empty activity.state.childProblems}">
                   <i class="si si-road-sign-warning table-icon"></i>
                 </h:outputText>
+                <h:outputText rendered="#{activity.pmv and activity.releasable}">
+                  <i class="si si-road-sign-warning table-icon"></i>
+                </h:outputText>
               </h:panelGroup>
             </p:column>
             
