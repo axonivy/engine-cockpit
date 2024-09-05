@@ -18,7 +18,7 @@ import ch.ivyteam.enginecockpit.system.WebTestAdmins;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestWizardAdmins {
+class WebTestWizardAdmins {
 
   @BeforeEach
   void beforeEach() {
@@ -58,5 +58,4 @@ public class WebTestWizardAdmins {
   void testOwnAdminCannotBeDeleted() {
     WebTestAdmins.assertOwnAdminCannotBeDeleted();
   }
-
 }

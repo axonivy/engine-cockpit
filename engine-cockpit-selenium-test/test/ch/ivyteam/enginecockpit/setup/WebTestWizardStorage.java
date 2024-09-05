@@ -15,7 +15,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Selenide;
 
 @IvyWebTest
-public class WebTestWizardStorage {
+class WebTestWizardStorage {
 
   @BeforeEach
   void beforeEach() {
@@ -44,21 +44,20 @@ public class WebTestWizardStorage {
   @Test
   void saveAndReset() {
     $(By.id("form:appDir")).shouldBe(visible, exactValue("applications"));
-    $(By.id("form:fileDir")).shouldBe(visible, exactValue(""));
+    $(By.id("form:dataDir")).shouldBe(visible, exactValue("data"));
 
     $(By.id("form:appDir")).sendKeys("_app");
-    $(By.id("form:fileDir")).sendKeys("file");
+    $(By.id("form:dataDir")).sendKeys("_data");
     $(By.id("form:save")).shouldBe(visible).click();
     $(By.className("ui-growl-message")).shouldBe(visible, exactText("Directory changes saved successfully"));
 
     Selenide.refresh();
     $(By.id("form:appDir")).shouldBe(visible, exactValue("applications_app"));
-    $(By.id("form:fileDir")).shouldBe(visible, exactValue("file"));
+    $(By.id("form:dataDir")).shouldBe(visible, exactValue("data_data"));
 
     $(By.id("form:reset")).shouldBe(visible).click();
     $(By.className("ui-growl-message")).shouldBe(visible, exactText("Directory changes saved successfully"));
     $(By.id("form:appDir")).shouldBe(visible, exactValue("applications"));
-    $(By.id("form:fileDir")).shouldBe(visible, exactValue(""));
+    $(By.id("form:dataDir")).shouldBe(visible, exactValue("data"));
   }
-
 }
