@@ -167,7 +167,7 @@ class WebTestConfiguration {
       refresh();
       var messages = $(".health-messages");
       messages.shouldHave(text("3"));
-      messages.shouldBe(visible).shouldBe(clickable).click();      
+      messages.shouldBe(visible).shouldBe(clickable).click();
       messages.shouldHave(Condition.partialText("Restart is required"));
       table.valueForEntryShould(config, 2, exactText("hi"));
       assertResetConfig(config);

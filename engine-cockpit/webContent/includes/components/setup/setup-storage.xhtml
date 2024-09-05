@@ -21,13 +21,13 @@
       <p:inputText id="appDir" value="#{storageBean.appDir}" />
       
       <h:panelGroup>
-        <label for="fileDir">Files Directory</label>
-        <h:panelGroup id="fileDirHelp" styleClass="label-help-icon">
+        <label for="dataDir">Data Directory</label>
+        <h:panelGroup id="dataDirHelp" styleClass="label-help-icon">
           <i class="si si-question-circle"></i>
-          <p:tooltip for="@parent" value="#{storageBean.fileDirHelp}" escape="false" position="right" /> <!-- contains no user input, contains html -->
+          <p:tooltip for="@parent" value="#{storageBean.dataDirHelp}" escape="false" position="right" /> <!-- contains no user input, contains html -->
         </h:panelGroup>
       </h:panelGroup>
-      <p:inputText id="fileDir" value="#{storageBean.fileDir}" />
+      <p:inputText id="dataDir" value="#{storageBean.dataDir}" />
     </p:panelGrid>
     
     <h:panelGroup styleClass="storage-ctrls flex justify-content-end" layout="block">
