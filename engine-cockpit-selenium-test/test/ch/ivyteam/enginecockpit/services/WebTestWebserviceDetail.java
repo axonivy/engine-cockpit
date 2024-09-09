@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.services;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.executeJs;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.exactText;
@@ -80,7 +81,8 @@ class WebTestWebserviceDetail {
   private void setConfiguration(String username) {
     $("#webserviceConfigurationForm\\:username").clear();
     $("#webserviceConfigurationForm\\:username").sendKeys(username);
-
+    
+    executeJs("scroll(0,0);");
     $("#webserviceConfigurationForm\\:saveWsConfig").click();
     $("#webserviceConfigurationForm\\:wsConfigMsg_container")
             .shouldBe(text("Web Service configuration saved"));
