@@ -80,7 +80,7 @@ class WebTestWebserviceDetail {
     $("#webserviceConfigurationForm\\:username").clear();
     $("#webserviceConfigurationForm\\:username").sendKeys(username);
 
-    $("#webserviceConfigurationForm\\:saveWsConfig").click();
+    $("#webserviceConfigurationForm\\:saveWsConfig").scrollIntoView(false).click();
     $("#webserviceConfigurationForm\\:wsConfigMsg_container")
             .shouldBe(text("Web Service configuration saved"));
   }
