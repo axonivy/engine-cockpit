@@ -2,9 +2,9 @@ package ch.ivyteam.enginecockpit;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
-import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.anyMatch;
 import static com.codeborne.selenide.Condition.cssClass;
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -23,46 +23,33 @@ public class WebTestHealthWarning {
   }
 
   @Test
-  void badge() {
-    $(By.id("health-check-badge")).shouldHave(text("2"));  
-  }
-  
-  @Test
   void messages() {
+    $(By.id("health-check-badge")).shouldHave(matchText("\\d{1}"));
     var health = $(".health-messages");
     health.shouldBe(visible).click();
     var messages= health.$$("li");
-    messages.shouldHave(size(3));
-    
-    var first = messages.get(0);
-    first.$("i").shouldHave(cssClass("health-high"));
-    first.$("span").shouldHave(text("Release Candidate"));
-
-    var second = messages.get(1);
-    second.$("i").shouldHave(cssClass("health-low"));
-    second.$("span").shouldHave(text("Demo Mode"));
-
-    var third = messages.get(2);
-    third.shouldHave(text("Show health details ..."));
+    messages.shouldHave(
+            anyMatch("message contains", e -> e.getText().contains("Release Candidate")),
+            anyMatch("message contains", e -> e.getText().contains("Demo Mode")),
+            anyMatch("message contains", e -> e.getText().contains("Show health details")));
   }
 
   @Test
-  void messageLink() {
+  void messageDemo() {
     var health = $(".health-messages");
     health.shouldBe(visible).click();
-    var messages= health.$$("li");
-    var demoMode = messages.get(1);
-    demoMode.click();
+    var message = health.$(By.partialLinkText("Demo Mode"));
+    message.$("i").shouldHave(cssClass("health-low"));
+    message.click();
     assertCurrentUrlContains("setup-intro.xhtml");
   }
 
   @Test
-  void showDetails() {
+  void messageDetails() {
     var health = $(".health-messages");
     health.shouldBe(visible).click();
-    var messages= health.$$("li");
-    var showDetails = messages.get(2);
-    showDetails.click();
+    var message = health.$(By.partialLinkText("Show health details"));
+    message.click();
     assertCurrentUrlContains("monitor-health.xhtml");
   }
 

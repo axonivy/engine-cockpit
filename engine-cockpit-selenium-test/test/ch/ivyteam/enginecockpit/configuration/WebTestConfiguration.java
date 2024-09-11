@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.configuration;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.anyMatch;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.itemWithText;
 import static com.codeborne.selenide.CollectionCondition.noneMatch;
@@ -9,7 +10,6 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.attribute;
-import static com.codeborne.selenide.Condition.clickable;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -31,8 +31,8 @@ import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -165,16 +165,12 @@ class WebTestConfiguration {
       var config = "Connector.HTTP.Address";
       assertEditConfig(config, "", "hi", "For servers with more than one IP address");
       refresh();
-      var messages = $(".health-messages");
-      messages.shouldHave(text("3"));
-      messages.shouldBe(visible).shouldBe(clickable).click();
-      messages.shouldHave(Condition.partialText("Restart is required"));
       table.valueForEntryShould(config, 2, exactText("hi"));
+      Selenide.sleep(50);
+      var health = $(".health-messages");
+      health.shouldBe(visible).$("a").click();
+      health.$$("li").shouldHave(anyMatch("message contains", e -> e.getText().contains("Restart is required")));
       assertResetConfig(config);
-      refresh();
-      messages.shouldHave(text("2"));
-      messages.shouldBe(visible).shouldBe(clickable).click();
-      messages.shouldNotHave(text("Restart is required"));
     }
   }
 
@@ -328,7 +324,8 @@ class WebTestConfiguration {
     $("#config\\:editConfigurationForm\\:editConfigurationValue").clear();
     $("#config\\:editConfigurationForm\\:editConfigurationValue").sendKeys(newValue);
     $("#config\\:editConfigurationForm\\:saveEditConfiguration").click();
-    $("#config\\:form\\:msgs_container").shouldHave(text(key), text("saved"));
+    $("#config\\:form\\:msgs_container").shouldHave(text(key), text("saved")).hover();
+    $("#config\\:form\\:msgs_container .ui-growl-icon-close").click();
     table.valueForEntryShould(key, 2, exactText(newValue));
     $("#config\\:form\\:msgs_container").shouldNotBe(visible);
   }

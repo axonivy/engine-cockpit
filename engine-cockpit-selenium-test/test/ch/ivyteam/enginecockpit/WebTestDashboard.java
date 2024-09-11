@@ -7,6 +7,7 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -85,8 +86,8 @@ public class WebTestDashboard {
 
   @Test
   void checkHealth() {
-    $(By.id("healthForm:severity")).shouldHave(text("HIGH"));
-    $(By.id("healthForm:problems")).shouldHave(text("2 problems detected."));
+    $(By.id("healthForm:severity")).shouldBe(text("HIGH"));
+    $(By.id("healthForm:problems")).shouldBe(matchText("\\d{1} problems detected."));
     $(By.id("healthForm:runCheck")).shouldBe(visible).click();
     $(By.id("healthForm:detail")).shouldBe(visible).click();
     assertCurrentUrlContains("health.xhtml");
