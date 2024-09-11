@@ -109,6 +109,7 @@
         <h:outputLabel for="editConfigurationDefaultValue" value="Default" 
           rendered="#{not empty cc.attrs.bean.activeConfig.defaultValue and !cc.attrs.bean.activeConfig.password}" />
         <h:outputText id="editConfigurationDefaultValue" value="#{cc.attrs.bean.activeConfig.defaultValue}" styleClass="config-edit-defaultvalue" 
+          style="display: inline-block; max-height: 50px; overflow: auto;"
           rendered="#{not empty cc.attrs.bean.activeConfig.defaultValue and !cc.attrs.bean.activeConfig.password}" />
         
         <h:outputLabel for="editConfigurationDescription" rendered="#{cc.attrs.bean.activeConfig.hasDescription()}"
