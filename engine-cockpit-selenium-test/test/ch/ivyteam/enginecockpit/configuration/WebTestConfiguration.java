@@ -166,7 +166,7 @@ class WebTestConfiguration {
       assertEditConfig(config, "", "hi", "For servers with more than one IP address");
       refresh();
       table.valueForEntryShould(config, 2, exactText("hi"));
-      Selenide.sleep(50);
+      Selenide.sleep(100);
       var health = $(".health-messages");
       health.shouldBe(visible).$("a").click();
       health.$$("li").shouldHave(anyMatch("message contains", e -> e.getText().contains("Restart is required")));
