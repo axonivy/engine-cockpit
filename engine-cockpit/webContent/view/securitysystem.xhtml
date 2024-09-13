@@ -46,8 +46,10 @@
             
             <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}"
               filterBy="#{system.securitySystemProvider}">
-              <h:outputText value="${system.identityProviderImage}" class="provider-icon" escape="false" /> <!-- contains no user input, contains icon-->
-              <h:outputText value="#{system.securitySystemProvider}" class="provider-name" />
+              <span class="inline-flex align-items-center gap-1">
+                <h:outputText value="${system.identityProviderImage}" class="provider-icon" escape="false" /> <!-- contains no user input, contains icon-->
+                <h:outputText value="#{system.securitySystemProvider}" class="provider-name" />
+              </span>
             </p:column>
             
             <p:column headerText="Application">
