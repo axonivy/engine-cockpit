@@ -259,23 +259,23 @@ body .ui-datatable .ui-datatable-header {
 }
 .table-btn-1 {
   text-align: right; 
-  width: 35px;
+  width: 45px;
 }
 .table-btn-2 {
   text-align: right; 
-  width: 75px;
+  width: 85px;
 }
 .table-btn-3 {
   text-align: right; 
-  width: 115px;
+  width: 125px;
 }
 .table-btn-4 {
   text-align: right; 
-  width: 150px;
+  width: 165px;
 }
 .table-btn-5 {
   text-align: right; 
-  width: 185px;
+  width: 195px;
 }
 .ui-datatable .ui-datatable-data .default-value td:not([class^='table-btn']) {
   opacity: 0.4;
