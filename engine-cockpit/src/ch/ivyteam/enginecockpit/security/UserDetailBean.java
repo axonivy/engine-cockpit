@@ -112,7 +112,7 @@ public class UserDetailBean {
 
   public void saveUserInfos() {
     var iUser = getIUser();
-    if (user.isExternal()) {
+    if (!user.isExternal()) {
       iUser.setEMailAddress(user.getEmail());
       iUser.setFullName(user.getFullName());
       if (user.getPassword() != "") {
