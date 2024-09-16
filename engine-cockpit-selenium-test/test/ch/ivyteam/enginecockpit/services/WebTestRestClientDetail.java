@@ -21,6 +21,7 @@ import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
+import ch.ivyteam.enginecockpit.util.FeatureEditor;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.PropertyEditor;
 import ch.ivyteam.enginecockpit.util.Tab;
@@ -133,6 +134,24 @@ class WebTestRestClientDetail {
     var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
     table.row(5).shouldHave(text("username"), text("editValue"));
     editor.editProperty("admin");
+  }
+  
+  @Test
+  void addFeature() {
+    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:newFeatureEditor:");
+    editor.addFeature("ch.ivyteam.ivy.rest.client.feature.AuthFeature");
+    var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
+    table.row(2).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.AuthFeature"));
+    $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
+  }
+  
+  @Test
+  void editFeature() {
+    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:0:editFeatureEditor:");
+    editor.editFeature("ch.ivyteam.ivy.rest.client.feature.editFeature");
+    var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
+    table.row(1).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.editFeature"));
+    editor.editFeature("ch.ivyteam.ivy.rest.client.mapper.JsonFeature");
   }
 
   @Test
