@@ -29,6 +29,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
+import ch.ivyteam.enginecockpit.util.FeatureEditor;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.PropertyEditor;
 import ch.ivyteam.enginecockpit.util.Tab;
@@ -188,11 +189,29 @@ class WebTestWebserviceDetail {
   
   @Test
   void editProperty() {
-    var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyEditor:");
+    var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable:0:editPropertyEditor:");
     editor.editProperty("editValue");
     var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
     table.row(2).shouldHave(text("username"), text("editValue"));
     editor.editProperty("admin");
+  }
+  
+  @Test
+  void addFeature() {
+    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:newFeatureEditor:");
+    editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
+    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
+    table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
+    $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
+  }
+  
+  @Test
+  void editFeature() {
+    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:0:editFeatureEditor:");
+    editor.editFeature("ch.ivyteam.ivy.webservice.feature.editFeature");
+    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
+    table.row(2).shouldHave(text("ch.ivyteam.ivy.webservice.feature.editFeature"));
+    editor.editFeature("ch.ivyteam.ivy.webservice.exec.cxf.feature.HttpBasicAuthenticationFeature");
   }
 
   @Test
