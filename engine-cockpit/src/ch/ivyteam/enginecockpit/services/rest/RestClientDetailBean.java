@@ -111,7 +111,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   }
 
   public void removeProperty(String name) {
-    restClients.remove(restClient.getName()+ "." +"Properties"+ "." +name);
+    saveRestClient(restBuilder().removeProperty(name));
     loadRestClient();
   }
 
