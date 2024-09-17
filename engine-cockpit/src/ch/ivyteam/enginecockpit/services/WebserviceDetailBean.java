@@ -275,7 +275,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
   
   public void removeFeature(String name) {
-	saveWebService(wsBuilder().feature(name));
+    saveWebService(wsBuilder().removeFeature(name));
     loadWebService();
   }
   
