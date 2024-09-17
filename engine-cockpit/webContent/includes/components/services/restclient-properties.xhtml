@@ -18,6 +18,16 @@
       <p:column headerText="Features">
         <p:outputLabel value="#{feature}" styleClass="restclient-feature" />
       </p:column>
+      <p:column styleClass="table-btn-2">
+        <f:facet name="header">
+          <cc:FeatureEditor id="newFeatureEditor"
+            bean="#{restClientDetailBean}" isNewFeature="true"
+            formName="restClientAdditionalConfigForm" />
+        </f:facet>
+        <cc:FeatureEditor id="editFeatureEditor"
+          bean="#{restClientDetailBean}" isNewFeature="false"
+          formName="restClientAdditionalConfigForm" />
+      </p:column>
     </p:dataTable>
     
     <p:dataTable value="#{restClientDetailBean.restClient.properties}" var="property" id="restClientPropertiesTable">

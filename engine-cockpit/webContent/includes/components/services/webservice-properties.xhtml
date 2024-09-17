@@ -18,6 +18,16 @@
       <p:column headerText="Features">
         <p:outputLabel value="#{feature}" styleClass="webservice-feature" />
       </p:column>
+      <p:column styleClass="table-btn-2">
+        <f:facet name="header">
+          <cc:FeatureEditor id="newFeatureEditor"
+            bean="#{webserviceDetailBean}" isNewFeature="true"
+            formName="webserviceAdditionalConfigForm" />
+        </f:facet>
+        <cc:FeatureEditor id="editFeatureEditor"
+          bean="#{webserviceDetailBean}" isNewFeature="false"
+          formName="webserviceAdditionalConfigForm" />
+      </p:column>
     </p:dataTable>
     
     <p:dataTable value="#{webserviceDetailBean.webservice.properties}" var="property" id="webservicePropertiesTable">

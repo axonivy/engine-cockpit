@@ -36,7 +36,7 @@ import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
 @ManagedBean
 @ViewScoped
-public class WebserviceDetailBean extends HelpServices implements IConnectionTestResult, PropertyEditor {
+public class WebserviceDetailBean extends HelpServices implements IConnectionTestResult, PropertyEditor, FeatureEditor {
 
   private Webservice webservice;
   private String webserviceId;
@@ -51,6 +51,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private WebServiceMonitor liveStats;
   private WebServiceClients webServiceClients;
   private Property activeProperty;
+  private String activeFeature;
 
   public WebserviceDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -257,5 +258,29 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   @Override
   public void setProperty(String key) {
     this.activeProperty = findProperty(key);
+  }
+
+  @Override
+  public List<String> getFeatures() {
+    return webservice.getFeatures();
+  }
+  
+  @Override
+  public String getFeature() {
+    return activeFeature;
+  }
+  
+  public void setFeature(String key) {
+    this.activeFeature = key;
+  }
+  
+  public void removeFeature(String name) {
+    saveWebService(wsBuilder().removeFeature(name));
+    loadWebService();
+  }
+  
+  public void saveFeature() {
+    saveWebService(wsBuilder().feature(getFeature()));
+    loadWebService();
   }
 }
