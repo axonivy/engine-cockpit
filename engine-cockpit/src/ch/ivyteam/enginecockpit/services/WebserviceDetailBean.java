@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.services;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -276,10 +275,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
   
   public void removeFeature(String name) {
-    List<String> mutableList = new ArrayList<>(getFeatures());
-    mutableList.remove(name);
-    webServiceClients.remove(webservice.getName()+ "." +"Features");
-    webServiceClients.add(webservice.getName()+ "." +"Features", mutableList);
+	saveWebService(wsBuilder().feature(name));
     loadWebService();
   }
   
