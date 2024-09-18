@@ -111,7 +111,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
 
   public void removeProperty(String name) {
-    webServiceClients.remove(webservice.getName()+ "." +"Properties"+ "." +name);
+    saveWebService(wsBuilder().removeProperty(name));
     loadWebService();
   }
 
