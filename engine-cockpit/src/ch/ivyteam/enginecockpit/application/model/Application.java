@@ -189,6 +189,18 @@ public class Application extends AbstractActivity {
     return webServiceProcesses;
   }
 
+  @SuppressWarnings("restriction")
+  public boolean hasReleasedProcessModelVersion() {
+    return app.getProcessModels()
+              .stream()
+              .map(ch.ivyteam.ivy.application.internal.ProcessModel.class::cast)
+              .allMatch(ch.ivyteam.ivy.application.internal.ProcessModel::hasReleasedProcessModelVersion);
+  }
+  
+  public String getWarningMessageForNoReleasedPmv() {
+    return "At least one process model has no released process model version";
+  }
+
   @Override
   public List<String> isDeletable() {
     return app.isDeletable();
