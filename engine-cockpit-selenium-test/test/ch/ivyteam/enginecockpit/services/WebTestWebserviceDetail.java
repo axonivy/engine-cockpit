@@ -189,7 +189,7 @@ class WebTestWebserviceDetail {
   
   @Test
   void editProperty() {
-    var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable:0:editPropertyEditor:");
+    var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyEditor:");
     editor.editProperty("editValue");
     var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
     table.row(2).shouldHave(text("username"), text("editValue"));
