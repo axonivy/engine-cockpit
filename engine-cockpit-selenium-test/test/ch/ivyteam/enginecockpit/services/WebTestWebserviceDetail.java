@@ -211,7 +211,8 @@ class WebTestWebserviceDetail {
     editor.editFeature("ch.ivyteam.ivy.webservice.feature.editFeature");
     var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
     table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.editFeature"));
-    editor.editFeature("ch.ivyteam.ivy.webservice.exec.cxf.feature.HttpBasicAuthenticationFeature");
+    editor.editSecondFeature("ch.ivyteam.ivy.webservice.exec.cxf.feature.HttpBasicAuthenticationFeature"
+      ,"webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:editFeatureBtn");
   }
 
   @Test
