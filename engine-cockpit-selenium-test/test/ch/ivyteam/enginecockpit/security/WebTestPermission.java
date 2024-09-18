@@ -23,6 +23,15 @@ import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
 class WebTestPermission {
+  private static final String threeStateButton = "permissionsForm:permissionTable:0:ajaxTriState";
+  
+  private static interface Icon {
+    String grant = "#permissionsForm\\:permissionTable_node_0 .permission-icon #grant";
+    String someGrant = "#permissionsForm\\:permissionTable_node_0 .permission-icon #someGrant";
+    String deny = "#permissionsForm\\:permissionTable_node_0 .permission-icon #deny";
+    String someDeny = "#permissionsForm\\:permissionTable_node_0 .permission-icon #someDeny";
+    String everybody = "#permissionsForm\\:permissionTable_node_0 .permission-icon #everybody";
+    }
 
   @BeforeEach
   void beforeEach() {
@@ -35,20 +44,65 @@ class WebTestPermission {
     Tab.SECURITY_SYSTEM.switchToDefault();
     Navigation.toUserDetail("foo");
 
-    String permissionStateCss = "#permissionsForm\\:permissionTable_node_0 > .permission-icon > i";
-    String button = "permissionsForm:permissionTable:0:ajaxTriState";
-    $(permissionStateCss).shouldHave(attribute("title", "Some Permission granted"));
+    $(Icon.someGrant).shouldHave(attribute("title", "Some Permission granted"));
 
-    $(By.id(button)).click();
-    $(permissionStateCss).shouldHave(attribute("title", "Permission granted"));
+    $(By.id(threeStateButton)).click();
+    $(Icon.grant).shouldHave(attribute("title", "Permission granted"));
 
-    $(By.id(button)).click();
-    $(permissionStateCss).shouldHave(attribute("title", "Permission denied"));
+    $(By.id(threeStateButton)).click();
+    $(Icon.deny).shouldHave(attribute("title", "Permission denied"));
 
     $(By.id("permissionsForm:permissionTable_node_0")).find(".ui-treetable-toggler").should(exist).click();
 
     $(By.id("permissionsForm:permissionTable:0_0:ajaxTriState")).click();
-    $(permissionStateCss).shouldHave(attribute("title", "Some Permission granted"));
+    $(Icon.someGrant).shouldHave(attribute("title", "Some Permission granted"));
+    $(Icon.someDeny).shouldHave(attribute("title", "Some Permission denied"));
+
+    $(By.id(threeStateButton)).click();
+  }
+
+  @Test
+  void permissionWithGroup() {
+    Navigation.toUsers();
+    Tab.SECURITY_SYSTEM.switchToDefault();
+    Navigation.toUserDetail("foo");
+
+    $(By.id("permissionsForm:globalFilter")).shouldBe(enabled).sendKeys("UserCreateOwnAbsence");
+
+    $(Icon.grant).shouldHave(attribute("title", "Permission granted"));
+    $(Icon.everybody).shouldHave(attribute("title", "Everybody"));
+
+    $(By.id(threeStateButton)).click();
+    $(Icon.grant).shouldHave(attribute("title", "Permission granted"));
+
+    $(By.id(threeStateButton)).click();
+    $(Icon.deny).shouldHave(attribute("title", "Permission denied"));
+
+    $(By.id(threeStateButton)).click();
+    $(Icon.grant).shouldHave(attribute("title", "Permission granted"));
+    $(Icon.everybody).shouldHave(attribute("title", "Everybody"));
+  }
+
+  @Test
+  void permissionWithNothing() {
+    Navigation.toUsers();
+    Tab.SECURITY_SYSTEM.switchToDefault();
+    Navigation.toUserDetail("foo");
+
+    $(By.id("permissionsForm:globalFilter")).shouldBe(enabled).sendKeys("UserCreateOwnAbsence");
+
+    $(Icon.grant).shouldHave(attribute("title", "Permission granted"));
+    $(Icon.everybody).shouldHave(attribute("title", "Everybody"));
+
+    $(By.id(threeStateButton)).click();
+    $(Icon.grant).shouldHave(attribute("title", "Permission granted"));
+
+    $(By.id(threeStateButton)).click();
+    $(Icon.deny).shouldHave(attribute("title", "Permission denied"));
+
+    $(By.id(threeStateButton)).click();
+    $(Icon.grant).shouldHave(attribute("title", "Permission granted"));
+    $(Icon.everybody).shouldHave(attribute("title", "Everybody"));
   }
 
   @Test

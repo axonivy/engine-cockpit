@@ -23,7 +23,9 @@
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-database-settings card-title-icon"></i>
           <h2 class="m-0">System Database</h2>
-          <h:panelGroup id="sysDbSaveButtons" styleClass="ml-auto">
+          <p:linkButton outcome="systemdb-info" icon="si si-layout-dashboard" value="Info"
+              styleClass="ml-auto ui-button-secondary" id="infoDb"/>
+          <h:panelGroup id="sysDbSaveButtons" styleClass="ml-1">
             <p:commandButton actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save"
               icon="si si-floppy-disk" style="width: auto; float: right;" id="saveSystemDbConfig"
               rendered="#{systemDatabaseBean.connectionInfo.successful}" />

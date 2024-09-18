@@ -12,12 +12,12 @@
       </div>
       <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
         styleClass="grey-label-panel ui-fluid">
-        <label>Database Product</label>
+        <label>Product</label>
         <h:outputText value="#{systemDatabaseInfoBean.systemDbDatabaseProduct}" />
-        <label>Database Version</label>
+        <label>Version</label>
         <h:outputText value="#{systemDatabaseInfoBean.systemDbDatabaseVersion}" />
         <label>Disk Size</label>  
-        <h:outputText value="#{systemDatabaseInfoBean.formatByteValue(systemDbDiskSize)}"/>
+        <h:outputText value="#{systemDatabaseInfoBean.formatByteValue(systemDatabaseInfoBean.systemDbDiskSize)}"/>
         <label>Warnings</label>  
         <ui:repeat value="#{systemDatabaseInfoBean.errorMessages}" var="item">
           <div>

@@ -13,8 +13,11 @@ import javax.ws.rs.client.WebTarget;
 
 import org.apache.commons.lang.text.StrSubstitutor;
 
+import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.RestClientMonitor;
+import ch.ivyteam.enginecockpit.services.FeatureEditor;
+import ch.ivyteam.enginecockpit.services.PropertyEditor;
 import ch.ivyteam.enginecockpit.services.help.HelpServices;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
@@ -29,11 +32,12 @@ import ch.ivyteam.ivy.db.IExternalDatabaseRuntimeConnection;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.RestClients;
 import ch.ivyteam.ivy.rest.client.internal.RestClientExecutionManager;
+import ch.ivyteam.ivy.rest.client.RestClient.Builder;
 
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class RestClientDetailBean extends HelpServices implements IConnectionTestResult {
+public class RestClientDetailBean extends HelpServices implements IConnectionTestResult, PropertyEditor, FeatureEditor {
 
   private RestClientDto restClient;
   private String restClientName;
@@ -47,6 +51,8 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   private final ConnectionTestWrapper connectionTest;
   private List<ExecHistoryStatement> history;
+  private Property activeProperty;
+  private String activeFeature;
 
   public RestClientDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -151,7 +157,20 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     return restClient;
   }
 
-  @Override
+  public List<Property> getProperties() {
+    return restClient.getProperties();
+  }
+
+  public void saveProperty() {
+    saveRestClient(restBuilder().property(getProperty().getName(), getProperty().getValue()));
+    loadRestClient();
+  }
+
+  public void removeProperty(String name) {
+    saveRestClient(restBuilder().removeProperty(name));
+    loadRestClient();
+  }
+
   public String getTitle() {
     return "Rest Client '" + restClientName + "'";
   }
@@ -167,7 +186,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     valuesMap.put("name", restClient.getName());
     valuesMap.put("url", restClient.getUrl());
     valuesMap.put("features", parseFeaturesToYaml(restClient.getFeatures()));
-    valuesMap.put("properties", parsePropertiesToYaml(restClient.getProperties()));
+    valuesMap.put("properties", parsePropertiesToYaml(getProperties()));
     var templateString = readTemplateString("restclient.yaml");
     var strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
@@ -213,5 +232,47 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   public RestClientMonitor getLiveStats() {
     return liveStats;
+  }
+  
+  private Builder restBuilder() {
+    return restClients.find(restClientName).toBuilder();
+  }
+
+  private void saveRestClient(Builder builder) {
+    restClients.set(builder.toRestClient());
+  }
+
+  @Override
+  public Property getProperty() {
+    return activeProperty;
+  }
+
+  @Override
+  public void setProperty(String key) {
+    this.activeProperty = findProperty(key);
+  }
+  
+  @Override
+  public List<String> getFeatures() {
+    return restClient.getFeatures();
+  }
+  
+  @Override
+  public String getFeature() {
+    return activeFeature;
+  }
+  
+  public void setFeature(String key) {
+    this.activeFeature = key;
+  }
+  
+  public void removeFeature(String name) {
+    saveRestClient(restBuilder().removeFeature(name));
+    loadRestClient();
+  }
+  
+  public void saveFeature() {
+    saveRestClient(restBuilder().feature(getFeature()));
+    loadRestClient();
   }
 }

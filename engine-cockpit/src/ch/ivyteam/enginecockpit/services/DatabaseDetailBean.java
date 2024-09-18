@@ -37,10 +37,9 @@ import ch.ivyteam.ivy.db.IExternalDatabaseManager;
 
 @ManagedBean
 @ViewScoped
-public class DatabaseDetailBean extends HelpServices implements IConnectionTestResult {
+public class DatabaseDetailBean extends HelpServices implements IConnectionTestResult, PropertyEditor {
 
   private DatabaseDto database;
-  private Property activeProperty;
   private List<ExecStatement> history;
   private List<Connection> connections;
   private String databaseName;
@@ -52,6 +51,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   private final ConnectionTestWrapper connectionTest;
   private DatabaseMonitor liveStats;
   private Databases databases;
+  private Property activeProperty;
 
   public DatabaseDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -112,28 +112,17 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     return database;
   }
 
-  public void setProperty(String key) {
-    this.activeProperty = new Property();
-    if (key != null) {
-      this.activeProperty = new Property(key, database.getProperties().get(key));
-    }
-  }
-
-  public Property getProperty() {
-    return activeProperty;
+  public List<Property> getProperties() {
+    return database.getProperties();
   }
 
   public void saveProperty() {
-    var props = database.getProperties();
-    props.put(activeProperty.getName(), activeProperty.getValue());
-    saveDatabase(dbBuilder().properties(props));
+    saveDatabase(dbBuilder().property(getProperty().getName(), getProperty().getValue()));
     reloadExternalDb();
   }
 
-  public void removeProperty(String key) {
-    var props = database.getProperties();
-    props.remove(key);
-    saveDatabase(dbBuilder().properties(props));
+  public void removeProperty(String name) {
+    databases.remove(database.getName()+ "." +"Properties"+ "." +name);
     reloadExternalDb();
   }
 
@@ -173,7 +162,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     valuesMap.put("driver", database.getDriver());
     valuesMap.put("username", database.getUserName());
     valuesMap.put("maxConnections", String.valueOf(database.getMaxConnections()));
-    valuesMap.put("properties", parsePropertiesToYaml(database.getProperties()));
+    valuesMap.put("properties", parsePropertiesToYaml(getProperties()));
     String templateString = readTemplateString("database.yaml");
     StrSubstitutor strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
@@ -259,6 +248,16 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
 
   private void saveDatabase(Builder dbBuilder) {
     databases.set(dbBuilder.toDatabase());
+  }
+
+  @Override
+  public Property getProperty() {
+    return activeProperty;
+  }
+
+  @Override
+  public void setProperty(String key) {
+    this.activeProperty = findProperty(key);
   }
 
 }

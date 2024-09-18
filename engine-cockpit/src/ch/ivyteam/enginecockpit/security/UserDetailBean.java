@@ -106,10 +106,12 @@ public class UserDetailBean {
 
   public void saveUserInfos() {
     var iUser = getIUser();
-    iUser.setEMailAddress(user.getEmail());
-    iUser.setFullName(user.getFullName());
-    if (user.getPassword() != "") {
-      iUser.setPassword(user.getPassword());
+    if (!user.isExternal()) {
+      iUser.setEMailAddress(user.getEmail());
+      iUser.setFullName(user.getFullName());
+      if (user.getPassword() != "") {
+        iUser.setPassword(user.getPassword());
+      }
     }
     iUser.setLanguage(user.getLanguage());
     iUser.setFormattingLanguage(user.getFormattingLanguage());

@@ -4,16 +4,16 @@
   <parent>
     <groupId>ch.ivyteam.enginecockpit</groupId>
     <artifactId>engine-cockpit-config</artifactId>
-    <version>11.4.0-SNAPSHOT</version>
+    <version>12.0.0-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
   <artifactId>engine-cockpit-config-test</artifactId>
-  <version>11.4.0-SNAPSHOT</version>
+  <version>12.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
-    <maven.surefire.version>3.3.1</maven.surefire.version>
+    <maven.surefire.version>3.5.0</maven.surefire.version>
     <junit.engine.version>5.6.0</junit.engine.version>
   </properties>
 

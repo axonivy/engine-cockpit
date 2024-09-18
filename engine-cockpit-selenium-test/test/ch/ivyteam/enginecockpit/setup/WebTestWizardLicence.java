@@ -19,7 +19,7 @@ import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 
 @IvyWebTest
-public class WebTestWizardLicence {
+class WebTestWizardLicence {
 
   @BeforeEach
   void beforeEach() {
@@ -64,5 +64,4 @@ public class WebTestWizardLicence {
   private void uploadLicence(Path lic) {
     $(By.id("licence:fileUploadForm:licenceUpload_input")).sendKeys(lic.toString());
   }
-
 }

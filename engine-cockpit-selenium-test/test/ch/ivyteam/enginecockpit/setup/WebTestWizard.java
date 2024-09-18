@@ -18,6 +18,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 
 @IvyWebTest
 public class WebTestWizard {
+
   static final String ACTIVE_WIZARD_STEP = "#stepForm\\:wizardSteps li.ui-state-highlight";
 
   @BeforeEach

@@ -20,7 +20,7 @@ import ch.ivyteam.enginecockpit.system.WebTestSystemDb;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 
 @IvyWebTest
-public class WebTestWizardSystemDb {
+class WebTestWizardSystemDb {
 
   @BeforeAll
   static void setup() {

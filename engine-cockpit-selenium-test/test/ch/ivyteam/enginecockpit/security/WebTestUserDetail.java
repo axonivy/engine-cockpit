@@ -385,7 +385,7 @@ class WebTestUserDetail {
     $("#userInformationForm .card-top-static-message").shouldHave(text("This user is managed"));
     $("#userInformationForm\\:disableUser").shouldNotBe(visible);
     $("#userInformationForm\\:deleteUser").shouldNotBe(visible);
-    $("#userInformationForm\\:saveUserInformation").shouldNotBe(visible);
+    $("#userInformationForm\\:saveUserInformation").shouldBe(visible);
     $("#userInformationForm\\:userSynchBtn").shouldBe(visible);
   }
 

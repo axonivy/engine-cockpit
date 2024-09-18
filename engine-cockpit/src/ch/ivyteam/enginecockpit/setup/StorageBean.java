@@ -16,17 +16,17 @@ import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 public class StorageBean extends StepStatus {
   private static final String DATA = "Data.";
   private static final String APP_DIR = DATA + "AppDirectory";
-  private static final String FILE_DIR = DATA + "FilesDirectory";
+  private static final String DATA_DIR = DATA + "Directory";
 
   private String appDir;
   private String appDirHelp;
-  private String fileDir;
-  private String fileDirHelp;
+  private String dataDir;
+  private String dataDirHelp;
 
   public StorageBean() {
     initConfigs();
     appDirHelp = IConfiguration.instance().getMetadata(APP_DIR).description().replaceAll("\n", "<br/>");
-    fileDirHelp = IConfiguration.instance().getMetadata(FILE_DIR).description().replaceAll("\n", "<br/>");
+    dataDirHelp = IConfiguration.instance().getMetadata(DATA_DIR).description().replaceAll("\n", "<br/>");
   }
 
   public String getAppDir() {
@@ -41,34 +41,34 @@ public class StorageBean extends StepStatus {
     return appDirHelp;
   }
 
-  public String getFileDir() {
-    return fileDir;
+  public String getDataDir() {
+    return dataDir;
   }
 
-  public void setFileDir(String fileDir) {
-    this.fileDir = fileDir;
+  public void setDataDir(String dataDir) {
+    this.dataDir = dataDir;
   }
 
-  public String getFileDirHelp() {
-    return fileDirHelp;
+  public String getdataDirHelp() {
+    return dataDirHelp;
   }
 
   public void save() {
     setConfig(APP_DIR, appDir);
-    setConfig(FILE_DIR, fileDir);
+    setConfig(DATA_DIR, dataDir);
     showChangeMessage();
   }
 
   public void reset() {
     setConfig(APP_DIR, null);
-    setConfig(FILE_DIR, null);
+    setConfig(DATA_DIR, null);
     showChangeMessage();
     initConfigs();
   }
 
   private void initConfigs() {
     appDir = IConfiguration.instance().getOrDefault(APP_DIR);
-    fileDir = IConfiguration.instance().getOrDefault(FILE_DIR);
+    dataDir = IConfiguration.instance().getOrDefault(DATA_DIR);
   }
 
   private void setConfig(String key, Object value) {

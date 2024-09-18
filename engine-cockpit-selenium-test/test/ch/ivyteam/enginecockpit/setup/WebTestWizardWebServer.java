@@ -11,7 +11,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import ch.ivyteam.enginecockpit.system.WebTestWebServer;
 
 @IvyWebTest
-public class WebTestWizardWebServer {
+class WebTestWizardWebServer {
 
   @BeforeEach
   void beforeEach() {
@@ -32,5 +32,4 @@ public class WebTestWizardWebServer {
     WebTestWebServer.enableHttpsConnector();
     WebTestWebServer.resetConnectorsToDefault();
   }
-
 }

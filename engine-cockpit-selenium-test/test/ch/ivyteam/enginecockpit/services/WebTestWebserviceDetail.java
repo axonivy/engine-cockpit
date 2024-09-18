@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.services;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.executeJs;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.exactText;
@@ -28,7 +29,9 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
+import ch.ivyteam.enginecockpit.util.FeatureEditor;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.PropertyEditor;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
@@ -79,7 +82,8 @@ class WebTestWebserviceDetail {
   private void setConfiguration(String username) {
     $("#webserviceConfigurationForm\\:username").clear();
     $("#webserviceConfigurationForm\\:username").sendKeys(username);
-
+    
+    executeJs("scroll(0,0);");
     $("#webserviceConfigurationForm\\:saveWsConfig").click();
     $("#webserviceConfigurationForm\\:wsConfigMsg_container")
             .shouldBe(text("Web Service configuration saved"));
@@ -168,10 +172,47 @@ class WebTestWebserviceDetail {
 
   @Test
   void properties() {
-    var table = PrimeUi.table(By.id("webservcieAdditionalConfigForm:webservicePropertiesTable"));
+    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
     table.row(0).shouldHave(text("password"), text("*****"));
     table.row(1).shouldHave(text("sensitive"), text("*****"));
     table.row(2).shouldHave(text("username"), text("admin"));
+  }
+  
+  @Test
+  void addProperty() {
+    var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable:newPropertyEditor:");
+    editor.addProperty("testProperty", "testValue");
+    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
+    table.row(2).shouldHave(text("testProperty"), text("testValue"));
+    $(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyEditor:deletePropertyBtn")).click();
+  }
+  
+  @Test
+  void editProperty() {
+    var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyEditor:");
+    editor.editProperty("editValue");
+    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
+    table.row(2).shouldHave(text("username"), text("editValue"));
+    editor.editProperty("admin");
+  }
+  
+  @Test
+  void addFeature() {
+    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:newFeatureEditor:");
+    editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
+    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
+    table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
+    $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
+  }
+  
+  @Test
+  void editFeature() {
+    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:0:editFeatureEditor:");
+    editor.editFeature("ch.ivyteam.ivy.webservice.feature.editFeature");
+    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
+    table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.editFeature"));
+    editor.editSecondFeature("ch.ivyteam.ivy.webservice.exec.cxf.feature.HttpBasicAuthenticationFeature"
+      ,"webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:editFeatureBtn");
   }
 
   @Test
