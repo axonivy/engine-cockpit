@@ -151,7 +151,7 @@ class WebTestRestClientDetail {
     editor.editFeature("ch.ivyteam.ivy.rest.client.feature.editFeature");
     var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
     table.row(1).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.editFeature"));
-	editor.editSecondFeature("ch.ivyteam.ivy.rest.client.mapper.JsonFeature",
+    editor.editSecondFeature("ch.ivyteam.ivy.rest.client.mapper.JsonFeature",
       "restClientAdditionalConfigForm:restClientFeaturesTable:1:editFeatureEditor:editFeatureBtn");
   }
 
