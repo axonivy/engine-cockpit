@@ -25,4 +25,12 @@ public class FeatureEditor {
     $(By.id(featureEditor + "featureForm:nameInput")).sendKeys(value);
     $(By.id(featureEditor + "featureForm:saveFeature")).click();
   }
+  
+  public void editSecondFeature(String value, String feature) {
+    $(By.id(feature))
+        .shouldBe(visible).click();
+    $(By.id(featureEditor + "featureForm:nameInput")).clear();
+    $(By.id(featureEditor + "featureForm:nameInput")).sendKeys(value);
+    $(By.id(featureEditor + "featureForm:saveFeature")).click();
+  }
 }
