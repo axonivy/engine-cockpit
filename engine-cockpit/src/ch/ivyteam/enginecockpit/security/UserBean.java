@@ -99,6 +99,15 @@ public class UserBean {
               .password(password)
               .mailAddress(email)
               .toNewUser();
+
+      if (securityContext.users().find(name) != null) {
+        var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+          "User '" + newUser.getName() + "' couldn't be created",
+          "User " + newUser.getName() + " already exists.");
+        FacesContext.getCurrentInstance().addMessage("msgs", msg);
+        return "users.xhtml";
+      }
+
       try {
         securityContext.users().create(newUser);
         var msg = new FacesMessage("User '" + newUser.getName() + "' created successfully", "");
