@@ -135,6 +135,14 @@ public abstract class AbstractActivity {
   public abstract void delete();
 
   public void forceDelete() {}
+  
+  public boolean hasReleasedProcessModelVersion() {
+    return true;
+  }
+  
+  public String getWarningMessageForNoReleasedPmv() {
+    return "";
+  }
 
   protected void execute(Runnable executor, String action, boolean reloadOnlyStats) {
     try {
