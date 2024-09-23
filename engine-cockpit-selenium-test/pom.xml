@@ -313,7 +313,7 @@
     <dependency>
       <groupId>com.codeborne</groupId>
       <artifactId>selenide-proxy</artifactId>
-      <version>7.5.0</version>
+      <version>7.5.1</version>
       <scope>test</scope>
     </dependency>
 
