@@ -47,16 +47,16 @@
       </p:panelGrid>
 
       <div class="custom-dialog-footer">
+        <p:commandButton id="cancelFeature"
+          onclick="PF('featureModal').hide();" value="Cancel" type="button"
+          styleClass="ui-button-secondary ui-button-flat modal-input-button"
+          immediate="true" />
+
         <p:commandButton id="saveFeature" validateClient="true"
           onsuccess="PF('featureModal').hide()"
           action="#{cc.attrs.bean.saveFeature()}" value="Save"
           icon="si si-floppy-disk" update="#{cc.attrs.formName}"
           styleClass="modal-input-button" process="@form" />
-
-        <p:commandButton id="cancelFeature"
-          onclick="PF('featureModal').hide();" value="Cancel" type="button"
-          styleClass="ui-button-secondary ui-button-flat modal-input-button"
-          immediate="true" />
       </div>
     </h:form>
   </p:dialog>
