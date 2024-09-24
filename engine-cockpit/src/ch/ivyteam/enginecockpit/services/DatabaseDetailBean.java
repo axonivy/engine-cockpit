@@ -119,7 +119,6 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   public void saveProperty(boolean isNewProperty) {
     if (!isNewProperty || !isExistingProperty()) {
       saveDatabase(dbBuilder().property(getProperty().getName(), getProperty().getValue()));
-      reloadExternalDb();
     }
     reloadExternalDb();
   }

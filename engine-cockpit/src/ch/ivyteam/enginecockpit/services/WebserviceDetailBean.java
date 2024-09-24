@@ -282,7 +282,9 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
   
   public void saveFeature() {
-    saveWebService(wsBuilder().feature(getFeature()));
+    if (!isExistingFeature()) {
+      saveWebService(wsBuilder().feature(getFeature()));
+    }
     loadWebService();
   }
 }

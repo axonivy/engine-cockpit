@@ -108,7 +108,6 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   public void saveProperty(boolean isNewProperty) {
     if (!isNewProperty || !isExistingProperty()) {
       saveRestClient(restBuilder().property(getProperty().getName(), getProperty().getValue()));
-      loadRestClient();
     }
     loadRestClient();
   }
@@ -222,7 +221,9 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   }
   
   public void saveFeature() {
-    saveRestClient(restBuilder().feature(getFeature()));
+    if (!isExistingFeature()) {
+      saveRestClient(restBuilder().feature(getFeature()));
+    }
     loadRestClient();
   }
 }

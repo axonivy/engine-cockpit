@@ -31,7 +31,7 @@ public interface PropertyEditor {
         var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
             "Property '" + getProperty().getName() + "' couldn't be created",
             "Because a Property with the name " + getProperty().getName() + " already exists.");
-        FacesContext.getCurrentInstance().addMessage("propertyMsg", msg);
+        FacesContext.getCurrentInstance().addMessage("msg", msg);
         return true;
       }
     }
