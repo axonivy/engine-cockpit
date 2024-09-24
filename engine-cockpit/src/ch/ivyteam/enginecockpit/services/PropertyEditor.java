@@ -2,6 +2,9 @@ package ch.ivyteam.enginecockpit.services;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import ch.ivyteam.enginecockpit.commons.Property;
 
 public interface PropertyEditor {
@@ -10,7 +13,7 @@ public interface PropertyEditor {
   
   Property getProperty();
   
-  void saveProperty();
+  void saveProperty(boolean isNewProperty);
 
   default Property findProperty(String key) {
     if (key != null) {
@@ -18,10 +21,23 @@ public interface PropertyEditor {
           .filter(property -> property.getName().equals(key))
           .findFirst()
           .orElse(new Property());
-    } 
+    }
     return new Property();
   }
-  
+
+  default boolean isExistingProperty() {
+    for (Property property : getProperties()) {
+      if (property.getName().equals(getProperty().getName())) {
+        var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+            "Property '" + getProperty().getName() + "' couldn't be created",
+            "Because a Property with the name " + getProperty().getName() + " already exists.");
+        FacesContext.getCurrentInstance().addMessage("propertyMsg", msg);
+        return true;
+      }
+    }
+    return false;
+  }
+
   void setProperty(String key);
   
   default boolean isSensitive() {

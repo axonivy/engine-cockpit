@@ -58,7 +58,7 @@
       <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
       <p:commandButton id="saveProperty" validateClient="true" 
-        onsuccess="PF('propertyModal').hide()" action="#{cc.attrs.bean.saveProperty}" 
+        onsuccess="PF('propertyModal').hide()" action="#{cc.attrs.bean.saveProperty(cc.attrs.isNewProperty)}" 
         value="Save" icon="si si-floppy-disk" update="#{cc.attrs.formName}"
         styleClass="modal-input-button" process="@form" />
     </div>
