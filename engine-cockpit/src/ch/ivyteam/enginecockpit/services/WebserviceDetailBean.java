@@ -105,8 +105,10 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     return webservice.getProperties();
   }
 
-  public void saveProperty() {
-    saveWebService(wsBuilder().property(getProperty().getName(), getProperty().getValue()));
+  public void saveProperty(boolean isNewProperty) {
+    if (!isNewProperty || !isExistingProperty()) {
+        saveWebService(wsBuilder().property(getProperty().getName(), getProperty().getValue()));
+    }
     loadWebService();
   }
 
@@ -280,7 +282,9 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
   
   public void saveFeature() {
-    saveWebService(wsBuilder().feature(getFeature()));
+    if (!isExistingFeature()) {
+      saveWebService(wsBuilder().feature(getFeature()));
+    }
     loadWebService();
   }
 }

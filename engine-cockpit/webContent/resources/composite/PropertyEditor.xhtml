@@ -41,26 +41,23 @@
         value="#{cc.attrs.bean.property.name}" />
       <p:outputLabel rendered="#{cc.attrs.bean.sensitive}" for="sensitiveValueInput" value="Value" />
       <h:panelGroup rendered="#{cc.attrs.bean.sensitive}" styleClass="md-inputfield">
-        <p:password id="sensitiveValueInput" requiredMessage="Value is required"
-          value="#{cc.attrs.bean.property.value}" required="true" />
-        <p:message for="sensitiveValueInput" id="sensitiveValueMessage" />
+        <p:password id="sensitiveValueInput"
+          value="#{cc.attrs.bean.property.value}"/>
       </h:panelGroup>
 
       <p:outputLabel rendered="#{!cc.attrs.bean.sensitive}" for="valueInput" value="Value" />
       <h:panelGroup rendered="#{!cc.attrs.bean.sensitive}" styleClass="md-inputfield">
-        <p:inputText id="valueInput" requiredMessage="Value is required"
-          value="#{cc.attrs.bean.property.value}" required="true" />
-        <p:message for="valueInput" id="valueMessage" />
+        <p:inputText id="valueInput" value="#{cc.attrs.bean.property.value}" />
       </h:panelGroup>
       
     </p:panelGrid>
     <div class="custom-dialog-footer">
-      <p:commandButton id="saveProperty" validateClient="true" 
-        onsuccess="PF('propertyModal').hide()" action="#{cc.attrs.bean.saveProperty}" 
-        value="Save" icon="si si-floppy-disk" update="#{cc.attrs.formName}"
-        styleClass="modal-input-button" process="@form" />
       <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+      <p:commandButton id="saveProperty" validateClient="true" 
+        onsuccess="PF('propertyModal').hide()" action="#{cc.attrs.bean.saveProperty(cc.attrs.isNewProperty)}" 
+        value="Save" icon="si si-floppy-disk" update="#{cc.attrs.formName}"
+        styleClass="modal-input-button" process="@form" />
     </div>
   </h:form>
 </p:dialog>

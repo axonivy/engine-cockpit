@@ -6,6 +6,9 @@
 
 <div class="card">
   <h:form id="restClientAdditionalConfigForm">
+    <p:growl id="msg" for="msg" showDetail="true">
+      <p:autoUpdate />
+    </p:growl>
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-cog"></i>
@@ -31,7 +34,7 @@
     </p:dataTable>
     
     <p:dataTable value="#{restClientDetailBean.restClient.properties}" var="property" id="restClientPropertiesTable">
-      <p:column headerText="Name">
+      <p:column headerText="Property">
         <h:outputText value="#{property.name}" styleClass="restclient-property-name" />
       </p:column>
       <p:column headerText="Value">

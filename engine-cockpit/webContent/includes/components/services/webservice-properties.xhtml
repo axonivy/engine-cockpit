@@ -6,6 +6,9 @@
 
 <div class="card">
   <h:form id="webserviceAdditionalConfigForm">
+    <p:growl id="msg" for="msg" showDetail="true">
+      <p:autoUpdate />
+    </p:growl>
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-cog"></i>
@@ -31,7 +34,7 @@
     </p:dataTable>
     
     <p:dataTable value="#{webserviceDetailBean.webservice.properties}" var="property" id="webservicePropertiesTable">
-      <p:column headerText="Name">
+      <p:column headerText="Property">
         <p:outputLabel value="#{property.name}" styleClass="webservice-property-name" />
       </p:column>
       <p:column headerText="Value">
