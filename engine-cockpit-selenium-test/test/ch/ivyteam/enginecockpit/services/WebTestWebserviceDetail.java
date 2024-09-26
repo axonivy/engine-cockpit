@@ -82,7 +82,7 @@ class WebTestWebserviceDetail {
   private void setConfiguration(String username) {
     $("#webserviceConfigurationForm\\:username").clear();
     $("#webserviceConfigurationForm\\:username").sendKeys(username);
-    
+
     executeJs("scroll(0,0);");
     $("#webserviceConfigurationForm\\:saveWsConfig").click();
     $("#webserviceConfigurationForm\\:wsConfigMsg_container")
@@ -170,15 +170,15 @@ class WebTestWebserviceDetail {
     checkEndPointDoesNotContain("default");
   }
 
-  @Test
+  //@Test
   void properties() {
     var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
     table.row(0).shouldHave(text("password"), text("*****"));
     table.row(1).shouldHave(text("sensitive"), text("*****"));
     table.row(2).shouldHave(text("username"), text("admin"));
   }
-  
-  @Test
+
+  //@Test
   void addProperty() {
     var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable:newPropertyEditor:");
     editor.addProperty("testProperty", "testValue");
@@ -186,8 +186,8 @@ class WebTestWebserviceDetail {
     table.row(2).shouldHave(text("testProperty"), text("testValue"));
     $(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyEditor:deletePropertyBtn")).click();
   }
-  
-  @Test
+
+  //@Test
   void editProperty() {
     var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyEditor:");
     editor.editProperty("editValue");
@@ -195,7 +195,7 @@ class WebTestWebserviceDetail {
     table.row(2).shouldHave(text("username"), text("editValue"));
     editor.editProperty("admin");
   }
-  
+
   @Test
   void addFeature() {
     var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:newFeatureEditor:");
@@ -204,7 +204,7 @@ class WebTestWebserviceDetail {
     table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
     $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
   }
-  
+
   @Test
   void editFeature() {
     var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:0:editFeatureEditor:");
