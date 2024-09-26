@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.setup;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.Condition.attributeMatching;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exist;
@@ -28,16 +29,16 @@ public class WebTestWizard {
   }
 
   @Test
-  public void testBannerLink() {
+  void bannerLink() {
     $("#bannerLogo").click();
-    $(".ui-message-warn").shouldHave(text("Demo Mode"));
+    $("#demoMode").shouldHave(attributeMatching("href", ".*/system/engine-cockpit/faces/setup-intro.xhtml"));
     $(ACTIVE_WIZARD_STEP).shouldNot(exist);
     $("#content > h1").shouldNot(exist);
     assertCurrentUrlContains("/system/");
   }
 
   @Test
-  public void testNextAndPrevStep() {
+  void nextAndPrevStep() {
     nextStep();
     $(ACTIVE_WIZARD_STEP).shouldBe(text("Administrators"));
     prevStep();
@@ -45,24 +46,24 @@ public class WebTestWizard {
   }
 
   @Test
-  public void testCancelWizard() {
-    cancelWizard();
+  void cancelWizard() {
+    cancel();
     $(ACTIVE_WIZARD_STEP).shouldNot(exist);
   }
 
   @Test
-  public void testFinishWizard() {
+  void finishWizard() {
     navigateToStep("System Database");
-    finishWizard();
+    finish();
     $("#configErrorMessage a").shouldBe(visible, text("LICENCE")).click();
     $(ACTIVE_WIZARD_STEP).shouldBe(text("Licence"));
   }
 
-  public static void cancelWizard() {
+  public static void cancel() {
     $("#cancelWizard").shouldBe(visible).click();
   }
 
-  public static void finishWizard() {
+  public static void finish() {
     $("#finishWizard").shouldBe(visible).click();
     $("#finishWizardModel").shouldBe(visible);
   }
