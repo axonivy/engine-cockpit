@@ -107,7 +107,8 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   public void saveProperty(boolean isNewProperty) {
     if (!isNewProperty || !isExistingProperty()) {
-        saveWebService(wsBuilder().property(getProperty().getName(), getProperty().getValue()));
+      var prop = getProperty();
+	  saveWebService(wsBuilder().property(prop.getName(), prop.getValue(), false));
     }
     loadWebService();
   }
@@ -195,9 +196,9 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   public void saveConfig() {
     connectionTest.stop();
-    var builder = wsBuilder().property("username", webservice.getUsername());
+    var builder = wsBuilder().property("username", webservice.getUsername(), false);
     if (webservice.passwordChanged()) {
-      builder.property("password", webservice.getPassword());
+      builder.property("password", webservice.getPassword(), false);
     }
     webServiceClients.set(builder.toWebServiceClient());
     var msg = new FacesMessage("Web Service configuration saved", "");

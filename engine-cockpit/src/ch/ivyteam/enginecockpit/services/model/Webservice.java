@@ -32,8 +32,8 @@ public class Webservice implements IService {
     description = webservice.description();
     wsdlUrl = webservice.wsdlUrl();
     var metas = webservice.metas();
-    properties = webservice.properties().entrySet().stream()
-            .map(p -> new Property(p.getKey(), p.getValue(), metas.get(p.getKey())))
+    properties = webservice.properties().stream()
+            .map(p -> new Property(p.key(), p.value(), metas.get(p.key())))
             .collect(Collectors.toList());
     password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password"))
             .map(p -> p.getValue()).findFirst().orElse("");
