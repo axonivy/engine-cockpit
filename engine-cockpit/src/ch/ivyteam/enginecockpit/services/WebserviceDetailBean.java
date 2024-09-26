@@ -108,7 +108,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   public void saveProperty(boolean isNewProperty) {
     if (!isNewProperty || !isExistingProperty()) {
       var prop = getProperty();
-	  saveWebService(wsBuilder().property(prop.getName(), prop.getValue(), false));
+      saveWebService(wsBuilder().property(prop.getName(), prop.getValue(), false));
     }
     loadWebService();
   }
