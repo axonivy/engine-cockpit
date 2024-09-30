@@ -5,13 +5,12 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import ch.ivyteam.ivy.searchengine.client.SearchEngineInfo;
 import ch.ivyteam.ivy.searchengine.client.Watermark;
 import ch.ivyteam.ivy.searchengine.server.ISearchEngineServer;
 import ch.ivyteam.ivy.searchengine.server.ServerConfig;
-import ch.ivyteam.ivy.searchengine.ISearchEngineManager;
-import ch.ivyteam.ivy.searchengine.client.SearchEngineInfo;
 
-public class Elasticsearch {
+public class SearchEngine {
 
   public interface APIS {
     List<String> SEARCH = List.of("_cat/indices?format=json", "_cat/aliases?format=json", "_cluster/health");
@@ -21,7 +20,7 @@ public class Elasticsearch {
   private SearchEngineInfo info;
   private Watermark watermark;
 
-  public Elasticsearch(SearchEngineInfo info, Watermark watermark) {
+  public SearchEngine(SearchEngineInfo info, Watermark watermark) {
     this.info = info;
     this.watermark= watermark;
   }

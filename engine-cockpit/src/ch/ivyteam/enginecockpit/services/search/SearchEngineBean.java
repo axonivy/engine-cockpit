@@ -9,18 +9,18 @@ import javax.faces.bean.ViewScoped;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import ch.ivyteam.enginecockpit.services.model.Elasticsearch;
-import ch.ivyteam.enginecockpit.services.model.Elasticsearch.SearchEngineHealth;
-import ch.ivyteam.ivy.searchengine.server.ServerConfig;
+import ch.ivyteam.enginecockpit.services.model.SearchEngine;
+import ch.ivyteam.enginecockpit.services.model.SearchEngine.SearchEngineHealth;
 import ch.ivyteam.ivy.searchengine.ISearchEngineManager;
 import ch.ivyteam.ivy.searchengine.manager.impl.SearchEngineManager;
+import ch.ivyteam.ivy.searchengine.server.ServerConfig;
 
 @ManagedBean
 @ViewScoped
 public class SearchEngineBean {
 
-  private SearchEngineManager searchEngine = (SearchEngineManager) ISearchEngineManager.instance();
-  private Elasticsearch elasticSearch;
+  private SearchEngineManager searchEngineManager = (SearchEngineManager) ISearchEngineManager.instance();
+  private SearchEngine searchEngine;
   private Exception esConnectionException;
   private String filter;
   private SearchEngineIndex activeIndex;
@@ -30,7 +30,7 @@ public class SearchEngineBean {
 
   public SearchEngineBean() {
     if (!hasFailure()) {
-      elasticSearch = new Elasticsearch(searchEngine.info(), searchEngine.watermark());
+      searchEngine = new SearchEngine(searchEngineManager.info(), searchEngineManager.watermark());
     }
     model = new SearchEngineIndexDataModel();
   }
@@ -40,7 +40,7 @@ public class SearchEngineBean {
   }
 
   private boolean hasBundledServerFailure() {
-    return searchEngine.getBundledServerStartupFailure() != null;
+    return searchEngineManager.getBundledServerStartupFailure() != null;
   }
 
   private boolean hasConnectionFailure() {
@@ -52,7 +52,7 @@ public class SearchEngineBean {
       return esConnectionException;
     }
     try {
-      searchEngine.info();
+      searchEngineManager.info();
     } catch (Exception ex) {
       esConnectionException = ex;
       return ex;
@@ -62,7 +62,7 @@ public class SearchEngineBean {
 
   public String getFailure() {
     if (hasBundledServerFailure()) {
-      return ExceptionUtils.getRootCauseMessage(searchEngine.getBundledServerStartupFailure());
+      return ExceptionUtils.getRootCauseMessage(searchEngineManager.getBundledServerStartupFailure());
     }
     return ExceptionUtils.getRootCauseMessage(getConnectionException());
   }
@@ -75,12 +75,12 @@ public class SearchEngineBean {
     this.filter = filter;
   }
 
-  public Elasticsearch getElasticSearch() {
-    return elasticSearch;
+  public SearchEngine getSearchEngine() {
+    return searchEngine;
   }
 
   public boolean getState() {
-    return elasticSearch.getHealth() != SearchEngineHealth.UNKNOWN;
+    return searchEngine.getHealth() != SearchEngineHealth.UNKNOWN;
   }
 
   public void setActiveIndex(SearchEngineIndex index) {
@@ -119,9 +119,9 @@ public class SearchEngineBean {
 
   private List<String> getQueryApis() {
     if (activeIndex == null) {
-      return Elasticsearch.APIS.SEARCH;
+      return SearchEngine.APIS.SEARCH;
     }
-    return Elasticsearch.APIS.INDEX;
+    return SearchEngine.APIS.INDEX;
   }
 
   public SearchEngineIndexDataModel getIndicesModel() {
@@ -135,7 +135,7 @@ public class SearchEngineBean {
         path += activeIndex.getName() + "/";
       }
       path += query;
-      elasticSearch
+      searchEngine
               .executeRequest(path)
               .ifPresent(result -> queryResult = result);
     } catch (Exception ex) {
@@ -144,18 +144,18 @@ public class SearchEngineBean {
   }
 
   public boolean renderIndexingCount(SearchEngineIndex index) {
-    return searchEngine.isReindexing(index.getIndexName()) && index.getCountIndexing() > 0 && index.getCountIndexing() < index.getCountStored();
+    return searchEngineManager.isReindexing(index.getIndexName()) && index.getCountIndexing() > 0 && index.getCountIndexing() < index.getCountStored();
   }
 
   public void reindex() {
-    searchEngine.reindex(activeIndex.getIndexName());
+    searchEngineManager.reindex(activeIndex.getIndexName());
   }
 
   public boolean isReindexing() {
-    return searchEngine.isReindexing();
+    return searchEngineManager.isReindexing();
   }
 
   public boolean isReindexing(SearchEngineIndex index) {
-    return searchEngine.isReindexing(index.getIndexName());
+    return searchEngineManager.isReindexing(index.getIndexName());
   }
 }
