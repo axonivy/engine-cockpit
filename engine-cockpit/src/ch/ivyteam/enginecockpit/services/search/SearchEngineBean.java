@@ -11,15 +11,15 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.enginecockpit.services.model.Elasticsearch;
 import ch.ivyteam.enginecockpit.services.model.Elasticsearch.SearchEngineHealth;
-import ch.ivyteam.ivy.elasticsearch.IElasticsearchManager;
-import ch.ivyteam.ivy.elasticsearch.manager.impl.ElasticsearchManager;
-import ch.ivyteam.ivy.elasticsearch.server.ServerConfig;
+import ch.ivyteam.ivy.searchengine.server.ServerConfig;
+import ch.ivyteam.ivy.searchengine.ISearchEngineManager;
+import ch.ivyteam.ivy.searchengine.manager.impl.SearchEngineManager;
 
 @ManagedBean
 @ViewScoped
 public class SearchEngineBean {
 
-  private ElasticsearchManager searchEngine = (ElasticsearchManager) IElasticsearchManager.instance();
+  private SearchEngineManager searchEngine = (SearchEngineManager) ISearchEngineManager.instance();
   private Elasticsearch elasticSearch;
   private Exception esConnectionException;
   private String filter;

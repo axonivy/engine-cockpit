@@ -8,12 +8,12 @@ import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 
-import ch.ivyteam.ivy.elasticsearch.IElasticsearchManager;
-import ch.ivyteam.ivy.elasticsearch.index.IndexInfo;
+import ch.ivyteam.ivy.searchengine.index.IndexInfo;
+import ch.ivyteam.ivy.searchengine.ISearchEngineManager;
 
 public class SearchEngineIndexDataModel extends LazyDataModel<SearchEngineIndex> {
 
-  public static final IElasticsearchManager searchEngine = IElasticsearchManager.instance();
+  public static final ISearchEngineManager searchEngine = ISearchEngineManager.instance();
 
   @Override
   public int count(Map<String, FilterMeta> filterBy) {

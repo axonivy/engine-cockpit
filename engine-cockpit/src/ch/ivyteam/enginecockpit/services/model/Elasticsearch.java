@@ -5,10 +5,11 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import ch.ivyteam.ivy.elasticsearch.client.EsInfo;
-import ch.ivyteam.ivy.elasticsearch.client.Watermark;
-import ch.ivyteam.ivy.elasticsearch.server.IElasticsearchServer;
-import ch.ivyteam.ivy.elasticsearch.server.ServerConfig;
+import ch.ivyteam.ivy.searchengine.client.Watermark;
+import ch.ivyteam.ivy.searchengine.server.ISearchEngineServer;
+import ch.ivyteam.ivy.searchengine.server.ServerConfig;
+import ch.ivyteam.ivy.searchengine.ISearchEngineManager;
+import ch.ivyteam.ivy.searchengine.client.SearchEngineInfo;
 
 public class Elasticsearch {
 
@@ -17,10 +18,10 @@ public class Elasticsearch {
     List<String> INDEX = List.of("_mapping");
   }
 
-  private EsInfo info;
+  private SearchEngineInfo info;
   private Watermark watermark;
 
-  public Elasticsearch(EsInfo info, Watermark watermark) {
+  public Elasticsearch(SearchEngineInfo info, Watermark watermark) {
     this.info = info;
     this.watermark= watermark;
   }
@@ -46,7 +47,7 @@ public class Elasticsearch {
   }
 
   public Optional<String> executeRequest(String path) {
-    var client = IElasticsearchServer.instance().getClient().client();
+    var client = ISearchEngineServer.instance().getClient().client();
     try (var response = client.target(getServerUrl() + path).request().get()) {
       var node = response.readEntity(JsonNode.class);
       if (node == null) {

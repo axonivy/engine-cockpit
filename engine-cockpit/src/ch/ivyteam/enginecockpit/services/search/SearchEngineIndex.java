@@ -3,8 +3,8 @@ package ch.ivyteam.enginecockpit.services.search;
 import javax.ws.rs.core.UriBuilder;
 
 import ch.ivyteam.enginecockpit.services.model.Elasticsearch.SearchEngineHealth;
-import ch.ivyteam.ivy.elasticsearch.client.IndexName;
-import ch.ivyteam.ivy.elasticsearch.index.IndexInfo;
+import ch.ivyteam.ivy.searchengine.client.IndexName;
+import ch.ivyteam.ivy.searchengine.index.IndexInfo;
 
 public class SearchEngineIndex {
 
