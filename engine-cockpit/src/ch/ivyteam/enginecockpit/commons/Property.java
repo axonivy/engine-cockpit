@@ -5,7 +5,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import ch.ivyteam.ivy.application.config.Meta;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
-import ch.ivyteam.ivy.environment.Ivy;
 
 @SuppressWarnings("restriction")
 public class Property {
@@ -58,7 +57,6 @@ public class Property {
   }
   
   public boolean isDefault() {
-    Ivy.log().info("calling isDefault:" + name + " " + isDefault);
     return isDefault;
   }
 

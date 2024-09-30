@@ -12,7 +12,6 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.commons.Property;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient;
 
 public class Webservice implements IService {
@@ -36,12 +35,6 @@ public class Webservice implements IService {
     properties = webservice.properties().stream()
             .map(p -> new Property(p.key(), p.value(), metas.get(p.key()), p.isDefault()))
             .collect(Collectors.toList());
-    
-    for (var p : properties) {
-      Ivy.log().info(p.getName() + " " + p.isDefault());
-    }
-    
-    
     password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password"))
             .map(p -> p.getValue()).findFirst().orElse("");
     username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username"))

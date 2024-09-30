@@ -15,7 +15,7 @@
     update="propertyModal" rendered="#{!cc.attrs.isNewProperty}"
     styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
     oncomplete="PF('propertyModal').show();" process="@this" />
-  <p:commandButton id="deletePropertyBtn" disabled="#{cc.attrs.bean.property.isDefault()}"
+  <p:commandButton id="deletePropertyBtn" disabled="#{cc.attrs.bean.isDefault(property)}"
     actionListener="#{cc.attrs.bean.removeProperty(property.name)}"
     update="#{cc.attrs.formName}" icon="si si-bin-1" title="Delete"
     rendered="#{!cc.attrs.isNewProperty}" process="@this"
@@ -49,12 +49,12 @@
       <h:panelGroup rendered="#{!cc.attrs.bean.sensitive}" styleClass="md-inputfield">
         <p:inputText id="valueInput" value="#{cc.attrs.bean.property.value}" />
       </h:panelGroup>
-      
+
     </p:panelGrid>
     <div class="custom-dialog-footer">
       <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
-      <p:commandButton id="saveProperty" validateClient="true" 
+      <p:commandButton id="saveProperty" validateClient="true"
         onsuccess="PF('propertyModal').hide()" action="#{cc.attrs.bean.saveProperty(cc.attrs.isNewProperty)}" 
         value="Save" icon="si si-floppy-disk" update="#{cc.attrs.formName}"
         styleClass="modal-input-button" process="@form" />
