@@ -92,23 +92,29 @@
             </p:column>
 
              <p:column headerText="HTTP Sessions" sortBy="#{ses.httpSessionCount}">
-              <h:outputText id="httpSession" value="#{ses.httpSessionCount}" />
-              <p:tooltip for="httpSession" rendered="#{!ses.httpSessions.isEmpty()}">
+              <h:panelGroup id="httpSessionGrp">
+                 <i class="p-pr-3 si si-information-circle" />
+                 <h:outputText id="httpSession" value="#{ses.httpSessionCount}"/>
+              </h:panelGroup>
+              <p:tooltip for="httpSessionGrp" rendered="#{!ses.httpSessions.isEmpty()}">
                 <ui:repeat value="#{ses.httpSessions}" var="httpSession">
                   <h:panelGroup rendered="#{httpSession.valid}">
-                    <h:outputLabel for="creationTime" value="Creation " />
+                    <h:outputLabel for="servletContext" value="Context Path: "/>
+                    <h:outputText id="servletContext" value="#{httpSession.servletContextPath}" />
+                    |
+                    <h:outputLabel for="creationTime" value="Creation: "/>
                     <h:outputText id="creationTime" value="#{httpSession.creationTime}">
-                      <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
+                      <f:convertDateTime type="both" dateStyle="short" timeStyle="short"/>
                     </h:outputText>
-                    /
-                    <h:outputLabel for="lastAccessedTime" value="Last Accessed " />
+                    |
+                    <h:outputLabel for="lastAccessedTime" value="Last Accessed: "/>
                     <h:outputText id="lastAccessedTime" value="#{httpSession.lastAccessedTime}">
-                      <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
+                      <f:convertDateTime type="both" dateStyle="short" timeStyle="short"/>
                     </h:outputText>
                   </h:panelGroup>
 
                   <h:panelGroup rendered="#{!httpSession.valid}">
-                    <h:outputText id="invalidSession" value="Creation invalid / Last Accessed invalid" />
+                    <h:outputText id="invalidSession" value="Creation invalid / Last Accessed invalid"/>
                   </h:panelGroup>
 
                   <br />
