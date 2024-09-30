@@ -44,9 +44,9 @@ class WebTestSearchEngine {
   }
 
   @Test
-  void elasticsearchInfo() {
+  void info() {
     $$(".card").shouldHave(size(2));
-    $(By.id("searchEngineInfoForm:name")).shouldBe(text("ivy-elasticsearch"));
+    $(By.id("searchEngineInfoForm:name")).shouldBe(text("ivy-opensearch"));
     $(By.id("searchEngineInfoForm:url")).shouldBe(exactText("http://localhost:19200"));
     $(By.id("searchEngineInfoForm:version")).shouldNotBe(empty);
     $("#searchEngineInfoForm\\:state > i").shouldHave(cssClass("si-check-circle-1"));
@@ -58,7 +58,7 @@ class WebTestSearchEngine {
   }
 
   @Test
-  void elasticsearchIndices() {
+  void indicies() {
     Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"), true);
     assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSizeGreaterThanOrEqualTo(2)
             .contains(dossierIndex, addressIndex);
@@ -69,7 +69,7 @@ class WebTestSearchEngine {
   }
 
   @Test
-  void elasticsearchIndex() {
+  void index() {
     Navigation.toSearchIndex(dossierIndex);
     var table = new Table(By.id("tableForm:docTable"));
     table.search("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
@@ -82,27 +82,27 @@ class WebTestSearchEngine {
   }
 
   @Test
-  void elasticsearchConfigEdit() {
+  void configEdit() {
     $("#searchEngineInfoForm\\:configSearchEngine").click();
-    assertCurrentUrlContains("systemconfig.xhtml?filter=ElasticSearch");
+    assertCurrentUrlContains("systemconfig.xhtml?filter=SearchEngine");
   }
 
   @Test
-  void elasticsearchQueryTool() {
+  void queryTool() {
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
     $("#searchEngineInfoForm\\:queryToolBtn").click();
-    assertQueryTool("GET: http://localhost:19200/", "ivy-elasticsearch", 3);
+    assertQueryTool("GET: http://localhost:19200/", "ivy-opensearch", 3);
   }
 
   @Test
-  void elasticsearchIndexQueryTool() {
+  void indexQueryTool() {
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
     new Table(By.id("searchEngineIndexForm:indiciesTable"), true).clickButtonForEntry(dossierIndex, "queryToolBtn");
     assertQueryTool("GET: http://localhost:19200/" + dossierIndex + "/", "mappings", 1);
   }
 
   @Test
-  void elasticsearchReindex() {
+  void reindex() {
     $("reindexSearchEngineModel").shouldNotBe(visible);
     new Table(By.id("searchEngineIndexForm:indiciesTable"), true).clickButtonForEntry(dossierIndex, "reindexBtn");
     $("#reindexSearchEngineModel").shouldBe(visible);

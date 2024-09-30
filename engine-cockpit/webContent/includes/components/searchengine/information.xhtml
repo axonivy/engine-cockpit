@@ -16,16 +16,16 @@
           update="searchEngineQueryToolModal" actionListener="#{searchEngineBean.setActiveIndex(null)}"
           styleClass="ml-auto rounded-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
         <p:linkButton id="configSearchEngine" title="Configure Search Engine" icon="si si-cog" type="button"
-          styleClass="ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=ElasticSearch" />
+          styleClass="ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=SearchEngine" />
       </div>
     </div>
     <p:panelGrid columns="2" columnClasses="col-6, col-6" layout="flex">
       <p:panelGrid columns="2" columnClasses="col-3, col-9" layout="flex"
         styleClass="grey-label-panel">
         <label>Name</label>
-        <h:outputText id="name" value="#{searchEngineBean.elasticSearch.clusterName}" />
+        <h:outputText id="name" value="#{searchEngineBean.searchEngine.clusterName}" />
         <label>Url</label>
-        <h:outputText id="url" value="#{searchEngineBean.elasticSearch.serverUrl}" />
+        <h:outputText id="url" value="#{searchEngineBean.searchEngine.serverUrl}" />
         <label>State</label>
         <h:panelGroup id="state">
           <i
@@ -33,8 +33,8 @@
         </h:panelGroup>
         <label>Health</label>
         <h:panelGroup id="health">
-          <i class="si si-#{searchEngineBean.elasticSearch.health.icon} icon-bold search-machine-health-#{searchEngineBean.elasticSearch.health.state}"
-            title="#{searchEngineBean.elasticSearch.health.hint}"></i>
+          <i class="si si-#{searchEngineBean.searchEngine.health.icon} icon-bold search-machine-health-#{searchEngineBean.searchEngine.health.state}"
+            title="#{searchEngineBean.searchEngine.health.hint}"></i>
         </h:panelGroup>
         </p:panelGrid>
         
@@ -42,8 +42,8 @@
           styleClass="grey-label-panel">
           <label>Version</label>
           <h:panelGroup>
-            <h:outputText id="version" value="#{searchEngineBean.elasticSearch.version}" />
-            <h:outputText rendered="#{searchEngineBean.elasticSearch.notSupported}">
+            <h:outputText id="version" value="#{searchEngineBean.searchEngine.version}" />
+            <h:outputText rendered="#{searchEngineBean.searchEngine.notSupported}">
               <i class="si si-lg si-road-sign-warning search-machine-health-yellow"
               style="position: relative; top: 3px; font-weight: 700;"
               title="This elastic search version is not supported"></i>
@@ -57,41 +57,41 @@
               <p:tooltip for="@parent" value="This defines if the settings underneath have an effect or not" position="top" />
             </h:panelGroup>
           </h:panelGroup>
-          <h:outputText id="diskThreshold" value="#{searchEngineBean.elasticSearch.watermark.thresholdEnabled()}" />
+          <h:outputText id="diskThreshold" value="#{searchEngineBean.searchEngine.watermark.thresholdEnabled()}" />
   
           <h:panelGroup>
             <label>Watermark low</label>
             <h:panelGroup id="watermarkLowHelp" styleClass="flex align-items-center ml-1">
               <i class="si si-question-circle"></i>
-              <p:tooltip for="@parent" value="Elasticsearch will not allocate shards to nodes that have less diskpace available than this value.
+              <p:tooltip for="@parent" value="Search Engine will not allocate shards to nodes that have less diskpace available than this value.
                 This setting has no effect on the primary shards of newly-created indices but will prevent their replicas from being allocated."
                position="top" />
             </h:panelGroup>
           </h:panelGroup>
-          <h:outputText id="watermarkLow" value="#{searchEngineBean.elasticSearch.watermark.low()}" />
+          <h:outputText id="watermarkLow" value="#{searchEngineBean.searchEngine.watermark.low()}" />
   
           <h:panelGroup>
             <label>Watermark high</label>
             <h:panelGroup id="watermarkHighHelp" styleClass="flex align-items-center ml-1">
               <i class="si si-question-circle"></i>
-              <p:tooltip for="@parent" value="Elasticsearch will attempt to relocate shards away from a node whose available disk space is less than this value.
+              <p:tooltip for="@parent" value="Search Engine will attempt to relocate shards away from a node whose available disk space is less than this value.
                 This setting affects the allocation of all shards, whether previously allocated or not." 
                 position="top" />
             </h:panelGroup>
           </h:panelGroup>
-          <h:outputText id="watermarkHigh" value="#{searchEngineBean.elasticSearch.watermark.high()}" />
+          <h:outputText id="watermarkHigh" value="#{searchEngineBean.searchEngine.watermark.high()}" />
           
           <h:panelGroup>
             <label>Flood stage</label>
             <h:panelGroup id="floodStageHelp" styleClass="flex align-items-center ml-1">
               <i class="si si-question-circle"></i>
-              <p:tooltip for="@parent" value="Elasticsearch will put indices in read-only mode if available disk space is less than this value.
+              <p:tooltip for="@parent" value="Search Engine will put indices in read-only mode if available disk space is less than this value.
                 This setting is a last resort to prevent nodes from running out of disk space. 
                 The index block is automatically released when the disk utilization falls below the high watermark." 
                 position="top" />
             </h:panelGroup>
           </h:panelGroup>
-          <h:outputText id="floodStage" value="#{searchEngineBean.elasticSearch.watermark.floodStage()}" 
+          <h:outputText id="floodStage" value="#{searchEngineBean.searchEngine.watermark.floodStage()}" 
             title="If your available disk space is below the flood stage, the search engine will stop indexing new documents and put current indices in read-only mode"/>
         </p:panelGrid>
 
