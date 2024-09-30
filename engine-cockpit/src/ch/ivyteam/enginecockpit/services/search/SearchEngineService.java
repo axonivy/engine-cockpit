@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.services.search;
 
-import ch.ivyteam.ivy.elasticsearch.client.EsClient;
-import ch.ivyteam.ivy.elasticsearch.client.EsClientSearcher.Result;
+import ch.ivyteam.ivy.searchengine.client.SearchEngineClient;
+import ch.ivyteam.ivy.searchengine.client.SearchEngineClientSearcher.Result;
 
 public class SearchEngineService {
 
@@ -12,7 +12,7 @@ public class SearchEngineService {
   }
 
   public Result search(SearchEngineIndex index, String filter, int from, int size) {
-    var searcher = EsClient.instance().search(index.getIndexName());
+    var searcher = SearchEngineClient.instance().search(index.getIndexName());
     if (filter.isBlank()) {
       filter = "*";
     }

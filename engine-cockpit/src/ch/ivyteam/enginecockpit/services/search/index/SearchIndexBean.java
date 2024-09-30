@@ -6,13 +6,13 @@ import javax.faces.bean.ViewScoped;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.services.search.SearchEngineIndex;
 import ch.ivyteam.enginecockpit.services.search.SearchEngineIndexDataModel;
-import ch.ivyteam.ivy.elasticsearch.IElasticsearchManager;
+import ch.ivyteam.ivy.searchengine.ISearchEngineManager;
 
 @ManagedBean
 @ViewScoped
 public class SearchIndexBean {
 
-  private final IElasticsearchManager searchEngine = IElasticsearchManager.instance();
+  private final ISearchEngineManager searchEngine = ISearchEngineManager.instance();
 
   private String index;
   private SearchEngineIndex searchIndex;
