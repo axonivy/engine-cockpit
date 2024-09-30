@@ -41,12 +41,12 @@ class WebTestWizardSystemDb {
   }
 
   @Test
-  void testWebServerStep() {
+  void webServerStep() {
     WebTestSystemDb.assertDefaultValues();
     WebTestSystemDb.assertSystemDbCreationDialog();
     WebTestWizard.activeStepShouldHaveWarnings();
     WebTestSystemDb.assertSystemDbCreation();
-    WebTestWizard.finishWizard();
+    WebTestWizard.finish();
     $("#configErrorMessage").shouldBe(visible, text("LICENCE"));
     $("#finishWizardForm\\:finishWizardYes").click();
     $(WebTestWizard.ACTIVE_WIZARD_STEP).shouldNot(exist);
@@ -54,20 +54,19 @@ class WebTestWizardSystemDb {
   }
 
   @Test
-  void testConnectionResults() {
+  void connectionResults() {
     WebTestSystemDb.assertConnectionResults();
   }
 
   @Test
-  void testOldDbConversionNeeded() {
+  void oldDbConversionNeeded() {
     WebTestSystemDb.assertSystemDbConversionDialog();
   }
 
   @Test
-  void testUiLogicSwitchesAndDefaults() {
+  void uiLogicSwitchesAndDefaults() {
     WebTestSystemDb.assertDatabaseTypeSwitch();
     WebTestSystemDb.assertDefaultPortSwitch();
     WebTestSystemDb.assertAdditionalProperties();
   }
-
 }
