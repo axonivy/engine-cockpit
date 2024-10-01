@@ -22,6 +22,7 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
           s -> s.getSessionUser() == null ? "" : s.getSessionUser().getName(),
           ISessionInternal::creationReason,
           ISessionInternal::getAuthenticationMode,
+          s -> Integer.toString(s.getIdentifier()),
           s -> s.getSecurityContext().getName()
   );
 

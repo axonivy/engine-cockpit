@@ -22,121 +22,127 @@
     </ui:define>
 
     <ui:define name="content">
-      <div class="card">
-        <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-analytics-graph-line card-title-icon"></i>
-          <h2 class="m-0">Sessions</h2>
-        </div>
-        <h:form id="form" style="overflow: auto;">
-          <p:dataTable var="ses" value="#{sessionBean.dataModel}"
-            widgetVar="sessionTable" styleClass="ui-fluid"
-            paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-            id="sessionTable" style="min-width: 950px;">
-            <f:facet name="header">
-              <div class="flex">
-                <div class="ui-input-icon-left filter-container" style="width: 100%;">
-                  <i class="pi pi-search"/>
-                  <p:inputText id="globalFilter" value="#{sessionBean.dataModel.filter}" onkeyup="PF('sessionTable').filter()" placeholder="Search" onkeypress="if (event.keyCode === 13) { return false; } else { return true; }" />
-                </div>
-
-                <p:commandButton id="filterBtn" title="Filter" type="button" icon="si si-filter-1"
-                styleClass="ml-1 col-fixed ui-button-secondary rounded-button" onclick="PF('filterPanel').show();" />
-                <p:overlayPanel id="filterPanel" for="filterBtn" widgetVar="filterPanel" styleClass="table-content-filter">
-                  <h:panelGroup style="display:block;margin-bottom:5px;">
-                    <p:selectBooleanCheckbox value="#{sessionBean.dataModel.showUnauthenticatedSessions}" id="filterUnauthenticatedSession" itemLabel="Show unauthenticated sessions" />
-                  </h:panelGroup>
-                  <h:panelGroup>
-                    <p:selectBooleanCheckbox value="#{sessionBean.dataModel.showTemporarySessions}" id="filterTemporarySession" itemLabel="Show temporary sessions" />
-                  </h:panelGroup>
-                  <h:panelGroup layout="block" styleClass="mt-1 flex justify-content-end">
-                    <p:commandButton id="cancelFilter" value="Cancel" styleClass="ui-button-flat ui-button-secondary modal-input-button"
-                      onclick="PF('filterPanel').hide();" type="button" />
-                    <p:commandButton id="resetFilterBtn" value="Reset" styleClass="ml-1 ui-button-secondary modal-input-button" icon="si si-delete-2"
-                      update="@form" actionListener="#{sessionBean.dataModel.resetFilters()}" />
-                    <p:commandButton id="applyFilter" value="Apply" styleClass="ml-1 modal-input-button" icon="si si-check-1" update="@form" />
-                  </h:panelGroup>
-                </p:overlayPanel>
+      <h:form id="form" style="overflow: auto;">
+        <div class="layout-dashboard">
+          <div class="card">
+            <div class="card-header flex-wrap">
+              <div class="card-title flex align-items-center">
+                <i class="pr-3 si si-analytics-graph-line card-title-icon"></i>
+                <h2 class="m-0">Sessions</h2>
+                <p:commandButton id="refresh" update="@form" title="Refresh statistic"
+                    icon="si si-button-refresh-arrows" styleClass="col-fixed ml-auto ui-button-success rounded-button" />
               </div>
-            </f:facet>
-            
-            <p:column headerText="User" sortBy="#{ses.user}">
-              <h:outputLink value="#{ses.userLink}" rendered="#{!ses.isUserInternal()}">
-                <h:outputText value="#{ses.user}" styleClass=""/>
-              </h:outputLink>
-              <h:outputText value="#{ses.user}" rendered="#{ses.isUserInternal()}" styleClass=""/>
-            </p:column>
-            
-            <p:column headerText="Created" sortBy="#{ses.createdAt}">
-              <h:outputText value="#{ses.createdAt}">
-                <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
-              </h:outputText>
-            </p:column>
-            
-            <p:column headerText="Last accessed" sortBy="#{ses.lastAccessedAt}">
-              <h:outputText value="#{ses.lastAccessedAt}">
-                <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
-              </h:outputText>
-            </p:column>
-            
-            <p:column headerText="System" sortBy="#{ses.securitySystem}">
-              <h:outputLink value="#{ses.securitySystemLink}" rendered="#{!ses.isSecuritySystemInternal()}">#{ses.securitySystem}</h:outputLink>
-              <h:outputText value="#{ses.securitySystem}" rendered="#{ses.isSecuritySystemInternal()}" />
-            </p:column>
+            </div>
+            <p:dataTable var="ses" value="#{sessionBean.dataModel}"
+              widgetVar="sessionTable" styleClass="ui-fluid"
+              paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+              id="sessionTable" resizableColumns="true">
+              <f:facet name="header">
+                <div class="flex">
+                  <div class="ui-input-icon-left filter-container" style="width: 100%;">
+                    <i class="pi pi-search"/>
+                    <p:inputText id="globalFilter" value="#{sessionBean.dataModel.filter}" onkeyup="PF('sessionTable').filter()" placeholder="Search" onkeypress="if (event.keyCode === 13) { return false; } else { return true; }" />
+                  </div>
 
-            <p:column headerText="Cause" sortBy="#{ses.cause}">
-              <h:outputText value="#{ses.cause}" />
-            </p:column>
-            
-            <p:column headerText="Auth" sortBy="#{ses.authMode}">
-              <h:outputText value="#{ses.authMode}" />
-            </p:column>
+                  <p:commandButton id="filterBtn" title="Filter" type="button" icon="si si-filter-1"
+                  styleClass="ml-1 col-fixed ui-button-secondary rounded-button" onclick="PF('filterPanel').show();" />
+                  <p:overlayPanel id="filterPanel" for="filterBtn" widgetVar="filterPanel" styleClass="table-content-filter">
+                    <h:panelGroup style="display:block;margin-bottom:5px;">
+                      <p:selectBooleanCheckbox value="#{sessionBean.dataModel.showUnauthenticatedSessions}" id="filterUnauthenticatedSession" itemLabel="Show unauthenticated sessions" />
+                    </h:panelGroup>
+                    <h:panelGroup>
+                      <p:selectBooleanCheckbox value="#{sessionBean.dataModel.showTemporarySessions}" id="filterTemporarySession" itemLabel="Show temporary sessions" />
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="mt-1 flex justify-content-end">
+                      <p:commandButton id="cancelFilter" value="Cancel" styleClass="ui-button-flat ui-button-secondary modal-input-button"
+                        onclick="PF('filterPanel').hide();" type="button" />
+                      <p:commandButton id="resetFilterBtn" value="Reset" styleClass="ml-1 ui-button-secondary modal-input-button" icon="si si-delete-2"
+                        update="@form" actionListener="#{sessionBean.dataModel.resetFilters()}" />
+                      <p:commandButton id="applyFilter" value="Apply" styleClass="ml-1 modal-input-button" icon="si si-check-1" update="@form" />
+                    </h:panelGroup>
+                  </p:overlayPanel>
+                </div>
+              </f:facet>
 
-            <p:column headerText="Temp" sortBy="#{ses.temporary}">
-              <h:outputText value="#{ses.temporary}" title="A temporary session is only created for technical reasons and shoud have a very short lifetime (approx. 1s). Temporary sessions do not count for licensed concurrent sessions." />
-            </p:column>
+              <p:column headerText="User" sortBy="#{ses.user}">
+                <h:outputLink value="#{ses.userLink}" rendered="#{!ses.isUserInternal()}">
+                  <h:outputText value="#{ses.user}" styleClass=""/>
+                </h:outputLink>
+                <h:outputText value="#{ses.user}" rendered="#{ses.isUserInternal()}" styleClass=""/>
+              </p:column>
 
-            <p:column headerText="Id" sortBy="#{ses.id}">
-              <h:outputText value="#{ses.id}" />
-            </p:column>
+              <p:column headerText="Created" sortBy="#{ses.createdAt}">
+                <h:outputText value="#{ses.createdAt}">
+                  <f:convertDateTime type="both" dateStyle="short" timeStyle="medium" />
+                </h:outputText>
+              </p:column>
 
-             <p:column headerText="HTTP Sessions" sortBy="#{ses.httpSessionCount}">
-              <h:panelGroup id="httpSessionGrp">
-                 <i class="pr-3 si si-information-circle"/>
-                 <h:outputText id="httpSession" value="#{ses.httpSessionCount}"/>
-              </h:panelGroup>
-              <p:tooltip for="httpSessionGrp" rendered="#{!ses.httpSessions.isEmpty()}">
-                <ui:repeat value="#{ses.httpSessions}" var="httpSession">
-                  <h:panelGroup rendered="#{httpSession.valid}">
-                    <h:outputLabel for="servletContext" value="Context Path: "/>
-                    <h:outputText id="servletContext" value="#{httpSession.servletContextPath}"/>
+              <p:column headerText="Last accessed" sortBy="#{ses.lastAccessedAt}">
+                <h:outputText value="#{ses.lastAccessedAt}">
+                  <f:convertDateTime type="both" dateStyle="short" timeStyle="medium" />
+                </h:outputText>
+              </p:column>
 
-                    <h:outputLabel for="creationTime" value="Creation: "/>
-                    <h:outputText id="creationTime" value="#{httpSession.creationTime}">
-                      <f:convertDateTime type="both" dateStyle="short" timeStyle="short"/>
-                    </h:outputText>
-                    |
-                    <h:outputLabel for="lastAccessedTime" value="Last Accessed: "/>
-                    <h:outputText id="lastAccessedTime" value="#{httpSession.lastAccessedTime}">
-                      <f:convertDateTime type="both" dateStyle="short" timeStyle="short"/>
-                    </h:outputText>
-                  </h:panelGroup>
+              <p:column headerText="System" sortBy="#{ses.securitySystem}">
+                <h:outputLink value="#{ses.securitySystemLink}" rendered="#{!ses.isSecuritySystemInternal()}">#{ses.securitySystem}</h:outputLink>
+                <h:outputText value="#{ses.securitySystem}" rendered="#{ses.isSecuritySystemInternal()}" />
+              </p:column>
 
-                  <h:panelGroup rendered="#{!httpSession.valid}">
-                    <h:outputText id="invalidSession" value="Creation invalid / Last Accessed invalid" />
-                  </h:panelGroup>
+              <p:column headerText="Cause" sortBy="#{ses.cause}">
+                <h:outputText value="#{ses.cause}" />
+              </p:column>
 
-                  <br />
-                </ui:repeat>
-              </p:tooltip>
-            </p:column>
+              <p:column headerText="Auth" sortBy="#{ses.authMode}">
+                <h:outputText value="#{ses.authMode}" />
+              </p:column>
 
-            <p:column styleClass="table-btn-1">
-              <p:commandButton id="killSession" title="Kill session" icon="si si-logout-1"
-                actionListener="#{sessionBean.killSession(ses)}" ajax="true" update="@form" disabled="#{!ses.canKill()}" styleClass="ui-button-danger rounded-button" />
-            </p:column>
-          </p:dataTable>
-        </h:form>
-      </div>
+              <p:column headerText="Temp" sortBy="#{ses.temporary}">
+                <h:outputText value="#{ses.temporary}" title="A temporary session is only created for technical reasons and shoud have a very short lifetime (approx. 1s). Temporary sessions do not count for licensed concurrent sessions." />
+              </p:column>
+
+              <p:column headerText="Id" sortBy="#{ses.id}">
+                <h:outputText value="#{ses.id}" />
+              </p:column>
+
+               <p:column headerText="HTTP Sessions" sortBy="#{ses.httpSessionCount}">
+                <h:panelGroup id="httpSessionGrp">
+                   <h:outputText id="httpSession" value="#{ses.httpSessionCount}"/>
+                   <i class="fa-solid fa-info-circle"/>
+                </h:panelGroup>
+                <p:tooltip for="httpSessionGrp" rendered="#{!ses.httpSessions.isEmpty()}">
+                  <ui:repeat value="#{ses.httpSessions}" var="httpSession">
+                    <h:panelGroup rendered="#{httpSession.valid}">
+                      <h:outputLabel for="creationTime" value="Creation: "/>
+                      <h:outputText id="creationTime" value="#{httpSession.creationTime}">
+                        <f:convertDateTime type="both" dateStyle="short" timeStyle="medium"/>
+                      </h:outputText>
+                      |
+                      <h:outputLabel for="lastAccessedTime" value="Last Accessed: "/>
+                      <h:outputText id="lastAccessedTime" value="#{httpSession.lastAccessedTime}">
+                        <f:convertDateTime type="both" dateStyle="short" timeStyle="medium"/>
+                      </h:outputText>
+                      |
+                      <h:outputLabel for="servletContext" value="Context Path: "/>
+                      <h:outputText id="servletContext" value="#{httpSession.servletContextPath}"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{!httpSession.valid}">
+                      <h:outputText id="invalidSession" value="Creation invalid / Last Accessed invalid" />
+                    </h:panelGroup>
+
+                    <br />
+                  </ui:repeat>
+                </p:tooltip>
+              </p:column>
+
+              <p:column styleClass="table-btn-1">
+                <p:commandButton id="killSession" title="Kill session" icon="si si-logout-1"
+                  actionListener="#{sessionBean.killSession(ses)}" ajax="true" update="@form" disabled="#{!ses.canKill()}" styleClass="ui-button-danger rounded-button" />
+              </p:column>
+            </p:dataTable>
+          </div>
+        </div>
+      </h:form>
     </ui:define>
 
     <ui:define name="live-stats">
