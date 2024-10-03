@@ -17,7 +17,7 @@
           styleClass="col-fixed ml-auto rounded-button" onclick="PF('securityReportDownloadModal').show();"/>
         <p:linkButton outcome="securitysystem-merge.xhtml" id="compareSecuritySystemBtn" type="button" 
                 title="Merge Security Systems" icon="si si-move-to-bottom" styleClass="col-fixed ml-1 rounded-button">
-          <f:param name="source" value="${securityConfigBean.name}"/>
+          <f:param name="source" value="#{securityConfigBean.name}"/>
         </p:linkButton>
         
         <p:commandButton id="deleteSecuritySystem" type="button" onclick="PF('deleteSecuritySystemConfirmDialog').show()"

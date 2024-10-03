@@ -52,7 +52,7 @@
             
             <p:column headerText="Channel" sortBy="#{delivery.channel}">
               <p:link href="#{delivery.channelUri}" rendered="#{delivery.channelUri != null}">
-                <h:outputText value="${delivery.channelIcon}" class="notification-channel-table-icon" escape="false" /> <!-- contains no user input, contains icon -->
+                <h:outputText value="#{delivery.channelIcon}" class="notification-channel-table-icon" escape="false" /> <!-- contains no user input, contains icon -->
                 <h:outputText value="#{delivery.channel}" />
               </p:link>
             </p:column>
