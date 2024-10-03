@@ -26,10 +26,12 @@ public class PermissionGroup extends AbstractPermission {
     this.bean = null;
   }
 
+  @Override
   public void setSomeDeny(boolean someDeny) {
     this.someDeny = someDeny;
   }
 
+  @Override
   public void setSomeGrant(boolean someGrant) {
     this.someGrant = someGrant;
   }

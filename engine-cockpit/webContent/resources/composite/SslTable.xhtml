@@ -46,7 +46,7 @@
           <h:panelGroup id="valid">
             <i class="si table-icon si-#{certificate.isValid() ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
             <h:outputText value="#{certificate.cert.notAfter}" id="expiryDate"
-              styleClass="${certificate.isValid() ? '' : 'state-inactive'}" />
+              styleClass="#{certificate.isValid() ? '' : 'state-inactive'}" />
           </h:panelGroup>
           <p:tooltip for="valid" value="#{certificate.isValid() ? 'Valid' : certificate.invalidityMessage}" />
         </p:column>

@@ -101,10 +101,12 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     return webservice;
   }
 
+  @Override
   public List<Property> getProperties() {
     return webservice.getProperties();
   }
 
+  @Override
   public void saveProperty(boolean isNewProperty) {
     if (!isNewProperty || !isExistingProperty()) {
       var prop = getProperty();
@@ -248,7 +250,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private Builder wsBuilder() {
     return webServiceClients.find(webserviceId).toBuilder();
   }
-  
+
   private void saveWebService(Builder builder) {
     webServiceClients.set(builder.toWebServiceClient());
   }
@@ -267,21 +269,23 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   public List<String> getFeatures() {
     return webservice.getFeatures();
   }
-  
+
   @Override
   public String getFeature() {
     return activeFeature;
   }
-  
+
+  @Override
   public void setFeature(String key) {
     this.activeFeature = key;
   }
-  
+
   public void removeFeature(String name) {
     saveWebService(wsBuilder().removeFeature(name));
     loadWebService();
   }
-  
+
+  @Override
   public void saveFeature() {
     if (!isExistingFeature()) {
       saveWebService(wsBuilder().feature(getFeature()));

@@ -29,7 +29,7 @@
           <p:autoUpdate />
         </p:growl>
         <div class="flex align-items-center mb-3">
-          <h:outputText value="${notificationChannelDetailBean.channel.displayIcon}" class="pr-3 si notification-channel-title-icon" escape="false" /> <!-- contains no user input, contains icon -->
+          <h:outputText value="#{notificationChannelDetailBean.channel.displayIcon}" class="pr-3 si notification-channel-title-icon" escape="false" /> <!-- contains no user input, contains icon -->
           <h2 class="m-0">#{notificationChannelDetailBean.channel.displayName}</h2>
           <p:commandButton id="open" actionListener="#{notificationChannelDetailBean.open}" title="Unlock channel (clear error state)"
             icon="si si-charger" styleClass="col-fixed ml-auto rounded-button" update="form" 

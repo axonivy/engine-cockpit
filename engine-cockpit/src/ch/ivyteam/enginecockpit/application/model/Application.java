@@ -189,6 +189,7 @@ public class Application extends AbstractActivity {
     return webServiceProcesses;
   }
 
+  @Override
   @SuppressWarnings("restriction")
   public boolean hasReleasedProcessModelVersion() {
     return app.getProcessModels()
@@ -196,7 +197,8 @@ public class Application extends AbstractActivity {
               .map(ch.ivyteam.ivy.application.internal.ProcessModel.class::cast)
               .allMatch(ch.ivyteam.ivy.application.internal.ProcessModel::hasReleasedProcessModelVersion);
   }
-  
+
+  @Override
   public String getWarningMessageForNoReleasedPmv() {
     return "At least one process model has no released process model version";
   }

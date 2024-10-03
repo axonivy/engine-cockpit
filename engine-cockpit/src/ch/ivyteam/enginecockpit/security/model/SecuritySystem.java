@@ -5,7 +5,9 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.apache.commons.io.IOUtils;
+
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityConstants;
@@ -62,7 +64,7 @@ public class SecuritySystem {
 
   public List<String> getAppNames() {
     if (appNames == null) {
-      appNames = IApplicationRepository.instance().allOf(securityContext).stream()
+      appNames = IApplicationRepository.of(securityContext).all().stream()
               .map(IApplication::getName)
               .collect(Collectors.toList());
     }

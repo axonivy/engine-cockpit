@@ -119,7 +119,7 @@
 
               <p:column styleClass="table-btn-2" sortBy="#{issue.solver().type()}">
                 <p:commandButton value="#{issue.solver().type()}" title="#{securitySystemCompareBean.solveHint(issue)}"
-                  rendered="#{issue.isSolveable()}" styleClass="${securitySystemCompareBean.styleClassForButton(issue)}" disabled="${securitySystemCompareBean.isSolved(issue)}"
+                  rendered="#{issue.isSolveable()}" styleClass="#{securitySystemCompareBean.styleClassForButton(issue)}" disabled="#{securitySystemCompareBean.isSolved(issue)}"
                   update="report" actionListener="#{securitySystemCompareBean.solve(issue)}">
                   <p:confirm header="Apply change"
                   message="Do you really want to #{issue.solver().type()} this entry?" 

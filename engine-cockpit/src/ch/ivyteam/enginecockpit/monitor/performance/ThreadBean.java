@@ -43,17 +43,17 @@ public class ThreadBean {
   public ThreadBean() {
     refresh();
   }
-  
+
   public void setThreadId(Long threadId) {
     this.threadId = threadId;
     refresh();
     this.filter = Long.toString(threadId);
   }
-  
+
   public Long getThreadId() {
     return threadId;
   }
-  
+
   public String getFilter() {
     var f = filter;
     filter = null;
@@ -103,6 +103,7 @@ public class ThreadBean {
     this.filteredThreads = filteredThreads;
   }
 
+  @SuppressWarnings("hiding")
   public boolean filter(Object value, Object filter, @SuppressWarnings("unused") Locale locale) {
     if (value instanceof Info info) {
       try {
@@ -114,7 +115,7 @@ public class ThreadBean {
       String name = info.getName();
       if (name != null && StringUtils.containsIgnoreCase(name, filter.toString())) {
         return true;
-      }      
+      }
      }
     return false;
    }
@@ -226,7 +227,7 @@ public class ThreadBean {
     }
 
     public boolean isDeadLocked() {
-      return deadLocked != null && Arrays.stream(deadLocked).anyMatch(threadId -> threadId == id);
+      return deadLocked != null && Arrays.stream(deadLocked).anyMatch(tId -> tId == id);
     }
 
     public ThreadInfo getInfo() {

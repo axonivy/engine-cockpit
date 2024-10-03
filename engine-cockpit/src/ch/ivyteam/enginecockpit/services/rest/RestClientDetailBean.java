@@ -26,8 +26,8 @@ import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.rest.client.RestClient;
-import ch.ivyteam.ivy.rest.client.RestClients;
 import ch.ivyteam.ivy.rest.client.RestClient.Builder;
+import ch.ivyteam.ivy.rest.client.RestClients;
 
 @ManagedBean
 @ViewScoped
@@ -101,10 +101,12 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     return restClient;
   }
 
+  @Override
   public List<Property> getProperties() {
     return restClient.getProperties();
   }
 
+  @Override
   public void saveProperty(boolean isNewProperty) {
     if (!isNewProperty || !isExistingProperty()) {
       saveRestClient(restBuilder().property(getProperty().getName(), getProperty().getValue()));
@@ -117,6 +119,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     loadRestClient();
   }
 
+  @Override
   public String getTitle() {
     return "Rest Client '" + restClientName + "'";
   }
@@ -182,7 +185,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   public RestClientMonitor getLiveStats() {
     return liveStats;
   }
-  
+
   private Builder restBuilder() {
     return restClients.find(restClientName).toBuilder();
   }
@@ -200,26 +203,28 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   public void setProperty(String key) {
     this.activeProperty = findProperty(key);
   }
-  
+
   @Override
   public List<String> getFeatures() {
     return restClient.getFeatures();
   }
-  
+
   @Override
   public String getFeature() {
     return activeFeature;
   }
-  
+
+  @Override
   public void setFeature(String key) {
     this.activeFeature = key;
   }
-  
+
   public void removeFeature(String name) {
     saveRestClient(restBuilder().removeFeature(name));
     loadRestClient();
   }
-  
+
+  @Override
   public void saveFeature() {
     if (!isExistingFeature()) {
       saveRestClient(restBuilder().feature(getFeature()));

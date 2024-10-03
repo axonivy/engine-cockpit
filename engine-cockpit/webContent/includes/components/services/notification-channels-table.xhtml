@@ -17,7 +17,7 @@
     
     <p:column headerText="Name" sortBy="#{channel.displayName}" filterBy="#{channel.displayName}">
       <a href="#{channel.getViewUrl()}" class="inline-flex align-items-center gap-1">
-        <h:outputText value="${channel.displayIcon}" class="notification-channel-table-icon" escape="false" /> <!-- contains no user input, contains encoded image -->
+        <h:outputText value="#{channel.displayIcon}" class="notification-channel-table-icon" escape="false" /> <!-- contains no user input, contains encoded image -->
         <h:outputText value="#{channel.displayName}" styleClass="channel-name" />
       </a>
     </p:column>
