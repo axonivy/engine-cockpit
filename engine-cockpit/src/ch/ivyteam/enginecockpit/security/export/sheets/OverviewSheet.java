@@ -74,7 +74,7 @@ public class OverviewSheet {
   }
 
   private String getApplicationNames() {
-    return IApplicationRepository.instance().allOf(securityContext).stream()
+    return IApplicationRepository.of(securityContext).all().stream()
         .map(IApplication::getName)
         .collect(Collectors.joining(", "));
   }

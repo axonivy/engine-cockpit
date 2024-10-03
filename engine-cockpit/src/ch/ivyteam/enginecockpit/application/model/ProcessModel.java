@@ -65,13 +65,15 @@ public class ProcessModel extends AbstractActivity {
   public List<String> isDeletable() {
     return pm.isDeletableInternal();
   }
-  
+
+  @Override
   @SuppressWarnings("restriction")
   public boolean hasReleasedProcessModelVersion() {
     var processModel = (ch.ivyteam.ivy.application.internal.ProcessModel)pm;
     return processModel.hasReleasedProcessModelVersion();
   }
 
+  @Override
   public String getWarningMessageForNoReleasedPmv() {
     return "No released process model version";
   }

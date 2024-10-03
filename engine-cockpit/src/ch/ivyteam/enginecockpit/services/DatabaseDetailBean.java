@@ -112,10 +112,12 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     return database;
   }
 
+  @Override
   public List<Property> getProperties() {
     return database.getProperties();
   }
 
+  @Override
   public void saveProperty(boolean isNewProperty) {
     if (!isNewProperty || !isExistingProperty()) {
       saveDatabase(dbBuilder().property(getProperty().getName(), getProperty().getValue()));
