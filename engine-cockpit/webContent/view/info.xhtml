@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/info-template.xhtml">
+    <ui:define name="title">#{ivyAdvisor.applicationName} #{ivyAdvisor.versionShort}</ui:define>
+  
+    <ui:define name="content">
+    
+      <h:panelGroup layout="block" styleClass="message-block">
+        <h:panelGroup layout="block" rendered="#{ivyServerInfoBean.maintenance}" styleClass="ui-message ui-staticmessage ui-message-warn">
+          <span class="ui-message-warn-icon"></span>
+          <span class="ui-message-warn-summary">Maintenance Mode!</span>
+          <span class="ui-message-warn-detail">#{ivyServerInfoBean.maintenanceReason}. Please use the 
+            <a href="#{ivyServerInfoBean.engineCockpitUrl}/faces/setup-intro.xhtml">Setup Wizard or Migration Wizard</a> to fix or setup your Axon Ivy Engine. 
+          </span>
+        </h:panelGroup>
+      </h:panelGroup>
+
+      <div class="flex flex-wrap align-items-stretch">
+        <ui:repeat value="#{ivyServerInfoBean.applications}" var="app">
+          <div class="col">
+            <div class="card card-item">
+              <div>
+                <i class="si si-module" style="font-size: 56px;" />
+              </div>
+              <div>
+                <h2>#{app.name}</h2>
+              </div>
+              <div>
+                <p>#{app.description}</p>
+              </div>
+              <div class="mt-5">
+                <h:panelGroup id="action">
+                  <p:linkButton id="button" href="#{app.homeUrl}" value="Home" icon="si si-house-chimney-2" 
+                    styleClass="#{app.name}-appHome-link" disabled="#{app.disabled}" />
+                  <p:tooltip for="action" rendered="#{app.disabled}" value="This app is not running or has no deployed projects" position="bottom" />
+                </h:panelGroup>
+              </div>
+              <div class="mt-3">
+                <p:link id="home" href="#{app.devWorkflowUrl}" value="Index" rendered="#{!app.disabled}" styleClass="techview-link" />
+              </div>
+            </div>
+          </div>
+        </ui:repeat>
+        <h:panelGroup rendered="#{empty ivyServerInfoBean.applications}">
+          <div class="col">
+            <div class="card card-item" style="">
+              <div>
+                <i class="si si-tools-wench" style="font-size: 56px;" />
+              </div>
+              <div>
+                <h2>No applications</h2>
+              </div>
+              <div>
+                <p>Deploy your application by the Engine Cockpit or have a look at our documentation.</p>
+              </div>
+              <div class="mt-5">
+                <p:linkButton id="noAppCockpit" href="#{ivyServerInfoBean.engineCockpitUrl}/faces/applications.xhtml" value="Engine Cockpit" 
+                  icon="si si-cog" />
+              </div>
+              <div class="mt-3">
+                <p:link href="#{ivyAdvisor.advisor.docBaseUrl}" value="Documentation" />
+              </div>
+            </div>
+          </div>
+        </h:panelGroup>
+      </div>
+
+      <style>
+        .layout-content .message-block {
+          margin: 0 0.5rem;
+        }
+        .layout-content .message-block .ui-message {
+          margin: 0 0 10px 0;
+          width: 100%;
+        }
+        .layout-content .card {
+          text-align: center; 
+          min-width: 300px;
+          background: #{ivyFreyaTheme.mode == 'light' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(41, 50, 65, 0.9)'} 
+        }
+        @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+          .layout-content .card {
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+          }
+        }
+      </style>
+      
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>
+

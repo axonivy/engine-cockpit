@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui" lang="en">
+
+<h:head>
+  <f:attribute name="primefaces.THEME" value="#{ivyFreyaTheme.theme}" />
+  <f:facet name="first">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+  </f:facet>
+  <title><ui:insert name="title">Axon Ivy Engine</ui:insert></title>
+
+  <link rel="shortcut icon" href="#{resource['ivy-branding:favicon']}" />
+
+  <h:outputScript name="js/layout.js" library="freya-layout" />
+  <ui:insert name="head" />
+</h:head>
+
+<h:body>
+  <div class="layout-wrapper layout-topbar-#{ivyFreyaTheme.mode} layout-menu-#{ivyFreyaTheme.mode} layout-horizontal">
+    <div class="layout-topbar">
+      <div class="layout-topbar-wrapper">
+        <div class="layout-topbar-left">
+          <a id="bannerLogo" class="layout-topbar-logo" href="/system">
+            <p:graphicImage name="#{ivyFreyaTheme.logo}" library="ivy-branding" alt="Logo" />
+          </a>
+        </div>
+
+        <div class="layout-topbar-right">
+          <ul class="layout-topbar-actions">
+            <h:outputText rendered="#{ivyAdvisor.releaseCandidate}">
+              <li class="topbar-item">
+                <p:link id="releaseCandiate" href="#">
+                  <i class="topbar-icon si si-lg si-road-sign-warning animated swing" style="color:var(--error-color);"></i>
+                </p:link>
+                <p:tooltip for="releaseCandiate" value="Release Candidate! Don't use this version in production!" position="bottom" />
+              </li>
+            </h:outputText>
+                                    
+            <h:outputText rendered="#{ivyServerInfoBean.demo}">
+              <li class="topbar-item">
+                <p:link id="demoMode" href="#{ivyServerInfoBean.engineCockpitUrl}/faces/setup-intro.xhtml">
+                  <i class="topbar-icon si si-lg si si-startup-launch animated swing"></i>
+                </p:link>
+                <p:tooltip for="demoMode" value="Demo Mode! Use Setup Wizard or Migration Wizard to set up a productive Axon Ivy Engine." position="bottom" />
+              </li>
+            </h:outputText>
+
+            <h:outputText rendered="#{ivyServerInfoBean.neo}">
+              <li class="topbar-item">
+                <p:link id="neoLink" href="/neo">
+                  <i class="topbar-icon si si-hammer-wench animated swing"></i>
+                </p:link>
+                <p:tooltip for="neoLink" value="Neo" position="bottom" />
+              </li>
+             </h:outputText>
+
+            <li class="topbar-item">
+              <p:link id="cockpitLink" href="/system/engine-cockpit">
+                <i class="topbar-icon si si-cog animated swing"></i>
+              </p:link>
+              <p:tooltip for="cockpitLink" value="Engine Cockpit" position="bottom" />
+            </li>
+            
+            <li class="topbar-item">
+              <p:link id="docLink" href="#{ivyAdvisor.advisor.docBaseUrl}/">
+                <i class="topbar-icon si si-office-file-doc-1 animated swing"></i>
+              </p:link>
+              <p:tooltip for="docLink" value="Documentation" position="bottom" />
+            </li>
+
+            <h:outputText rendered="#{ivyServerInfoBean.hasLicenceMessages()}">
+              <li class="topbar-item">
+                <p:link id="licenceLink" href="/system/engine-cockpit">
+                  <i class="topbar-icon si si-lg si-messages-bubble-square-warning animated swing"></i>
+                </p:link>
+                <p:tooltip for="licenceLink" value="Licence messages" position="bottom" />
+              </li>
+            </h:outputText>
+
+            <h:outputText rendered="#{ivyServerInfoBean.newUpdateAvailable()}">
+              <li class="topbar-item">
+                <p:link id="versionLink" href="https://developer.axonivy.com/download">
+                  <i class="topbar-icon si si-lg si-advertising-megaphone-2 animated swing"></i>
+                </p:link>
+                <p:tooltip for="versionLink" value="New version available" position="bottom" />
+              </li>
+            </h:outputText>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout-main">
+      <div class="layout-content">
+        <ui:insert name="content" />
+      </div>
+
+      <div class="layout-footer">
+        <div class="flex justify-content-between align-items-center">
+          <div class="flex align-items-center">
+            <a href="developer.axonivy.com"> <h:graphicImage
+                name="logo_small" library="ivy-branding" alt="Logo"
+                style="width: 25px;" />
+            </a> <span class="ml-2"> <span>Powered by</span> <a
+              href="https://developer.axonivy.com/">#{ivyAdvisor.applicationName}</a>
+              <span>#{ivyAdvisor.buildVersion}</span>
+            </span>
+          </div>
+          <span> <h:outputText
+              value="#{ivyAdvisor.copyrightHtml}" escape="false" />
+          </span>
+        </div>
+      </div>
+
+      <div class="layout-main-mask"></div>
+    </div>
+  </div>
+  
+  <style>
+    body {
+      height: 100%; 
+    }
+    @media (min-width: 1025px) {
+      .layout-footer > div,
+      .layout-topbar .layout-topbar-wrapper {
+        max-width: 1170px;
+        margin: 0 auto;
+      }
+    }
+    @media (min-width: 1200px) {
+      .layout-main .layout-content {
+        max-width: 1170px;
+        align-self: center;
+        width: 1170px;
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  </style>
+
+  <h:outputStylesheet name="css/layout-ivy-#{ivyFreyaTheme.mode}.css" library="freya-layout" />
+  <h:outputStylesheet name="primeflex-3.min.css" library="primeflex" />
+</h:body>
+
+</html>
+
