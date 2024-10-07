@@ -19,14 +19,6 @@
   flex-grow: 1;
   min-width: unset;
 }
-.setup-intro .card {
-  text-align: center; 
-  min-width: 300px; 
-  height: 100%; 
-}
-.setup-intro .card i:first-child {
-  font-size: 56px; 
-}
 .layout-content .card {
   padding: 2rem;
 }

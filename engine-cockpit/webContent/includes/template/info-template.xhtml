@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
-  xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui" lang="en">
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:pm="http://primefaces.org/freya-ivy" lang="en">
 
 <h:head>
   <f:attribute name="primefaces.THEME" value="#{ivyFreyaTheme.theme}" />
@@ -11,15 +11,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
   </f:facet>
   <title><ui:insert name="title">Axon Ivy Engine</ui:insert></title>
-
   <link rel="shortcut icon" href="#{resource['ivy-branding:favicon']}" />
-
   <h:outputScript name="js/layout.js" library="freya-layout" />
-  <ui:insert name="head" />
 </h:head>
 
 <h:body>
-  <div class="layout-wrapper layout-topbar-#{ivyFreyaTheme.mode} layout-menu-#{ivyFreyaTheme.mode} layout-horizontal">
+  <div class="layout-wrapper layout-topbar-#{ivyFreyaTheme.mode} layout-menu-#{ivyFreyaTheme.mode} layout-horizontal layout-designer">
     <div class="layout-topbar">
       <div class="layout-topbar-wrapper">
         <div class="layout-topbar-left">
@@ -27,68 +24,23 @@
             <p:graphicImage name="#{ivyFreyaTheme.logo}" library="ivy-branding" alt="Logo" />
           </a>
         </div>
-
+        
         <div class="layout-topbar-right">
-          <ul class="layout-topbar-actions">
-            <h:outputText rendered="#{ivyAdvisor.releaseCandidate}">
-              <li class="topbar-item">
-                <p:link id="releaseCandiate" href="#">
-                  <i class="topbar-icon si si-lg si-road-sign-warning animated swing" style="color:var(--error-color);"></i>
-                </p:link>
-                <p:tooltip for="releaseCandiate" value="Release Candidate! Don't use this version in production!" position="bottom" />
-              </li>
-            </h:outputText>
-                                    
-            <h:outputText rendered="#{ivyServerInfoBean.demo}">
-              <li class="topbar-item">
-                <p:link id="demoMode" href="#{ivyServerInfoBean.engineCockpitUrl}/faces/setup-intro.xhtml">
-                  <i class="topbar-icon si si-lg si si-startup-launch animated swing"></i>
-                </p:link>
-                <p:tooltip for="demoMode" value="Demo Mode! Use Setup Wizard or Migration Wizard to set up a productive Axon Ivy Engine." position="bottom" />
-              </li>
-            </h:outputText>
-
-            <h:outputText rendered="#{ivyServerInfoBean.neo}">
-              <li class="topbar-item">
-                <p:link id="neoLink" href="/neo">
-                  <i class="topbar-icon si si-hammer-wench animated swing"></i>
-                </p:link>
-                <p:tooltip for="neoLink" value="Neo" position="bottom" />
-              </li>
-             </h:outputText>
-
-            <li class="topbar-item">
-              <p:link id="cockpitLink" href="/system/engine-cockpit">
-                <i class="topbar-icon si si-cog animated swing"></i>
-              </p:link>
-              <p:tooltip for="cockpitLink" value="Engine Cockpit" position="bottom" />
-            </li>
-            
-            <li class="topbar-item">
-              <p:link id="docLink" href="#{ivyAdvisor.advisor.docBaseUrl}/">
-                <i class="topbar-icon si si-office-file-doc-1 animated swing"></i>
-              </p:link>
-              <p:tooltip for="docLink" value="Documentation" position="bottom" />
-            </li>
-
-            <h:outputText rendered="#{ivyServerInfoBean.hasLicenceMessages()}">
-              <li class="topbar-item">
-                <p:link id="licenceLink" href="/system/engine-cockpit">
-                  <i class="topbar-icon si si-lg si-messages-bubble-square-warning animated swing"></i>
-                </p:link>
-                <p:tooltip for="licenceLink" value="Licence messages" position="bottom" />
-              </li>
-            </h:outputText>
-
-            <h:outputText rendered="#{ivyServerInfoBean.newUpdateAvailable()}">
-              <li class="topbar-item">
-                <p:link id="versionLink" href="https://developer.axonivy.com/download">
-                  <i class="topbar-icon si si-lg si-advertising-megaphone-2 animated swing"></i>
-                </p:link>
-                <p:tooltip for="versionLink" value="New version available" position="bottom" />
-              </li>
-            </h:outputText>
-          </ul>
+          <div class="menu-wrapper">
+            <div class="layout-menu-container" style="justify-content: right;">
+              <h:form id="menuform">
+                <pm:menu widgetVar="sidebar_menu">
+                  <p:menuitem id="sr_apps" value="Applications" icon="si si-module" containerStyleClass="active-nav-page" />
+                  <p:menuitem id="sr_cockpit" value="Engine Cockpit" icon="si si-cog animated swing" url="/system/engine-cockpit" />
+                  <p:submenu  id="sr_setup" label="Setup Engine" icon="si si-lg si-startup-launch animated swing">
+                    <p:menuitem id="sr_setup_install" value="Install Axon Ivy Engine" icon="si si-tools-wench" url="setup.xhtml"/>
+                    <p:menuitem id="sr_setup_migrate" value="Migrate Axon Ivy Engine" icon="si si-navigation-right-circle" url="migrate.xhtml" />
+                  </p:submenu>
+                  <p:menuitem id="sr_doc" value="Documentation" icon="si si-office-file-doc-1 animated swing" url="#{ivyAdvisor.advisor.docBaseUrl}" />
+                </pm:menu>
+              </h:form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -97,31 +49,15 @@
       <div class="layout-content">
         <ui:insert name="content" />
       </div>
-
-      <div class="layout-footer">
-        <div class="flex justify-content-between align-items-center">
-          <div class="flex align-items-center">
-            <a href="developer.axonivy.com"> <h:graphicImage
-                name="logo_small" library="ivy-branding" alt="Logo"
-                style="width: 25px;" />
-            </a> <span class="ml-2"> <span>Powered by</span> <a
-              href="https://developer.axonivy.com/">#{ivyAdvisor.applicationName}</a>
-              <span>#{ivyAdvisor.buildVersion}</span>
-            </span>
-          </div>
-          <span> <h:outputText
-              value="#{ivyAdvisor.copyrightHtml}" escape="false" />
-          </span>
-        </div>
-      </div>
-
-      <div class="layout-main-mask"></div>
     </div>
   </div>
   
   <style>
     body {
-      height: 100%; 
+      height: 100%;
+    }
+    .active-nav-page {
+      background-color: var(--primary-lighter-color);
     }
     @media (min-width: 1025px) {
       .layout-footer > div,

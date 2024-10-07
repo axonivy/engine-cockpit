@@ -10,20 +10,14 @@ public class Application {
 
   private final IApplicationInternal app;
   private final String name;
-  private final String description;
 
   public Application(IApplication app) {
     this.app = (IApplicationInternal)app;
     this.name = app.getName();
-    this.description = "Axon Ivy Application '" + app.getName() + "'";
   }
 
   public String getName() {
     return name;
-  }
-
-  public String getDescription() {
-    return description;
   }
 
   public String getHomeUrl() {
@@ -37,8 +31,8 @@ public class Application {
   public boolean isDisabled() {
     try {
       return !app.hasAnyActiveAndReleasedPmv();
-    } catch (Exception e) {
-      LOGGER.error("There was an error while try to evaluate the state of the applicaiton '" + name + "'", e);
+    } catch (Exception ex) {
+      LOGGER.error("Error while try to evaluate the state of the applicatioon '" + name + "'", ex);
       return true;
     }
   }

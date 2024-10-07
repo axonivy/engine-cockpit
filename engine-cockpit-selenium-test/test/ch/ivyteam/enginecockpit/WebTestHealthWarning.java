@@ -15,7 +15,7 @@ import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 
 @IvyWebTest
-public class WebTestHealthWarning {
+class WebTestHealthWarning {
 
   @BeforeEach
   void beforeEach() {
@@ -41,7 +41,7 @@ public class WebTestHealthWarning {
     var message = health.$(By.partialLinkText("Demo Mode"));
     message.$("i").shouldHave(cssClass("health-low"));
     message.click();
-    assertCurrentUrlContains("setup-intro.xhtml");
+    assertCurrentUrlContains("setup.xhtml");
   }
 
   @Test
@@ -52,5 +52,4 @@ public class WebTestHealthWarning {
     message.click();
     assertCurrentUrlContains("monitor-health.xhtml");
   }
-
 }

@@ -7,7 +7,7 @@
   "elements" : [ {
       "id" : "f0",
       "type" : "RequestStart",
-      "name" : "cockpit.ivp",
+      "name" : "cockpit",
       "config" : {
         "signature" : "cockpit",
         "request" : {
@@ -18,7 +18,7 @@
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 },
-        "labelOffset" : { "x" : 16, "y" : 37 }
+        "labelOffset" : { "x" : 17, "y" : 33 }
       },
       "connect" : [
         { "id" : "f1", "to" : "f3" }
@@ -35,7 +35,7 @@
     }, {
       "id" : "f2",
       "type" : "RequestStart",
-      "name" : "setup.ivp",
+      "name" : "setup",
       "config" : {
         "signature" : "setup",
         "request" : {
@@ -46,7 +46,7 @@
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 160 },
-        "labelOffset" : { "x" : 7, "y" : 43 }
+        "labelOffset" : { "x" : 17, "y" : 33 }
       },
       "connect" : [
         { "id" : "f5", "to" : "f4" }
@@ -55,10 +55,68 @@
       "id" : "f4",
       "type" : "TaskEndPage",
       "config" : {
-        "page" : "view/setup-intro.xhtml"
+        "page" : "view/setup.xhtml"
       },
       "visual" : {
         "at" : { "x" : 352, "y" : 160 }
+      }
+    }, {
+      "id" : "f6",
+      "type" : "RequestStart",
+      "name" : "migrate",
+      "config" : {
+        "signature" : "migrate",
+        "request" : {
+          "customFields" : [
+            { "name" : "embedInFrame", "value" : "false" }
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 256 },
+        "labelOffset" : { "x" : 17, "y" : 33 }
+      },
+      "connect" : [
+        { "id" : "f8", "to" : "f7" }
+      ]
+    }, {
+      "id" : "f7",
+      "type" : "TaskEndPage",
+      "config" : {
+        "page" : "view/migrate.xhtml"
+      },
+      "visual" : {
+        "at" : { "x" : 352, "y" : 256 },
+        "labelOffset" : { "x" : 13, "y" : 33 }
+      }
+    }, {
+      "id" : "f9",
+      "type" : "RequestStart",
+      "name" : "info",
+      "config" : {
+        "signature" : "info",
+        "request" : {
+          "customFields" : [
+            { "name" : "embedInFrame", "value" : "false" }
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 344 },
+        "labelOffset" : { "x" : 17, "y" : 33 }
+      },
+      "connect" : [
+        { "id" : "f11", "to" : "f10" }
+      ]
+    }, {
+      "id" : "f10",
+      "type" : "TaskEndPage",
+      "config" : {
+        "page" : "view/info.xhtml"
+      },
+      "visual" : {
+        "at" : { "x" : 352, "y" : 344 },
+        "labelOffset" : { "x" : 13, "y" : 33 }
       }
     } ]
 }

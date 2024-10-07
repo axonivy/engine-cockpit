@@ -69,8 +69,6 @@ class WebDocuScreenshot {
 
   @Test
   void screenshotSetup() {
-    login("setup-intro.xhtml");
-    takeScreenshot("setup-intro", new Dimension(SCREENSHOT_SETUP_WIDTH, 600));
     login("migrate.xhtml");
     takeScreenshot("migrate", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
     WebTestWizard.navigateToStep("Licence");
