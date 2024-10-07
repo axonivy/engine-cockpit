@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.setup;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
-import static com.codeborne.selenide.Condition.attributeMatching;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exist;
@@ -31,7 +30,6 @@ public class WebTestWizard {
   @Test
   void bannerLink() {
     $("#bannerLogo").click();
-    $("#demoMode").shouldHave(attributeMatching("href", ".*/system/engine-cockpit/faces/setup-intro.xhtml"));
     $(ACTIVE_WIZARD_STEP).shouldNot(exist);
     $("#content > h1").shouldNot(exist);
     assertCurrentUrlContains("/system/");

@@ -75,7 +75,7 @@ public class WebTestHealth {
   @Test
   void action_internal() {
     messagesTable.rows().find(text("Demo Mode")).find("button").click();
-    webdriver().shouldHave(urlContaining("setup-intro.xhtml"));
+    webdriver().shouldHave(urlContaining("setup.xhtml"));
   }
 
   @Test

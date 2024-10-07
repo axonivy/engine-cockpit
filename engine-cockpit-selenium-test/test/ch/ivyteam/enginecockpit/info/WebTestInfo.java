@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.setup;
+package ch.ivyteam.enginecockpit.info;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.text;
@@ -14,40 +14,30 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 
 @IvyWebTest
-public class WebTestSetupIntro {
+class WebTestInfo {
 
   @BeforeEach
   void beforeEach() {
-    login("setup-intro.xhtml");
+    login("info.xhtml");
   }
 
   @Test
   void navigateToSetup_menu() {
-    $(By.id("menuform:setup")).shouldBe(visible).click();
-    assertSetupPageIsVisible();
-  }
-
-  @Test
-  void navigateToSetup_card() {
-    $(By.id("setup")).shouldBe(visible).click();
+    $(By.id("menuform:sr_setup")).shouldBe(visible).click();
+    $(By.id("menuform:sr_setup_install")).shouldBe(visible).click();
     assertSetupPageIsVisible();
   }
 
   @Test
   void navigateToMigration_menu() {
-    $(By.id("menuform:migrate")).shouldBe(visible).click();
-    assertMigratePageIsVisible();
-  }
-
-  @Test
-  void navigateToMigration_card() {
-    $(By.id("migrate")).shouldBe(visible).click();
+    $(By.id("menuform:sr_setup")).shouldBe(visible).click();
+    $(By.id("menuform:sr_setup_migrate")).shouldBe(visible).click();
     assertMigratePageIsVisible();
   }
 
   @Test
   void navigateToCockpit_menu() {
-    $(By.id("menuform:cockpit")).shouldBe(visible).click();
+    $(By.id("menuform:sr_cockpit")).shouldBe(visible).click();
     EngineCockpitUtil.assertCurrentUrlContains("dashboard.xhtml");
     $(By.id("menuform:sr_dashboard")).shouldBe(visible);
   }
