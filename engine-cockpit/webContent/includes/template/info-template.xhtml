@@ -52,17 +52,26 @@
       </div>
     </div>
   </div>
-  
-  <p:confirmDialog header="Shutdown" widgetVar="shutdownDialog" rendered="#{engineInfo.canShutdown()}" message="Do you really want to shutdown the Axon Ivy Engine?">
-    <h:form>
-        <p:commandButton value="Cancel" onclick="PF('shutdownDialog').hide();" type="button"
-            styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-        
-        <p:commandButton value="Shutdown" immediate="true"
-            action="#{engineInfo.shutdown()}" styleClass="modal-input-button" icon="si si-power-button" />
-      </h:form>
-  </p:confirmDialog>
-  
+
+  <p:dialog header="Shutdown" widgetVar="shutdownDialog"
+    id="shutdownDialog" width="450px" height="10px"
+    rendered="#{engineInfo.canShutdown()}">
+    <p:outputPanel id="shutdownDialogMessage">#{engineInfo.shutdownMessage}</p:outputPanel>
+    <f:facet name="footer">
+      <p:commandButton value="Cancel" type="button"
+        id="shutdownDialogCancel" widgetVar="shutdownDialogCancel"
+        onclick="PF('shutdownDialog').hide();"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button"
+        disabled="#{engineInfo.shutdownButtonsDisabled}" />
+      <p:commandButton value="Shutdown" immediate="true"
+        update="shutdownDialogMessage shutdownDialogCancel shutdownDialogShutdown"
+        id="shutdownDialogShutdown"
+        disabled="#{engineInfo.shutdownButtonsDisabled}"
+        actionListener="#{engineInfo.shutdown()}"
+        styleClass="modal-input-button" icon="si si-power-button" />
+    </f:facet>
+  </p:dialog>
+
   <style>
     body {
       height: 100%;
