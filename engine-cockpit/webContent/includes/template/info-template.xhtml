@@ -53,15 +53,15 @@
     </div>
   </div>
   
-  <p:dialog header="Shutdown" widgetVar="shutdownDialog" rendered="#{engineInfo.canShutdown()}">
+  <p:confirmDialog header="Shutdown" widgetVar="shutdownDialog" rendered="#{engineInfo.canShutdown()}" message="Do you really want to shutdown the Axon Ivy Engine?">
     <h:form>
-        <p>Do you really want to shutdown the Axon Ivy Engine?</p>
-        <div>
-          <p:commandButton value="Shutdown" action="#{engineInfo.shutdown()}" />
-          <p:commandButton value="Close" oncomplete="PF('shutdownDialog').hide();" styleClass="ui-button-flat mr-2" />
-        </div>
+        <p:commandButton value="Cancel" onclick="PF('shutdownDialog').hide();" type="button"
+            styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+        
+        <p:commandButton value="Shutdown" immediate="true"
+            action="#{engineInfo.shutdown()}" styleClass="modal-input-button" icon="si si-power-button" />
       </h:form>
-  </p:dialog>
+  </p:confirmDialog>
   
   <style>
     body {
