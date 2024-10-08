@@ -7,6 +7,10 @@ import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
+import org.primefaces.PrimeFaces;
 
 import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.application.IApplication;
@@ -28,6 +32,31 @@ public class EngineInfo {
             .map(Application::new)
             .filter(this::isNotNeoApp)
             .collect(Collectors.toList());
+  }
+
+  public boolean canShutdown() {
+    if (!isDemo()) {
+      return false;
+    }
+    var addr = getRequest().getRemoteAddr();
+    if ("127.0.0.1".equals(addr) || "0:0:0:0:0:0:0:1".equals(addr)) {
+      return true;
+    }
+    return false;
+  }
+
+  public void openShutdownDialog() {
+    PrimeFaces.current().executeScript("PF('shutdownDialog').show()");
+  }
+
+  private HttpServletRequest getRequest() {
+    return (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+  }
+
+  public void shutdown() {
+    if (canShutdown()) {
+      System.exit(0);
+    }
   }
 
   private boolean isNotNeoApp(Application app) {

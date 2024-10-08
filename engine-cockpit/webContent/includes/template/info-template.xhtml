@@ -37,6 +37,7 @@
                     <p:menuitem id="sr_setup_migrate" value="Migrate Axon Ivy Engine" icon="si si-navigation-right-circle" url="migrate.xhtml" />
                   </p:submenu>
                   <p:menuitem id="sr_doc" value="Documentation" icon="si si-office-file-doc-1 animated swing" url="#{ivyAdvisor.advisor.docBaseUrl}" />
+                  <p:menuitem id="sr_shutdown" title="Shutdown Axon Ivy Engine" icon="si si-power-button animated swing" rendered="#{engineInfo.canShutdown()}" actionListener="#{engineInfo.openShutdownDialog()}" />
                 </pm:menu>
               </h:form>
             </div>
@@ -51,6 +52,16 @@
       </div>
     </div>
   </div>
+  
+  <p:confirmDialog header="Shutdown" widgetVar="shutdownDialog" rendered="#{engineInfo.canShutdown()}" message="Do you really want to shutdown the Axon Ivy Engine?">
+    <h:form>
+        <p:commandButton value="Cancel" onclick="PF('shutdownDialog').hide();" type="button"
+            styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+        
+        <p:commandButton value="Shutdown" immediate="true"
+            action="#{engineInfo.shutdown()}" styleClass="modal-input-button" icon="si si-power-button" />
+      </h:form>
+  </p:confirmDialog>
   
   <style>
     body {
