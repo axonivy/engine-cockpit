@@ -25,6 +25,7 @@ import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 public class EngineInfo {
 
   private final List<Application> applications;
+  private boolean isShutingDown;
 
   public EngineInfo() {
     applications = IApplicationRepository.instance().all().stream()
@@ -53,10 +54,22 @@ public class EngineInfo {
     return (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
   }
 
+  public String getShutdownMessage() {
+    if (isShutingDown) {
+      return "The Axon Ivy Engine is shutting down. You can close the window.";
+    }
+    return "Do you really want to shutdown the Axon Ivy Engine?";
+  }
+
   public void shutdown() {
     if (canShutdown()) {
-      System.exit(0);
+      isShutingDown = true;
+      new Thread(() -> System.exit(0)).start();
     }
+  }
+
+  public boolean isShutdownButtonsDisabled() {
+    return isShutingDown;
   }
 
   private boolean isNotNeoApp(Application app) {
