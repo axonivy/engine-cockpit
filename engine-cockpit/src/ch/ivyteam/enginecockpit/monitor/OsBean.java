@@ -22,7 +22,7 @@ public class OsBean {
   private Monitor cpuMonitor = Monitor.build().name("CPU Load").icon("computer-chip").yAxisLabel("Load")
           .toMonitor();
   private Monitor networkMonitor = Monitor.build().name("Network").icon("network-signal")
-          .yAxisLabel("Send / Resv").toMonitor();
+          .yAxisLabel("Send / Recv").toMonitor();
   private Monitor ioMonitor = Monitor.build().name("IO").icon("cd").yAxisLabel("Read / Write").toMonitor();
 
   private long[] oldTicks;
