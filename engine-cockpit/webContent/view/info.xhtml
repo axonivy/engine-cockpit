@@ -119,9 +119,7 @@
                   <i class="si si-module icon-app" />
                 </div>
                 <div class="flex flex-1 justify-content-end">
-                  <p:link href="#{app.devWorkflowUrl}" rendered="#{!app.disabled}">
-                    <i class="si si-cog-play icon-dev" />
-                  </p:link>
+                  <p:linkButton href="#{app.devWorkflowUrl}" rendered="#{!app.disabled}" icon="si si-cog-play" styleClass="col-fixed ml-auto rounded-button ui-button-outlined" />
                 </div>
               </div>
               <div>
@@ -168,10 +166,6 @@
           .icon-app {
             font-size: 42px;
             color: var(--ivy-primary-color);
-          }
-          
-          .icon-dev {
-            font-size: 18px;
           }
           
           .layout-content .message-block {
