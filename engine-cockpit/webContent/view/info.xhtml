@@ -70,7 +70,7 @@
                     needs.</p>
                 </div>
                 <div class="card-item-open">
-                  <p:link href="#{engineInfo.demoPortalUrl}" styleClass="card-item-open-link">Open ></p:link>
+                  <p:link href="#{engineInfo.demoPortalUrl}" styleClass="card-item-open-link">Open 〉</p:link>
                 </div>
               </div>
             </div>
@@ -97,7 +97,7 @@
                     processes tailored to their specific needs</p>
                 </div>
                 <div class="card-item-open">
-                  <p:link href="/neo" styleClass="card-item-open-link">Open ></p:link>
+                  <p:link href="/neo" styleClass="card-item-open-link">Open 〉</p:link>
                 </div>
               </div>
             </div>
@@ -106,8 +106,10 @@
       </h:outputText>
 
       <h:outputText rendered="#{engineInfo.showAppHeader}">
-        <h3>Applications</h3>
-        <hr />
+        <div class="col" style="margin-top:10px;">
+          <h3>Applications</h3>
+          <hr />
+        </div>
       </h:outputText>
 
       <div class="flex flex-wrap align-items-stretch">
@@ -189,8 +191,9 @@
             text-align: right;
           }
           
-          .card-item-open-link {
-            font-size: 18px;
+          .card-item-open .card-item-open-link {
+            font-size: 20px;
+            font-weight: 900;
           }
           
           .container-icon {
