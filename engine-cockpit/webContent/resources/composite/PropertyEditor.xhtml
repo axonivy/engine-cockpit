@@ -15,9 +15,9 @@
     update="propertyModal" rendered="#{!cc.attrs.isNewProperty}"
     styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
     oncomplete="PF('propertyModal').show();" process="@this" />
-  <p:commandButton id="deletePropertyBtn" disabled="#{cc.attrs.bean.isDefault(property)}"
+  <p:commandButton id="deletePropertyBtn" disabled="#{property.default}"
     actionListener="#{cc.attrs.bean.removeProperty(property.name)}"
-    update="#{cc.attrs.formName}" icon="si si-bin-1" title="Delete"
+    update="@form" icon="si si-bin-1" title="Delete"
     rendered="#{!cc.attrs.isNewProperty}" process="@this"
     styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
   <p:commandButton id="newServicePropertyBtn" 

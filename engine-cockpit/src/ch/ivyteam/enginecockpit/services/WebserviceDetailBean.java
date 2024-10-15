@@ -257,10 +257,6 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     return activeProperty;
   }
 
-  public boolean isDefault(Property property) {
-    return property.isDefault();
-  }
-
   @Override
   public void setProperty(String key) {
     this.activeProperty = findProperty(key);
