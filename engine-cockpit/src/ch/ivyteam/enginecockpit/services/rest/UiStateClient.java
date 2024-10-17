@@ -17,20 +17,20 @@ public class UiStateClient {
   @SuppressWarnings("restriction")
   public UiStateClient setUiState(RestClientDto dto) {
     builder.uri(dto.getConnectionUrl())
-      .property(ch.ivyteam.ivy.rest.client.config.RestClientProperty.Authentication.USERNAME, dto.getUsername());
+      .property(ch.ivyteam.ivy.rest.client.config.RestClientProperty.Authentication.USERNAME, dto.getUsername(), false);
     if (dto.passwordChanged()) {
-      builder.property(ch.ivyteam.ivy.rest.client.config.RestClientProperty.Authentication.PASSWORD, dto.getPassword());
+      builder.property(ch.ivyteam.ivy.rest.client.config.RestClientProperty.Authentication.PASSWORD, dto.getPassword(), false);
     }
     return this;
   }
 
   public UiStateClient setTimeout(TimeUnit unit, int amount) {
-    builder.property("jersey.config.client.connectTimeout", String.valueOf(unit.toMillis(amount)));
+    builder.property("jersey.config.client.connectTimeout", String.valueOf(unit.toMillis(amount)), false);
     return this;
   }
 
   public UiStateClient setReadTimeout(TimeUnit unit, int amount) {
-    builder.property("jersey.config.client.readTimeout", String.valueOf(unit.toMillis(amount)));
+    builder.property("jersey.config.client.readTimeout", String.valueOf(unit.toMillis(amount)), false);
     return this;
   }
 

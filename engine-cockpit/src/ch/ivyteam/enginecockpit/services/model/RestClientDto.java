@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.services.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -32,14 +33,20 @@ public class RestClientDto implements IService {
     description = client.description();
     uniqueId = client.uniqueId();
     var metas = client.metas();
-    properties = client.properties().entrySet().stream()
-            .map(p -> new Property(p.getKey(), p.getValue(), metas.get(p.getKey())))
+    properties = client.properties().stream()
+            .map(p -> new Property(p.key(), p.value(), metas.get(p.key())))
             .collect(Collectors.toList());
-    password = client.properties().getOrDefault("password", "");
-    username = client.properties().getOrDefault("username", "");
+    password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password"))
+        .map(p -> p.getValue()).findFirst().orElse("");
+    username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username"))
+        .map(p -> p.getValue()).findFirst().orElse("");
     features = client.features();
     passwordChanged = false;
-    connectionProps = ClientProperties.clientProps(client.properties());
+    var propMap = new HashMap<String,String>();
+    for (ch.ivyteam.ivy.rest.client.RestClientProperty prop : client.properties()) {
+        propMap.put(prop.key(), prop.value());
+    }
+    connectionProps = ClientProperties.clientProps(propMap);
   }
 
   public UUID getUniqueId() {

@@ -107,7 +107,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   public void saveProperty(boolean isNewProperty) {
     if (!isNewProperty || !isExistingProperty()) {
-      saveRestClient(restBuilder().property(getProperty().getName(), getProperty().getValue()));
+      saveRestClient(restBuilder().property(getProperty().getName(), getProperty().getValue(), false));
     }
     loadRestClient();
   }
