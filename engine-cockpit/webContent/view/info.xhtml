@@ -22,19 +22,19 @@
                 </div>
                 <div class="card-item-text">
                   <p>
-                    <b>#{engineInfo.maintenanceReason}</b> Therefore the 
+                    <b>#{engineInfo.maintenanceReason}</b>
+                  </p>
+                  <p>
+                    Therefore the 
                     Axon Ivy Engine is currently operating in
                     maintenance mode.
-                  </p>
-                
-                  <p>
                     If your setup is broken for example because the
                     Axon Ivy Engine can not connect to the system database
                     or the licence has been expired, then go 
-                    <a href="setup.xhtml">setup wizard</a> to fix it.
+                    <b><a href="setup.xhtml">Setup Wizard</a></b> to fix it.
                     If the Axon Ivy Engine
                     has undergone an update, it is essential to initiate
-                    the <a href="migrate.xhtml">migration wizard</a> to ensure that the existing
+                    the <b><a href="migrate.xhtml">Migration Wizard</a></b> to ensure that the existing
                     instance is fully operational. This process is
                     crucial for maintaining the functionality and
                     integrity of the system.
@@ -47,7 +47,7 @@
       </h:outputText>
 
       <h:outputText rendered="#{engineInfo.demo or engineInfo.neo}">
-        <div class="flex flex-wrap align-items-stretch">
+        <div class="flex flex-wrap align-items-stretch" style="height:300px;">
           <h:outputText rendered="#{engineInfo.demo}">
             <div class="col">
               <div class="card card-item card-item-big">
@@ -79,7 +79,7 @@
           <h:outputText rendered="#{engineInfo.neo}">
             <div class="col">
               <div class="card card-item card-item-big">
-                <div>
+                <div style="">
                   <i class="si si-share container-icon-big" />
                 </div>
                 <div>
@@ -139,7 +139,7 @@
 
         <h:panelGroup rendered="#{engineInfo.showNoApplications}">
           <div class="col">
-            <div class="card card-item card-item-app">
+            <div class="card card-item card-center card-item-app">
               <div style="margin-bottom:30px;display:flex;justify-content:center;">
                 <div style=" position: absolute;left: 48%;">
                   <i class="si si-tools-wench container-icon-big" />
@@ -185,10 +185,18 @@
 
           .card-item-text {
             margin-bottom: 20px;
+            flex-grow: 1;
           }
           
           .card-item-open {
             text-align: right;
+            align-self: flex-end;
+          }
+          
+          .card-item-big {
+            flex-direction:column;
+            display:flex;
+            height:100%;
           }
           
           .card-item-open .card-item-open-link {
