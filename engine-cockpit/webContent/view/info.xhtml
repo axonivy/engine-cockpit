@@ -114,8 +114,9 @@
 
       <div class="flex flex-wrap align-items-stretch">
         <ui:repeat value="#{engineInfo.applications}" var="app">
-          <div class="col">
-            <div class="card card-center card-item">
+          <div class="app-item">
+            <div class="card card-center card-item card-item-app flex justify-content-center">
+
               <div class="container-icon flex justify-content-center">
                 <div class="flex-1">
                   <i class="si si-module icon-app" />
@@ -124,10 +125,12 @@
                   <p:linkButton href="#{app.devWorkflowUrl}" rendered="#{!app.disabled}" icon="si si-cog-play" styleClass="col-fixed ml-auto rounded-button ui-button-outlined" />
                 </div>
               </div>
-              <div>
+              
+              <div class="card-item-app-name flex-1">
                 <h5>#{app.name}</h5>
               </div>
-              <div class="mt-5">
+              
+              <div>
                 <h:panelGroup id="action">
                   <p:linkButton id="button" href="#{app.homeUrl}" value="Open" style="font-weight:600;" disabled="#{app.disabled}" />
                   <p:tooltip for="action" rendered="#{app.disabled}" value="This app has no active projects." position="bottom" />
@@ -156,7 +159,7 @@
               <div>
                 <p>Install your application in the Engine Cockpit.</p>
               </div>
-              <div class="mt-5">
+              <div class="mt-5 flex-1">
                 <p:linkButton id="noAppCockpit" href="#{engineInfo.engineCockpitUrl}/faces/applications.xhtml" value="Engine Cockpit" icon="si si-cog" />
               </div>
             </div>
@@ -197,6 +200,18 @@
             flex-direction:column;
             display:flex;
             height:100%;
+          }
+          
+          .card-item-app {
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          }
+          
+          .app-item {
+             flex: 1 0 21%;
+             margin: 5px;
           }
           
           .card-item-open .card-item-open-link {
