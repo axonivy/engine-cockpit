@@ -82,18 +82,18 @@ class WebTestDatabaseDetail {
     checkConfiguration("jdbc:mysql://localhost:3306/test-db", "com.mysql.cj.jdbc.Driver", "user", "5");
   }
   
-  //@Test
+  @Test
   void addProperty() {
     var editor = new PropertyEditor("databasePropertiesForm:databasePropertiesTable:newPropertyEditor:");
     editor.addProperty("testProperty", "testValue");
     $(By.id("databasePropertiesForm:databasePropertiesTable")).shouldHave(text("testProperty"));
     $(By.id("databasePropertiesForm:databasePropertiesTable")).shouldHave(text("testValue"));
-    $(By.id("databasePropertiesForm:databasePropertiesTable:0:editPropertyEditor:deletePropertyBtn")).click();
+    $(By.id("databasePropertiesForm:databasePropertiesTable:1:editPropertyEditor:deletePropertyBtn")).click();
   }
   
-  //@Test
+  @Test
   void editProperty() {
-    var editor = new PropertyEditor("databasePropertiesForm:databasePropertiesTable:1:editPropertyEditor:");
+    var editor = new PropertyEditor("databasePropertiesForm:databasePropertiesTable:0:editPropertyEditor:");
     editor.editProperty("editValue");
     $(By.id("databasePropertiesForm:databasePropertiesTable")).shouldHave(text("editValue"));
     editor.editProperty("testvalue");

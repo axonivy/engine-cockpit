@@ -107,7 +107,7 @@ class WebTestRestClientDetail {
     checkConfiguration("http://test-webservices.ivyteam.io:8090/api/v3", "admin");
   }
 
-  //@Test
+  @Test
   void properties() {
     var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
     table.row(0).shouldHave(text("PATH.host"), text("test-webservices.ivyteam.io"));
@@ -118,7 +118,7 @@ class WebTestRestClientDetail {
     table.row(5).shouldHave(text("username"), text("admin"));
   }
   
-  //@Test
+  @Test
   void addProperty() {
     var editor = new PropertyEditor("restClientAdditionalConfigForm:restClientPropertiesTable:newPropertyEditor:");
     editor.addProperty("testProperty", "testValue");
@@ -127,7 +127,7 @@ class WebTestRestClientDetail {
     $(By.id("restClientAdditionalConfigForm:restClientPropertiesTable:2:editPropertyEditor:deletePropertyBtn")).click();
   }
   
-  //@Test
+  @Test
   void editProperty() {
     var editor = new PropertyEditor("restClientAdditionalConfigForm:restClientPropertiesTable:5:editPropertyEditor:");
     editor.editProperty("editValue");

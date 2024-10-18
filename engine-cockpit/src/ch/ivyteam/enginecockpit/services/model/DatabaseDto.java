@@ -29,7 +29,7 @@ public class DatabaseDto implements IService {
     password = db.password();
     maxConnections = db.maxConnections();
     properties = db.properties().stream()
-          .map(entry -> new Property(entry.key(), entry.value()))
+          .map(entry -> new Property(entry.key(), entry.value(), entry.isDefault()))
           .collect(Collectors.toList());
     passwordChanged = false;
   }
