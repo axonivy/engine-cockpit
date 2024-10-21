@@ -22,7 +22,7 @@ class TestUiStateClient {
 
   @Test
   void modifyTimeout_keepExistingProperty() {
-    var restClient = RestClient.create("").property("User", "Fritz", false).toRestClient();
+    var restClient = RestClient.create("").property("User", "Fritz").toRestClient();
     var client = new UiStateClient(restClient);
     client.setTimeout(TimeUnit.SECONDS, 2);
     var uiStateClient = client.toClient();
@@ -32,7 +32,7 @@ class TestUiStateClient {
 
   @Test
   void modifyTimeout_existingTimeout() {
-    var restClient = RestClient.create("").property("jersey.config.client.connectTimeout", "3000", false).toRestClient();
+    var restClient = RestClient.create("").property("jersey.config.client.connectTimeout", "3000").toRestClient();
     var client = new UiStateClient(restClient);
     client.setTimeout(TimeUnit.SECONDS, 2);
     var uiStateClient = client.toClient();
@@ -52,7 +52,7 @@ class TestUiStateClient {
 
   @Test
   void modifyReadTimeout_keepExistingProperty() {
-    var restClient = RestClient.create("").property("User", "Fritz", false).toRestClient();
+    var restClient = RestClient.create("").property("User", "Fritz").toRestClient();
     var client = new UiStateClient(restClient);
     client.setReadTimeout(TimeUnit.SECONDS, 2);
     var uiStateClient = client.toClient();
@@ -62,7 +62,7 @@ class TestUiStateClient {
 
   @Test
   void modifyReadTimeout_existingTimeout() {
-    var restClient = RestClient.create("").property("jersey.config.client.readTimeout", "3000", false).toRestClient();
+    var restClient = RestClient.create("").property("jersey.config.client.readTimeout", "3000").toRestClient();
     var client = new UiStateClient(restClient);
     client.setReadTimeout(TimeUnit.SECONDS, 2);
     var uiStateClient = client.toClient();
