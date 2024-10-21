@@ -170,7 +170,7 @@ class WebTestWebserviceDetail {
     checkEndPointDoesNotContain("default");
   }
 
-  //@Test
+  @Test
   void properties() {
     var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
     table.row(0).shouldHave(text("password"), text("*****"));
@@ -178,16 +178,16 @@ class WebTestWebserviceDetail {
     table.row(2).shouldHave(text("username"), text("admin"));
   }
 
-  //@Test
+  @Test
   void addProperty() {
     var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable:newPropertyEditor:");
     editor.addProperty("testProperty", "testValue");
     var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
-    table.row(2).shouldHave(text("testProperty"), text("testValue"));
-    $(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyEditor:deletePropertyBtn")).click();
+    table.row(1).shouldHave(text("testProperty"), text("testValue"));
+    $(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable:1:editPropertyEditor:deletePropertyBtn")).click();
   }
 
-  //@Test
+  @Test
   void editProperty() {
     var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyEditor:");
     editor.editProperty("editValue");

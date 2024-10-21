@@ -11,18 +11,27 @@ public class Property {
   private String name;
   private String value;
   private boolean sensitive;
+  private boolean isDefault;
 
   public Property() {}
 
   public Property(String name, String value) {
-    this(name, value, null);
+    this(name, value, null, false);
   }
-
-  public Property(String name, String value, Meta meta) {
+  
+  public Property(String name, String value, boolean isDefault) {
     this.name = name;
     this.value = value;
+    this.isDefault = isDefault;
+  }
+
+  public Property(String name, String value, Meta meta, boolean isDefault) {
+    this.name = name;
+    this.value = value;
+    this.isDefault = isDefault;
     this.sensitive = meta != null ? meta.format() == ConfigValueFormat.PASSWORD : false;
   }
+
 
   public String getName() {
     return name;
@@ -46,6 +55,10 @@ public class Property {
 
   public void setSensitive(boolean sensitive) {
     this.sensitive = sensitive;
+  }
+  
+  public boolean isDefault() {
+    return isDefault;
   }
 
   @Override

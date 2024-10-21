@@ -34,7 +34,7 @@ public class RestClientDto implements IService {
     uniqueId = client.uniqueId();
     var metas = client.metas();
     properties = client.properties().stream()
-            .map(p -> new Property(p.key(), p.value(), metas.get(p.key())))
+            .map(p -> new Property(p.key(), p.value(), metas.get(p.key()), p.isDefault()))
             .collect(Collectors.toList());
     password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password"))
         .map(p -> p.getValue()).findFirst().orElse("");
