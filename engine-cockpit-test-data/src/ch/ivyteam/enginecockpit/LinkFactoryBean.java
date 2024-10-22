@@ -11,6 +11,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.engine.cockpit.CockpitLinkFactory;
 import ch.ivyteam.ivy.model.value.WebLink;
 import javassist.Modifier;
@@ -29,6 +30,8 @@ public class LinkFactoryBean {
             .filter(m -> m.getReturnType().equals(WebLink.class))
             .map(this::toLink)
             .toList());
+    links.add(externalDatabase());
+    links.add(restService());
     return links;
   }
 
@@ -49,11 +52,24 @@ public class LinkFactoryBean {
       path = "/system/engine-cockpit/faces/" + link.getRelative();
     } else {
       path = appContext + externalContext.getRequestServletPath() + externalContext.getRequestPathInfo();
-      path = path.replace("engine-cockpit-test-data", "engine-cockpit").replace("link-factory.xhtml",
-              link.getRelative());
+      path = path.replace("engine-cockpit-test-data", "engine-cockpit").replace("link-factory.xhtml", link.getRelative());
     }
     link = WebLink.of(path);
     return new Link(title, link.getAbsolute());
+  }
+  
+  private Link externalDatabase() {
+    return toLink("External Database realDb", CockpitLinkFactory.externalDatabase(applicationName(), "realdb"));
+  }
+
+  private Link restService() {
+    return toLink("Rest Client test-rest", CockpitLinkFactory.restClient(applicationName(), "test-rest"));
+  }
+
+  private String applicationName() {
+    return IApplicationRepository.instance().designer()
+        .map(IApplication::getName)
+        .orElse("test");
   }
 
   public static class Link {
