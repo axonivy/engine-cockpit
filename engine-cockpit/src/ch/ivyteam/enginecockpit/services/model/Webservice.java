@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import ch.ivyteam.enginecockpit.commons.Feature;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient;
 
@@ -19,7 +20,7 @@ public class Webservice implements IService {
   private String genId;
   private String description;
   private String wsdlUrl;
-  private List<String> features;
+  private List<Feature> features;
   private List<Property> properties;
   private String username;
   private String password;
@@ -40,7 +41,9 @@ public class Webservice implements IService {
     username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username"))
             .map(p -> p.getValue()).findFirst().orElse("");
     passwordChanged = false;
-    features = webservice.features();
+    features = webservice.features().stream()
+           .map(f -> new Feature(f.clazz(), f.isDefault()))
+           .collect(Collectors.toList());
     genId = webservice.id();
 
     webservice.portTypes()
@@ -102,7 +105,7 @@ public class Webservice implements IService {
     return passwordChanged;
   }
 
-  public List<String> getFeatures() {
+  public List<Feature> getFeatures() {
     return features;
   }
 

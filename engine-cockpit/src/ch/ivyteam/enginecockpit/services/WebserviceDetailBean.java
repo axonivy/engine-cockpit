@@ -16,6 +16,7 @@ import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import ch.ivyteam.enginecockpit.commons.Feature;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.WebServiceMonitor;
@@ -51,7 +52,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private WebServiceMonitor liveStats;
   private WebServiceClients webServiceClients;
   private Property activeProperty;
-  private String activeFeature;
+  private Feature activeFeature;
 
   public WebserviceDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -135,7 +136,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     var valuesMap = new HashMap<String, String>();
     valuesMap.put("name", webservice.getName());
     valuesMap.put("endpoints", parseEndpointsToYaml(webservice.getPortTypeMap()));
-    valuesMap.put("features", parseFeaturesToYaml(webservice.getFeatures()));
+    valuesMap.put("features", parseFeaturesToYaml(getFeatures()));
     valuesMap.put("properties", parsePropertiesToYaml(getProperties()));
     var templateString = readTemplateString("webservice.yaml");
     var strSubstitutor = new StrSubstitutor(valuesMap);
@@ -266,18 +267,18 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
 
   @Override
-  public List<String> getFeatures() {
+  public List<Feature> getFeatures() {
     return webservice.getFeatures();
   }
 
   @Override
-  public String getFeature() {
+  public Feature getFeature() {
     return activeFeature;
   }
 
   @Override
-  public void setFeature(String key) {
-    this.activeFeature = key;
+  public void setFeature(String clazz) {
+    this.activeFeature = findFeature(clazz);
   }
 
   public void removeFeature(String name) {
@@ -286,9 +287,9 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
 
   @Override
-  public void saveFeature() {
-    if (!isExistingFeature()) {
-      saveWebService(wsBuilder().feature(getFeature()));
+  public void saveFeature(boolean isNewFeature) {
+    if (!isNewFeature || !isExistingFeature()) {
+      saveWebService(wsBuilder().feature(getFeature().getClazz()));
     }
     loadWebService();
   }

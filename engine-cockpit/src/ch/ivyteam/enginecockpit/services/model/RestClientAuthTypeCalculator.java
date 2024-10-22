@@ -5,17 +5,19 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.commons.Feature;
+
 public class RestClientAuthTypeCalculator {
 
-  private final List<String> features;
+  private final List<Feature> features;
 
-  public RestClientAuthTypeCalculator(List<String> features) {
+  public RestClientAuthTypeCalculator(List<Feature> features) {
     this.features = features;
   }
 
   public String get() {
-    return features.stream().filter(f -> StringUtils.contains(f, "authentication"))
-            .map(f -> StringUtils.substringBetween(f, "authentication.", "AuthenticationFeature"))
+    return features.stream().filter(f -> StringUtils.contains(f.getClazz(), "authentication"))
+            .map(f -> StringUtils.substringBetween(f.getClazz(), "authentication.", "AuthenticationFeature"))
             .filter(Objects::nonNull)
             .findFirst()
             .orElse("");

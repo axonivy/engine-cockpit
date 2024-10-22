@@ -13,15 +13,14 @@
 </cc:interface>
 <cc:implementation>
   <p:commandButton id="editFeatureBtn"
-    oncomplete="PF('featureModal').show();" 
-    action="#{cc.attrs.bean.removeFeature(feature)}"
-    actionListener="#{cc.attrs.bean.setFeature(feature)}"
-    process="@this" update="@form"
-    rendered="#{!cc.attrs.isNewFeature}"
-    icon="si si-pencil" title="Edit"
+    actionListener="#{cc.attrs.bean.setFeature(feature.clazz)}"
+    action="#{cc.attrs.bean.removeFeature(feature.clazz)}"
+    icon="si si-pencil" title="Edit" disabled="#{feature.default}"
+    update="@form" rendered="#{!cc.attrs.isNewFeature}"
+    oncomplete="PF('featureModal').show();" process="@this" 
     styleClass="col-fixed ml-1 ui-button-secondary rounded-button" />
-  <p:commandButton id="deleteFeatureBtn"
-    actionListener="#{cc.attrs.bean.removeFeature(feature)}"
+  <p:commandButton id="deleteFeatureBtn" disabled="#{feature.default}"
+    actionListener="#{cc.attrs.bean.removeFeature(feature.clazz)}"
     update="#{cc.attrs.formName}" icon="si si-bin-1" title="Delete"
     rendered="#{!cc.attrs.isNewFeature}" process="@this"
     styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
@@ -41,7 +40,7 @@
         <p:outputLabel for="nameInput" value="Name" />
         <h:panelGroup styleClass="md-inputfield">
           <p:inputText id="nameInput" requiredMessage="Value is required"
-            value="#{cc.attrs.bean.feature}" required="true" />
+            value="#{cc.attrs.bean.feature.clazz}" required="true" />
           <p:message for="nameInput" id="nameMessage" />
         </h:panelGroup>
       </p:panelGrid>
@@ -54,7 +53,7 @@
 
         <p:commandButton id="saveFeature" validateClient="true"
           onsuccess="PF('featureModal').hide()"
-          action="#{cc.attrs.bean.saveFeature()}" value="Save"
+          action="#{cc.attrs.bean.saveFeature(cc.attrs.isNewFeature)}" value="Save"
           icon="si si-floppy-disk" update="#{cc.attrs.formName}"
           styleClass="modal-input-button" process="@form" />
       </div>

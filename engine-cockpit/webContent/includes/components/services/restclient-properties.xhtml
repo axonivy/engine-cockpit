@@ -19,7 +19,7 @@
     <p:dataTable value="#{restClientDetailBean.restClient.features}" var="feature"
       id="restClientFeaturesTable" styleClass="mb-3">
       <p:column headerText="Features">
-        <p:outputLabel value="#{feature}" styleClass="restclient-feature" />
+        <p:outputLabel value="#{feature.clazz}" styleClass="restclient-feature" />
       </p:column>
       <p:column styleClass="table-btn-2">
         <f:facet name="header">
