@@ -47,7 +47,7 @@
       </h:outputText>
 
       <h:outputText rendered="#{engineInfo.demo or engineInfo.neo}">
-        <div class="flex flex-wrap align-items-stretch" style="height:300px;">
+        <div class="flex flex-wrap align-items-stretch">
           <h:outputText rendered="#{engineInfo.demo}">
             <div class="col">
               <div class="card card-item card-item-big">
@@ -110,47 +110,50 @@
         <div class="col" style="margin-top:10px;">
           <h3>Applications</h3>
           <hr />
+          
+          <div class="flex flex-wrap align-items-stretch">
+            <ui:repeat value="#{engineInfo.applications}" var="app">
+              <div class="app-item">
+                <div class="card card-center card-item card-item-app flex justify-content-center">
+    
+                  <div class="container-icon flex justify-content-center">
+                    <div class="flex-1">
+                      <i class="si si-module icon-app" />
+                    </div>
+                    <div class="flex flex-1 justify-content-end">
+                      <p:linkButton href="#{app.devWorkflowUrl}" rendered="#{!app.disabled}" icon="si si-cog-play" styleClass="col-fixed ml-auto rounded-button ui-button-outlined" />
+                    </div>
+                  </div>
+                  
+                  <div class="card-item-app-name flex-1">
+                    <h5>#{app.name}</h5>
+                  </div>
+                  <div>
+                    <h:panelGroup id="action">
+                      <p:linkButton id="button" href="#{app.homeUrl}" value="Open" style="font-weight:600;" disabled="#{app.disabled}" />
+                      <p:tooltip for="action" rendered="#{app.disabled}" value="This app has no active projects." position="bottom" />
+                    </h:panelGroup>
+                  </div>
+                </div>
+              </div>
+            </ui:repeat>
+          </div>
         </div>
       </h:outputText>
 
       <div class="flex flex-wrap align-items-stretch">
-        <ui:repeat value="#{engineInfo.applications}" var="app">
-          <div class="app-item">
-            <div class="card card-center card-item card-item-app flex justify-content-center">
-
-              <div class="container-icon flex justify-content-center">
-                <div class="flex-1">
-                  <i class="si si-module icon-app" />
-                </div>
-                <div class="flex flex-1 justify-content-end">
-                  <p:linkButton href="#{app.devWorkflowUrl}" rendered="#{!app.disabled}" icon="si si-cog-play" styleClass="col-fixed ml-auto rounded-button ui-button-outlined" />
-                </div>
-              </div>
-              
-              <div class="card-item-app-name flex-1">
-                <h5>#{app.name}</h5>
-              </div>
-              
-              <div>
-                <h:panelGroup id="action">
-                  <p:linkButton id="button" href="#{app.homeUrl}" value="Open" style="font-weight:600;" disabled="#{app.disabled}" />
-                  <p:tooltip for="action" rendered="#{app.disabled}" value="This app has no active projects." position="bottom" />
-                </h:panelGroup>
-              </div>
-            </div>
-          </div>
-        </ui:repeat>
-
         <h:panelGroup rendered="#{engineInfo.showNoApplications}">
           <div class="col">
             <div class="card card-item card-center card-item-app">
-              <div style="margin-bottom:30px;display:flex;justify-content:center;">
-                <div style=" position: absolute;left: 48%;">
+              <div
+                style="margin-bottom: 30px; display: flex; justify-content: center; margin-top: 20px;">
+                <div style="position: absolute; left: 48%;">
                   <i class="si si-tools-wench container-icon-big" />
                 </div>
                 <div style="margin-left: auto;">
                   <p:link href="#{ivyAdvisor.advisor.docBaseUrl}">
-                    <i class="si si-office-file-doc-1 " style="font-size: 22px;" />
+                    <i class="si si-office-file-doc-1 "
+                      style="font-size: 22px;" />
                   </p:link>
                 </div>
               </div>
@@ -160,8 +163,10 @@
               <div>
                 <p>Install your application in the Engine Cockpit.</p>
               </div>
-              <div class="mt-5 flex-1">
-                <p:linkButton id="noAppCockpit" href="#{engineInfo.engineCockpitUrl}/faces/applications.xhtml" value="Engine Cockpit" icon="si si-cog" />
+              <div class="mt-5 flex-1" style="margin-bottom: 20px;">
+                <p:linkButton id="noAppCockpit"
+                  href="#{engineInfo.engineCockpitUrl}/faces/applications.xhtml"
+                  value="Engine Cockpit" icon="si si-cog" />
               </div>
             </div>
           </div>
@@ -211,7 +216,7 @@
           }
           
           .app-item {
-             flex: 1 0 21%;
+             flex: 1 0 24%;
              margin: 5px;
           }
           
