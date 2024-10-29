@@ -198,7 +198,7 @@ class WebTestWebserviceDetail {
 
   @Test
   void addFeature() {
-    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:newFeatureEditor:");
+    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
     editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
     var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
     table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
@@ -207,12 +207,12 @@ class WebTestWebserviceDetail {
 
   @Test
   void editFeature() {
-    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:0:editFeatureEditor:");
-    editor.editFeature("ch.ivyteam.ivy.webservice.feature.editFeature");
+	var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
+	editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
+    editor.editFeature("ch.ivyteam.ivy.webservice.feature.editFeature", 1, 0);
     var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
     table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.editFeature"));
-    editor.editSecondFeature("ch.ivyteam.ivy.webservice.exec.cxf.feature.HttpBasicAuthenticationFeature"
-      ,"webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:editFeatureBtn");
+    $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
   }
 
   @Test
