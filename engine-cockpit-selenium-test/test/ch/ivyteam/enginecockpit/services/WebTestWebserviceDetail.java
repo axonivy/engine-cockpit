@@ -207,8 +207,8 @@ class WebTestWebserviceDetail {
 
   @Test
   void editFeature() {
-	var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
-	editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
+    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
+    editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
     editor.editFeature("ch.ivyteam.ivy.webservice.feature.editFeature", 1, 0);
     var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
     table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.editFeature"));

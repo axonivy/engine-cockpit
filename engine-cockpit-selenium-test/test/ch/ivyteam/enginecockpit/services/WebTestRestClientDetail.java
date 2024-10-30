@@ -147,8 +147,8 @@ class WebTestRestClientDetail {
   
   @Test
   void editFeature() {
-	var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:");
-	editor.addFeature("ch.ivyteam.ivy.rest.client.feature.AuthFeature");
+    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:");
+    editor.addFeature("ch.ivyteam.ivy.rest.client.feature.AuthFeature");
     editor.editFeature("ch.ivyteam.ivy.rest.client.feature.editFeature", 2, 1);
     var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
     table.row(2).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.editFeature"));
