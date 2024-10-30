@@ -12,6 +12,7 @@ import javax.ws.rs.client.WebTarget;
 
 import org.apache.commons.lang.text.StrSubstitutor;
 
+import ch.ivyteam.enginecockpit.commons.Feature;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.RestClientMonitor;
@@ -45,7 +46,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   private final ConnectionTestWrapper connectionTest;
   private Property activeProperty;
-  private String activeFeature;
+  private Feature activeFeature;
 
   public RestClientDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -205,18 +206,18 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   }
 
   @Override
-  public List<String> getFeatures() {
+  public List<Feature> getFeatures() {
     return restClient.getFeatures();
   }
 
   @Override
-  public String getFeature() {
+  public Feature getFeature() {
     return activeFeature;
   }
 
   @Override
-  public void setFeature(String key) {
-    this.activeFeature = key;
+  public void setFeature(String clazz) {
+    this.activeFeature = findFeature(clazz);
   }
 
   public void removeFeature(String name) {
@@ -225,9 +226,9 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   }
 
   @Override
-  public void saveFeature() {
+  public void saveFeature(boolean isNewFeature) {
     if (!isExistingFeature()) {
-      saveRestClient(restBuilder().feature(getFeature()));
+      saveRestClient(restBuilder().feature(getFeature().getClazz()));
     }
     loadRestClient();
   }

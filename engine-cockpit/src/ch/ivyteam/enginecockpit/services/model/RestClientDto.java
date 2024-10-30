@@ -10,6 +10,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.commons.Feature;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.config.restricted.ClientProperties;
@@ -22,7 +23,7 @@ public class RestClientDto implements IService {
   private List<Property> properties;
   private String password;
   private String username;
-  private List<String> features;
+  private List<Feature> features;
   private UUID uniqueId;
   private boolean passwordChanged;
   private final Map<String, Object> connectionProps;
@@ -40,7 +41,9 @@ public class RestClientDto implements IService {
         .map(p -> p.getValue()).findFirst().orElse("");
     username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username"))
         .map(p -> p.getValue()).findFirst().orElse("");
-    features = client.features();
+    features = client.features().stream()
+        .map(f -> new Feature(f.clazz(), f.isDefault()))
+        .collect(Collectors.toList());
     passwordChanged = false;
     var propMap = new HashMap<String,String>();
     for (ch.ivyteam.ivy.rest.client.RestClientProperty prop : client.properties()) {
@@ -99,7 +102,7 @@ public class RestClientDto implements IService {
     return properties;
   }
 
-  public List<String> getFeatures() {
+  public List<Feature> getFeatures() {
     return features;
   }
 

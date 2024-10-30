@@ -19,7 +19,7 @@
     <p:dataTable value="#{webserviceDetailBean.webservice.features}" var="feature"
       id="webserviceFeaturesTable" styleClass="mb-3">
       <p:column headerText="Features">
-        <p:outputLabel value="#{feature}" styleClass="webservice-feature" />
+        <p:outputLabel value="#{feature.clazz}" styleClass="webservice-feature" />
       </p:column>
       <p:column styleClass="table-btn-2">
         <f:facet name="header">

@@ -138,7 +138,7 @@ class WebTestRestClientDetail {
   
   @Test
   void addFeature() {
-    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:newFeatureEditor:");
+    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:");
     editor.addFeature("ch.ivyteam.ivy.rest.client.feature.AuthFeature");
     var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
     table.row(2).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.AuthFeature"));
@@ -147,12 +147,12 @@ class WebTestRestClientDetail {
   
   @Test
   void editFeature() {
-    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:0:editFeatureEditor:");
-    editor.editFeature("ch.ivyteam.ivy.rest.client.feature.editFeature");
+	var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:");
+	editor.addFeature("ch.ivyteam.ivy.rest.client.feature.AuthFeature");
+    editor.editFeature("ch.ivyteam.ivy.rest.client.feature.editFeature", 2, 1);
     var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
-    table.row(1).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.editFeature"));
-    editor.editSecondFeature("ch.ivyteam.ivy.rest.client.mapper.JsonFeature",
-      "restClientAdditionalConfigForm:restClientFeaturesTable:1:editFeatureEditor:editFeatureBtn");
+    table.row(2).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.editFeature"));
+    $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
   }
 
   @Test
