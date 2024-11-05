@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.services.rest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -23,7 +22,6 @@ import ch.ivyteam.enginecockpit.services.help.HelpServices;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
-import ch.ivyteam.enginecockpit.services.model.ExecHistoryStatement;
 import ch.ivyteam.enginecockpit.services.model.RestClientDto;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
@@ -53,7 +51,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   private final ConnectionTestWrapper connectionTest;
   private Property activeProperty;
   private Feature activeFeature;
-  private List<ExecHistoryStatement> history;
+  private List<ExecHistory> history;
 
   public RestClientDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -99,25 +97,19 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   }
 
   private void reloadExternalRestClient() {
-      RestClientExecutionManager restClientManager = new RestClientExecutionManager();
-      RestClients restClients = RestClients.of(app);
-      RestClient restClient = restClients.find(restClientName);
-      if (restClient == null) {
-          ResponseHelper.notFound("Rest client '" + restClientName + "' not found");
-          return;
-      }
-      
-      var applicationContext = restClientManager.getRestWebServiceApplicationContext(app);
-      var restWebService = applicationContext.getRestWebService(restClient.uniqueId());
-      restWebService.setRecordRequestResponse(true);
+    var restClientManager = RestClientExecutionManager.instance();
+    RestClient restClient = findRestClient();
 
-      var callHistory = restWebService.getCallHistory();
-      history = callHistory.stream()
-          .map(entry -> new ExecHistoryStatement(
-              entry.getExecutionTimestamp(),
-              entry.getExecutionTimeInMicroSeconds(),
-              entry.getProcessElementId()))
-          .collect(Collectors.toList());
+    var applicationContext = restClientManager.getRestWebServiceApplicationContext(app);
+    var restWebService = applicationContext.getRestWebService(restClient.uniqueId()).getCallHistory();
+
+    history  = restWebService.stream()
+        .map(call -> new ExecHistory(
+            call.getExecutionTimestamp(),
+            call.getExecutionTimeInMicroSeconds(),
+            call.getResponse(),
+            call.getProcessElementId()))
+    .toList();
   }
   
     public static class Connection {
@@ -142,7 +134,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     return restClient.getViewUrl(appName);
   }
   
-  public List<ExecHistoryStatement> getExecutionHistory() {
+  public List<ExecHistory> getExecutionHistory() {
       return history;
     }
 

@@ -18,7 +18,6 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.enginecockpit.commons.Feature;
 import ch.ivyteam.enginecockpit.commons.Property;
-import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.WebServiceMonitor;
 import ch.ivyteam.enginecockpit.services.help.HelpServices;
@@ -32,13 +31,12 @@ import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IProcessModel;
-import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.ssl.restricted.SslConnectionTesterClient;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
-import ch.ivyteam.ivy.webservice.process.restricted.IWebServiceProcessBeanEngineManager;
+import ch.ivyteam.ivy.webservice.internal.execution.WebServiceExecutionNavigationUtil;
 
 @ManagedBean
 @ViewScoped
@@ -91,18 +89,12 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     liveStats = new WebServiceMonitor(appName, webserviceId);
   }
   
+  @SuppressWarnings("restriction")
   private void reloadExternalWebservice() {
-    var clientPmv = app.getProcessModels().stream().map(IProcessModel::getReleasedProcessModelVersion).findAny()
-        .get().getProcessModel();
-    IProcessModelVersion pmv = clientPmv.getReleasedProcessModelVersion();
-    var engine = DiCore.getGlobalInjector().getInstance(IWebServiceProcessBeanEngineManager.class)
-        .getWebServiceProcessBeanEngine(pmv);
-    var info = engine.getWebServiceProcessBeanInfos();
-    var test = info.getFirst();
-    var callHistory = test.getCallHistory();
-    history = callHistory.stream().map(entry -> new ExecHistoryStatement(entry.getCallTimestamp(),
-        entry.getExecutionTimeInMilliSeconds(), entry.getWebServiceProcessStartElement().getProcessElementId()))
-        .collect(Collectors.toList());
+    var appContext = WebServiceExecutionNavigationUtil.getExternalWebServiceApplicationContext(app);
+    var webService = appContext.getSoapWebService(webserviceId);
+
+//    Ivy.log().info(webService.getCallHistory().get(0).getTotalExecutionTimeInMicroSeconds());
   }
   
   public List<ExecHistoryStatement> getExecutionHistory() {
