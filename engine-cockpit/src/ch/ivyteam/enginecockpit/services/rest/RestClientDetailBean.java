@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.services.rest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +30,7 @@ import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.RestClient.Builder;
 import ch.ivyteam.ivy.rest.client.RestClients;
+import ch.ivyteam.ivy.rest.client.internal.RestClientExecutionManager;
 
 @ManagedBean
 @ViewScoped
@@ -47,6 +49,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   private final ConnectionTestWrapper connectionTest;
   private Property activeProperty;
   private Feature activeFeature;
+  private List<ExecHistory> history;
 
   public RestClientDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -83,11 +86,34 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     }
 
     loadRestClient();
+    reloadExternalRestClient();
     liveStats = new RestClientMonitor(app.getName(), restClient.getUniqueId().toString());
+  }
+
+  @SuppressWarnings("restriction")
+  private void reloadExternalRestClient() {
+    var restClientManager = RestClientExecutionManager.instance();
+    var restClient = findRestClient();
+
+    var applicationContext = restClientManager.getRestWebServiceApplicationContext(app);
+    var restWebService = applicationContext.getRestWebService(restClient.uniqueId());
+
+    history = new ArrayList<>(restWebService.getCallHistory().stream()
+        .map(call -> new ExecHistory(
+            call.getExecutionTimestamp(),
+            call.getExecutionTimeInMicroSeconds(),
+            call.getRequestUrl(),
+            call.getRequestMethod(),
+            call.getProcessElementId()))
+        .toList());
   }
 
   public String getViewUrl() {
     return restClient.getViewUrl(appName);
+  }
+
+  public List<ExecHistory> getExecutionHistory() {
+    return history;
   }
 
   private void loadRestClient() {
