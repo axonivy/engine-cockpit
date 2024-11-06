@@ -165,11 +165,11 @@ class WebTestRestClientDetail {
 
   @Test
   void restExecHistory() {
+    $(By.id("restClientConfigurationForm:resetConfig")).click();
     EngineCockpitUtil.runRestClient();
     navigateToRestDetail();
     Selenide.executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
     $(By.id("restClientHistory:execHistoryForm:execHistoryTable_data")).shouldHave(text("http://test-webservices.ivyteam.io:8090/api/v3/store/inventory"));
-    
   }
 
   private void setConfiguration(String url, String username) {

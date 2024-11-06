@@ -43,7 +43,13 @@ class WebTestTlsTester {
     $(By.id("restClientConfigurationForm:saveRestConfig")).click();
     $(By.id("restClientConfigurationForm:testRestBtn")).click();
     $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
-    $(By.id("connResult:connTestForm:resultTLS")).shouldHave(text("Connect, with Ivy SSLContext "));
+     try {
+       $(By.id("connResult:connTestForm:resultTLS")).shouldHave(text("Connect, with Ivy SSLContext "));
+    } finally {
+      $(By.id("connResult:connTestForm:closeConTesterDialog")).click();
+      $(By.id("restClientConfigurationForm:url")).setValue("http://test-webservices.ivyteam.io:8090/api/v3");
+      $(By.id("restClientConfigurationForm:saveRestConfig")).click();
+    }
   }
 
   @Test
@@ -66,6 +72,9 @@ class WebTestTlsTester {
       var table = new Table(By.id("sslTrustTable:storeTable:storeCertificates"));
       table.firstColumnShouldBe(texts("ivy1"));
       table.clickButtonForEntry("ivy1", "delete");
+      Navigation.toRestClientDetail(RESTCLIENT_NAME);
+      $(By.id("restClientConfigurationForm:url")).setValue("http://test-webservices.ivyteam.io:8090/api/v3");
+      $(By.id("restClientConfigurationForm:saveRestConfig")).click();
     }
   }
 
