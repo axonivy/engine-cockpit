@@ -165,7 +165,6 @@ class WebTestRestClientDetail {
 
   @Test
   void restExecHistory() {
-    $(By.id("restClientConfigurationForm:resetConfig")).click();
     EngineCockpitUtil.runRestClient();
     navigateToRestDetail();
     Selenide.executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
