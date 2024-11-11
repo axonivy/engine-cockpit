@@ -37,6 +37,9 @@
           <div class="col-12 md:col-12 xl:col-6">
             <ui:include src="../includes/components/services/restclient-properties.xhtml" />
           </div>
+          <div class="col-12 md:col-12 xl:col-6">
+            <cc:History bean="#{restClientDetailBean}" id="restClientHistory" />
+          </div>
         </div>
       </div>
       <cc:HelpServiceDialog service="#{restClientDetailBean}" id="helpRestClientDialog" />
