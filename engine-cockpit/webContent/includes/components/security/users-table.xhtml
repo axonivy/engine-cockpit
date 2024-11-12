@@ -51,10 +51,10 @@
     <p:column headerText="Email" sortBy="#{user.email}">
       <h:outputText value="#{user.email}" styleClass="user-email" />
     </p:column>
-    <p:column headerText="Working" style="width: 100px; text-align: center">
+    <p:column headerText="Working" sortBy="#{user.working}" style="width: 100px; text-align: center">
       <i class="si table-icon si-#{user.working ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}"></i>
     </p:column>
-    <p:column headerText="Logged in" style="width: 100px; text-align: center">
+    <p:column headerText="Logged in" sortBy="#{user.loggedIn}" style="width: 100px; text-align: center">
       <i class="si table-icon si-#{user.loggedIn ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}"></i>
     </p:column>
   </p:dataTable>
