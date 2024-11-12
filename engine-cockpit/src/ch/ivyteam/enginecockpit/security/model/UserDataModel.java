@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -112,6 +113,9 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter {
             .map(User::new)
             .collect(Collectors.toList());
     checkIfUserIsLoggedIn(securitySystem, users);
+
+    applyOrderingPostQuery(users, sortBy);
+
     setRowCount((int) userQuery.executor().count());
     return users;
   }
@@ -180,6 +184,28 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter {
               .findAny()
               .ifPresent(user -> user.setLoggedIn(true));
     }
+  }
+
+  private static void applyOrderingPostQuery(List<User> users, Map<String, SortMeta> sortBy) {
+    var sort = new SortMetaConverter(sortBy);
+    var sortOrder = sort.toOrder();
+    var sortField = sort.toField();
+    if (sortField == null) {
+      return;
+    }
+
+    Comparator<User> comparator;
+    switch (sortField) {
+      case "loggedIn" -> comparator = Comparator.comparing(User::isLoggedIn);
+      default -> {
+        return;
+      }
+    }
+
+    if (SortOrder.ASCENDING.equals(sortOrder)) {
+      comparator = comparator.reversed();
+    }
+    users.sort(comparator);
   }
 
   @Override
