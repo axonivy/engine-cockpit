@@ -28,14 +28,18 @@
           <h:outputText value="#{exec.execTime()} ms" title="The time needed to execute the statement" />
         </p:column>
 
-        <p:column headerText="Request Url" style="word-wrap: anywhere;"
-          sortBy="#{exec.requestUrl()}">
-          <h:outputText value="#{exec.requestUrl()} #{exec.requestMethod()}"/>
+        <p:column headerText="Endpoint" style="word-wrap: anywhere;">
+          <h:outputText value="#{exec.endpoint()}" />
         </p:column>
-       
-        <p:column headerText="Process Element" sortBy="#{exec.processElementId()}">
-          <h:outputText value="#{exec.processElementId()}" />
+        
+        <p:column headerText="Port" sortBy="#{exec.port()}">
+          <h:outputText value="#{exec.port()}" />
         </p:column>
+        
+        <p:column headerText="Operation" sortBy="#{exec.operation()}">
+          <h:outputText value="#{exec.operation()}" />
+        </p:column>
+        
       </p:dataTable>
     </h:form>
 </div>

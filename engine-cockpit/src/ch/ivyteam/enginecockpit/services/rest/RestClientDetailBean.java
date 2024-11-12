@@ -101,7 +101,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     history = new ArrayList<>(restWebService.getCallHistory().stream()
         .map(call -> new ExecHistory(
             call.getExecutionTimestamp(),
-            call.getExecutionTimeInMicroSeconds(),
+            (call.getExecutionTimeInMicroSeconds())/1000L,
             call.getRequestUrl(),
             call.getRequestMethod(),
             call.getProcessElementId()))
