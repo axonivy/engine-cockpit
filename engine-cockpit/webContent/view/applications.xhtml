@@ -149,10 +149,13 @@
               </ui:fragment>
               <h:outputText value="#{applicationBean.activeActivity.deleteHint}"/>
             </f:facet>
+            <ui:param name="isForceDelete" value="#{applicationBean.activeActivity.pm and not empty applicationBean.activeActivity.isDeletable()}" />
             <p:commandButton value="Cancel" onclick="PF('deleteConfirmDialog').hide();" type="button"
               styleClass="ui-button-secondary ui-button-flat modal-input-button" />
             <p:commandButton id="deleteConfirmYesBtn" value="Delete" immediate="true" styleClass="modal-input-button"
-              actionListener="#{applicationBean.activeActivity.delete}" update="form" icon="si si-bin-1" />
+              actionListener="#{applicationBean.activeActivity.delete}" update="form" icon="si si-bin-1" rendered="#{not isForceDelete}" />
+            <p:commandButton id="foreceDeleteConfirmYesBtn" value="Force Delete" immediate="true" styleClass="modal-input-button"
+              actionListener="#{applicationBean.activeActivity.forceDelete}" update="form" icon="si si-bin-1" rendered="#{isForceDelete}" />
           </p:confirmDialog>
           
           <p:confirmDialog id="convertDialog"
