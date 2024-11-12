@@ -88,21 +88,15 @@ public class EngineInfo {
     return applications;
   }
 
-  public boolean isShowAppHeader() {
-    if (isMaintenance()) {
-      return false;
-    }
-    if (isDemo() && getApplications().isEmpty()) {
-      return false;
-    }
-    return true;
+  public boolean isShowApps() {
+    return !getApplications().isEmpty();
   }
 
-  public boolean isShowNoApplications() {
+  public boolean isShowNoApps() {
     if (isDemo() || isMaintenance()) {
       return false;
     }
-    return applications.isEmpty();
+    return getApplications().isEmpty();
   }
 
   public boolean isDemo() {

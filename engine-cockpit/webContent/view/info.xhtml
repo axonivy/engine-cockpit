@@ -106,8 +106,8 @@
         </div>
       </h:outputText>
 
-      <h:outputText rendered="#{engineInfo.showAppHeader}">
-        <div class="col" style="margin-top:10px;">
+      <h:outputText rendered="#{engineInfo.showApps}">
+        <div class="col">
           <h3>Applications</h3>
           <hr />
           
@@ -141,37 +141,41 @@
         </div>
       </h:outputText>
 
-      <div class="flex flex-wrap align-items-stretch">
-        <h:panelGroup rendered="#{engineInfo.showNoApplications}">
-          <div class="col">
-            <div class="card card-item card-center card-item-app">
-              <div
-                style="margin-bottom: 30px; display: flex; justify-content: center; margin-top: 20px;">
-                <div style="position: absolute; left: 48%;">
-                  <i class="si si-tools-wench container-icon-big" />
+      <h:outputText rendered="#{engineInfo.showNoApps}">
+        <div class="col">
+          <h3>Applications</h3>
+          <hr />
+          <div class="flex flex-wrap align-items-stretch">
+            <div class="col">
+              <div class="card card-item card-center card-item-app">
+                <div
+                  style="margin-bottom: 30px; display: flex; justify-content: center; margin-top: 20px;">
+                  <div style="position: absolute; left: 48%;">
+                    <i class="si si-tools-wench container-icon-big" />
+                  </div>
+                  <div style="margin-left: auto;">
+                    <p:link href="#{ivyAdvisor.advisor.docBaseUrl}">
+                      <i class="si si-office-file-doc-1 "
+                        style="font-size: 22px;" />
+                    </p:link>
+                  </div>
                 </div>
-                <div style="margin-left: auto;">
-                  <p:link href="#{ivyAdvisor.advisor.docBaseUrl}">
-                    <i class="si si-office-file-doc-1 "
-                      style="font-size: 22px;" />
-                  </p:link>
+                <div>
+                  <h3>No applications</h3>
                 </div>
-              </div>
-              <div>
-                <h3>No applications</h3>
-              </div>
-              <div>
-                <p>Install your application in the Engine Cockpit.</p>
-              </div>
-              <div class="mt-5 flex-1" style="margin-bottom: 20px;">
-                <p:linkButton id="noAppCockpit"
-                  href="#{engineInfo.engineCockpitUrl}/faces/applications.xhtml"
-                  value="Engine Cockpit" icon="si si-cog" />
+                <div>
+                  <p>Install your application in the Engine Cockpit.</p>
+                </div>
+                <div class="mt-5 flex-1" style="margin-bottom: 20px;">
+                  <p:linkButton id="noAppCockpit"
+                    href="#{engineInfo.engineCockpitUrl}/faces/applications.xhtml"
+                    value="Engine Cockpit" icon="si si-cog" />
+                </div>
               </div>
             </div>
           </div>
-        </h:panelGroup>
-      </div>
+        </div>
+      </h:outputText>
 
       <style>
           .icon-app {
