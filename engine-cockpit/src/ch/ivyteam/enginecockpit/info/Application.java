@@ -10,10 +10,12 @@ public class Application {
 
   private final IApplicationInternal app;
   private final String name;
+  private final boolean devMode;
 
   public Application(IApplication app) {
     this.app = (IApplicationInternal)app;
     this.name = app.getName();
+    this.devMode = app.getSecurityContext().isDevMode();
   }
 
   public String getName() {
@@ -35,5 +37,9 @@ public class Application {
       LOGGER.error("Error while try to evaluate the state of the applicatioon '" + name + "'", ex);
       return true;
     }
+  }
+
+  public boolean isDevMode() {
+    return devMode;
   }
 }
