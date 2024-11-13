@@ -31,7 +31,7 @@ public class EngineInfo {
     applications = IApplicationRepository.instance().all().stream()
             .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
             .map(Application::new)
-            .filter(this::isNotNeoApp)
+            .filter(this::isNotInDevMode)
             .collect(Collectors.toList());
   }
 
@@ -72,8 +72,8 @@ public class EngineInfo {
     return isShutingDown;
   }
 
-  private boolean isNotNeoApp(Application app) {
-    return !app.getName().startsWith("ivy-dev-");
+  private boolean isNotInDevMode(Application app) {
+    return !app.isDevMode();
   }
 
   public List<Application> getApplications() {
