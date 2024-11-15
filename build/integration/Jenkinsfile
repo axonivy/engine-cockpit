@@ -19,7 +19,7 @@ pipeline {
       steps {
         script {
           def common = load 'build/build.groovy'
-          def mvnArgs = "-Dtest.filter=${getTestFilter(common.isReleaseOrMasterBranch())} -Dmaven.test.failure.ignore=true -Pengine -Pintegration "
+          def mvnArgs = "-Dtest.filter=${getTestFilter()} -Dmaven.test.failure.ignore=true -Pengine -Pintegration "
           common.buildIntegration(mvnArgs);
         }
       }
@@ -27,8 +27,8 @@ pipeline {
   }
 }
 
-def getTestFilter(isReleaseOrMasterBranch) {
-  if (isReleaseOrMasterBranch) {
+def getTestFilter() {
+  if (isReleasingBranch()) {
     return 'WebTest*.java'
   }
   return params.testFilter

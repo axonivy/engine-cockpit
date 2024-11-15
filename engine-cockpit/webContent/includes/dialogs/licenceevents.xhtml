@@ -9,10 +9,12 @@
     <div class="licence-messages timeline">
       <ul>
         <ui:repeat value="#{licenceBean.licenceEvents}" var="event">
-          <li class="align-items-center">
-            <i class="mr-2 mt-0 si si-xl si-#{event.level eq 'ERROR' ? 'alert-circle error' : 'road-sign-warning warning'}"></i>
-            <h:outputText styleClass="mr-2 name" value="#{event.timestamp}" />
-            <h:outputText styleClass="mr-1 message" value="#{event.message}" />
+          <li class="align-items-center gap-3">
+            <i class="m-0 si si-xl si-#{event.level eq 'ERROR' ? 'alert-circle error' : 'road-sign-warning warning'}"></i>
+            <div class="flex flex-column">
+              <h:outputText styleClass="text-sm name" value="#{event.timestamp}" style="color: var(--text-color-secondary);" />
+              <h:outputText styleClass="message" value="#{event.message}" />
+            </div>
             <p:commandButton icon="si si-check-1" title="Confirm" styleClass="col-fixed ml-auto ui-button-secondary rounded-button ui-button-outlined"
               id="confirmEventBtn" actionListener="#{licenceBean.confirmLicenceEvent(event)}" update="@form" />
           </li>

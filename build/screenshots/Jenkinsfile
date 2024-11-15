@@ -18,9 +18,8 @@ pipeline {
       steps {
         script {
           def common = load 'build/build.groovy'
-          def isReleaseOrMasterBranch = common.isReleaseOrMasterBranch()
-          def mvnArgs = "-Dref.screenshot.build='${getScreenshotRefBranch(isReleaseOrMasterBranch)}' " + 
-              "-Dimg.similarity=${getImageSimilarity(isReleaseOrMasterBranch)} " + 
+          def mvnArgs = "-Dref.screenshot.build='${getScreenshotRefBranch()}' " + 
+              "-Dimg.similarity=${getImageSimilarity()} " + 
               "-Pengine -Pscreenshots "
           common.buildIntegration(mvnArgs);
 
@@ -34,15 +33,15 @@ pipeline {
   }
 }
 
-def getScreenshotRefBranch(isReleaseOrMasterBranch) {
-  if (isReleaseOrMasterBranch && currentBuild.previousSuccessfulBuild != null) {
+def getScreenshotRefBranch() {
+  if (isReleasingBranch() && currentBuild.previousSuccessfulBuild != null) {
     return env.BRANCH_NAME.replace('/', '%252F')
   }
-  return 'master'
+  return 'release%252F12.0'
 }
 
-def getImageSimilarity(isReleaseOrMasterBranch) {
-  if (isReleaseOrMasterBranch) {
+def getImageSimilarity() {
+  if (isReleasingBranch()) {
     return '97'
   }
   return '95'
