@@ -37,7 +37,7 @@ def build() {
 }
 
 def mvnBuild(def mvnArgs = '') {
-  def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
+  def phase = isReleasingBranch() ? 'deploy' : 'verify'
   maven cmd: "clean ${phase} -ntp -Divy.engine.version.latest.minor=true -Dmaven.test.skip=false " + mvnArgs
   
   recordIssues tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
@@ -45,10 +45,6 @@ def mvnBuild(def mvnArgs = '') {
     excludeMessage('JAR will be empty*')
   ]
   junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
-}
-
-def isReleaseOrMasterBranch() {
-  return env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release/') 
 }
 
 return this
