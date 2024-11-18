@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,7 @@ import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.ssl.restricted.SslConnectionTesterClient;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
+import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManager;
 
 @ManagedBean
 @ViewScoped
@@ -53,6 +55,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private WebServiceClients webServiceClients;
   private Property activeProperty;
   private Feature activeFeature;
+  private List<WebServiceExecHistory> history;
 
   public WebserviceDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -82,7 +85,26 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     }
     webServiceClients = WebServiceClients.of(app);
     loadWebService();
+    reloadExternalWebservice();
     liveStats = new WebServiceMonitor(appName, webserviceId);
+  }
+  
+  @SuppressWarnings("restriction")
+  private void reloadExternalWebservice() {
+    var webService = IWebserviceExecutionManager.instance().getSoapWebServiceApplicationContext(app).getSoapWebService(webserviceId);
+    
+    history = new ArrayList<>(webService.getCallHistory().stream()
+        .map(call -> new WebServiceExecHistory(
+            call.getEndpoint(),
+            call.getTimestamp(),
+            call.getExecutionTimeInMilliSeconds(),
+            call.getOperation(),
+            call.getPort()))
+        .toList());
+  }
+  
+  public List<WebServiceExecHistory> getExecutionHistory() {
+      return history;
   }
 
   public String getViewUrl() {

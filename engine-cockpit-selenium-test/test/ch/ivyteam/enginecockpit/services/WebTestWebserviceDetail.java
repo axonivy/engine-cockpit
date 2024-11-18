@@ -47,6 +47,10 @@ class WebTestWebserviceDetail {
 
   @BeforeEach
   void beforeEach() {
+    navigateToWebServiceDetail();
+  }
+
+  private void navigateToWebServiceDetail() {
     login();
     Navigation.toWebservices();
     Tab.APP.switchToDefault();
@@ -56,7 +60,7 @@ class WebTestWebserviceDetail {
   @Test
   void detailOpen() {
     assertCurrentUrlContains("webservicedetail.xhtml?app=" + Tab.DEFAULT_APP + "&id=");
-    $$(".card").shouldHave(size(3));
+    $$(".card").shouldHave(size(4));
     $("#webserviceConfigurationForm\\:name").shouldBe(exactText(WEBSERVICE_NAME));
 
     $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
@@ -218,6 +222,14 @@ class WebTestWebserviceDetail {
   @Test
   void liveStats() {
     EngineCockpitUtil.assertLiveStats(List.of("Web Service Calls", "Web Service Execution Time"), "test-web", false);
+  }
+
+  @Test
+  void webServiceExecHistory() {
+    EngineCockpitUtil.runWebService();
+    navigateToWebServiceDetail();
+    Selenide.executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
+    $(By.id("webServiceHistory:execHistoryForm:execHistoryTable_data")).shouldHave(text("http://secure.smartbearsoftware.com:80/samples/testcomplete12/webservices/Service.asmx"));
   }
 
   private void setEndPoint(String defaultLink, String... fallbacks) {
