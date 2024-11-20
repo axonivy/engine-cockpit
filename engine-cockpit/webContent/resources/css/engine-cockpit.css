@@ -595,21 +595,21 @@ body .ui-tooltip .ui-panelgrid .ui-panelgrid-cell {
 }
 
 .health-check-badge {
-  width:22px; 
-  height:20px;
-  font-weight:bold; 
-  font-size:13px; 
-  color:white;
-  position:absolute; 
-  bottom:30px; 
-  left:20px;
+  width: 22px; 
+  height: 20px;
+  font-weight: bold; 
+  font-size: 13px; 
+  color: white;
+  position: absolute; 
+  bottom: 30px; 
+  left: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius:10px;
-  background-color:var(--ivy-primary-color);
+  border-radius: 10px;
+  background-color: var(--ivy-primary-color);
 }
 
-.layout-topbar-light .layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions > li > ul {
-  min-width: 350px
+.layout-wrapper .layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions > li.health-messages > ul {
+  min-width: 350px;
 }
