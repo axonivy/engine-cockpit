@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -56,5 +57,9 @@ public class AdvisorBean {
 
   public String getDesignerGuideBaseUrl() {
     return UrlUtil.getDesignerGuideBaseUrl();
+  }
+  
+  public String getInstallationDirectory() {
+    return Paths.get("").toAbsolutePath().toString();
   }
 }
