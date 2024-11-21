@@ -48,7 +48,7 @@ public abstract class AbstractActivity {
     return "#";
   }
 
-  abstract long getRunningCasesCount();
+  public abstract long getRunningCasesCount();
 
   abstract String getIcon();
 
