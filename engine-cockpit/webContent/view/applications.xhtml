@@ -135,17 +135,15 @@
               <ui:fragment rendered="#{applicationBean.activeActivity.pm}">
                 <ui:param name="isDeletable" value="#{applicationBean.activeActivity.isDeletable()}" />
                 <ui:fragment rendered="#{not empty isDeletable}" >
-                  <div style="color: red; font-weight: bold;">
-                    <h:outputText value="Forced deletion is dangerous and might leave the engine in a bad state." />
-                    <br />
-                    <h:outputText value="You may lose cases and data. Proceed with caution." />
-                  </div>
-                  <br /><br />
+                  <cc:DeletionWarning id="deletionWarningPm" />
                   <ui:repeat var="notDeletableMessage" value="#{isDeletable}">
                     <h:outputText value="#{notDeletableMessage}" />
                   </ui:repeat>
                   <br /><br />
                 </ui:fragment>
+              </ui:fragment>
+              <ui:fragment rendered="#{applicationBean.activeActivity.application and applicationBean.activeActivity.runningCasesCount > 0}">
+                <cc:DeletionWarning id="deletionWarningApp" />
               </ui:fragment>
               <h:outputText value="#{applicationBean.activeActivity.deleteHint}"/>
             </f:facet>

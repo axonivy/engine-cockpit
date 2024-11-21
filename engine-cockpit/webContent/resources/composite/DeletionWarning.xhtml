@@ -5,13 +5,15 @@
 <cc:interface>
 </cc:interface>
 <cc:implementation>
-  <div class="ui-fluid">
-    <div class="ui-g">
-      <div class="ui-g-12">
-        <cc:insertChildren />
-      </div>
-    </div>
+  <div style="color: red; font-weight: bold;">
+    <h:outputText
+      value="Deletion is dangerous and might leave the engine in a bad state." />
+    <br />
+    <h:outputText
+      value="You may lose cases and data. Proceed with caution." />
   </div>
+  <br />
+  <br />
 </cc:implementation>
 
 </html>
