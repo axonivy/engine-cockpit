@@ -44,12 +44,12 @@ public class ConfigProperty {
   }
 
   public ConfigProperty(Property property) {
-    this.key = property.getKey();
-    this.value = property.getValue();
+    this.key = property.key();
+    this.value = property.value();
     this.isDefault = property.isDefault();
-    this.source = property.getSource();
+    this.source = property.source();
 
-    var metaData = property.getMetaData();
+    var metaData = property.metadata();
     this.defaultValue = metaData.defaultValue();
     this.password = metaData.isPassword();
     this.configValueFormat = metaData.format();

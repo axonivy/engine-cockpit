@@ -45,7 +45,7 @@ public class ConfigViewImpl implements TableFilter, ConfigView {
   private void reloadConfigs() {
     ((Configuration) configuration).blockUntilReloaded();
     configs = configuration.getProperties().stream()
-            .filter(property -> !property.getKey().equals("SecuritySystem"))
+            .filter(property -> !property.key().equals("SecuritySystem"))
             .map(property -> new ConfigProperty(property))
             .map(propertyEnricher)
             .collect(Collectors.toList());
