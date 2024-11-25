@@ -16,7 +16,7 @@
     </div>
 
       <p:dataTable value="#{cc.attrs.bean.executionHistory}" var="exec"
-        id="execHistoryTable" paginator="true" rows="5" tableStyle="width:auto"
+        id="execHistoryTable" paginator="true" rows="5" tableStyle="width:100%; table-layout:auto;"
         paginatorPosition="bottom" paginatorAlwaysVisible="false">
         
         <p:column headerText="Timestamp" sortBy="#{exec.timestamp()}">
