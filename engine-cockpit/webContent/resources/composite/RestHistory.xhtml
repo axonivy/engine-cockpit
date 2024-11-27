@@ -16,10 +16,10 @@
     </div>
 
       <p:dataTable value="#{cc.attrs.bean.executionHistory}" var="exec"
-        id="execHistoryTable" paginator="true" rows="5" tableStyle="width:auto"
+        id="execHistoryTable" paginator="true" rows="5" tableStyle="width:100%; table-layout:auto;"
         paginatorPosition="bottom" paginatorAlwaysVisible="false">
         
-        <p:column headerText="Timestamp" sortBy="#{exec.timestamp()}">
+        <p:column headerText="Timestamp" width="10em" sortBy="#{exec.timestamp()}">
           <h:outputText value="#{exec.prettyTime}" title="#{exec.formattedTime}"/>
         </p:column>
 
@@ -33,7 +33,7 @@
           <h:outputText value="#{exec.requestUrl()} #{exec.requestMethod()}"/>
         </p:column>
        
-        <p:column headerText="Process Element" sortBy="#{exec.processElementId()}">
+        <p:column headerText="Process Element" width="12em" sortBy="#{exec.processElementId()}">
           <h:outputText value="#{exec.processElementId()}" />
         </p:column>
       </p:dataTable>
