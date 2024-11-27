@@ -280,6 +280,9 @@ body .ui-datatable .ui-datatable-header {
 .ui-datatable .ui-datatable-data .default-value td:not([class^='table-btn']) {
   opacity: 0.4;
 }
+body .ui-datatable thead th[class*="table-btn"] {
+  text-align: right;
+}
 .gradient-text {
   mix-blend-mode: difference;
 }
