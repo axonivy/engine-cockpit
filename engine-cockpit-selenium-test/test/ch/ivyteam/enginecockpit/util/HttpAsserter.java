@@ -73,7 +73,7 @@ public class HttpAsserter {
           if (StringUtils.isEmpty(href)) {
             continue;
           }
-          var u = URI.create(href);
+          var u = URI.create(href.replaceAll(" ", "+"));
           if (u.isAbsolute()) {
             result.add(href);
           } else {
