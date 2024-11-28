@@ -18,7 +18,7 @@ public class WebServerBean {
   private boolean showHeaders = false;
 
   public WebServerBean() {
-    baseUrl = EngineUriResolver.instance().baseUrl().toString();
+    baseUrl = EngineUriResolver.instance().baseUrlFromSecurityCtx(null).toString();
   }
 
   public String getBaseUrl() {

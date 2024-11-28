@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
+
+<div class="card">
+  <h:form id="baseUrlForm">
+    <p:growl id="baseUrlSaveGrowlSuccess">
+      <p:autoUpdate />
+    </p:growl>
+    <div class="card-header">
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-cog"></i>
+        <h6 class="m-0">Base Url Settings</h6>
+        <p:commandButton id="save"
+          actionListener="#{securityConfigBean.saveBaseUrl}"
+          title="Save changes" icon="si si-floppy-disk"
+          styleClass="col-fixed ml-auto ui-button-success rounded-button" />
+      </div>
+    </div>
+    <p:panelGrid columns="2"
+      columnClasses="col-12 md:col-3 lg:col-12, col-12 md:col-9 lg:col-12"
+      layout="flex" styleClass="grey-label-panel ui-fluid">
+      <h:panelGroup>
+        <label>Base Url</label>
+        <h:panelGroup id="baseUrlHelp" styleClass="label-help-icon">
+          <i class="si si-question-circle"></i>
+          <p:tooltip for="baseUrlHelp"
+            value="Base Url used by the engine to build absolute URI's without a request (email links, ...)"
+            position="top" />
+        </h:panelGroup>
+      </h:panelGroup>
+      <p:inputText id="baseUrl" value="#{securityConfigBean.baseUrl}" />
+    </p:panelGrid>
+
+    <p:staticMessage id="infoMessage" severity="info"
+      summary="Problem detected" style="display: none;"
+      detail="'Base Url' seems to be different form your current browser base Url. You may need to configure your 'Base Url' correctly" />
+  </h:form>
+</div>
+</html>

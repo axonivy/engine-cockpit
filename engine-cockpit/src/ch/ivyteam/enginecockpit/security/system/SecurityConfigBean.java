@@ -16,6 +16,7 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.security.SecurityContextRemovalCheck;
 import ch.ivyteam.ivy.language.LanguageConfigurator;
 import ch.ivyteam.ivy.language.LanguageManager;
+import ch.ivyteam.ivy.request.EngineUriResolver;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
 
@@ -30,6 +31,7 @@ public class SecurityConfigBean  {
   private Locale formattingLanguage;
   private SecuritySystem securitySystem;
   private ManagerBean managerBean;
+  private String baseUrl;
 
   public SecurityConfigBean() {
     managerBean = ManagerBean.instance();
@@ -127,4 +129,20 @@ public class SecurityConfigBean  {
     ISecurityManager.instance().securityContexts().delete(name);
     return "securitysystem.xhtml?faces-redirect=true";
   }
+
+  public String getBaseUrl() {
+    this.baseUrl = EngineUriResolver.instance().baseUrlFromSecurityCtx(getSecurityContext()).toString();
+    return this.baseUrl;
+  }
+
+  public void setBaseUrl(String baseUrl) {
+    this.baseUrl = baseUrl;
+  }
+
+  public void saveBaseUrl() {
+    EngineUriResolver.instance().baseUrlFromSecurityCtx(getSecurityContext(), baseUrl);
+    var msg = new FacesMessage("Base Url saved");
+    FacesContext.getCurrentInstance().addMessage("baseUrlSaveGrowlSuccess", msg);
+  }
+
 }
