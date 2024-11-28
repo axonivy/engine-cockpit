@@ -1,13 +1,17 @@
 package ch.ivyteam.enginecockpit.system;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.DASHBOARD;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.LOGIN;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.getAdminUser;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.openDashboard;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
@@ -21,14 +25,14 @@ public class WebTestLogin {
   @Test
   void testLogin() {
     login();
-    assertCurrentUrlContains("dashboard.xhtml");
+    assertCurrentUrlContains(DASHBOARD);
     assertThat(Selenide.title()).startsWith("Engine Cockpit").doesNotContain("Login");
     $("#sessionUserName").shouldBe(exactText(getAdminUser()));
   }
 
   @Test
   void testLoginInvalid() {
-    Selenide.open(viewUrl("login.xhtml"));
+    open(viewUrl(LOGIN));
     $("#loginForm\\:userName").shouldBe(visible).clear();
     $("#loginForm\\:password").shouldBe(visible).clear();
     $("#loginForm\\:login").shouldBe(visible).click();
@@ -52,12 +56,12 @@ public class WebTestLogin {
     login();
     logout();
     assertLoginPageVisible();
-    Selenide.open(viewUrl("dashboard.xhtml"));
+    openDashboard();
     $("#sessionUserName").shouldBe(exactText(getAdminUser()));
   }
 
   private void assertLoginPageVisible() {
-    assertCurrentUrlContains("login.xhtml");
+    assertCurrentUrlContains(LOGIN);
     assertThat(Selenide.title()).contains("Login");
   }
 

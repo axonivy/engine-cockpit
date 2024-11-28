@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.forceLogin;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
@@ -49,11 +50,12 @@ public class WebTestAdmins {
   @Test
   void loginWithNewAdmin() {
     addAdmin("support@ivyteam.ch", "support@ivyteam.ch", "password", "password");
-    login("login.xhtml", "support@ivyteam.ch", "password");
+
+    forceLogin("support@ivyteam.ch", "password");
     $("#sessionUserName").shouldBe(exactText("support@ivyteam.ch"));
     $(".profile-image-wrapper img").shouldBe(exist);
 
-    login("login.xhtml");
+    forceLogin();
     $("#sessionUserName").shouldBe(exactText("admin"));
     $(".profile-image-wrapper i").shouldBe(exist);
     Navigation.toAdmins();
