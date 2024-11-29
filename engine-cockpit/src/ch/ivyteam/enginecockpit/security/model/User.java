@@ -32,6 +32,7 @@ public class User implements SecurityMember {
   private Locale language;
   private Locale formattingLanguage;
   private String securityContext;
+  private boolean isIvySecuritySystem;
   private List<Substitute> substitutes;
   private List<Absence> absences;
 
@@ -58,6 +59,7 @@ public class User implements SecurityMember {
     this.formattingLanguage = user.getFormattingLanguage();
     this.securityContext = user.getSecurityContext().getName();
     this.working = !user.isAbsent();
+    this.isIvySecuritySystem = SecuritySystem.isIvySecuritySystem(user.getSecurityContext());
     this.substitutes = substitutesOf(user);
     this.absences = absencesOf(user);
   }
@@ -68,6 +70,7 @@ public class User implements SecurityMember {
     setEmail(admin.getEmail());
     setRealPassword(admin.getPassword());
     setSecurityContext(ISecurityContext.SYSTEM);
+    this.isIvySecuritySystem = true;
     this.gravatarHash = EmailUtil.gravatarHash(admin.getEmail());
   }
 
@@ -227,6 +230,10 @@ public class User implements SecurityMember {
 
   public List<Absence> getAbsences() {
     return absences;
+  }
+  
+  public boolean isIvySecuritySystem() {
+    return isIvySecuritySystem;
   }
 
   private List<Substitute> substitutesOf(IUser user) {

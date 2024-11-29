@@ -41,7 +41,7 @@
           </h:panelGroup>
         </h:outputText>
         <h:outputText value="[External: '#{user.externalNameShort}']" title="#{user.externalName}"
-          rendered="#{user.external}" styleClass="ml-1 addition-row-info table-cell-autocut" />
+          rendered="#{user.external and !user.ivySecuritySystem}" styleClass="ml-1 addition-row-info table-cell-autocut" />
         <h:outputText value="[Disabled]" rendered="#{!user.enabled}" styleClass="ml-1 addition-row-info table-cell-autocut" />
       </a>
     </p:column>
