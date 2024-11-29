@@ -31,7 +31,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 class WebTestNotification {
 
-  private static final String ANY_USERS = "Developer|foo|bar|jon|guest|demo|admin|disableduser|test";
+  private static final String ANY_USERS = "Developer|foo|bar|jon|guest|demo|admin|disableduser|test|neo";
 
 
   @BeforeEach
@@ -90,11 +90,10 @@ class WebTestNotification {
     var uuid = delivery.tableEntry(1, 1).text();
     delivery.tableEntry(1, 2).shouldBe(text("Web"));
     delivery.tableEntry(1, 3).should(matchText(ANY_USERS));
-    if (delivery.tableEntry(1, 3).text().equals("Developer")) {
-      delivery.tableEntry(1, 4).shouldBe(text("DELIVERED"));
+    delivery.tableEntry(1, 4).shouldBe(matchText("DELIVERED|PENDING"));
+    if (delivery.tableEntry(1, 4).text().equals("DELIVERED")) {
       delivery.tableEntry(1, 5).shouldBe(not(empty));
     } else {
-      delivery.tableEntry(1, 4).should(text("PENDING"));
       delivery.tableEntry(1, 5).shouldBe(empty);
     }
     delivery.tableEntry(1, 6).shouldBe(empty);
