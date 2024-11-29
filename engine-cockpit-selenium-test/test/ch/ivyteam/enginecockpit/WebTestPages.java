@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.DASHBOARD;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
@@ -38,7 +39,7 @@ class WebTestPages {
   void deadLinks() {
     EngineCockpitUtil.login();
     var sessionId = WebDriverRunner.getWebDriver().manage().getCookieNamed("JSESSIONID");
-    var url = viewUrl("dashboard.xhtml");
+    var url = viewUrl(DASHBOARD);
     HttpAsserter.assertThat(url).hasNoDeadLinks(10, sessionId.getValue());
   }
 

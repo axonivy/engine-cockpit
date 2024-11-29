@@ -181,6 +181,14 @@
                   <skipDeploy>${maven.test.skip}</skipDeploy>
                 </configuration>
               </execution>
+              
+              <execution>
+                <id>stop.test.engine</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop-test-engine</goal>
+                </goals>
+              </execution>
             </executions>
           </plugin>
           <plugin>

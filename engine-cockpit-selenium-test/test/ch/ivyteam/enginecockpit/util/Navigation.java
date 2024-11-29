@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.util;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.DASHBOARD;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
 import static com.codeborne.selenide.CollectionCondition.size;
@@ -10,6 +11,8 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
+
+import java.util.Map;
 
 public class Navigation {
 
@@ -66,7 +69,7 @@ public class Navigation {
 
   public static void toDashboard() {
     toMenu(DASHBOARD_MENU);
-    assertCurrentUrlContains("dashboard.xhtml");
+    assertCurrentUrlContains(DASHBOARD);
     menuShouldBeActive(DASHBOARD_MENU);
   }
 
@@ -313,7 +316,7 @@ public class Navigation {
   }
 
   public static void toCluster() {
-    open(viewUrl("cluster.xhtml?cluster"));
+    open(viewUrl("cluster.xhtml", Map.of("cluster", "true")));
     assertCurrentUrlContains("cluster.xhtml");
     menuShouldBeActive(SYSTEM_CLUSTER);
   }

@@ -15,22 +15,24 @@ import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import com.axonivy.ivy.webtest.engine.EngineUrl;
 import com.axonivy.ivy.webtest.engine.EngineUrl.SERVLET;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 
 public class EngineCockpitUtil {
+  public static String DASHBOARD = "dashboard.xhtml";
+  public static String LOGIN = "login.xhtml";
 
   public static String getAdminUser() {
     return isDesigner() ? "Developer" : "admin";
   }
 
   public static void login() {
-    login("dashboard.xhtml");
+    login(DASHBOARD);
   }
 
   public static void login(String url) {
@@ -39,18 +41,33 @@ public class EngineCockpitUtil {
 
   public static void login(String url, String username, String password) {
     open(viewUrl(url));
-    if (webdriver().driver().url().endsWith("login.xhtml")) {
-      $("h4").shouldHave(text("Engine Cockpit"));
-      $("#loginForm\\:userName").sendKeys(username);
-      $("#loginForm\\:password").sendKeys(password);
-      $("#loginForm\\:login").click();
+    if (webdriver().driver().url().endsWith(LOGIN)) {
+      loginUser(username, password);
     }
     $("#menuform").shouldBe(visible);
-    assertCurrentUrlContains(url == "login.xhtml" ? "dashboard.xhtml" : url);
+    assertCurrentUrlContains(LOGIN.equals(url) ? DASHBOARD : url);
+  }
+
+  public static void forceLogin() {
+    forceLogin(getAdminUser(), getAdminUser());
+  }
+
+  public static void forceLogin(String username, String password) {
+    open(viewUrl(LOGIN));
+    loginUser(username, password);
+    open(viewUrl(DASHBOARD));
+    assertCurrentUrlContains(DASHBOARD);
+  }
+
+  public static void loginUser(String username, String password) {
+    $("h4").shouldHave(text("Engine Cockpit"));
+    $("#loginForm\\:userName").sendKeys(username);
+    $("#loginForm\\:password").sendKeys(password);
+    $("#loginForm\\:login").click();
   }
 
   public static void openDashboard() {
-    open(viewUrl("dashboard.xhtml"));
+    open(viewUrl(DASHBOARD));
   }
 
   public static void waitUntilAjaxIsFinished() {
@@ -216,14 +233,23 @@ public class EngineCockpitUtil {
   }
 
   public static String viewUrl(String page) {
-    if (isDesigner()) {
-      // test it in designer as PMV
-      return EngineUrl.createStaticViewUrl("engine-cockpit/" + page);
-    }
-    // test integrated jar
-    return EngineUrl.base() + "/system/engine-cockpit/faces/" + page;
+    return viewUrl(page, Map.of());
   }
 
+  public static String viewUrl(String page, Map<String, String> queryParams) {
+    var urlBuilder = create();//.staticView(parts.path)
+    if (isDesigner()) {
+      // test it in designer as PMV
+      urlBuilder = urlBuilder.staticView("engine-cockpit/" + page);
+    } else {
+      // test integrated jar
+      urlBuilder = urlBuilder.app("system").path("engine-cockpit/faces/" + page);
+    }
+    for (var param : queryParams.entrySet()) {
+      urlBuilder = urlBuilder.queryParam(param.getKey(), param.getValue());
+    }
+    return urlBuilder.toUrl();
+  }
 
   public static String testViewUrl(String page) {
     return create().app(getAppName()).staticView("engine-cockpit-test-data/" + page).toUrl();

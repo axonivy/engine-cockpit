@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.attributeMatching;
 import static com.codeborne.selenide.Condition.disabled;
@@ -11,7 +12,10 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.open;
 import static org.openqa.selenium.By.id;
+
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,9 +23,7 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 
-import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
@@ -48,8 +50,7 @@ public class WebTestSlowRequests {
 
   @Test
   void notExisting() {
-    var url = EngineCockpitUtil.viewUrl("monitorTraceDetail.xhtml?traceId=NOT-EXISTING");
-    Selenide.open(url);
+    open(viewUrl("monitorTraceDetail.xhtml", Map.of("traceId", "NOT-EXISTING")));
     $(By.className("ui-message-warn-summary")).shouldHave(text("Request no longer available"));
     $(By.className("ui-message-warn-detail")).shouldHave(text("The request was remove from the slowest requests because other requests were even slower!"));
   }

@@ -14,6 +14,7 @@ import static com.codeborne.selenide.Selenide.open;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Map;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -161,7 +162,7 @@ class WebTestConfigFileEditor {
   @Test
   void directFileOpenUrl() {
     var file = "web.xml";
-    open(viewUrl("editor.xhtml?file=web.xml"));
+    open(viewUrl("editor.xhtml", Map.of("file", "web.xml")));
     $(By.id("currentFile")).shouldBe(text(file));
     $(By.id("editorForm:codeHolder")).shouldHave(value("<web-app"));
   }
