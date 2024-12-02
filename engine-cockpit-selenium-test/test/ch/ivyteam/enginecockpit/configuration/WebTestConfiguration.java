@@ -18,8 +18,10 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 import static com.codeborne.selenide.Selenide.refresh;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -164,11 +166,18 @@ class WebTestConfiguration {
     void restartHint() {
       var config = "Connector.HTTP.Address";
       assertEditConfig(config, "", "hi", "For servers with more than one IP address");
+      Selenide.sleep(100); //restart will be evaluated by async file watcher
       refresh();
       table.valueForEntryShould(config, 2, exactText("hi"));
-      Selenide.sleep(100);
       var health = $(".health-messages");
-      health.shouldBe(visible).$("a").click();
+      Selenide.Wait()
+        .withTimeout(Duration.ofSeconds(5))
+        .ignoring(AssertionError.class)
+        .until(webDriver -> {
+          health.find("a").click();
+          Selenide.sleep(10);
+          return health.attr("class").contains("active-topmenuitem");
+        });
       health.$$("li").shouldHave(anyMatch("message contains", e -> e.getText().contains("Restart is required")));
       assertResetConfig(config);
     }
@@ -324,8 +333,8 @@ class WebTestConfiguration {
     $("#config\\:editConfigurationForm\\:editConfigurationValue").clear();
     $("#config\\:editConfigurationForm\\:editConfigurationValue").sendKeys(newValue);
     $("#config\\:editConfigurationForm\\:saveEditConfiguration").click();
-    $("#config\\:form\\:msgs_container").shouldHave(text(key), text("saved")).hover();
-    $("#config\\:form\\:msgs_container .ui-growl-icon-close").click();
+    $("#config\\:form\\:msgs_container").shouldHave(text(key), text("saved"));
+    executeJavaScript("arguments[0].click();", $(".ui-growl-icon-close"));
     table.valueForEntryShould(key, 2, exactText(newValue));
     $("#config\\:form\\:msgs_container").shouldNotBe(visible);
   }
