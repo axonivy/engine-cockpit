@@ -9,53 +9,50 @@
   <cc:attribute name="url" />
 </cc:interface>
 <cc:implementation>
-  <h:form id="tlsTestForm">
-    <p:growl id="addMissingCertSuccess"
-      for="addMissingCertSuccess">
-      <p:autoUpdate />
-    </p:growl>
-    <p:dataTable value="#{tlsTesterBean.testResult}" var="logEntry"
-      rowKey="#{logEntry.result}"
-      id="logList" lazy="false" scrollable="true" scrollWidth="100%" scrollHeight="100%">
-      <p:column width="1.5em"
+  <p:growl id="addMissingCertSuccess" for="addMissingCertSuccess">
+    <p:autoUpdate />
+  </p:growl>
+  <p:dataTable value="#{tlsTesterBean.testResult}" var="logEntry"
+    rowKey="#{logEntry.result}" styleClass="tls-tester-table"
+    id="logList" lazy="false" scrollable="true" scrollWidth="100%" scrollHeight="100%">
+    <p:column width="2rem"
+    styleClass="tls-tester-result-column #{tlsTesterBean.backgroundColor(logEntry.result)}">
+      <p:rowToggler rendered="#{tlsTesterBean.isExecuted(logEntry.result)}"/>
+    </p:column>
+    <p:column headerText="Tests" 
       styleClass="tls-tester-result-column #{tlsTesterBean.backgroundColor(logEntry.result)}">
-        <p:rowToggler rendered="#{tlsTesterBean.isExecuted(logEntry.result)}"/>
-      </p:column>
-      <p:column headerText="Tests" 
-        styleClass="tls-tester-result-column #{tlsTesterBean.backgroundColor(logEntry.result)}">
-        <h:outputText value="#{logEntry.group}"></h:outputText>
-        <h:panelGroup id="info">
-          <i class="si si-question-circle"></i>
-          <p:tooltip for="info" value="#{logEntry.groupInfo}" />
-        </h:panelGroup>
-      </p:column>
-      <p:column width="5em" styleClass="tls-tester-result-column #{tlsTesterBean.backgroundColor(logEntry.result)}">
-        <h:outputText class="si table-icon si-#{tlsTesterBean.icon(logEntry.result)}"/>
-      </p:column>
-      <p:rowExpansion>
-        <p:dataTable var="logDataEntry" styleClass="noHeader" value="#{logEntry.entryList}"
-          id="taskTable" rowKey="#{logEntry.entryList}">
-          <p:column style="border:0px;" width="1em">
-            <h:outputText value="#{logDataEntry}" />
-            <h:panelGroup id="infos" rendered="#{tlsTesterBean.hasExtendedInformations(logDataEntry)}">
-              <i class="si si-question-circle"></i>
-              <p:tooltip for="infos" escape="false"
-                value="#{tlsTesterBean.getExtendedInformations(logDataEntry)}" />
-            </h:panelGroup>
-          </p:column>
-        </p:dataTable>
-      </p:rowExpansion>
-    </p:dataTable>
-  </h:form>
-    <style>
-    .noHeader.ui-datatable table thead tr {
+      <h:outputText value="#{logEntry.group}"></h:outputText>
+      <h:panelGroup id="info">
+        <i class="si si-question-circle"></i>
+        <p:tooltip for="info" value="#{logEntry.groupInfo}" />
+      </h:panelGroup>
+    </p:column>
+    <p:column width="2rem" styleClass="tls-tester-result-column #{tlsTesterBean.backgroundColor(logEntry.result)}">
+      <h:outputText class="si table-icon si-#{tlsTesterBean.icon(logEntry.result)}"/>
+    </p:column>
+    <p:rowExpansion>
+      <p:dataTable var="logDataEntry" styleClass="noHeader" value="#{logEntry.entryList}"
+        id="taskTable" rowKey="#{logEntry.entryList}">
+        <p:column style="border:0px;" width="1em">
+          <h:outputText value="#{logDataEntry}" />
+          <h:panelGroup id="infos" rendered="#{tlsTesterBean.hasExtendedInformations(logDataEntry)}">
+            <i class="si si-question-circle"></i>
+            <p:tooltip for="infos" escape="false"
+              value="#{tlsTesterBean.getExtendedInformations(logDataEntry)}" />
+          </h:panelGroup>
+        </p:column>
+      </p:dataTable>
+    </p:rowExpansion>
+  </p:dataTable>
+  <style>
+  .tls-tester-table.ui-datatable {
+    .noHeader thead {
       display: none;
     }
-    body .ui-datatable .ui-datatable-data > tr > td {
-      padding-top: 0.2rem;
-      padding-left: 1.5rem;
-      padding-bottom: 0.2rem;
+    .ui-datatable-data > tr > td {
+      padding-block: 0.2rem;
     }
-    </style>
+  }
+  </style>
 </cc:implementation>
 </html>

@@ -16,21 +16,19 @@
     widgetVar="connectionTestModel" modal="true" responsive="false" closeOnEscape="true" >
     <p:staticMessage rendered="#{cc.attrs.saveHint}" severity="info" summary="Info" detail="Make sure that you saved your changes before you test the connection." />
     <h:form id="connTestForm" styleClass="custom-dialog-form">
-      <h:panelGroup style="height:150px" id="missingCertView" 
-        rendered="#{cc.attrs.bean.hasMissingCerts(cc.attrs.url)}">
-        <jc:TlsTesterMissingCertView id="missing" bean="#{tlsTesterBean}" cert="#{cc.attrs.bean.missingCert}"></jc:TlsTesterMissingCertView>
+      <h:panelGroup style="height:150px" id="missingCertView" rendered="#{cc.attrs.bean.hasMissingCerts(cc.attrs.url)}">
+        <jc:TlsTesterMissingCertView id="missing" bean="#{tlsTesterBean}" cert="#{cc.attrs.bean.missingCert}" />
       </h:panelGroup>
-      <h:panelGrid id="resultLog" columns="1" style="height:450px" styleClass="ui-fluid">
-        <h:panelGroup id="resultConnect">
+      <div style="height:450px;">
+        <h:panelGroup id="resultConnect" layout="block" rendered="#{not empty cc.attrs.result.message}" style="height: 100%;">
           <h:outputText value="#{cc.attrs.result.testResult}"
             style="font-weight: bold; color: #{cc.attrs.result.testResultColor}" />
-          <pre style="max-height: 200px; overflow: auto; margin: 0;">#{cc.attrs.result.message}</pre>
+          <pre style="height: 100%; overflow: auto; margin: 0;">#{cc.attrs.result.message}</pre>
         </h:panelGroup>
-        <h:panelGroup id="resultTLS" styleClass="ui-fluid"
-          rendered="#{tlsTesterBean.tlsTestRendered}">
+        <h:panelGroup id="resultTLS" layout="block" styleClass="ui-fluid" rendered="#{tlsTesterBean.tlsTestRendered}" style="height: 100%;">
           <jc:TlsTester url="#{cc.attrs.url}" />
         </h:panelGroup>
-      </h:panelGrid>
+      </div>
       <div class="custom-dialog-footer">
         <p:commandButton id="closeConTesterDialog" onclick="PF('connectionTestModel').hide(); #{cc.attrs.reset};" 
            value="Close" type="button" update="connTestForm"
