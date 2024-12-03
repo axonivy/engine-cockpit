@@ -34,7 +34,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest(headless = false)
+@IvyWebTest
 class WebTestRoleDetail {
 
   private static final String DIRECTORY_BROWSER_FORM = "#directoryBrowser\\:directoryBrowserForm\\:";
