@@ -83,6 +83,7 @@ class WebTestJobs {
   @Test
   void refresh() {
     var content = table.rows().texts();
+    Selenide.sleep(1000); // Sleep to make sure next execution differs
     $(By.id("refresh")).click();
     assertThat(table.rows().texts()).isNotEqualTo(content);
   }
