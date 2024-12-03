@@ -27,7 +27,7 @@ class WebTestRestClients {
   void restClientsInTable() {
     Table table = new Table(By.id("tabs:applicationTabView:" +
             Tab.APP.getSelectedTabIndex() + ":form:restClientsTable"), true);
-    table.firstColumnShouldBe(size(2));
+    table.firstColumnShouldBe(size(3));
 
     table.search(table.getFirstColumnEntries().get(0));
     table.firstColumnShouldBe(size(1));
