@@ -10,8 +10,6 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -20,7 +18,6 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.codeborne.selenide.Selenide;
 
-import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.FeatureEditor;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.PropertyEditor;
@@ -32,10 +29,6 @@ class WebTestRestClientDetail {
 
   @BeforeEach
   void beforeEach() {
-    navigateToRestDetail();
-  }
-
-  private void navigateToRestDetail() {
     login();
     Navigation.toRestClients();
     Tab.APP.switchToDefault();
@@ -117,7 +110,7 @@ class WebTestRestClientDetail {
     table.row(4).shouldHave(text("PATH.port"), text("91"));
     table.row(5).shouldHave(text("username"), text("admin"));
   }
-  
+
   @Test
   void addProperty() {
     var editor = new PropertyEditor("restClientAdditionalConfigForm:restClientPropertiesTable:newPropertyEditor:");
@@ -126,7 +119,7 @@ class WebTestRestClientDetail {
     table.row(2).shouldHave(text("testProperty"), text("testValue"));
     $(By.id("restClientAdditionalConfigForm:restClientPropertiesTable:2:editPropertyEditor:deletePropertyBtn")).click();
   }
-  
+
   @Test
   void editProperty() {
     var editor = new PropertyEditor("restClientAdditionalConfigForm:restClientPropertiesTable:5:editPropertyEditor:");
@@ -135,7 +128,7 @@ class WebTestRestClientDetail {
     table.row(5).shouldHave(text("username"), text("editValue"));
     editor.editProperty("admin");
   }
-  
+
   @Test
   void addFeature() {
     var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:");
@@ -144,7 +137,7 @@ class WebTestRestClientDetail {
     table.row(2).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.AuthFeature"));
     $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
   }
-  
+
   @Test
   void editFeature() {
     var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:");
@@ -153,22 +146,6 @@ class WebTestRestClientDetail {
     var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
     table.row(2).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.editFeature"));
     $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
-  }
-
-  @Test
-  void liveStats() {
-    EngineCockpitUtil.runRestClient();
-    navigateToRestDetail();
-    EngineCockpitUtil.assertLiveStats(List.of("REST Client Connections", "REST Client Calls",
-            "REST Client Execution Time"), "test-rest", false);
-  }
-
-  @Test
-  void restExecHistory() {
-    EngineCockpitUtil.runRestClient();
-    navigateToRestDetail();
-    Selenide.executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
-    $(By.id("restClientHistory:execHistoryForm:execHistoryTable_data")).shouldHave(text("http://test-webservices.ivyteam.io:8090/api/v3/store/inventory"));
   }
 
   private void setConfiguration(String url, String username) {

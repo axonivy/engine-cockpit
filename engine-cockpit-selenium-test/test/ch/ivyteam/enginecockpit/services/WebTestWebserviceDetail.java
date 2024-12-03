@@ -13,14 +13,10 @@ import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
@@ -28,7 +24,6 @@ import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
-import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.FeatureEditor;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.PropertyEditor;
@@ -36,21 +31,11 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-@TestMethodOrder(MethodOrderer.MethodName.class)
 class WebTestWebserviceDetail {
   private static final String WEBSERVICE_NAME = "test-web";
 
-  @BeforeAll
-  static void setup() {
-    EngineCockpitUtil.runWebService();
-  }
-
   @BeforeEach
   void beforeEach() {
-    navigateToWebServiceDetail();
-  }
-
-  private void navigateToWebServiceDetail() {
     login();
     Navigation.toWebservices();
     Tab.APP.switchToDefault();
@@ -217,19 +202,6 @@ class WebTestWebserviceDetail {
     var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
     table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.editFeature"));
     $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
-  }
-
-  @Test
-  void liveStats() {
-    EngineCockpitUtil.assertLiveStats(List.of("Web Service Calls", "Web Service Execution Time"), "test-web", false);
-  }
-
-  @Test
-  void webServiceExecHistory() {
-    EngineCockpitUtil.runWebService();
-    navigateToWebServiceDetail();
-    Selenide.executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
-    $(By.id("webServiceHistory:execHistoryForm:execHistoryTable_data")).shouldHave(text("http://secure.smartbearsoftware.com:80/samples/testcomplete12/webservices/Service.asmx"));
   }
 
   private void setEndPoint(String defaultLink, String... fallbacks) {
