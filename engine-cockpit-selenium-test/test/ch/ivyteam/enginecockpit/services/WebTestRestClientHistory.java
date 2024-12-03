@@ -20,7 +20,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
 class WebTestRestClientHistory {
-  private static final String RESTCLIENT_NAME = "test-rest";
+  private static final String RESTCLIENT_NAME = "engine-rest";
 
   @BeforeAll
   static void setup() {
@@ -38,12 +38,12 @@ class WebTestRestClientHistory {
   @Test
   void liveStats() {
     EngineCockpitUtil.assertLiveStats(List.of("REST Client Connections", "REST Client Calls",
-            "REST Client Execution Time"), "test-rest", false);
+            "REST Client Execution Time"), "engine-rest", false);
   }
 
   @Test
   void restExecHistory() {
     Selenide.executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
-    $(By.id("restClientHistory:execHistoryForm:execHistoryTable_data")).shouldHave(text("http://test-webservices.ivyteam.io:8090/api/v3/store/inventory"));
+    $(By.id("restClientHistory:execHistoryForm:execHistoryTable_data")).shouldHave(text("test/info"));
   }
 }

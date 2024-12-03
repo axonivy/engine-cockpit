@@ -299,8 +299,8 @@
       "type" : "RestClientCall",
       "config" : {
         "target" : {
-          "clientId" : "2fb1152a-d43a-4840-b798-81ce34cef104",
-          "path" : "/store/inventory"
+          "clientId" : "7ed632a9-5227-43f0-aa9b-8854fb515b9c",
+          "path" : "/test/info"
         }
       },
       "visual" : {
