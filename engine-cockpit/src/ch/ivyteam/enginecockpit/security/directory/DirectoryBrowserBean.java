@@ -27,12 +27,19 @@ public class DirectoryBrowserBean {
     this.root = null;
     this.directoryBrowser = browser;
     try {
-      var directoryNodeToSelect = browser.find(idToSelect);
-      this.root = new DefaultTreeNode<DirectoryNode>(null, null);
+      var directoryNodeToSelect = findDirectoryNode(browser, idToSelect);
+      this.root = new DefaultTreeNode<>(null, null);
       browser.root().forEach(node -> addNewSubnode(root, node, directoryNodeToSelect));
     } catch (Exception ex) {
       errorMessage(ex);
     }
+  }
+
+  private DirectoryNode findDirectoryNode(DirectoryBrowser browser, String idToSelect) {
+    if (idToSelect != null && idToSelect.isBlank()) {
+      return browser.find(idToSelect);
+    }
+    return null;
   }
 
   public String icon(DirectoryNode node) {
