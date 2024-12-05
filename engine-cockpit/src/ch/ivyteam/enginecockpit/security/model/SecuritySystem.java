@@ -41,9 +41,7 @@ public class SecuritySystem {
   }
 
   private IdentityProvider identityProvider() {
-    return ISecurityContextInternal.class.cast(securityContext)
-            .identityProviders()
-            .get(0);
+    return ISecurityContextInternal.class.cast(securityContext).identityProvider();
   }
 
   private static String loadResource(URI uri) {

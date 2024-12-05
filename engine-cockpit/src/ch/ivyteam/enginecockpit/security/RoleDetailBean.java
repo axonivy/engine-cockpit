@@ -373,7 +373,7 @@ public class RoleDetailBean {
   }
 
   public void browseDirectory() {
-    var identityProvider = ((ISecurityContextInternal) securityContext).identityProviders().get(0);
+    var identityProvider = ((ISecurityContextInternal) securityContext).identityProvider();
     var browser = identityProvider.directoryBrowser(getIdpConfig());
     directoryBrowser.browse(browser, role.getExternalName());
   }
@@ -410,7 +410,7 @@ public class RoleDetailBean {
   }
 
   public boolean isDirectoryBrowserDisabled() {
-    var identityProvider = ((ISecurityContextInternal) securityContext).identityProviders().get(0);
+    var identityProvider = ((ISecurityContextInternal) securityContext).identityProvider();
     return isRootRole() || identityProvider.directoryBrowser(getIdpConfig()) == null;
   }
 

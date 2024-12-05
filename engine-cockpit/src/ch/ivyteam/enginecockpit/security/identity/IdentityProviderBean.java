@@ -31,7 +31,7 @@ public class IdentityProviderBean {
 
   public void onload() {
     securityContext = (ISecurityContextInternal) ISecurityManager.instance().securityContexts().get(securitySystemName);
-    identityProvider = securityContext.identityProviders().get(0);
+    identityProvider = securityContext.identityProvider();
     var configurator = identityProvider.configurator();
     var idp = ((SecurityContext) securityContext).config().identity();
     this.dynamicConfig = DynamicConfig.create()
