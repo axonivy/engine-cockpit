@@ -176,12 +176,9 @@
                   var="keyValue" id="keyValueTable">
                   <p:column
                     headerText="#{property.getKeyValueProperty().getKeyValueKeyName()}">
-                    <h:outputText value="#{keyValue.key}"
-                      styleClass="ldap-attribute" />
+                    <h:outputText value="#{keyValue.key}" />
                   </p:column>
-                  <p:column
-                    headerText="#{property.getKeyValueProperty().getKeyValueValueName()}"
-                    styleClass="ldap-value">
+                  <p:column headerText="#{property.getKeyValueProperty().getKeyValueValueName()}" >
                     <h:outputText value="#{keyValue.value}" />
                   </p:column>
                   <p:column styleClass="table-btn-2">

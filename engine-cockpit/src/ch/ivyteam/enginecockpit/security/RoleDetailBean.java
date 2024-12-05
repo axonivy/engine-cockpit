@@ -372,7 +372,7 @@ public class RoleDetailBean {
     return ISecurityConstants.TOP_LEVEL_ROLE_NAME.equals(getName()) || (!SecuritySystem.isIvySecuritySystem(securityContext) && getRole().isManaged());
   }
 
-  public void browseLdap() {
+  public void browseDirectory() {
     var identityProvider = ((ISecurityContextInternal) securityContext).identityProviders().get(0);
     var browser = identityProvider.directoryBrowser(getIdpConfig());
     directoryBrowser.browse(browser, role.getExternalName());
@@ -382,7 +382,7 @@ public class RoleDetailBean {
     return ((SecurityContext) securityContext).config().identity();
   }
 
-  public DirectoryBrowserBean getLdapBrowser() {
+  public DirectoryBrowserBean getDirectoryBrowser() {
     return directoryBrowser;
   }
 

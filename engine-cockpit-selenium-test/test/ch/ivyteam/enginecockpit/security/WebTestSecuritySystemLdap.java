@@ -36,27 +36,27 @@ public class WebTestSecuritySystemLdap {
   @BeforeEach
   void beforeEach() {
     login();
-    Navigation.toSecuritySystemLdap("test-ad");
+    Navigation.toSecurityIdentityProvider("test-ad");
   }
 
   @Test
-  void ldapBrowser_wrongConfig() {
+  void directoryBrowser_wrongConfig() {
     $(By.id(URL)).clear();
     $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io2");
     saveConnection();
     try {
-      openLdapBrowserWithConnError();
+      openDirectoryBrowserWithConnError();
     } finally {
       $(By.id(URL)).clear();
       $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io");
       saveConnection();
     }
-    openDefaultLdapBrowser();
+    openDirectoryBrowser();
     $(By.id("directoryBrowser:directoryBrowserForm:directoryBrowserMessage")).shouldNotBe(visible);
   }
 
   @Test
-  void adldapBrowser_chooseDefaultContext() {
+  void directoryBrowser_chooseDefaultContext() {
     $(By.id("identityProvider:dynamicConfigForm:group:1:property:0:browseDirectory"))
       .should(visible).click();
     $(By.id("directoryBrowser:directoryBrowserForm:tree:0"))
@@ -79,7 +79,7 @@ public class WebTestSecuritySystemLdap {
     $(By.id(DEFAULT_CONTEXT)).clear();
     $(By.id("identityProvider:dynamicConfigForm:group:1:save")).click();
 
-    openDefaultLdapBrowser();
+    openDirectoryBrowser();
     $(By.id(DIRECTORY_BROWSER_CHOOSE)).shouldHave(cssClass("ui-state-disabled"));
     $(By.id("directoryBrowser:cancelDirectoryBrowser")).click();
 
@@ -91,18 +91,18 @@ public class WebTestSecuritySystemLdap {
   }
 
   @Nested
-  class LdapBrowserNovell {
+  class DirectoryBrowserNovell {
     @BeforeEach
     void beforeEach() {
-      Navigation.toSecuritySystemLdap("test-nd");
+      Navigation.toSecurityIdentityProvider("test-nd");
     }
 
     @Test
-    void ldapBrowser_chooseDefaultContext() {
+    void directoryBrowser_chooseDefaultContext() {
       $(By.id(DEFAULT_CONTEXT)).clear();
       $(By.id(DEFAULT_CONTEXT)).shouldBe(exactValue(""));
       saveConnection();
-      openDefaultLdapBrowser();
+      openDirectoryBrowser();
       $$(DIRECTORY_BROWSER_FORM + "tree > ul > li").shouldHave(size(1));
       $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
       $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode")
@@ -122,13 +122,13 @@ public class WebTestSecuritySystemLdap {
     Selenide.executeJavaScript("arguments[0].click();", $(CONNECTION_SAVE_GRWOL + " .ui-growl-icon-close"));
   }
 
-  private void openDefaultLdapBrowser() {
+  private void openDirectoryBrowser() {
     $(By.id("identityProvider:dynamicConfigForm:group:1:property:0:browseDirectory")).shouldBe(visible).click();
     $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldBe(visible);
   }
 
-  private void openLdapBrowserWithConnError() {
-    openDefaultLdapBrowser();
+  private void openDirectoryBrowserWithConnError() {
+    openDirectoryBrowser();
     try {
       $(By.id("directoryBrowser:directoryBrowserForm:directoryBrowserMessage"))
         .shouldBe(visible)
