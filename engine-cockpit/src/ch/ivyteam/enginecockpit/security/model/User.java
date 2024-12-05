@@ -153,16 +153,19 @@ public class User implements SecurityMember {
     return externalName;
   }
 
-  public String getExternalNameShort() {
-    return StringUtils.substringBefore(externalName, ",") + ",...";
-  }
-
   public String getExternalId() {
     return externalId;
   }
 
   public String getDisplayName() {
     return name + " (" + fullName + ")";
+  }
+
+  public String getExternalIdentifier() {
+    if (externalId != null && !externalId.isBlank()) {
+      return externalId;
+    }
+    return externalName;
   }
 
   public Locale getLanguage() {

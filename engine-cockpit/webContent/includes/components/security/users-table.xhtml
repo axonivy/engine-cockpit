@@ -40,9 +40,9 @@
             <img src="https://www.gravatar.com/avatar/#{user.gravatarHash}?d=404" onload="showGravatarImg(this);"/>
           </h:panelGroup>
         </h:outputText>
-        <h:outputText value="[External: '#{user.externalNameShort}']" title="#{user.externalName}"
+        <h:outputText value="[external]" title="#{user.externalIdentifier}"
           rendered="#{user.external and !user.ivySecuritySystem}" styleClass="ml-1 addition-row-info table-cell-autocut" />
-        <h:outputText value="[Disabled]" rendered="#{!user.enabled}" styleClass="ml-1 addition-row-info table-cell-autocut" />
+        <h:outputText value="[disabled]" rendered="#{!user.enabled}" styleClass="ml-1 addition-row-info table-cell-autocut" />
       </a>
     </p:column>
     <p:column headerText="Full Name" sortBy="#{user.fullName}">
