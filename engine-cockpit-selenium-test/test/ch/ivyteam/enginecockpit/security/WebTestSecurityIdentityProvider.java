@@ -41,7 +41,7 @@ class WebTestSecurityIdentityProvider {
     login();
     Navigation.toSecuritySystem();
     createSecuritySystem("Dummy Identity Provider", NAME);
-    Navigation.toSecuritySystemProvider(NAME);
+    Navigation.toSecurityIdentityProvider(NAME);
   }
 
   @AfterEach

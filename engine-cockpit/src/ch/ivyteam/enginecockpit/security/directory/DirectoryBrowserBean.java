@@ -111,7 +111,7 @@ public class DirectoryBrowserBean {
   }
 
   private void errorMessage(Exception ex) {
-    LOGGER.error("Error in LDAP call", ex);
+    LOGGER.error("Error calling identity provider", ex);
     FacesContext.getCurrentInstance().addMessage("directoryBrowserMessage",
       new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", getEndUserMessage(ex)));
   }
