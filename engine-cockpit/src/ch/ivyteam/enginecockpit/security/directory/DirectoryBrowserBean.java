@@ -36,7 +36,7 @@ public class DirectoryBrowserBean {
   }
 
   private DirectoryNode findDirectoryNode(DirectoryBrowser browser, String idToSelect) {
-    if (idToSelect != null && idToSelect.isBlank()) {
+    if (idToSelect != null && !idToSelect.isBlank()) {
       return browser.find(idToSelect);
     }
     return null;
