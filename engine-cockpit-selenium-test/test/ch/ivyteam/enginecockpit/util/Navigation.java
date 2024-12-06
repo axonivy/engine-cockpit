@@ -119,16 +119,6 @@ public class Navigation {
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
 
-  public static void toSecuritySystemLdap(String secSystemName) {
-    toSecuritySystem();
-    $$(".security-name").find(text(secSystemName)).shouldBe(visible).click();
-    assertCurrentUrlContains("security-detail.xhtml?securitySystemName=" + secSystemName);
-    menuShouldBeActive(SECURITY_SYSTEM_MENU);
-    $("#securityProviderForm\\:editProviderBtn").shouldBe(visible).click();
-    assertCurrentUrlContains("identity-provider.xhtml?securitySystemName=" + secSystemName);
-    menuShouldBeActive(SECURITY_SYSTEM_MENU);
-  }
-
   public static void toSecuritySystemProvider(String secSystemName) {
     toSecuritySystem();
     $$(".security-name").find(text(secSystemName)).shouldBe(visible).click();

@@ -36,7 +36,7 @@ public class WebTestSecuritySystemLdap {
   @BeforeEach
   void beforeEach() {
     login();
-    Navigation.toSecuritySystemLdap("test-ad");
+    Navigation.toSecuritySystemProvider("test-ad");
   }
 
   @Test
@@ -94,7 +94,7 @@ public class WebTestSecuritySystemLdap {
   class LdapBrowserNovell {
     @BeforeEach
     void beforeEach() {
-      Navigation.toSecuritySystemLdap("test-nd");
+      Navigation.toSecuritySystemProvider("test-nd");
     }
 
     @Test
