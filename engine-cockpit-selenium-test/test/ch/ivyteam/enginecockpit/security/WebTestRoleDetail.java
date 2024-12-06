@@ -364,7 +364,7 @@ class WebTestRoleDetail {
   }
 
   @Test
-  void externalSecurityName_ldapBrowser() {
+  void externalSecurityName_directoryBrowser() {
     $(By.id("roleInformationForm:browseExternalName")).shouldBe(disabled);
     Navigation.toRoles();
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
@@ -389,7 +389,7 @@ class WebTestRoleDetail {
   }
 
   @Test
-  void externalSecurityName_ldapBrowser_initValue() {
+  void externalSecurityName_directoryBrowser_initValue() {
     Navigation.toRoles();
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
     Navigation.toRoleDetail("test-ad", DETAIL_ROLE_NAME);
