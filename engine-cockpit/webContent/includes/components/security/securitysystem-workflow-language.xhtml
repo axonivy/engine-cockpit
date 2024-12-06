@@ -18,9 +18,9 @@
     <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
       value="#{securityWorkflowLanguageBean.languages}" var="language" id="workflowLanguageTable">
       <p:column headerText="Language">
-        <h:outputText value="#{language.displayName}" styleClass="ldap-attribute" />
+        <h:outputText value="#{language.displayName}" styleClass="language-displayname" />
       </p:column>
-      <p:column headerText="Default" styleClass="ldap-value">
+      <p:column headerText="Default" styleClass="language-default">
         <i class="#{securityWorkflowLanguageBean.isDefault(language) ? 'si si-check-circle-1 table-icon activity-state-active' : ''}"></i>
       </p:column>
       <p:column styleClass="table-btn-2">
