@@ -15,6 +15,7 @@ import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.DownloadOptions;
 import com.codeborne.selenide.FileDownloadMode;
 import com.codeborne.selenide.Selenide;
 
@@ -60,7 +61,8 @@ class WebTestDocuments {
   @Test
   void download() {
     var blobs = table();
-    var download = blobs.tableEntry(1, 9).download(TIMEOUT);
+    var options = DownloadOptions.file().withTimeout(TIMEOUT);
+    var download = blobs.tableEntry(1, 9).download(options);
     assertThat(download.getName()).isEqualTo("louis.txt");
     assertThat(download).content().isEqualTo("louis schreibt man mit s");
   }
