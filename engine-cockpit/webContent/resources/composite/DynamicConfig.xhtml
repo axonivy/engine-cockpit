@@ -177,11 +177,11 @@
                   <p:column
                     headerText="#{property.getKeyValueProperty().getKeyValueKeyName()}">
                     <h:outputText value="#{keyValue.key}"
-                      styleClass="ldap-attribute" />
+                      styleClass="dynamic-config-key" />
                   </p:column>
                   <p:column
                     headerText="#{property.getKeyValueProperty().getKeyValueValueName()}"
-                    styleClass="ldap-value">
+                    styleClass="dynamic-config-value">
                     <h:outputText value="#{keyValue.value}" />
                   </p:column>
                   <p:column styleClass="table-btn-2">
