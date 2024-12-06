@@ -45,7 +45,6 @@ jQuery(function () {
   function searchCorrectMenuItemPage(value) {
     var map = {
       'security-detail.xhtml': 'securitysystem.xhtml',
-      'security-ldap.xhtml': 'securitysystem.xhtml',
       'identity-provider.xhtml': 'securitysystem.xhtml',
       'notificationDeliveries.xhtml': 'notifications.xhtml',
       'userdetail.xhtml': 'users.xhtml',
