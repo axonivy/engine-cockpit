@@ -27,12 +27,19 @@ public class DirectoryBrowserBean {
     this.root = null;
     this.directoryBrowser = browser;
     try {
-      var directoryNodeToSelect = browser.find(idToSelect);
+      var directoryNodeToSelect = findDirectoryNode(browser, idToSelect);
       this.root = new DefaultTreeNode<DirectoryNode>(null, null);
       browser.root().forEach(node -> addNewSubnode(root, node, directoryNodeToSelect));
     } catch (Exception ex) {
       errorMessage(ex);
     }
+  }
+
+  private DirectoryNode findDirectoryNode(DirectoryBrowser browser, String idToSelect) {
+    if (idToSelect != null && !idToSelect.isBlank()) {
+      return browser.find(idToSelect);
+    }
+    return null;
   }
 
   public String icon(DirectoryNode node) {
@@ -102,8 +109,7 @@ public class DirectoryBrowserBean {
     if (selectedNode == null) {
       return null;
     }
-    DirectoryNode directoryNode = selectedNode.getData();
-    return directoryNode.id();
+    return selectedNode.getData().id();
   }
 
   public List<Property> getSelectedNodeProperties() {
@@ -111,7 +117,7 @@ public class DirectoryBrowserBean {
   }
 
   private void errorMessage(Exception ex) {
-    LOGGER.error("Error in LDAP call", ex);
+    LOGGER.error("Error in directory browser", ex);
     FacesContext.getCurrentInstance().addMessage("directoryBrowserMessage",
       new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", getEndUserMessage(ex)));
   }
