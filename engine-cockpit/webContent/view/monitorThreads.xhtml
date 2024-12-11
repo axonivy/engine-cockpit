@@ -70,13 +70,23 @@
                   <h:outputText value="#{thread.priority}"/>
                 </p:column>
                 <p:column headerText="CPU Time" sortBy="#{thread.cpuTime}" width="20%">
+                  <f:facet name="header">
+                    <h:outputText value="CPU Time" title="Total CPU Time [ns]"/>
+                  </f:facet>
                   <div style="background: #{thread.cpuTimeBackground};">
-                    <h:outputText styleClass="gradient-text" value="#{thread.cpuTime}"/>
+                    <h:outputText styleClass="gradient-text" value="#{thread.cpuTime}" title="#{thread.cpuTime}">
+                      <f:convertNumber/>
+                    </h:outputText>
                   </div>
                 </p:column>
-                <p:column headerText="User Time" sortBy="#{thread.userTime}" width="20%">
+                <p:column sortBy="#{thread.userTime}" width="20%">
+                  <f:facet name="header">
+                    <h:outputText value="User Time" title="User CPU Time [ns]"/>
+                  </f:facet>
                   <div style="background: #{thread.userTimeBackground};">
-                    <h:outputText styleClass="gradient-text" value="#{thread.userTime}"/>
+                    <h:outputText styleClass="gradient-text" value="#{thread.userTime}" title="#{thread.userTime}">
+                      <f:convertNumber/>
+                    </h:outputText>
                   </div>
                 </p:column>
               </p:dataTable>
@@ -94,9 +104,27 @@
               <p:outputLabel for="deadlocked" value="Deadlocked" />
               <h:outputText id="deadlocked" value="#{threadBean.selected.deadLocked}"/>
               <p:outputLabel for="blocked" value="Blocked" />
-              <h:outputText id="blocked" value="#{threadBean.selected.info.blockedCount} (#{threadBean.selected.info.blockedTime} ns)"/>
+              <h:panelGroup id="blocked">
+                <h:outputText value="#{threadBean.selected.info.blockedCount}">
+                  <f:convertNumber/>
+                </h:outputText>
+                <h:outputText value=" ("/>
+                <h:outputText value="#{threadBean.selected.info.blockedTime}">
+                  <f:convertNumber/>
+                </h:outputText>
+                <h:outputText value=" ns)"/>
+              </h:panelGroup>
               <p:outputLabel for="waited" value="Waited" />
-              <h:outputText id="waited" value="#{threadBean.selected.info.waitedCount} (#{threadBean.selected.info.waitedTime} ns)"/>
+              <h:panelGroup id="waited">
+                <h:outputText value="#{threadBean.selected.info.waitedCount}">
+                  <f:convertNumber/>
+                </h:outputText>
+                <h:outputText value=" ("/>
+                <h:outputText value="#{threadBean.selected.info.waitedTime}">
+                  <f:convertNumber/>
+                </h:outputText>
+                <h:outputText value=" ns)"/>
+              </h:panelGroup>
               <p:outputLabel for="lock" value="Waiting on or for Lock"/>
               <p:outputPanel id="lock" styleClass="code">#{threadBean.selected.lockName}</p:outputPanel>
               <p:outputLabel for="lockOwner" value="Lock Owner"/>

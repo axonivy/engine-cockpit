@@ -69,11 +69,15 @@
             </p:column>
 
             <p:column headerText="Executions" sortBy="#{bean.executions}" style="width: 100px;">
-              <h:outputText value="#{bean.executions}"/>
+              <h:outputText value="#{bean.executions}" title="#{bean.executions}">
+                <f:convertNumber/>
+              </h:outputText>
             </p:column>
 
             <p:column headerText="Errors" sortBy="#{bean.errors}" style="width: 100px;">
-              <h:outputText value="#{bean.errors}"/>
+              <h:outputText value="#{bean.errors}" title="#{bean.errors}">
+                <f:convertNumber/>
+              </h:outputText>
             </p:column>
 
              <p:column styleClass="table-btn-3">

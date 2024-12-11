@@ -65,11 +65,15 @@
             </p:column>
 
             <p:column headerText="Executions" sortBy="#{job.executions}" style="width: 100px;">
-              <h:outputText value="#{job.executions}"/>
+              <h:outputText value="#{job.executions}" title="#{job.executions}">
+                <f:convertNumber/>
+              </h:outputText>
             </p:column>
 
             <p:column headerText="Errors" sortBy="#{job.errors}" style="width: 100px;">
-              <h:outputText value="#{job.errors}"/>
+              <h:outputText value="#{job.errors}" title="#{job.errors}">
+                <f:convertNumber/>
+              </h:outputText>
             </p:column>
 
              <p:column styleClass="table-btn-1">

@@ -127,7 +127,9 @@
                   <h:outputText value="Total" title="Total execution time [ms] (internal + external)"/>
                 </f:facet>
                 <div style="background: #{processElement.totalExecutionTimeBackground};">
-                  <h:outputText styleClass="gradient-text" value="#{processElement.totalExecutionTime}" title="#{processElement.totalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.totalExecutionTime}" title="#{processElement.totalExecutionTime}">
+                    <f:convertNumber maxFractionDigits="3"/>
+                  </h:outputText>
                 </div>
               </p:column>
   
@@ -136,7 +138,9 @@
                   <h:outputText value="Int Executions" title="Number of engine internal executions"/>
                 </f:facet>
                 <div style="background: #{processElement.internalExecutionsBackground};">
-                  <h:outputText styleClass="gradient-text" value="#{processElement.internalExecutions}" title="#{processElement.internalExecutions}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.internalExecutions}" title="#{processElement.internalExecutions}">
+                    <f:convertNumber/>
+                  </h:outputText>
                 </div>
               </p:column>
               
@@ -145,7 +149,9 @@
                   <h:outputText value="Int Total" title="Total of engine internal execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.totalInternalExecutionTimeBackground};">
-                  <h:outputText styleClass="gradient-text" value="#{processElement.totalInternalExecutionTime}" title="#{processElement.totalInternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.totalInternalExecutionTime}" title="#{processElement.totalInternalExecutionTime}">
+                    <f:convertNumber maxFractionDigits="3"/>
+                  </h:outputText>
                 </div>
               </p:column>
               
@@ -154,7 +160,9 @@
                   <h:outputText value="Int Min" title="Minimum of engine internal execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.minInternalExecutionTimeBackground};">
-                  <h:outputText styleClass="gradient-text" value="#{processElement.minInternalExecutionTime}" title="#{processElement.minInternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.minInternalExecutionTime}" title="#{processElement.minInternalExecutionTime}">
+                    <f:convertNumber maxFractionDigits="3"/>
+                  </h:outputText>
                 </div>
               </p:column>
               
@@ -163,7 +171,9 @@
                   <h:outputText value="Int Avg" title="Average of engine internal execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.avgInternalExecutionTimeBackground};">
-                  <h:outputText styleClass="gradient-text" value="#{processElement.avgInternalExecutionTime}" title="#{processElement.avgInternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.avgInternalExecutionTime}" title="#{processElement.avgInternalExecutionTime}">
+                    <f:convertNumber maxFractionDigits="3"/>
+                  </h:outputText>
                 </div>
               </p:column>
   
@@ -172,7 +182,9 @@
                   <h:outputText value="Int Max" title="Maximum of engine internal execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.totalInternalExecutionTimeBackground};">
-                  <h:outputText styleClass="gradient-text" value="#{processElement.maxInternalExecutionTime}" title="#{processElement.maxInternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.maxInternalExecutionTime}" title="#{processElement.maxInternalExecutionTime}">
+                    <f:convertNumber maxFractionDigits="3"/>
+                  </h:outputText>
                 </div>
               </p:column>
               <p:column sortBy="#{processElement.externalExecutions}" visible="false" style="width: 100px" exportFunction="#{processExecutionBean.export}">
@@ -180,7 +192,9 @@
                   <h:outputText value="Ext Executions" title="Number of external executions"/>
                 </f:facet>
                 <div style="background: #{processElement.externalExecutionsBackground};">
-                  <h:outputText styleClass="gradient-text" value="#{processElement.externalExecutions}" title="#{processElement.externalExecutions}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.externalExecutions}" title="#{processElement.externalExecutions}">
+                    <f:convertNumber/>
+                  </h:outputText>
                 </div>
               </p:column>
               <p:column sortBy="#{processElement.totalExternalExecutionTime}" style="width: 65px" exportFunction="#{processExecutionBean.export}">
@@ -188,7 +202,9 @@
                   <h:outputText value="Ext Total" title="Total of external execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.totalExternalExecutionTimeBackground};"> 
-                  <h:outputText styleClass="gradient-text" value="#{processElement.totalExternalExecutionTime}" title="#{processElement.totalExternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.totalExternalExecutionTime}" title="#{processElement.totalExternalExecutionTime}">
+                    <f:convertNumber maxFractionDigits="3"/>
+                  </h:outputText>
                 </div>
               </p:column>
               <p:column sortBy="#{processElement.minExternalExecutionTime}" visible="false" style="width: 65px" exportFunction="#{processExecutionBean.export}">
@@ -196,7 +212,9 @@
                   <h:outputText value="Ext Min" title="Minimum of external execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.minExternalExecutionTimeBackground};"> 
-                  <h:outputText styleClass="gradient-text" value="#{processElement.minExternalExecutionTime}" title="#{processElement.minExternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.minExternalExecutionTime}" title="#{processElement.minExternalExecutionTime}">
+                    <f:convertNumber maxFractionDigits="3"/>
+                  </h:outputText>
                 </div>
               </p:column>
               <p:column sortBy="#{processElement.avgExternalExecutionTime}" style="width: 65px" exportFunction="#{processExecutionBean.export}">
@@ -204,7 +222,9 @@
                   <h:outputText value="Ext Avg" title="Average of external execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.avgExternalExecutionTimeBackground};"> 
-                  <h:outputText styleClass="gradient-text" value="#{processElement.avgExternalExecutionTime}" title="#{processElement.avgExternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.avgExternalExecutionTime}" title="#{processElement.avgExternalExecutionTime}">
+                    <f:convertNumber maxFractionDigits="3"/>
+                  </h:outputText>
                 </div>
               </p:column>
               <p:column sortBy="#{processElement.maxExternalExecutionTime}" style="width: 65px" exportFunction="#{processExecutionBean.export}">
@@ -212,7 +232,9 @@
                   <h:outputText value="Ext Max" title="Maximum of external execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.maxExternalExecutionTimeBackground};"> 
-                  <h:outputText styleClass="gradient-text" value="#{processElement.maxExternalExecutionTime}" title="#{processElement.maxExternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.maxExternalExecutionTime}" title="#{processElement.maxExternalExecutionTime}">
+                    <f:convertNumber maxFractionDigits="3"/>
+                  </h:outputText>
                 </div>
               </p:column>
             </p:dataTable>

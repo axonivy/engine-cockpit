@@ -50,9 +50,15 @@
                     <i class="si si-time-clock-circle #{span.statusClass} table-icon" title="#{span.statusTooltip}"></i>
                   </h:outputText>
                 </p:column>
-                <p:column style="width: 130px;" headerText="Execution Time">
+                <p:column style="width: 130px;">
+                  <f:facet name="header">
+                    <h:outputText value="Execution Time" title="Execution time [ms]"/>
+                  </f:facet>
+                
                   <div style="background: #{span.executionTimeBackground};">
-                    <h:outputText styleClass="gradient-text" value="#{span.executionTime}" />
+                    <h:outputText styleClass="gradient-text" value="#{span.executionTime}" title="#{span.executionTime}">
+                      <f:convertNumber maxFractionDigits="2"/>
+                    </h:outputText>
                   </div>
                 </p:column>
                 <p:column style="width: 130px;" headerText="Start">

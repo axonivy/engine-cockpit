@@ -20,14 +20,18 @@
     <p:panelGrid columns="6" columnClasses="col-12 md:col-12 lg:col-1, col-12- md:col-12 lg:col-3, col-12- md:col-1 lg:col-1, col-12- md:col-1 lg:col-3, col-12- md:col-12 lg:col-1, col-12- md:col-12 lg:col-3" layout="flex"
       styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="executions" value="Executions" />
-      <h:outputText id="executions" value="#{cc.attrs.event.executions}"/>
+      <h:outputText id="executions" value="#{cc.attrs.event.executions}" title="#{cc.attrs.event.executions}">
+        <f:convertNumber/>
+      </h:outputText>
       <p:outputLabel for="duration" value="Execution Duration" rendered="#{cc.attrs.event.showExecutionDuration()}"/>
       <h:panelGroup rendered="#{cc.attrs.event.showExecutionDuration()}">
         <h:outputText id="duration" value="#{cc.attrs.event.minExecutionTime} / #{cc.attrs.event.avgExecutionTime} / #{cc.attrs.event.maxExecutionTime}"/>
         <p:tooltip for="duration" value="min / avg / max"/>
       </h:panelGroup>
-      <p:outputLabel for="errors" value="Errors" />
-      <h:outputText id="errors" value="#{cc.attrs.event.errors}"/>
+      <p:outputLabel for="errors" value="Errors"/>
+      <h:outputText id="errors" value="#{cc.attrs.event.errors}" title="#{cc.attrs.event.errors}">
+        <f:convertNumber/>
+      </h:outputText>
     </p:panelGrid>
     <p:dataTable value="#{cc.attrs.event.firings}" var="firing" widgetVar="firingTable" styleClass="ui-fluid"
             paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"

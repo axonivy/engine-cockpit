@@ -207,7 +207,7 @@ public class CacheBean {
 
     public String getLimit() {
       if (limit != null) {
-        return limit.nextValue().toString();
+        return String.format("%,d", limit.nextValue().longValue());
       }
       return "n.a.";
     }
