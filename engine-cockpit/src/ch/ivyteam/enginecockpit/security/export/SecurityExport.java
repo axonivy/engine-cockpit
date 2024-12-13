@@ -13,13 +13,13 @@ import java.util.List;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
-import ch.ivyteam.enginecockpit.security.export.excel.Excel;
 import ch.ivyteam.enginecockpit.security.export.sheets.OverviewSheet;
 import ch.ivyteam.enginecockpit.security.export.sheets.RoleMembersSheet;
 import ch.ivyteam.enginecockpit.security.export.sheets.RolesSheet;
 import ch.ivyteam.enginecockpit.security.export.sheets.SecurityMemberPermissionSheet;
 import ch.ivyteam.enginecockpit.security.export.sheets.UserRolesSheet;
 import ch.ivyteam.enginecockpit.security.export.sheets.UsersSheet;
+import ch.ivyteam.enginecockpit.util.excel.Excel;
 import ch.ivyteam.io.ZipUtil;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.security.IRole;
@@ -81,12 +81,13 @@ public class SecurityExport {
   }
 
   private Path createSingleExcel(Path tempDir, int usersCount) throws IOException {
-    int forCount = Math.ceilDiv(usersCount, USERS_PER_EXCEL);
-    Excel excel = new Excel();
-    createSheets(0, usersCount, excel, true, 1);
     var file = tempDir.resolve("AxonIvySecurityReport" + ".xlsx");
-    try (var os = Files.newOutputStream(file, StandardOpenOption.CREATE_NEW)) {
-      excel.write(os);
+    int forCount = Math.ceilDiv(usersCount, USERS_PER_EXCEL);
+    try (var excel = new Excel()) {
+      createSheets(0, usersCount, excel, true, 1);
+      try (var os = Files.newOutputStream(file, StandardOpenOption.CREATE_NEW)) {
+        excel.write(os);
+      }
     }
     progress = forCount * 100;
     return file;

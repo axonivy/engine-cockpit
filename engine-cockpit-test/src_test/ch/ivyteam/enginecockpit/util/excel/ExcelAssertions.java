@@ -1,8 +1,8 @@
-package ch.ivyteam.enginecockpit.security.export;
+package ch.ivyteam.enginecockpit.util.excel;
 
 import org.assertj.core.api.Assertions;
 
-import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
+import ch.ivyteam.enginecockpit.util.excel.Sheet;
 
 public class ExcelAssertions {
   private Sheet sheet;

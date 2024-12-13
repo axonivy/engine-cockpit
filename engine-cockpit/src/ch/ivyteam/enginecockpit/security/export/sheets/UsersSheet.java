@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.ivyteam.enginecockpit.security.export.excel.Excel;
-import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
-import ch.ivyteam.enginecockpit.security.export.excel.Sheet.WidthProvider;
+import ch.ivyteam.enginecockpit.util.excel.Excel;
+import ch.ivyteam.enginecockpit.util.excel.Sheet;
+import ch.ivyteam.enginecockpit.util.excel.Sheet.WidthProvider;
 import ch.ivyteam.ivy.security.IUser;
 
 public class UsersSheet {

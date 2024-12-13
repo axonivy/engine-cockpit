@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.primefaces.model.StreamedContent;
 
-import ch.ivyteam.enginecockpit.security.export.excel.Excel;
+import ch.ivyteam.enginecockpit.util.excel.Excel;
 import ch.ivyteam.io.ZipUtil;
 import ch.ivyteam.ivy.environment.IvyTest;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;

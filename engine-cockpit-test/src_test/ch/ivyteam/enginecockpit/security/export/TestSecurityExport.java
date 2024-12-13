@@ -13,7 +13,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.primefaces.model.StreamedContent;
 
-import ch.ivyteam.enginecockpit.security.export.excel.Excel;
+import ch.ivyteam.enginecockpit.util.excel.Excel;
+import ch.ivyteam.enginecockpit.util.excel.ExcelAssertions;
 import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.environment.IvyTest;

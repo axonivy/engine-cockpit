@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.security.export.excel;
+package ch.ivyteam.enginecockpit.util.excel;
 
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;

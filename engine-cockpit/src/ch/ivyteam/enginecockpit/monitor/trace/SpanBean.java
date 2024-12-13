@@ -9,9 +9,11 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.commons.TreeView;
+import ch.ivyteam.enginecockpit.monitor.trace.export.TraceSpanExport;
 import ch.ivyteam.ivy.trace.Trace;
 import ch.ivyteam.ivy.trace.TraceSpan;
 import ch.ivyteam.ivy.trace.Tracer;
@@ -51,7 +53,9 @@ public final class SpanBean extends TreeView<Span> {
   }
 
   private void buildTreeNode(TraceSpan span, TreeNode<Span> parentNode) {
-    var node = new DefaultTreeNode<>(new Span(span, trace.get().rootSpan().times().executionTime().toNanos()), parentNode);
+    var node = new DefaultTreeNode<>(
+            new Span(span, trace.get().rootSpan().times().executionTime().toNanos()),
+            parentNode);
     span.children().forEach(child -> buildTreeNode(child, node));
   }
 
@@ -70,6 +74,12 @@ public final class SpanBean extends TreeView<Span> {
   }
 
   @Override
-  protected void filterNode(TreeNode<Span> node) {
+  protected void filterNode(TreeNode<Span> node) {}
+
+  public StreamedContent getExport() {
+    if (trace.isEmpty()) {
+      return null;
+    }
+    return new TraceSpanExport(trace.get()).export();
   }
 }

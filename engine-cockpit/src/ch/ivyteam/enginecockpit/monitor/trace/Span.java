@@ -11,7 +11,7 @@ public final class Span {
   private final long rootExecutionTime;
   private final List<SpanAttribute> attributes;
 
-  Span(TraceSpan span, long rootExecutionTime) {
+  public Span(TraceSpan span, long rootExecutionTime) {
     this.span = span;
     this.rootExecutionTime = rootExecutionTime;
     this.attributes = span
