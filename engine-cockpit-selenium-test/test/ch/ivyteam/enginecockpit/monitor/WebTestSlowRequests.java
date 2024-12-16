@@ -113,30 +113,30 @@ public class WebTestSlowRequests {
   void data_afterRecording() {
     recordData();
     var entry = "HTTP/1.1 GET /system/engine-cockpit/faces/monitorProcessExecution.xhtml";
-    Table traces = new Table(By.id("form:traceTable"), true);
-    traces.tableEntry(entry, 1).shouldHave(text(entry));
-    traces.tableEntry(entry, 1).$("a").$("span").shouldHave(attributeMatching("title", "(?s).*http\\.url.*"));
-    traces.tableEntry(entry, 2).shouldBe(not(empty));
-    traces.tableEntry(entry, 3).shouldBe(not(empty));
-    traces.tableEntry(entry, 4).shouldBe(not(empty));
+    var traces = new Table(By.id("form:traceTable"), true);
+    var columns = traces.body().$$("tr").findBy(text(entry)).$$("td");
+    columns.get(1).shouldHave(text(entry));
+    columns.get(1).$("a").$("span").shouldHave(attributeMatching("title", "(?s).*http\\.url.*"));
+    columns.get(2).shouldBe(not(empty));
+    columns.get(3).shouldBe(not(empty));
+    columns.get(4).shouldBe(not(empty));
   }
 
   @Test
   void navigateToDetail() {
     recordData();
 
-    Table traces = new Table(By.id("form:traceTable"), true);
-    traces.tableEntry("HTTP/1.1 GET /system/engine-cockpit/faces/monitorProcessExecution.xhtml", 1).$("a").click();
+    $$("span").findBy(text("HTTP/1.1 GET /system/engine-cockpit/faces/monitorProcessExecution.xhtml")).click();
     $$(".card").shouldHave(size(2));
 
-    Table spans = new Table(By.id("spansTree"), false);
+    var spans = new Table(By.id("spansTree"), false);
     spans.tableEntry("HTTP/1.1 GET", 1).shouldHave(text("HTTP/1.1 GET"));
     spans.tableEntry("HTTP/1.1 GET", 2).shouldBe(not(empty));
     spans.tableEntry("HTTP/1.1 GET", 3).shouldBe(not(empty));
     spans.tableEntry("HTTP/1.1 GET", 4).shouldBe(not(empty));
     spans.tableEntry("HTTP/1.1 GET", 5).shouldBe(text("http.url"));
 
-    Table attributes = new Table(By.id("attributesTable"), false);
+    var attributes = new Table(By.id("attributesTable"), false);
     attributes.tableEntry("http.method", 1).shouldHave(text("http.method"));
     attributes.tableEntry("http.method", 2).shouldHave(text("GET"));
   }

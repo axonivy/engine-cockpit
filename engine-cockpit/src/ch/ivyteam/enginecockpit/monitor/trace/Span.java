@@ -9,11 +9,13 @@ public final class Span {
 
   private final TraceSpan span;
   private final long rootExecutionTime;
+  private final int depth;
   private final List<SpanAttribute> attributes;
 
-  Span(TraceSpan span, long rootExecutionTime) {
+  Span(TraceSpan span, long rootExecutionTime, int depth) {
     this.span = span;
     this.rootExecutionTime = rootExecutionTime;
+    this.depth = depth;
     this.attributes = span
         .attributes()
         .stream()
@@ -51,6 +53,10 @@ public final class Span {
 
   public String getStatusTooltip() {
     return getStatusTooltip(span);
+  }
+
+  public int depth() {
+    return depth;
   }
 
   List<SpanAttribute> attributes() {

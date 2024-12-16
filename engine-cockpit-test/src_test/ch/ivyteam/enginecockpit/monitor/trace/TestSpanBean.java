@@ -51,6 +51,16 @@ class TestSpanBean {
   }
 
   @Test
+  void depth() {
+    var span = getSpan(1);
+    assertThat(span.depth()).isEqualTo(0);
+    span = getSpan(2);
+    assertThat(span.depth()).isEqualTo(1);
+    span = getSpan(3);
+    assertThat(span.depth()).isEqualTo(2);
+  }
+
+  @Test
   void getAttributeInfo() {
     var span = getSpan(1);
     assertThat(span.getAttributesInfo()).contains("attr=1234").contains("\n").contains("hello=world");
@@ -100,6 +110,16 @@ class TestSpanBean {
   @Test
   void getExecutionTime() {
     assertSpans(span -> assertThat(span.getExecutionTime()).isGreaterThan(0.0d));
+  }
+
+  @Test
+  void exportName() {
+    var span = getSpan(1);
+    assertThat(bean.exportName(span)).isEqualTo("undef");
+    span = getSpan(2);
+    assertThat(bean.exportName(span)).isEqualTo("> ok");
+    span = getSpan(3);
+    assertThat(bean.exportName(span)).isEqualTo("> > error");
   }
 
   private void assertSpans(Consumer<Span> asserter) {
