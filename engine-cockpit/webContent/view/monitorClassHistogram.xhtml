@@ -53,30 +53,65 @@
                 <p:column headerText="Module" sortBy="#{class.module}" filterBy="#{class.module}" width="15%">
                   <span><h:outputText value="#{class.module}"/></span>
                 </p:column>
-                <p:column headerText="Instances" sortBy="#{class.instances}" width="10%" sortOrder="desc">
+                <p:column sortBy="#{class.instances}" width="10%" sortOrder="desc">
+                  <f:facet name="header">
+                    <h:outputText value="Instances" title="Total number of instances/objects allocated on the Java heap for this class"/>
+                  </f:facet>
                   <div style="background: #{class.instancesBackground};">
-                    <h:outputText id="instances" value="#{class.instances}" styleClass="gradient-text" />
+                    <h:outputText id="instances" value="#{class.instances}" styleClass="gradient-text" title="#{class.instances}">
+                      <f:convertNumber/>
+                    </h:outputText>
                     <p:tooltip for="instances" value="#{class.instances}"/>
                   </div>
                 </p:column>
-                <p:column headerText="Bytes" sortBy="#{class.bytes}" width="10%">
+                <p:column sortBy="#{class.bytes}" width="10%">
+                  <f:facet name="header">
+                    <h:outputText value="Bytes" title="Total number of bytes allocated on the Java heap for instances of this class"/>
+                  </f:facet>
                   <div style="background: #{class.bytesBackground};">
-                    <h:outputText id="bytes" value="#{class.bytes}" styleClass="gradient-text"/>
+                    <h:outputText id="bytes" value="#{class.bytes}" styleClass="gradient-text" title="#{class.bytes}">
+                      <f:convertNumber/>
+                    </h:outputText>
                     <p:tooltip for="bytes" value="#{class.bytes}"/>
                   </div>
                 </p:column>
-                <p:column headerText="&#x394; Min" sortBy="#{class.deltaToMinInstances}" width="10%">
+                <p:column sortBy="#{class.deltaToMinInstances}" width="10%">
+                  <f:facet name="header">
+                    <h:outputText value="&#x394; Min" title="Delta between the current and minimum instances allocated on the Java heap since the last clear"/>
+                  </f:facet>
                   <div style="background: #{class.deltaMinBackground};">
-                    <h:outputText id="deltaMin" value="&#x394; #{class.deltaToMinInstances} (#{class.minInstances})" styleClass="gradient-text"/>
+                    <h:panelGroup id="deltaMin" styleClass="gradient-text">            
+                      <h:outputText value="&#x394; "/>
+                      <h:outputText value="#{class.deltaToMinInstances}">
+                        <f:convertNumber/>
+                      </h:outputText>
+                      <h:outputText value=" ("/>
+                      <h:outputText value="#{class.minInstances}">
+                        <f:convertNumber/>
+                       </h:outputText>
+                      <h:outputText value=")"/>
+                    </h:panelGroup>
                     <p:tooltip for="deltaMin">
                       &#x394;: #{class.deltaToMinInstances}<br/>
                       Min: #{class.minInstances}
                     </p:tooltip>
                   </div>
-                
                 </p:column>
-                <p:column headerText="&#x394; Max" sortBy="#{class.deltaToMaxInstances}" width="10%">
-                  <h:outputText id="deltaMax" value="&#x394; #{class.deltaToMaxInstances} (#{class.maxInstances})"/>
+                <p:column sortBy="#{class.deltaToMaxInstances}" width="10%">
+                  <f:facet name="header">
+                    <h:outputText value="&#x394; Max" title="Delta between the current and maximum instances allocated on the Java heap since the last clear"/>
+                  </f:facet>
+                  <h:panelGroup id="deltaMax" styleClass="gradient-text">            
+                    <h:outputText value="&#x394; "/>
+                    <h:outputText value="#{class.deltaToMaxInstances}">
+                      <f:convertNumber/>
+                    </h:outputText>
+                    <h:outputText value=" ("/>
+                    <h:outputText value="#{class.maxInstances}">
+                      <f:convertNumber/>
+                     </h:outputText>
+                    <h:outputText value=")"/>
+                  </h:panelGroup>
                   <p:tooltip for="deltaMax">
                     &#x394;: #{class.deltaToMaxInstances}<br/>
                     Max: #{class.maxInstances}

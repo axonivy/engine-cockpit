@@ -39,33 +39,65 @@
               </div>
             </f:facet>
             
-            <p:column headerText="Name" sortBy="#{cache.name}" filterBy="#{cache.name}">
-              <h:outputText value="#{cache.name}" styleClass="">
+            <p:column sortBy="#{cache.name}" sortOrder="asc" filterBy="#{cache.name}">
+              <f:facet name="header">
+                <h:outputText value="Name" title="The name of the cache"/>
+              </f:facet>
+              <span><h:outputText value="#{cache.name}"/></span>
+            </p:column>
+            <p:column style="width: 65px;" sortBy="#{cache.count}">
+              <f:facet name="header">
+                <h:outputText value="Count" title="The number of objects that are currently cached in memory"/>
+              </f:facet>
+              <h:outputText value="#{cache.count}" title="#{cache.count}" styleClass="#{cache.countStyle}">
+                <f:convertNumber/>
               </h:outputText>
             </p:column>
-            <p:column style="width: 65px;" headerText="Count" sortBy="#{cache.count}">
-              <h:outputText value="#{cache.count}" styleClass="#{cache.countStyle}">
+            <p:column style="width: 65px;" sortBy="#{cache.limit}">
+              <f:facet name="header">
+                <h:outputText value="Limit" title="The number of objects in the cache (see count) is periodically reduced to this value"/>
+              </f:facet>
+              <h:outputText value="#{cache.limit}" title="#{cache.limit}">
+                <f:convertNumber/>
               </h:outputText>
             </p:column>
-            <p:column style="width: 65px;" headerText="Limit" sortBy="#{cache.limit}">
-              <h:outputText value="#{cache.limit}">
+            <p:column style="width: 95px;" sortBy="#{cache.readHits}">
+              <f:facet name="header">
+                <h:outputText value="Read Hits" title="How many times an object was successfully read from the cache instead of the system database"/>
+              </f:facet>
+              <h:outputText value="#{cache.readHits}" title="#{cache.readHits}">
+                <f:convertNumber/>
               </h:outputText>
             </p:column>
-            <p:column style="width: 95px;" headerText="Read Hits" sortBy="#{cache.readHits}">
-              <h:outputText value="#{cache.readHits}">
+            <p:column style="width: 115px;" sortBy="#{cache.readMisses}">
+              <f:facet name="header">
+                <h:outputText value="Read Misses" title="How many times an object was not found in the cache and instead had to be read from the system database"/>
+              </f:facet>
+              <h:outputText value="#{cache.readMisses}" title="#{cache.readMisses}" styleClass="#{cache.readMissesStyle}">
+                <f:convertNumber/>
               </h:outputText>
             </p:column>
-            <p:column style="width: 115px;" headerText="Read Misses" sortBy="#{cache.readMisses}">
-              <h:outputText value="#{cache.readMisses}" styleClass="#{cache.readMissesStyle}">
+            <p:column style="width: 70px;" sortBy="#{cache.writes}">
+              <f:facet name="header">
+                <h:outputText value="Writes" title="How many times an object was invalidated from the cache because it was written to the system database"/>
+              </f:facet>
+              <h:outputText value="#{cache.writes}" title="#{cache.writes}">
+                <f:convertNumber/>
               </h:outputText>
             </p:column>
-            <p:column style="width: 70px;" headerText="Writes" sortBy="#{cache.writes}">
-              <h:outputText value="#{cache.writes}">
-              </h:outputText>
-            </p:column>
-            <p:column style="width: 112px;" headerText="Info" sortBy="#{cache.info}">
-              <h:outputText value="#{cache.info}">
-              </h:outputText>
+            <p:column style="width: 112px;" sortBy="#{cache.info}">
+              <f:facet name="header">
+                <h:outputText id="info" value="Info"/>
+                <p:tooltip for="info">
+                  More cache limits:<br/>
+                  <ul>
+                    <li>Max: Maximum number of bytes or characters that are cached.</li>
+                    <li>TTL: Time to live. The maximum time an object will stay in the cache after it was first read.</li> 
+                    <li>TTI: Time to idle. The maximum time an object will stay in the cache after it was last read.</li>
+                  </ul>
+                </p:tooltip>
+              </f:facet>
+              <h:outputText value="#{cache.info}" title="#{cache.info}"/>
             </p:column>
             <p:column styleClass="table-btn-1">
               <p:commandButton title="Clear" id="clearButton" icon="si si-bin-1" disabled="#{cache.notClearable}"

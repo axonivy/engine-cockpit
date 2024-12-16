@@ -41,7 +41,7 @@ public class WebTestCache {
     table.tableEntry("AccessControl Associations", 7).shouldBe(Condition.empty);
 
     table.row("IntermediateEventData Entities").should(exist);
-    table.tableEntry("IntermediateEventData Entities", 3).shouldHave(Condition.text("1000"));
+    table.tableEntry("IntermediateEventData Entities", 3).shouldHave(Condition.text("1,000"));
     table.tableEntry("IntermediateEventData Entities", 7).shouldHave(Condition.text("tti=600 s, ttl=0 s"));
     table.tableEntry("IntermediateEventData Entities", 8).$("button").click();
 

@@ -21,14 +21,18 @@
       <p:panelGrid columns="2" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9" layout="flex"
         styleClass="grey-label-panel ui-fluid">
         <p:outputLabel for="polls" value="Polls" />
-        <h:outputText id="polls" value="#{cc.attrs.event.polls}"/>
+        <h:outputText id="polls" value="#{cc.attrs.event.polls}" title="#{cc.attrs.event.polls}">
+          <f:convertNumber/>
+        </h:outputText>
         <p:outputLabel for="pollDuration" value="Poll Duration" />
         <h:panelGroup>
           <h:outputText id="pollDuration" value="#{cc.attrs.event.minPollTime} / #{cc.attrs.event.avgPollTime} / #{cc.attrs.event.maxPollTime}"/>
           <p:tooltip for="pollDuration" value="min / avg / max"/>
         </h:panelGroup>
         <p:outputLabel for="pollErrors" value="Poll Errors" />
-        <h:outputText id="pollErrors" value="#{cc.attrs.event.pollErrors}"/>
+        <h:outputText id="pollErrors" value="#{cc.attrs.event.pollErrors}" title="#{cc.attrs.event.pollErrors}">
+          <f:convertNumber/>
+        </h:outputText>
         <p:outputLabel for="lastPollError" value="Last Poll Error" />
         <er:Error id="lastPollError" error="#{cc.attrs.event.lastPollError}"/>
         <p:outputLabel for="pollConfiguration" value="Poll Configuration" />

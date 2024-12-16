@@ -62,9 +62,15 @@
                   </h:outputText>
                 </a>
               </p:column>
-              <p:column style="width: 150px;" headerText="Execution Time" sortBy="#{trace.executionTime}" exportFunction="#{traceBean.export}">
+              <p:column style="width: 150px;" sortBy="#{trace.executionTime}" exportFunction="#{traceBean.export}">
+                <f:facet name="header">
+                  <h:outputText value="Execution Time" title="Execution time [ms]"/>
+                </f:facet>
+                
                 <div style="background: #{trace.executionTimeBackground};">
-                  <h:outputText styleClass="gradient-text" value="#{trace.executionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{trace.executionTime}" title="#{trace.executionTime}">
+                    <f:convertNumber maxFractionDigits="2"/>
+                  </h:outputText>
                 </div>
               </p:column>
               <p:column style="width: 130px;" headerText="Start" sortBy="#{trace.start}">
