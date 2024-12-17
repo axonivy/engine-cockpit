@@ -29,32 +29,41 @@
         <div class="grid">
           <div class="col-12">
             <div class="card">
-              <div class="card-header flex-wrap">
-                <div class="card-title flex align-items-center">
-                  <i class="pr-3 si si-monitor-heart-beat-search"></i>
-                  <h6 class="m-0">Slow Request Detail</h6>
+              <h:form id="form">
+                <div class="card-header flex-wrap">
+                  <div class="card-title flex align-items-center">
+                    <i class="pr-3 si si-monitor-heart-beat-search"></i>
+                    <h6 class="m-0">Slow Request Detail</h6>
+                    <p:commandButton id="export" title="Export span"
+                      ajax="false" icon="si si-office-file-xls-1"
+                      styleClass="col-fixed ml-auto ui-button-secondary rounded-button"
+                      disabled="#{!spanBean.traceAvailable}">
+                      <p:dataExporter type="xlsxstream"
+                        target="spansTree"
+                        fileName="Span_#{spanBean.traceId}" />
+                    </p:commandButton>
+                  </div>
+                  <p:staticMessage  
+                      rendered="#{!spanBean.traceAvailable}" 
+                      severity="WARN" 
+                      styleClass="mt-3"
+                      summary="Request no longer available" 
+                      detail="The request was remove from the slowest requests because other requests were even slower!"/>
                 </div>
-                <p:staticMessage  
-                    rendered="#{!spanBean.traceAvailable}" 
-                    severity="WARN" 
-                    styleClass="mt-3"
-                    summary="Request no longer available" 
-                    detail="The request was remove from the slowest requests because other requests were even slower!"/>
-              </div>
+              </h:form>
               <p:treeTable id="spansTree" value="#{spanBean.tree}" var="span" selectionMode="single" style="border: none; max-height: 500px; overflow: auto; padding: 0;" rendered="#{spanBean.traceAvailable}">
                 <p:ajax event="expand" listener="#{spanBean.nodeExpand}" />
                 <p:ajax event="collapse" listener="#{spanBean.nodeCollapse}" />
                 <p:ajax event="select" listener="#{spanBean.nodeSelect}" update="attributesTable" />
-                <p:column headerText="Name">
+                <p:column headerText="Name" exportFunction="#{spanBean.exportName(span)}">
                   <h:outputText value="#{span.name}" title="#{span.attributesInfo}">
                     <i class="si si-time-clock-circle #{span.statusClass} table-icon" title="#{span.statusTooltip}"></i>
                   </h:outputText>
                 </p:column>
-                <p:column style="width: 130px;">
+                <p:column style="width: 130px;" exportFunction="#{traceBean.export}">
                   <f:facet name="header">
                     <h:outputText value="Execution Time" title="Execution time [ms]"/>
                   </f:facet>
-                
                   <div style="background: #{span.executionTimeBackground};">
                     <h:outputText styleClass="gradient-text" value="#{span.executionTime}" title="#{span.executionTime}">
                       <f:convertNumber maxFractionDigits="2"/>

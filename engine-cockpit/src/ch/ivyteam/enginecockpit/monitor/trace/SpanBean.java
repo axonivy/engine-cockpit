@@ -45,14 +45,17 @@ public final class SpanBean extends TreeView<Span> {
   protected void buildTree() {
     trace = Tracer.instance().slowTraces().find(traceId);
     if (trace.isPresent()) {
-      buildTreeNode(trace.get().rootSpan(), rootTreeNode);
+      buildTreeNode(trace.get().rootSpan(), rootTreeNode, 0);
       selected = rootTreeNode.getChildren().get(0).getData();
     }
   }
 
-  private void buildTreeNode(TraceSpan span, TreeNode<Span> parentNode) {
-    var node = new DefaultTreeNode<>(new Span(span, trace.get().rootSpan().times().executionTime().toNanos()), parentNode);
-    span.children().forEach(child -> buildTreeNode(child, node));
+  private void buildTreeNode(TraceSpan span, TreeNode<Span> parentNode, int depth) {
+    var node = new DefaultTreeNode<>(
+            new Span(span, trace.get().rootSpan().times().executionTime().toNanos(), depth),
+            parentNode);
+    int nextDepth = ++depth;
+    span.children().forEach(child -> buildTreeNode(child, node, nextDepth));
   }
 
   public void nodeSelect(NodeSelectEvent event) {
@@ -70,6 +73,9 @@ public final class SpanBean extends TreeView<Span> {
   }
 
   @Override
-  protected void filterNode(TreeNode<Span> node) {
+  protected void filterNode(TreeNode<Span> node) {}
+
+  public String exportName(Span span) {
+    return "> ".repeat(span.depth()) + span.getName();
   }
 }

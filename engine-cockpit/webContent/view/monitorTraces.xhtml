@@ -55,6 +55,10 @@
                 </div>
               </f:facet>
               
+              <!-- hidden id column to be included in xlsx export -->
+              <p:column headerText="ID" style="display:none">
+                <h:outputText value="#{trace.id}" />
+              </p:column>
               <p:column headerText="Name" sortBy="#{trace.name}" filterBy="#{trace.name}" exportFunction="#{traceBean.export}">
                 <a href="monitorTraceDetail.xhtml?traceId=#{trace.id}">
                   <h:outputText value="#{trace.name}" title="#{trace.info}" >
