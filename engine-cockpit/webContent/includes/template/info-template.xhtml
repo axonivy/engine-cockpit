@@ -31,7 +31,7 @@
               <h:form id="menuform">
                 <pm:menu widgetVar="sidebar_menu">
                   <p:menuitem id="sr_apps" value="Applications" icon="si si-module" containerStyleClass="active-nav-page" />
-                  <p:menuitem id="sr_cockpit" value="Engine Cockpit" icon="si si-cog animated swing" url="/system/engine-cockpit" />
+                  <p:menuitem id="sr_cockpit" value="Engine Cockpit" icon="si si-cog animated swing" url="#{engineInfo.engineCockpitUrl}" />
                   <p:submenu  id="sr_setup" label="Setup Engine" icon="si si-lg si-startup-launch animated swing">
                     <p:menuitem id="sr_setup_install" value="Install Axon Ivy Engine" icon="si si-tools-wench" url="setup.xhtml"/>
                     <p:menuitem id="sr_setup_migrate" value="Migrate Axon Ivy Engine" icon="si si-navigation-right-circle" url="migrate.xhtml" />
