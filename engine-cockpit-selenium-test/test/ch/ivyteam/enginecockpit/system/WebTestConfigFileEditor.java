@@ -65,7 +65,7 @@ class WebTestConfigFileEditor {
 
       $(By.className("code-hover-contents")).shouldBe(visible)
         .as("config-editor shows key specific help, provided by json-schemas")
-        .shouldHave(Condition.partialText("novell-edirectory"));
+        .shouldHave(Condition.partialText("The Security System manages the user and roles in the system database."));
     }
     finally {
       driver.switchTo().defaultContent();
