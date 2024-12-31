@@ -27,7 +27,7 @@ final class MAttributeReader implements ValueProvider {
     try {
       return new Value(server.getAttribute(mBeanName, attributeName), unit);
     } catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException
-            | MBeanException ex) {
+        | MBeanException ex) {
       throw new RuntimeException("Cannot read attribute " + attributeName + " of MBean " + mBeanName, ex);
     }
   }

@@ -17,7 +17,7 @@ import ch.ivyteam.ivy.scripting.objects.Tree;
 @ViewScoped
 public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
 
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
   private BusinessCalendar activeCalendar;
   private String calendarSelection;
 
@@ -29,7 +29,7 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
   @Override
   protected void buildTree() {
     var rootTree = managerBean.getSelectedIApplication().getBusinessCalendarSettings()
-            .getAllBusinessCalendarConfigurations();
+        .getAllBusinessCalendarConfigurations();
     var node = new DefaultTreeNode<>(findCalendar(rootTree.getInfo()), rootTreeNode);
     node.setExpanded(true);
     buildCalendarTree(rootTree, node);

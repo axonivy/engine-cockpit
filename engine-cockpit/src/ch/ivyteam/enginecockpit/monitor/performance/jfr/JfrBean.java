@@ -39,14 +39,13 @@ public class JfrBean {
   private static final Logger LOGGER = Logger.getPackageLogger(JfrBean.class);
   private static final ErrorHandler HANDLER = new ErrorHandler("msgs", LOGGER);
 
-
   private List<Recording> recordings;
-  private List<Configuration> configurations;
+  private final List<Configuration> configurations;
 
   private String configuration;
 
   private String name = Advisor.instance().getApplicationName();
-  private List<Option> options = Option.createAll();
+  private final List<Option> options = Option.createAll();
 
   public JfrBean() {
     refresh();
@@ -117,7 +116,7 @@ public class JfrBean {
       var id = ManagementFactory.getPlatformMBeanServer().invoke(FLIGHT_RECORDER, "newRecording", null, null);
       configureRecording(id);
       configureOptions(id);
-      ManagementFactory.getPlatformMBeanServer().invoke(FLIGHT_RECORDER, "startRecording", new Object[]{id}, new String[]{long.class.getName()});
+      ManagementFactory.getPlatformMBeanServer().invoke(FLIGHT_RECORDER, "startRecording", new Object[] {id}, new String[] {long.class.getName()});
       refresh();
     } catch (InstanceNotFoundException | ReflectionException | MBeanException | OpenDataException ex) {
       HANDLER.showError("Cannot start recording '" + name + "'", ex);
@@ -125,8 +124,7 @@ public class JfrBean {
   }
 
   private void configureRecording(Object id)
-          throws ReflectionException, MBeanException, InstanceNotFoundException
-  {
+      throws ReflectionException, MBeanException, InstanceNotFoundException {
     var config = configuration();
     if (config.contents() != null) {
       ManagementFactory.getPlatformMBeanServer().invoke(FLIGHT_RECORDER, "setConfiguration", new Object[] {id, config.contents()}, new String[] {long.class.getName(), String.class.getName()});
@@ -136,8 +134,8 @@ public class JfrBean {
   }
 
   private void configureOptions(Object id)
-          throws ReflectionException, MBeanException, InstanceNotFoundException, OpenDataException {
-    var originalOptions = (TabularData)ManagementFactory.getPlatformMBeanServer().invoke(FLIGHT_RECORDER, "getRecordingOptions", new Object[] {id}, new String[] {long.class.getName()});
+      throws ReflectionException, MBeanException, InstanceNotFoundException, OpenDataException {
+    var originalOptions = (TabularData) ManagementFactory.getPlatformMBeanServer().invoke(FLIGHT_RECORDER, "getRecordingOptions", new Object[] {id}, new String[] {long.class.getName()});
     var opts = new TabularDataSupport(originalOptions.getTabularType());
     var originalNameOption = originalOptions.get(new Object[] {"name"});
     var nameOption = new CompositeDataSupport(originalNameOption.getCompositeType(), Map.of("key", "name", "value", name));
@@ -157,32 +155,32 @@ public class JfrBean {
 
   public void stopRecording(Recording recording) {
     try {
-      ManagementFactory.getPlatformMBeanServer().invoke(FLIGHT_RECORDER, "stopRecording", new Object[]{recording.id()}, new String[]{long.class.getName()});
+      ManagementFactory.getPlatformMBeanServer().invoke(FLIGHT_RECORDER, "stopRecording", new Object[] {recording.id()}, new String[] {long.class.getName()});
       refresh();
     } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-      HANDLER.showError("Cannot stop recording '"+recording.name()+"'", ex);
+      HANDLER.showError("Cannot stop recording '" + recording.name() + "'", ex);
     }
   }
 
   public void closeRecording(Recording recording) {
     try {
-      ManagementFactory.getPlatformMBeanServer().invoke(FLIGHT_RECORDER, "closeRecording", new Object[]{recording.id()}, new String[]{long.class.getName()});
+      ManagementFactory.getPlatformMBeanServer().invoke(FLIGHT_RECORDER, "closeRecording", new Object[] {recording.id()}, new String[] {long.class.getName()});
       refresh();
     } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-      HANDLER.showError("Cannot close recording '"+recording.name()+"'", ex);
+      HANDLER.showError("Cannot close recording '" + recording.name() + "'", ex);
     }
   }
 
   public StreamedContent downloadRecording(Recording recording) {
     return DefaultStreamedContent.builder()
-        .name(recording.name()+".jfr")
+        .name(recording.name() + ".jfr")
         .stream(() -> new JfrStream(recording))
         .build();
   }
 
   public static List<Recording> queryRecordings() {
     try {
-      var recordings = (CompositeData[])ManagementFactory.getPlatformMBeanServer().getAttribute(FLIGHT_RECORDER, "Recordings");
+      var recordings = (CompositeData[]) ManagementFactory.getPlatformMBeanServer().getAttribute(FLIGHT_RECORDER, "Recordings");
       return Stream.of(recordings)
           .map(Recording::from)
           .collect(Collectors.toList());
@@ -194,7 +192,7 @@ public class JfrBean {
 
   private static List<Configuration> queryConfigurations() {
     try {
-      var configurations = (CompositeData[])ManagementFactory.getPlatformMBeanServer().getAttribute(FLIGHT_RECORDER, "Configurations");
+      var configurations = (CompositeData[]) ManagementFactory.getPlatformMBeanServer().getAttribute(FLIGHT_RECORDER, "Configurations");
       return new ArrayList<>(Stream.of(configurations)
           .map(Configuration::from)
           .toList());

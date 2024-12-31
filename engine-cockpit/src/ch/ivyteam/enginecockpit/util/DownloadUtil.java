@@ -20,23 +20,23 @@ public class DownloadUtil {
   public static void zipDir(Path source, OutputStream out) throws IOException {
     try (var zs = new ZipOutputStream(out)) {
       Files.walk(source)
-              .filter(path -> !Files.isDirectory(path))
-              .forEach(path -> {
-                var zipEntry = new ZipEntry(source.relativize(path).toString());
-                try {
-                  zs.putNextEntry(zipEntry);
-                  Files.copy(path, zs);
-                  zs.closeEntry();
-                } catch (IOException ex) {
-                  LOGGER.info(ex);
-                }
-              });
+          .filter(path -> !Files.isDirectory(path))
+          .forEach(path -> {
+            var zipEntry = new ZipEntry(source.relativize(path).toString());
+            try {
+              zs.putNextEntry(zipEntry);
+              Files.copy(path, zs);
+              zs.closeEntry();
+            } catch (IOException ex) {
+              LOGGER.info(ex);
+            }
+          });
     }
   }
 
   public static InputStream getFileStream(File file) {
     try {
-      return new FileInputStream(file) {
+      return new FileInputStream(file){
         @Override
         public void close() throws IOException {
           super.close();

@@ -13,8 +13,8 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 @ViewScoped
 public class UserBean {
 
-  private UserDataModel userDataModel;
-  private ManagerBean managerBean;
+  private final UserDataModel userDataModel;
+  private final ManagerBean managerBean;
   private NewUser newUser;
   private UserSynch userSynch;
 
@@ -50,7 +50,7 @@ public class UserBean {
 
   public static final class NewUser {
 
-    private ISecurityContext securityContext;
+    private final ISecurityContext securityContext;
     private String name;
     private String email;
     private String fullName;
@@ -94,11 +94,11 @@ public class UserBean {
 
     public String creatNewUser() {
       var newUser = ch.ivyteam.ivy.security.user.NewUser
-              .create(name)
-              .fullName(fullName)
-              .password(password)
-              .mailAddress(email)
-              .toNewUser();
+          .create(name)
+          .fullName(fullName)
+          .password(password)
+          .mailAddress(email)
+          .toNewUser();
       try {
         securityContext.users().create(newUser);
         var msg = new FacesMessage("User '" + newUser.getName() + "' created successfully", "");

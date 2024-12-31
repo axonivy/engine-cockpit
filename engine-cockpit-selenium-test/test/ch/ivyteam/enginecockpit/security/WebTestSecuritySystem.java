@@ -52,7 +52,7 @@ class WebTestSecuritySystem {
     $("#newSecuritySystemForm\\:newSecuritySystemNameMessage").shouldBe(empty);
     $("#newSecuritySystemModal").shouldNotBe(visible);
     $("#form\\:msgs_container .ui-growl-message")
-            .shouldHave(text("Security Context Name 'invalid?!' must match pattern"));
+        .shouldHave(text("Security Context Name 'invalid?!' must match pattern"));
   }
 
   @Test

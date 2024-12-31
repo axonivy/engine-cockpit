@@ -1,8 +1,8 @@
 package ch.ivyteam.enginecockpit.monitor.value;
 
 class DifferenceValue implements ValueProvider {
-  private ValueProvider minuend;
-  private ValueProvider subtrahend;
+  private final ValueProvider minuend;
+  private final ValueProvider subtrahend;
 
   public DifferenceValue(ValueProvider minuend, ValueProvider subtrahend) {
     this.minuend = minuend;

@@ -147,17 +147,17 @@ public class StateOfActivity {
 
   public boolean is(ActivityState... states) {
     return Arrays.asList(states).stream()
-            .anyMatch(s -> s.name().equals(activityState));
+        .anyMatch(s -> s.name().equals(activityState));
   }
 
   public boolean is(ReleaseState... states) {
     return Arrays.asList(states).stream()
-            .anyMatch(s -> s.name().equals(releaseState));
+        .anyMatch(s -> s.name().equals(releaseState));
   }
 
   public static boolean is(String operation, ActivityOperationState... states) {
     return Arrays.asList(states).stream()
-            .anyMatch(s -> s.name().equals(operation));
+        .anyMatch(s -> s.name().equals(operation));
   }
 
   public void updateChildProblems(AbstractActivity activity) {
@@ -173,7 +173,7 @@ public class StateOfActivity {
     var problems = new ArrayList<String>();
     for (var child : activity.children) {
       if (is(child.getState().operation, ActivityOperationState.INACTIVE, ActivityOperationState.ERROR)
-              && isNotArchived(child)) {
+          && isNotArchived(child)) {
         problems.add(child.getName() + ": " + child.getState().operation);
       }
       problems.addAll(checkChildrenForProblemStates(child));

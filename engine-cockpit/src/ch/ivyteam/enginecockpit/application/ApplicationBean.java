@@ -31,10 +31,10 @@ public class ApplicationBean extends TreeView<AbstractActivity> {
 
   private AbstractActivity selectedActivity;
 
-  private Application newApp;
+  private final Application newApp;
   private boolean activateNewApp;
 
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
 
   public ApplicationBean() {
     managerBean = ManagerBean.instance();
@@ -81,7 +81,7 @@ public class ApplicationBean extends TreeView<AbstractActivity> {
   protected void filterNode(TreeNode<AbstractActivity> node) {
     var activity = node.getData();
     if (StringUtils.containsIgnoreCase(activity.getName(), filter)) {
-      new DefaultTreeNode<AbstractActivity>(activity, filteredTreeNode);
+      new DefaultTreeNode<>(activity, filteredTreeNode);
     }
   }
 
@@ -94,7 +94,7 @@ public class ApplicationBean extends TreeView<AbstractActivity> {
     for (var node : nodes) {
       var activity = node.getData();
       activity.updateStats();
-      if (processing == false) {
+      if (!processing) {
         processing = activity.getState().isProcessing();
       }
       reloadNodeState(node.getChildren());
@@ -126,14 +126,14 @@ public class ApplicationBean extends TreeView<AbstractActivity> {
     try {
       var securityContext = ISecurityManager.instance().securityContexts().get(newApp.getSecSystem());
       var appToCreate = NewApplication.create(newApp.getName())
-              .active(activateNewApp)
-              .toNewApplication();
+          .active(activateNewApp)
+          .toNewApplication();
       IApplicationRepository.of(securityContext).create(appToCreate);
       reloadTree();
       managerBean.reloadApplications();
     } catch (RuntimeException ex) {
       FacesContext.getCurrentInstance().addMessage("applicationMessage",
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
     }
   }
 

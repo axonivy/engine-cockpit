@@ -10,16 +10,16 @@ import org.primefaces.model.file.UploadedFile;
 import ch.ivyteam.ivy.scripting.objects.Xml;
 
 public record Configuration(String name, String label, String description, String provider, String contents) {
-  
+
   static Configuration from(CompositeData data) {
     return new Configuration(
-        (String)data.get("name"), 
-        (String)data.get("label"), 
-        (String)data.get("description"), 
-        (String)data.get("provider"),
+        (String) data.get("name"),
+        (String) data.get("label"),
+        (String) data.get("description"),
+        (String) data.get("provider"),
         null);
   }
-  
+
   static Configuration from(UploadedFile file) throws Exception {
     try (var is = file.getInputStream()) {
       var contents = IOUtils.toString(is, StandardCharsets.UTF_8);
@@ -32,11 +32,11 @@ public record Configuration(String name, String label, String description, Strin
           contents);
     }
   }
-  
+
   public String getName() {
     return name();
   }
-  
+
   public String getLabel() {
     return label();
   }

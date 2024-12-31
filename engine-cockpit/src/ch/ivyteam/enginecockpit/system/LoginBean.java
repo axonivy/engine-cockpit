@@ -44,7 +44,7 @@ public class LoginBean {
       return;
     }
     FacesContext.getCurrentInstance().addMessage(null,
-            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failed", "Login failed"));
+        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failed", "Login failed"));
   }
 
   public void logout() {

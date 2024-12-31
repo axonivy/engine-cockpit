@@ -38,7 +38,7 @@ public class LicenceBean extends StepStatus {
   private static final String USER_LIMIT = "server.users.limit";
   private static final String SESSION_LIMIT = "server.sessions.limit";
 
-  private ISecurityManager securityManager = ISecurityManager.instance();
+  private final ISecurityManager securityManager = ISecurityManager.instance();
 
   private String users;
   private String sessions;
@@ -153,7 +153,7 @@ public class LicenceBean extends StepStatus {
 
   public String getProblemMessage() {
     var maintenanceMode = EngineMode.is(EngineMode.MAINTENANCE) ? " Your engine runs in maintenance mode."
-            : "";
+        : "";
     if (isExpired()) {
       return "Your licence has expired." + maintenanceMode;
     }
@@ -212,8 +212,8 @@ public class LicenceBean extends StepStatus {
 
   private void reloadLicenceMessages() {
     unconfirmedLicenceEvents = LicenceEventManager.getInstance().getUnconfirmedLicenceEvents().stream()
-            .map(LicenceMessage::new)
-            .collect(Collectors.toList());
+        .map(LicenceMessage::new)
+        .collect(Collectors.toList());
   }
 
   private String getSessionUsername() {
@@ -221,8 +221,8 @@ public class LicenceBean extends StepStatus {
   }
 
   public class UserSession {
-    private String name;
-    private int count;
+    private final String name;
+    private final int count;
 
     public UserSession(ISession session) {
       this.name = session.getSessionUserName();

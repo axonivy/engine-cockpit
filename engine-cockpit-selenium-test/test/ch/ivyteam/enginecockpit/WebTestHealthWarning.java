@@ -27,11 +27,11 @@ class WebTestHealthWarning {
     $(By.id("health-check-badge")).shouldHave(matchText("\\d{1}"));
     var health = $(".health-messages");
     health.shouldBe(visible).click();
-    var messages= health.$$("li");
+    var messages = health.$$("li");
     messages.shouldHave(
-            anyMatch("message contains", e -> e.getText().contains("Release Candidate")),
-            anyMatch("message contains", e -> e.getText().contains("Demo Mode")),
-            anyMatch("message contains", e -> e.getText().contains("Show health details")));
+        anyMatch("message contains", e -> e.getText().contains("Release Candidate")),
+        anyMatch("message contains", e -> e.getText().contains("Demo Mode")),
+        anyMatch("message contains", e -> e.getText().contains("Show health details")));
   }
 
   @Test

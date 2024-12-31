@@ -19,7 +19,7 @@ public class MTrace extends Series {
 
   public MTrace(MName name, MAttribute attribute, String compositeName) {
     super(build(createValueProvider(name, attribute, compositeName),
-            createLabel(name, attribute, compositeName)));
+        createLabel(name, attribute, compositeName)));
     this.name = name;
     this.attribute = attribute;
     this.compositeName = compositeName;

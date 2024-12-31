@@ -271,7 +271,7 @@ public class WebTestSecuritySystemDetail {
     checkbox(ON_SCHEDULE_IMPORT_USERS).shouldBeChecked(true);
   }
 
-  private void saveInvalidonScheduleTimeAndAssert( String time) {
+  private void saveInvalidonScheduleTimeAndAssert(String time) {
     setonScheduleTime(time);
     $(SAVE_PROVIDER_BTN).click();
     $(SYNC_TIME_MESSAGE).shouldBe(visible);

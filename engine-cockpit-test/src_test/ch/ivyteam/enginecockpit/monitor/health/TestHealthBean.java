@@ -15,7 +15,7 @@ class TestHealthBean {
 
   @AfterEach
   void after() {
-    ((IManager)HealthChecker.instance()).stop();
+    ((IManager) HealthChecker.instance()).stop();
   }
 
   @Test
@@ -34,7 +34,7 @@ class TestHealthBean {
 
   @Test
   void check() {
-    var check = testee.getChecks().stream().filter(c -> c.getName().equals("Release Candidate")).findAny().orElseThrow();
+    var check = testee.getChecks().stream().filter(c -> "Release Candidate".equals(c.getName())).findAny().orElseThrow();
     assertThat(check.getName()).isEqualTo("Release Candidate");
     assertThat(check.getDescription()).isEqualTo("Checks if this is a release candidate version");
     assertThat(check.getSeverity()).isEqualTo(HealthSeverity.HEALTHY);
@@ -69,7 +69,7 @@ class TestHealthBean {
     assertThat(testee.getMessage()).isEqualTo("No problems detected. Engine is healthy.");
     assertThat(testee.getMessages()).isEmpty();
 
-    ((IManager)HealthChecker.instance()).start();
+    ((IManager) HealthChecker.instance()).start();
     testee.refresh();
 
     assertThat(testee.getMessageCount()).isEqualTo(1);
@@ -79,7 +79,7 @@ class TestHealthBean {
 
   @Test
   void message() {
-    ((IManager)HealthChecker.instance()).start();
+    ((IManager) HealthChecker.instance()).start();
     testee.refresh();
 
     var msg = testee.getMessages().get(0);
@@ -98,7 +98,7 @@ class TestHealthBean {
     assertThat(testee.getSeverityIcon()).isEqualTo("si si-check-1");
     assertThat(testee.getSeverityName()).isEqualTo("HEALTHY");
 
-    ((IManager)HealthChecker.instance()).start();
+    ((IManager) HealthChecker.instance()).start();
     testee.refresh();
 
     assertThat(testee.getSeverityClass()).isEqualTo("health-high");
@@ -110,7 +110,7 @@ class TestHealthBean {
   void checkNow() {
     assertThat(testee.getMessageCount()).isEqualTo(0);
 
-    ((IManager)HealthChecker.instance()).start();
+    ((IManager) HealthChecker.instance()).start();
     testee.checkNow();
 
     assertThat(testee.getMessageCount()).isEqualTo(1);

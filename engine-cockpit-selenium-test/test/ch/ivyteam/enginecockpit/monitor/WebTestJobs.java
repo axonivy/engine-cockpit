@@ -38,7 +38,7 @@ class WebTestJobs {
   private static final String DATE_TIME_STR = "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}";
   private static final String CRON = "(([0-9][0-9]?|\\*|\\?)\\s){5}";
   private static final Pattern NEXT_EXECUTION = Pattern.compile(DURATION_STR + "\\s" + "\\(" + DATE_TIME_STR + "\\)");
-  private static final Pattern CONFIGURATION = Pattern.compile("("+DURATION_STR+"\\s|"+CRON+")\\(.*\\)");
+  private static final Pattern CONFIGURATION = Pattern.compile("(" + DURATION_STR + "\\s|" + CRON + ")\\(.*\\)");
 
   private static final By TABLE_ID = By.id("form:jobTable");
   private Table table;
@@ -125,7 +125,7 @@ class WebTestJobs {
     table.tableEntry(1, 1).shouldBe(visible, enabled).click();
     $("#jobDialog").shouldBe(visible);
     var stackTrace = $("#job\\:lastError").text();
-    if (! stackTrace.equals("n.a.")) {
+    if (!"n.a.".equals(stackTrace)) {
       stackTrace = stackTrace.replace("\n ", "\n\t") + "\n";
     }
     $("#job\\:copyError").shouldBe(visible, enabled).click();

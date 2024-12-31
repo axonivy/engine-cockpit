@@ -46,8 +46,8 @@ public class Monitor {
 
   private final List<Series> series = new ArrayList<>();
   private final List<ValueProvider> infoValues = new ArrayList<>();
-  private final List<String> labels = new ArrayList<String>();
-  private final String[] fillColors = new String[]{"#607D8B", "#FFC107", "#FF5722"};
+  private final List<String> labels = new ArrayList<>();
+  private final String[] fillColors = {"#607D8B", "#FFC107", "#FF5722"};
 
   protected Monitor(MonitorInfo info) {
     this.info = info;
@@ -119,11 +119,11 @@ public class Monitor {
     if (!infoValues.isEmpty()) {
       builder.append(": ");
       builder.append(infoValues
-              .stream()
-              .map(ValueProvider::nextValue)
-              .map(v -> v.value())
-              .map(Object::toString)
-              .collect(Collectors.joining(", ")));
+          .stream()
+          .map(ValueProvider::nextValue)
+          .map(Value::value)
+          .map(Object::toString)
+          .collect(Collectors.joining(", ")));
     }
     return builder.toString();
   }
@@ -187,16 +187,16 @@ public class Monitor {
   }
 
   private void calcNewValues(long time) {
-    series.forEach(serie -> serie.calcNewValue());
+    series.forEach(Series::calcNewValue);
     ZonedDateTime stamp = ZonedDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault());
     labels.add(stamp.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
     series.forEach(serie -> cleanUpOldData(serie.getData()));
     Optional<Value> maxValue = series
-            .stream()
-            .map(Series::maxValue)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .max(Comparator.naturalOrder());
+        .stream()
+        .map(Series::maxValue)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .max(Comparator.naturalOrder());
     Unit scaleToUnit = scaleUnit(maxValue);
     setYAxisMaxValue(maxValue, scaleToUnit);
     setYAxisUnit(scaleToUnit);
@@ -261,7 +261,7 @@ public class Monitor {
   }
 
   public static final class Builder {
-    private MonitorInfo.Builder builder = MonitorInfo.build();
+    private final MonitorInfo.Builder builder = MonitorInfo.build();
 
     public Builder title(String t) {
       builder.title(t);

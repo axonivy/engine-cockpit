@@ -97,8 +97,7 @@ public abstract class AbstractActivity {
     return true;
   }
 
-  public void convert() {
-  }
+  public void convert() {}
 
   public boolean canConvert() {
     return false;
@@ -135,11 +134,11 @@ public abstract class AbstractActivity {
   public abstract void delete();
 
   public void forceDelete() {}
-  
+
   public boolean hasReleasedProcessModelVersion() {
     return true;
   }
-  
+
   public String getWarningMessageForNoReleasedPmv() {
     return "";
   }
@@ -149,17 +148,17 @@ public abstract class AbstractActivity {
       executor.run();
       reloadBean(reloadOnlyStats);
       Message.info()
-              .clientId("applicationMessage")
-              .summary("Successfully " + action + " module")
-              .detail(getActivityType() + " " + getName())
-              .show();
+          .clientId("applicationMessage")
+          .summary("Successfully " + action + " module")
+          .detail(getActivityType() + " " + getName())
+          .show();
     } catch (IllegalStateException ex) {
       Message.error()
-              .clientId("applicationMessage")
-              .summary("Could not " + action + " module")
-              .detail(ex.getMessage())
-              .exception(ex)
-              .show();
+          .clientId("applicationMessage")
+          .summary("Could not " + action + " module")
+          .detail(ex.getMessage())
+          .exception(ex)
+          .show();
     }
   }
 

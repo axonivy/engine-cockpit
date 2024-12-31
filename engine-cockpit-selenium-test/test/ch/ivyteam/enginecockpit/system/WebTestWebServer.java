@@ -59,7 +59,7 @@ public class WebTestWebServer {
   @Test
   void checkData() {
     $("#coreRequestData").shouldHave(text(EngineUrl.base()),
-            text("/engine-cockpit/faces/webserver.xhtml"));
+        text("/engine-cockpit/faces/webserver.xhtml"));
     $(By.id("form:requestHeaderTable")).shouldNot(exist);
     $("#form\\:showHeaders").shouldBe(visible).click();
     $("#form\\:showHeaders").shouldNotBe(visible);
@@ -134,7 +134,7 @@ public class WebTestWebServer {
   }
 
   private static void setConnector(SelectBooleanCheckbox checkbox, String input, boolean enabled,
-          String value, String growlMessage) {
+      String value, String growlMessage) {
     if (enabled) {
       checkbox.setChecked();
     } else {
@@ -154,7 +154,7 @@ public class WebTestWebServer {
   }
 
   private static void assertConnector(SelectBooleanCheckbox checkbox, String input, boolean enabled,
-          String value) {
+      String value) {
     $(By.id(WEB_SERVER_FORM + input + "_input")).shouldBe(value(value));
     checkbox.shouldBeChecked(enabled);
   }

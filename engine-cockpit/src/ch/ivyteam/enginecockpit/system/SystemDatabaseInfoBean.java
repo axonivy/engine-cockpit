@@ -30,7 +30,7 @@ public class SystemDatabaseInfoBean {
   private String filterTable;
   private String filterIndex;
   private String filterTrigger;
-  private LongValueFormatter scaleValue = new LongValueFormatter(4);
+  private final LongValueFormatter scaleValue = new LongValueFormatter(4);
 
   public void loadData() throws SQLException {
     var dbs = (DatabasePersistencyService) ISystemDatabasePersistencyService.instance();
@@ -40,7 +40,7 @@ public class SystemDatabaseInfoBean {
     this.triggers = systemDbInfo.getTriggers();
   }
 
-  public String formatByteValue (long size) {
+  public String formatByteValue(long size) {
     if (size != Long.MIN_VALUE && size != 0) {
       return scaleValue.format(size, Unit.BYTES);
     }
@@ -74,11 +74,11 @@ public class SystemDatabaseInfoBean {
   public void setFilteredIndexes(List<SystemDbIndex> filteredIndex) {
     this.filteredIndexes = filteredIndex;
   }
-  
+
   public List<SystemDbTrigger> getFilteredTriggers() {
     return filteredTriggers;
   }
-  
+
   public void setFilteredTriggers(List<SystemDbTrigger> filteredTrigger) {
     this.filteredTriggers = filteredTrigger;
   }
@@ -86,11 +86,11 @@ public class SystemDatabaseInfoBean {
   public String getFilterTable() {
     return filterTable;
   }
-  
+
   public String getFilterTrigger() {
     return filterTrigger;
   }
-  
+
   public void setFilterTrigger(String filter) {
     this.filterTrigger = filter;
   }
@@ -144,7 +144,7 @@ public class SystemDatabaseInfoBean {
   }
 
   public String backgroundRow(long rows) {
-    var maxRows = tables.stream().mapToLong(i -> i.getRows()).max().orElse(rows);
+    var maxRows = tables.stream().mapToLong(SystemDbTable::getRows).max().orElse(rows);
     var background = BackgroundMeterUtil.background(rows, maxRows);
     return "background: " + background + ";";
   }
@@ -156,11 +156,11 @@ public class SystemDatabaseInfoBean {
   }
 
   public String backgroundTableDiskSize(long diskSize) {
-    return backgroundDiskSize(diskSize, tables.stream().mapToLong(i -> i.getDiskSize()).sum());
+    return backgroundDiskSize(diskSize, tables.stream().mapToLong(SystemDbTable::getDiskSize).sum());
   }
 
   public String backgroundIndexDiskSize(long diskSize) {
-    return backgroundDiskSize(diskSize, indexes.stream().mapToLong(i -> i.getDiskSize()).sum());
+    return backgroundDiskSize(diskSize, indexes.stream().mapToLong(SystemDbIndex::getDiskSize).sum());
   }
 
   private String backgroundDiskSize(long diskSize, long maxDiskSize) {

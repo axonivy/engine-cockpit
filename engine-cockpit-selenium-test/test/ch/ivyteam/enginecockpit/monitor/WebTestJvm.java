@@ -31,22 +31,22 @@ public class WebTestJvm {
   @Test
   void cpuContent() {
     $("#cpu")
-            .shouldHave(text("CPU Load"))
-            .find(".ui-chart").shouldBe(visible);
+        .shouldHave(text("CPU Load"))
+        .find(".ui-chart").shouldBe(visible);
   }
 
   @Test
   void classesContent() {
     $("#classes")
-            .shouldHave(text("Classes"))
-            .find(".ui-chart").shouldBe(visible);
+        .shouldHave(text("Classes"))
+        .find(".ui-chart").shouldBe(visible);
   }
 
   @Test
   void threadsContent() {
     $("#threads")
-            .shouldHave(text("Threads"))
-            .find(".ui-chart").shouldBe(visible);
+        .shouldHave(text("Threads"))
+        .find(".ui-chart").shouldBe(visible);
   }
 
 }

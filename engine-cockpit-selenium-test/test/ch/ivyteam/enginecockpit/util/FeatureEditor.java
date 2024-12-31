@@ -7,18 +7,18 @@ import org.openqa.selenium.By;
 
 public class FeatureEditor {
 
-  private String featureEditor;
+  private final String featureEditor;
 
   public FeatureEditor(String featureEditor) {
     this.featureEditor = featureEditor;
   }
-  
+
   public void addFeature(String feature) {
     $(By.id(featureEditor + "newFeatureEditor:newServiceFeatureBtn")).shouldBe(visible).click();
     $(By.id(featureEditor + "newFeatureEditor:featureForm:nameInput")).sendKeys(feature);
     $(By.id(featureEditor + "newFeatureEditor:featureForm:saveFeature")).click();
   }
-  
+
   public void editFeature(String value, Integer editFeatureNumber, Integer nameInputNumber) {
     $(By.id(featureEditor + editFeatureNumber + ":editFeatureEditor:editFeatureBtn")).shouldBe(visible).click();
     $(By.id(featureEditor + nameInputNumber + ":editFeatureEditor:featureForm:nameInput")).clear();

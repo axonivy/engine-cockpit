@@ -179,12 +179,12 @@ public class Application extends AbstractActivity {
   public List<WebServiceProcess> getWebServiceProcesses() {
     if (webServiceProcesses == null) {
       webServiceProcesses = app.getProcessModels().stream()
-              .map(IProcessModel::getReleasedProcessModelVersion)
-              .map(IWorkflowProcessModelVersion::of)
-              .filter(Objects::nonNull)
-              .flatMap(pmv -> pmv.getWebServiceProcesses().stream())
-              .map(WebServiceProcess::new)
-              .collect(Collectors.toList());
+          .map(IProcessModel::getReleasedProcessModelVersion)
+          .map(IWorkflowProcessModelVersion::of)
+          .filter(Objects::nonNull)
+          .flatMap(pmv -> pmv.getWebServiceProcesses().stream())
+          .map(WebServiceProcess::new)
+          .collect(Collectors.toList());
     }
     return webServiceProcesses;
   }
@@ -193,9 +193,9 @@ public class Application extends AbstractActivity {
   @SuppressWarnings("restriction")
   public boolean hasReleasedProcessModelVersion() {
     return app.getProcessModels()
-              .stream()
-              .map(ch.ivyteam.ivy.application.internal.ProcessModel.class::cast)
-              .allMatch(ch.ivyteam.ivy.application.internal.ProcessModel::hasReleasedProcessModelVersion);
+        .stream()
+        .map(ch.ivyteam.ivy.application.internal.ProcessModel.class::cast)
+        .allMatch(ch.ivyteam.ivy.application.internal.ProcessModel::hasReleasedProcessModelVersion);
   }
 
   @Override

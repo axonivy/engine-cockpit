@@ -10,10 +10,10 @@ import ch.ivyteam.enginecockpit.util.ErrorValue;
 
 public final class Firing {
 
-  private Date timestamp;
-  private long duration;
-  private String reason;
-  private ErrorValue error;
+  private final Date timestamp;
+  private final long duration;
+  private final String reason;
+  private final ErrorValue error;
 
   public Firing(CompositeData firing) {
     this.timestamp = (Date) firing.get("firingTimestamp");

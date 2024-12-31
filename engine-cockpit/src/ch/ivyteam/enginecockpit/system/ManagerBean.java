@@ -37,8 +37,8 @@ public class ManagerBean {
 
   private Locale formattingLocale;
 
-  private IApplicationRepository apps = IApplicationRepository.instance();
-  private ISecurityManager securityManager = ISecurityManager.instance();
+  private final IApplicationRepository apps = IApplicationRepository.instance();
+  private final ISecurityManager securityManager = ISecurityManager.instance();
 
   public ManagerBean() {
     reloadSecuritySystems();
@@ -62,8 +62,8 @@ public class ManagerBean {
   public void reloadApplications() {
     int appCount = applications.size();
     applications = getIApplications().stream()
-            .map(app -> new Application(app))
-            .collect(Collectors.toList());
+        .map(Application::new)
+        .collect(Collectors.toList());
     if (selectedApplicationIndex != 0 && appCount != applications.size()) {
       selectedApplicationIndex = 0;
     }
@@ -164,9 +164,9 @@ public class ManagerBean {
 
   public List<IApplication> getIApplications() {
     return apps.all().stream()
-            .filter(app -> !app.isSystem())
-            .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
-            .collect(Collectors.toList());
+        .filter(app -> !app.isSystem())
+        .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
+        .collect(Collectors.toList());
   }
 
   public String getSessionCount() {
@@ -182,7 +182,7 @@ public class ManagerBean {
   }
 
   public String getRunningCasesCount() {
-    return formatNumber(getApplications().stream().mapToLong(a -> a.getRunningCasesCount()).sum());
+    return formatNumber(getApplications().stream().mapToLong(Application::getRunningCasesCount).sum());
   }
 
   public boolean isIvySecuritySystemForSelectedSecuritySystem() {
@@ -204,8 +204,8 @@ public class ManagerBean {
   public static ManagerBean instance() {
     var context = FacesContext.getCurrentInstance();
     return context
-            .getApplication()
-            .evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+        .getApplication()
+        .evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
   }
 
   public String getConfigLogUrl() {

@@ -11,9 +11,9 @@ public interface SecurityMember {
 
   static SecurityMember createFor(ISecurityMember securityMember) {
     if (securityMember.isUser()) {
-      return new User((IUser)securityMember);
+      return new User((IUser) securityMember);
     } else {
-      return new Role((IRole)securityMember);
+      return new Role((IRole) securityMember);
     }
   }
 }

@@ -27,7 +27,7 @@ import ch.ivyteam.ivy.trace.Tracer;
 public class TraceBean {
 
   private static final double ONE_MILLION = 1_000_000d;
-  private Tracer tracer = Tracer.instance();
+  private final Tracer tracer = Tracer.instance();
   private List<Trc> traces = readData();
   private List<Trc> filteredTraces;
   private String filter;
@@ -73,7 +73,7 @@ public class TraceBean {
   }
 
   public boolean isNotStoppable() {
-    return !isRunning() || ! tracer.canBeStopped();
+    return !isRunning() || !tracer.canBeStopped();
   }
 
   private boolean isRunning() {
@@ -151,8 +151,8 @@ public class TraceBean {
 
     private String url(TraceSpan span) {
       return SpanUri.of(span.attributes())
-              .map(Trc::toRelativPath)
-              .orElse("");
+          .map(Trc::toRelativPath)
+          .orElse("");
     }
 
     private static String toRelativPath(URI uri) {

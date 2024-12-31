@@ -23,13 +23,12 @@ public class LinkFactoryBean {
   private static final String DESIGNER_APP_CONTEXT = "/" + IApplication.DESIGNER_APPLICATION_NAME;
 
   public List<Link> getLinks() {
-    var links = new ArrayList<Link>();
-    links.addAll(Stream.of(CockpitLinkFactory.class.getMethods())
-            .filter(m -> Modifier.isPublic(m.getModifiers()) && Modifier.isStatic(m.getModifiers()))
-            .filter(m -> m.getParameterCount() == 0)
-            .filter(m -> m.getReturnType().equals(WebLink.class))
-            .map(this::toLink)
-            .toList());
+    var links = new ArrayList<>(Stream.of(CockpitLinkFactory.class.getMethods())
+        .filter(m -> Modifier.isPublic(m.getModifiers()) && Modifier.isStatic(m.getModifiers()))
+        .filter(m -> m.getParameterCount() == 0)
+        .filter(m -> m.getReturnType().equals(WebLink.class))
+        .map(this::toLink)
+        .toList());
     links.add(externalDatabase());
     links.add(restService());
     return links;
@@ -48,7 +47,7 @@ public class LinkFactoryBean {
     ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
     var appContext = externalContext.getRequestContextPath();
     String path;
-    if (!appContext.equals(DESIGNER_APP_CONTEXT)) {
+    if (!DESIGNER_APP_CONTEXT.equals(appContext)) {
       path = "/system/engine-cockpit/faces/" + link.getRelative();
     } else {
       path = appContext + externalContext.getRequestServletPath() + externalContext.getRequestPathInfo();
@@ -57,7 +56,7 @@ public class LinkFactoryBean {
     link = WebLink.of(path);
     return new Link(title, link.getAbsolute());
   }
-  
+
   private Link externalDatabase() {
     return toLink("External Database realDb", CockpitLinkFactory.externalDatabase(applicationName(), "realdb"));
   }
@@ -74,8 +73,8 @@ public class LinkFactoryBean {
 
   public static class Link {
 
-    private String title;
-    private String href;
+    private final String title;
+    private final String href;
 
     public Link(String title, String href) {
       this.title = title;

@@ -47,15 +47,15 @@ public class SecuritySystemCompareBean {
   public boolean globalFilterFunction(Object value, Object filter, @SuppressWarnings("unused") Locale locale) {
     String filterText = (filter == null) ? null : filter.toString().trim().toLowerCase();
     if (StringUtils.isBlank(filterText)) {
-        return true;
+      return true;
     }
     var issue = (Issue) value;
     return toLower(issue.id()).contains(filterText)
-            || toLower(issue.name()).contains(filterText)
-            || toLower(issue.what().toString()).contains(filterText)
-            || toLower(issue.entity().toString()).contains(filterText)
-            || toLower(issue.target()).contains(filterText)
-            || toLower(issue.source()).contains(filterText);
+        || toLower(issue.name()).contains(filterText)
+        || toLower(issue.what().toString()).contains(filterText)
+        || toLower(issue.entity().toString()).contains(filterText)
+        || toLower(issue.target()).contains(filterText)
+        || toLower(issue.source()).contains(filterText);
   }
 
   private String toLower(String value) {
@@ -117,13 +117,13 @@ public class SecuritySystemCompareBean {
 
   private void solveIssues(Solver.Type type) {
     result.stream()
-      .filter(issue -> !isSolved(issue))
-      .filter(issue -> issue.solver().type() == type)
-      .forEach(issue -> solveIssue(issue, false));
+        .filter(issue -> !isSolved(issue))
+        .filter(issue -> issue.solver().type() == type)
+        .forEach(issue -> solveIssue(issue, false));
   }
 
   public String styleClassForButton(Issue issue) {
-    return switch(issue.solver().type()) {
+    return switch (issue.solver().type()) {
       case DELETE -> "ui-button-danger";
       case CREATE -> "ui-button-success";
       default -> "";
@@ -136,9 +136,9 @@ public class SecuritySystemCompareBean {
 
   public List<String> getSecuritySystems() {
     return ISecurityManager.instance().securityContexts().allWithSystem().stream()
-            .map(ISecurityContext::getName)
-            .filter(name -> !name.equals(sourceSecuritySystem))
-            .collect(Collectors.toList());
+        .map(ISecurityContext::getName)
+        .filter(name -> !name.equals(sourceSecuritySystem))
+        .collect(Collectors.toList());
   }
 
   public String getTargetSecuritySystem() {

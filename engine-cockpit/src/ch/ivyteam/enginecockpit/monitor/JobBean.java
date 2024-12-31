@@ -33,13 +33,13 @@ public class JobBean {
   public void refresh() {
     try {
       var cronJobs = ManagementFactory.getPlatformMBeanServer()
-              .queryNames(new ObjectName("ivy Engine:type=Cron Job,name=*"), null)
-              .stream()
-              .map(Job::new);
+          .queryNames(new ObjectName("ivy Engine:type=Cron Job,name=*"), null)
+          .stream()
+          .map(Job::new);
       var periodicalJobs = ManagementFactory.getPlatformMBeanServer()
-              .queryNames(new ObjectName("ivy Engine:type=Periodical Job,name=*"), null)
-              .stream()
-              .map(Job::new);
+          .queryNames(new ObjectName("ivy Engine:type=Periodical Job,name=*"), null)
+          .stream()
+          .map(Job::new);
 
       var allJobs = Streams
           .concat(cronJobs, periodicalJobs)
@@ -80,7 +80,7 @@ public class JobBean {
 
   public static final class Job {
 
-    private MBean bean;
+    private final MBean bean;
 
     private Job(ObjectName name) {
       this.bean = MBean.create(HANDLER, name);
@@ -108,7 +108,7 @@ public class JobBean {
 
     public String getConfiguration() {
       if ("Cron Job".equals(bean.getNameKeyProperty("type"))) {
-        return bean.readAttribute("expression").asString() + " (" + bean.readAttribute("humanReadableExpression").asString()+")";
+        return bean.readAttribute("expression").asString() + " (" + bean.readAttribute("humanReadableExpression").asString() + ")";
       }
       var atFixRate = bean.readAttribute("atFixedRate").asBoolean();
       var desc = atFixRate ? " (each)" : " (between)";

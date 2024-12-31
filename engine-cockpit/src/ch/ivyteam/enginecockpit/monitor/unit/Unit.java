@@ -7,8 +7,8 @@ import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 public class Unit {
-  private BaseUnit baseUnit;
-  private Scale scale;
+  private final BaseUnit baseUnit;
+  private final Scale scale;
 
   public static final Unit BYTES = new Unit(BaseUnit.BYTES);
   public static final Unit KILO_BYTES = BYTES.scaleUp();

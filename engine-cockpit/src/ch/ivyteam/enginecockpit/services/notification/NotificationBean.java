@@ -25,8 +25,8 @@ public class NotificationBean {
     }
 
     var n = NotificationRepository.of(securityContext).query()
-            .where().notificationId().isEqual(id)
-            .executor().firstResult();
+        .where().notificationId().isEqual(id)
+        .executor().firstResult();
     if (n == null) {
       ResponseHelper.notFound("Could not find notification " + id);
       return;

@@ -19,14 +19,14 @@ public class StorageBean extends StepStatus {
   private static final String DATA_DIR = DATA + "Directory";
 
   private String appDir;
-  private String appDirHelp;
+  private final String appDirHelp;
   private String dataDir;
-  private String dataDirHelp;
+  private final String dataDirHelp;
 
   public StorageBean() {
     initConfigs();
-    appDirHelp = IConfiguration.instance().getMetadata(APP_DIR).description().replaceAll("\n", "<br/>");
-    dataDirHelp = IConfiguration.instance().getMetadata(DATA_DIR).description().replaceAll("\n", "<br/>");
+    appDirHelp = IConfiguration.instance().getMetadata(APP_DIR).description().replace("\n", "<br/>");
+    dataDirHelp = IConfiguration.instance().getMetadata(DATA_DIR).description().replace("\n", "<br/>");
   }
 
   public String getAppDir() {
@@ -77,7 +77,7 @@ public class StorageBean extends StepStatus {
 
   private void showChangeMessage() {
     FacesContext.getCurrentInstance().addMessage("",
-            new FacesMessage(FacesMessage.SEVERITY_INFO, "Directory changes saved successfully", ""));
+        new FacesMessage(FacesMessage.SEVERITY_INFO, "Directory changes saved successfully", ""));
   }
 
   @Override

@@ -28,12 +28,12 @@ public class StartEventBean {
 
   public void refresh() {
     try {
-      // needs to be modifiable for sorting	
+      // needs to be modifiable for sorting
       beans = ManagementFactory.getPlatformMBeanServer()
-              .queryNames(new ObjectName("ivy Engine:type=Process Start Event Bean,application=*,pm=*,pmv=*,name=*"), null)
-              .stream()
-              .map(StartEvent::new)
-              .collect(Collectors.toList());
+          .queryNames(new ObjectName("ivy Engine:type=Process Start Event Bean,application=*,pm=*,pmv=*,name=*"), null)
+          .stream()
+          .map(StartEvent::new)
+          .collect(Collectors.toList());
     } catch (MalformedObjectNameException ex) {
       HANDLER.showError("Cannot read start event beans", ex);
     }

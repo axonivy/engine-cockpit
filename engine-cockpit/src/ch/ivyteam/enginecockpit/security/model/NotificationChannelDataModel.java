@@ -37,7 +37,7 @@ public class NotificationChannelDataModel {
 
   private void resetChannel(NotificationChannelDto channel) {
     channel.getSubscriptions().forEach(
-            (event, subscription) -> subscription.setState(NotificationChannelSubscriptionDto.State.USE_DEFAULT));
+        (event, subscription) -> subscription.setState(NotificationChannelSubscriptionDto.State.USE_DEFAULT));
     saveChannel(channel);
   }
 
@@ -73,7 +73,7 @@ public class NotificationChannelDataModel {
 
   public static final class NotificationEventDto {
 
-    private Event event;
+    private final Event event;
 
     private NotificationEventDto(Event event) {
       this.event = event;

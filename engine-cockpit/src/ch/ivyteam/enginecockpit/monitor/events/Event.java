@@ -42,7 +42,7 @@ public abstract class Event {
     if (StringUtils.isEmpty(elementName)) {
       return beanName;
     }
-    return elementName +" (" + beanName + ")";
+    return elementName + " (" + beanName + ")";
   }
 
   public String getBeanDescription() {
@@ -51,7 +51,7 @@ public abstract class Event {
     if (StringUtils.isEmpty(elementDescr)) {
       return beanDescr;
     }
-    return elementDescr +" (" + beanDescr + ")";
+    return elementDescr + " (" + beanDescr + ")";
   }
 
   public String getApplication() {
@@ -72,7 +72,7 @@ public abstract class Event {
 
   public String getBeanConfiguration() {
     var entries = bean.readAttribute("beanConfiguration")
-      .asList(item -> (String)item.get("key")+"="+item.get("value"));
+        .asList(item -> (String) item.get("key") + "=" + item.get("value"));
     return entries.stream().collect(Collectors.joining("\n"));
   }
 
@@ -155,7 +155,6 @@ public abstract class Event {
   public void stop() {
     bean.invokeMethod("stop");
   }
-
 
   public void refresh() {
     firings = bean.readAttribute("firingHistory").asList(Firing::new);

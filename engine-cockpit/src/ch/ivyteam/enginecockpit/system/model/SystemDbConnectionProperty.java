@@ -7,9 +7,9 @@ import ch.ivyteam.db.jdbc.ConnectionProperty;
 public class SystemDbConnectionProperty {
 
   private String value;
-  private String defaultValue;
+  private final String defaultValue;
   private boolean isDefault;
-  private ConnectionProperty property;
+  private final ConnectionProperty property;
 
   public SystemDbConnectionProperty(ConnectionProperty connectionProperty, String defaultValue) {
     this.property = connectionProperty;

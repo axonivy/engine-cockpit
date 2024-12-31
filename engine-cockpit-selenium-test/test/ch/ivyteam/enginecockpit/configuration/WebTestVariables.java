@@ -34,7 +34,7 @@ public class WebTestVariables {
   void testInitialVariables() {
     var table = variableTable();
     table.firstColumnShouldBe(textsInAnyOrder("boolean", "daytime", "enum", "globVar", "number", "password",
-            "PORTAL_DASHBOARD", "variable"));
+        "PORTAL_DASHBOARD", "variable"));
     assertVariable("globVar", "data", true);
     assertVariable("variable", "hello", true);
   }
@@ -93,13 +93,13 @@ public class WebTestVariables {
     variableTable().clickButtonForEntry(config, "editConfigBtn");
     String onelineJson = "{ \"name\": \"this is a json file\" }";
     String editJson = "{\n"
-            + "  \"name\": \"this is a json file\"\n"
-            + "}";
+        + "  \"name\": \"this is a json file\"\n"
+        + "}";
     assertConfig()
-            .assertKey(config)
-            .assertDesc("Default Dashboard")
-            .assertValue(editJson)
-            .assertDefault(onelineJson);
+        .assertKey(config)
+        .assertDesc("Default Dashboard")
+        .assertValue(editJson)
+        .assertDefault(onelineJson);
   }
 
   @Test
@@ -138,9 +138,9 @@ public class WebTestVariables {
       return;
     }
     $(By.id(activeTabPanel() + "config:editConfigurationForm:editConfigurationKey"))
-            .shouldBe(exactText(name));
+        .shouldBe(exactText(name));
     $(By.id(activeTabPanel() + "config:editConfigurationForm:editConfigurationValue"))
-            .shouldBe(exactValue(oldValue));
+        .shouldBe(exactValue(oldValue));
   }
 
   private void assertVariable(String name, String value, boolean isDefault) {
@@ -156,10 +156,10 @@ public class WebTestVariables {
 
   private void assertThatConfigEditModalIsVisible(String config, String value, String desc) {
     assertConfig()
-            .assertKey(config)
-            .assertDesc(desc)
-            .assertValue(value)
-            .assertDefault(value);
+        .assertKey(config)
+        .assertDesc(desc)
+        .assertValue(value)
+        .assertDefault(value);
   }
 
   private ConfigAssert assertConfig() {

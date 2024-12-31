@@ -84,8 +84,8 @@ class WebTestDownload {
     Navigation.toLogs();
     var options = DownloadOptions.file().withTimeout(TIMEOUT).withFilter(FileFilters.withName("ivy.log"));
     var download = $(By.id("logView:fileForm:downloadLog"))
-            .shouldBe(visible)
-            .download(options);
+        .shouldBe(visible)
+        .download(options);
     assertThat(download.getName()).isEqualTo("ivy.log");
     assertThat(download).isNotEmpty();
   }
@@ -97,7 +97,7 @@ class WebTestDownload {
     var appName = Tab.APP.getSelectedTab();
     $(By.id("downloadAllResources")).shouldBe(visible).click();
     $(By.id("downloadDialog:downloadModal")).shouldBe(visible)
-            .shouldHave(text("Download Branding resources of '" + appName + "'"));
+        .shouldHave(text("Download Branding resources of '" + appName + "'"));
     var options = DownloadOptions.file().withTimeout(TIMEOUT).withFilter(FileFilters.withName("branding-" + appName + ".zip"));
     var download = $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download(options);
     assertThat(download.getName()).isEqualTo("branding-" + appName + ".zip");
@@ -108,7 +108,7 @@ class WebTestDownload {
     Tab.APP.switchToTab("test-ad");
     $(By.id("downloadAllResources")).shouldBe(visible).click();
     $(By.id("downloadDialog:downloadModal")).shouldBe(visible)
-            .shouldHave(text("Download Branding resources of 'test-ad'"));
+        .shouldHave(text("Download Branding resources of 'test-ad'"));
     options = DownloadOptions.file().withTimeout(TIMEOUT);
     $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download(options);
     $(By.id("msgs_container")).shouldHave(text("No branding resources found for app 'test-ad'"));

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import javax.management.InstanceNotFoundException;
 import javax.management.IntrospectionException;
 import javax.management.MalformedObjectNameException;
@@ -24,7 +25,7 @@ public class MName {
     try {
       return new MName(ObjectName.getInstance(nameStr));
     } catch (MalformedObjectNameException ex) {
-      throw new RuntimeException("Cannot parse MBean name '"+nameStr+"'", ex);
+      throw new RuntimeException("Cannot parse MBean name '" + nameStr + "'", ex);
     }
   }
 
@@ -41,8 +42,8 @@ public class MName {
   }
 
   private void ensureTypeIsFirst() {
-    Property type = properties.stream().filter(property -> property.key.equals("type")).findAny()
-            .orElse(null);
+    Property type = properties.stream().filter(property -> "type".equals(property.key)).findAny()
+        .orElse(null);
     if (type != null) {
       properties.remove(type);
       properties.add(0, type);
@@ -86,8 +87,8 @@ public class MName {
       return !child.domain.isEmpty();
     }
     return domain.equals(child.domain) &&
-            properties.size() < child.properties.size() &&
-            samePrefixProperties(child.properties);
+        properties.size() < child.properties.size() &&
+        samePrefixProperties(child.properties);
   }
 
   private MName getDirectChild(MName other) {
@@ -103,11 +104,9 @@ public class MName {
     builder.append(':');
     if (!properties.isEmpty()) {
       String props = properties
-              .stream()
-              .map(prop -> {
-                return prop.key + "=" + prop.value;
-              })
-              .collect(Collectors.joining(","));
+          .stream()
+          .map(prop -> (prop.key + "=" + prop.value))
+          .collect(Collectors.joining(","));
       builder.append(props);
     } else {
       builder.append("*");
@@ -122,12 +121,10 @@ public class MName {
     if (!properties.isEmpty()) {
       builder.append(':');
       builder.append(
-              properties
-                      .stream()
-                      .map(prop -> {
-                        return prop.key + "=" + prop.value;
-                      })
-                      .collect(Collectors.joining(",")));
+          properties
+              .stream()
+              .map(prop -> (prop.key + "=" + prop.value))
+              .collect(Collectors.joining(",")));
     }
     return builder.toString();
   }
@@ -144,10 +141,10 @@ public class MName {
 
   public Set<MName> getDirectChildren(Set<MName> allNames) {
     return allNames
-            .stream()
-            .filter(this::isChild)
-            .map(this::getDirectChild)
-            .collect(Collectors.toSet());
+        .stream()
+        .filter(this::isChild)
+        .map(this::getDirectChild)
+        .collect(Collectors.toSet());
   }
 
   @Override
@@ -186,7 +183,7 @@ public class MName {
       }
       Property other = (Property) obj;
       return Objects.equals(key, other.key) &&
-              Objects.equals(value, other.value);
+          Objects.equals(value, other.value);
     }
 
     @Override
@@ -201,7 +198,7 @@ public class MName {
 
     private static final class PositionComparator implements Comparator<Property> {
 
-      private String propertyList;
+      private final String propertyList;
 
       public PositionComparator(String propertyList) {
         this.propertyList = propertyList;
@@ -213,11 +210,11 @@ public class MName {
       }
 
       private int toPosition(Property property) {
-        int pos = propertyList.indexOf(property.key +"=" + property.value);
+        int pos = propertyList.indexOf(property.key + "=" + property.value);
         if (pos >= 0) {
           return pos;
         }
-        throw new IllegalArgumentException("Cannot found property " + property +" in property list '"+propertyList +"'");
+        throw new IllegalArgumentException("Cannot found property " + property + " in property list '" + propertyList + "'");
       }
     }
   }

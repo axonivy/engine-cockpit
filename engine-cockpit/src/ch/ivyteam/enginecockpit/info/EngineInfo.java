@@ -29,10 +29,10 @@ public class EngineInfo {
 
   public EngineInfo() {
     applications = IApplicationRepository.instance().all().stream()
-            .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
-            .map(Application::new)
-            .filter(this::isNotInDevMode)
-            .collect(Collectors.toList());
+        .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
+        .map(Application::new)
+        .filter(this::isNotInDevMode)
+        .collect(Collectors.toList());
   }
 
   public boolean canShutdown() {
@@ -79,8 +79,8 @@ public class EngineInfo {
   public List<Application> getApplications() {
     if (isDemo()) {
       return applications.stream()
-              .filter(app -> !app.getName().equals("demo-portal"))
-              .collect(Collectors.toList());
+          .filter(app -> !"demo-portal".equals(app.getName()))
+          .collect(Collectors.toList());
     }
     if (isMaintenance()) {
       return new ArrayList<>();

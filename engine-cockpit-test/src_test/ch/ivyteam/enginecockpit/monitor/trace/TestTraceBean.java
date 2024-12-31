@@ -13,7 +13,7 @@ import ch.ivyteam.ivy.trace.Span;
 import ch.ivyteam.ivy.trace.SpanResult;
 
 class TestTraceBean {
-  private TraceBean bean = new TraceBean();
+  private final TraceBean bean = new TraceBean();
 
   @RegisterExtension
   TracerAccess tracer = new TracerAccess();
@@ -56,8 +56,7 @@ class TestTraceBean {
     assertThat(bean.isNotCleanable()).isTrue();
     bean.start();
     assertThat(bean.isNotCleanable()).isTrue();
-    try (var span = Span.open(() -> new TstSpan("test"))) {
-    }
+    try (var span = Span.open(() -> new TstSpan("test"))) {}
     bean.refresh();
     assertThat(bean.isNotCleanable()).isFalse();
     bean.stop();
@@ -70,8 +69,7 @@ class TestTraceBean {
   void slowTraces() {
     bean.start();
     assertThat(bean.getSlowTraces()).isEmpty();
-    try (var span = Span.open(() -> new TstSpan("test name"))) {
-    }
+    try (var span = Span.open(() -> new TstSpan("test name"))) {}
     bean.refresh();
     assertThat(bean.getSlowTraces()).hasSize(1);
   }
@@ -80,8 +78,7 @@ class TestTraceBean {
   void trace_undef() {
     bean.start();
     assertThat(bean.getSlowTraces()).isEmpty();
-    try (var span = Span.open(() -> new TstSpan("test name", List.of(attribute("attr", 1234), attribute("hello", "world"))))) {
-    }
+    try (var span = Span.open(() -> new TstSpan("test name", List.of(attribute("attr", 1234), attribute("hello", "world"))))) {}
     bean.refresh();
     assertThat(bean.getSlowTraces()).hasSize(1);
     var trc = bean.getSlowTraces().get(0);

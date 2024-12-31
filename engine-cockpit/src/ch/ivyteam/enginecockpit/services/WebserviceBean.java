@@ -17,7 +17,7 @@ public class WebserviceBean {
   private List<Webservice> filteredWebservices;
   private String filter;
 
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
 
   public WebserviceBean() {
     managerBean = ManagerBean.instance();
@@ -26,10 +26,10 @@ public class WebserviceBean {
 
   public void reloadWebservices() {
     webservices = WebServiceClients
-            .of(managerBean.getSelectedIApplication())
-            .all().stream()
-            .map(web -> new Webservice(web))
-            .collect(Collectors.toList());
+        .of(managerBean.getSelectedIApplication())
+        .all().stream()
+        .map(Webservice::new)
+        .collect(Collectors.toList());
   }
 
   public List<Webservice> getWebservices() {

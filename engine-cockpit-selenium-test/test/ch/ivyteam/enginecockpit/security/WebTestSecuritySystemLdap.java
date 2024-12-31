@@ -58,17 +58,17 @@ public class WebTestSecuritySystemLdap {
   @Test
   void adldapBrowser_chooseDefaultContext() {
     $(By.id("identityProvider:dynamicConfigForm:group:1:property:0:browseDirectory"))
-      .should(visible).click();
+        .should(visible).click();
     $(By.id("directoryBrowser:directoryBrowserForm:tree:0"))
-      .should(visible);
+        .should(visible);
     $(By.id("directoryBrowser:directoryBrowserForm:tree")).shouldHave(text("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
     $(By.id("directoryBrowser:directoryBrowserForm:tree:0_0"))
-      .shouldHave(text("fullusername1")).click();
+        .shouldHave(text("fullusername1")).click();
 
     $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible);
     $(By.id("directoryBrowser:chooseDirectoryName")).should(visible).click();
     $(By.id("identityProvider:dynamicConfigForm:group:1:property:0:propertyString"))
-      .shouldHave(value("CN=fullusername1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+        .shouldHave(value("CN=fullusername1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
   @Test
@@ -106,13 +106,13 @@ public class WebTestSecuritySystemLdap {
       $$(DIRECTORY_BROWSER_FORM + "tree > ul > li").shouldHave(size(1));
       $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
       $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode")
-        .shouldHave(size(10));
+          .shouldHave(size(10));
       $(By.id("directoryBrowser:directoryBrowserForm:tree:0_0"))
-        .shouldHave(text("cn=role1")).click();
+          .shouldHave(text("cn=role1")).click();
       $(By.id(DIRECTORY_BROWSER_CHOOSE)).scrollTo().click();
       $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldNotBe(visible);
       $(By.id("identityProvider:dynamicConfigForm:group:1:property:0:propertyString"))
-        .shouldBe(exactValue("cn=role1,ou=IvyTeam Test-OU,o=zugtstorg"));
+          .shouldBe(exactValue("cn=role1,ou=IvyTeam Test-OU,o=zugtstorg"));
     }
   }
 
@@ -131,8 +131,8 @@ public class WebTestSecuritySystemLdap {
     openDefaultLdapBrowser();
     try {
       $(By.id("directoryBrowser:directoryBrowserForm:directoryBrowserMessage"))
-        .shouldBe(visible)
-        .shouldNotBe(empty);
+          .shouldBe(visible)
+          .shouldNotBe(empty);
     } finally {
       $(By.id("directoryBrowser:cancelDirectoryBrowser")).click();
     }

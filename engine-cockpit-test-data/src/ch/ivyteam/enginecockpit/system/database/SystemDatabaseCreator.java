@@ -33,16 +33,15 @@ public class SystemDatabaseCreator {
   private static DatabaseConnectionConfiguration getDbConfig(String dbName) {
     var dbHost = System.getProperty("db.host", "db host not set via system property db.host");
     return new DatabaseConnectionConfiguration(
-            "jdbc:mysql://" + dbHost + ":3306/" + dbName,
-            "com.mysql.cj.jdbc.Driver", "root", "1234");
+        "jdbc:mysql://" + dbHost + ":3306/" + dbName,
+        "com.mysql.cj.jdbc.Driver", "root", "1234");
   }
 
   private static void deleteSystemDb(String dbName) {
     try (Connection connection = DatabaseUtil.openConnection(getDbConfig(dbName))) {
       Statement stmt = connection.createStatement();
       stmt.execute("DROP DATABASE " + dbName);
-    } catch (SQLException ex) {
-    }
+    } catch (SQLException ex) {}
   }
 
   private static void createSystemDb(String dbName) throws SQLException {

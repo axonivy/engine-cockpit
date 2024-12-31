@@ -13,12 +13,12 @@ public final class IntermediateEvent extends Event {
   @Override
   public String getFullRequestPath() {
     return getApplication() +
-            "/" +
-            getPm() +
-            "$" +
-            getPmv() +
-            "/" +
-            getProcessElementId();
+        "/" +
+        getPm() +
+        "$" +
+        getPmv() +
+        "/" +
+        getProcessElementId();
   }
 
   public String getLastFiringTimestamp() {

@@ -40,7 +40,7 @@ public class WebTestClassHistogram {
 
   @Test
   void view() {
-    if (! classTable.body().text().contains("Press refresh")) {
+    if (!classTable.body().text().contains("Press refresh")) {
       clear();
       Navigation.toClassHistogram();
     }

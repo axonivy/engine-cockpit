@@ -37,7 +37,7 @@ public class ApplicationDetailBean {
 
   private ConfigViewImpl configView;
 
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
 
   public ApplicationDetailBean() {
     managerBean = ManagerBean.instance();
@@ -54,24 +54,24 @@ public class ApplicationDetailBean {
   public void onload() {
     managerBean.reloadApplications();
     app = managerBean.getApplications().stream()
-            .filter(a -> a.getName().equals(appName))
-            .findAny()
-            .orElse(null);
+        .filter(a -> a.getName().equals(appName))
+        .findAny()
+        .orElse(null);
     if (app == null) {
       ResponseHelper.notFound("Application '" + appName + "' not found");
       return;
     }
 
     configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
-            this::enrichPmvProperties, List.of(ConfigViewImpl.defaultFilter(),
-                    new ContentFilter<>("Variables", "Show Variables",
-                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Variables."), true),
-                    new ContentFilter<>("Databases", "Show Databases",
-                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Databases."), true),
-                    new ContentFilter<>("RestClients", "Show Rest Clients",
-                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "RestClients."), true),
-                    new ContentFilter<>("WebServiceClients", "Show Web Service Clients",
-                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "WebServiceClients."), true)));
+        this::enrichPmvProperties, List.of(ConfigViewImpl.defaultFilter(),
+            new ContentFilter<>("Variables", "Show Variables",
+                p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Variables."), true),
+            new ContentFilter<>("Databases", "Show Databases",
+                p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Databases."), true),
+            new ContentFilter<>("RestClients", "Show Rest Clients",
+                p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "RestClients."), true),
+            new ContentFilter<>("WebServiceClients", "Show Web Service Clients",
+                p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "WebServiceClients."), true)));
   }
 
   public Application getApplication() {
@@ -102,7 +102,7 @@ public class ApplicationDetailBean {
 
   public String getPmCount() {
     return managerBean.formatNumber(getIApplication().getProcessModels().stream()
-            .mapToInt(pm -> pm.getProcessModelVersions().size()).sum());
+        .mapToInt(pm -> pm.getProcessModelVersions().size()).sum());
   }
 
   private IApplication getIApplication() {
@@ -133,7 +133,7 @@ public class ApplicationDetailBean {
     libraries.add(StandardProcessStartFinder.AUTO);
     libraries.add(config.getValue());
     Arrays.stream(StandardProcessType.values())
-            .forEach(type -> libraries.addAll(configurator.findLibraries(type)));
+        .forEach(type -> libraries.addAll(configurator.findLibraries(type)));
     return List.copyOf(libraries);
   }
 
@@ -141,12 +141,12 @@ public class ApplicationDetailBean {
     List<String> libs = new LinkedList<>();
     libs.add("");
     var available = app.getProcessModels().stream()
-      .flatMap(pm -> pm.getProcessModelVersions().stream())
-      .map(IProcessModelVersion::getLibrary)
-      .filter(Objects::nonNull)
-      .map(ILibrary::getId)
-      .distinct()
-      .collect(Collectors.toList());
+        .flatMap(pm -> pm.getProcessModelVersions().stream())
+        .map(IProcessModelVersion::getLibrary)
+        .filter(Objects::nonNull)
+        .map(ILibrary::getId)
+        .distinct()
+        .collect(Collectors.toList());
     libs.addAll(available);
     return libs;
   }

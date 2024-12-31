@@ -75,7 +75,7 @@ class WebTestWebserviceDetail {
     executeJs("scroll(0,0);");
     $("#webserviceConfigurationForm\\:saveWsConfig").click();
     $("#webserviceConfigurationForm\\:wsConfigMsg_container")
-            .shouldBe(text("Web Service configuration saved"));
+        .shouldBe(text("Web Service configuration saved"));
   }
 
   private void checkConfiguration(String username) {
@@ -87,7 +87,7 @@ class WebTestWebserviceDetail {
     $("#webserviceConfigurationForm\\:resetWsConfirmDialog").shouldBe(visible);
     $("#webserviceConfigurationForm\\:resetWsConfirmYesBtn").click();
     $("#webserviceConfigurationForm\\:wsConfigMsg_container")
-            .shouldBe(text("Web Service configuration reset"));
+        .shouldBe(text("Web Service configuration reset"));
   }
 
   @Test
@@ -111,7 +111,7 @@ class WebTestWebserviceDetail {
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
     Table table = new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk");
     table.clickButtonForEntry(table.getFirstColumnEntriesForSpanClass("endpoint-entry").get(1),
-            "testWsEndpointBtn");
+        "testWsEndpointBtn");
     $("#connResult\\:connectionTestModel").shouldBe(visible);
     $("#connResult\\:connTestForm\\:testConnectionBtn").click();
     $("#connResult\\:connTestForm\\:resultConnect").shouldBe(text(title));
@@ -123,7 +123,7 @@ class WebTestWebserviceDetail {
   @Test
   void editEndpointsInvalid() {
     new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk")
-            .clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
+        .clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
     $("#editEndpointModalForm\\:defaultInput").clear();
     $("#editEndpointModalForm\\:saveEndpoint").click();
     $("#editEndpointModalForm\\:defaultInputMessage").shouldBe(text("Value is required"));
@@ -206,7 +206,7 @@ class WebTestWebserviceDetail {
 
   private void setEndPoint(String defaultLink, String... fallbacks) {
     new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk")
-            .clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
+        .clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
     $("#editEndpointModal").shouldBe(visible);
 
     $("#editEndpointModalForm\\:defaultInput").clear();
@@ -214,7 +214,7 @@ class WebTestWebserviceDetail {
     $("#editEndpointModalForm\\:fallBackInput").clear();
 
     $("#editEndpointModalForm\\:fallBackInput")
-            .sendKeys(Arrays.stream(fallbacks).collect(Collectors.joining("\n")));
+        .sendKeys(Arrays.stream(fallbacks).collect(Collectors.joining("\n")));
 
     $("#editEndpointModalForm\\:saveEndpoint").click();
     $("#webserviceConfigurationForm\\:wsConfigMsg_container").shouldBe(text("EndPoint saved"));
@@ -222,14 +222,14 @@ class WebTestWebserviceDetail {
 
   private void checkEndPoint(String... links) {
     assertThat(new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk")
-            .getFirstColumnEntriesForSpanClass("endpoint-entry"))
-                    .containsAll(Arrays.asList(links));
+        .getFirstColumnEntriesForSpanClass("endpoint-entry"))
+            .containsAll(Arrays.asList(links));
   }
 
   private void checkEndPointDoesNotContain(String... links) {
     assertThat(new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk")
-            .getFirstColumnEntriesForSpanClass("endpoint-entry"))
-                    .doesNotContainAnyElementsOf(Arrays.asList(links));
+        .getFirstColumnEntriesForSpanClass("endpoint-entry"))
+            .doesNotContainAnyElementsOf(Arrays.asList(links));
   }
 
 }

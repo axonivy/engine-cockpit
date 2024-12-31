@@ -35,7 +35,7 @@ class WebTestLogs {
   void view() {
     $$(".ui-panel").shouldHave(size(1));
     $$(".ui-panel-titlebar").find(text("ivy.log")).parent()
-            .find(".ui-panel-content").shouldBe(visible);
+        .find(".ui-panel-content").shouldBe(visible);
     var logPanel = $$(".ui-panel-titlebar").find(text("ivy.log")).parent();
     logPanel.find(".ui-panel-title > span").click();
     logPanel.find(".ui-panel-content").shouldBe(visible);

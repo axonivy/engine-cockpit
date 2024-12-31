@@ -33,7 +33,7 @@ import ch.ivyteam.log.Logger;
 public class ClassHistogramBean {
 
   static final ObjectName DIAGNOSTIC_COMMAND = createDiagnosticCommand();
-  static final ObjectName  HOT_SPOT_DIAGNOSTIC = createHotSpotDiagnostic();
+  static final ObjectName HOT_SPOT_DIAGNOSTIC = createHotSpotDiagnostic();
   private static final Logger LOGGER = Logger.getPackageLogger(ClassHistogramBean.class);
   private static final ErrorHandler HANDLER = new ErrorHandler("msgs", LOGGER);
   private Map<String, ClassHisto> history = new HashMap<>();
@@ -49,7 +49,7 @@ public class ClassHistogramBean {
   public void refresh() {
     try {
       var dump = (String) ManagementFactory.getPlatformMBeanServer().invoke(DIAGNOSTIC_COMMAND,
-              "gcClassHistogram", new Object[] {new String[] {}}, new String[] {"[Ljava.lang.String;"});
+          "gcClassHistogram", new Object[] {new String[] {}}, new String[] {"[Ljava.lang.String;"});
       var newClasses = ClassHisto.parse(this, dump);
       history = merge(history, newClasses);
       classes = new ArrayList<>(history.values());
@@ -73,10 +73,10 @@ public class ClassHistogramBean {
   public StreamedContent dumpMemory() throws InstanceNotFoundException, ReflectionException, MBeanException, IOException {
     var dumpDir = Files.createTempDirectory("memoryDump");
     var dumpName = Advisor.getAdvisor().getApplicationName() + " Memory Dump";
-    var dumpFile = dumpDir.resolve(dumpName+".hprof");
+    var dumpFile = dumpDir.resolve(dumpName + ".hprof");
     ManagementFactory.getPlatformMBeanServer().invoke(HOT_SPOT_DIAGNOSTIC,
-            "dumpHeap", new Object[] {dumpFile.toAbsolutePath().toString(), true}, new String[] {String.class.getName(), boolean.class.getName()});
-    var zipFile = dumpDir.resolve(dumpName+".zip");
+        "dumpHeap", new Object[] {dumpFile.toAbsolutePath().toString(), true}, new String[] {String.class.getName(), boolean.class.getName()});
+    var zipFile = dumpDir.resolve(dumpName + ".zip");
     zip(dumpFile, zipFile);
     Files.delete(dumpFile);
 
@@ -180,8 +180,8 @@ public class ClassHistogramBean {
 
   private static class TempFileInputStream extends InputStream {
 
-    private InputStream is;
-    private Path dumpFile;
+    private final InputStream is;
+    private final Path dumpFile;
     public TempFileInputStream(Path dumpFile) throws IOException {
       this.dumpFile = dumpFile;
       is = Files.newInputStream(dumpFile);

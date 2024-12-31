@@ -228,7 +228,7 @@ public class EngineCockpitUtil {
 
   private static void runTestProcess(String processLink) {
     open(create().app(getAppName()).servlet(SERVLET.PROCESS).path("engine-cockpit-test-data/" + processLink)
-            .toUrl());
+        .toUrl());
     assertCurrentUrlContains(isDesigner() ? "/dev-workflow-ui/faces" : "end");
   }
 
@@ -237,7 +237,7 @@ public class EngineCockpitUtil {
   }
 
   public static String viewUrl(String page, Map<String, String> queryParams) {
-    var urlBuilder = create();//.staticView(parts.path)
+    var urlBuilder = create();// .staticView(parts.path)
     if (isDesigner()) {
       // test it in designer as PMV
       urlBuilder = urlBuilder.staticView("engine-cockpit/" + page);
@@ -268,14 +268,14 @@ public class EngineCockpitUtil {
   }
 
   public static void assertLiveStats(List<String> expectedChartTitles, String jmxSourceMessage,
-          boolean emptyGraphs) {
+      boolean emptyGraphs) {
     $("#layout-config-button").shouldBe(visible).click();
     $(".layout-config h3").shouldBe(visible, text("Live Stats"));
     $$(".layout-config h4").shouldHave(
-            texts(expectedChartTitles));
+        texts(expectedChartTitles));
     if (!emptyGraphs) {
       $$(".layout-config .ui-chart").shouldBe(
-              size(expectedChartTitles.size()));
+          size(expectedChartTitles.size()));
     }
     if (jmxSourceMessage != null) {
       $(".layout-config .ui-staticmessage").shouldHave(text(jmxSourceMessage));

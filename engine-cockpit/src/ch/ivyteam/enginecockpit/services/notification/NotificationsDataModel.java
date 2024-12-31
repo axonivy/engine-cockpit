@@ -23,7 +23,7 @@ import ch.ivyteam.ivy.security.query.UserQuery;
 
 public class NotificationsDataModel extends LazyDataModel<NotificationDto> {
 
-  private SecuritySystem securitySystem;
+  private final SecuritySystem securitySystem;
   private String filter;
 
   public NotificationsDataModel(SecuritySystem securitySystem) {
@@ -46,10 +46,10 @@ public class NotificationsDataModel extends LazyDataModel<NotificationDto> {
     applyOrdering(query, sortBy);
 
     var notifications = query
-            .executor()
-            .results(first, pageSize).stream()
-            .map(NotificationDto::new)
-            .collect(Collectors.toList());
+        .executor()
+        .results(first, pageSize).stream()
+        .map(NotificationDto::new)
+        .collect(Collectors.toList());
     setRowCount((int) query.executor().count());
     return notifications;
   }
@@ -86,7 +86,7 @@ public class NotificationsDataModel extends LazyDataModel<NotificationDto> {
         .name().isEqual(filter).or()
         .fullName().isEqual(filter)
         .executor()
-        .results(0,  2);
+        .results(0, 2);
     receiverIds.addAll(matchingUsers.stream().map(IUser::getSecurityMemberId).toList());
     var matchingRole = securitySystem.getSecurityContext().roles().find(filter);
     if (matchingRole != null) {

@@ -23,7 +23,7 @@ public class PmvDetailBean {
   private String appName;
   private String pmName;
   private String pmvVersion;
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
   private ProcessModelVersion pmv;
   private String deployedProject;
   private List<ProcessModelVersion> dependendPmvs;
@@ -78,25 +78,25 @@ public class PmvDetailBean {
     if (iPmv == null) {
       LOGGER.warn("Can not refresh PMV details for " + appName + "/" + pmName + "/" + pmvVersion);
       ResponseHelper.notFound("Process Model Version '" + pmName + "' for version '" + pmvVersion
-              + "' in app '" + appName + "' not found");
+          + "' in app '" + appName + "' not found");
       return;
     }
 
     pmv = new ProcessModelVersion(iPmv);
     dependendPmvs = iPmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.DEPENDENT).stream()
-            .map(ProcessModelVersion::new)
-            .collect(Collectors.toList());
+        .map(ProcessModelVersion::new)
+        .collect(Collectors.toList());
     requriedPmvs = iPmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.REQUIRED).stream()
-            .map(ProcessModelVersion::new)
-            .collect(Collectors.toList());
+        .map(ProcessModelVersion::new)
+        .collect(Collectors.toList());
     var library = iPmv.getLibrary();
     if (library == null) {
       return;
     }
     deployedProject = library.getId();
     requiredSpecifications = library.getRequiredLibrarySpecifications().stream()
-            .map(spec -> new LibSpecification(spec))
-            .collect(Collectors.toList());
+        .map(LibSpecification::new)
+        .collect(Collectors.toList());
   }
 
   public ProcessModelVersion getPmv() {

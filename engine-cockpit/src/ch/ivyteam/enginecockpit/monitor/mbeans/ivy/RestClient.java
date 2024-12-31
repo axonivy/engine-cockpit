@@ -16,11 +16,11 @@ class RestClient {
   public static final RestClient NO_DATA = new RestClient();
 
   private final Monitor connectionsMonitor = Monitor.build().name("Connections")
-          .title("REST Client Connections").icon("insert_link").toMonitor();
+      .title("REST Client Connections").icon("insert_link").toMonitor();
   private final Monitor callsMonitor = Monitor.build().name("Calls").title("REST Client Calls")
-          .icon("settings_ethernet").toMonitor();
+      .icon("settings_ethernet").toMonitor();
   private final Monitor executionTimeMonitor = Monitor.build().name("Execution Time")
-          .title("REST Client Execution Time").icon("timer").yAxisLabel("Execution Time").toMonitor();
+      .title("REST Client Execution Time").icon("timer").yAxisLabel("Execution Time").toMonitor();
 
   private final String label;
   private final String id;

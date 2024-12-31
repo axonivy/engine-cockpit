@@ -3,7 +3,7 @@ package ch.ivyteam.enginecockpit.monitor.performance;
 import static ch.ivyteam.enginecockpit.monitor.performance.ProcessElementStatistic.A_MILLION;
 
 final class Max {
-  private final double totalExecutionTime ;
+  private final double totalExecutionTime;
 
   private final long internalExecutions;
   private final double totalInternalExecutionTime;
@@ -17,9 +17,9 @@ final class Max {
   private final double avgExternalExecutionTime;
   private final double maxExternalExecutionTime;
 
-  Max (long totalExecutionTime,
-       long internalExecutions, long totalInternalExecutionTime, long minInternalExecutionTime, long avgInternalExecutionTime, long maxInternalExecutionTime,
-       long externalExecutions, long totalExternalExecutionTime, long minExternalExecutionTime, long avgExternalExecutionTime, long maxExternalExecutionTime) {
+  Max(long totalExecutionTime,
+      long internalExecutions, long totalInternalExecutionTime, long minInternalExecutionTime, long avgInternalExecutionTime, long maxInternalExecutionTime,
+      long externalExecutions, long totalExternalExecutionTime, long minExternalExecutionTime, long avgExternalExecutionTime, long maxExternalExecutionTime) {
 
     this.totalExecutionTime = totalExecutionTime / A_MILLION;
 

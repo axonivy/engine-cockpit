@@ -28,7 +28,7 @@ public class DirectoryBrowserBean {
     this.directoryBrowser = browser;
     try {
       var directoryNodeToSelect = findDirectoryNode(browser, idToSelect);
-      this.root = new DefaultTreeNode<DirectoryNode>(null, null);
+      this.root = new DefaultTreeNode<>(null, null);
       browser.root().forEach(node -> addNewSubnode(root, node, directoryNodeToSelect));
     } catch (Exception ex) {
       errorMessage(ex);
@@ -43,7 +43,7 @@ public class DirectoryBrowserBean {
   }
 
   public String icon(DirectoryNode node) {
-    return switch(node.type()) {
+    return switch (node.type()) {
       case DEFAULT -> "folder-empty";
       case DOMAIN -> "buildings-1";
       case GROUP -> "multiple-neutral-1";
@@ -80,7 +80,7 @@ public class DirectoryBrowserBean {
   private void loadChildren(TreeNode<DirectoryNode> node, DirectoryNode initialValue) {
     try {
       directoryBrowser.children(node.getData())
-              .forEach(child -> addNewSubnode(node, child, initialValue));
+          .forEach(child -> addNewSubnode(node, child, initialValue));
     } catch (Exception ex) {
       errorMessage(ex);
     }
@@ -119,7 +119,7 @@ public class DirectoryBrowserBean {
   private void errorMessage(Exception ex) {
     LOGGER.error("Error in directory browser", ex);
     FacesContext.getCurrentInstance().addMessage("directoryBrowserMessage",
-      new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", getEndUserMessage(ex)));
+        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", getEndUserMessage(ex)));
   }
 
   private static String getEndUserMessage(Exception ex) {

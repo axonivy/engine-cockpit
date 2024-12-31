@@ -11,7 +11,7 @@ public record WebServiceExecHistory(String endpoint, Instant timestamp, long exe
   public String getPrettyTime() {
     return new PrettyTime().format(timestamp);
   }
-  
+
   public String getFormattedTime() {
     return DateUtil.formatInstantAsDateTime(timestamp);
   }

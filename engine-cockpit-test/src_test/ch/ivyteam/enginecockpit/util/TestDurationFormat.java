@@ -2,10 +2,13 @@
 package ch.ivyteam.enginecockpit.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import java.time.Duration;
 import java.time.Instant;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import ch.ivyteam.util.date.Now;
 
 class TestDurationFormat {
@@ -17,7 +20,7 @@ class TestDurationFormat {
 
   @BeforeEach
   void beforeEach() {
-    Now.set((str) -> NOW);
+    Now.set(str -> NOW);
   }
 
   @Test
@@ -65,14 +68,14 @@ class TestDurationFormat {
   @Test
   void not_available_3_hours() {
     assertThat(DurationFormat.NOT_AVAILABLE.milliSeconds(THREE_HOURS.toMillis())).isEqualTo("3 h");
-    assertThat(DurationFormat.NOT_AVAILABLE.microSeconds(THREE_HOURS.toMillis()*1000L)).isEqualTo("3 h");
+    assertThat(DurationFormat.NOT_AVAILABLE.microSeconds(THREE_HOURS.toMillis() * 1000L)).isEqualTo("3 h");
     assertThat(DurationFormat.NOT_AVAILABLE.fromNowTo(NOW.plus(THREE_HOURS))).isEqualTo("3 h");
   }
 
   @Test
   void blank_soon_3_hours() {
     assertThat(DurationFormat.BLANK_SOON.milliSeconds(THREE_HOURS.toMillis())).isEqualTo("3 h");
-    assertThat(DurationFormat.BLANK_SOON.microSeconds(THREE_HOURS.toMillis()*1000L)).isEqualTo("3 h");
+    assertThat(DurationFormat.BLANK_SOON.microSeconds(THREE_HOURS.toMillis() * 1000L)).isEqualTo("3 h");
     assertThat(DurationFormat.BLANK_SOON.fromNowTo(NOW.plus(THREE_HOURS))).isEqualTo("3 h");
   }
 }

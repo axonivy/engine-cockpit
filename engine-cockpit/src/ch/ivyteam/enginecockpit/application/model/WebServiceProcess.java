@@ -32,8 +32,8 @@ public class WebServiceProcess {
   private static String toProcessName(IWebServiceProcess ws) {
     String processIdentifier = ws.getProcessIdentifier();
     return ws.getWebServiceProcessStartElements().stream().findFirst()
-            .map(start -> toProcessName(start, processIdentifier))
-            .orElse(processIdentifier);
+        .map(start -> toProcessName(start, processIdentifier))
+        .orElse(processIdentifier);
   }
 
   private static String toProcessName(IWebServiceProcessStartElement start, String processIdentifier) {

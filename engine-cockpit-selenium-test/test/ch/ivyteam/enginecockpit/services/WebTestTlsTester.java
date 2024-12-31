@@ -43,8 +43,8 @@ class WebTestTlsTester {
     $(By.id("restClientConfigurationForm:saveRestConfig")).click();
     $(By.id("restClientConfigurationForm:testRestBtn")).click();
     $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
-     try {
-       $(By.id("connResult:connTestForm:resultTLS")).shouldHave(text("Connect, with Ivy SSLContext "));
+    try {
+      $(By.id("connResult:connTestForm:resultTLS")).shouldHave(text("Connect, with Ivy SSLContext "));
     } finally {
       $(By.id("connResult:connTestForm:closeConTesterDialog")).click();
       $(By.id("restClientConfigurationForm:url")).setValue("http://test-webservices.ivyteam.io:8090/api/v3");

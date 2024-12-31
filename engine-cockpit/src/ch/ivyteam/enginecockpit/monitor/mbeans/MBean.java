@@ -22,11 +22,11 @@ import ch.ivyteam.enginecockpit.util.ErrorValue;
 public class MBean {
 
   public static final String NOT_AVAILABLE = DurationFormat.NOT_AVAILABLE_STR;
-  private static final Object[] EMPTY_PARAMS = new Object[0];
-  private static final String[] EMPTY_TYPES = new String[0];
+  private static final Object[] EMPTY_PARAMS = {};
+  private static final String[] EMPTY_TYPES = {};
 
-  private ErrorHandler handler;
-  private ObjectName name;
+  private final ErrorHandler handler;
+  private final ObjectName name;
 
   private MBean(ErrorHandler handler, ObjectName name) {
     this.handler = handler;
@@ -41,7 +41,7 @@ public class MBean {
     try {
       return create(handler, new ObjectName(name));
     } catch (MalformedObjectNameException ex) {
-      handler.showError("Could not parse MBean name '"+name+"'", ex);
+      handler.showError("Could not parse MBean name '" + name + "'", ex);
       return null;
     }
   }
@@ -64,7 +64,7 @@ public class MBean {
 
   public final class Attribute {
 
-    private String attribute;
+    private final String attribute;
 
     public Attribute(String attribute) {
       this.attribute = attribute;
@@ -80,15 +80,15 @@ public class MBean {
     }
 
     public Long asNullableLong() {
-      return (Long)asObject();
+      return (Long) asObject();
     }
 
     public long asLong() {
-      return (long)asObject();
+      return (long) asObject();
     }
 
     public ErrorValue asError() {
-      return new ErrorValue((CompositeData)asObject());
+      return new ErrorValue((CompositeData) asObject());
     }
 
     public String asDateString() {
@@ -108,7 +108,7 @@ public class MBean {
     }
 
     public boolean asBoolean() {
-      return (boolean)asObject();
+      return (boolean) asObject();
     }
 
     public String asString() {
@@ -116,7 +116,7 @@ public class MBean {
     }
 
     public <T> List<T> asList(Function<CompositeData, T> mapper) {
-      var array = (CompositeData[])asObject();
+      var array = (CompositeData[]) asObject();
       return Stream.of(array).map(mapper).toList();
     }
 
@@ -125,11 +125,11 @@ public class MBean {
       if (executions == 0) {
         return NOT_AVAILABLE;
       }
-      return readAttribute(attribute+"MinExecutionTimeInMicroSeconds").asMicros();
+      return readAttribute(attribute + "MinExecutionTimeInMicroSeconds").asMicros();
     }
 
     public String asAvgExecutionTime() {
-      var total = readAttribute(attribute+"TotalExecutionTimeInMicroSeconds").asNullableLong();
+      var total = readAttribute(attribute + "TotalExecutionTimeInMicroSeconds").asNullableLong();
       if (total == null) {
         return DurationFormat.NOT_AVAILABLE.microSeconds(total);
       }
@@ -145,7 +145,7 @@ public class MBean {
       if (executions == 0) {
         return NOT_AVAILABLE;
       }
-      return readAttribute(attribute+"MaxExecutionTimeInMicroSeconds").asMicros();
+      return readAttribute(attribute + "MaxExecutionTimeInMicroSeconds").asMicros();
     }
   }
 }

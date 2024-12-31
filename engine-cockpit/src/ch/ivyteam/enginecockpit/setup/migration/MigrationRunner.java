@@ -26,8 +26,8 @@ public class MigrationRunner implements MigrationClient {
 
   public long taskCountDone() {
     return tasks.values().stream()
-            .filter(t -> t.isDone())
-            .count();
+        .filter(Task::isDone)
+        .count();
   }
 
   @Override

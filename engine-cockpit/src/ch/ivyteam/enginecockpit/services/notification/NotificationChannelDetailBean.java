@@ -51,9 +51,9 @@ public class NotificationChannelDetailBean {
     }
 
     var notificationChannel = NotificationChannel.all(securityContext).stream()
-            .filter(c -> c.id().equals(this.channelId))
-            .findAny()
-            .orElse(null);
+        .filter(c -> c.id().equals(this.channelId))
+        .findAny()
+        .orElse(null);
 
     if (notificationChannel == null) {
       ResponseHelper.notFound("Channel '" + channelId + "' not found");
@@ -63,9 +63,9 @@ public class NotificationChannelDetailBean {
     channel = NotificationChannelDto.instance(securityContext, notificationChannel);
     liveStats = new NotificationChannelMonitor(securityContext, this.channelId, channel.getDisplayName());
     dynamicConfig = DynamicConfig.create()
-            .configurator(notificationChannel.configurator())
-            .config(channel.getConfig().config())
-            .toDynamicConfig();
+        .configurator(notificationChannel.configurator())
+        .config(channel.getConfig().config())
+        .toDynamicConfig();
   }
 
   public DynamicConfig getDynamicConfig() {
@@ -78,19 +78,19 @@ public class NotificationChannelDetailBean {
       config.enabled(channel.isEnabled());
       config.allEventsEnabled(channel.isAllEventsEnabled());
       var events = channel.getEvents().stream()
-              .filter(NotificationEventDto::isEnabled)
-              .map(NotificationEventDto::getEvent)
-              .toList();
+          .filter(NotificationEventDto::isEnabled)
+          .map(NotificationEventDto::getEvent)
+          .toList();
       config.events(events);
       Message.info()
-              .clientId("msgs")
-              .summary("Successfully saved")
-              .show();
+          .clientId("msgs")
+          .summary("Successfully saved")
+          .show();
     } catch (Exception ex) {
       Message.error()
-              .clientId("msgs")
-              .exception(ex)
-              .show();
+          .clientId("msgs")
+          .exception(ex)
+          .show();
     }
   }
 

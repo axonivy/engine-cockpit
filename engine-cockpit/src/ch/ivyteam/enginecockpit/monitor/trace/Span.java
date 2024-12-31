@@ -84,26 +84,20 @@ public final class Span {
   }
 
   static String getStatusClass(TraceSpan span) {
-    switch(span.status()) {
-      case ERROR:
-        return "error";
-      case OK:
-        return "success";
-      case UNSET:
-      default:
-        return "";
-    }
+    return switch (span.status()) {
+      case ERROR -> "error";
+      case OK -> "success";
+      case UNSET -> "";
+      default -> "";
+    };
   }
 
   static String getStatusTooltip(TraceSpan span) {
-    switch(span.status()) {
-      case ERROR:
-        return "Error status. See attributes for error details.";
-      case OK:
-        return "OK status. There might be some result attributes available.";
-      case UNSET:
-      default:
-        return "Status not set. No result attributes available.";
-    }
+    return switch (span.status()) {
+      case ERROR -> "Error status. See attributes for error details.";
+      case OK -> "OK status. There might be some result attributes available.";
+      case UNSET -> "Status not set. No result attributes available.";
+      default -> "Status not set. No result attributes available.";
+    };
   }
 }

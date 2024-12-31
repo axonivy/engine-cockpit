@@ -23,18 +23,18 @@ public class ConfigViewImpl implements TableFilter, ConfigView {
   private List<ConfigProperty> filteredConfigs;
   private String filter;
   private ConfigProperty activeConfig;
-  private IConfiguration configuration;
+  private final IConfiguration configuration;
   private List<String> selectedContentFilters;
-  private Function<ConfigProperty, ConfigProperty> propertyEnricher;
-  private List<ContentFilter<ConfigProperty>> contentFilters;
+  private final Function<ConfigProperty, ConfigProperty> propertyEnricher;
+  private final List<ContentFilter<ConfigProperty>> contentFilters;
 
   public ConfigViewImpl(List<ContentFilter<ConfigProperty>> contentFilters) {
     this(IConfiguration.instance(), c -> c, contentFilters);
   }
 
   public ConfigViewImpl(IConfiguration configuration,
-          Function<ConfigProperty, ConfigProperty> propertyEnricher,
-          List<ContentFilter<ConfigProperty>> contentFilters) {
+      Function<ConfigProperty, ConfigProperty> propertyEnricher,
+      List<ContentFilter<ConfigProperty>> contentFilters) {
     this.configuration = configuration;
     this.propertyEnricher = propertyEnricher;
     this.contentFilters = contentFilters;
@@ -45,10 +45,10 @@ public class ConfigViewImpl implements TableFilter, ConfigView {
   private void reloadConfigs() {
     ((Configuration) configuration).blockUntilReloaded();
     configs = configuration.getProperties().stream()
-            .filter(property -> !property.key().equals("SecuritySystem"))
-            .map(property -> new ConfigProperty(property))
-            .map(propertyEnricher)
-            .collect(Collectors.toList());
+        .filter(property -> !"SecuritySystem".equals(property.key()))
+        .map(ConfigProperty::new)
+        .map(propertyEnricher)
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -120,9 +120,9 @@ public class ConfigViewImpl implements TableFilter, ConfigView {
   @Override
   public String getContentFilterText() {
     var text = contentFilters.stream()
-            .filter(ContentFilter::enabled)
-            .map(ContentFilter::name)
-            .collect(Collectors.joining(", "));
+        .filter(ContentFilter::enabled)
+        .map(ContentFilter::name)
+        .collect(Collectors.joining(", "));
     if (StringUtils.isBlank(text)) {
       return "none";
     }
@@ -132,7 +132,7 @@ public class ConfigViewImpl implements TableFilter, ConfigView {
   @Override
   public void setActiveConfig(String configKey) {
     this.activeConfig = configs.stream().filter(c -> StringUtils.equals(c.getKey(), configKey)).findFirst()
-            .orElse(new ConfigProperty());
+        .orElse(new ConfigProperty());
   }
 
   @Override
@@ -158,11 +158,11 @@ public class ConfigViewImpl implements TableFilter, ConfigView {
   private void reloadAndUiMessage(String message) {
     reloadConfigs();
     FacesContext.getCurrentInstance().addMessage("msgs",
-            new FacesMessage("'" + activeConfig.getKey() + "' " + message));
+        new FacesMessage("'" + activeConfig.getKey() + "' " + message));
     triggerTableFilter();
   }
 
   public static ContentFilter<ConfigProperty> defaultFilter() {
-    return new ContentFilter<ConfigProperty>(DEFINED_FILTER, "Show only defined values", c -> !c.isDefault());
+    return new ContentFilter<>(DEFINED_FILTER, "Show only defined values", c -> !c.isDefault());
   }
 }

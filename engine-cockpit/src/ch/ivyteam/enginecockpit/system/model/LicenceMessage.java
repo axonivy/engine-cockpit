@@ -6,10 +6,10 @@ import ch.ivyteam.licence.LicenceEvent.Level;
 
 public class LicenceMessage {
 
-  private Level level;
-  private String message;
-  private String timestamp;
-  private LicenceEvent event;
+  private final Level level;
+  private final String message;
+  private final String timestamp;
+  private final LicenceEvent event;
 
   public LicenceMessage(LicenceEvent event) {
     level = event.getLevel();

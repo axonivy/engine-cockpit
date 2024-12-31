@@ -33,7 +33,7 @@ final class MPatternAttributeReader implements ValueProvider {
       }
       return new Value(value, unit);
     } catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException
-            | MBeanException ex) {
+        | MBeanException ex) {
       throw new RuntimeException("Cannot read attribute " + attributeName + " of MBean " + mBeanName, ex);
     }
   }

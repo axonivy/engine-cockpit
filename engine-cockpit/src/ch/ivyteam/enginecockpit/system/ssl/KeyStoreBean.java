@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.system.ssl;
 
 import java.io.InputStream;
+import java.security.Provider;
 import java.security.Security;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
@@ -30,7 +31,6 @@ public class KeyStoreBean implements SslTableStore {
   private String provider;
   private String type;
   private String algorithm;
-
 
   public KeyStoreBean() {
     this.store = SslClientSettings.instance().getKeyStore();
@@ -69,16 +69,15 @@ public class KeyStoreBean implements SslTableStore {
 
   @SuppressWarnings("hiding")
   public List<String> getProviders() {
-      List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders())
-              .map(provider -> provider.getName())
-              .toList());
-      providers.add("");
-      return providers;
+    List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders())
+        .map(Provider::getName)
+        .toList());
+    providers.add("");
+    return providers;
   }
 
   public List<String> getTypes() {
-    List<String> types = new ArrayList<>();
-    types.addAll(SecurityProviders.getTypes(getProvider()));
+    List<String> types = new ArrayList<>(SecurityProviders.getTypes(getProvider()));
     types.add("");
     return types;
   }
@@ -133,7 +132,7 @@ public class KeyStoreBean implements SslTableStore {
     store.setType(type);
     store.setAlgorithm(algorithm);
     FacesContext.getCurrentInstance().addMessage("sslKeystoreSaveSuccess",
-            new FacesMessage("Key Store configurations saved"));
+        new FacesMessage("Key Store configurations saved"));
   }
 
   @Override

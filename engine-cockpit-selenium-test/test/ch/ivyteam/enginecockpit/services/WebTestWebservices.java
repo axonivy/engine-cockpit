@@ -26,7 +26,7 @@ class WebTestWebservices {
   @Test
   void webserviesInTable() {
     Table table = new Table(By.id("tabs:applicationTabView:" +
-            Tab.APP.getSelectedTabIndex() + ":form:webservicesTable"), true);
+        Tab.APP.getSelectedTabIndex() + ":form:webservicesTable"), true);
     table.firstColumnShouldBe(size(2));
 
     table.search("second-web");

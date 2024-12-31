@@ -18,8 +18,8 @@ public class UploadHelperBean {
 
   public String getDeploymentPossibleReason() {
     return "The system configuration '" + REST_SERVLET_ENABLED + "' or '"
-            + REST_DEPLOYMENT_ENABLED + "' is disabled.<br/>"
-            + "Please enable them or use the file system for the deployment.";
+        + REST_DEPLOYMENT_ENABLED + "' is disabled.<br/>"
+        + "Please enable them or use the file system for the deployment.";
   }
 
   private static boolean isRestEnabled() {

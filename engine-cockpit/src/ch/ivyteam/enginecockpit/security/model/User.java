@@ -81,10 +81,10 @@ public class User implements SecurityMember {
 
   private static String getViewUrl(String securityContext, String name) {
     return UriBuilder.fromPath("userdetail.xhtml")
-            .queryParam("system", securityContext)
-            .queryParam("name", name)
-            .build()
-            .toString();
+        .queryParam("system", securityContext)
+        .queryParam("name", name)
+        .build()
+        .toString();
   }
 
   @Override
@@ -208,10 +208,10 @@ public class User implements SecurityMember {
 
   public Administrator getAdmin() {
     return new Administrator.Builder().username(getName())
-            .fullName(getFullName())
-            .email(getEmail())
-            .password(getRealPassword())
-            .toAdministrator();
+        .fullName(getFullName())
+        .email(getEmail())
+        .password(getRealPassword())
+        .toAdministrator();
   }
 
   public IUser getIUser() {
@@ -234,21 +234,21 @@ public class User implements SecurityMember {
   public List<Absence> getAbsences() {
     return absences;
   }
-  
+
   public boolean isIvySecuritySystem() {
     return isIvySecuritySystem;
   }
 
   private List<Substitute> substitutesOf(IUser user) {
     return user.getSubstitutes().stream()
-            .map(Substitute::of)
-            .collect(Collectors.toList());
+        .map(Substitute::of)
+        .collect(Collectors.toList());
   }
 
-  private List<Absence> absencesOf(IUser user){
+  private List<Absence> absencesOf(IUser user) {
     return user.getAbsences().stream()
-            .map(Absence::of)
-            .collect(Collectors.toList());
+        .map(Absence::of)
+        .collect(Collectors.toList());
   }
 
   public static class Substitute {
@@ -263,7 +263,7 @@ public class User implements SecurityMember {
     private final String securityContext;
 
     public Substitute(String name, String role, String memberIcon, String memberTitle, String typeIcon,
-            String typeTitle, String securityContext) {
+        String typeTitle, String securityContext) {
       this.name = name;
       this.role = role;
       this.memberIcon = memberIcon;
@@ -323,7 +323,7 @@ public class User implements SecurityMember {
         memberTitle = "Role";
       }
 
-      boolean onAbsence = substitute.getSubstitutionType().equals(SubstitutionType.ON_ABSENCE);
+      boolean onAbsence = SubstitutionType.ON_ABSENCE.equals(substitute.getSubstitutionType());
       String typeIcon = onAbsence ? "time-clock-circle" : "pin";
       String typeTitle = onAbsence ? "On absence" : "Permanent";
 

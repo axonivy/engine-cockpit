@@ -9,9 +9,9 @@ import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
 import ch.ivyteam.ivy.security.IRole;
 
 public class RoleMembersSheet {
-  private Iterable<IRole> roles;
-  private Excel excel;
-  private List<String> headers = new ArrayList<String>();
+  private final Iterable<IRole> roles;
+  private final Excel excel;
+  private final List<String> headers = new ArrayList<>();
   static final int ROTATED_HEADER_HEIGHT = 1500;
 
   public RoleMembersSheet(Excel excel, Iterable<IRole> roles) {
@@ -25,13 +25,13 @@ public class RoleMembersSheet {
     sheet.createHeader(0, Arrays.asList("Role name"), UsersSheet.HEADER_WITDH);
     addRoleNames();
 
-    for(var role : roles) {
+    for (var role : roles) {
       var row = sheet.createRow(rowNr++);
       var roleMembers = role.getRoleMembers();
       var parent = role.getParent();
       var cellNr = 0;
       row.createResultCell(cellNr++, role.getName());
-      for(var roleSecond : roles) {
+      for (var roleSecond : roles) {
         var index = headers.indexOf(roleSecond.getName()) + 1;
         String value = getMarker(roleMembers, parent, roleSecond);
         if (value != null) {
@@ -47,10 +47,10 @@ public class RoleMembersSheet {
 
   private String getMarker(List<IRole> roleMembers, IRole parent, IRole roleSecond) {
     String value = null;
-    if(parent != null && parent.equals(roleSecond)) {
+    if (parent != null && parent.equals(roleSecond)) {
       value = "P";
     }
-    if(roleMembers.contains(roleSecond)) {
+    if (roleMembers.contains(roleSecond)) {
       if (value != null) {
         value = value + "/M";
       } else {
@@ -61,7 +61,7 @@ public class RoleMembersSheet {
   }
 
   private void addRoleNames() {
-    for(var role : roles) {
+    for (var role : roles) {
       headers.add(role.getName());
     }
   }

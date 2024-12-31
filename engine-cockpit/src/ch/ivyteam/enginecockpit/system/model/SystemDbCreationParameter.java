@@ -5,7 +5,7 @@ import ch.ivyteam.db.jdbc.DatabaseCreationParameter;
 public class SystemDbCreationParameter {
 
   private String value;
-  private DatabaseCreationParameter param;
+  private final DatabaseCreationParameter param;
 
   public SystemDbCreationParameter(DatabaseCreationParameter param, String defaultValue) {
     this.param = param;

@@ -49,7 +49,7 @@ class WebTestPages {
       var url = viewUrl(xhtml.toString());
       if (url.contains("composite") || url.contains("demo-jsfcomponents")) {
         // better skipping this one. otherwise the ivy.log is full of NPEs
-        //$(".exception-content").shouldHave(text("Null Pointer"));
+        // $(".exception-content").shouldHave(text("Null Pointer"));
       } else {
         System.out.println(url);
         open(url);
@@ -66,10 +66,10 @@ class WebTestPages {
   private static List<Path> getSubDirectoryXhtmlFiles(Path basePath, Predicate<Path> filter) {
     try {
       return Files.walk(basePath)
-              .map(basePath::relativize)
-              .filter(filter)
-              .filter(file -> StringUtils.endsWith(file.getFileName().toString(), ".xhtml"))
-              .collect(Collectors.toList());
+          .map(basePath::relativize)
+          .filter(filter)
+          .filter(file -> StringUtils.endsWith(file.getFileName().toString(), ".xhtml"))
+          .collect(Collectors.toList());
     } catch (IOException ex) {
       throw new RuntimeException(ex);
     }

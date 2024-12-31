@@ -19,19 +19,16 @@ import ch.ivyteam.ivy.request.RequestException;
 @Singleton
 final class TstBpmEngineManager implements IBpmEngineManager {
 
-  private IExecutionStatistic executionStatistic = new TstExecutionStatistic();
+  private final IExecutionStatistic executionStatistic = new TstExecutionStatistic();
 
   @Override
-  public void handleRequest(IRequest request, IResponse response) throws RequestException {
-  }
+  public void handleRequest(IRequest request, IResponse response) throws RequestException {}
 
   @Override
-  public void start() {
-  }
+  public void start() {}
 
   @Override
-  public void stop() {
-  }
+  public void stop() {}
 
   @Override
   public String getName() {
@@ -69,10 +66,8 @@ final class TstBpmEngineManager implements IBpmEngineManager {
   }
 
   @Override
-  public void setBpmEngineStarter(IBpmEngineStarter bpmEngineStarter) {
-  }
+  public void setBpmEngineStarter(IBpmEngineStarter bpmEngineStarter) {}
 
   @Override
-  public void requestEngineStart(IProcessModelVersion processModelVersion) {
-  }
+  public void requestEngineStart(IProcessModelVersion processModelVersion) {}
 }

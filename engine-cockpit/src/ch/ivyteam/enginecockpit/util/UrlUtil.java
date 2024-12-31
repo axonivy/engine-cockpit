@@ -10,10 +10,10 @@ import ch.ivyteam.ivy.Advisor;
 public class UrlUtil {
 
   private static final Pattern URL_PATTERN = Pattern.compile(
-          "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)"
-                  + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*"
-                  + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
-          Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+      "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)"
+          + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*"
+          + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
+      Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
   private static final String ENGINE_GUIDE_URL_PATTERN = "@engine.guide.url@";
   private static final String DESIGNER_GUIDE_URL_PATTERN = "@designer.guide.url@";
 

@@ -25,23 +25,23 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 public class RequestMonitorBean {
   private final Monitor requestsMonitor = Monitor.build().name("Requests").icon("network-signal").toMonitor();
   private final Monitor errorsMonitor = Monitor.build().name("Errors").icon("global-warming-globe-fire")
-          .toMonitor();
+      .toMonitor();
   private final Monitor bytesMonitor = Monitor.build().name("Bytes").icon("cd").yAxisLabel("Bytes")
-          .toMonitor();
+      .toMonitor();
   private final Monitor processingTimeMonitor = Monitor.build().name("Processing Time")
-          .icon("optimization-timer").yAxisLabel("Time").toMonitor();
+      .icon("optimization-timer").yAxisLabel("Time").toMonitor();
   private final Monitor connectionsMonitor = Monitor.build().name("Connections").icon("insert_link-timer")
-          .yAxisLabel("Connections").toMonitor();
+      .yAxisLabel("Connections").toMonitor();
 
   public RequestMonitorBean() {
     try {
       Set<ObjectName> requestProcessors = ManagementFactory.getPlatformMBeanServer()
-              .queryNames(new ObjectName("ivy:type=GlobalRequestProcessor,name=*"), null);
+          .queryNames(new ObjectName("ivy:type=GlobalRequestProcessor,name=*"), null);
       for (ObjectName requestProcessor : requestProcessors) {
         setupRequestProcessingMonitors(requestProcessor);
       }
       Set<ObjectName> protocolHandlers = ManagementFactory.getPlatformMBeanServer()
-              .queryNames(new ObjectName("ivy:type=ProtocolHandler,port=*"), null);
+          .queryNames(new ObjectName("ivy:type=ProtocolHandler,port=*"), null);
       for (ObjectName protocolHandler : protocolHandlers) {
         setupProtocolHandlerMonitors(protocolHandler);
       }
@@ -84,13 +84,13 @@ public class RequestMonitorBean {
 
   private void setupBytesMonitor(ObjectName requestProcessor, String label) {
     bytesMonitor.addInfoValue(
-            format(label + " Sent %5d/%5d", deltaBytesSent(requestProcessor), bytesSent(requestProcessor)));
+        format(label + " Sent %5d/%5d", deltaBytesSent(requestProcessor), bytesSent(requestProcessor)));
     bytesMonitor.addInfoValue(format(label + " Received %5d/%5d", deltaBytesReceived(requestProcessor),
-            bytesReceived(requestProcessor)));
+        bytesReceived(requestProcessor)));
 
     bytesMonitor.addSeries(Series.build(deltaBytesSent(requestProcessor), label + " Sent").toSeries());
     bytesMonitor
-            .addSeries(Series.build(deltaBytesReceived(requestProcessor), label + " Received").toSeries());
+        .addSeries(Series.build(deltaBytesReceived(requestProcessor), label + " Received").toSeries());
   }
 
   private void setupProcessTimeMonitor(ObjectName requestProcessor, String label) {
@@ -127,8 +127,8 @@ public class RequestMonitorBean {
 
   private ValueProvider deltaProcessingTime(ObjectName requestProcessor) {
     return derivation(
-            processingTime(requestProcessor),
-            attribute(requestProcessor, "requestCount", Unit.ONE));
+        processingTime(requestProcessor),
+        attribute(requestProcessor, "requestCount", Unit.ONE));
   }
 
   private ValueProvider processingTime(ObjectName requestProcessor) {

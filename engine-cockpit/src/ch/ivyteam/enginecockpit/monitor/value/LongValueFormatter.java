@@ -4,7 +4,7 @@ import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 
 public class LongValueFormatter {
 
-  private int digits;
+  private final int digits;
 
   public LongValueFormatter(int digits) {
     this.digits = digits;
