@@ -17,17 +17,17 @@ public class SearchEngineService {
       filter = "*";
     }
     return searcher.search("""
-                           {
-                             "from": ${from},
-                             "size": ${size},
-                             "query": {
-                               "simple_query_string": {
-                                 "query": "${query}"
-                              }
-                           }}
-                           """
-                            .replace("${from}", String.valueOf(from))
-                            .replace("${size}", String.valueOf(size))
-                            .replace("${query}", filter));
+      {
+        "from": ${from},
+        "size": ${size},
+        "query": {
+          "simple_query_string": {
+            "query": "${query}"
+         }
+      }}
+      """
+        .replace("${from}", String.valueOf(from))
+        .replace("${size}", String.valueOf(size))
+        .replace("${query}", filter));
   }
 }

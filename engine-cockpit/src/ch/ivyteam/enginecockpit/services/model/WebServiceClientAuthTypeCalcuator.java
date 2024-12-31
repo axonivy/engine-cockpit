@@ -17,9 +17,9 @@ public class WebServiceClientAuthTypeCalcuator {
 
   public String get() {
     return features.stream().filter(f -> StringUtils.contains(f.getClazz(), "AuthenticationFeature"))
-            .map(f -> StringUtils.substringBetween(f.getClazz(), "cxf.feature.", "AuthenticationFeature"))
-            .filter(Objects::nonNull)
-            .findFirst()
-            .orElse("");
+        .map(f -> StringUtils.substringBetween(f.getClazz(), "cxf.feature.", "AuthenticationFeature"))
+        .filter(Objects::nonNull)
+        .findFirst()
+        .orElse("");
   }
 }

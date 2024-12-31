@@ -72,7 +72,7 @@ public class WizardBean {
     }
   }
 
-  public static enum Steps {
+  public enum Steps {
     LICENCE(0, "Licence"),
     ADMINS(1, "Administrators"),
     WEBSERVER(2, "Web Server"),

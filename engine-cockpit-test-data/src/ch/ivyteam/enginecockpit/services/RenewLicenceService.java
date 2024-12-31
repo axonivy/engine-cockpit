@@ -24,7 +24,7 @@ public class RenewLicenceService {
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   public Response create(@FormDataParam("oldLicense") InputStream oldLicenseStream,
-          @FormDataParam("oldLicense") FormDataContentDisposition oldLicenseDetail) {
+      @FormDataParam("oldLicense") FormDataContentDisposition oldLicenseDetail) {
     try {
       API.checkNotNull(oldLicenseDetail, "oldLicenseDetail");
       SignedLicence.load().fromInputStream(oldLicenseStream);

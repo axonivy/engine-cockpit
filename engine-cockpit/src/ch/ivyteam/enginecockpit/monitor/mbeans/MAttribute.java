@@ -14,8 +14,8 @@ import javax.management.openmbean.TabularData;
 import org.apache.commons.lang.ArrayUtils;
 
 public class MAttribute implements Comparable<MAttribute> {
-  private Attribute attribute;
-  private MBeanAttributeInfo info;
+  private final Attribute attribute;
+  private final MBeanAttributeInfo info;
 
   MAttribute(Attribute attribute, MBeanAttributeInfo info) {
     this.attribute = attribute;
@@ -38,22 +38,22 @@ public class MAttribute implements Comparable<MAttribute> {
   public boolean getIsTraceable() {
     String type = info.getType();
     return compositeWithNumbersOnly(type) ||
-            isNumber(type);
+        isNumber(type);
   }
 
   private boolean isNumber(String type) {
     return Byte.class.getName().equals(type) ||
-            Byte.TYPE.getName().equals(type) ||
-            Short.class.getName().equals(type) ||
-            Short.TYPE.getName().equals(type) ||
-            Integer.class.getName().equals(type) ||
-            Integer.TYPE.getName().equals(type) ||
-            Long.class.getName().equals(type) ||
-            Long.TYPE.getName().equals(type) ||
-            Float.class.getName().equals(type) ||
-            Float.TYPE.getName().equals(type) ||
-            Double.class.getName().equals(type) ||
-            Double.TYPE.getName().equals(type);
+        Byte.TYPE.getName().equals(type) ||
+        Short.class.getName().equals(type) ||
+        Short.TYPE.getName().equals(type) ||
+        Integer.class.getName().equals(type) ||
+        Integer.TYPE.getName().equals(type) ||
+        Long.class.getName().equals(type) ||
+        Long.TYPE.getName().equals(type) ||
+        Float.class.getName().equals(type) ||
+        Float.TYPE.getName().equals(type) ||
+        Double.class.getName().equals(type) ||
+        Double.TYPE.getName().equals(type);
   }
 
   private boolean compositeWithNumbersOnly(String type) {
@@ -64,11 +64,11 @@ public class MAttribute implements Comparable<MAttribute> {
       }
       CompositeType ctype = data.getCompositeType();
       return ctype
-              .keySet()
-              .stream()
-              .map(ctype::getType)
-              .map(OpenType::getTypeName)
-              .allMatch(this::isNumber);
+          .keySet()
+          .stream()
+          .map(ctype::getType)
+          .map(OpenType::getTypeName)
+          .allMatch(this::isNumber);
     }
     return false;
   }
@@ -109,8 +109,8 @@ public class MAttribute implements Comparable<MAttribute> {
     StringBuilder builder = new StringBuilder();
     builder.append("<table>");
     tab
-            .values()
-            .forEach(entry -> appendRow(entry, builder));
+        .values()
+        .forEach(entry -> appendRow(entry, builder));
     builder.append("</table>");
     return builder.toString();
   }
@@ -124,10 +124,10 @@ public class MAttribute implements Comparable<MAttribute> {
   private static String getCompositeValue(CompositeData value) {
     CompositeType type = value.getCompositeType();
     return type
-            .keySet()
-            .stream()
-            .map(key -> key.toString() + "=" + getValue(value.get(key)))
-            .collect(Collectors.joining(", "));
+        .keySet()
+        .stream()
+        .map(key -> key.toString() + "=" + getValue(value.get(key)))
+        .collect(Collectors.joining(", "));
   }
 
   private static String getArrayValue(Object array) {

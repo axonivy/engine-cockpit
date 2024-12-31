@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import ch.ivyteam.ivy.security.IPermission;
 import ch.ivyteam.ivy.security.IPermissionAccess;
+import ch.ivyteam.ivy.security.IRole;
 
 public class Permission extends AbstractPermission {
   private boolean explicit;
@@ -13,11 +14,11 @@ public class Permission extends AbstractPermission {
 
   public Permission(IPermissionAccess access, PermissionBean bean) {
     super(access.getPermission().getName(),
-            access.isGranted(),
-            access.isDenied());
+        access.isGranted(),
+        access.isDenied());
     this.explicit = access.isExplicit();
-    this.permissionHolder = Optional.ofNullable(access.getPermissionHolder()).map(r -> r.getName())
-            .orElse(null);
+    this.permissionHolder = Optional.ofNullable(access.getPermissionHolder()).map(IRole::getName)
+        .orElse(null);
     this.permission = access.getPermission();
     this.bean = bean;
     initialState();
@@ -82,8 +83,7 @@ public class Permission extends AbstractPermission {
   }
 
   @Override
-  public void group() {
-  }
+  public void group() {}
 
   public IPermission permission() {
     return permission;
@@ -94,10 +94,10 @@ public class Permission extends AbstractPermission {
     if (obj == this) {
       return true;
     }
-    if (obj == null || ! obj.getClass().equals(Permission.class)) {
+    if (obj == null || !obj.getClass().equals(Permission.class)) {
       return false;
     }
-    var other = (Permission)obj;
+    var other = (Permission) obj;
     return permission.equals(other.permission);
   }
 

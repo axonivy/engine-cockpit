@@ -24,7 +24,6 @@ public class TracerAccess implements BeforeEachCallback, AfterEachCallback {
     ACCESS_LOCK.unlock();
   }
 
-
   private void start() {
     Tracer.instance().start();
     Tracer.instance().slowTraces().clear();

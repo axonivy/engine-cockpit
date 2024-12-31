@@ -16,6 +16,7 @@ public class PollErrorIntermediateClass extends AbstractProcessIntermediateEvent
     eventRuntime.threads().boundToEventLifecycle(() -> {});
 
   }
+
   @Override
   public void poll() {
     getEventBeanRuntime().poll().disable();

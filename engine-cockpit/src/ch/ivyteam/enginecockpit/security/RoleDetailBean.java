@@ -109,14 +109,14 @@ public class RoleDetailBean {
     }
     var taskQueryExecutor = IWorkflowContext.of(securityContext).getTaskQueryExecutor();
     runningTaskCount = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
-            .or().state().isEqual(TaskState.RESUMED)
-            .or().state().isEqual(TaskState.PARKED)
-            .andOverall().activatorId().isEqual(iRole.getSecurityMemberId()).executor().count();
+        .or().state().isEqual(TaskState.RESUMED)
+        .or().state().isEqual(TaskState.PARKED)
+        .andOverall().activatorId().isEqual(iRole.getSecurityMemberId()).executor().count();
     directTaskCount = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
-            .or().state().isEqual(TaskState.SUSPENDED)
-            .or().state().isEqual(TaskState.RESUMED)
-            .or().state().isEqual(TaskState.PARKED)
-            .andOverall().activatorId().isEqual(iRole.getSecurityMemberId()).executor().count();
+        .or().state().isEqual(TaskState.SUSPENDED)
+        .or().state().isEqual(TaskState.RESUMED)
+        .or().state().isEqual(TaskState.PARKED)
+        .andOverall().activatorId().isEqual(iRole.getSecurityMemberId()).executor().count();
     roleProperties.setMemberName(this.roleName);
     this.newRoleName = this.roleName;
     var parentRole = iRole.getParent();
@@ -174,7 +174,7 @@ public class RoleDetailBean {
     try {
       iRole.move(parentRole);
       role.setParentRoleName(newParentRoleName);
-    } catch(Exception ex) {
+    } catch (Exception ex) {
       var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role Parent not saved", ex.getMessage());
       FacesContext.getCurrentInstance().addMessage("msgs", msg);
       return;
@@ -219,8 +219,8 @@ public class RoleDetailBean {
     faces.getExternalContext().getFlash().setKeepMessages(true);
     try {
       var newRole = NewRole.create(newChildRoleName)
-              .parentRole(getIRole())
-              .toNewRole();
+          .parentRole(getIRole())
+          .toNewRole();
       securityContext.roles().create(newRole);
       var msg = new FacesMessage("Role '" + newChildRoleName + "' created successfully", "");
       faces.addMessage("msgs", msg);
@@ -261,8 +261,8 @@ public class RoleDetailBean {
       return;
     }
     securityContext.users()
-            .findById(roleUser.getSecurityMemberId())
-            .addRole(getIRole());
+        .findById(roleUser.getSecurityMemberId())
+        .addRole(getIRole());
     roleUser = null;
   }
 
@@ -290,20 +290,20 @@ public class RoleDetailBean {
     var hasRole = UserQuery.create().where().hasRoleAssigned(getIRole());
     var dbQuery = "%" + query + "%";
     var searchFilter = UserQuery.create().where()
-            .name().isLikeIgnoreCase(dbQuery)
-            .or()
-            .fullName().isLikeIgnoreCase(dbQuery)
-            .or()
-            .eMailAddress().isLikeIgnoreCase(dbQuery);
+        .name().isLikeIgnoreCase(dbQuery)
+        .or()
+        .fullName().isLikeIgnoreCase(dbQuery)
+        .or()
+        .eMailAddress().isLikeIgnoreCase(dbQuery);
 
     return securityContext.users().query()
-            .where()
-            .not(hasRole)
-            .and(searchFilter)
-            .executor()
-            .resultsPaged(10)
-            .map(User::new)
-            .page(1);
+        .where()
+        .not(hasRole)
+        .and(searchFilter)
+        .executor()
+        .resultsPaged(10)
+        .map(User::new)
+        .page(1);
   }
 
   private IRole getIRole() {
@@ -316,8 +316,8 @@ public class RoleDetailBean {
 
   private void loadMembersOfRole() {
     membersOfRole = getIRole().getRoleMembers().stream()
-            .map(r -> new Role(r))
-            .collect(Collectors.toList());
+        .map(Role::new)
+        .collect(Collectors.toList());
   }
 
   public List<Role> getMembersOfRole() {
@@ -360,8 +360,8 @@ public class RoleDetailBean {
 
   public List<Role> searchMember(String query) {
     return roleDataModel.getList().stream()
-            .filter(m -> StringUtils.containsIgnoreCase(m.getName(), query) && !isRoleMemberOfRole(m.getName()))
-            .limit(10).collect(Collectors.toList());
+        .filter(m -> StringUtils.containsIgnoreCase(m.getName(), query) && !isRoleMemberOfRole(m.getName()))
+        .limit(10).collect(Collectors.toList());
   }
 
   public MemberProperty getMemberProperty() {
@@ -420,8 +420,8 @@ public class RoleDetailBean {
 
   public List<String> getRoles() {
     return securityContext.roles().all().stream()
-            .map(IRole::getName)
-            .filter(name -> !roleName.equals(name))
-            .collect(Collectors.toList());
+        .map(IRole::getName)
+        .filter(name -> !roleName.equals(name))
+        .collect(Collectors.toList());
   }
 }

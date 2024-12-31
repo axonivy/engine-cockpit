@@ -18,7 +18,7 @@ public class Conditions {
   }
 
   public static WebElementCondition satisfiesText(IntConsumer consumer) {
-    return new  IntegerCondition(consumer);
+    return new IntegerCondition(consumer);
   }
 
   public static final WebElementCondition INTEGER_TEXT = new IntegerCondition();
@@ -26,7 +26,7 @@ public class Conditions {
 
   private static class IntegerCondition extends WebElementCondition {
 
-    private IntConsumer consumer;
+    private final IntConsumer consumer;
 
     public IntegerCondition() {
       this(i -> {});
@@ -44,7 +44,7 @@ public class Conditions {
         var i = Integer.parseInt(element.getText());
         consumer.accept(i);
         return new CheckResult(true, text);
-      } catch(AssertionError | RuntimeException ex) {
+      } catch (AssertionError | RuntimeException ex) {
         return new CheckResult(false, text);
       }
     }
@@ -52,10 +52,10 @@ public class Conditions {
 
   private static class MatchText extends WebElementCondition {
 
-    private Pattern pattern;
+    private final Pattern pattern;
 
     public MatchText(Pattern pattern) {
-      super("Text match pattern " +pattern);
+      super("Text match pattern " + pattern);
       this.pattern = pattern;
     }
 

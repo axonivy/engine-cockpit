@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.system.ssl;
 
 import java.io.InputStream;
+import java.security.Provider;
 import java.security.Security;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
@@ -30,7 +31,7 @@ public class TrustStoreBean implements SslTableStore {
   private String type;
   private String algorithm;
   private String enableInsecureSSL;
-  private SslClientSettings sslClientSettings;
+  private final SslClientSettings sslClientSettings;
 
   public TrustStoreBean() {
     this.sslClientSettings = SslClientSettings.instance();
@@ -58,8 +59,8 @@ public class TrustStoreBean implements SslTableStore {
   @SuppressWarnings("hiding")
   public List<String> getProviders() {
     List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders())
-            .map(provider -> provider.getName())
-            .toList());
+        .map(Provider::getName)
+        .toList());
     providers.add("");
     return providers;
   }
@@ -69,10 +70,9 @@ public class TrustStoreBean implements SslTableStore {
   }
 
   public List<String> getTypes() {
-      List<String> types = new ArrayList<>();
-      types.addAll(SecurityProviders.getTypes(getProvider()));
-      types.add("");
-      return types;
+    List<String> types = new ArrayList<>(SecurityProviders.getTypes(getProvider()));
+    types.add("");
+    return types;
   }
 
   public String getAlgorithm() {
@@ -122,7 +122,7 @@ public class TrustStoreBean implements SslTableStore {
     store.setAlgorithm(algorithm);
     sslClientSettings.setEnableInsecureSSL(enableInsecureSSL);
     FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
-            new FacesMessage("Trust Store configurations saved"));
+        new FacesMessage("Trust Store configurations saved"));
   }
 
   @Override
@@ -139,13 +139,13 @@ public class TrustStoreBean implements SslTableStore {
 
   public void addToStore(Certificate cert) {
     getKeyStoreUtils().addNewCert(cert);
-    if (cert.getPublicKey().getFormat().equals("X.509")) {
+    if ("X.509".equals(cert.getPublicKey().getFormat())) {
       X509Certificate X509cert = (X509Certificate) cert;
       FacesContext.getCurrentInstance().addMessage("addMissingCertSuccess",
-              new FacesMessage(X509cert.getSubjectX500Principal() + " was successfully added"));
+          new FacesMessage(X509cert.getSubjectX500Principal() + " was successfully added"));
     } else {
-    FacesContext.getCurrentInstance().addMessage("addMissingCertSuccess",
-            new FacesMessage("The certificate was successfully added."));
+      FacesContext.getCurrentInstance().addMessage("addMissingCertSuccess",
+          new FacesMessage("The certificate was successfully added."));
     }
   }
 

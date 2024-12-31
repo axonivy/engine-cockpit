@@ -61,7 +61,7 @@ class WebTestApplication {
     $$(".activity-name").shouldBe(size(appCount + 1));
     addNewApplication();
     $("#form\\:applicationMessage_container .ui-growl-message")
-            .shouldHave(text("Application with name '" + NEW_TEST_APP + "' already exists"));
+        .shouldHave(text("Application with name '" + NEW_TEST_APP + "' already exists"));
 
     By newApp = getNewAppId();
     startApplication(newApp);
@@ -99,33 +99,33 @@ class WebTestApplication {
     var app = $$(".activity-name").find(text(appName)).parent().parent().parent();
     var pm = $$(".activity-name").find(text("engine-cockpit-test-data")).parent().parent();
     app.find(".module-state").shouldBe(attribute("title", "ACTIVE"))
-            .findAll("i").shouldHave(size(1));
+        .findAll("i").shouldHave(size(1));
     pm.find("button", 1).click();
     pm.find(".module-state").shouldBe(attribute("title", "INACTIVE"))
-            .findAll("i").shouldHave(size(1));
+        .findAll("i").shouldHave(size(1));
     app.find(".module-state").shouldBe(attribute("title", "ACTIVE\n" +
-            "engine-cockpit-test-data: INACTIVE\n" +
-            "engine-cockpit-test-data$1: INACTIVE"))
-            .findAll("i").shouldHave(size(2));
+        "engine-cockpit-test-data: INACTIVE\n" +
+        "engine-cockpit-test-data$1: INACTIVE"))
+        .findAll("i").shouldHave(size(2));
 
     pm.find("button", 0).click();
     pm.find(".module-state").shouldBe(attribute("title", "ACTIVE"))
-            .findAll("i").shouldHave(size(1));
+        .findAll("i").shouldHave(size(1));
     app.find(".module-state").shouldBe(attribute("title", "ACTIVE"))
-            .findAll("i").shouldHave(size(1));
+        .findAll("i").shouldHave(size(1));
   }
 
   @Test
   void showOverrideProjectIconInTree() {
     expandAppTree();
-    //project of app test has override configured
+    // project of app test has override configured
     $$(".activity-name").find(exactText("portal-components")).parent().find(".table-icon")
-            .shouldHave(cssClass("si-move-to-bottom"))
-            .shouldHave(attribute("title", "This PM is configured as strict override project"));
-    //project of app test-ad has no override configured
+        .shouldHave(cssClass("si-move-to-bottom"))
+        .shouldHave(attribute("title", "This PM is configured as strict override project"));
+    // project of app test-ad has no override configured
     $$(".activity-name").find(exactText("portal-user-examples")).parent().find(".table-icon")
-            .shouldHave(cssClass("si-module-three-2"))
-            .shouldHave(attribute("title", "PM"));
+        .shouldHave(cssClass("si-module-three-2"))
+        .shouldHave(attribute("title", "PM"));
   }
 
   @Test
@@ -173,11 +173,11 @@ class WebTestApplication {
   void notDeletableMessage() {
     expandAppTree();
     $$("#form:tree:0:deleteBtn").get(1)
-            .shouldHave(attribute("title", "App 'designer' can not be deleted"));
+        .shouldHave(attribute("title", "App 'designer' can not be deleted"));
     $$("#form:tree:0_0:deleteBtn").get(1)
-            .shouldHave(attribute("title", "'dev-workflow-ui' is required by 'dev-workflow-ui-web-test', 'dev-workflow-ui-test'"));
+        .shouldHave(attribute("title", "'dev-workflow-ui' is required by 'dev-workflow-ui-web-test', 'dev-workflow-ui-test'"));
     $$("#form:tree:0_0_0:deleteBtn").get(2)
-            .shouldHave(attribute("title", "Is required by 'dev-workflow-ui-web-test', 'dev-workflow-ui-test'\nIs in state RELEASED but must be one of [CREATED, PREPARED, ARCHIVED]"));
+        .shouldHave(attribute("title", "Is required by 'dev-workflow-ui-web-test', 'dev-workflow-ui-test'\nIs in state RELEASED but must be one of [CREATED, PREPARED, ARCHIVED]"));
   }
 
   private void filter(String search) {

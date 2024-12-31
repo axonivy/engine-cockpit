@@ -37,42 +37,40 @@ public class SecurityExport {
   private volatile int progress = 0;
   private Path excelFile;
   private Path zipFile;
-  private ISession session;
+  private final ISession session;
 
   public SecurityExport(ISecurityContext securityContext, ISession session) {
     this.securityContext = securityContext;
     this.session = session;
   }
 
-  public void export() throws IOException{
-    var usersCount = (int)securityContext.users().query().orderBy().name().executor().count();
+  public void export() throws IOException {
+    var usersCount = (int) securityContext.users().query().orderBy().name().executor().count();
     var tempDir = Files.createTempDirectory("AxonIvySecurityReports");
 
     if (usersCount < USERS_PER_EXCEL) {
       excelFile = createSingleExcel(tempDir, usersCount);
-    }
-    else {
+    } else {
       createFiles(tempDir, usersCount);
       zipFile = zipDirectory(tempDir);
     }
   }
 
   public StreamedContent getResult() {
-    if(excelFile != null) {
+    if (excelFile != null) {
       return DefaultStreamedContent
-              .builder()
-              .stream(() -> openFile(excelFile))
-              .contentType("application/xlsx")
-              .name("AxonIvySecurityReport.xlsx")
-              .build();
-    }
-    else {
+          .builder()
+          .stream(() -> openFile(excelFile))
+          .contentType("application/xlsx")
+          .name("AxonIvySecurityReport.xlsx")
+          .build();
+    } else {
       return DefaultStreamedContent
-              .builder()
-              .stream(() -> openFile(zipFile))
-              .contentType("application/zip")
-              .name("AxonIvySecurityReport.zip")
-              .build();
+          .builder()
+          .stream(() -> openFile(zipFile))
+          .contentType("application/zip")
+          .name("AxonIvySecurityReport.zip")
+          .build();
     }
   }
 
@@ -95,7 +93,7 @@ public class SecurityExport {
   private void createFiles(Path tempDir, int usersCount) throws IOException {
     int forCount = Math.ceilDiv(usersCount, USERS_PER_EXCEL);
     var start = 0;
-    for(int i=0; i<forCount;) {
+    for (int i = 0; i < forCount;) {
       if (Thread.currentThread().isInterrupted()) {
         return;
       }
@@ -103,7 +101,7 @@ public class SecurityExport {
       clearChache();
 
       try (Excel excel = new Excel()) {
-        createSheets(start, USERS_PER_EXCEL, excel, i==0, forCount);
+        createSheets(start, USERS_PER_EXCEL, excel, i == 0, forCount);
 
         var file = tempDir.resolve("AxonIvySecurityReport" + i + ".xlsx");
         try (var os = Files.newOutputStream(file, StandardOpenOption.CREATE_NEW)) {
@@ -111,7 +109,7 @@ public class SecurityExport {
         }
         start += USERS_PER_EXCEL;
         i++;
-        progress= i *100 /forCount;
+        progress = i * 100 / forCount;
       }
     }
   }
@@ -137,12 +135,12 @@ public class SecurityExport {
     new OverviewSheet(excel, securityContext, users, session).create(end, fileCount);
     new UsersSheet(excel, users).create();
     new UserRolesSheet(excel, users, getRoles()).create();
-    if(includeRoles) {
+    if (includeRoles) {
       new RolesSheet(excel, roles).create();
       new RoleMembersSheet(excel, roles).create();
     }
     new SecurityMemberPermissionSheet(excel, securityContext, usersToSecurityMembers(users)).create("User");
-    if(includeRoles) {
+    if (includeRoles) {
       new SecurityMemberPermissionSheet(excel, securityContext, rolesToSecurityMembers(roles)).create("Role");
     }
   }
@@ -153,15 +151,15 @@ public class SecurityExport {
 
   @SuppressWarnings("unchecked")
   private Iterable<ISecurityMember> usersToSecurityMembers(List<IUser> users) {
-    return (Iterable<ISecurityMember>)(Iterable<?>)users;
+    return (Iterable<ISecurityMember>) (Iterable<?>) users;
   }
 
   @SuppressWarnings("unchecked")
   private Iterable<ISecurityMember> rolesToSecurityMembers(Iterable<IRole> roles) {
-    return (Iterable<ISecurityMember>)(Iterable<?>)roles;
+    return (Iterable<ISecurityMember>) (Iterable<?>) roles;
   }
 
-  private List<IUser> getUsers(int start, int count){
+  private List<IUser> getUsers(int start, int count) {
     return securityContext.users().query().orderBy().name().executor().results(start, count);
   }
 

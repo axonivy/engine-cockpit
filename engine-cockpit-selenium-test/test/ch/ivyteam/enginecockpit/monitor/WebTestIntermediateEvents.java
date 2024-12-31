@@ -104,7 +104,7 @@ class WebTestIntermediateEvents {
     $(By.id("form:beanTable:0:start")).shouldBe(disabled);
     $(By.id("form:beanTable:0:stop")).shouldBe(enabled);
   }
-  
+
   @Test
   void details_threads() {
     navigateToDetails("188B95440FE25CA6-f6");
@@ -114,7 +114,7 @@ class WebTestIntermediateEvents {
   }
 
   private void navigateToDetails(String element) {
-    element = EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/"+element;
+    element = EngineCockpitUtil.getAppName() + "/engine-cockpit-test-data$1/" + element;
     $(By.id("form:beanTable:globalFilter")).sendKeys(element);
     table.rows().shouldHave(CollectionCondition.size(1));
     table.tableEntry(1, 1).shouldBe(visible, enabled).find(By.tagName("a")).click();

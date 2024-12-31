@@ -56,7 +56,7 @@ class WebTestManyRoles {
     $("#rolesOfUserForm\\:globalFilter").sendKeys("role-");
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").shouldBe(size(21));
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").last()
-            .shouldHave(text("The current search has more than 20 results."));
+        .shouldHave(text("The current search has more than 20 results."));
   }
 
   @Test

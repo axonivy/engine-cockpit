@@ -50,11 +50,11 @@ class WebTestSSL {
     @Test
     void useCustomKeyStore() {
       PrimeUi.selectBooleanCheckbox(By.id(Key.USE_CUSTOM))
-      .shouldBeChecked(false);
+          .shouldBeChecked(false);
       $(By.id(Key.FILE)).shouldHave(cssClass("ui-state-disabled"));
       PrimeUi.selectBooleanCheckbox(By.id(Key.USE_CUSTOM)).setChecked();
       PrimeUi.selectBooleanCheckbox(By.id(Key.USE_CUSTOM))
-      .shouldBeChecked(true);
+          .shouldBeChecked(true);
       $(By.id(Key.FILE)).shouldNotHave(cssClass("ui-state-disabled"));
     }
 
@@ -170,7 +170,7 @@ class WebTestSSL {
     @Test
     void enableInsecureSSL() {
       PrimeUi.selectBooleanCheckbox(By.id(ENABLE_INSECURE_SSL))
-      .shouldBeChecked(false);
+          .shouldBeChecked(false);
       PrimeUi.selectBooleanCheckbox(By.id(ENABLE_INSECURE_SSL)).setChecked();
 
       saveTrustStore();
@@ -178,7 +178,7 @@ class WebTestSSL {
       Navigation.toSSL();
 
       PrimeUi.selectBooleanCheckbox(By.id(ENABLE_INSECURE_SSL))
-      .shouldBeChecked(true);
+          .shouldBeChecked(true);
     }
 
     @Test

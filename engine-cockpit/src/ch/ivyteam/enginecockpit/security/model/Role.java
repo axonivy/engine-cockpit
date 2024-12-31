@@ -1,11 +1,13 @@
 package ch.ivyteam.enginecockpit.security.model;
 
 import javax.ws.rs.core.UriBuilder;
+
 import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 
-public class Role implements SecurityMember{
+public class Role implements SecurityMember {
 
   private String name;
   private String description;
@@ -14,7 +16,7 @@ public class Role implements SecurityMember{
   private boolean member;
   private boolean dynamic;
   private String parentRoleName;
-  private String securityContext;
+  private final String securityContext;
 
   public Role(String securityContext, String name) {
     this.securityContext = securityContext;
@@ -44,10 +46,10 @@ public class Role implements SecurityMember{
 
   public static String getViewUrl(String securityContext, String name) {
     return UriBuilder.fromPath("roledetail.xhtml")
-            .queryParam("system", securityContext)
-            .queryParam("name", name)
-            .build()
-            .toString();
+        .queryParam("system", securityContext)
+        .queryParam("name", name)
+        .build()
+        .toString();
   }
 
   @Override

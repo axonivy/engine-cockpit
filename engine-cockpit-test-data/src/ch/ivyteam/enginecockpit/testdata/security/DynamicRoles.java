@@ -15,8 +15,8 @@ public class DynamicRoles {
       var roles = context().roles();
       for (var i = 0; i < 110; i++) {
         var newRole = NewRole.create("role-" + UUID.randomUUID())
-          .displayName("dynamic role")
-          .toNewRole();
+            .displayName("dynamic role")
+            .toNewRole();
         roles.create(newRole);
       }
     });
@@ -38,7 +38,7 @@ public class DynamicRoles {
 
   private static ISecurityContext context() {
     return IApplicationRepository.instance()
-              .findByName("test").orElseThrow()
-              .getSecurityContext();
+        .findByName("test").orElseThrow()
+        .getSecurityContext();
   }
 }

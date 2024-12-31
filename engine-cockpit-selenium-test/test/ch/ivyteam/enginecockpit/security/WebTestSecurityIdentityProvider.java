@@ -90,40 +90,40 @@ class WebTestSecurityIdentityProvider {
 
     // add
     $(By.id("identityProvider:dynamicConfigForm:group:1:newPropertyKeyValue"))
-            .shouldBe(visible)
-            .click();
+        .shouldBe(visible)
+        .click();
     $(By.id("identityProvider:dynamicConfigKeyValueForm:attributeNameInput"))
-            .should(visible)
-            .sendKeys("user property");
+        .should(visible)
+        .sendKeys("user property");
     $(By.id("identityProvider:dynamicConfigKeyValueForm:attributeValueInput"))
-            .should(visible)
-            .sendKeys("azure property");
+        .should(visible)
+        .sendKeys("azure property");
     $(By.id("identityProvider:dynamicConfigKeyValueForm:savePropertyKeyAttribute"))
-            .should(visible)
-            .click();
+        .should(visible)
+        .click();
     success();
     table.columnShouldBe(1, CollectionCondition.exactTexts("user property"));
     table.columnShouldBe(2, CollectionCondition.exactTexts("azure property"));
 
     // edit
     $(By.id("identityProvider:dynamicConfigForm:group:1:property:0:keyValueTable:0:editPropertyBtn"))
-            .should(visible)
-            .click();
+        .should(visible)
+        .click();
     $(By.id("identityProvider:dynamicConfigKeyValueForm:attributeNameInput")).should(Condition.disabled);
     var p = $(By.id("identityProvider:dynamicConfigKeyValueForm:attributeValueInput"))
-      .should(visible);
+        .should(visible);
     p.clear();
     p.sendKeys("changed azure property");
     $(By.id("identityProvider:dynamicConfigKeyValueForm:savePropertyKeyAttribute"))
-      .should(visible)
-      .click();
+        .should(visible)
+        .click();
     success();
     table.columnShouldBe(1, CollectionCondition.exactTexts("user property"));
     table.columnShouldBe(2, CollectionCondition.exactTexts("changed azure property"));
 
     // delete
     $(By.id("identityProvider:dynamicConfigForm:group:1:property:0:keyValueTable:0:deleteKeyValueBtn"))
-      .click();
+        .click();
     success();
     table.firstColumnShouldBe(CollectionCondition.empty);
   }
@@ -142,11 +142,11 @@ class WebTestSecurityIdentityProvider {
   }
 
   @Test
-  void directoryBrowser(){
+  void directoryBrowser() {
     $(By.id("identityProvider:dynamicConfigForm:group:0:property:2:browseDirectory")).should(visible)
-    .click();
+        .click();
     $(By.id("directoryBrowser:directoryBrowserForm:tree:0")).should(visible)
-    .click();
+        .click();
     $(By.id("directoryBrowser:directoryBrowserForm:tree:0")).shouldHave(text("Group A"));
     By.id("directoryBrowser:directoryBrowserForm:tree:0");
     $(By.className("ui-tree-toggler")).click();
@@ -165,7 +165,7 @@ class WebTestSecurityIdentityProvider {
     var bool = $(By.cssSelector(".ui-chkbox-box.ui-widget.ui-corner-all.ui-state-default")).should(visible);
     bool.click();
     PrimeUi.selectBooleanCheckbox(By.id("identityProvider:dynamicConfigForm:group:0:property:4:propertyBoolean"))
-    .shouldBeChecked(true);
+        .shouldBeChecked(true);
     save();
     success();
   }
@@ -174,7 +174,7 @@ class WebTestSecurityIdentityProvider {
   void booleanPropertyDefaultValue() {
     $(By.id("identityProvider:dynamicConfigForm:group:0:property:5:propertyBoolean")).should(visible);
     PrimeUi.selectBooleanCheckbox(By.id("identityProvider:dynamicConfigForm:group:0:property:5:propertyBoolean"))
-    .shouldBeChecked(true);
+        .shouldBeChecked(true);
     save();
     success();
   }
@@ -194,8 +194,8 @@ class WebTestSecurityIdentityProvider {
   @Test
   void dropdownProperty() {
     var property = $(By.id("identityProvider:dynamicConfigForm:group:0:property:6:propertyDropdown"))
-            .shouldBe(visible)
-            .shouldBe(text("DIRECT"));
+        .shouldBe(visible)
+        .shouldBe(text("DIRECT"));
     property.scrollTo().click();
     $(By.id("identityProvider:dynamicConfigForm:group:0:property:6:propertyDropdown_2")).click();
     property.shouldHave(text("TRAVERSE"));
@@ -204,8 +204,8 @@ class WebTestSecurityIdentityProvider {
   @Test
   void browseEscapedNames() {
     $(By.id("identityProvider:dynamicConfigForm:group:0:property:2:browseDirectory"))
-      .should(visible)
-      .click();
+        .should(visible)
+        .click();
     $(By.id("directoryBrowser:directoryBrowserDialog")).shouldBe(visible);
     var treeNode = $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("Group A"));
     treeNode.shouldBe(visible);

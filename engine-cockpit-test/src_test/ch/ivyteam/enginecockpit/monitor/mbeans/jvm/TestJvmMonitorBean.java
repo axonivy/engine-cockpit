@@ -14,12 +14,12 @@ public class TestJvmMonitorBean {
     assertThat(dataSet).hasSize(2);
 
     assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var calls = (LineChartDataSet)dataSet.get(0);
+    var calls = (LineChartDataSet) dataSet.get(0);
     assertThat(calls.getLabel()).isEqualTo("System");
     assertThat(calls.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
     assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var errors = (LineChartDataSet)dataSet.get(1);
+    var errors = (LineChartDataSet) dataSet.get(1);
     assertThat(errors.getLabel()).isEqualTo("Process");
     assertThat(errors.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
@@ -34,17 +34,17 @@ public class TestJvmMonitorBean {
     assertThat(dataSet).hasSize(2);
 
     assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var active = (LineChartDataSet)dataSet.get(0);
+    var active = (LineChartDataSet) dataSet.get(0);
     assertThat(active.getLabel()).isEqualTo("Active");
     assertThat(active.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
     assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var daemons = (LineChartDataSet)dataSet.get(1);
+    var daemons = (LineChartDataSet) dataSet.get(1);
     assertThat(daemons.getLabel()).isEqualTo("Daemons");
     assertThat(daemons.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class)); // delta
 
     assertThat(testee.getThreadsMonitor().getInfo()).contains("Threads: Active ", ", Daemons  ", ", Peak ",
-            ", Total Started ");
+        ", Total Started ");
   }
 
   @Test
@@ -55,16 +55,16 @@ public class TestJvmMonitorBean {
     assertThat(dataSet).hasSize(2);
 
     assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var loaded = (LineChartDataSet)dataSet.get(0);
+    var loaded = (LineChartDataSet) dataSet.get(0);
     assertThat(loaded.getLabel()).isEqualTo("Loaded");
     assertThat(loaded.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
     assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var unloaded = (LineChartDataSet)dataSet.get(1);
+    var unloaded = (LineChartDataSet) dataSet.get(1);
     assertThat(unloaded.getLabel()).isEqualTo("Unloaded");
     assertThat(unloaded.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
     assertThat(testee.getClassesMonitor().getInfo()).contains("Classes: Loaded ", ", Unloaded  ",
-            ", Total Loaded ");
+        ", Total Loaded ");
   }
 }

@@ -61,7 +61,7 @@ class WebTestSearchEngine {
   void indicies() {
     Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"), true);
     assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSizeGreaterThanOrEqualTo(2)
-            .contains(dossierIndex, addressIndex);
+        .contains(dossierIndex, addressIndex);
     checkIndexValues(table, dossierIndex, "10");
     checkIndexValues(table, addressIndex, "1");
     $(By.id("searchEngineIndexForm:indiciesTable:indexName")).shouldBe(visible).click();
@@ -74,11 +74,11 @@ class WebTestSearchEngine {
     var table = new Table(By.id("tableForm:docTable"));
     table.search("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
     $(By.id("tableForm:docTable:0:showDocument"))
-            .shouldBe(not(exist));
+        .shouldBe(not(exist));
     table.search("");
     $(By.id("tableForm:docTable:0:showDocument"))
-            .shouldBe(visible)
-            .click();
+        .shouldBe(visible)
+        .click();
   }
 
   @Test

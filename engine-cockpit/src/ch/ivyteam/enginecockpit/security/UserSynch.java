@@ -6,9 +6,9 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 
 public class UserSynch {
 
-  private ISecurityContext securityContext;
+  private final ISecurityContext securityContext;
   private String log;
-  private String preConfiguredUserName;
+  private final String preConfiguredUserName;
   private String userNameOnTheDialog;
 
   public UserSynch(ISecurityContext securityContext) {

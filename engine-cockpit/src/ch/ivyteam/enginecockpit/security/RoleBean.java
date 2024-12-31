@@ -10,7 +10,7 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 @ViewScoped
 public class RoleBean {
 
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
   private RoleDataModel roleDataModel;
 
   public RoleBean() {

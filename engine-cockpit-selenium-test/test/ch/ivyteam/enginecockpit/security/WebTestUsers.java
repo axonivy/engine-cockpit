@@ -40,10 +40,10 @@ class WebTestUsers {
 
   private static final String SECURITY_SYSTEM_TAB_VIEW = "#securitySystems\\:securitySystemTabView\\:";
 
-  private String user = "test";
-  private String fullName = "test user";
-  private String email = "test@test.ch";
-  private String password = "password";
+  private final String user = "test";
+  private final String fullName = "test user";
+  private final String email = "test@test.ch";
+  private final String password = "password";
 
   @BeforeEach
   void beforeEach() {
@@ -218,7 +218,7 @@ class WebTestUsers {
     $("#form\\:syncMoreBtn_menuButton").click();
     $("#form\\:userSyncLog").shouldBe(visible).click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
-            .find(".ui-panel-content").shouldBe(visible);
+        .find(".ui-panel-content").shouldBe(visible);
   }
 
   @Test

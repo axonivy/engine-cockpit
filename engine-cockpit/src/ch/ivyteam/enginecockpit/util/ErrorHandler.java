@@ -7,8 +7,8 @@ import ch.ivyteam.log.Logger;
 
 public class ErrorHandler {
 
-  private String growlId;
-  private Logger logger;
+  private final String growlId;
+  private final Logger logger;
 
   public ErrorHandler(String growlId, Logger logger) {
     this.growlId = growlId;

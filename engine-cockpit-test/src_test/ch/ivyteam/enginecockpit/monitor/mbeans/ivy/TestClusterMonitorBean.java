@@ -26,17 +26,17 @@ public class TestClusterMonitorBean {
     assertThat(dataSet).hasSize(2);
 
     assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var mails = (LineChartDataSet)dataSet.get(0);
+    var mails = (LineChartDataSet) dataSet.get(0);
     assertThat(mails.getLabel()).isEqualTo("Sent");
     assertThat(mails.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
     assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var errors = (LineChartDataSet)dataSet.get(1);
+    var errors = (LineChartDataSet) dataSet.get(1);
     assertThat(errors.getLabel()).isEqualTo("Errors");
     assertThat(errors.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
     assertThat(testee.getSendMessagesMonitor().getInfo())
-            .isEqualTo("Sent Messages: -, Total 3, Errors -, Errors Total 4");
+        .isEqualTo("Sent Messages: -, Total 3, Errors -, Errors Total 4");
   }
 
   @Test
@@ -48,22 +48,22 @@ public class TestClusterMonitorBean {
     assertThat(dataSet).hasSize(3);
 
     assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var min = (LineChartDataSet)dataSet.get(0);
+    var min = (LineChartDataSet) dataSet.get(0);
     assertThat(min.getLabel()).isEqualTo("Min");
     assertThat(min.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(5.0D));
 
     assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var avg = (LineChartDataSet)dataSet.get(1);
+    var avg = (LineChartDataSet) dataSet.get(1);
     assertThat(avg.getLabel()).isEqualTo("Avg");
     assertThat(avg.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
     assertThat(dataSet.get(2)).isInstanceOf(LineChartDataSet.class);
-    var max = (LineChartDataSet)dataSet.get(2);
+    var max = (LineChartDataSet) dataSet.get(2);
     assertThat(max.getLabel()).isEqualTo("Max");
     assertThat(max.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(7.0D));
 
     assertThat(testee.getSendProcessingTimeMonitor().getInfo())
-            .isEqualTo("Send Processing Time: Min 5 us, Avg -, Max 7 us, Total 6 us");
+        .isEqualTo("Send Processing Time: Min 5 us, Avg -, Max 7 us, Total 6 us");
   }
 
   @Test
@@ -75,17 +75,17 @@ public class TestClusterMonitorBean {
     assertThat(dataSet).hasSize(2);
 
     assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var mails = (LineChartDataSet)dataSet.get(0);
+    var mails = (LineChartDataSet) dataSet.get(0);
     assertThat(mails.getLabel()).isEqualTo("Received");
     assertThat(mails.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
     assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var errors = (LineChartDataSet)dataSet.get(1);
+    var errors = (LineChartDataSet) dataSet.get(1);
     assertThat(errors.getLabel()).isEqualTo("Errors");
     assertThat(errors.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
     assertThat(testee.getReceiveMessagesMonitor().getInfo())
-            .isEqualTo("Received Messages: -, Total 10, Errors -, Errors Total 11");
+        .isEqualTo("Received Messages: -, Total 10, Errors -, Errors Total 11");
   }
 
   @Test
@@ -97,22 +97,22 @@ public class TestClusterMonitorBean {
     assertThat(dataSet).hasSize(3);
 
     assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var min = (LineChartDataSet)dataSet.get(0);
+    var min = (LineChartDataSet) dataSet.get(0);
     assertThat(min.getLabel()).isEqualTo("Min");
     assertThat(min.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(12.0D));
 
     assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var avg = (LineChartDataSet)dataSet.get(1);
+    var avg = (LineChartDataSet) dataSet.get(1);
     assertThat(avg.getLabel()).isEqualTo("Avg");
     assertThat(avg.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
     assertThat(dataSet.get(2)).isInstanceOf(LineChartDataSet.class);
-    var max = (LineChartDataSet)dataSet.get(2);
+    var max = (LineChartDataSet) dataSet.get(2);
     assertThat(max.getLabel()).isEqualTo("Max");
     assertThat(max.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(14.0D));
 
     assertThat(testee.getReceiveProcessingTimeMonitor().getInfo())
-            .isEqualTo("Receive Processing Time: Min 12 us, Avg -, Max 14 us, Total 13 us");
+        .isEqualTo("Receive Processing Time: Min 12 us, Avg -, Max 14 us, Total 13 us");
   }
 
   @MBean("ivy Engine:type=Cluster Channel")

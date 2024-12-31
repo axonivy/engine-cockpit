@@ -13,7 +13,7 @@ public class BaseUnit {
   static final BaseUnit ONE = new BaseUnit("", "", Scaling.METRIC);
   static final BaseUnit PERCENTAGE = new BaseUnit("%", "percentage", Scaling.NONE);
 
-  static final BaseUnit[] ALL = new BaseUnit[] {SECONDS, BYTES, DAY_TIME, PERCENTAGE, ONE};
+  static final BaseUnit[] ALL = {SECONDS, BYTES, DAY_TIME, PERCENTAGE, ONE};
 
   private BaseUnit(String symbol, String name, Scaling scaling) {
     this.symbol = symbol;
@@ -51,7 +51,7 @@ public class BaseUnit {
     }
     BaseUnit other = (BaseUnit) obj;
     return Objects.equals(name, other.name) && Objects.equals(symbol, other.symbol)
-            && Objects.equals(scaling, other.scaling);
+        && Objects.equals(scaling, other.scaling);
   }
 
   @Override

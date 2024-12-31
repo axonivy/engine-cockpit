@@ -131,7 +131,7 @@ public class ConfigProperty {
 
   public String getShortSource() {
     return StringUtils.substring(source, StringUtils.lastIndexOf(source, '/') + 1,
-            getIndexOfSourceSuffix(source));
+        getIndexOfSourceSuffix(source));
   }
 
   public boolean isPassword() {
@@ -225,7 +225,7 @@ public class ConfigProperty {
           .build();
     } catch (IOException e) {
       FacesContext.getCurrentInstance().addMessage("msgs",
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to load file: " + source));
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to load file: " + source));
       return null;
     }
   }
@@ -248,10 +248,10 @@ public class ConfigProperty {
 
   private void correctValuesIfDaytimeFormat() {
     if (Objects.equals(configValueFormat, ConfigValueFormat.DAYTIME)) {
-      if (defaultValue.equals("0")) {
+      if ("0".equals(defaultValue)) {
         this.defaultValue = "00:00";
       }
-      if (value.equals("0")) {
+      if ("0".equals(value)) {
         this.value = "00:00";
       }
     }

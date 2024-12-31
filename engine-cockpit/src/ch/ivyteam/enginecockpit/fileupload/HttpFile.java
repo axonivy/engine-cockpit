@@ -11,7 +11,7 @@ public class HttpFile {
   private final InputStream stream;
 
   public HttpFile(String name, String submittedFileName, long size, Map<String, String> parameters,
-          InputStream stream) {
+      InputStream stream) {
     this.name = name;
     this.submittedFileName = submittedFileName;
     this.size = size;

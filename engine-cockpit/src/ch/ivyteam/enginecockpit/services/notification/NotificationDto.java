@@ -16,7 +16,7 @@ import ch.ivyteam.ivy.notification.delivery.NotificationDeliveryRepository;
 
 public class NotificationDto {
 
-  private Notification notification;
+  private final Notification notification;
   private final Date createdAt;
 
   public NotificationDto(Notification notification) {
@@ -81,10 +81,10 @@ public class NotificationDto {
 
   public String getViewUrl() {
     return UriBuilder.fromPath("notificationDeliveries.xhtml")
-            .queryParam("system", notification.securityContext().getName())
-            .queryParam("id", notification.uuid())
-            .build()
-            .toString();
+        .queryParam("system", notification.securityContext().getName())
+        .queryParam("id", notification.uuid())
+        .build()
+        .toString();
   }
 
   public void reusher() {

@@ -22,7 +22,7 @@ public class DateUtil {
 
   public static String formatInstantAsDateTime(Instant instant) {
     var dateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
-    return DateTimeFormatter.ofPattern( "yyyy-MM-dd HH:mm").format(dateTime);
+    return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(dateTime);
 
   }
 

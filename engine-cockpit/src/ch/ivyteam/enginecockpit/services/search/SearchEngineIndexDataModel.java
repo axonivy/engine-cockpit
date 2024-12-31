@@ -8,8 +8,8 @@ import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 
-import ch.ivyteam.ivy.searchengine.index.IndexInfo;
 import ch.ivyteam.ivy.searchengine.ISearchEngineManager;
+import ch.ivyteam.ivy.searchengine.index.IndexInfo;
 
 public class SearchEngineIndexDataModel extends LazyDataModel<SearchEngineIndex> {
 
@@ -22,10 +22,10 @@ public class SearchEngineIndexDataModel extends LazyDataModel<SearchEngineIndex>
 
   @Override
   public List<SearchEngineIndex> load(int first, int pageSize, Map<String, SortMeta> sortBy,
-          Map<String, FilterMeta> filterBy) {
+      Map<String, FilterMeta> filterBy) {
     return searchEngine.indices(first, pageSize).stream()
-            .map(index -> toSearchEngineIndex(index))
-            .collect(Collectors.toList());
+        .map(SearchEngineIndexDataModel::toSearchEngineIndex)
+        .collect(Collectors.toList());
   }
 
   public static SearchEngineIndex toSearchEngineIndex(IndexInfo index) {

@@ -22,7 +22,7 @@ public class Cell {
   }
 
   public void mergeTo(int height, int width) {
-    var range = new CellRangeAddress(row.num(), row.num()+height-1, num, num+width-1);
+    var range = new CellRangeAddress(row.num(), row.num() + height - 1, num, num + width - 1);
     row.sheet().sheet().addMergedRegion(range);
   }
 

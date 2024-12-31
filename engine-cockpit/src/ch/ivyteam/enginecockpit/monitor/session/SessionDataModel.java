@@ -18,28 +18,24 @@ import ch.ivyteam.ivy.security.ISessionInternal;
 
 public class SessionDataModel extends LazyDataModel<SessionDto> {
 
-  private static final List<Function<ISessionInternal, String>> GLOBAL_FILTERS =  List.of(
-          s -> s.getSessionUser() == null ? "" : s.getSessionUser().getName(),
-          ISessionInternal::creationReason,
-          ISessionInternal::getAuthenticationMode,
-          s -> Integer.toString(s.getIdentifier()),
-          s -> s.getSecurityContext().getName()
-  );
+  private static final List<Function<ISessionInternal, String>> GLOBAL_FILTERS = List.of(
+      s -> s.getSessionUser() == null ? "" : s.getSessionUser().getName(),
+      ISessionInternal::creationReason,
+      ISessionInternal::getAuthenticationMode,
+      s -> Integer.toString(s.getIdentifier()),
+      s -> s.getSecurityContext().getName());
 
-  private static final Map<String, Function<ISessionInternal, String>> SORTS_STRING =  Map.of(
-          "user", s -> s.getSessionUser() == null ? "" : s.getSessionUser().getName(),
-          "securitySystem", s -> s.getSecurityContext().getName(),
-          "cause", s -> StringUtils.defaultString(s.creationReason()),
-          "authMode", s -> StringUtils.defaultString(s.getAuthenticationMode())
-  );
-  private static final Map<String, Function<ISessionInternal, Instant>> SORTS_DATE =  Map.of(
-          "createdAt", ISessionInternal::createdAt,
-          "lastAccessedAt", ISessionInternal::lastAccessedAt
-  );
-  private static final Map<String, Function<ISessionInternal, Integer>> SORTS_NUMBER =  Map.of(
-          "httpSessionCount", s -> s.getHttpSessions().size(),
-          "id", ISessionInternal::getIdentifier
-  );
+  private static final Map<String, Function<ISessionInternal, String>> SORTS_STRING = Map.of(
+      "user", s -> s.getSessionUser() == null ? "" : s.getSessionUser().getName(),
+      "securitySystem", s -> s.getSecurityContext().getName(),
+      "cause", s -> StringUtils.defaultString(s.creationReason()),
+      "authMode", s -> StringUtils.defaultString(s.getAuthenticationMode()));
+  private static final Map<String, Function<ISessionInternal, Instant>> SORTS_DATE = Map.of(
+      "createdAt", ISessionInternal::createdAt,
+      "lastAccessedAt", ISessionInternal::lastAccessedAt);
+  private static final Map<String, Function<ISessionInternal, Integer>> SORTS_NUMBER = Map.of(
+      "httpSessionCount", s -> s.getHttpSessions().size(),
+      "id", ISessionInternal::getIdentifier);
 
   private boolean showUnauthenticatedSessions;
   private boolean showTemporarySessions;
@@ -82,8 +78,8 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
   @Override
   public int count(Map<String, FilterMeta> filterBy) {
     return (int) sessions()
-            .filter(this::filter)
-            .count();
+        .filter(this::filter)
+        .count();
   }
 
   @Override
@@ -94,10 +90,10 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
       stream = stream.sorted(comparator);
     }
     return stream
-            .skip(first)
-            .limit(pageSize)
-            .map(SessionDto::new)
-            .collect(Collectors.toList());
+        .skip(first)
+        .limit(pageSize)
+        .map(SessionDto::new)
+        .collect(Collectors.toList());
   }
 
   private Comparator<ISessionInternal> createComparator(Map<String, SortMeta> sortBy) {
@@ -143,11 +139,11 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
 
   private Stream<ISessionInternal> sessions() {
     return ISecurityContextRepository.instance().allWithSystem()
-            .stream()
-            .flatMap(s -> s.sessions().all().stream())
-            .filter(s -> !s.isSessionUserSystemUser())
-            .filter(s -> showUnauthenticatedSessions || (!showUnauthenticatedSessions && !s.isSessionUserUnknown()))
-            .filter(s -> showTemporarySessions || (!showTemporarySessions && !((ISessionInternal) s).isTemporary()))
-            .map(ISessionInternal.class::cast);
+        .stream()
+        .flatMap(s -> s.sessions().all().stream())
+        .filter(s -> !s.isSessionUserSystemUser())
+        .filter(s -> showUnauthenticatedSessions || (!showUnauthenticatedSessions && !s.isSessionUserUnknown()))
+        .filter(s -> showTemporarySessions || (!showTemporarySessions && !((ISessionInternal) s).isTemporary()))
+        .map(ISessionInternal.class::cast);
   }
 }

@@ -33,22 +33,22 @@ public class TestSessionMonitorBean {
     assertThat(dataSet).hasSize(3);
 
     assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var licensedSessions = (LineChartDataSet)dataSet.get(0);
+    var licensedSessions = (LineChartDataSet) dataSet.get(0);
     assertThat(licensedSessions.getLabel()).isEqualTo("Licensed Sessions");
     assertThat(licensedSessions.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(5.0D));
 
     assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var sessions = (LineChartDataSet)dataSet.get(1);
+    var sessions = (LineChartDataSet) dataSet.get(1);
     assertThat(sessions.getLabel()).isEqualTo("Sessions");
     assertThat(sessions.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(7.0D));
 
     assertThat(dataSet.get(2)).isInstanceOf(LineChartDataSet.class);
-    var httpSessions = (LineChartDataSet)dataSet.get(2);
+    var httpSessions = (LineChartDataSet) dataSet.get(2);
     assertThat(httpSessions.getLabel()).isEqualTo("Http Sessions");
     assertThat(httpSessions.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(6.0D));
 
     assertThat(testee.getSessionsMonitor().getInfo())
-            .isEqualTo("Sessions: Licensed Sessions 5, Sessions 7, Http Sessions 6, Licensed Users 100");
+        .isEqualTo("Sessions: Licensed Sessions 5, Sessions 7, Http Sessions 6, Licensed Users 100");
   }
 
   @MBean("ivy:type=Manager,host=localhost,context=#{context}")

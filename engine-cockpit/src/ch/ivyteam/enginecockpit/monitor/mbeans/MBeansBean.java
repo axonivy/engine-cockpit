@@ -40,9 +40,9 @@ public class MBeansBean {
     MBeanServer server = ManagementFactory.getPlatformMBeanServer();
     Set<ObjectName> beanNames = server.queryNames(null, null);
     Set<MName> names = beanNames
-            .stream()
-            .map(beanName -> new MName(beanName))
-            .collect(Collectors.toSet());
+        .stream()
+        .map(MName::new)
+        .collect(Collectors.toSet());
     root = new MBeanTreeNode(MName.ROOT, names);
   }
 
@@ -83,15 +83,15 @@ public class MBeansBean {
         MBeanInfo info = server.getMBeanInfo(selected.getObjectName());
         MBeanAttributeInfo[] attributeInfos = info.getAttributes();
         String[] attributeNames = Arrays
-                .stream(attributeInfos)
-                .map(MBeanAttributeInfo::getName)
-                .toArray(String[]::new);
+            .stream(attributeInfos)
+            .map(MBeanAttributeInfo::getName)
+            .toArray(String[]::new);
         attributes = server.getAttributes(selected.getObjectName(), attributeNames)
-                .asList()
-                .stream()
-                .map(attr -> createAttribute(attr, attributeInfos))
-                .sorted()
-                .collect(Collectors.toList());
+            .asList()
+            .stream()
+            .map(attr -> createAttribute(attr, attributeInfos))
+            .sorted()
+            .collect(Collectors.toList());
       } catch (InstanceNotFoundException | ReflectionException | IntrospectionException ex) {
         LOGGER.error("Could not get attributes of MBean " + selected.getObjectName(), ex);
       }
@@ -101,11 +101,11 @@ public class MBeansBean {
 
   private MAttribute createAttribute(Attribute attribute, MBeanAttributeInfo[] infos) {
     MBeanAttributeInfo info = Arrays
-            .stream(infos)
-            .filter(inf -> Objects.equals(inf.getName(), attribute.getName()))
-            .findAny()
-            .orElseThrow(() -> new IllegalArgumentException(
-                    "Attribute info for attribute " + attribute.getName() + " not found"));
+        .stream(infos)
+        .filter(inf -> Objects.equals(inf.getName(), attribute.getName()))
+        .findAny()
+        .orElseThrow(() -> new IllegalArgumentException(
+            "Attribute info for attribute " + attribute.getName() + " not found"));
     return new MAttribute(attribute, info);
   }
 

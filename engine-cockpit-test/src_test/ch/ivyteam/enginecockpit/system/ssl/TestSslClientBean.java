@@ -37,13 +37,13 @@ class TestSslClientBean {
   void extractSubject() {
     TlsTesterBean bean = new TlsTesterBean();
     assertThat(bean.getSubject("Cert alias found: CN=DigiCert Assured ID Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US alg=RSA, length=2048"))
-      .isEqualTo("CN=DigiCert Assured ID Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US");
+        .isEqualTo("CN=DigiCert Assured ID Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US");
     assertThat(bean.getSubject("CN=AffirmTrust Commercial,O=AffirmTrust,C=US"))
-      .isEqualTo("CN=AffirmTrust Commercial,O=AffirmTrust,C=US");
+        .isEqualTo("CN=AffirmTrust Commercial,O=AffirmTrust,C=US");
     assertThat(bean.getSubject("CN=QuoVadis Root CA 2,O=QuoVadis Limited,C=BM alg=RSA"))
-      .isEqualTo("CN=QuoVadis Root CA 2,O=QuoVadis Limited,C=BM");
+        .isEqualTo("CN=QuoVadis Root CA 2,O=QuoVadis Limited,C=BM");
     assertThat(bean.getSubject("OU=certSIGN ROOT CA G2,O=CERTSIGN SA,C=RO alg=RSA, length=4096"))
-      .isEqualTo("OU=certSIGN ROOT CA G2,O=CERTSIGN SA,C=RO");
+        .isEqualTo("OU=certSIGN ROOT CA G2,O=CERTSIGN SA,C=RO");
   }
 
 }

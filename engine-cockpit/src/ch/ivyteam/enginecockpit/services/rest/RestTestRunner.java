@@ -23,9 +23,7 @@ public class RestTestRunner {
   @SuppressWarnings("restriction")
   public static WebTarget createTarget(IApplication app, RestClient uiStateClient) {
     var clientPmv = findClientPmv(app, uiStateClient.uniqueId());
-    return createInContext(clientPmv, () ->
-      new ch.ivyteam.ivy.rest.client.internal.ExternalRestWebService(app, uiStateClient).getWebTargetFactory().create()
-    );
+    return createInContext(clientPmv, () -> new ch.ivyteam.ivy.rest.client.internal.ExternalRestWebService(app, uiStateClient).getWebTargetFactory().create());
   }
 
   @SuppressWarnings("restriction")
@@ -41,11 +39,10 @@ public class RestTestRunner {
   @SuppressWarnings("restriction")
   private static Optional<IProcessModelVersion> findClientPmv(IApplication app, UUID clientId) {
     var restManager = ch.ivyteam.ivy.rest.client.config.restricted.IRestClientsManager.instance();
-    var clientPmv = app.getProcessModels().stream()
-      .map(IProcessModel::getReleasedProcessModelVersion)
-      .filter(pmv ->  restManager.getProjectDataModelFor(pmv).findRestClient(clientId).isPresent())
-      .findAny();
-    return clientPmv;
+    return app.getProcessModels().stream()
+        .map(IProcessModel::getReleasedProcessModelVersion)
+        .filter(pmv -> restManager.getProjectDataModelFor(pmv).findRestClient(clientId).isPresent())
+        .findAny();
   }
 
   public static ConnectionTestResult testConnection(WebTarget client) {
@@ -56,14 +53,14 @@ public class RestTestRunner {
       }
     } catch (ProcessingException ex) {
       return new ConnectionTestResult("", 0, TestResult.ERROR, "Invalid Url (may contains script context)\n"
-              + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
+          + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
   }
 
   static ConnectionTestResult toTestResult(StatusType status) {
     var code = status.getStatusCode();
     Family family = status.getFamily();
-    if (family.equals(Family.SUCCESSFUL) || family.equals(Family.REDIRECTION)) {
+    if (Family.SUCCESSFUL.equals(family) || Family.REDIRECTION.equals(family)) {
       return new ConnectionTestResult("HEAD", code, TestResult.SUCCESS, "Successfully sent test request to REST service");
     }
     if (code == 400) {

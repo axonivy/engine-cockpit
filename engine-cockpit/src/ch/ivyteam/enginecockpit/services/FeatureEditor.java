@@ -8,13 +8,13 @@ import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.commons.Feature;
 
 public interface FeatureEditor {
-  
+
   List<Feature> getFeatures();
-  
+
   Feature getFeature();
-  
+
   void saveFeature(boolean isNewFeature);
-  
+
   default Feature findFeature(String clazz) {
     return getFeatures().stream()
         .filter(feature -> feature.getClazz().equals(clazz))
@@ -23,7 +23,7 @@ public interface FeatureEditor {
   }
 
   void setFeature(String key);
-  
+
   default boolean isExistingFeature() {
     for (Feature feature : getFeatures()) {
       if (feature.getClazz().equals(getFeature().getClazz())) {

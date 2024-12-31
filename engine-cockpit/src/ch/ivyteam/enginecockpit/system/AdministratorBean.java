@@ -15,7 +15,7 @@ import ch.ivyteam.ivy.security.administrator.AdministratorService;
 @ManagedBean
 @ViewScoped
 public class AdministratorBean extends StepStatus {
-  private List<User> admins;
+  private final List<User> admins;
   private User editAdmin;
 
   public AdministratorBean() {
@@ -24,8 +24,8 @@ public class AdministratorBean extends StepStatus {
 
   private static List<User> reloadAdmins() {
     return AdministratorService.instance().allConfigured().stream()
-            .map(admin -> new User(admin))
-            .collect(Collectors.toList());
+        .map(User::new)
+        .collect(Collectors.toList());
   }
 
   public List<User> getAdmins() {
@@ -38,10 +38,10 @@ public class AdministratorBean extends StepStatus {
 
   public void removeAdmin() {
     AdministratorService.instance().find(editAdmin.getName())
-            .ifPresent(a -> AdministratorService.instance().remove(a));
+        .ifPresent(a -> AdministratorService.instance().remove(a));
     FacesContext.getCurrentInstance().addMessage("",
-            new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + editAdmin.getName() + "' removed successfully",
-                    ""));
+        new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + editAdmin.getName() + "' removed successfully",
+            ""));
     admins.remove(editAdmin);
   }
 
@@ -65,11 +65,11 @@ public class AdministratorBean extends StepStatus {
 
   public void saveAdmin() {
     var message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-            "'" + editAdmin.getName() + "' modified successfully", "");
+        "'" + editAdmin.getName() + "' modified successfully", "");
     if (!admins.contains(editAdmin)) {
       admins.add(editAdmin);
       message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-              "'" + editAdmin.getName() + "' added successfully", "");
+          "'" + editAdmin.getName() + "' added successfully", "");
     }
     FacesContext.getCurrentInstance().addMessage("", message);
     AdministratorService.instance().save(editAdmin.getAdmin());

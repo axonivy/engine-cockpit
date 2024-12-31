@@ -42,7 +42,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 public class WebTestSystemDb {
   private static final String SYS_DB = System.getProperty("db.host",
-          "db host not set via ${db.host} system property");
+      "db host not set via ${db.host} system property");
   private static final String SYS_DB_PW = "1234";
   private static final String SYS_DB_USER = "root";
   private static final String CONNECTION_BUTTON = "#systemDb\\:systemDbForm\\:checkConnectionButton";
@@ -128,7 +128,7 @@ public class WebTestSystemDb {
   }
 
   private static void insertDbConnection(String database, String driverName, String host,
-          String databaseName, String user, String password) {
+      String databaseName, String user, String password) {
     SelectOneMenu dbType = PrimeUi.selectOne(By.id("systemDb:systemDbForm:databaseType"));
     SelectOneMenu dbDriver = PrimeUi.selectOne(By.id("systemDb:systemDbForm:databaseDriver"));
     dbType.selectItemByLabel(database);
@@ -150,7 +150,7 @@ public class WebTestSystemDb {
     insertDbConnection("MySQL", "mySQL", SYS_DB, TEST_DB_NAME, SYS_DB_USER, SYS_DB_PW);
     $(CONNECTION_BUTTON).click();
     $(CONNECTION_PANEL)
-            .shouldBe(text("Missing Database/Schema"), text("Create system database."));
+        .shouldBe(text("Missing Database/Schema"), text("Create system database."));
     $("#systemDb\\:systemDbForm\\:createDatabaseButton").shouldBe(enabled);
 
     $("#systemDb\\:systemDbForm\\:createDatabaseButton").click();
@@ -162,9 +162,9 @@ public class WebTestSystemDb {
     $(By.id("systemDb:createDatabaseForm:confirmCreateButton")).click();
     $(By.id("systemDb:createDatabaseForm:confirmCreateButton")).shouldNotBe(enabled);
     $("#systemDb\\:createDatabaseForm\\:confirmCreateButton > .ui-icon")
-            .shouldHave(cssClass("si-is-spinning"));
+        .shouldHave(cssClass("si-is-spinning"));
     $("#systemDb\\:createDatabaseForm\\:closeCreationButton")
-            .shouldBe(and("wait until db created", appear, enabled), Duration.ofSeconds(20));
+        .shouldBe(and("wait until db created", appear, enabled), Duration.ofSeconds(20));
     $("#systemDb\\:createDatabaseForm\\:creationError").shouldNot(exist);
     $("#systemDb\\:createDatabaseForm\\:creationInfo").shouldBe(text("The database was created successfully"));
     $("#systemDb\\:createDatabaseForm\\:closeCreationButton").click();
@@ -186,7 +186,7 @@ public class WebTestSystemDb {
     Selenide.refresh();
     insertDbConnection("MySQL", "mySQL", SYS_DB, TEST_DB_NAME, SYS_DB_USER, SYS_DB_PW);
     SelectBooleanCheckbox defaultPort = PrimeUi.selectBooleanCheckbox(
-            By.cssSelector(".sysdb-dynamic-form-port-default-checkbox"));
+        By.cssSelector(".sysdb-dynamic-form-port-default-checkbox"));
     defaultPort.removeChecked();
     $(".sysdb-dynamic-form-port input").shouldBe(enabled);
     $(".sysdb-dynamic-form-port input").clear();
@@ -253,7 +253,7 @@ public class WebTestSystemDb {
     $(".sysdb-dynamic-form-port input").shouldBe(visible);
 
     SelectBooleanCheckbox defaultPort = PrimeUi.selectBooleanCheckbox(
-            By.cssSelector(".sysdb-dynamic-form-port-default-checkbox"));
+        By.cssSelector(".sysdb-dynamic-form-port-default-checkbox"));
     $(".sysdb-dynamic-form-port input").shouldNotBe(enabled);
     defaultPort.shouldBeChecked(true);
 

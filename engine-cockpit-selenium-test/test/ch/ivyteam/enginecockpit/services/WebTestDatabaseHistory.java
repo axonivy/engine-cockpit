@@ -40,9 +40,9 @@ class WebTestDatabaseHistory {
   @Test
   void connectionAndHistory() {
     new Table(By.id("databaseConnectionForm:databaseConnectionsTable"))
-            .firstColumnShouldBe(sizeGreaterThan(0));
+        .firstColumnShouldBe(sizeGreaterThan(0));
     new Table(By.id("databaseExecHistoryForm:databaseExecHistoryTable"))
-            .firstColumnShouldBe(sizeGreaterThan(0));
+        .firstColumnShouldBe(sizeGreaterThan(0));
 
     $(".si-copy-paste").shouldBe(visible).click();
     var copyPasteAlert = switchTo().alert();

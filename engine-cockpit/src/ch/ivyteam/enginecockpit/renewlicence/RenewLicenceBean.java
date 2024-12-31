@@ -60,10 +60,10 @@ public class RenewLicenceBean {
       var licenceContent = signedLicence.save().toAsciiOnlyString();
       var multipart = createMultipart(licenceContent);
       return createClient().target(getUri()).request()
-              .header("X-Requested-By", "ivy")
-              .header("MIME-Version", "1.0")
-              .header("mailTo", mailAddress)
-              .put(Entity.entity(multipart, multipart.getMediaType()));
+          .header("X-Requested-By", "ivy")
+          .header("MIME-Version", "1.0")
+          .header("mailTo", mailAddress)
+          .put(Entity.entity(multipart, multipart.getMediaType()));
     } catch (Exception ex) {
       return Response.status(400).entity("There was problem with requesting response ").build();
     }
@@ -73,7 +73,7 @@ public class RenewLicenceBean {
     try (var formDataMultiPart = new FormDataMultiPart()) {
       var filePart = new FormDataBodyPart("oldLicense", licContent);
       var multipart = (FormDataMultiPart) formDataMultiPart.field("oldLicense", licContent,
-              MediaType.MULTIPART_FORM_DATA_TYPE).bodyPart(filePart);
+          MediaType.MULTIPART_FORM_DATA_TYPE).bodyPart(filePart);
       multipart.setMediaType(Boundary.addBoundary(MediaType.MULTIPART_FORM_DATA_TYPE));
       return multipart;
     }
@@ -110,6 +110,6 @@ public class RenewLicenceBean {
 
   private static String getUri() {
     return System.getProperty("licence.base.uri", "https://license-order.axonivy.io/ivy/api/LicenseOrder")
-            + "/renewLicense";
+        + "/renewLicense";
   }
 }

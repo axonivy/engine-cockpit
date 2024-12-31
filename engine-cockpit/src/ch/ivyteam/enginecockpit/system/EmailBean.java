@@ -81,7 +81,7 @@ public class EmailBean {
       facesMessage = new FacesMessage("Successfully sent test mail", "");
     } catch (Exception ex) {
       facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while sending test mail",
-              ex.getMessage());
+          ex.getMessage());
     }
     FacesContext.getCurrentInstance().addMessage("msgs", facesMessage);
   }

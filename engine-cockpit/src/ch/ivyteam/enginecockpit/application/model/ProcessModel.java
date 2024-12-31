@@ -11,7 +11,7 @@ import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
 public class ProcessModel extends AbstractActivity {
-  private IProcessModel pm;
+  private final IProcessModel pm;
   private Boolean isOverrideProject;
   private long runningCasesCount = -1;
 
@@ -69,7 +69,7 @@ public class ProcessModel extends AbstractActivity {
   @Override
   @SuppressWarnings("restriction")
   public boolean hasReleasedProcessModelVersion() {
-    var processModel = (ch.ivyteam.ivy.application.internal.ProcessModel)pm;
+    var processModel = (ch.ivyteam.ivy.application.internal.ProcessModel) pm;
     return processModel.hasReleasedProcessModelVersion();
   }
 
@@ -83,12 +83,12 @@ public class ProcessModel extends AbstractActivity {
     if (isOverrideProject == null) {
       var overrideProject = ((IApplicationInternal) pm.getApplication()).getConfiguration().getOrDefault("OverrideProject");
       var projectId = pm.getProcessModelVersions().stream()
-              .map(IProcessModelVersion::getLibrary)
-              .filter(Objects::nonNull)
-              .map(ILibrary::getId)
-              .distinct()
-              .findFirst()
-              .orElse(null);
+          .map(IProcessModelVersion::getLibrary)
+          .filter(Objects::nonNull)
+          .map(ILibrary::getId)
+          .distinct()
+          .findFirst()
+          .orElse(null);
       isOverrideProject = projectId != null && projectId.equals(overrideProject);
     }
     return isOverrideProject;
@@ -98,9 +98,8 @@ public class ProcessModel extends AbstractActivity {
     if (pm != null && runningCasesCount < 0) {
       var wf = IWorkflowContext.current();
       runningCasesCount = pm.getProcessModelVersions().parallelStream()
-              .mapToLong(pmv -> wf.getRunningCasesCount(pmv)).sum();
+          .mapToLong(pmv -> wf.getRunningCasesCount(pmv)).sum();
     }
   }
-
 
 }

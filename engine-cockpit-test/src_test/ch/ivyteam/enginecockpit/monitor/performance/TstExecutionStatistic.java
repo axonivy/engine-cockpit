@@ -8,8 +8,8 @@ import ch.ivyteam.ivy.process.model.value.PID;
 @SuppressWarnings("restriction")
 class TstExecutionStatistic implements IExecutionStatistic {
 
-  static final IProcessElementExecutionStatistic[] EMPTY = new IProcessElementExecutionStatistic[0];
-  static final IProcessElementExecutionStatistic[] TWO_ELEMENT = new IProcessElementExecutionStatistic[] {new TstProcessElementExecStat(), new TstProcessElementExecStat()};
+  static final IProcessElementExecutionStatistic[] EMPTY = {};
+  static final IProcessElementExecutionStatistic[] TWO_ELEMENT = {new TstProcessElementExecStat(), new TstProcessElementExecStat()};
   boolean isRunning;
   IProcessElementExecutionStatistic[] statistic = EMPTY;
   boolean startCalled;
@@ -43,7 +43,7 @@ class TstExecutionStatistic implements IExecutionStatistic {
 
   @Override
   public IProcessElementExecutionStatistic getFirstProcessElementExecutionStatistic(
-          IProcessModelVersion processModelVersion, PID processElementId) {
+      IProcessModelVersion processModelVersion, PID processElementId) {
     return null;
   }
 }

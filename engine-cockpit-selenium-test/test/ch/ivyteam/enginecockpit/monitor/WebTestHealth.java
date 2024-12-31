@@ -30,8 +30,8 @@ public class WebTestHealth {
     messagesTable = new Table(By.id("form:messagesTable"));
     messagesTable.rows().shouldHave(sizeGreaterThanOrEqual(2));
     messagesTable.rows().shouldHave(
-            anyMatch("row contains", e -> e.getText().contains("HIGH Release Candidate Don't use this version in production it is a release candidate Release Candidate")),
-            anyMatch("row contains", e -> e.getText().contains("LOW Demo Mode No or invalid license installed.")));
+        anyMatch("row contains", e -> e.getText().contains("HIGH Release Candidate Don't use this version in production it is a release candidate Release Candidate")),
+        anyMatch("row contains", e -> e.getText().contains("LOW Demo Mode No or invalid license installed.")));
   }
 
   @Test

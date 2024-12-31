@@ -13,7 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbookType;
 
-public class Excel implements AutoCloseable{
+public class Excel implements AutoCloseable {
   private final XSSFWorkbook workbook;
   private final Map<Style, XSSFCellStyle> styles = new HashMap<>();
 
@@ -52,8 +52,7 @@ public class Excel implements AutoCloseable{
   }
 
   public Sheet getSheet(String sheetName) {
-    Sheet sheet = new Sheet(this, workbook.getSheet(sheetName));
-    return sheet;
+    return new Sheet(this, workbook.getSheet(sheetName));
   }
 
   XSSFCellStyle style(Style style) {
@@ -64,7 +63,7 @@ public class Excel implements AutoCloseable{
     var cellStyle = workbook.createCellStyle();
     var font = workbook.createFont();
     cellStyle.setFont(font);
-    switch(style) {
+    switch (style) {
       case TITLE -> {
         font.setFontHeight(16);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
@@ -74,7 +73,7 @@ public class Excel implements AutoCloseable{
       }
       case HEADER -> {
         font.setBold(true);
-        cellStyle.setRotation((short)45);
+        cellStyle.setRotation((short) 45);
       }
       case RESULT -> {
         cellStyle.setAlignment(HorizontalAlignment.LEFT);

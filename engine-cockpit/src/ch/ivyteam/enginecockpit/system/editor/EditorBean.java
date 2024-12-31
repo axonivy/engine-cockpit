@@ -35,17 +35,17 @@ public class EditorBean {
   public List<EditorFile> completeFiles(String query) {
     String queryLowerCase = query.toLowerCase();
     return configFiles.stream()
-            .filter(file -> file.getFileName().toLowerCase().contains(queryLowerCase))
-            .toList();
+        .filter(file -> file.getFileName().toLowerCase().contains(queryLowerCase))
+        .toList();
   }
 
   public void onload() {
     configFiles = ConfigFileRepository.instance().all().map(EditorFile::new).toList();
     selectedFile = selectedFile == null ? "ivy.yaml" : selectedFile;
     activeConfigFile = configFiles.stream()
-            .filter(f -> f.getFileName().equalsIgnoreCase(selectedFile))
-            .findFirst()
-            .orElse(null);
+        .filter(f -> f.getFileName().equalsIgnoreCase(selectedFile))
+        .findFirst()
+        .orElse(null);
     if (activeConfigFile == null) {
       ResponseHelper.notFound("Config File '" + selectedFile + "' not found");
       return;
@@ -74,23 +74,23 @@ public class EditorBean {
   }
 
   public StreamedContent getFile() {
-      return stream;
+    return stream;
   }
 
   public void fileDownloadView() {
     stream = DefaultStreamedContent.builder()
-            .name(activeConfigFile.getPath().getFileName().toString())
-            .stream(() -> getInputStream())
-            .build();
+        .name(activeConfigFile.getPath().getFileName().toString())
+        .stream(this::getInputStream)
+        .build();
   }
 
   public InputStream getInputStream() {
-      try {
-        var path = activeConfigFile.getPath();
-        return Files.newInputStream(path);
-      } catch (IOException ex) {
-        throw new RuntimeException(ex);
-      }
+    try {
+      var path = activeConfigFile.getPath();
+      return Files.newInputStream(path);
+    } catch (IOException ex) {
+      throw new RuntimeException(ex);
+    }
   }
 
   public long getSize() {
@@ -107,16 +107,16 @@ public class EditorBean {
       String extension = originalFileName.substring(originalFileName.lastIndexOf('.') + 1);
       if (!activeConfigFile.getFileName().endsWith(extension)) {
         Message.error()
-                .summary("Invalid extension")
-                .detail("'" + originalFileName + "' could not be uploaded because of wrong file extension.")
-                .show();
+            .summary("Invalid extension")
+            .detail("'" + originalFileName + "' could not be uploaded because of wrong file extension.")
+            .show();
         return;
       }
       activeConfigFile.setBinary(is);
       Message.info()
-              .summary("File Uploaded")
-              .detail("'" + originalFileName + "' uploaded successfully and stored as " + getName() + ".")
-              .show();
+          .summary("File Uploaded")
+          .detail("'" + originalFileName + "' uploaded successfully and stored as " + getName() + ".")
+          .show();
     } catch (Exception ex) {
       throw new RuntimeException("Failed to load inputstream", ex);
     }

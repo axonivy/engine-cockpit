@@ -9,29 +9,26 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityMember;
 
 public class PermissionShortcut {
-  private Map<IPermission, AccessState> accessStates = new HashMap<>();
+  private final Map<IPermission, AccessState> accessStates = new HashMap<>();
 
   public PermissionShortcut(ISecurityContext securityContext, ISecurityMember member) {
-    for(var checks : securityContext.securityDescriptor().getPermissionAccesses(member)) {
+    for (var checks : securityContext.securityDescriptor().getPermissionAccesses(member)) {
       accessStates.put(checks.getPermission(), checks.getAccessState());
     }
   }
 
   public String getPermissionShortcut(IPermission permission) {
     var accessState = accessStates.get(permission);
-    if(accessState.isGranted()) {
-      if(accessState.isExplicit()) {
+    if (accessState.isGranted()) {
+      if (accessState.isExplicit()) {
         return "G";
-      }
-      else {
+      } else {
         return "g";
       }
-    }
-    else if(accessState.isDenied()) {
-      if(accessState.isExplicit()) {
+    } else if (accessState.isDenied()) {
+      if (accessState.isExplicit()) {
         return "D";
-      }
-      else {
+      } else {
         return "d";
       }
     }

@@ -31,21 +31,21 @@ public class WebTestMemory {
   @Test
   void gcContent() {
     $("#gc")
-            .shouldHave(text("Garbage Collection"))
-            .find(".ui-chart").shouldBe(visible);
+        .shouldHave(text("Garbage Collection"))
+        .find(".ui-chart").shouldBe(visible);
   }
 
   @Test
   void heapMemoryContent() {
     $("#heapMemory")
-            .shouldHave(text("Heap Memory"))
-            .find(".ui-chart").shouldBe(visible);
+        .shouldHave(text("Heap Memory"))
+        .find(".ui-chart").shouldBe(visible);
   }
 
   @Test
   void nonHeapMemoryContent() {
     $("#nonHeapMemory")
-            .shouldHave(text("Non Heap Memory"))
-            .find(".ui-chart").shouldBe(visible);
+        .shouldHave(text("Non Heap Memory"))
+        .find(".ui-chart").shouldBe(visible);
   }
 }

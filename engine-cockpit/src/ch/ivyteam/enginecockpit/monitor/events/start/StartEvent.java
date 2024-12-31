@@ -13,12 +13,12 @@ public final class StartEvent extends Event {
   @Override
   public String getFullRequestPath() {
     return getApplication() +
-           "/"+
-           getPm() +
-           "$" +
-           getPmv() +
-           "/" +
-           getRequestPath();
+        "/" +
+        getPm() +
+        "$" +
+        getPmv() +
+        "/" +
+        getRequestPath();
   }
 
   public String getRequestPath() {

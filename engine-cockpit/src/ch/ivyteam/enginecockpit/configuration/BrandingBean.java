@@ -39,13 +39,13 @@ import ch.ivyteam.ivy.config.IFileAccess;
 public class BrandingBean implements AllResourcesDownload {
 
   private static final Map<String, String> RESOURCE_NAMES = Map.of("logo", "The main logo image",
-          "logo_light", "Same as the main logo, but e.g. in our case with white writing",
-          "logo_small", "The logo in small (square format recommended), used by e.g. error, login pages",
-          "logo_mail", "The logo with is taken by the default Axon Ivy Engine email notifications",
-          "favicon", "The logo fot the browser tab (square format recommended)");
+      "logo_light", "Same as the main logo, but e.g. in our case with white writing",
+      "logo_small", "The logo in small (square format recommended), used by e.g. error, login pages",
+      "logo_mail", "The logo with is taken by the default Axon Ivy Engine email notifications",
+      "favicon", "The logo fot the browser tab (square format recommended)");
   private static final Set<String> ALLOWED_EXTENSIONS = Set.of("png", "jpg", "jpeg", "svg", "webp", "gif");
 
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
   private BrandingIO brandingIO;
 
   private List<BrandingResource> resources;
@@ -86,17 +86,17 @@ public class BrandingBean implements AllResourcesDownload {
   public void reloadResources() {
     brandingIO = new BrandingIO(managerBean.getSelectedIApplication());
     resources = brandingIO.findResources(List.copyOf(RESOURCE_NAMES.keySet())).entrySet().stream()
-            .map(this::toBrandingResource)
-            .sorted(Comparator.comparing(BrandingResource::getLabel))
-            .collect(Collectors.toList());
+        .map(this::toBrandingResource)
+        .sorted(Comparator.comparing(BrandingResource::getLabel))
+        .collect(Collectors.toList());
     reloadCustomCssContent();
   }
 
   private void reloadCustomCssContent() {
     customCssContent = brandingIO.readCustomCss();
     cssColors = brandingIO.cssColors().stream()
-            .map(CssColorDTO::new)
-            .collect(Collectors.toList());
+        .map(CssColorDTO::new)
+        .collect(Collectors.toList());
   }
 
   public List<BrandingResource> getResources() {
@@ -121,8 +121,8 @@ public class BrandingBean implements AllResourcesDownload {
 
   public void setSelectedCssColor(String selectedCssColor) {
     this.selectedCssColor = cssColors.stream()
-            .filter(c -> c.getColor().equals(selectedCssColor))
-            .findFirst().orElse(new CssColorDTO("unknown color", "", ""));
+        .filter(c -> c.getColor().equals(selectedCssColor))
+        .findFirst().orElse(new CssColorDTO("unknown color", "", ""));
   }
 
   public CssColorDTO getSelectedCssColor() {
@@ -201,11 +201,11 @@ public class BrandingBean implements AllResourcesDownload {
     try (var out = new ByteArrayOutputStream()) {
       DownloadUtil.zipDir(appBrandingDir(appName), out);
       return DefaultStreamedContent
-              .builder()
-              .stream(() -> new ByteArrayInputStream(out.toByteArray()))
-              .contentType("application/zip")
-              .name("branding-" + appName + ".zip")
-              .build();
+          .builder()
+          .stream(() -> new ByteArrayInputStream(out.toByteArray()))
+          .contentType("application/zip")
+          .name("branding-" + appName + ".zip")
+          .build();
     } catch (IOException ex) {
       var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage());
       FacesContext.getCurrentInstance().addMessage("msgs", message);
@@ -240,8 +240,8 @@ public class BrandingBean implements AllResourcesDownload {
 
   public String getAllowedExtensionsString() {
     return ALLOWED_EXTENSIONS.stream()
-            .map(Object::toString)
-            .collect(Collectors.joining(", "));
+        .map(Object::toString)
+        .collect(Collectors.joining(", "));
   }
 
 }

@@ -18,8 +18,8 @@ import ch.ivyteam.ivy.configuration.restricted.ConfigKey;
 @SuppressWarnings("restriction")
 public class DynamicConfig {
 
-  private List<ConfigPropertyGroup> groups;
-  private BiConsumer<ConfigKey, String> setter;
+  private final List<ConfigPropertyGroup> groups;
+  private final BiConsumer<ConfigKey, String> setter;
 
   public DynamicConfig(List<ConfigPropertyGroup> groups, BiConsumer<ConfigKey, String> setter) {
     this.groups = groups;
@@ -41,7 +41,7 @@ public class DynamicConfig {
       int separator = shortKey.indexOf('.');
       if (separator != -1) {
         var before = shortKey.substring(0, separator);
-        var next = shortKey.substring(separator+1);
+        var next = shortKey.substring(separator + 1);
         pKey = gKey.append(before).append(next);
       }
       setter.accept(pKey, p.getValue());
@@ -51,9 +51,9 @@ public class DynamicConfig {
 
   public static void message() {
     Message.info()
-            .clientId("dynamicConfigFormSaveSuccess")
-            .summary("Successfully saved")
-            .show();
+        .clientId("dynamicConfigFormSaveSuccess")
+        .summary("Successfully saved")
+        .show();
   }
 
   public static Builder create() {
@@ -78,8 +78,8 @@ public class DynamicConfig {
 
     public DynamicConfig toDynamicConfig() {
       var properties = new ConfiguratorMetadataProvider(configurator).get().entrySet().stream()
-              .map(entry -> toConfigProperty(entry.getKey(), entry.getValue()))
-              .collect(Collectors.toList());
+          .map(entry -> toConfigProperty(entry.getKey(), entry.getValue()))
+          .collect(Collectors.toList());
       var propertyGroups = ConfigPropertyGroup.toGroups(properties);
       return new DynamicConfig(propertyGroups, config::setProperty);
     }

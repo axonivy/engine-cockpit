@@ -24,14 +24,14 @@ import ch.ivyteam.enginecockpit.util.Tab;
 @IvyWebTest
 class WebTestPermission {
   private static final String threeStateButton = "permissionsForm:permissionTable:0:ajaxTriState";
-  
-  private static interface Icon {
+
+  private interface Icon {
     String grant = "#permissionsForm\\:permissionTable_node_0 .permission-icon #grant";
     String someGrant = "#permissionsForm\\:permissionTable_node_0 .permission-icon #someGrant";
     String deny = "#permissionsForm\\:permissionTable_node_0 .permission-icon #deny";
     String someDeny = "#permissionsForm\\:permissionTable_node_0 .permission-icon #someDeny";
     String everybody = "#permissionsForm\\:permissionTable_node_0 .permission-icon #everybody";
-    }
+  }
 
   @BeforeEach
   void beforeEach() {
@@ -115,16 +115,16 @@ class WebTestPermission {
 
     $(By.id("permissionsForm:globalFilter")).shouldBe(enabled).sendKeys("CaseWriteName");
     $(By.id("permissionsForm:permissionTable"))
-            .shouldHave(Condition.text("CaseWriteName"))
-            .findAll("tbody tr").shouldHave(size(1));
+        .shouldHave(Condition.text("CaseWriteName"))
+        .findAll("tbody tr").shouldHave(size(1));
     $(By.id("permissionsForm:permissionTable:0:ajaxTriState")).click();
     $(By.id("permissionsForm:permissionTable_node_0")).find(".permission-icon > i")
-            .shouldHave(attribute("title", "Permission granted"));
+        .shouldHave(attribute("title", "Permission granted"));
 
     $(By.id("permissionsForm:permissionTable:0:ajaxTriState")).click();
     $(By.id("permissionsForm:permissionTable:0:ajaxTriState")).click();
     $(By.id("permissionsForm:permissionTable_node_0")).find(".permission-icon > i")
-            .shouldNot(exist);
+        .shouldNot(exist);
   }
 
   @Test

@@ -98,14 +98,14 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
 
     database = new DatabaseDto(db);
     var externalDb = IExternalDatabaseManager.instance()
-            .getExternalDatabaseApplicationContext(app)
-            .getExternalDatabase(db.name());
+        .getExternalDatabaseApplicationContext(app)
+        .getExternalDatabase(db.name());
     history = externalDb.getExecutionHistory().stream()
-            .map(ExecStatement::new)
-            .collect(Collectors.toList());
+        .map(ExecStatement::new)
+        .collect(Collectors.toList());
     connections = externalDb.getConnections().stream()
-            .map(Connection::new)
-            .collect(Collectors.toList());
+        .map(Connection::new)
+        .collect(Collectors.toList());
   }
 
   public DatabaseDto getDatabase() {
@@ -126,7 +126,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   }
 
   public void removeProperty(String name) {
-    databases.remove(database.getName()+ "." +"Properties"+ "." +name);
+    databases.remove(database.getName() + "." + "Properties" + "." + name);
     reloadExternalDb();
   }
 
@@ -140,12 +140,12 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
 
   public List<String> completeDriver(String value) {
     return JdbcDriver.all().stream()
-            .filter(driver -> driver.isInstalled())
-            .map(driver -> driver.getDriverName())
-            .filter(name -> !StringUtils.startsWith(name, SystemDatabaseBean.HSQL_DB))
-            .filter(name -> StringUtils.startsWith(name, value))
-            .distinct()
-            .collect(Collectors.toList());
+        .filter(JdbcDriver::isInstalled)
+        .map(JdbcDriver::getDriverName)
+        .filter(name -> !StringUtils.startsWith(name, SystemDatabaseBean.HSQL_DB))
+        .filter(name -> StringUtils.startsWith(name, value))
+        .distinct()
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -178,7 +178,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   }
 
   public void testDbConnection() {
-    testResult = (ConnectionTestResult) connectionTest.test(() -> testConnection());
+    testResult = (ConnectionTestResult) connectionTest.test(this::testConnection);
   }
 
   private ConnectionTestResult testConnection() {
@@ -189,11 +189,11 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
       var productVersion = metaData.getDatabaseProductVersion();
       var jdbcVersion = metaData.getJDBCMajorVersion();
       return new ConnectionTestResult("", 0, TestResult.SUCCESS,
-              "Successfully connected to database: " + productName
-                      + " (" + productVersion + ") with JDBC Version " + jdbcVersion);
+          "Successfully connected to database: " + productName
+              + " (" + productVersion + ") with JDBC Version " + jdbcVersion);
     } catch (Exception ex) {
       return new ConnectionTestResult("", 0, TestResult.ERROR,
-              "An error occurred: " + ExceptionUtils.getStackTrace(ex));
+          "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
   }
 
@@ -202,8 +202,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     dbConfig.setConnectionUrl(database.getUrl());
     dbConfig.setDriverName(database.getDriver());
     dbConfig.setUserName(database.getUserName());
-    if (StringUtils.isNotBlank(database.getPassword()))
-    {
+    if (StringUtils.isNotBlank(database.getPassword())) {
       dbConfig.setPassword(database.getPassword());
     }
     return dbConfig;
@@ -212,16 +211,16 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   public void saveDbConfig() {
     connectionTest.stop();
     var dbBuilder = dbBuilder()
-            .url(database.getUrl())
-            .driver(database.getDriver())
-            .user(database.getUserName())
-            .maxConnections(database.getMaxConnections());
+        .url(database.getUrl())
+        .driver(database.getDriver())
+        .user(database.getUserName())
+        .maxConnections(database.getMaxConnections());
     if (database.passwordChanged()) {
       dbBuilder.password(database.getPassword());
     }
     saveDatabase(dbBuilder);
     FacesContext.getCurrentInstance().addMessage("databaseConfigMsg",
-            new FacesMessage("Database configuration saved", ""));
+        new FacesMessage("Database configuration saved", ""));
     reloadExternalDb();
   }
 
@@ -229,7 +228,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     connectionTest.stop();
     databases.remove(databaseName);
     FacesContext.getCurrentInstance().addMessage("databaseConfigMsg",
-            new FacesMessage("Database configuration reset", ""));
+        new FacesMessage("Database configuration reset", ""));
     reloadExternalDb();
   }
 

@@ -51,18 +51,18 @@ class WebTestRoles {
     $("#form\\:syncMoreBtn_menuButton").click();
     $("#form\\:userSyncLog").shouldBe(visible).click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
-            .find(".ui-panel-content").shouldBe(visible);
+        .find(".ui-panel-content").shouldBe(visible);
   }
 
   @Test
   void expandCollapseTree() {
     getVisibleTreeNodes().as("Everybody, boss, worker, AXONIVY_PORTAL_ADMIN")
-      .shouldBe(sizeGreaterThanOrEqual(3))
-      .shouldBe(sizeLessThan(5));
+        .shouldBe(sizeGreaterThanOrEqual(3))
+        .shouldBe(sizeLessThan(5));
     $(getTreeFormId() + "\\:expandAll").shouldBe(visible).click();
     getVisibleTreeNodes().as("Everybody, boss, worker, AXONIVY_PORTAL_ADMIN, manager")
-      .shouldBe(sizeGreaterThanOrEqual(4))
-      .shouldBe(sizeLessThan(6));
+        .shouldBe(sizeGreaterThanOrEqual(4))
+        .shouldBe(sizeLessThan(6));
     $(getTreeFormId() + "\\:collapseAll").shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(1));
   }

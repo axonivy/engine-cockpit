@@ -37,7 +37,7 @@ class WebTestBackendApi {
     Selenide.switchTo().frame("apiBrowser");
     $("#select").shouldBe(visible, value(APP));
     $$(".opblock-summary")
-      .shouldBe(sizeGreaterThanOrEqual(1));
+        .shouldBe(sizeGreaterThanOrEqual(1));
 
     Selenide.switchTo().defaultContent();
     $("#configRestBackend").shouldBe(visible).click();

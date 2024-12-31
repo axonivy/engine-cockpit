@@ -16,11 +16,11 @@ import ch.ivyteam.ivy.application.calendar.WorkingTime;
 import ch.ivyteam.util.date.Weekday;
 
 public class BusinessCalendar {
-  private String name;
-  private Weekday firstDayOfWeek;
-  private List<TimeDayConfig> workingTimes;
-  private List<String> freeDaysOfWeek;
-  private List<TimeDayConfig> freeDays;
+  private final String name;
+  private final Weekday firstDayOfWeek;
+  private final List<TimeDayConfig> workingTimes;
+  private final List<String> freeDaysOfWeek;
+  private final List<TimeDayConfig> freeDays;
 
   public BusinessCalendar(IBusinessCalendarConfiguration calendarConfig) {
     this.name = calendarConfig.getName();
@@ -41,16 +41,16 @@ public class BusinessCalendar {
     }
 
     freeDays.addAll(calendarConfig.getFreeDaysOfYear().stream()
-            .map(day -> new TimeDayConfig(day, calendarName)).collect(Collectors.toList()));
+        .map(day -> new TimeDayConfig(day, calendarName)).collect(Collectors.toList()));
     freeDays.addAll(calendarConfig.getFreeEasterRelativeDays().stream()
-            .map(day -> new TimeDayConfig(day, calendarName)).collect(Collectors.toList()));
+        .map(day -> new TimeDayConfig(day, calendarName)).collect(Collectors.toList()));
     freeDays.addAll(calendarConfig.getFreeDates().stream().map(day -> new TimeDayConfig(day, calendarName))
-            .collect(Collectors.toList()));
+        .collect(Collectors.toList()));
 
     workingTimes.addAll(calendarConfig.getWorkingTimes().stream()
-            .map(time -> new TimeDayConfig(time, calendarName)).collect(Collectors.toList()));
+        .map(time -> new TimeDayConfig(time, calendarName)).collect(Collectors.toList()));
     freeDaysOfWeek.addAll(calendarConfig.getFreeDaysOfWeek().stream().map(day -> day.getDayOfWeek().getName())
-            .collect(Collectors.toList()));
+        .collect(Collectors.toList()));
   }
 
   public String getName() {
@@ -75,8 +75,8 @@ public class BusinessCalendar {
   }
 
   public final class WeekDay {
-    private String dayName;
-    private boolean free;
+    private final String dayName;
+    private final boolean free;
 
     public WeekDay(DayOfWeek day) {
       this.dayName = StringUtils.capitalize(day.name().toLowerCase());
@@ -93,8 +93,8 @@ public class BusinessCalendar {
   }
 
   public final class TimeDayConfig {
-    private String desc;
-    private String value;
+    private final String desc;
+    private final String value;
     private String calendarName;
     private String icon;
     private String tooltip;

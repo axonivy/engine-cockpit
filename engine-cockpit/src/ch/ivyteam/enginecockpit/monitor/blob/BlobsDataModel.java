@@ -17,7 +17,7 @@ import ch.ivyteam.ivy.jsf.primefaces.sort.SortMetaConverter;
 
 public class BlobsDataModel extends LazyDataModel<BlobDto> {
 
-  private SecuritySystem securitySystem;
+  private final SecuritySystem securitySystem;
   private String filter;
 
   public BlobsDataModel(SecuritySystem securitySystem) {
@@ -40,10 +40,10 @@ public class BlobsDataModel extends LazyDataModel<BlobDto> {
     applyOrdering(query, sortBy);
 
     var blobs = query
-            .executor()
-            .results(first, pageSize).stream()
-            .map(BlobDto::new)
-            .collect(Collectors.toList());
+        .executor()
+        .results(first, pageSize).stream()
+        .map(BlobDto::new)
+        .collect(Collectors.toList());
     setRowCount((int) query.executor().count());
     return blobs;
   }
@@ -52,9 +52,9 @@ public class BlobsDataModel extends LazyDataModel<BlobDto> {
     if (StringUtils.isNotEmpty(filter)) {
       var dbFilter = "%" + filter + "%";
       query.where().and(query().where()
-              .path().isLikeIgnoreCase(dbFilter))
-            .or()
-              .uUID().isEqual(dbFilter);
+          .path().isLikeIgnoreCase(dbFilter))
+          .or()
+          .uUID().isEqual(dbFilter);
     }
   }
 

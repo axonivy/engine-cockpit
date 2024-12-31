@@ -29,7 +29,7 @@ import ch.ivyteam.log.Logger;
 public class SupportBean {
 
   private final static Logger LOGGER = Logger.getLogger(SupportBean.class);
-  private ISystemDatabasePersistencyService systemDbService = ISystemDatabasePersistencyService.instance();
+  private final ISystemDatabasePersistencyService systemDbService = ISystemDatabasePersistencyService.instance();
 
   public StreamedContent getSupportReport() throws IOException {
     var errorReport = createSupportReport();
@@ -41,7 +41,7 @@ public class SupportBean {
     var tempSupportDir = Files.createTempDirectory("SupportReport");
     var zipFile = tempSupportDir.resolve("support-engine-report.zip").toFile();
     try (var fos = new FileOutputStream(zipFile);
-            var zos = new ZipOutputStream(fos)) {
+        var zos = new ZipOutputStream(fos)) {
       addEntryToZip(zos, "report.txt", errorReport.getBytes());
       LogFileRepository.instance().all().forEach(log -> addLogToZip(zos, log));
     }
@@ -66,16 +66,16 @@ public class SupportBean {
 
   private StreamedContent createStreamedContent(File zipFile) {
     return DefaultStreamedContent.builder()
-            .stream(() -> DownloadUtil.getFileStream(zipFile))
-            .contentType("application/zip")
-            .name("support-engine-report.zip")
-            .build();
+        .stream(() -> DownloadUtil.getFileStream(zipFile))
+        .contentType("application/zip")
+        .name("support-engine-report.zip")
+        .build();
   }
 
   private String createSupportReport() {
     var dumpers = ErrorReport.addStandardDumpers(false,
-            new ApplicationConfigurationDumper(IApplicationRepository.instance()),
-            new PersistencyDumper(systemDbService));
+        new ApplicationConfigurationDumper(IApplicationRepository.instance()),
+        new PersistencyDumper(systemDbService));
     return ErrorReport.createErrorReport(null, dumpers);
   }
 }

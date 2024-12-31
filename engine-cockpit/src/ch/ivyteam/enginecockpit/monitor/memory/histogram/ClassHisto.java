@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.monitor.memory.histogram;
 import static java.lang.Long.parseLong;
 
 import java.util.Map;
+import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,8 +22,8 @@ public class ClassHisto {
 
   public ClassHisto(ClassHistogramBean classHistogram, String name, String module, long instances, long bytes) {
     this.classHistogram = classHistogram;
-    this.name=name;
-    this.module=module;
+    this.name = name;
+    this.module = module;
     this.instances = instances;
     this.maxInstances = instances;
     this.minInstances = instances;
@@ -33,7 +34,7 @@ public class ClassHisto {
     if (module.isBlank()) {
       return name;
     }
-    return name + " "+ module;
+    return name + " " + module;
   }
 
   public String getName() {
@@ -93,11 +94,11 @@ public class ClassHisto {
 
   static Map<String, ClassHisto> parse(ClassHistogramBean classHistogram, String dump) {
     return dump
-            .lines()
-            .dropWhile(line -> line.startsWith(" num") || line.startsWith("---"))
-            .takeWhile(line -> line.contains(":"))
-            .map(line -> toClassInfo(classHistogram, line))
-            .collect(Collectors.<ClassHisto, String, ClassHisto>toMap(ClassHisto::getId, info -> info, (info1, info2) -> info1.merge(info2)));
+        .lines()
+        .dropWhile(line -> line.startsWith(" num") || line.startsWith("---"))
+        .takeWhile(line -> line.contains(":"))
+        .map(line -> toClassInfo(classHistogram, line))
+        .collect(Collectors.<ClassHisto, String, ClassHisto> toMap(ClassHisto::getId, info -> info, (BinaryOperator<ClassHisto>) ClassHisto::merge));
   }
 
   private static ClassHisto toClassInfo(ClassHistogramBean classHistogram, String line) {
@@ -113,11 +114,11 @@ public class ClassHisto {
   private static String toUserFriendlyName(String name) {
     if (name.startsWith("[")) {
       if (name.startsWith("[L")) {
-        return toUserFriendlyName(name.substring(2, name.length()-1)) + "[]";
+        return toUserFriendlyName(name.substring(2, name.length() - 1)) + "[]";
       }
       return toUserFriendlyName(name.substring(1)) + "[]";
     } else if (name.length() == 1) {
-      return switch(name) {
+      return switch (name) {
         case "B" -> "byte";
         case "C" -> "char";
         case "S" -> "short";
@@ -134,8 +135,7 @@ public class ClassHisto {
 
   private static String toUserFriendlyModule(String module) {
     module = StringUtils.removeEnd(module, ")");
-    module = StringUtils.removeStart(module, "(");
-    return module;
+    return StringUtils.removeStart(module, "(");
   }
 
   private ClassHisto merge(ClassHisto other) {

@@ -30,8 +30,8 @@ public class SearchIndexDocDataModel extends LazyDataModel<SearchIndexDoc> {
     var filter = filter(filterBy);
     var result = SearchEngineService.instance().search(index, filter, first, pageSize);
     return result.getDocs()
-            .map(doc -> new SearchIndexDoc(doc.getId(), doc.getJson()))
-            .collect(Collectors.toList());
+        .map(doc -> new SearchIndexDoc(doc.getId(), doc.getJson()))
+        .collect(Collectors.toList());
   }
 
   private String filter(Map<String, FilterMeta> filterBy) {

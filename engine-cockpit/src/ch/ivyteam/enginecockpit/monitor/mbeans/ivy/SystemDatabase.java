@@ -18,10 +18,10 @@ public final class SystemDatabase extends AbstractDatabase {
 
   SystemDatabase() {
     super(
-            DATABASE_PERSISTENCY_SERVICE,
-            "Transactions",
-            Monitor.build().name("Connections").icon("insert_link").toMonitor(),
-            Monitor.build().name("Transactions").icon("dns").toMonitor(),
-            Monitor.build().name("Processing Time").icon("timer").yAxisLabel("Time").toMonitor());
+        DATABASE_PERSISTENCY_SERVICE,
+        "Transactions",
+        Monitor.build().name("Connections").icon("insert_link").toMonitor(),
+        Monitor.build().name("Transactions").icon("dns").toMonitor(),
+        Monitor.build().name("Processing Time").icon("timer").yAxisLabel("Time").toMonitor());
   }
 }

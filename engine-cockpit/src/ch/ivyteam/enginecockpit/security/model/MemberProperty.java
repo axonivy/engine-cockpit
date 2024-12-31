@@ -16,12 +16,12 @@ public class MemberProperty {
   private List<SecurityMemberProperty> filteredProperties;
   private SecurityMemberProperty property;
   private String filter;
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
 
   public MemberProperty() {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+        ManagerBean.class);
     property = new SecurityMemberProperty();
   }
 
@@ -66,12 +66,12 @@ public class MemberProperty {
 
   public void savePropertyMessage() {
     FacesContext.getCurrentInstance().addMessage("propertiesMessage",
-            new FacesMessage("Successfully updated property", ""));
+        new FacesMessage("Successfully updated property", ""));
   }
 
   public void removePropertyMessage() {
     FacesContext.getCurrentInstance().addMessage("propertiesMessage",
-            new FacesMessage("Successfully removed property", ""));
+        new FacesMessage("Successfully removed property", ""));
   }
 
   public class RoleProperty extends MemberProperty {
@@ -86,8 +86,8 @@ public class MemberProperty {
 
     private void reloadProperties() {
       super.properties = role.getAllPropertyNames().stream()
-              .map(key -> new SecurityMemberProperty(key, role.getProperty(key), false))
-              .collect(Collectors.toList());
+          .map(key -> new SecurityMemberProperty(key, role.getProperty(key), false))
+          .collect(Collectors.toList());
     }
 
     public void saveProperty() {
@@ -115,15 +115,15 @@ public class MemberProperty {
 
     private void reloadProperties() {
       super.properties = user.getAllPropertyNames().stream()
-              .map(key -> new SecurityMemberProperty(key, user.getProperty(key), user.isPropertyBacked(key)))
-              .collect(Collectors.toList());
+          .map(key -> new SecurityMemberProperty(key, user.getProperty(key), user.isPropertyBacked(key)))
+          .collect(Collectors.toList());
     }
 
     public void saveProperty() {
       if (user.isPropertyBacked(super.property.getKey())) {
         FacesContext.getCurrentInstance().addMessage("propertiesMessage",
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "The property '"
-                        + super.property.getKey() + "' has already been imported from your Security System"));
+            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "The property '"
+                + super.property.getKey() + "' has already been imported from your Security System"));
         return;
       }
       user.setProperty(super.property.getKey(), super.property.getValue());

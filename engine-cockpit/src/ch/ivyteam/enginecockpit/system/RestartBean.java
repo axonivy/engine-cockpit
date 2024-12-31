@@ -14,6 +14,7 @@ import org.apache.commons.lang3.SystemUtils;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
+import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 
 @ManagedBean
@@ -67,13 +68,13 @@ public class RestartBean {
 
   public long getWorkingUsers() {
     return ISecurityContextRepository.instance().allWithSystem()
-      .stream()
-      .flatMap(s -> s.sessions().all().stream())
-      .filter(s -> !s.isSessionUserSystemUser())
-      .filter(s -> !s.isSessionUserUnknown())
-      .map(s -> s.getSessionUserName())
-      .distinct()
-      .count();
+        .stream()
+        .flatMap(s -> s.sessions().all().stream())
+        .filter(s -> !s.isSessionUserSystemUser())
+        .filter(s -> !s.isSessionUserUnknown())
+        .map(ISession::getSessionUserName)
+        .distinct()
+        .count();
   }
 
   public boolean isRestartable() {

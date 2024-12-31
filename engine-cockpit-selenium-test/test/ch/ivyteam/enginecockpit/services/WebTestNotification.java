@@ -33,7 +33,6 @@ class WebTestNotification {
 
   private static final String ANY_USERS = "Developer|foo|bar|jon|guest|demo|admin|disableduser|test|neo";
 
-
   @BeforeEach
   void beforeEach() {
     EngineCockpitUtil.createNotification();
@@ -61,8 +60,8 @@ class WebTestNotification {
     notifications.rows().should(size(1));
     notifications.tableEntry(1, 7).click();
     $(By.id("payloadModal"))
-            .should(visible)
-            .should(text("taskId"));
+        .should(visible)
+        .should(text("taskId"));
     notifications.tableEntry(1, 1).should(matchText(".*-.*-.*"));
   }
 
@@ -91,7 +90,7 @@ class WebTestNotification {
     delivery.tableEntry(1, 2).shouldBe(text("Web"));
     delivery.tableEntry(1, 3).should(matchText(ANY_USERS));
     delivery.tableEntry(1, 4).shouldBe(matchText("DELIVERED|PENDING"));
-    if (delivery.tableEntry(1, 4).text().equals("DELIVERED")) {
+    if ("DELIVERED".equals(delivery.tableEntry(1, 4).text())) {
       delivery.tableEntry(1, 5).shouldBe(not(empty));
     } else {
       delivery.tableEntry(1, 5).shouldBe(empty);
@@ -102,8 +101,8 @@ class WebTestNotification {
 
     delivery.search("non-existing-value");
     delivery.rows()
-            .should(size(1))
-            .should(textsInAnyOrder("No records found"));
+        .should(size(1))
+        .should(textsInAnyOrder("No records found"));
 
     delivery.search("Web");
     delivery.rows().should(sizeGreaterThanOrEqual(1));
@@ -218,7 +217,6 @@ class WebTestNotification {
     delivery.tableEntry(2, 8).shouldBe(text("2"));
     delivery.tableEntry(2, 8).shouldBe(Condition.matchText("[0-9]+ [smhd]"));
   }
-
 
   private void enableMailChannel() {
     Navigation.toNotificationChannelDetail("mail");

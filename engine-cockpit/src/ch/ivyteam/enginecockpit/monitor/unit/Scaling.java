@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor.unit;
 
 class Scaling {
-  private Scale normalScale;
+  private final Scale normalScale;
 
   private Scaling(Scale normalScale) {
     this.normalScale = normalScale;
@@ -12,50 +12,50 @@ class Scaling {
   }
 
   public static final Scaling NONE = Scaling
-          .startWithNormal("", "")
-          .toScaling();
+      .startWithNormal("", "")
+      .toScaling();
 
   static Scaling METRIC = Scaling
-          .startWith("a", "atto")
-          .upTo(1000, "n", "nano")
-          .upTo(1000, "f", "femto")
-          .upTo(1000, "p", "pico")
-          .upTo(1000, "n", "nano")
-          .upTo(1000, "u", "micro")
-          .upTo(1000, "m", "milli")
-          .upToNormal(1000, "", "")
-          .upTo(1000, "k", "kilo")
-          .upTo(1000, "M", "mega")
-          .upTo(1000, "G", "giga")
-          .upTo(1000, "T", "tera")
-          .upTo(1000, "P", "peta")
-          .upTo(1000, "E", "exa")
-          .toScaling();
+      .startWith("a", "atto")
+      .upTo(1000, "n", "nano")
+      .upTo(1000, "f", "femto")
+      .upTo(1000, "p", "pico")
+      .upTo(1000, "n", "nano")
+      .upTo(1000, "u", "micro")
+      .upTo(1000, "m", "milli")
+      .upToNormal(1000, "", "")
+      .upTo(1000, "k", "kilo")
+      .upTo(1000, "M", "mega")
+      .upTo(1000, "G", "giga")
+      .upTo(1000, "T", "tera")
+      .upTo(1000, "P", "peta")
+      .upTo(1000, "E", "exa")
+      .toScaling();
 
   static Scaling TIME = Scaling
-          .startWith("a", "atto")
-          .upTo(1000, "n", "nano")
-          .upTo(1000, "f", "femto")
-          .upTo(1000, "p", "pico")
-          .upTo(1000, "n", "nano")
-          .upTo(1000, "u", "micro")
-          .upTo(1000, "m", "milli")
-          .upToNormal(1000, "s", "seconds").useAsFullUnitSymbol()
-          .upTo(60, "m", "minutes").useAsFullUnitSymbol()
-          .upTo(60, "h", "hours").useAsFullUnitSymbol()
-          .upTo(24, "d", "days").useAsFullUnitSymbol()
-          .upTo(365, "y", "years").useAsFullUnitSymbol()
-          .toScaling();
+      .startWith("a", "atto")
+      .upTo(1000, "n", "nano")
+      .upTo(1000, "f", "femto")
+      .upTo(1000, "p", "pico")
+      .upTo(1000, "n", "nano")
+      .upTo(1000, "u", "micro")
+      .upTo(1000, "m", "milli")
+      .upToNormal(1000, "s", "seconds").useAsFullUnitSymbol()
+      .upTo(60, "m", "minutes").useAsFullUnitSymbol()
+      .upTo(60, "h", "hours").useAsFullUnitSymbol()
+      .upTo(24, "d", "days").useAsFullUnitSymbol()
+      .upTo(365, "y", "years").useAsFullUnitSymbol()
+      .toScaling();
 
   static Scaling MEMORY = Scaling
-          .startWithNormal("", "")
-          .upTo(1024, "Ki", "kilo")
-          .upTo(1024, "Mi", "mega")
-          .upTo(1024, "Gi", "giga")
-          .upTo(1024, "Ti", "tera")
-          .upTo(1024, "Pi", "peta")
-          .upTo(1024, "Ei", "exa")
-          .toScaling();
+      .startWithNormal("", "")
+      .upTo(1024, "Ki", "kilo")
+      .upTo(1024, "Mi", "mega")
+      .upTo(1024, "Gi", "giga")
+      .upTo(1024, "Ti", "tera")
+      .upTo(1024, "Pi", "peta")
+      .upTo(1024, "Ei", "exa")
+      .toScaling();
 
   static Scaling DAY_TIME = Scaling.startWithNormal("", "").toScaling();
 

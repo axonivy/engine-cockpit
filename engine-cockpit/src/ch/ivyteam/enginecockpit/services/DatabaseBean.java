@@ -20,7 +20,7 @@ public class DatabaseBean {
   private List<DatabaseDto> filteredDatabases;
   private String filter;
 
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
 
   public DatabaseBean() {
     managerBean = ManagerBean.instance();
@@ -29,10 +29,10 @@ public class DatabaseBean {
 
   public void reloadDatabases() {
     databases = Databases.of(managerBean.getSelectedIApplication())
-            .all().stream()
-            .filter(db -> !StringUtils.equals(db.name(), "IvySystemDatabase"))
-            .map(db -> new DatabaseDto(db))
-            .collect(Collectors.toList());
+        .all().stream()
+        .filter(db -> !StringUtils.equals(db.name(), "IvySystemDatabase"))
+        .map(DatabaseDto::new)
+        .collect(Collectors.toList());
   }
 
   public List<DatabaseDto> getDatabases() {

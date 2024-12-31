@@ -52,8 +52,8 @@ public final class SpanBean extends TreeView<Span> {
 
   private void buildTreeNode(TraceSpan span, TreeNode<Span> parentNode, int depth) {
     var node = new DefaultTreeNode<>(
-            new Span(span, trace.get().rootSpan().times().executionTime().toNanos(), depth),
-            parentNode);
+        new Span(span, trace.get().rootSpan().times().executionTime().toNanos(), depth),
+        parentNode);
     int nextDepth = ++depth;
     span.children().forEach(child -> buildTreeNode(child, node, nextDepth));
   }

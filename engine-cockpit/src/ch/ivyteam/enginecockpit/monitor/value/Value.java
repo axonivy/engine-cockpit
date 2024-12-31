@@ -34,7 +34,7 @@ public class Value implements Comparable<Value> {
 
   boolean isFloating() {
     return value instanceof Float ||
-            value instanceof Double;
+        value instanceof Double;
   }
 
   @Override

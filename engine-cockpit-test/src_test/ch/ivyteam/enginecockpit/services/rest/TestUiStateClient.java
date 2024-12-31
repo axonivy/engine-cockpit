@@ -85,21 +85,21 @@ class TestUiStateClient {
     assertThat(getPropertyValue(uiStateClient, "password")).isEqualTo("password");
     assertThat(uiStateClient.uri()).isEqualTo("https://url.com");
   }
-  
+
   private String getPropertyValueTime(RestClient client, String key) {
     return client.properties().stream()
-            .filter(p -> p.key().equals(key))
-            .filter(p -> p.value().equals("2000"))
-            .findAny()
-            .get()
-            .value();
+        .filter(p -> p.key().equals(key))
+        .filter(p -> "2000".equals(p.value()))
+        .findAny()
+        .get()
+        .value();
   }
-  
+
   private String getPropertyValue(RestClient client, String key) {
     return client.properties().stream()
-            .filter(p -> p.key().equals(key))
-            .findAny()
-            .get()
-            .value();
+        .filter(p -> p.key().equals(key))
+        .findAny()
+        .get()
+        .value();
   }
 }

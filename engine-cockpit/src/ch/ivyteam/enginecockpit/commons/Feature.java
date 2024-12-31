@@ -11,7 +11,7 @@ public class Feature {
   public Feature(String clazz) {
     this(clazz, false);
   }
-  
+
   public Feature(String clazz, boolean isDefault) {
     this.clazz = clazz;
     this.isDefault = isDefault;

@@ -34,7 +34,7 @@ public class MigrationBean {
   private EngineMigrator.Result result;
   private boolean writeToTmp = false;
   private UploadedFile uploadedLicenceFile;
-  private Set<String> showLogs = new HashSet<>();
+  private final Set<String> showLogs = new HashSet<>();
   private String finishedMessage;
   private String finishedSeverity;
 
@@ -54,10 +54,10 @@ public class MigrationBean {
       running = MigrationState.START;
     } catch (Exception ex) {
       Message.error()
-              .clientId("migrateGrowl")
-              .summary("Error during validation of the location")
-              .exception(ex)
-              .show();
+          .clientId("migrateGrowl")
+          .summary("Error during validation of the location")
+          .exception(ex)
+          .show();
     }
   }
 
@@ -123,7 +123,7 @@ public class MigrationBean {
   }
 
   public String getStartMigrationButtonIcon() {
-    return switch(running) {
+    return switch (running) {
       case START -> "si si-controls-play";
       case RUNNING -> "si si-button-refresh-arrows si-is-spinning";
       case FINISHED -> "si si-check-1";
@@ -131,7 +131,7 @@ public class MigrationBean {
   }
 
   public String getStartMigrationButtonName() {
-    return switch(running) {
+    return switch (running) {
       case START -> "Start";
       case RUNNING -> "Running " + client.taskCountDone() + "/" + client.taskCountAll();
       case FINISHED -> "Done";
@@ -149,8 +149,8 @@ public class MigrationBean {
   private static List<Task> loadTasks(EngineMigrator.Result result) {
     if (result.success()) {
       return result.tasks().stream()
-              .map(Task::new)
-              .collect(Collectors.toList());
+          .map(Task::new)
+          .collect(Collectors.toList());
     }
     return new ArrayList<>();
   }
@@ -219,7 +219,7 @@ public class MigrationBean {
     return running;
   }
 
-  public static enum MigrationState {
+  public enum MigrationState {
     START, RUNNING, FINISHED,
   }
 }

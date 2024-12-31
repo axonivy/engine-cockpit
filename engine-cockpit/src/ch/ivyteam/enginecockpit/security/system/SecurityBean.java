@@ -32,7 +32,7 @@ public class SecurityBean {
   private String newSecuritySystemName;
   private String newSecuritySystemProvider;
 
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
 
   public SecurityBean() {
     managerBean = ManagerBean.instance();
@@ -65,8 +65,8 @@ public class SecurityBean {
 
   public Collection<String> getAvailableSecuritySystems() {
     return readAllSecurityContexts()
-            .map(s -> s.getName())
-            .collect(Collectors.toList());
+        .map(ISecurityContext::getName)
+        .collect(Collectors.toList());
   }
 
   public void triggerSyncForSelectedSecuritySystem() {
@@ -95,7 +95,7 @@ public class SecurityBean {
 
   public boolean isAnySyncRunning() {
     return systems.stream()
-            .anyMatch(system -> system.getSecurityContext().isSynchronizationRunning());
+        .anyMatch(system -> system.getSecurityContext().isSynchronizationRunning());
   }
 
   public String getNewSecuritySystemName() {
@@ -125,7 +125,7 @@ public class SecurityBean {
       loadSecuritySystems();
     } catch (IllegalArgumentException ex) {
       FacesContext.getCurrentInstance().addMessage("msgs",
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
     }
   }
 

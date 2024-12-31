@@ -12,13 +12,13 @@ import ch.ivyteam.ivy.db.IExternalDatabaseRuntimeConnection;
 import ch.ivyteam.ivy.db.IStatementExecution;
 
 public class DatabaseDto implements IService {
-  private String name;
+  private final String name;
   private String url;
   private String driver;
   private String userName;
   private String password;
   private int maxConnections;
-  private List<Property> properties;
+  private final List<Property> properties;
   private boolean passwordChanged;
 
   public DatabaseDto(Database db) {
@@ -29,8 +29,8 @@ public class DatabaseDto implements IService {
     password = db.password();
     maxConnections = db.maxConnections();
     properties = db.properties().stream()
-          .map(entry -> new Property(entry.key(), entry.value(), entry.isDefault()))
-          .collect(Collectors.toList());
+        .map(entry -> new Property(entry.key(), entry.value(), entry.isDefault()))
+        .collect(Collectors.toList());
     passwordChanged = false;
   }
 
@@ -96,12 +96,12 @@ public class DatabaseDto implements IService {
   }
 
   public static class ExecStatement {
-    private String time;
-    private String execTime;
-    private String resultTime;
-    private String sql;
-    private String element;
-    private long rowsAffected;
+    private final String time;
+    private final String execTime;
+    private final String resultTime;
+    private final String sql;
+    private final String element;
+    private final long rowsAffected;
 
     public ExecStatement(IStatementExecution statement) {
       time = DateUtil.formatDate(statement.getExecutionTimestamp());
@@ -138,8 +138,8 @@ public class DatabaseDto implements IService {
   }
 
   public static class Connection {
-    private String lastUsed;
-    private boolean inUse;
+    private final String lastUsed;
+    private final boolean inUse;
 
     public Connection(IExternalDatabaseRuntimeConnection conn) {
       lastUsed = DateUtil.formatDate(conn.getLastUsed());

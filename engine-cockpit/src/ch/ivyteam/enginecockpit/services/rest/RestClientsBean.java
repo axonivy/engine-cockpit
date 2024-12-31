@@ -18,7 +18,7 @@ public class RestClientsBean {
   private List<RestClientDto> filteredRestClients;
   private String filter;
 
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
 
   public RestClientsBean() {
     managerBean = ManagerBean.instance();
@@ -27,9 +27,9 @@ public class RestClientsBean {
 
   public void reloadRestClients() {
     restClients = RestClients.of(managerBean.getSelectedIApplication())
-            .all().stream()
-            .map(rest -> new RestClientDto(rest))
-            .collect(Collectors.toList());
+        .all().stream()
+        .map(RestClientDto::new)
+        .collect(Collectors.toList());
   }
 
   public List<RestClientDto> getRestClients() {

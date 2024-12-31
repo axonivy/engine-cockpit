@@ -13,9 +13,9 @@ class WebService {
   public static final WebService NO_DATA = new WebService();
 
   private final Monitor callsMonitor = Monitor.build().name("Calls").title("Web Service Calls")
-          .icon("language").toMonitor();
+      .icon("language").toMonitor();
   private final Monitor executionTimeMonitor = Monitor.build().name("Execution Time")
-          .title("Web Service Execution Time").icon("timer").yAxisLabel("Execution Time").toMonitor();
+      .title("Web Service Execution Time").icon("timer").yAxisLabel("Execution Time").toMonitor();
 
   private final String label;
   private final String id;

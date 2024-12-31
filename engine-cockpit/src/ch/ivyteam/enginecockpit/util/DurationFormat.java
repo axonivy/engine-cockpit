@@ -47,7 +47,7 @@ public class DurationFormat {
     if (value == null) {
       return nullStr;
     }
-    return format((long)value, unit);
+    return format((long) value, unit);
   }
 
   private String format(long value, Unit baseUnit) {

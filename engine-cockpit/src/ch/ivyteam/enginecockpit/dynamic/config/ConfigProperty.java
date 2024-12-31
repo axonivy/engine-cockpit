@@ -56,7 +56,7 @@ public class ConfigProperty {
     if (isDropdown()) {
       return value;
     }
-    if (value.equals(getDefaultValue())){
+    if (value.equals(getDefaultValue())) {
       return null;
     }
     return value;
@@ -66,7 +66,7 @@ public class ConfigProperty {
     if (metadata.isPassword() && StringUtils.isEmpty(value)) {
       return;
     }
-    if (this.value.equals(getDefaultValue()) && StringUtils.isEmpty(value) && !value.equals(getDefaultValue())){
+    if (this.value.equals(getDefaultValue()) && StringUtils.isEmpty(value) && !value.equals(getDefaultValue())) {
       return;
     }
     this.value = value;

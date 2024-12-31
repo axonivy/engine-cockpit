@@ -40,7 +40,6 @@ public class Sheet {
     }
   }
 
-
   XSSFSheet sheet() {
     return sheet;
   }
@@ -49,34 +48,34 @@ public class Sheet {
     return excel;
   }
 
-  public XSSFRow getRow(int rowNum){
-   return sheet.getRow(rowNum);
+  public XSSFRow getRow(int rowNum) {
+    return sheet.getRow(rowNum);
   }
 
-  public XSSFRow getLastRow(){
+  public XSSFRow getLastRow() {
     var lastRowNum = sheet.getLastRowNum();
-   return getRow(lastRowNum);
+    return getRow(lastRowNum);
   }
 
-  public String[][] getData(){
+  public String[][] getData() {
     var cellMax = 0;
     var rowNum = sheet.getLastRowNum();
-    for (var i=0; i<=rowNum; i++) {
+    for (var i = 0; i <= rowNum; i++) {
       var row = sheet.getRow(i);
-      if(row != null) {
-        if(row.getPhysicalNumberOfCells() > cellMax) {
+      if (row != null) {
+        if (row.getPhysicalNumberOfCells() > cellMax) {
           cellMax = row.getPhysicalNumberOfCells();
         }
       }
     }
 
     String[][] data = new String[sheet.getLastRowNum() + 1][cellMax];
-    for (var i=0; i<=sheet.getLastRowNum(); i++) {
+    for (var i = 0; i <= sheet.getLastRowNum(); i++) {
       var row = sheet.getRow(i);
-      if(row != null) {
-        for (var j=0;j<row.getLastCellNum();j++) {
+      if (row != null) {
+        for (var j = 0; j < row.getLastCellNum(); j++) {
           var cell = row.getCell(j);
-          if(cell != null) {
+          if (cell != null) {
             String cellval = cell.getStringCellValue();
             data[i][j] = cellval;
           }

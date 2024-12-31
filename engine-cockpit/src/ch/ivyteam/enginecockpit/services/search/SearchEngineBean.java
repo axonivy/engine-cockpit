@@ -19,14 +19,14 @@ import ch.ivyteam.ivy.searchengine.server.ServerConfig;
 @ViewScoped
 public class SearchEngineBean {
 
-  private SearchEngineManager searchEngineManager = (SearchEngineManager) ISearchEngineManager.instance();
+  private final SearchEngineManager searchEngineManager = (SearchEngineManager) ISearchEngineManager.instance();
   private SearchEngine searchEngine;
   private Exception esConnectionException;
   private String filter;
   private SearchEngineIndex activeIndex;
   private String query;
   private String queryResult;
-  private SearchEngineIndexDataModel model;
+  private final SearchEngineIndexDataModel model;
 
   public SearchEngineBean() {
     if (!hasFailure()) {
@@ -112,9 +112,9 @@ public class SearchEngineBean {
 
   public List<String> queryProposals(String value) {
     return getQueryApis().stream()
-            .filter(api -> StringUtils.startsWith(api, value))
-            .distinct()
-            .collect(Collectors.toList());
+        .filter(api -> StringUtils.startsWith(api, value))
+        .distinct()
+        .collect(Collectors.toList());
   }
 
   private List<String> getQueryApis() {
@@ -136,8 +136,8 @@ public class SearchEngineBean {
       }
       path += query;
       searchEngine
-              .executeRequest(path)
-              .ifPresent(result -> queryResult = result);
+          .executeRequest(path)
+          .ifPresent(result -> queryResult = result);
     } catch (Exception ex) {
       queryResult = ex.getMessage();
     }

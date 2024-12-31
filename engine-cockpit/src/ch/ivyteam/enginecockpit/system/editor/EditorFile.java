@@ -42,14 +42,14 @@ public class EditorFile {
     try {
       file.write(content);
       Message.info()
-              .clientId("editorMessage")
-              .summary("Saved " + file.name() + " successfully")
-              .show();
+          .clientId("editorMessage")
+          .summary("Saved " + file.name() + " successfully")
+          .show();
     } catch (Exception ex) {
       Message.error()
-              .clientId("editorMessage")
-              .exception(ex)
-              .show();
+          .clientId("editorMessage")
+          .exception(ex)
+          .show();
     }
   }
 

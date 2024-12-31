@@ -14,6 +14,7 @@ import org.primefaces.model.TreeNode;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
+import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISecurityDescriptor;
 import ch.ivyteam.ivy.security.ISecurityMember;
@@ -74,22 +75,21 @@ public class PermissionBean extends TreeView<AbstractPermission> {
 
   @Override
   public void setFilter(String filter) {
-    if (StringUtils.isBlank(filter))
-    {
+    if (StringUtils.isBlank(filter)) {
       if (StringUtils.isNotBlank(this.filter)) {
         reloadTree();
       }
       return;
     }
-    filteredTreeNode = new DefaultTreeNode<AbstractPermission>("Filtered tree", null, null);
+    filteredTreeNode = new DefaultTreeNode<>("Filtered tree", null, null);
     var rootPermissionGroup = securityDescriptor.getSecurityDescriptorType().getRootPermissionGroup();
     rootPermissionGroup.getAllPermissions().stream()
-            .filter(permission -> StringUtils.containsIgnoreCase(permission.getName(), filter))
-            .map(permission -> {
-              var access = securityDescriptor.getPermissionAccess(permission, securityMember);
-              return new Permission(access, this);
-            })
-            .forEach(permission -> addPermissionNode(filteredTreeNode, permission));
+        .filter(permission -> StringUtils.containsIgnoreCase(permission.getName(), filter))
+        .map(permission -> {
+          var access = securityDescriptor.getPermissionAccess(permission, securityMember);
+          return new Permission(access, this);
+        })
+        .forEach(permission -> addPermissionNode(filteredTreeNode, permission));
     this.filter = filter;
   }
 
@@ -242,6 +242,6 @@ public class PermissionBean extends TreeView<AbstractPermission> {
     permission.setDeny(permissionAccess.isDenied());
     permission.setExplicit(permissionAccess.isExplicit());
     permission.setPermissionHolder(
-            Optional.ofNullable(permissionAccess.getPermissionHolder()).map(r -> r.getName()).orElse(null));
+        Optional.ofNullable(permissionAccess.getPermissionHolder()).map(IRole::getName).orElse(null));
   }
 }

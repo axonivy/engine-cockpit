@@ -75,8 +75,8 @@ public class WebTestMBeans {
 
   private static void expandMBeanNodeWithText(String treeNodeText) {
     var toggler = getTreeNodeWithText(treeNodeText)
-            .parent()
-            .find(".ui-tree-toggler");
+        .parent()
+        .find(".ui-tree-toggler");
     toggler.shouldBe(visible);
     if (toggler.attr("class").contains("ui-icon-triangle-1-e")) // not yet
                                                                 // expanded

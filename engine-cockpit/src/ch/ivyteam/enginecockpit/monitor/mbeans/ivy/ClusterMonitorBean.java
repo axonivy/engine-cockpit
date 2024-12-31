@@ -33,17 +33,17 @@ public class ClusterMonitorBean {
   public ClusterMonitorBean() {
     sendMessagesMonitor = Monitor.build().name("Sent Messages").icon("dns").toMonitor();
     sendProcessingTimeMonitor = Monitor.build().name("Send Processing Time").icon("timer").yAxisLabel("Time")
-            .toMonitor();
+        .toMonitor();
     receiveMessagesMonitor = Monitor.build().name("Received Messages").icon("dns").toMonitor();
     receiveProcessingTimeMonitor = Monitor.build().name("Receive Processing Time").icon("timer")
-            .yAxisLabel("Time").toMonitor();
+        .yAxisLabel("Time").toMonitor();
 
     if (ManagementFactory.getPlatformMBeanServer().queryNames(CLUSTER_CHANNEL, null).isEmpty()) {
       return;
     }
     var sendMessages = new ExecutionCounter(CLUSTER_CHANNEL.getCanonicalName(), "sendMessages", "sendErrors");
     var receivedMessages = new ExecutionCounter(CLUSTER_CHANNEL.getCanonicalName(), "receiveMessages",
-            "receiveErrors");
+        "receiveErrors");
 
     sendMessagesMonitor.addInfoValue(format("%5d", sendMessages.deltaExecutions()));
     sendMessagesMonitor.addInfoValue(format("Total %5d", sendMessages.executions()));
@@ -76,11 +76,11 @@ public class ClusterMonitorBean {
     receiveProcessingTimeMonitor.addInfoValue(format("Total %t", receivedMessages.executionTime()));
 
     receiveProcessingTimeMonitor
-            .addSeries(Series.build(receivedMessages.deltaMinExecutionTime(), "Min").toSeries());
+        .addSeries(Series.build(receivedMessages.deltaMinExecutionTime(), "Min").toSeries());
     receiveProcessingTimeMonitor
-            .addSeries(Series.build(receivedMessages.deltaAvgExecutionTime(), "Avg").toSeries());
+        .addSeries(Series.build(receivedMessages.deltaAvgExecutionTime(), "Avg").toSeries());
     receiveProcessingTimeMonitor
-            .addSeries(Series.build(receivedMessages.deltaMaxExecutionTime(), "Max").toSeries());
+        .addSeries(Series.build(receivedMessages.deltaMaxExecutionTime(), "Max").toSeries());
   }
 
   public Monitor getSendMessagesMonitor() {

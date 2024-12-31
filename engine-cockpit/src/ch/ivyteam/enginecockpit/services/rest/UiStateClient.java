@@ -17,7 +17,7 @@ public class UiStateClient {
   @SuppressWarnings("restriction")
   public UiStateClient setUiState(RestClientDto dto) {
     builder.uri(dto.getConnectionUrl())
-      .property(ch.ivyteam.ivy.rest.client.config.RestClientProperty.Authentication.USERNAME, dto.getUsername());
+        .property(ch.ivyteam.ivy.rest.client.config.RestClientProperty.Authentication.USERNAME, dto.getUsername());
     if (dto.passwordChanged()) {
       builder.property(ch.ivyteam.ivy.rest.client.config.RestClientProperty.Authentication.PASSWORD, dto.getPassword());
     }

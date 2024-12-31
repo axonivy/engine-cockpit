@@ -43,7 +43,7 @@ class KeyStoreUtils {
       ivyKS.addCert(certFile);
       ivyKS.store(password);
     } catch (KeyStoreException ex) {
-      LOGGER.error("failed to add certificat to "+file, ex);
+      LOGGER.error("failed to add certificat to " + file, ex);
     }
   }
 
@@ -51,10 +51,10 @@ class KeyStoreUtils {
     try {
       var certs = loadInternal().getStoredCertificates();
       return certs.stream()
-        .map(cert -> new StoredCert(cert.alias(), cert.cert()))
-        .toList();
+          .map(cert -> new StoredCert(cert.alias(), cert.cert()))
+          .toList();
     } catch (KeyStoreException ex) {
-      LOGGER.error("failed to read certificates of "+file, ex);
+      LOGGER.error("failed to read certificates of " + file, ex);
       return List.of();
     }
   }

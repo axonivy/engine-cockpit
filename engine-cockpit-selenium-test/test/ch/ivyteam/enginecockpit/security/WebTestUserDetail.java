@@ -173,7 +173,7 @@ class WebTestUserDetail {
     var webNewTaskCheckbox = $(By.id("notificationsForm:notificationChannelsTable:0:channels:0:subscriptionCheckbox")).lastChild().lastChild();
 
     table.firstColumnShouldBe(size(2));
-    table.tableEntry(1,1).shouldHave(text("task"));
+    table.tableEntry(1, 1).shouldHave(text("task"));
     table.headerShouldBe(size(2));
     table.headerShouldBe(exactTexts("Event", "Web"));
 
@@ -220,13 +220,13 @@ class WebTestUserDetail {
   }
 
   private void shouldHaveSubscribedByDefaultState(SelenideElement webNewTaskIcon,
-          SelenideElement webNewTaskCheckbox) {
+      SelenideElement webNewTaskCheckbox) {
     iconShouldHaveState(webNewTaskIcon, true, true, "Subscribed by default");
     checkboxShouldHaveState(webNewTaskCheckbox, 0);
   }
 
   private void shouldHaveNotSubscribedByDefaultState(SelenideElement webNewTaskIcon,
-          SelenideElement webNewTaskCheckbox) {
+      SelenideElement webNewTaskCheckbox) {
     iconShouldHaveState(webNewTaskIcon, false, true, "Not subscribed by default");
     checkboxShouldHaveState(webNewTaskCheckbox, 0);
   }
@@ -237,13 +237,13 @@ class WebTestUserDetail {
   }
 
   private void shouldHaveNotSubscribedState(SelenideElement webNewTaskIcon,
-          SelenideElement webNewTaskCheckbox) {
+      SelenideElement webNewTaskCheckbox) {
     iconShouldHaveState(webNewTaskIcon, false, false, "Not subscribed");
     checkboxShouldHaveState(webNewTaskCheckbox, 2);
   }
 
   private void iconShouldHaveState(SelenideElement webNewTaskIcon, boolean iconSubscribedState,
-          boolean iconByDefaultState, String iconTitle) {
+      boolean iconByDefaultState, String iconTitle) {
     iconShouldHaveSubscribedState(webNewTaskIcon, iconSubscribedState);
     iconShouldHaveByDefaultState(webNewTaskIcon, iconByDefaultState);
     iconShouldHaveTitle(webNewTaskIcon, iconTitle);
@@ -323,7 +323,7 @@ class WebTestUserDetail {
   void rolesAddRemove() {
     Navigation.toUserDetail(USER_FOO);
     String boss = Selenide.$$(".role-name").find(Condition.text("boss")).parent().parent().parent()
-            .getAttribute("id");
+        .getAttribute("id");
     By bossId = By.id(boss);
     $(bossId).find(ROLE_EXPANDER).click();
     By managerId = By.id(boss + "_0");

@@ -158,8 +158,7 @@ final class TstProcessElementExecStat implements IProcessElementExecutionStatist
     }
 
     @Override
-    public void addErrorCatcher(ErrorCatcher errorCatcher) {
-    }
+    public void addErrorCatcher(ErrorCatcher errorCatcher) {}
 
     @Override
     public String toDisplayString() {

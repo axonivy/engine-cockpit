@@ -13,24 +13,25 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import com.codeborne.selenide.SelenideElement;
+
 public class Tab {
 
   public static String DEFAULT_APP = isDesigner() ? DESIGNER : "test";
 
   public static final Tab SECURITY_SYSTEM = new Tab(
-          "li.security-system-tab > a",
-          "li.security-system-tab",
-          "li.security-system-tab.ui-state-active",
-          ".ui-tabs-panel:not(.ui-helper-hidden)",
-          tab -> tab.switchToTab("default"));
+      "li.security-system-tab > a",
+      "li.security-system-tab",
+      "li.security-system-tab.ui-state-active",
+      ".ui-tabs-panel:not(.ui-helper-hidden)",
+      tab -> tab.switchToTab("default"));
 
   public static final Tab APP = new Tab(
-          "li.application-tab > a",
-          "li.application-tab",
-          "li.application-tab.ui-state-active",
-          ".ui-tabs-panel:not(.ui-helper-hidden)",
-          tab -> tab.switchToTab(DEFAULT_APP));
-  
+      "li.application-tab > a",
+      "li.application-tab",
+      "li.application-tab.ui-state-active",
+      ".ui-tabs-panel:not(.ui-helper-hidden)",
+      tab -> tab.switchToTab(DEFAULT_APP));
 
   private final String tab;
   private final String li;
@@ -52,8 +53,8 @@ public class Tab {
 
   public List<String> getTabs() {
     return $$(tab).asDynamicIterable().stream()
-            .map(e -> e.getText())
-            .collect(Collectors.toList());
+        .map(SelenideElement::getText)
+        .collect(Collectors.toList());
   }
 
   public int getSelectedTabIndex() {
@@ -78,7 +79,7 @@ public class Tab {
       $$(tab).get(index).click();
     }
     $$(selectedTab).find(cssClass("ui-state-active"))
-            .shouldHave(attribute("data-index", String.valueOf(index)));
+        .shouldHave(attribute("data-index", String.valueOf(index)));
   }
 
   public void switchToTab(String securitySystemName) {
@@ -86,9 +87,9 @@ public class Tab {
       return;
     }
     $$(tab).asDynamicIterable().stream()
-            .filter(e -> e.has(exactText(securitySystemName)))
-            .findFirst()
-            .ifPresent(app -> app.click());
+        .filter(e -> e.has(exactText(securitySystemName)))
+        .findFirst()
+        .ifPresent(SelenideElement::click);
     $(selectedTab).shouldBe(exactText(securitySystemName));
   }
 }

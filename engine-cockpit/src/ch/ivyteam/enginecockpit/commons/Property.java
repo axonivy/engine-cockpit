@@ -18,7 +18,7 @@ public class Property {
   public Property(String name, String value) {
     this(name, value, null, false);
   }
-  
+
   public Property(String name, String value, boolean isDefault) {
     this.name = name;
     this.value = value;
@@ -31,7 +31,6 @@ public class Property {
     this.isDefault = isDefault;
     this.sensitive = meta != null ? meta.format() == ConfigValueFormat.PASSWORD : false;
   }
-
 
   public String getName() {
     return name;
@@ -56,7 +55,7 @@ public class Property {
   public void setSensitive(boolean sensitive) {
     this.sensitive = sensitive;
   }
-  
+
   public boolean isDefault() {
     return isDefault;
   }
@@ -71,18 +70,18 @@ public class Property {
     }
     Property other = (Property) obj;
     return new EqualsBuilder()
-            .append(name, other.getName())
-            .append(value, other.getValue())
-            .append(sensitive, other.isSensitive())
-            .isEquals();
+        .append(name, other.getName())
+        .append(value, other.getValue())
+        .append(sensitive, other.isSensitive())
+        .isEquals();
   }
 
   @Override
   public int hashCode() {
     return new HashCodeBuilder()
-            .append(name)
-            .append(value)
-            .append(sensitive)
-            .toHashCode();
+        .append(name)
+        .append(value)
+        .append(sensitive)
+        .toHashCode();
   }
 }

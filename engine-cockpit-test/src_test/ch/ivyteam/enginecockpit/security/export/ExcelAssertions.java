@@ -5,15 +5,14 @@ import org.assertj.core.api.Assertions;
 import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
 
 public class ExcelAssertions {
-  private Sheet sheet;
+  private final Sheet sheet;
 
   private ExcelAssertions(Sheet actual) {
     this.sheet = actual;
   }
 
   public static ExcelAssertions assertThat(Sheet actual) {
-    ExcelAssertions a = new ExcelAssertions(actual);
-    return a;
+    return new ExcelAssertions(actual);
   }
 
   public void isNotNull() {

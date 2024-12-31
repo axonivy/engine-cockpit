@@ -13,7 +13,7 @@ public class Application {
   private final boolean devMode;
 
   public Application(IApplication app) {
-    this.app = (IApplicationInternal)app;
+    this.app = (IApplicationInternal) app;
     this.name = app.getName();
     this.devMode = app.getSecurityContext().isDevMode();
   }

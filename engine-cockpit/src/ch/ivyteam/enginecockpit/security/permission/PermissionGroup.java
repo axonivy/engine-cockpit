@@ -11,8 +11,8 @@ public class PermissionGroup extends AbstractPermission {
 
   public PermissionGroup(IPermissionGroupAccess groupAccess, PermissionBean bean) {
     super(groupAccess.getPermissionGroup().getName(),
-            groupAccess.isGrantedAllPermissions(),
-            groupAccess.isDeniedAllPermissions());
+        groupAccess.isGrantedAllPermissions(),
+        groupAccess.isDeniedAllPermissions());
     this.someDeny = groupAccess.isDeniedAnyPermission();
     this.someGrant = groupAccess.isGrantedAnyPermission();
     this.bean = bean;
@@ -79,8 +79,7 @@ public class PermissionGroup extends AbstractPermission {
   }
 
   @Override
-  public void group() {
-  }
+  public void group() {}
 
   public IPermissionGroup permissionGroup() {
     return permissionGroup;
@@ -91,13 +90,13 @@ public class PermissionGroup extends AbstractPermission {
     if (obj == this) {
       return true;
     }
-    if (obj == null || ! obj.getClass().equals(PermissionGroup.class)) {
+    if (obj == null || !obj.getClass().equals(PermissionGroup.class)) {
       return false;
     }
-    var other = (PermissionGroup)obj;
+    var other = (PermissionGroup) obj;
     return permissionGroup != null &&
-           other.permissionGroup != null &&
-           permissionGroup.equals(other.permissionGroup);
+        other.permissionGroup != null &&
+        permissionGroup.equals(other.permissionGroup);
   }
 
   @Override

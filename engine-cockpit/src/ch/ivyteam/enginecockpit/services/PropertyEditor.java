@@ -8,11 +8,11 @@ import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.commons.Property;
 
 public interface PropertyEditor {
-  
+
   List<Property> getProperties();
-  
+
   Property getProperty();
-  
+
   void saveProperty(boolean isNewProperty);
 
   default Property findProperty(String key) {
@@ -39,7 +39,7 @@ public interface PropertyEditor {
   }
 
   void setProperty(String key);
-  
+
   default boolean isSensitive() {
     if (getProperty() == null || getProperty().getName() == null || getProperties() == null) {
       return false;

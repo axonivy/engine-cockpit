@@ -21,7 +21,7 @@ class JfrStream extends InputStream {
 
   private long open(Recording recording) {
     try {
-      return (long)ManagementFactory.getPlatformMBeanServer().invoke(JfrBean.FLIGHT_RECORDER, "openStream", new Object[]{recording.id(), null}, new String[]{long.class.getName(), TabularData.class.getName()});
+      return (long) ManagementFactory.getPlatformMBeanServer().invoke(JfrBean.FLIGHT_RECORDER, "openStream", new Object[] {recording.id(), null}, new String[] {long.class.getName(), TabularData.class.getName()});
     } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
       this.error = new IOException("Cannot open JFR stream for recording '" + recording.id() + "'", ex);
       return -1;
@@ -38,7 +38,7 @@ class JfrStream extends InputStream {
     }
     if (buffer == null || nextIndexToRead >= buffer.length) {
       try {
-        buffer = (byte[])ManagementFactory.getPlatformMBeanServer().invoke(JfrBean.FLIGHT_RECORDER, "readStream", new Object[]{streamId}, new String[]{long.class.getName()});
+        buffer = (byte[]) ManagementFactory.getPlatformMBeanServer().invoke(JfrBean.FLIGHT_RECORDER, "readStream", new Object[] {streamId}, new String[] {long.class.getName()});
       } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
         throw new IOException("Cannot read JFR stream", ex);
       }
@@ -50,16 +50,16 @@ class JfrStream extends InputStream {
     }
     return Byte.toUnsignedInt(buffer[nextIndexToRead++]);
   }
-  
+
   @Override
   public void close() throws IOException {
     if (error != null) {
       throw error;
     }
     try {
-      ManagementFactory.getPlatformMBeanServer().invoke(JfrBean.FLIGHT_RECORDER, "closeStream", new Object[]{streamId}, new String[]{long.class.getName()});
+      ManagementFactory.getPlatformMBeanServer().invoke(JfrBean.FLIGHT_RECORDER, "closeStream", new Object[] {streamId}, new String[] {long.class.getName()});
     } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-      throw new IOException("Cannot close JFR stream", ex); 
+      throw new IOException("Cannot close JFR stream", ex);
     }
   }
 }

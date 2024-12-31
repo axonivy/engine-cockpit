@@ -25,7 +25,7 @@ class TestProcessExecutionBean {
 
   @BeforeEach
   void beforeEach() {
-    DiCore.installModules(new AbstractModule() {
+    DiCore.installModules(new AbstractModule(){
       @Override
       protected void configure() {
         super.configure();
@@ -230,7 +230,7 @@ class TestProcessExecutionBean {
     assertThat(uiStat.getInternalExecutionsBackground())
         .isEqualTo(background(IProcessElementExecutionStatistic::getExecutions));
     assertThat(uiStat.getTotalInternalExecutionTimeBackground())
-         .isEqualTo(background(IProcessElementExecutionStatistic::getProcessEngineExecutionTime));
+        .isEqualTo(background(IProcessElementExecutionStatistic::getProcessEngineExecutionTime));
     assertThat(uiStat.getMinInternalExecutionTimeBackground())
         .isEqualTo(background(IProcessElementExecutionStatistic::getMinProcessEngineExecutionTime));
     assertThat(uiStat.getAvgInternalExecutionTimeBackground())
@@ -254,8 +254,8 @@ class TestProcessExecutionBean {
     var max = Stream.of(TstExecutionStatistic.TWO_ELEMENT).mapToLong(mapping).max().getAsLong();
     var value = mapping.applyAsLong(TstExecutionStatistic.TWO_ELEMENT[0]);
     var percentage = value * 100 / max;
-    var end = Math.min(percentage+ 20, 100);
+    var end = Math.min(percentage + 20, 100);
     var color = 120 - percentage * 120 / 100;
-    return "linear-gradient(90deg, hsl(" + color + ", 100%, 70%) " + percentage + "%, var(--surface-a, #FFFFFF) "+ end +"%)";
+    return "linear-gradient(90deg, hsl(" + color + ", 100%, 70%) " + percentage + "%, var(--surface-a, #FFFFFF) " + end + "%)";
   }
 }
