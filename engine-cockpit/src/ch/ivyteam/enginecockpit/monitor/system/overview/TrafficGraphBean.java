@@ -22,7 +22,6 @@ import ch.ivyteam.ivy.trace.SystemOverview.CommunicationChannel;
 import ch.ivyteam.ivy.trace.SystemOverview.SystemLink;
 import ch.ivyteam.ivy.trace.Tracer;
 
-
 @ManagedBean
 @ViewScoped
 public class TrafficGraphBean {
@@ -42,7 +41,6 @@ public class TrafficGraphBean {
     model = new DefaultDiagramModel();
     model.setMaxConnections(-1);
     model.setContainment(false);
-
 
     var systemOverview = Tracer.instance().systemOverview();
     var inOutMax = Math.max(systemOverview.inbound().size(), systemOverview.outbound().size());
@@ -84,14 +82,14 @@ public class TrafficGraphBean {
     inbound.addEndPoint(out);
     var in = new BlankEndPoint(EndPointAnchor.LEFT);
     ivy.addEndPoint(in);
-    var strokeWidth = (int)Math.max(1, channel.statistics().requests() * 20 / requests);
+    var strokeWidth = (int) Math.max(1, channel.statistics().requests() * 20 / requests);
     var color = color(channel.statistics().average(), average);
     connect(in, out, channel, strokeWidth, color);
   }
 
   private void addOutbound(CommunicationChannel channel, Element ivy, long requests, long average) {
     var count = ivy.getEndPoints().stream().filter(ep -> ep.getAnchor() == EndPointAnchor.RIGHT).count();
-    var outbound = new Element(new System(channel.systemLink()), rightX(),  gridY(count));
+    var outbound = new Element(new System(channel.systemLink()), rightX(), gridY(count));
     setTitle(outbound, channel);
     setStyleClass(outbound, channel);
     model.addElement(outbound);
@@ -99,7 +97,7 @@ public class TrafficGraphBean {
     outbound.addEndPoint(in);
     var out = new BlankEndPoint(EndPointAnchor.RIGHT);
     ivy.addEndPoint(out);
-    var strokeWidth = (int)Math.max(1, channel.statistics().requests() * 20 / requests);
+    var strokeWidth = (int) Math.max(1, channel.statistics().requests() * 20 / requests);
     var color = color(channel.statistics().average(), average);
     connect(in, out, channel, strokeWidth, color);
   }
@@ -109,7 +107,7 @@ public class TrafficGraphBean {
   }
 
   private String rightX() {
-    return (width - ELEMENT_WIDTH - BORDER) +"px";
+    return (width - ELEMENT_WIDTH - BORDER) + "px";
   }
 
   private String gridY(long count) {
@@ -128,7 +126,7 @@ public class TrafficGraphBean {
   }
 
   private String middleX() {
-    return (width/2 - ELEMENT_WIDTH / 2)  + "px";
+    return (width / 2 - ELEMENT_WIDTH / 2) + "px";
   }
 
   private void setTitle(Element element, CommunicationChannel channel) {
@@ -167,20 +165,20 @@ public class TrafficGraphBean {
   private String color(long value, long max) {
     var percentage = value * 100.0f / max;
     var color = 120 - percentage * 120 / 100;
-    return "hsl("+color+", 100%, 70%)";
+    return "hsl(" + color + ", 100%, 70%)";
 
   }
 
   private void connect(EndPoint in, EndPoint out, CommunicationChannel channel, int strokeWidth, String color) {
-    var curviness = Math.max(1, 100+(width-1000)/2);
+    var curviness = Math.max(1, 100 + (width - 1000) / 2);
     var connector = new BezierConnector(curviness, -1);
-    connector.setPaintStyle("{stroke:'"+color+"', strokeWidth:"+strokeWidth+"}");
+    connector.setPaintStyle("{stroke:'" + color + "', strokeWidth:" + strokeWidth + "}");
     var connection = new Connection(out, in, connector);
 
     var avg = format(channel.statistics().average());
-    var label = new LabelOverlay(channel.statistics().requests() +" requests / " + channel.statistics().errors() +" errors / " + avg);
+    var label = new LabelOverlay(channel.statistics().requests() + " requests / " + channel.statistics().errors() + " errors / " + avg);
     connection.getOverlays().add(label);
-    var arrow = new ArrowOverlay(strokeWidth*2+20, strokeWidth+20, 1, 1);
+    var arrow = new ArrowOverlay(strokeWidth * 2 + 20, strokeWidth + 20, 1, 1);
     connection.getOverlays().add(arrow);
     model.connect(connection);
   }
@@ -189,10 +187,10 @@ public class TrafficGraphBean {
     var unit = Unit.NANO_SECONDS;
     var scaledValue = Unit.NANO_SECONDS.convertTo(value, unit);
     while (scaledValue > 10000) {
-      unit= unit.scaleUp();
+      unit = unit.scaleUp();
       scaledValue = Unit.NANO_SECONDS.convertTo(value, unit);
     }
-    return scaledValue+" "+ unit.symbol();
+    return scaledValue + " " + unit.symbol();
   }
 
   public DiagramModel getModel() {
@@ -260,7 +258,7 @@ public class TrafficGraphBean {
 
     @Override
     public String toString() {
-      return "System [name="+name+"]";
+      return "System [name=" + name + "]";
     }
   }
 }

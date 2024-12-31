@@ -14,16 +14,16 @@ import ch.ivyteam.ivy.security.IUser;
 public class UsersSheet {
   private static final List<String> HEADERS = Arrays.asList("Name", "Displayname", "Fullname", "Email", "SecurityId", "ExternalId", "External Name");
   static final WidthProvider HEADER_WITDH = header -> {
-    if(header.contains("Security") || header.contains("External")) {
+    if (header.contains("Security") || header.contains("External")) {
       return 45;
     }
     return 25;
   };
   private final Map<String, Integer> propertyColumns = new HashMap<>();
   private int propertyCellNr = 8;
-  private ArrayList<String> headers = new ArrayList<String>(HEADERS);
-  private Iterable<IUser> users;
-  private Excel excel;
+  private final ArrayList<String> headers = new ArrayList<>(HEADERS);
+  private final Iterable<IUser> users;
+  private final Excel excel;
 
   public UsersSheet(Excel excel, Iterable<IUser> users) {
     this.excel = excel;
@@ -33,7 +33,7 @@ public class UsersSheet {
   public void create() {
     int rowNr = 1;
     Sheet sheet = excel.createSheet("Users");
-    for(var user : users) {
+    for (var user : users) {
       propertyCellNr = headers.size();
       var row = sheet.createRow(rowNr++);
       var cellNr = 0;

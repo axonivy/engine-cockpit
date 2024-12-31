@@ -22,14 +22,14 @@ import ch.ivyteam.ivy.security.ISecurityManager;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class SecurityConfigBean  {
+public class SecurityConfigBean {
 
   private String name;
 
   private Locale language;
   private Locale formattingLanguage;
   private SecuritySystem securitySystem;
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
 
   public SecurityConfigBean() {
     managerBean = ManagerBean.instance();
@@ -53,9 +53,9 @@ public class SecurityConfigBean  {
 
   private void loadSecuritySystem() {
     securitySystem = managerBean.getSecuritySystems().stream()
-            .filter(system -> StringUtils.equals(system.getSecuritySystemName(), name))
-            .findAny()
-            .orElseThrow();
+        .filter(system -> StringUtils.equals(system.getSecuritySystemName(), name))
+        .findAny()
+        .orElseThrow();
 
     var languageConfigurator = languageConfigurator();
     language = languageConfigurator.content();
@@ -120,7 +120,7 @@ public class SecurityConfigBean  {
     languageConfigurator.content(LocaleUtils.toLocale(language));
     languageConfigurator.formatting(LocaleUtils.toLocale(formattingLanguage));
     FacesContext.getCurrentInstance().addMessage("securityLanguageSaveSuccess",
-            new FacesMessage("Security System Languages saved"));
+        new FacesMessage("Security System Languages saved"));
   }
 
   public String deleteConfiguration() {

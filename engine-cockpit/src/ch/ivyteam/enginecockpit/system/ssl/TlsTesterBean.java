@@ -41,6 +41,7 @@ public class TlsTesterBean {
     missingCert = test.getMissingCert();
     infos = test.getExtendedInformations();
   }
+
   public List<TLSTestData> getTestResult() {
     return testResult;
   }
@@ -55,7 +56,7 @@ public class TlsTesterBean {
 
   public boolean isExecuted(String logEntry) {
     return !logEntry.contains("2");
-}
+  }
 
   public String backgroundColor(String logEntry) {
     if (logEntry.contains("2")) {
@@ -70,9 +71,9 @@ public class TlsTesterBean {
 
   public String getExtendedInformations(String logEntry) {
     return infos.stream()
-            .filter(info -> info.contains(getSubject(logEntry)))
-            .findFirst()
-            .orElse("");
+        .filter(info -> info.contains(getSubject(logEntry)))
+        .findFirst()
+        .orElse("");
   }
 
   String getSubject(String inputStrings) {
@@ -84,7 +85,7 @@ public class TlsTesterBean {
   }
 
   public boolean hasMissingCerts(String Uri) {
-    if (!(getMissingCert() == null) && isHttps(Uri) && tlsTestRendered == true) {
+    if (!(getMissingCert() == null) && isHttps(Uri) && tlsTestRendered) {
       return true;
     }
     return false;

@@ -92,11 +92,11 @@ class WebTestDeployment {
     var targetDir = Path.of(System.getProperty("basedir")).getParent().resolve("engine-cockpit-test-data").resolve("target");
     try (var walker = Files.walk(targetDir, 1)) {
       return walker.filter(Files::isRegularFile)
-              .filter(f -> {
-                var fileName = f.getFileName().toString();
-                return fileName.startsWith("engine-cockpit-test-data-") && fileName.endsWith(".iar");
-              })
-              .findFirst().orElseThrow();
+          .filter(f -> {
+            var fileName = f.getFileName().toString();
+            return fileName.startsWith("engine-cockpit-test-data-") && fileName.endsWith(".iar");
+          })
+          .findFirst().orElseThrow();
     } catch (IOException | NoSuchElementException ex) {
       throw new RuntimeException("Couldn't find the engine-cockpit-test-data.iar project", ex);
     }

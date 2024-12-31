@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.security.system;
 
-
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 
@@ -58,9 +57,9 @@ public class SecurityProviderBean {
 
   public void loadConfiguration() {
     securitySystem = ManagerBean.instance().getSecuritySystems().stream()
-            .filter(system -> StringUtils.equals(system.getSecuritySystemName(), name))
-            .findAny()
-            .orElseThrow();
+        .filter(system -> StringUtils.equals(system.getSecuritySystemName(), name))
+        .findAny()
+        .orElseThrow();
 
     provider = systemConfig.identity().getName();
     var synch = systemConfig.userSynch();
@@ -73,13 +72,13 @@ public class SecurityProviderBean {
 
   public String getCronHelp() {
     return """
-           Legend<br/>
-           1st - second (optional)(0 - 59)<br/>
-           2nd - minute           (0 - 59)<br/>
-           3rd - hour             (0 - 23)<br/>
-           4th - day of the month (1 - 31)<br/>
-           5th - month            (1 - 12)<br/>
-           6th - day of the week  (1 - 7)""";
+      Legend<br/>
+      1st - second (optional)(0 - 59)<br/>
+      2nd - minute           (0 - 59)<br/>
+      3rd - hour             (0 - 23)<br/>
+      4th - day of the month (1 - 31)<br/>
+      5th - month            (1 - 12)<br/>
+      6th - day of the week  (1 - 7)""";
   }
 
   public boolean isNotIvySecuritySystem() {
@@ -162,7 +161,7 @@ public class SecurityProviderBean {
 
     setShowWarningMessage(false);
     FacesContext.getCurrentInstance().addMessage("securityProviderSaveSuccess",
-            new FacesMessage("Security System Identity Provider saved"));
+        new FacesMessage("Security System Identity Provider saved"));
   }
 
   private boolean validateUpdateTime() {

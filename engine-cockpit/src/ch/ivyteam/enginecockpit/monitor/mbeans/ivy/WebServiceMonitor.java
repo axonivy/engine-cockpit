@@ -10,8 +10,8 @@ import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
 public class WebServiceMonitor {
   private WebService webService;
-  private String applicationName;
-  private String webServiceId;
+  private final String applicationName;
+  private final String webServiceId;
 
   public WebServiceMonitor() {
     this("", "");
@@ -23,9 +23,9 @@ public class WebServiceMonitor {
     try {
       var services = searchJmx(appName, webServiceId);
       webService = services.stream()
-              .map(service -> new WebService(service))
-              .filter(this::isWebService)
-              .findFirst().orElse(WebService.NO_DATA);
+          .map(WebService::new)
+          .filter(this::isWebService)
+          .findFirst().orElse(WebService.NO_DATA);
     } catch (MalformedObjectNameException ex) {
       webService = WebService.NO_DATA;
     }
@@ -45,13 +45,13 @@ public class WebServiceMonitor {
 
   private boolean isWebService(WebService service) {
     return service.application().equals(applicationName) &&
-            service.id().equals(webServiceId);
+        service.id().equals(webServiceId);
   }
 
   private static Set<ObjectName> searchJmx(String appName, String webServiceId)
-          throws MalformedObjectNameException {
+      throws MalformedObjectNameException {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
-            new ObjectName("ivy Engine:type=External Web Service,application=" + appName + ",name=\"*(" + webServiceId + ")\""),
-            null);
+        new ObjectName("ivy Engine:type=External Web Service,application=" + appName + ",name=\"*(" + webServiceId + ")\""),
+        null);
   }
 }

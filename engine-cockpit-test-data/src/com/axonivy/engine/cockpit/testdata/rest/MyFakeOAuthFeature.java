@@ -8,7 +8,6 @@ import javax.ws.rs.client.ClientRequestFilter;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;
 
-
 public class MyFakeOAuthFeature implements Feature {
 
   @Override

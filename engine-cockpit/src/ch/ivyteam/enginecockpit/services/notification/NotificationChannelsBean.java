@@ -2,8 +2,10 @@ package ch.ivyteam.enginecockpit.services.notification;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 
@@ -24,8 +26,8 @@ public class NotificationChannelsBean {
   public void onload() {
     var securityContext = managerBean.getSelectedSecuritySystem().getSecurityContext();
     channels = NotificationChannel.all(securityContext).stream()
-            .map(channel -> NotificationChannelDto.instance(securityContext, channel))
-            .collect(Collectors.toList());
+        .map(channel -> NotificationChannelDto.instance(securityContext, channel))
+        .collect(Collectors.toList());
   }
 
   public List<NotificationChannelDto> getChannels() {

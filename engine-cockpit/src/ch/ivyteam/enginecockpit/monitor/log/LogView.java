@@ -23,9 +23,9 @@ public class LogView {
 
   private static final int LINES = 100;
 
-  private LogFile logFile;
+  private final LogFile logFile;
   private final String content;
-  private String size;
+  private final String size;
 
   public LogView(LogFile log) {
     logFile = log;
@@ -72,8 +72,8 @@ public class LogView {
   private List<String> readFileLines() {
     var lines = new ArrayList<String>();
     var builder = ReversedLinesFileReader.builder()
-            .setPath(logFile.path())
-            .setCharset(StandardCharsets.UTF_8);
+        .setPath(logFile.path())
+        .setCharset(StandardCharsets.UTF_8);
 
     var endReached = true;
     try (var reader = builder.get()) {
@@ -111,10 +111,10 @@ public class LogView {
   public StreamedContent getFile() throws IOException {
     var newInputStream = Files.newInputStream(logFile.path());
     return DefaultStreamedContent.builder()
-            .stream(() -> newInputStream)
-            .contentType("text/plain")
-            .name(logFile.name())
-            .build();
+        .stream(() -> newInputStream)
+        .contentType("text/plain")
+        .name(logFile.name())
+        .build();
   }
 
   public static LogViewUriBuilder uri() {

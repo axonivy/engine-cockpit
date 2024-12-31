@@ -96,10 +96,10 @@ public class Navigation {
 
   private static void openAppTreeActivity(String appName) {
     $$(".activity-name").find(exactText(appName))
-            .parent()
-            .parent()
-            .find(".ui-treetable-toggler").shouldBe(visible)
-            .click();
+        .parent()
+        .parent()
+        .find(".ui-treetable-toggler").shouldBe(visible)
+        .click();
   }
 
   private static void clickAppTreeActivity(String appName) {
@@ -193,7 +193,7 @@ public class Navigation {
     toRoles();
     $(Tab.SECURITY_SYSTEM.activePanelCss + " .expand-all").shouldBe(visible).click();
     $$(Tab.SECURITY_SYSTEM.activePanelCss + " .role-name").find(text(roleName)).shouldBe(visible).click();
-    assertCurrentUrlContains("roledetail.xhtml?system="+system+"&name=" + roleName);
+    assertCurrentUrlContains("roledetail.xhtml?system=" + system + "&name=" + roleName);
     menuShouldBeActive(SECURITY_ROLES_MENU);
   }
 
@@ -410,7 +410,6 @@ public class Navigation {
   public static void toJfr() {
     toSubSubMenu(MONITOR_MENU, MONITOR_JAVA_MENU, MONITOR_JAVA_JFR);
   }
-
 
   private static void toMenu(String menuItemPath) {
     closeMenus();

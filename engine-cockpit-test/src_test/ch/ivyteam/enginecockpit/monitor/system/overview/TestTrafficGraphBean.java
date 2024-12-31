@@ -19,8 +19,8 @@ import ch.ivyteam.ivy.trace.Span;
 import ch.ivyteam.ivy.trace.SpanResult;
 
 class TestTrafficGraphBean {
-  private TrafficGraphBean bean = new TrafficGraphBean();
-  private TraceBean trace = new TraceBean();
+  private final TrafficGraphBean bean = new TrafficGraphBean();
+  private final TraceBean trace = new TraceBean();
 
   @RegisterExtension
   TracerAccess tracer = new TracerAccess();
@@ -36,8 +36,7 @@ class TestTrafficGraphBean {
     trace.start();
     assertThat(bean.getModel().getConnections()).isEmpty();
     assertThat(bean.getModel().getElements()).hasSize(1);
-    try (var span = Span.open(() -> new TstSpan("HTTP GET", List.of(attribute("url", "http://localhost:8080/"))))) {
-    }
+    try (var span = Span.open(() -> new TstSpan("HTTP GET", List.of(attribute("url", "http://localhost:8080/"))))) {}
     bean.refresh();
     assertConnections(1, 0);
 
@@ -95,8 +94,7 @@ class TestTrafficGraphBean {
     trace.start();
     assertThat(bean.getModel().getConnections()).isEmpty();
     assertThat(bean.getModel().getElements()).hasSize(1);
-    try (var span = Span.open(() -> new TstSpan("HTTP GET", List.of(attribute("url", "http://localhost:8080/"))))) {
-    }
+    try (var span = Span.open(() -> new TstSpan("HTTP GET", List.of(attribute("url", "http://localhost:8080/"))))) {}
 
     assertThat(bean.getModel().getConnections()).isEmpty();
     assertThat(bean.getModel().getElements()).hasSize(1);
@@ -110,8 +108,7 @@ class TestTrafficGraphBean {
   @Test
   void clear() {
     trace.start();
-    try (var span = Span.open(() -> new TstSpan("HTTP GET", List.of(attribute("url", "http://localhost:8080/"))))) {
-    }
+    try (var span = Span.open(() -> new TstSpan("HTTP GET", List.of(attribute("url", "http://localhost:8080/"))))) {}
     bean.refresh();
 
     assertThat(bean.getModel().getConnections()).hasSize(1);
@@ -128,7 +125,7 @@ class TestTrafficGraphBean {
     return con
         .getOverlays()
         .stream()
-        .filter(overlay -> overlay instanceof LabelOverlay)
+        .filter(LabelOverlay.class::isInstance)
         .map(LabelOverlay.class::cast)
         .findAny()
         .orElseThrow(() -> new AssertionError("Label of connection is missing"));
@@ -138,8 +135,8 @@ class TestTrafficGraphBean {
     assertThat(bean.getModel().getConnections()).hasSize(1);
     var con = bean.getModel().getConnections().get(0);
     assertThat(con.getConnector().getPaintStyle()).startsWith("{stroke:'hsl(").endsWith(", 100%, 70%)', strokeWidth:20}");
-    var label =  toLabel(con);
-    assertThat(label.getLabel()).startsWith(requests+" requests / "+errors+" errors / ");
+    var label = toLabel(con);
+    assertThat(label.getLabel()).startsWith(requests + " requests / " + errors + " errors / ");
   }
 
   private void assertSystem(Element ivy, String name, String styleClass) {

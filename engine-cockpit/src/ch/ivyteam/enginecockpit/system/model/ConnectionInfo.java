@@ -4,10 +4,10 @@ import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
 
 @SuppressWarnings("restriction")
 public class ConnectionInfo {
-  private String label;
-  private String advise;
-  private String messageLevel;
-  private String icon;
+  private final String label;
+  private final String advise;
+  private final String messageLevel;
+  private final String icon;
   private boolean mustConvert;
   private boolean mustCreate;
   private boolean successful;

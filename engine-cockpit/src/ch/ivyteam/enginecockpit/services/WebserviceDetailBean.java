@@ -88,11 +88,11 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     reloadExternalWebservice();
     liveStats = new WebServiceMonitor(appName, webserviceId);
   }
-  
+
   @SuppressWarnings("restriction")
   private void reloadExternalWebservice() {
     var webService = IWebserviceExecutionManager.instance().getSoapWebServiceApplicationContext(app).getSoapWebService(webserviceId);
-    
+
     history = new ArrayList<>(webService.getCallHistory().stream()
         .map(call -> new WebServiceExecHistory(
             call.getEndpoint(),
@@ -102,9 +102,9 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
             call.getPort()))
         .toList());
   }
-  
+
   public List<WebServiceExecHistory> getExecutionHistory() {
-      return history;
+    return history;
   }
 
   public String getViewUrl() {
@@ -179,7 +179,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
 
   public void testWsEndpointUrl() {
-    testResult = (ConnectionTestResult) connectionTest.test(() -> testConnection());
+    testResult = (ConnectionTestResult) connectionTest.test(this::testConnection);
   }
 
   private ConnectionTestResult testConnection() {
@@ -192,31 +192,31 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
       int status = client.target(activeEndpointUrl).request().post(Entity.json("")).getStatus();
       if (status == 401) {
         return new ConnectionTestResult("POST", status, TestResult.WARNING,
-                "Authentication (only HttpBasic supported) was not successful");
+            "Authentication (only HttpBasic supported) was not successful");
       } else if (status == 404) {
         return new ConnectionTestResult("POST", status, TestResult.WARNING, "Service not found");
       } else {
         return new ConnectionTestResult("POST", status, TestResult.SUCCESS,
-                "Successfully reached web service");
+            "Successfully reached web service");
       }
     } catch (ProcessingException ex) {
       return new ConnectionTestResult("", 0, TestResult.ERROR,
-              "The URL seems to be not correct or contains scripting context (can not be evaluated)\n"
-                      + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
+          "The URL seems to be not correct or contains scripting context (can not be evaluated)\n"
+              + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
   }
 
   private boolean authSupportedForTesting() {
     return StringUtils.equals(webservice.getAuthType(), "HttpBasic")
-            || StringUtils.equals(webservice.getAuthType(), "HTTP_BASIC");
+        || StringUtils.equals(webservice.getAuthType(), "HTTP_BASIC");
   }
 
   private String parseEndpointsToYaml(Map<String, PortType> portTypes) {
     return portTypes.entrySet().stream()
-            .map(e -> e.getKey() + ": \n        - " + e.getValue().getLinks().stream()
-                    .map(v -> "\"" + v + "\"")
-                    .collect(Collectors.joining("\n        - ")))
-            .collect(Collectors.joining("\n      "));
+        .map(e -> e.getKey() + ": \n        - " + e.getValue().getLinks().stream()
+            .map(v -> "\"" + v + "\"")
+            .collect(Collectors.joining("\n        - ")))
+        .collect(Collectors.joining("\n      "));
   }
 
   public void saveConfig() {
@@ -249,8 +249,8 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   public void savePortType() {
     var client = wsBuilder()
-            .endpoints(activePortType.getName(), activePortType.getLinks())
-            .toWebServiceClient();
+        .endpoints(activePortType.getName(), activePortType.getLinks())
+        .toWebServiceClient();
     webServiceClients.set(client);
     var msg = new FacesMessage("EndPoint saved", "");
     FacesContext.getCurrentInstance().addMessage("wsConfigMsg", msg);

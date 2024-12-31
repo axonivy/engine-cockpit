@@ -14,9 +14,9 @@ public class RolesSheet {
   private static final List<String> HEADERS = Arrays.asList("Name", "Displayname", "Description", "Security Member Id", "External Name");
   private final Map<String, Integer> propertyColumns = new HashMap<>();
   private int propertyCellNr = 8;
-  private ArrayList<String> headers = new ArrayList<String>(HEADERS);
-  private Iterable<IRole> roles;
-  private Excel excel;
+  private final ArrayList<String> headers = new ArrayList<>(HEADERS);
+  private final Iterable<IRole> roles;
+  private final Excel excel;
 
   public RolesSheet(Excel excel, Iterable<IRole> roles) {
     this.excel = excel;
@@ -27,7 +27,7 @@ public class RolesSheet {
     int rowNr = 1;
     Sheet sheet = excel.createSheet("Roles");
 
-    for(var role : roles) {
+    for (var role : roles) {
       propertyCellNr = headers.size();
       var row = sheet.createRow(rowNr++);
       var cellNr = 0;

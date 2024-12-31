@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.model.User;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -38,8 +39,8 @@ public class SessionDto {
     this.link = SecuritySystem.link(session.getSecurityContext());
     this.authMode = StringUtils.trimToEmpty(session.getAuthenticationMode());
     this.httpSessions = session.getHttpSessions().stream()
-            .map(HttpSessionDto::new)
-            .collect(Collectors.toSet());
+        .map(HttpSessionDto::new)
+        .collect(Collectors.toSet());
     this.isTemporary = session.isTemporary();
   }
 

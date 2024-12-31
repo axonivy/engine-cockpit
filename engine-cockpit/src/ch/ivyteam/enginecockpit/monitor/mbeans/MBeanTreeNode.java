@@ -9,10 +9,10 @@ public class MBeanTreeNode extends DefaultTreeNode<MName> implements Comparable<
   MBeanTreeNode(MName name, Set<MName> allNames) {
     setData(name);
     setChildren(name.getDirectChildren(allNames)
-            .stream()
-            .map(child -> new MBeanTreeNode(child, allNames))
-            .sorted()
-            .collect(Collectors.toList()));
+        .stream()
+        .map(child -> new MBeanTreeNode(child, allNames))
+        .sorted()
+        .collect(Collectors.toList()));
     setType(this.isLeaf() ? "bean" : "folder");
     setSelectable(this.isLeaf());
   }

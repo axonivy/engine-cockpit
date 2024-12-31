@@ -41,7 +41,7 @@ public class NotificationDeliveryDto {
 
   public String getChannel() {
     return NotificationChannel.byId(delivery.securityContext(), delivery.channel())
-        .map(channel -> channel.displayName())
+        .map(NotificationChannel::displayName)
         .orElse(delivery.channel());
   }
 

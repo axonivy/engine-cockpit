@@ -9,9 +9,9 @@ import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.IUser;
 
 public class UserRolesSheet {
-  private Excel excel;
-  private Iterable<IUser> users;
-  private Iterable<IRole> roles;
+  private final Excel excel;
+  private final Iterable<IUser> users;
+  private final Iterable<IRole> roles;
   static final int ROTATED_HEADER_WIDTH = 3;
   static final int FIRST_CELL_NR = 1;
   static final int ROTATED_HEADER_HEIGHT = 1500;
@@ -29,17 +29,16 @@ public class UserRolesSheet {
     sheet.createHeader(0, List.of("Name"), UsersSheet.HEADER_WITDH);
     addRoleNames(headers);
 
-    for(var user : users) {
+    for (var user : users) {
       var row = sheet.createRow(rowNr++);
       var directUserRoles = user.getRoles();
       var allUserRoles = user.getAllRoles();
       var cellNr = 0;
       row.createResultCell(cellNr++, user.getName());
-      for(var role : roles) {
-        if(directUserRoles.contains(role)) {
+      for (var role : roles) {
+        if (directUserRoles.contains(role)) {
           row.createResultCell(cellNr, "X");
-        }
-        else if (allUserRoles.contains(role)) {
+        } else if (allUserRoles.contains(role)) {
           row.createResultCell(cellNr, "x");
         }
         cellNr++;
@@ -50,11 +49,9 @@ public class UserRolesSheet {
     sheet.createFreezePane(1, 1);
   }
 
-
   private void addRoleNames(List<String> headers) {
-    for(var role : roles) {
+    for (var role : roles) {
       headers.add(role.getName());
     }
   }
 }
-

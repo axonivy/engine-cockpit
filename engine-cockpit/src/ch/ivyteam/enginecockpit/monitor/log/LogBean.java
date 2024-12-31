@@ -73,8 +73,8 @@ public class LogBean implements AllResourcesDownload {
     }
 
     logs = LogFileRepository.instance().byDate(date)
-            .map(LogView::new)
-            .collect(Collectors.toList());
+        .map(LogView::new)
+        .collect(Collectors.toList());
 
     if (logs.isEmpty()) {
       return;
@@ -85,9 +85,9 @@ public class LogBean implements AllResourcesDownload {
     }
 
     logView = logs.stream()
-            .filter(l -> l.getChannel().equals(channel))
-            .findAny()
-            .orElse(null);
+        .filter(l -> l.getChannel().equals(channel))
+        .findAny()
+        .orElse(null);
     if (logView == null) {
       ResponseHelper.notFound("Log for channel " + channel + " does not exist");
     }
@@ -126,11 +126,11 @@ public class LogBean implements AllResourcesDownload {
   public StreamedContent getAllResourcesDownload() {
     var zipFile = writeLogsToZip();
     return DefaultStreamedContent
-            .builder()
-            .stream(() -> DownloadUtil.getFileStream(zipFile))
-            .contentType("application/zip")
-            .name("logs.zip")
-            .build();
+        .builder()
+        .stream(() -> DownloadUtil.getFileStream(zipFile))
+        .contentType("application/zip")
+        .name("logs.zip")
+        .build();
   }
 
   private File writeLogsToZip() {

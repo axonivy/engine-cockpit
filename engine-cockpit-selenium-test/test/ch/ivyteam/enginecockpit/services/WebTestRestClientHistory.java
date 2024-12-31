@@ -38,7 +38,7 @@ class WebTestRestClientHistory {
   @Test
   void liveStats() {
     EngineCockpitUtil.assertLiveStats(List.of("REST Client Connections", "REST Client Calls",
-            "REST Client Execution Time"), "engine-rest", false);
+        "REST Client Execution Time"), "engine-rest", false);
   }
 
   @Test

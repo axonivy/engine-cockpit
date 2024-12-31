@@ -61,7 +61,7 @@ class TestSecurityExportWithGeneratedUsers {
   @Test
   void checkFileNames() {
     var start = 0;
-    for(var file : files) {
+    for (var file : files) {
       Assertions.assertThat(file.getName()).isEqualTo("AxonIvySecurityReport" + start + ".xlsx");
       start++;
     }
@@ -79,10 +79,9 @@ class TestSecurityExportWithGeneratedUsers {
       var firstRow = sheet.getRow(1).getCell(0).getStringCellValue();
       var lastRow = sheet.getLastRow().getCell(0).getStringCellValue();
       Assertions.assertThat(firstRow).isEqualTo("testUser-%04d".formatted((start)));
-      if(start + 999 > userCount) {
+      if (start + 999 > userCount) {
         Assertions.assertThat(lastRow).isEqualTo("testUser-%04d".formatted(userCount));
-      }
-      else {
+      } else {
         Assertions.assertThat(lastRow).isEqualTo("testUser-%04d".formatted(start + 999));
       }
       start += 1000;

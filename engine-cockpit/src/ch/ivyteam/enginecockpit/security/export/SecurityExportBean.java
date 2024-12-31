@@ -24,8 +24,7 @@ public class SecurityExportBean implements AllResourcesDownload {
   private Boolean disableGenerateButton = false;
   private String name;
 
-  public SecurityExportBean() {
-  }
+  public SecurityExportBean() {}
 
   public String getSecuritySystemName() {
     return name;

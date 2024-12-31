@@ -4,7 +4,6 @@ import ch.ivyteam.ivy.process.eventstart.AbstractProcessStartEventBean;
 import ch.ivyteam.ivy.process.eventstart.IProcessStartEventBeanRuntime;
 import ch.ivyteam.ivy.process.extension.ProgramConfig;
 
-
 public class InitError extends AbstractProcessStartEventBean {
 
   public InitError() {
@@ -15,5 +14,5 @@ public class InitError extends AbstractProcessStartEventBean {
   public void initialize(IProcessStartEventBeanRuntime eventRuntime, ProgramConfig configuration) {
     throw new RuntimeException("Exception in initialize method");
   }
-  
+
 }

@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 
-import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.commons.Feature;
+import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 
 public abstract class HelpServices {
@@ -37,23 +37,23 @@ public abstract class HelpServices {
 
   public static String parsePropertiesToYaml(Map<String, String> properties) {
     return properties.entrySet().stream().map(p -> p.getKey() + ": " + p.getValue())
-            .collect(Collectors.joining("\n      "));
+        .collect(Collectors.joining("\n      "));
   }
 
   public static String parsePropertiesToYaml(List<Property> properties) {
     return properties.stream()
-            .map(property -> {
-              if (property.isSensitive()) {
-                return property.getName() + ": \"${encrypt:*****}\"";
-              }
-              return property.getName() + ": " + property.getValue();
-            })
-            .collect(Collectors.joining("\n      "));
+        .map(property -> {
+          if (property.isSensitive()) {
+            return property.getName() + ": \"${encrypt:*****}\"";
+          }
+          return property.getName() + ": " + property.getValue();
+        })
+        .collect(Collectors.joining("\n      "));
   }
 
   public static String parseFeaturesToYaml(List<Feature> features) {
     return features.stream()
-        .map(feature -> feature.getClazz())
+        .map(Feature::getClazz)
         .collect(Collectors.joining("\n      "));
   }
 }

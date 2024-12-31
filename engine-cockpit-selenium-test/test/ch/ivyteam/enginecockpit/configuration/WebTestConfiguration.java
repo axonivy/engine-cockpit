@@ -130,7 +130,7 @@ class WebTestConfiguration {
 
       table.clickButtonForEntry(config, "editConfigBtn");
       PrimeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue"))
-              .selectItemByLabel("SSL");
+          .selectItemByLabel("SSL");
       $("#config\\:editConfigurationForm\\:saveEditConfiguration").click();
       table.row(config).shouldNotHave(cssClass("default-value"));
 
@@ -138,7 +138,7 @@ class WebTestConfiguration {
       table.firstColumnShouldBe(itemWithText(config));
       assertResetConfig(config);
       table.firstColumnShouldBe(noneMatch("Config no longer listed under defined values",
-              e -> e.getText().equals(config)));
+          e -> e.getText().equals(config)));
     }
 
     @Test
@@ -166,18 +166,18 @@ class WebTestConfiguration {
     void restartHint() {
       var config = "Connector.HTTP.Address";
       assertEditConfig(config, "", "hi", "For servers with more than one IP address");
-      Selenide.sleep(100); //restart will be evaluated by async file watcher
+      Selenide.sleep(100); // restart will be evaluated by async file watcher
       refresh();
       table.valueForEntryShould(config, 2, exactText("hi"));
       var health = $(".health-messages");
       Selenide.Wait()
-        .withTimeout(Duration.ofSeconds(5))
-        .ignoring(AssertionError.class)
-        .until(webDriver -> {
-          health.find("a").click();
-          Selenide.sleep(10);
-          return health.attr("class").contains("active-topmenuitem");
-        });
+          .withTimeout(Duration.ofSeconds(5))
+          .ignoring(AssertionError.class)
+          .until(webDriver -> {
+            health.find("a").click();
+            Selenide.sleep(10);
+            return health.attr("class").contains("active-topmenuitem");
+          });
       health.$$("li").shouldHave(anyMatch("message contains", e -> e.getText().contains("Restart is required")));
       assertResetConfig(config);
     }
@@ -234,12 +234,12 @@ class WebTestConfiguration {
 
     private void assertShowAppConfigFilter(String filter, String config) {
       table.firstColumnShouldBe(noneMatch("Config should not be listed in the config table per default: " + config,
-              element -> StringUtils.equals(element.getText(), config)));
+          element -> StringUtils.equals(element.getText(), config)));
       toggleFilter(List.of(filter));
       table.firstColumnShouldBe(itemWithText(config));
       resetContentFilter();
       table.firstColumnShouldBe(noneMatch("Config should not be listed in the config table after reset filter: " + config,
-              element -> StringUtils.equals(element.getText(), config)));
+          element -> StringUtils.equals(element.getText(), config)));
     }
 
     @Test
@@ -248,8 +248,8 @@ class WebTestConfiguration {
       var dynamic = "RestClients.second-rest.Properties.appKey";
       table.clickButtonForEntry(dynamic, "editConfigBtn");
       new ConfigAssert("config")
-              .assertDefault("${ivy.var.password}")
-              .assertValue("${ivy.var.password}");
+          .assertDefault("${ivy.var.password}")
+          .assertValue("${ivy.var.password}");
     }
 
     @Test
@@ -265,7 +265,7 @@ class WebTestConfiguration {
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(config, " ", "Defines a project containing overriding SubProcesses", "");
       $(By.id("config:editConfigurationForm:editConfigurationValue"))
-              .shouldHave(cssClass("ui-selectonemenu"));
+          .shouldHave(cssClass("ui-selectonemenu"));
     }
   }
 
@@ -344,17 +344,17 @@ class WebTestConfiguration {
   }
 
   private void assertThatConfigEditModalIsVisible(String key, String value, String desc,
-          String defaultValue) {
+      String defaultValue) {
     assertThatConfigEditModalIsVisible("config", key, value, desc, defaultValue);
   }
 
   public static void assertThatConfigEditModalIsVisible(String idPrefix, String key, String value,
-          String desc, String defaultValue) {
+      String desc, String defaultValue) {
     new ConfigAssert(idPrefix)
-            .assertKey(key)
-            .assertDesc(desc)
-            .assertDefault(defaultValue)
-            .assertValue(value);
+        .assertKey(key)
+        .assertDesc(desc)
+        .assertDefault(defaultValue)
+        .assertValue(value);
   }
 
   private void resetContentFilter() {
@@ -385,7 +385,7 @@ class WebTestConfiguration {
         $(By.id(idPrefix + ":editConfigurationForm:editConfigurationDefaultValue")).shouldNot(exist);
       } else {
         $(By.id(idPrefix + ":editConfigurationForm:editConfigurationDefaultValue"))
-                .shouldBe(exactText(defaultValue));
+            .shouldBe(exactText(defaultValue));
       }
       return this;
     }
@@ -404,10 +404,10 @@ class WebTestConfiguration {
       String classAttr = configValue.getAttribute("class");
       if (StringUtils.contains(classAttr, "ui-chkbox")) {
         PrimeUi.selectBooleanCheckbox(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"))
-                .shouldBeChecked(Boolean.valueOf(value));
+            .shouldBeChecked(Boolean.parseBoolean(value));
       } else if (StringUtils.contains(classAttr, "ui-inputnumber")) {
         $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue_input"))
-                .shouldBe(exactValue(value));
+            .shouldBe(exactValue(value));
       } else if (StringUtils.contains(classAttr, "ui-selectonemenu")) {
         SelectOneMenu menu = PrimeUi.selectOne(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
         menu.selectedItemShould(exactText(value));

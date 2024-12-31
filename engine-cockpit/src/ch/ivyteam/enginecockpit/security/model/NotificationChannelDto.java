@@ -17,27 +17,27 @@ public class NotificationChannelDto {
   private final Map<Event, NotificationChannelSubscriptionDto> subscriptions;
 
   private NotificationChannelDto(NotificationChannel channel,
-          Map<Event, NotificationChannelSubscriptionDto> subscriptions) {
+      Map<Event, NotificationChannelSubscriptionDto> subscriptions) {
     this.channel = channel;
     this.subscriptions = subscriptions;
   }
 
   public static List<NotificationChannelDto> all(ISecurityMember subscriber, ISecurityContext securityContext) {
     var channels = NotificationChannel.all(securityContext).stream()
-            .filter(channel -> channel.config().enabled())
-            .map(channel -> toChannel(subscriber, channel))
-            .toList();
+        .filter(channel -> channel.config().enabled())
+        .map(channel -> toChannel(subscriber, channel))
+        .toList();
     channels.forEach(channel -> Event.all().forEach(event -> channel.setSubscriptionIconAndTitle(NotificationEventDto.of(event))));
     return channels;
   }
 
   private static NotificationChannelDto toChannel(ISecurityMember subscriber, NotificationChannel channel) {
     var subscriptions = channel.configFor(subscriber).subscriptions().stream()
-            .collect(Collectors.toMap(
-                    NotificationSubscription::event,
-                    subscription -> new NotificationChannelSubscriptionDto(
-                            subscription.state(),
-                            subscription.isSubscribedByDefault())));
+        .collect(Collectors.toMap(
+            NotificationSubscription::event,
+            subscription -> new NotificationChannelSubscriptionDto(
+                subscription.state(),
+                subscription.isSubscribedByDefault())));
     return new NotificationChannelDto(channel, subscriptions);
   }
 
@@ -57,9 +57,9 @@ public class NotificationChannelDto {
     var subscription = subscriptions.get(event.getEvent());
     var state = subscription.getState();
 
-    boolean subscribedByUser = state.equals(NotificationChannelSubscriptionDto.State.SUBSCRIBED);
+    boolean subscribedByUser = NotificationChannelSubscriptionDto.State.SUBSCRIBED.equals(state);
 
-    boolean useDefault = state.equals(NotificationChannelSubscriptionDto.State.USE_DEFAULT);
+    boolean useDefault = NotificationChannelSubscriptionDto.State.USE_DEFAULT.equals(state);
 
     var icon = new StringBuilder();
     var iconTitle = new StringBuilder();
@@ -80,4 +80,4 @@ public class NotificationChannelDto {
     subscription.setIcon(icon.toString());
     subscription.setTitle(iconTitle.toString());
   }
- }
+}

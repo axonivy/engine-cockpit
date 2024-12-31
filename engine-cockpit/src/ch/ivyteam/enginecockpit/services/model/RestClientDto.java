@@ -17,14 +17,14 @@ import ch.ivyteam.ivy.rest.client.config.restricted.ClientProperties;
 
 @SuppressWarnings("restriction")
 public class RestClientDto implements IService {
-  private String name;
+  private final String name;
   private String url;
-  private String description;
-  private List<Property> properties;
+  private final String description;
+  private final List<Property> properties;
   private String password;
   private String username;
-  private List<Feature> features;
-  private UUID uniqueId;
+  private final List<Feature> features;
+  private final UUID uniqueId;
   private boolean passwordChanged;
   private final Map<String, Object> connectionProps;
 
@@ -35,19 +35,19 @@ public class RestClientDto implements IService {
     uniqueId = client.uniqueId();
     var metas = client.metas();
     properties = client.properties().stream()
-            .map(p -> new Property(p.key(), p.value(), metas.get(p.key()), p.isDefault()))
-            .collect(Collectors.toList());
+        .map(p -> new Property(p.key(), p.value(), metas.get(p.key()), p.isDefault()))
+        .collect(Collectors.toList());
     password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password"))
-        .map(p -> p.getValue()).findFirst().orElse("");
+        .map(Property::getValue).findFirst().orElse("");
     username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username"))
-        .map(p -> p.getValue()).findFirst().orElse("");
+        .map(Property::getValue).findFirst().orElse("");
     features = client.features().stream()
         .map(f -> new Feature(f.clazz(), f.isDefault()))
         .collect(Collectors.toList());
     passwordChanged = false;
-    var propMap = new HashMap<String,String>();
+    var propMap = new HashMap<String, String>();
     for (ch.ivyteam.ivy.rest.client.RestClientProperty prop : client.properties()) {
-        propMap.put(prop.key(), prop.value());
+      propMap.put(prop.key(), prop.value());
     }
     connectionProps = ClientProperties.clientProps(propMap);
   }

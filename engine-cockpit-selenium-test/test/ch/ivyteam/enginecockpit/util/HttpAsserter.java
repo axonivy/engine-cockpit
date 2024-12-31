@@ -18,7 +18,7 @@ public class HttpAsserter {
 
   public static class HttpAssert {
 
-    private String url;
+    private final String url;
 
     private HttpAssert(String url) {
       this.url = url;
@@ -54,9 +54,9 @@ public class HttpAsserter {
 
     private Set<String> findDeadLinks(Set<String> linksToCheck, Set<String> linksAlreadyChecked, String sessionId) {
       return linksToCheck.stream()
-              .filter(link -> !containsQueryParamIgnore(linksAlreadyChecked, link))
-              .filter(link -> !check(link, sessionId))
-              .collect(Collectors.toSet());
+          .filter(link -> !containsQueryParamIgnore(linksAlreadyChecked, link))
+          .filter(link -> !check(link, sessionId))
+          .collect(Collectors.toSet());
     }
 
     private static Set<String> parseLinks(String url, String sessionId) {
@@ -73,7 +73,7 @@ public class HttpAsserter {
           if (StringUtils.isEmpty(href)) {
             continue;
           }
-          var u = URI.create(href.replaceAll(" ", "+"));
+          var u = URI.create(href.replace(' ', '+'));
           if (u.isAbsolute()) {
             result.add(href);
           } else {
@@ -95,15 +95,15 @@ public class HttpAsserter {
     }
 
     private boolean check(String urlToCheck, String sessionId) {
-        System.out.println("check " + urlToCheck);
-        try {
-          var con = Jsoup.connect(urlToCheck);
-          con.cookie("JSESSIONID", sessionId);
-          con.get();
-          return true;
-        } catch (IOException ex) {
-          return false;
-        }
+      System.out.println("check " + urlToCheck);
+      try {
+        var con = Jsoup.connect(urlToCheck);
+        con.cookie("JSESSIONID", sessionId);
+        con.get();
+        return true;
+      } catch (IOException ex) {
+        return false;
+      }
     }
   }
 }

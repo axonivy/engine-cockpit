@@ -44,7 +44,7 @@ class WebTestStartEvents {
 
   private static final String DURATION_STR = "[0-9][0-9]?[0-9]? (us|ms|s|m|h|d)";
   private static final String DATE_TIME_STR = "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}";
-  private static final Pattern NEXT_EXECUTION = Pattern.compile("("+DURATION_STR + "\\s" + "\\(" + DATE_TIME_STR + "\\))|(n\\.a\\. \\(n\\.a\\.\\))");
+  private static final Pattern NEXT_EXECUTION = Pattern.compile("(" + DURATION_STR + "\\s" + "\\(" + DATE_TIME_STR + "\\))|(n\\.a\\. \\(n\\.a\\.\\))");
   private static final Pattern REQUEST_PATH = Pattern.compile("[^\\/]+\\/[^\\$]+\\$[0-9]+\\/[0-9A-F]+\\/[^\\.]+\\.ivp");
   private static final Pattern DURATION = Pattern.compile(DURATION_STR);
   private static final Pattern DURATIONS = Pattern.compile(DURATION_STR + "\\s\\/\\s" + DURATION_STR + "\\s\\/\\s" + DURATION_STR);
@@ -71,10 +71,10 @@ class WebTestStartEvents {
     Table table = new Table(TABLE_ID, true);
     table.rows().shouldHave(CollectionCondition.sizeGreaterThan(1));
     for (int row = 1; row < table.rows().size(); row++) {
-      if (table.tableEntry(row, 1).text().equals("TimerBean")) {
-        $(By.id("form:beanTable:"+(row-1)+":stop")).shouldBe(enabled);
-        $(By.id("form:beanTable:"+(row-1)+":stop")).click();
-        $(By.id("form:beanTable:"+(row-1)+":stop")).shouldBe(disabled);
+      if ("TimerBean".equals(table.tableEntry(row, 1).text())) {
+        $(By.id("form:beanTable:" + (row - 1) + ":stop")).shouldBe(enabled);
+        $(By.id("form:beanTable:" + (row - 1) + ":stop")).click();
+        $(By.id("form:beanTable:" + (row - 1) + ":stop")).shouldBe(disabled);
       }
     }
   }
@@ -84,10 +84,10 @@ class WebTestStartEvents {
     Table table = new Table(TABLE_ID, true);
     table.rows().shouldHave(CollectionCondition.sizeGreaterThan(1));
     for (int row = 1; row < table.rows().size(); row++) {
-      if (table.tableEntry(row, 1).text().equals("TimerBean")) {
-        $(By.id("form:beanTable:"+(row-1)+":start")).shouldBe(enabled);
-        $(By.id("form:beanTable:"+(row-1)+":start")).click();
-        $(By.id("form:beanTable:"+(row-1)+":start")).shouldBe(disabled);
+      if ("TimerBean".equals(table.tableEntry(row, 1).text())) {
+        $(By.id("form:beanTable:" + (row - 1) + ":start")).shouldBe(enabled);
+        $(By.id("form:beanTable:" + (row - 1) + ":start")).click();
+        $(By.id("form:beanTable:" + (row - 1) + ":start")).shouldBe(disabled);
       }
     }
   }
@@ -137,13 +137,13 @@ class WebTestStartEvents {
   void refresh() {
     var content = table.rows().texts();
     Wait()
-      .withTimeout(Duration.ofSeconds(10))
-      .ignoring(AssertionError.class)
-      .until(webDriver -> {
-        $(By.id("refresh")).click();
-        assertThat(table.rows().texts()).isNotEqualTo(content);
-        return true;
-      });
+        .withTimeout(Duration.ofSeconds(10))
+        .ignoring(AssertionError.class)
+        .until(webDriver -> {
+          $(By.id("refresh")).click();
+          assertThat(table.rows().texts()).isNotEqualTo(content);
+          return true;
+        });
   }
 
   @Test
@@ -332,14 +332,14 @@ class WebTestStartEvents {
     var threadTable = new Table(THREAD_TABLE_ID, true);
     threadTable.rows().shouldHave(CollectionCondition.sizeGreaterThan(0));
     for (int row = 1; row <= threadTable.rows().size(); row++) {
-        threadTable.tableEntry(row, 4).shouldHave(text("Error in event bean thread"));
+      threadTable.tableEntry(row, 4).shouldHave(text("Error in event bean thread"));
     }
     $(By.id("threads:eventBeanThreads:threadTable:0:error:showDetails")).click();
     assertErrorDialog("Error in event bean thread");
   }
 
   private void navigateToDetails(String link) {
-    link = EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/188AE871FC5C4A58/"+link;
+    link = EngineCockpitUtil.getAppName() + "/engine-cockpit-test-data$1/188AE871FC5C4A58/" + link;
     $(By.id("form:beanTable:globalFilter")).sendKeys(link);
     table.rows().shouldHave(CollectionCondition.size(1));
     table.tableEntry(1, 1).shouldBe(visible, enabled).find(By.tagName("a")).click();
@@ -380,7 +380,7 @@ class WebTestStartEvents {
   }
 
   private void filter(String filter) {
-    $(By.id("form:beanTable:globalFilter")).sendKeys(EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/" + filter);
+    $(By.id("form:beanTable:globalFilter")).sendKeys(EngineCockpitUtil.getAppName() + "/engine-cockpit-test-data$1/" + filter);
   }
 
   private void filterAndAssertOne(String filter) {

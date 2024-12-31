@@ -18,7 +18,7 @@ public abstract class TreeView<T> {
 
   public void reloadTree() {
     filter = "";
-    rootTreeNode = new DefaultTreeNode<T>("Tree", null, null);
+    rootTreeNode = new DefaultTreeNode<>("Tree", null, null);
     buildTree();
     applyToAllNodes(this::applyExpanded);
   }
@@ -38,7 +38,7 @@ public abstract class TreeView<T> {
 
   public void setFilter(String filter) {
     this.filter = filter;
-    filteredTreeNode = new DefaultTreeNode<T>("Filtered tree", null, null);
+    filteredTreeNode = new DefaultTreeNode<>("Filtered tree", null, null);
     filterTree(rootTreeNode.getChildren());
   }
 

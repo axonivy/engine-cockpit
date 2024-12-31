@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.monitor.performance;
 
-
 import ch.ivyteam.enginecockpit.monitor.trace.BackgroundMeterUtil;
 import ch.ivyteam.ivy.bpm.engine.restricted.model.IProcessElement;
 import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IProcessElementExecutionStatistic;

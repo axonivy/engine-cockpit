@@ -24,7 +24,7 @@ public class NotificationChannelDto {
   private final String system;
 
   private final NotificationChannel channel;
-  private NotificationChannelSystemConfig config;
+  private final NotificationChannelSystemConfig config;
 
   private boolean enabled;
   private boolean allEvents;
@@ -104,7 +104,7 @@ public class NotificationChannelDto {
   }
 
   PushNotificationChannel pushChannel() {
-    return (PushNotificationChannel)channel;
+    return (PushNotificationChannel) channel;
   }
 
   public String getStateText() {
@@ -115,20 +115,19 @@ public class NotificationChannelDto {
   }
 
   public String getStateIcon() {
-    var icon =  switch(getStateText()) {
+    return switch (getStateText()) {
       case "Open" -> "si si-check-circle-1 state-active";
       case "Locked" -> "si si-remove-circle state-inactive";
       default -> "";
     };
-    return icon;
   }
 
   public String getViewUrl() {
     return UriBuilder.fromPath("notification-channel-detail.xhtml")
-            .queryParam("system", system)
-            .queryParam("channel", channel.id())
-            .build()
-            .toString();
+        .queryParam("system", system)
+        .queryParam("channel", channel.id())
+        .build()
+        .toString();
   }
 
   NotificationChannelSystemConfig getConfig() {
@@ -140,11 +139,11 @@ public class NotificationChannelDto {
     var allEvents = Event.all();
     var presentEvents = config.events();
     var events = allEvents.stream()
-            .map(event -> new NotificationEventDto(event, presentEvents.contains(event)))
-            .collect(Collectors.toList());
+        .map(event -> new NotificationEventDto(event, presentEvents.contains(event)))
+        .collect(Collectors.toList());
 
     return new NotificationChannelDto(channel, config,
-            config.enabled(), config.allEventsEnabled(), events, securityContext.getName());
+        config.enabled(), config.allEventsEnabled(), events, securityContext.getName());
   }
 
   public static class NotificationEventDto {

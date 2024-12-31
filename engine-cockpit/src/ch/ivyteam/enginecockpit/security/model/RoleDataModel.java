@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
+
 import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -19,7 +21,7 @@ public class RoleDataModel extends TreeView<Role> {
   private final List<Role> roles;
 
   public RoleDataModel(SecuritySystem securitySystem, boolean showMember) {
-    this (securitySystem, showMember, ROLE_CHILDREN_LIMIT);
+    this(securitySystem, showMember, ROLE_CHILDREN_LIMIT);
   }
 
   public RoleDataModel(SecuritySystem securitySystem, boolean showMember, int showChildLimit) {
@@ -27,8 +29,8 @@ public class RoleDataModel extends TreeView<Role> {
     this.securityContext = securitySystem.getSecurityContext();
     this.showMember = showMember;
     this.roles = securityContext.roles().all().stream()
-            .map(role -> new Role(role))
-            .collect(Collectors.toList());
+        .map(Role::new)
+        .collect(Collectors.toList());
     this.filter = "";
     reloadTree();
   }
@@ -39,12 +41,12 @@ public class RoleDataModel extends TreeView<Role> {
     this.filter = filter;
     filteredTreeNode = new DefaultTreeNode<>("Filtered roles", null, null);
     roles.stream().filter(role -> StringUtils.containsIgnoreCase(role.getName(), filter))
-            .limit(showChildLimit)
-            .forEach(role -> new DefaultTreeNode<>("role", role, filteredTreeNode));
+        .limit(showChildLimit)
+        .forEach(role -> new DefaultTreeNode<>("role", role, filteredTreeNode));
     if (filteredTreeNode.getChildCount() >= showChildLimit) {
       new DefaultTreeNode<>("searchDummy",
-              new Role("", "The current search has more than " + showChildLimit + " results."),
-              filteredTreeNode);
+          new Role("", "The current search has more than " + showChildLimit + " results."),
+          filteredTreeNode);
     }
   }
 
@@ -54,7 +56,7 @@ public class RoleDataModel extends TreeView<Role> {
   }
 
   public void increaseShowChildLimitAndReloadTree(int increaseLimitBy) {
-    this.showChildLimit+=increaseLimitBy;
+    this.showChildLimit += increaseLimitBy;
     reloadTree();
   }
 
@@ -71,9 +73,9 @@ public class RoleDataModel extends TreeView<Role> {
   }
 
   public class LazyRoleTreeNode extends DefaultTreeNode<Role> {
-    private IRole role;
+    private final IRole role;
     private boolean childrenFetched;
-    private boolean member;
+    private final boolean member;
 
     public LazyRoleTreeNode(IRole role, boolean member, TreeNode<Role> node) {
       super(new Role(role, member), node);
@@ -129,10 +131,10 @@ public class RoleDataModel extends TreeView<Role> {
 
     private int addRolesToTree(List<IRole> rolesToAdd, boolean isMember) {
       super.getChildren().addAll(rolesToAdd.stream()
-              .sorted(Comparator.comparing(IRole::getName))
-              .limit(showChildLimit)
-              .map(child -> new LazyRoleTreeNode(child, isMember, this))
-              .collect(Collectors.toList()));
+          .sorted(Comparator.comparing(IRole::getName))
+          .limit(showChildLimit)
+          .map(child -> new LazyRoleTreeNode(child, isMember, this))
+          .collect(Collectors.toList()));
       return rolesToAdd.size() - showChildLimit;
     }
   }

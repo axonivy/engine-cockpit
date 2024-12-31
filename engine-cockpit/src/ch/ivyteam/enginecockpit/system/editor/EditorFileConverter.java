@@ -25,13 +25,13 @@ public class EditorFileConverter implements Converter {
     }
     try {
       return ConfigFileRepository.instance().all()
-              .filter(conf -> conf.file().toString().equalsIgnoreCase(value))
-              .findFirst()
-              .map(EditorFile::new)
-              .orElseThrow();
+          .filter(conf -> conf.file().toString().equalsIgnoreCase(value))
+          .findFirst()
+          .map(EditorFile::new)
+          .orElseThrow();
     } catch (NoSuchElementException e) {
       throw new ConverterException(
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid file."));
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid file."));
     }
   }
 

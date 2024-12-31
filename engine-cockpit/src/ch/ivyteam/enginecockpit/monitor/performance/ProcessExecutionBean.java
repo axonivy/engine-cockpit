@@ -39,9 +39,9 @@ public final class ProcessExecutionBean {
     Stream.of(stats).forEach(builder::add);
     var max = builder.toMax();
     return Stream
-            .of(stats)
-            .map(stat -> new ProcessElementStatistic(stat, max))
-            .collect(Collectors.toList());
+        .of(stats)
+        .map(stat -> new ProcessElementStatistic(stat, max))
+        .collect(Collectors.toList());
   }
 
   public List<ProcessElementStatistic> getProcessElements() {
@@ -108,7 +108,7 @@ public final class ProcessExecutionBean {
       return "1 second";
     }
     if (seconds < 60) {
-      return seconds +" seconds";
+      return seconds + " seconds";
     }
     Instant now = Instant.now();
     var then = now.plus(Duration.ofSeconds(seconds));

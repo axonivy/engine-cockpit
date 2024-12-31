@@ -18,7 +18,7 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 @ViewScoped
 public class JvmMonitorBean {
   private final Monitor cpuMonitor = Monitor.build().name("CPU Load").icon("computer-chip").yAxisLabel("Load")
-          .toMonitor();
+      .toMonitor();
   private final Monitor classesMonitor = Monitor.build().name("Classes").icon("coffee-cup").toMonitor();
   private final Monitor threadsMonitor = Monitor.build().name("Threads").icon("analytics-graph").toMonitor();
 
@@ -66,12 +66,12 @@ public class JvmMonitorBean {
 
   private ValueProvider processCpuLoad() {
     return percentage(
-            attribute(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME, "ProcessCpuLoad", Unit.PERCENTAGE));
+        attribute(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME, "ProcessCpuLoad", Unit.PERCENTAGE));
   }
 
   private ValueProvider systemCpuLoad() {
     return percentage(
-            attribute(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME, "SystemCpuLoad", Unit.PERCENTAGE));
+        attribute(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME, "SystemCpuLoad", Unit.PERCENTAGE));
   }
 
   private ValueProvider classesLoaded() {

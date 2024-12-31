@@ -32,7 +32,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 public class WebTestThreads {
 
   private static final Duration TWENTY_SECONDS = Duration.ofSeconds(20);
-  
+
   private Table threadsTable;
 
   @BeforeEach
@@ -53,7 +53,7 @@ public class WebTestThreads {
   @Test
   void refreshButton() {
     String oldTableContent = threadsTable.body().text();
-    
+
     Wait()
         .withTimeout(TWENTY_SECONDS)
         .ignoring(AssertionError.class)
@@ -73,18 +73,18 @@ public class WebTestThreads {
     threadsTable.search("http");
     threadsTable.rows().shouldBe(sizeLessThan(all));
   }
-  
+
   @Test
   void deadlock() {
     threadsTable.body().$$(By.className("deadlocked")).shouldBe(size(0));
-    
+
     EngineCockpitUtil.deadlock();
     EngineCockpitUtil.openDashboard();
     Navigation.toThreads();
-    
+
     Wait().withTimeout(TWENTY_SECONDS)
         .ignoring(AssertionError.class)
-        .until(webDriver -> { 
+        .until(webDriver -> {
           $(id("form:refresh"))
               .shouldBe(visible, enabled)
               .click();

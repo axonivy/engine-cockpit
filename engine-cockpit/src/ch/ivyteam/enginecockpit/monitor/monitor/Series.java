@@ -59,7 +59,7 @@ public class Series {
   }
 
   public void scale(Unit scaleToUnit) {
-    List<Object> scaledNumbers = new ArrayList<Object>(data.size());
+    List<Object> scaledNumbers = new ArrayList<>(data.size());
     data.forEach(datapoint -> {
       scaledNumbers.add(scaleTo(datapoint, scaleToUnit));
     });

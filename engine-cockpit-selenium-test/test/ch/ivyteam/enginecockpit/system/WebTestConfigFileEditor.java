@@ -59,15 +59,14 @@ class WebTestConfigFileEditor {
       $(By.className("monaco-editor")).shouldBe(visible);
 
       var idpName = $(By.xpath("//div[@class='view-line']//span[@class='mtk22' and text()='Name']"))
-        .as("selected SecuritySystems.test-ad.IdentityProvider.Name")
-        .shouldBe(visible);
+          .as("selected SecuritySystems.test-ad.IdentityProvider.Name")
+          .shouldBe(visible);
       idpName.hover();
 
       $(By.className("code-hover-contents")).shouldBe(visible)
-        .as("config-editor shows key specific help, provided by json-schemas")
-        .shouldHave(Condition.partialText("The Security System manages the user and roles in the system database."));
-    }
-    finally {
+          .as("config-editor shows key specific help, provided by json-schemas")
+          .shouldHave(Condition.partialText("The Security System manages the user and roles in the system database."));
+    } finally {
       driver.switchTo().defaultContent();
       setMonacoValue(original);
     }
@@ -92,9 +91,8 @@ class WebTestConfigFileEditor {
 
       setMonacoValue(newEditorContent);
       saveEditor();
-      $("#editorMessage_container .ui-growl-message").shouldHave(text("Saved "+APP_YAML+" Successfully"));
-    }
-    finally {
+      $("#editorMessage_container .ui-growl-message").shouldHave(text("Saved " + APP_YAML + " Successfully"));
+    } finally {
       setMonacoValue(original);
       saveEditor();
     }
@@ -175,7 +173,7 @@ class WebTestConfigFileEditor {
     fileChooserInput.clear();
     fileChooserInput.shouldBe(visible).sendKeys(elementName);
     var autocompleteElement = $(By.className("ui-autocomplete-item"))
-      .shouldHave(Condition.attribute("data-item-label", elementName));
+        .shouldHave(Condition.attribute("data-item-label", elementName));
     autocompleteElement.click();
   }
 

@@ -14,8 +14,8 @@ import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 @ViewScoped
 public class DatabaseMonitor {
   private AbstractDatabase database;
-  private String applicationName;
-  private String databaseName;
+  private final String applicationName;
+  private final String databaseName;
 
   public DatabaseMonitor() {
     this("", "");
@@ -27,9 +27,9 @@ public class DatabaseMonitor {
     try {
       var databases = searchJmx(appName, databaseName);
       database = databases.stream()
-              .map(client -> new Database(client))
-              .filter(this::isDatabase)
-              .findFirst().orElse(Database.NO_DATA);
+          .map(Database::new)
+          .filter(this::isDatabase)
+          .findFirst().orElse(Database.NO_DATA);
     } catch (MalformedObjectNameException ex) {
       database = Database.NO_DATA;
     }
@@ -53,13 +53,13 @@ public class DatabaseMonitor {
 
   private boolean isDatabase(AbstractDatabase db) {
     return db.application().equals(applicationName) &&
-            db.name().equals(databaseName);
+        db.name().equals(databaseName);
   }
 
   private static Set<ObjectName> searchJmx(String appName, String databaseName)
-          throws MalformedObjectNameException {
+      throws MalformedObjectNameException {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
-            new ObjectName("ivy Engine:type=External Database,application=" + appName + ",name=" + databaseName),
-            null);
+        new ObjectName("ivy Engine:type=External Database,application=" + appName + ",name=" + databaseName),
+        null);
   }
 }

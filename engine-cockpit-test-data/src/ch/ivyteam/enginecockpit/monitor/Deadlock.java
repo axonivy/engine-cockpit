@@ -4,7 +4,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Deadlock {
 
-  private ReentrantLock lock = new ReentrantLock();
+  private final ReentrantLock lock = new ReentrantLock();
   private Deadlock other;
 
   public static void start() {
@@ -24,8 +24,7 @@ public class Deadlock {
         Thread.sleep(5000);
         other.monitor(++count);
       }
-    } catch (InterruptedException e) {
-    }
+    } catch (InterruptedException e) {}
   }
 
   private void reentrantLock(int count) {
@@ -35,8 +34,7 @@ public class Deadlock {
         Thread.sleep(5000);
         other.reentrantLock(++count);
       }
-    } catch (InterruptedException ex) {
-    } finally {
+    } catch (InterruptedException ex) {} finally {
       lock.unlock();
     }
   }

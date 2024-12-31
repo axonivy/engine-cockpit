@@ -197,11 +197,11 @@ class WebDocuScreenshot {
     takeScreenshot("configuration-businesscalendar", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toBusinessCalendarDetail("Luzern");
     takeScreenshot("configuration-businesscalendar-detail",
-            new Dimension(SCREENSHOT_WIDTH, 550));
+        new Dimension(SCREENSHOT_WIDTH, 550));
     Navigation.toBranding();
     takeScreenshot("branding", new Dimension(SCREENSHOT_WIDTH, 800));
     takeDialogScreenshot("branding-custom-css",
-            By.id("apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":form:editCustomCssBtn"));
+        By.id("apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":form:editCustomCssBtn"));
   }
 
   @Test
@@ -214,7 +214,7 @@ class WebDocuScreenshot {
     Navigation.toSecuritySystemProvider("test-ad");
     takeScreenshot("security-system-ldap", new Dimension(SCREENSHOT_WIDTH, 900));
     takeDialogScreenshot("dialog-ldap-browser",
-            By.id("identityProvider:dynamicConfigForm:group:1:property:0:browseDirectory"));
+        By.id("identityProvider:dynamicConfigForm:group:1:property:0:browseDirectory"));
     Navigation.toUsers();
     Tab.SECURITY_SYSTEM.switchToDefault();
     takeScreenshot("users", new Dimension(SCREENSHOT_WIDTH, 600));

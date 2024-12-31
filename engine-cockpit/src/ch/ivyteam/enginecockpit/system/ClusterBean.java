@@ -14,14 +14,14 @@ import ch.ivyteam.ivy.cluster.restricted.IClusterManager;
 @ViewScoped
 public class ClusterBean {
 
-  private boolean isClusterServer;
-  private List<ClusterNode> clusterNodes;
+  private final boolean isClusterServer;
+  private final List<ClusterNode> clusterNodes;
   private ClusterNode activeClusterNode;
 
   private List<ClusterNode> filteredNodes;
   private String filter;
 
-  private IClusterManager clusterManager = IClusterManager.instance();
+  private final IClusterManager clusterManager = IClusterManager.instance();
 
   public ClusterBean() {
     isClusterServer = clusterManager.isClusterServer();
@@ -34,8 +34,8 @@ public class ClusterBean {
   }
 
   private List<ClusterNode> loadClusterNodes() {
-    return clusterManager.getClusterNodes().stream().map(node -> new ClusterNode(node))
-            .collect(Collectors.toList());
+    return clusterManager.getClusterNodes().stream().map(ClusterNode::new)
+        .collect(Collectors.toList());
   }
 
   public List<ClusterNode> getNodes() {

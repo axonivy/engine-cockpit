@@ -1,9 +1,11 @@
 package ch.ivyteam.enginecockpit.monitor.blob;
 
 import java.util.Date;
+
 import org.apache.commons.io.FileUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
+
 import ch.ivyteam.enginecockpit.security.model.User;
 import ch.ivyteam.ivy.blob.storage.core.Blob;
 import ch.ivyteam.ivy.blob.storage.core.BlobService;
@@ -86,9 +88,9 @@ public class BlobDto {
 
   public StreamedContent download() {
     return DefaultStreamedContent.builder()
-            .name(blob.fileName())
-            .contentType(getMimeType())
-            .stream(() -> BlobService.of(blob.app()).read(blob.uuid()))
-            .build();
+        .name(blob.fileName())
+        .contentType(getMimeType())
+        .stream(() -> BlobService.of(blob.app()).read(blob.uuid()))
+        .build();
   }
 }

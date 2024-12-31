@@ -17,12 +17,12 @@ public class SearchEngine {
     List<String> INDEX = List.of("_mapping");
   }
 
-  private SearchEngineInfo info;
-  private Watermark watermark;
+  private final SearchEngineInfo info;
+  private final Watermark watermark;
 
   public SearchEngine(SearchEngineInfo info, Watermark watermark) {
     this.info = info;
-    this.watermark= watermark;
+    this.watermark = watermark;
   }
 
   public String getServerUrl() {
@@ -60,11 +60,11 @@ public class SearchEngine {
     return watermark;
   }
 
-  public static enum SearchEngineHealth {
+  public enum SearchEngineHealth {
 
     GREEN("green", "check-circle-1", "Everything is ok"),
     YELLOW("yellow", "check-circle-1", "Everything is ok, if you run on a single node cluster, like the internal ivy ES, this is normal."
-                                     + "On an external multi node cluster this can indicate some upcoming issues. Please check the ES logs."),
+        + "On an external multi node cluster this can indicate some upcoming issues. Please check the ES logs."),
     RED("red", "remove-circle", "There is a problem which needs your attention. Some data may be unavailable or functions are not working correctly."),
     UNKNOWN("unknown", "question-circle", "Health state unknown");
 
@@ -72,7 +72,7 @@ public class SearchEngine {
     private final String icon;
     private final String hint;
 
-    private SearchEngineHealth(String state, String icon, String hint) {
+    SearchEngineHealth(String state, String icon, String hint) {
       this.state = state;
       this.icon = icon;
       this.hint = hint;

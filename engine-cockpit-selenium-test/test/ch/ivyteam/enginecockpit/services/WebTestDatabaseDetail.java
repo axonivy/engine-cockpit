@@ -81,7 +81,7 @@ class WebTestDatabaseDetail {
     Selenide.refresh();
     checkConfiguration("jdbc:mysql://localhost:3306/test-db", "com.mysql.cj.jdbc.Driver", "user", "5");
   }
-  
+
   @Test
   void addProperty() {
     var editor = new PropertyEditor("databasePropertiesForm:databasePropertiesTable:newPropertyEditor:");
@@ -90,7 +90,7 @@ class WebTestDatabaseDetail {
     $(By.id("databasePropertiesForm:databasePropertiesTable")).shouldHave(text("testValue"));
     $(By.id("databasePropertiesForm:databasePropertiesTable:1:editPropertyEditor:deletePropertyBtn")).click();
   }
-  
+
   @Test
   void editProperty() {
     var editor = new PropertyEditor("databasePropertiesForm:databasePropertiesTable:0:editPropertyEditor:");
@@ -102,7 +102,7 @@ class WebTestDatabaseDetail {
   @Test
   void liveStats() {
     EngineCockpitUtil.assertLiveStats(List.of("Database Connections", "Database Queries",
-            "Database Query Execution Time"), "test-db", false);
+        "Database Query Execution Time"), "test-db", false);
   }
 
   private void setConfiguration(String url, String driverName, String username, String connections) {
@@ -121,7 +121,7 @@ class WebTestDatabaseDetail {
 
     $("#databaseConfigurationForm\\:saveDatabaseConfig").click();
     $("#databaseConfigurationForm\\:databaseConfigMsg_container")
-            .shouldBe(text("Database configuration saved"));
+        .shouldBe(text("Database configuration saved"));
   }
 
   private void checkConfiguration(String url, String driverName, String username, String connections) {
@@ -136,7 +136,7 @@ class WebTestDatabaseDetail {
     $("#databaseConfigurationForm\\:resetDbConfirmDialog").shouldBe(visible);
     $("#databaseConfigurationForm\\:resetDbConfirmYesBtn").click();
     $("#databaseConfigurationForm\\:databaseConfigMsg_container")
-            .shouldBe(text("Database configuration reset"));
+        .shouldBe(text("Database configuration reset"));
   }
 
 }

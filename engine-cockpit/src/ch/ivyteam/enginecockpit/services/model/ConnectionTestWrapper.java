@@ -11,7 +11,7 @@ public class ConnectionTestWrapper {
   private static final Logger LOGGER = Logger.getLogger(ConnectionTestWrapper.class);
 
   private Callable<?> callable;
-  private Object defaultValue;
+  private final Object defaultValue;
 
   public ConnectionTestWrapper() {
     this(null);

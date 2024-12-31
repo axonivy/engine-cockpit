@@ -69,7 +69,7 @@ class Scale {
       return value * scaleDownFactor;
     }
     throw new IllegalArgumentException(
-            "The parameter toScale " + toScale + " does not belong to the current scaling " + this);
+        "The parameter toScale " + toScale + " does not belong to the current scaling " + this);
   }
 
   public double convertTo(double value, Scale toScale) {
@@ -86,7 +86,7 @@ class Scale {
       return value * scaleDownFactor;
     }
     throw new IllegalArgumentException(
-            "The parameter toScale " + toScale + " does not belong to the current scaling " + this);
+        "The parameter toScale " + toScale + " does not belong to the current scaling " + this);
   }
 
   private long getUpFactorTo(Scale toScale) {
@@ -135,10 +135,10 @@ class Scale {
     }
     Scale other = (Scale) obj;
     return Objects.equals(symbol, other.symbol) &&
-            Objects.equals(name, other.name) &&
-            downScaleFactor == other.downScaleFactor &&
-            upScaleFactor == other.upScaleFactor &&
-            useAsFullUnitSymbol == other.useAsFullUnitSymbol;
+        Objects.equals(name, other.name) &&
+        downScaleFactor == other.downScaleFactor &&
+        upScaleFactor == other.upScaleFactor &&
+        useAsFullUnitSymbol == other.useAsFullUnitSymbol;
   }
 
   @Override

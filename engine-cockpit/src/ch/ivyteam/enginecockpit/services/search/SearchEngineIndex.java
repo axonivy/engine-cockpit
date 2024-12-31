@@ -26,9 +26,9 @@ public class SearchEngineIndex {
 
   public String getViewUrl() {
     return UriBuilder.fromPath("searchindex.xhtml")
-            .queryParam("index", info.indexName().name())
-            .build()
-            .toString();
+        .queryParam("index", info.indexName().name())
+        .build()
+        .toString();
   }
 
   public long getCountIndexed() {
@@ -49,7 +49,7 @@ public class SearchEngineIndex {
   }
 
   public SearchEngineHealth getHealth() {
-    return  SearchEngineHealth.getHealth(info.health());
+    return SearchEngineHealth.getHealth(info.health());
   }
 
   public IndexStatus getStatus() {
@@ -68,7 +68,7 @@ public class SearchEngineIndex {
     return info.status();
   }
 
-  public static enum IndexStatus {
+  public enum IndexStatus {
     OPEN("open", "pi pi-lock-open state-active", "Everything is okay, the index is open."),
     CLOSED("closed", "pi pi-lock-closed state-inactive", "It seems like your machine is out of disk space. Please check your search engine watermark settings."),
     UNKNOWN("unknown", "si si-question-circle", "");
@@ -77,7 +77,7 @@ public class SearchEngineIndex {
     private final String icon;
     private final String hint;
 
-    private IndexStatus(String status, String icon, String hint) {
+    IndexStatus(String status, String icon, String hint) {
       this.state = status;
       this.icon = icon;
       this.hint = hint;

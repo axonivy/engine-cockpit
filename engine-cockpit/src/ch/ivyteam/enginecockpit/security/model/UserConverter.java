@@ -18,9 +18,9 @@ public class UserConverter implements Converter {
   public User getAsObject(FacesContext context, UIComponent component, String value) {
     if (StringUtils.isNotBlank(value)) {
       var managebean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-              ManagerBean.class);
+          ManagerBean.class);
       var user = managebean.getSelectedSecuritySystem().getSecurityContext().users().query().where()
-              .securityMemberId().isEqual(value).executor().firstResult();
+          .securityMemberId().isEqual(value).executor().firstResult();
       if (user != null) {
         return new User(user);
       }
@@ -30,8 +30,7 @@ public class UserConverter implements Converter {
 
   @Override
   public String getAsString(FacesContext context, UIComponent component, Object value) {
-    if (value instanceof User) {
-      var user = (User) value;
+    if (value instanceof User user) {
       return user.getSecurityMemberId();
     }
     return null;

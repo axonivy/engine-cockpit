@@ -33,7 +33,7 @@ public class WebServerBean {
     var request = getRequest();
     var requestData = new ArrayList<RequestData>();
     request.getHeaderNames().asIterator()
-            .forEachRemaining(header -> requestData.add(new RequestData(header, request.getHeader(header))));
+        .forEachRemaining(header -> requestData.add(new RequestData(header, request.getHeader(header))));
     return requestData;
   }
 
@@ -68,8 +68,8 @@ public class WebServerBean {
   }
 
   public class RequestData {
-    private String data;
-    private String value;
+    private final String data;
+    private final String value;
 
     RequestData(String data, String value) {
       this.data = data;

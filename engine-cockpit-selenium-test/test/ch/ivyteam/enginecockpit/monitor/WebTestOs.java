@@ -31,29 +31,29 @@ public class WebTestOs {
   @Test
   void cpuContent() {
     $("#cpu")
-            .shouldHave(text("CPU Load"))
-            .find(".ui-chart").shouldBe(visible);
+        .shouldHave(text("CPU Load"))
+        .find(".ui-chart").shouldBe(visible);
   }
 
   @Test
   void memoryContent() {
     $("#memory")
-            .shouldHave(text("Memory"))
-            .find(".ui-chart").shouldBe(visible);
+        .shouldHave(text("Memory"))
+        .find(".ui-chart").shouldBe(visible);
   }
 
   @Test
   void networkContent() {
     $("#network")
-            .shouldHave(text("Network"))
-            .find(".ui-chart").shouldBe(visible);
+        .shouldHave(text("Network"))
+        .find(".ui-chart").shouldBe(visible);
   }
 
   @Test
   void ioContent() {
     $("#io")
-            .shouldHave(text("IO"))
-            .find(".ui-chart").shouldBe(visible);
+        .shouldHave(text("IO"))
+        .find(".ui-chart").shouldBe(visible);
   }
 
 }

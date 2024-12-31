@@ -24,7 +24,7 @@ public class Row {
   public void createHeaderRotatedCell(int cellNum, String header, int width, int height) {
     var cell = createCell(cellNum);
     cell.style(Style.HEADER);
-    row.setHeight((short)height);
+    row.setHeight((short) height);
     cell.width(width);
     cell.value(header);
   }

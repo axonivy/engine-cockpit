@@ -51,30 +51,27 @@ public class DummyIdentityProvider implements IdentityProvider {
     @Override
     public List<DirectoryNode> root() {
       return List.of(
-              new DummyDirectoryNode("Group A"),
-              new DummyDirectoryNode("Group B"),
-              new DummyDirectoryNode("Group C")
-      );
+          new DummyDirectoryNode("Group A"),
+          new DummyDirectoryNode("Group B"),
+          new DummyDirectoryNode("Group C"));
     }
 
     @Override
     public List<DirectoryNode> children(DirectoryNode node) {
-      if (node.displayName().equals("Group A")) {
+      if ("Group A".equals(node.displayName())) {
         return List.of(
-                new DummyDirectoryNode("Group A.1"),
-                new DummyDirectoryNode("Group A.2")
-        );
+            new DummyDirectoryNode("Group A.1"),
+            new DummyDirectoryNode("Group A.2"));
       }
       return List.of();
     }
 
     @Override
     public List<Property> properties(DirectoryNode node) {
-      if (node.displayName().equals("Group A.1")) {
+      if ("Group A.1".equals(node.displayName())) {
         return List.of(
-                new Property("location", "Zug"),
-                new Property("teamMembers", "8")
-        );
+            new Property("location", "Zug"),
+            new Property("teamMembers", "8"));
       }
       return null;
     }

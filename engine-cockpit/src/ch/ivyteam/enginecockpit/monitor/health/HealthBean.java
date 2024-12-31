@@ -17,7 +17,7 @@ import ch.ivyteam.ivy.health.check.HealthSeverity;
 public class HealthBean {
 
   private final HealthChecker checker = HealthChecker.instance();
-  private List<Check> checks;
+  private final List<Check> checks;
   private List<Message> messages;
   private String check;
 

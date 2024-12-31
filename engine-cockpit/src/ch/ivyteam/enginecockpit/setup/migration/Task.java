@@ -11,8 +11,8 @@ public class Task {
   private String state;
   private String stateIcon;
   private final MigrationTask task;
-  private String script;
-  private int version;
+  private final String script;
+  private final int version;
   private String log = "";
 
   public Task(MigrationTask task) {

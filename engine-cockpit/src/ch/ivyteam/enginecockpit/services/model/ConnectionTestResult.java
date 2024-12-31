@@ -5,10 +5,10 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang3.StringUtils;
 
 public class ConnectionTestResult {
-  private String method;
-  private int statusCode;
-  private TestResult restResult;
-  private String message;
+  private final String method;
+  private final int statusCode;
+  private final TestResult restResult;
+  private final String message;
 
   public ConnectionTestResult(String method, int statusCode, TestResult testResult, String message) {
     this.method = method;
@@ -37,13 +37,13 @@ public class ConnectionTestResult {
     ConnectionTestResult getResult();
   }
 
-  public static enum TestResult {
+  public enum TestResult {
     SUCCESS("Success", "green"), WARNING("Warning", "#FFC107"), ERROR("Error", "red");
 
     private final String name;
     private final String color;
 
-    private TestResult(String name, String color) {
+    TestResult(String name, String color) {
       this.name = name;
       this.color = color;
     }

@@ -35,7 +35,7 @@ public class WebTestCockpitLinkFactory {
   void beforeEach() {
     login();
   }
-  
+
   @TestFactory
   Collection<DynamicTest> link() {
     open(EngineCockpitUtil.testViewUrl("link-factory.xhtml"));
@@ -45,11 +45,11 @@ public class WebTestCockpitLinkFactory {
     for (var link : links.asDynamicIterable()) {
       var url = link.attr("href");
       var name = link.text();
-      tests.add(DynamicTest.dynamicTest(name, () -> link(url))); 
+      tests.add(DynamicTest.dynamicTest(name, () -> link(url)));
     }
     return tests;
   }
-    
+
   private void link(String url) {
     var link = linkFor(url);
     link.click();
@@ -78,14 +78,14 @@ public class WebTestCockpitLinkFactory {
     var links = $$(".ui-link");
     links.shouldHave(CollectionCondition.sizeGreaterThanOrEqual(7));
   }
-  
+
   private ObjectCondition<WebDriver> titles(String... titles) {
     return new Titles(titles);
   }
 
   private static final class Titles implements ObjectCondition<WebDriver> {
 
-    private List<String> expectedTitles;
+    private final List<String> expectedTitles;
 
     public Titles(String[] expectedTitles) {
       this.expectedTitles = List.of(expectedTitles);

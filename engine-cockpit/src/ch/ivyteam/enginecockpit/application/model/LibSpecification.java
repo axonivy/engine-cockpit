@@ -5,9 +5,9 @@ import ch.ivyteam.ivy.application.value.VersionRange;
 
 public class LibSpecification {
 
-  private String id;
-  private boolean resolved;
-  private String version;
+  private final String id;
+  private final boolean resolved;
+  private final String version;
   private ProcessModelVersion resolvedPmv;
   private String resolvedPmvName;
 
@@ -19,7 +19,7 @@ public class LibSpecification {
     if (resolvedLib != null) {
       resolvedPmv = new ProcessModelVersion(resolvedLib.getProcessModelVersion());
       resolvedPmvName = resolvedPmv.getName() + " (" + resolvedPmv.getQualifiedVersion() + " / " +
-              resolvedPmv.getState().getOperation() + " / " + resolvedPmv.getState().getReleaseState() + ")";
+          resolvedPmv.getState().getOperation() + " / " + resolvedPmv.getState().getReleaseState() + ")";
     }
   }
 

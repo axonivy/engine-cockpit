@@ -107,10 +107,10 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter {
     applyOrdering(userQuery, sortBy);
 
     var users = userQuery
-            .executor()
-            .results(first, pageSize).stream()
-            .map(User::new)
-            .collect(Collectors.toList());
+        .executor()
+        .results(first, pageSize).stream()
+        .map(User::new)
+        .collect(Collectors.toList());
     checkIfUserIsLoggedIn(securitySystem, users);
     setRowCount((int) userQuery.executor().count());
     return users;
@@ -126,11 +126,11 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter {
     if (StringUtils.isNotEmpty(filter)) {
       var dbFilter = "%" + filter + "%";
       query.where().and(userQuery().where()
-              .name().isLikeIgnoreCase(dbFilter)
-              .or()
-              .fullName().isLikeIgnoreCase(dbFilter)
-              .or()
-              .eMailAddress().isLikeIgnoreCase(dbFilter));
+          .name().isLikeIgnoreCase(dbFilter)
+          .or()
+          .fullName().isLikeIgnoreCase(dbFilter)
+          .or()
+          .eMailAddress().isLikeIgnoreCase(dbFilter));
     }
 
     query.where().and(userQuery().where().enabled().is(!showDisabledUsers));
@@ -176,9 +176,9 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter {
     for (var session : securitySystem.getSecurityContext().sessions().clusterSnapshot().getSessionInfos()) {
       var sessionUser = session.getSessionUserName();
       appUsers.stream()
-              .filter(u -> u.getName().equals(sessionUser))
-              .findAny()
-              .ifPresent(user -> user.setLoggedIn(true));
+          .filter(u -> u.getName().equals(sessionUser))
+          .findAny()
+          .ifPresent(user -> user.setLoggedIn(true));
     }
   }
 

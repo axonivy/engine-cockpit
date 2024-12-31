@@ -7,7 +7,9 @@ import javax.faces.context.FacesContext;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.GlobalMemory;
+import oshi.hardware.HWDiskStore;
 import oshi.hardware.HardwareAbstractionLayer;
+import oshi.hardware.NetworkIF;
 
 @ManagedBean
 @RequestScoped
@@ -33,11 +35,11 @@ public class SystemHardware {
 
   public SystemHardware() {
     var diskStores = HARDWARE.getDiskStores();
-    ioWriteTotal = diskStores.stream().mapToLong(n -> n.getWriteBytes()).sum();
-    ioReadTotal = diskStores.stream().mapToLong(n -> n.getReadBytes()).sum();
+    ioWriteTotal = diskStores.stream().mapToLong(HWDiskStore::getWriteBytes).sum();
+    ioReadTotal = diskStores.stream().mapToLong(HWDiskStore::getReadBytes).sum();
     var networkIFs = HARDWARE.getNetworkIFs();
-    networkReceiveTotal = networkIFs.stream().mapToLong(n -> n.getBytesRecv()).sum();
-    networkSendTotal = networkIFs.stream().mapToLong(n -> n.getBytesSent()).sum();
+    networkReceiveTotal = networkIFs.stream().mapToLong(NetworkIF::getBytesRecv).sum();
+    networkSendTotal = networkIFs.stream().mapToLong(NetworkIF::getBytesSent).sum();
     memoryAvailable = MEMORY.getAvailable();
     memoryTotal = MEMORY.getTotal();
     processorLogicalCount = PROCESSOR.getLogicalProcessorCount();

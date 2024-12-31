@@ -22,11 +22,11 @@ import ch.ivyteam.ivy.security.IUser;
 public class OverviewSheet {
 
   private final ISecurityContext securityContext;
-  private final static List<String> HEADERS = new ArrayList<String>(Arrays.asList("Security System Name", "Applications", "Date",
-          "Axon Ivy Version", "Current User", "Hostname", "Number of Users", "Number of Roles", "File number", "First and Last User"));
-  private Excel excel;
-  private List<IUser> users;
-  private ISession session;
+  private final static List<String> HEADERS = new ArrayList<>(Arrays.asList("Security System Name", "Applications", "Date",
+      "Axon Ivy Version", "Current User", "Hostname", "Number of Users", "Number of Roles", "File number", "First and Last User"));
+  private final Excel excel;
+  private final List<IUser> users;
+  private final ISession session;
 
   public OverviewSheet(Excel excel, ISecurityContext securityContext, List<IUser> users, ISession session) {
     this.excel = excel;
@@ -38,7 +38,7 @@ public class OverviewSheet {
   public void create(int userCount, int fileCount) {
     Sheet sheet = excel.createSheet("Overview");
     var fileNumber = userCount / 1000;
-    if(userCount < 1000) {
+    if (userCount < 1000) {
       fileNumber = 1;
     }
     var firstUser = users.getFirst();
@@ -47,9 +47,9 @@ public class OverviewSheet {
     var titleRow = sheet.createRow(rowNr++);
     titleRow.createTitleCell(0, "Axon Ivy Security Report ");
 
-    List<Row> rows = new ArrayList<Row>();
+    List<Row> rows = new ArrayList<>();
     rowNr++;
-    for(var header : HEADERS) {
+    for (var header : HEADERS) {
       var row = sheet.createRow(rowNr++);
       row.createHeaderCell(0, header, 33);
       rows.add(row);
@@ -96,13 +96,13 @@ public class OverviewSheet {
 
   private String getServerName() {
     var currentInstance = FacesContext.getCurrentInstance();
-    if(currentInstance != null) {
+    if (currentInstance != null) {
       return FacesContext.getCurrentInstance().getExternalContext().getRequestServerName();
     }
     return "test.axonivy.com";
   }
 
-  private void createLegendRow (Sheet sheet, int rowNr, String sheetName, String shortcut, String meaning) {
+  private void createLegendRow(Sheet sheet, int rowNr, String sheetName, String shortcut, String meaning) {
     var row = sheet.createRow(rowNr);
     row.createHeaderCell(0, sheetName, 33);
     row.createResultCellWidth(1, shortcut, 5);

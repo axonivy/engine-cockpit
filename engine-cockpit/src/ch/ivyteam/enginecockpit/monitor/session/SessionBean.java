@@ -7,7 +7,7 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class SessionBean {
 
-  private SessionDataModel dataModel = new SessionDataModel();
+  private final SessionDataModel dataModel = new SessionDataModel();
 
   public SessionDataModel getDataModel() {
     return dataModel;

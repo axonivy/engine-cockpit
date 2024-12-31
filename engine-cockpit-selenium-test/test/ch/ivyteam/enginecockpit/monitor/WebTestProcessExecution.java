@@ -181,7 +181,7 @@ public class WebTestProcessExecution {
   }
 
   private String getFirstColumnElement() {
-    return tableBody()+"/tr/td[1]";
+    return tableBody() + "/tr/td[1]";
   }
 
   private String tableBody() {

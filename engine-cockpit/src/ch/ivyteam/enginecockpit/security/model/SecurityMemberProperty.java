@@ -3,7 +3,7 @@ package ch.ivyteam.enginecockpit.security.model;
 public class SecurityMemberProperty {
   private String key;
   private String value;
-  private boolean managed;
+  private final boolean managed;
 
   public SecurityMemberProperty() {
     this("", "", false);

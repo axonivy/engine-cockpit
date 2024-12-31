@@ -136,7 +136,7 @@ public class WebTestNotificationChannelDetail {
   void eventsInTable() {
     Table table = new Table(By.id("form:events"));
     table.firstColumnShouldBe(size(2));
-    table.tableEntry(1,1).shouldHave(text("task"));
+    table.tableEntry(1, 1).shouldHave(text("task"));
   }
 
   @Test

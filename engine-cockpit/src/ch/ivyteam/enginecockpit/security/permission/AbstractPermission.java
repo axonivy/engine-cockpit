@@ -2,7 +2,7 @@ package ch.ivyteam.enginecockpit.security.permission;
 
 public abstract class AbstractPermission {
 
-  private String name;
+  private final String name;
   private boolean grant;
   private boolean deny;
   private boolean someGrant;
@@ -57,17 +57,17 @@ public abstract class AbstractPermission {
 
   public void defineState() {
     switch (state) {
-    case State.DEFAULT:
-      resetToInitialState();
-      break;
-    case State.GRANTED:
-      grant();
-      break;
-    case State.DENIED:
-      deny();
-      break;
-    default:
-      break;
+      case State.DEFAULT:
+        resetToInitialState();
+        break;
+      case State.GRANTED:
+        grant();
+        break;
+      case State.DENIED:
+        deny();
+        break;
+      default:
+        break;
     }
   }
 
@@ -76,24 +76,24 @@ public abstract class AbstractPermission {
       group();
     }
     switch (initialState) {
-    case State.GRANTED:
-      grant();
-      break;
-    case State.DENIED:
-      deny();
-      break;
-    case State.SOMEGRANTED:
-      someGrant();
-      break;
-    case State.SOMEDENIED:
-      someDeny();
-      break;
-    case State.STATELESS:
-      grant();
-      ungrant();
-      break;
-    default:
-      break;
+      case State.GRANTED:
+        grant();
+        break;
+      case State.DENIED:
+        deny();
+        break;
+      case State.SOMEGRANTED:
+        someGrant();
+        break;
+      case State.SOMEDENIED:
+        someDeny();
+        break;
+      case State.STATELESS:
+        grant();
+        ungrant();
+        break;
+      default:
+        break;
     }
   }
 

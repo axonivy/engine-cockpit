@@ -81,11 +81,11 @@ class WebTestApplicationDetail {
     $("#appDetailSecurityForm\\:synchronizeSecurity").shouldBe(visible, enabled).click();
     $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().shouldHave(cssClass("si-is-spinning"));
     $$("#appDetailSecurityForm\\:synchronizeSecurity span").first()
-            .shouldHave(not(cssClass("si-is-spinning")), Duration.ofSeconds(20));
+        .shouldHave(not(cssClass("si-is-spinning")), Duration.ofSeconds(20));
 
     $("#appDetailSecurityForm\\:showAdSyncLogBtn").click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
-            .find(".ui-panel-content").shouldBe(visible);
+        .find(".ui-panel-content").shouldBe(visible);
   }
 
   @Test

@@ -77,7 +77,7 @@ public class WebTestWizard {
   public static void navigateToStep(String step) {
     login("setup.xhtml");
     String stepIndex = $$("#stepForm\\:wizardSteps .ui-steps-title").find(text(step)).parent()
-            .find(".ui-steps-number").getText();
+        .find(".ui-steps-number").getText();
     String activeStep = $(WebTestWizard.ACTIVE_WIZARD_STEP + " .ui-steps-title").should(exist).getText();
     if (!activeStep.equals(step)) {
       $$("#stepForm\\:wizardSteps li > a").find(text("1")).click();
@@ -90,11 +90,11 @@ public class WebTestWizard {
 
   public static void activeStepShouldBeOk() {
     $(WebTestWizard.ACTIVE_WIZARD_STEP + " > a").shouldHave(not(cssClass("step-warning")),
-            cssClass("step-ok"));
+        cssClass("step-ok"));
   }
 
   public static void activeStepShouldHaveWarnings() {
     $(WebTestWizard.ACTIVE_WIZARD_STEP + " > a").shouldHave(cssClass("step-warning"),
-            not(cssClass("step-ok")));
+        not(cssClass("step-ok")));
   }
 }

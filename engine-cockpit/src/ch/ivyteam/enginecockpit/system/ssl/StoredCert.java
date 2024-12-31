@@ -33,12 +33,12 @@ public class StoredCert {
   public static String shortSubject(String fullName) {
     String[] parts = fullName.split(",");
     for (String part : parts) {
-        if (part.trim().startsWith("CN=")) {
-            return part.trim().substring(3);
-        }
+      if (part.trim().startsWith("CN=")) {
+        return part.trim().substring(3);
+      }
     }
     return parts[0].trim();
-}
+  }
 
   public boolean isValid() {
     return invalidityMessage == null;

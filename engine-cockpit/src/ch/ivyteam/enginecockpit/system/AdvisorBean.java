@@ -58,7 +58,7 @@ public class AdvisorBean {
   public String getDesignerGuideBaseUrl() {
     return UrlUtil.getDesignerGuideBaseUrl();
   }
-  
+
   public String getInstallationDirectory() {
     return Paths.get("").toAbsolutePath().toString();
   }

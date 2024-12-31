@@ -26,7 +26,7 @@ class WebTestDatabases {
   @Test
   void databasesInTable() {
     Table table = new Table(By.id("tabs:applicationTabView:" +
-            Tab.APP.getSelectedTabIndex() + ":form:databasesTable"), true);
+        Tab.APP.getSelectedTabIndex() + ":form:databasesTable"), true);
     table.firstColumnShouldBe(size(3));
 
     table.search(table.getFirstColumnEntries().get(0));

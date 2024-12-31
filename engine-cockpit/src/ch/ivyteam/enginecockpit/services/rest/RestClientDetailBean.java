@@ -101,7 +101,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     history = new ArrayList<>(restWebService.getCallHistory().stream()
         .map(call -> new ExecHistory(
             call.getExecutionTimestamp(),
-            (call.getExecutionTimeInMicroSeconds())/1000L,
+            (call.getExecutionTimeInMicroSeconds()) / 1000L,
             call.getRequestUrl(),
             call.getRequestMethod(),
             call.getProcessElementId()))
@@ -175,10 +175,10 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   public void testRestConnection() {
     var uiClient = new UiStateClient(findRestClient())
-      .setUiState(restClient)
-      .setTimeout(TimeUnit.SECONDS, 5)
-      .setReadTimeout(TimeUnit.SECONDS, 5)
-      .toClient();
+        .setUiState(restClient)
+        .setTimeout(TimeUnit.SECONDS, 5)
+        .setReadTimeout(TimeUnit.SECONDS, 5)
+        .toClient();
     WebTarget target = RestTestRunner.createTarget(app, uiClient);
     testResult = (ConnectionTestResult) connectionTest.test(() -> RestTestRunner.testConnection(target));
   }

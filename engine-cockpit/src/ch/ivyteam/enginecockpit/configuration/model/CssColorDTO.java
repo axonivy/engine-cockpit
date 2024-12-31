@@ -29,24 +29,31 @@ public class CssColorDTO implements Serializable {
   public String getColor() {
     return color;
   }
+
   public void setColor(String color) {
     this.color = color;
   }
+
   public String getValue() {
     return value;
   }
+
   public void setValue(String value) {
     this.value = value;
   }
+
   public String getDefaultValue() {
     return defaultValue;
   }
+
   public void setDefaultValue(String defaultValue) {
     this.defaultValue = defaultValue;
   }
+
   public boolean isDefault() {
     return isDefault;
   }
+
   public void setDefault(boolean isDefault) {
     this.isDefault = isDefault;
   }

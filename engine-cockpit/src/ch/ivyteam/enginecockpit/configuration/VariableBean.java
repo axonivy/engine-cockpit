@@ -20,7 +20,7 @@ import ch.ivyteam.ivy.vars.Variables;
 @ManagedBean
 @ViewScoped
 public class VariableBean implements ConfigView {
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
   private List<ConfigProperty> variables;
   private List<ConfigProperty> filteredVariables;
   private String filter;
@@ -37,9 +37,9 @@ public class VariableBean implements ConfigView {
     if (managerBean.getApplications().size() != 0) {
       app = managerBean.getSelectedIApplication();
       variables = variables().all().stream()
-              .filter(Objects::nonNull)
-              .map(ConfigProperty::new)
-              .collect(Collectors.toList());
+          .filter(Objects::nonNull)
+          .map(ConfigProperty::new)
+          .collect(Collectors.toList());
     }
     filteredVariables = null;
   }
@@ -100,7 +100,7 @@ public class VariableBean implements ConfigView {
 
   private void reloadAndUiMessage(String message) {
     FacesContext.getCurrentInstance().addMessage("msgs",
-            new FacesMessage("'" + activeVariable.getKey() + "' " + message));
+        new FacesMessage("'" + activeVariable.getKey() + "' " + message));
     reloadVariables();
   }
 

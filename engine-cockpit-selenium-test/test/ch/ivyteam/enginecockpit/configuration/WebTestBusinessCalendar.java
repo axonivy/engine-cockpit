@@ -39,11 +39,11 @@ public class WebTestBusinessCalendar {
     $$(".business-calendar-box").shouldHave(size(7)).first().shouldHave(text("Monday"));
     $$(".business-calendar-box .free").shouldHave(texts("Saturday", "Sunday"));
     $("#workingTimeTable").shouldHave(
-            text("morning"), text("08:00:00 - 12:00:00"),
-            text("afternoon"), text("13:00:00 - 17:00:00"));
+        text("morning"), text("08:00:00 - 12:00:00"),
+        text("afternoon"), text("13:00:00 - 17:00:00"));
     $("#freeDaysTable").shouldHave(
-            text("Christmas Day"), text("12-25"),
-            text("Ascension Day"), text("easter + 39"));
+        text("Christmas Day"), text("12-25"),
+        text("Ascension Day"), text("easter + 39"));
   }
 
   @Test

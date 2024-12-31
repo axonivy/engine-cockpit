@@ -63,8 +63,8 @@ public class SecuritySystem {
   public List<String> getAppNames() {
     if (appNames == null) {
       appNames = IApplicationRepository.of(securityContext).all().stream()
-              .map(IApplication::getName)
-              .collect(Collectors.toList());
+          .map(IApplication::getName)
+          .collect(Collectors.toList());
     }
     return appNames;
   }
@@ -114,7 +114,7 @@ public class SecuritySystem {
   public static boolean isJndiSecuritySystem(ISecurityContext securityContext) {
     var name = securityContext.getExternalSecuritySystemName();
     return MicrosoftActiveDirectoryIdentityProvider.ID.equals(name) ||
-           NovellEDirectoryIdentityProvider.ID.equals(name);
+        NovellEDirectoryIdentityProvider.ID.equals(name);
   }
 
   @SuppressWarnings("removal")

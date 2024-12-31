@@ -11,14 +11,14 @@ import ch.ivyteam.ivy.security.ISession;
 @SuppressWarnings("restriction")
 public class SecurityExportJob implements IJob {
 
-  private SecurityExport securityExport;
+  private final SecurityExport securityExport;
 
   public SecurityExportJob(ISecurityContext securityContext, ISession session) {
     this.securityExport = new SecurityExport(securityContext, session);
   }
 
   @Override
-  public void execute(){
+  public void execute() {
     try {
       securityExport.export();
     } catch (IOException ex) {

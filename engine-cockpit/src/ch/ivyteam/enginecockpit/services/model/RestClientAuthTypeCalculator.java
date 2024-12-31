@@ -17,9 +17,9 @@ public class RestClientAuthTypeCalculator {
 
   public String get() {
     return features.stream().filter(f -> StringUtils.contains(f.getClazz(), "authentication"))
-            .map(f -> StringUtils.substringBetween(f.getClazz(), "authentication.", "AuthenticationFeature"))
-            .filter(Objects::nonNull)
-            .findFirst()
-            .orElse("");
+        .map(f -> StringUtils.substringBetween(f.getClazz(), "authentication.", "AuthenticationFeature"))
+        .filter(Objects::nonNull)
+        .findFirst()
+        .orElse("");
   }
 }

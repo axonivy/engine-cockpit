@@ -28,7 +28,7 @@ public class TestProcessModelVersion {
   }
 
   @SuppressWarnings("unused")
-  private static Object invoke( Object proxy, Method method, Object[] args) throws Throwable {
+  private static Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     if ("getId".equals(method.getName())) {
       return 0l;
     }

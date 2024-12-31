@@ -34,12 +34,12 @@ class ExecutionCounter {
     deltaErrors = cache(1, delta(errors));
 
     executionTime = attribute(objectName, executionsName + "TotalExecutionTimeInMicroSeconds",
-            Unit.MICRO_SECONDS);
+        Unit.MICRO_SECONDS);
     deltaMinExecutionTime = cache(1, attribute(objectName,
-            executionsName + "MinExecutionTimeDeltaInMicroSeconds", Unit.MICRO_SECONDS));
+        executionsName + "MinExecutionTimeDeltaInMicroSeconds", Unit.MICRO_SECONDS));
     deltaAvgExecutionTime = cache(1, derivation(executionTime, executions));
     deltaMaxExecutionTime = cache(1, attribute(objectName,
-            executionsName + "MaxExecutionTimeDeltaInMicroSeconds", Unit.MICRO_SECONDS));
+        executionsName + "MaxExecutionTimeDeltaInMicroSeconds", Unit.MICRO_SECONDS));
   }
 
   ValueProvider executions() {

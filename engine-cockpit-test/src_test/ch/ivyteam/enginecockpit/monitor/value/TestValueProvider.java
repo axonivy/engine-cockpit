@@ -13,19 +13,19 @@ public class TestValueProvider {
   @Test
   public void format_integer() {
     assertThatNextValue(ValueProvider.format("value %d", () -> new Value(1234, Unit.BYTES)))
-            .isEqualTo("value 1234 B");
+        .isEqualTo("value 1234 B");
     assertThatNextValue(ValueProvider.format("%d value", () -> new Value(123456789, Unit.BYTES)))
-            .isEqualTo("123456789 B value");
+        .isEqualTo("123456789 B value");
     assertThatNextValue(ValueProvider.format("value %3d", () -> new Value(1234, Unit.BYTES)))
-            .isEqualTo("value 1 KiB");
+        .isEqualTo("value 1 KiB");
     assertThatNextValue(ValueProvider.format("value %3d", () -> new Value(12345, Unit.BYTES)))
-            .isEqualTo("value 12 KiB");
+        .isEqualTo("value 12 KiB");
     assertThatNextValue(ValueProvider.format("value %3d", () -> new Value(12345678, Unit.BYTES)))
-            .isEqualTo("value 11 MiB");
+        .isEqualTo("value 11 MiB");
     assertThatNextValue(ValueProvider.format("value %4d", () -> new Value(12345678, Unit.BYTES)))
-            .isEqualTo("value 11 MiB");
+        .isEqualTo("value 11 MiB");
     assertThatNextValue(ValueProvider.format("value %5d", () -> new Value(12345678, Unit.BYTES)))
-            .isEqualTo("value 12056 KiB");
+        .isEqualTo("value 12056 KiB");
 
     assertThatNextValue(ValueProvider.format("value %d", () -> Value.NO_VALUE)).isEqualTo("value -");
   }
@@ -33,9 +33,9 @@ public class TestValueProvider {
   @Test
   public void format_decimal() {
     assertThatNextValue(ValueProvider.format("value %f", () -> new Value(1.234, Unit.KILO_BYTES)))
-            .isEqualTo("value 1.234000 KiB");
+        .isEqualTo("value 1.234000 KiB");
     assertThatNextValue(ValueProvider.format("value %.1f", () -> new Value(1.234, Unit.KILO_BYTES)))
-            .isEqualTo("value 1.2 KiB");
+        .isEqualTo("value 1.2 KiB");
 
     assertThatNextValue(ValueProvider.format("value %f", () -> Value.NO_VALUE)).isEqualTo("value -");
   }
@@ -43,25 +43,25 @@ public class TestValueProvider {
   @Test
   public void format_time() {
     assertThatNextValue(ValueProvider.format("value %t", () -> new Value(1234, Unit.MICRO_SECONDS)))
-            .isEqualTo("value 1234 us");
+        .isEqualTo("value 1234 us");
     assertThatNextValue(ValueProvider.format("value %t", () -> new Value(12345, Unit.MICRO_SECONDS)))
-            .isEqualTo("value 12 ms");
+        .isEqualTo("value 12 ms");
     assertThatNextValue(ValueProvider.format("value %t", () -> new Value(123456, Unit.MICRO_SECONDS)))
-            .isEqualTo("value 123 ms");
+        .isEqualTo("value 123 ms");
     assertThatNextValue(ValueProvider.format("value %t", () -> new Value(1234567, Unit.MICRO_SECONDS)))
-            .isEqualTo("value 1234 ms");
+        .isEqualTo("value 1234 ms");
     assertThatNextValue(ValueProvider.format("value %t", () -> new Value(12345678, Unit.MICRO_SECONDS)))
-            .isEqualTo("value 12 s");
+        .isEqualTo("value 12 s");
     assertThatNextValue(ValueProvider.format("value %t", () -> new Value(123456789, Unit.MICRO_SECONDS)))
-            .isEqualTo("value 123 s");
+        .isEqualTo("value 123 s");
     assertThatNextValue(ValueProvider.format("value %t", () -> new Value(1234567, Unit.MILLI_SECONDS)))
-            .isEqualTo("value 20 m");
+        .isEqualTo("value 20 m");
     assertThatNextValue(ValueProvider.format("value %t", () -> new Value(12345678, Unit.MILLI_SECONDS)))
-            .isEqualTo("value 205 m");
+        .isEqualTo("value 205 m");
     assertThatNextValue(ValueProvider.format("value %t", () -> new Value(123456789, Unit.MILLI_SECONDS)))
-            .isEqualTo("value 34 h");
+        .isEqualTo("value 34 h");
     assertThatNextValue(ValueProvider.format("value %t", () -> new Value(1234567, Unit.SECONDS)))
-            .isEqualTo("value 14 d");
+        .isEqualTo("value 14 d");
 
     assertThatNextValue(ValueProvider.format("value %t", () -> Value.NO_VALUE)).isEqualTo("value -");
   }
@@ -119,7 +119,7 @@ public class TestValueProvider {
   @Test
   public void derivation() {
     ValueProvider derivation = ValueProvider
-            .derivation(ValueProvider.value(() -> counter * counter, Unit.ONE), increase());
+        .derivation(ValueProvider.value(() -> counter * counter, Unit.ONE), increase());
     assertThat(derivation.nextValue()).isEqualTo(Value.NO_VALUE);
     assertThatNextValue(derivation).isEqualTo(1L);
     assertThatNextValue(derivation).isEqualTo(3L);

@@ -20,7 +20,7 @@ abstract class AbstractDatabase {
   private final String application;
 
   AbstractDatabase(ObjectName extDatabase, String queries, Monitor connectionsMonitor, Monitor queriesMonitor,
-          Monitor executionTimeMonitor) {
+      Monitor executionTimeMonitor) {
     this.connectionsMonitor = connectionsMonitor;
     this.queriesMonitor = queriesMonitor;
     this.executionTimeMonitor = executionTimeMonitor;

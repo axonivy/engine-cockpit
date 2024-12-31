@@ -82,17 +82,17 @@ public class UserDetailBean {
     roleDataModel = new RoleDataModel(new SecuritySystem(securityContext), false, 20);
     var caseQueryExecutor = IWorkflowContext.of(securityContext).getCaseQueryExecutor();
     startedCases = CaseQuery.create(caseQueryExecutor).where().isBusinessCase().and().creatorId()
-            .isEqual(iUser.getSecurityMemberId()).executor().count();
+        .isEqual(iUser.getSecurityMemberId()).executor().count();
     var taskQueryExecutor = IWorkflowContext.of(securityContext).getTaskQueryExecutor();
     workingOn = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
-            .or().state().isEqual(TaskState.RESUMED)
-            .or().state().isEqual(TaskState.PARKED)
-            .andOverall().workerId().isEqual(iUser.getSecurityMemberId()).executor().count();
+        .or().state().isEqual(TaskState.RESUMED)
+        .or().state().isEqual(TaskState.PARKED)
+        .andOverall().workerId().isEqual(iUser.getSecurityMemberId()).executor().count();
     personalTasks = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
-            .or().state().isEqual(TaskState.SUSPENDED)
-            .or().state().isEqual(TaskState.RESUMED)
-            .or().state().isEqual(TaskState.PARKED)
-            .andOverall().activatorId().isEqual(iUser.getSecurityMemberId()).executor().count();
+        .or().state().isEqual(TaskState.SUSPENDED)
+        .or().state().isEqual(TaskState.RESUMED)
+        .or().state().isEqual(TaskState.PARKED)
+        .andOverall().activatorId().isEqual(iUser.getSecurityMemberId()).executor().count();
     canWorkOn = TaskQuery.create(taskQueryExecutor).where().canWorkOn(iUser).executor().count();
 
     notificationChannelDataModel = NotificationChannelDataModel.instance(iUser, securityContext);
@@ -161,7 +161,7 @@ public class UserDetailBean {
       getIUser().addRole(securityContext.roles().find(roleName));
     } catch (Exception e) {
       FacesContext.getCurrentInstance().addMessage("roleMessage",
-              new FacesMessage("User already member of this role"));
+          new FacesMessage("User already member of this role"));
     }
   }
 
@@ -185,10 +185,10 @@ public class UserDetailBean {
     var message = "";
     if (personalTasks != 0) {
       message += "The user '" + userName + "' has " + getPersonalTasks() + " personal tasks. "
-              + "If you delete this user, no other user can work on these tasks. ";
+          + "If you delete this user, no other user can work on these tasks. ";
     }
     return message
-            + "You may want to disable this user instead of deleting it, you could lose part of the workflow history.";
+        + "You may want to disable this user instead of deleting it, you could lose part of the workflow history.";
   }
 
   public String getSecuritySystemName() {

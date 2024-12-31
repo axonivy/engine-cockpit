@@ -1,12 +1,15 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
+
 import java.lang.management.ManagementFactory;
 import java.util.stream.Stream;
+
 import javax.management.InstanceNotFoundException;
 import javax.management.IntrospectionException;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
+
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 
@@ -14,22 +17,22 @@ final class NotificationChannel {
   public static final NotificationChannel NO_DATA = new NotificationChannel(null, null);
 
   private final Monitor deliveriesMonitor = Monitor.build()
-          .name("Deliveries")
-          .title("Channel Deliveries")
-          .icon("insert_link")
-          .toMonitor();
+      .name("Deliveries")
+      .title("Channel Deliveries")
+      .icon("insert_link")
+      .toMonitor();
 
   private final Monitor pushesTimeMonitor = Monitor.build()
-          .name("Pushes")
-          .title("Channel Pushes Time")
-          .icon("timer")
-          .toMonitor();
+      .name("Pushes")
+      .title("Channel Pushes Time")
+      .icon("timer")
+      .toMonitor();
 
   private final Monitor locksMonitor = Monitor.build()
-          .name("Locks")
-          .title("Channel Locks")
-          .icon("timer")
-          .toMonitor();
+      .name("Locks")
+      .title("Channel Locks")
+      .icon("timer")
+      .toMonitor();
 
   private String label;
 
@@ -74,7 +77,7 @@ final class NotificationChannel {
     try {
       return Stream
           .of(ManagementFactory.getPlatformMBeanServer().getMBeanInfo(channel).getAttributes())
-          .anyMatch(attr -> attr.getName().equals("errors"));
+          .anyMatch(attr -> "errors".equals(attr.getName()));
     } catch (IntrospectionException | InstanceNotFoundException | ReflectionException ex) {
       return false;
     }

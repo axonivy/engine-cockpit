@@ -10,7 +10,7 @@ import ch.ivyteam.util.Version;
 @SuppressWarnings("restriction")
 public class ClusterNode {
 
-  private IClusterNode node;
+  private final IClusterNode node;
   private String name;
   private String hostName;
   private String ipAddress;

@@ -10,7 +10,7 @@ public class NotificationChannelSubscriptionDto {
   private String title;
 
   public NotificationChannelSubscriptionDto(NotificationSubscription.State state,
-          boolean isSubscribedByDefault) {
+      boolean isSubscribedByDefault) {
     this.state = State.fromDbState(state);
     this.isSubscribedByDefault = isSubscribedByDefault;
   }
@@ -51,12 +51,12 @@ public class NotificationChannelSubscriptionDto {
     this.title = title;
   }
 
-  public static enum State {
+  public enum State {
     USE_DEFAULT("0"), SUBSCRIBED("1"), NOT_SUBSCRIBED("2");
 
-    private String value;
+    private final String value;
 
-    private State(String value) {
+    State(String value) {
       this.value = value;
     }
 
@@ -66,7 +66,7 @@ public class NotificationChannelSubscriptionDto {
     }
 
     public static State of(String value) {
-      for(State state: values()) {
+      for (State state : values()) {
         if (state.value.equals(value)) {
           return state;
         }

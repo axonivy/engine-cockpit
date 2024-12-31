@@ -12,9 +12,9 @@ import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
 public class ProcessModelVersion extends AbstractActivity {
 
-  private IProcessModelVersionInternal pmv;
-  private String lastChangeDate;
-  private Library lib;
+  private final IProcessModelVersionInternal pmv;
+  private final String lastChangeDate;
+  private final Library lib;
   private int runningCasesCount = -1;
 
   public ProcessModelVersion(IProcessModelVersion pmv) {
@@ -32,7 +32,7 @@ public class ProcessModelVersion extends AbstractActivity {
   @Override
   public String getDetailView() {
     return "pmv-detail.xhtml?appName=" + pmv.getApplication().getName() + "&pmName="
-            + pmv.getProcessModel().getName() + "&pmvVersion=" + pmv.getVersionNumber();
+        + pmv.getProcessModel().getName() + "&pmvVersion=" + pmv.getVersionNumber();
   }
 
   @Override
@@ -130,7 +130,7 @@ public class ProcessModelVersion extends AbstractActivity {
 
   public String getLibraryResolvedTooltip() {
     return (isLibraryResolved() ? "All" : "Not all")
-            + " direct and indirect required libraries are available in the system.";
+        + " direct and indirect required libraries are available in the system.";
   }
 
   private void countRunningCases() {
