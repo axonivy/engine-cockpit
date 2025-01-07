@@ -14,13 +14,8 @@
         <h6 class="m-0">Users</h6>
       </div>
     </div>
-    
-    <h:panelGroup rendered="#{!roleDetailBean.canShowUsers()}">
-        Users can't be shown, because this role has more than 2100 sub roles and role members.
-        This is just a technical limitation of this view.
-    </h:panelGroup>
 
-    <h:panelGroup rendered="#{roleDetailBean.canShowUsers()}">
+    <h:panelGroup>
       <div class="flex ui-fluid">
         <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUser}" dropdown="true" forceSelection="true"
           completeMethod="#{roleDetailBean.searchUser}" styleClass="card-autocomplete-search" style="width: 100%;"
