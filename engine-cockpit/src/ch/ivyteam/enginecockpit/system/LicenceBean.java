@@ -64,14 +64,6 @@ public class LicenceBean extends StepStatus {
     return StringUtils.isBlank(expiryDate) ? "Never" : expiryDate;
   }
 
-  public boolean showRenewLicFeature() {
-    try {
-      return SystemLicence.isInstalled() && SystemLicence.getValidUntil() != null;
-    } catch (DateTimeParseException ex) {
-      return false;
-    }
-  }
-
   public boolean showExpiryWarning() {
     var inThreeMonth = LocalDate.now().plus(3, ChronoUnit.MONTHS);
     try {
