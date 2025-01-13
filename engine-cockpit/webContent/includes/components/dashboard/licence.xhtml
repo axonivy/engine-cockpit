@@ -38,9 +38,9 @@
     </ui:fragment>
   </p:panelGrid>
   <p:panelGrid columns="1" layout="flex">
-    <h:outputText value="No licence installed. Your engine runs in demo mode." rendered="#{!licenceBean.installed}" />
-    <p:staticMessage rendered="#{licenceBean.installed and !licenceBean.valid}" severity="warn"
-      detail="#{licenceBean.problemMessage}" />
+    <h:outputText value="No licence installed. Your engine runs in demo mode." rendered="#{!licenceBean.installed}" />    
+    <p:staticMessage rendered="#{licenceBean.installed and !licenceBean.valid}" severity="warn" detail="#{licenceBean.problemMessage}" />
+    <p:staticMessage rendered="#{licenceBean.showExpiryWarning()}" severity="warn" detail="Your licence is about to expire. Please get in touch with your sales." />
     <p:linkButton id="uploadLicenceBtn" type="button" value="Upload Licence"
       rendered="#{!licenceBean.installed or !licenceBean.valid}" icon="si si-upload-bottom"
       href="licence.xhtml" />

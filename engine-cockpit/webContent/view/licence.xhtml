@@ -23,16 +23,10 @@
         <div class="p-d-flex p-ai-center p-mb-3">
           <i class="p-pr-3 si si-real-estate-action-house-key card-title-icon"></i>
           <h2 class="p-m-0">Licence</h2>
-          <h:form id="renewForm" styleClass="p-ml-auto">
-            <p:commandButton id="tasksButtonLicenceRenew" title="Renew Licence" type="button"
-              icon="si si-navigation-right-circle" value="Renew" rendered="#{licenceBean.showRenewLicFeature()}"
-              onclick="PF('renewLicence').show()" />
-          </h:form>
         </div>
         <cc:Licence id="licence"
-          updateFields="licence:fileUploadForm:licenceOverview, licWarnMessage, renewForm" />
-      </div>
-      <cc:RenewLicence id="renewLicence" title="Renew Licence" />
+          updateFields="licence:fileUploadForm:licenceOverview, licWarnMessage" />
+      </div>      
     </ui:define>
 
     <ui:define name="live-stats">
