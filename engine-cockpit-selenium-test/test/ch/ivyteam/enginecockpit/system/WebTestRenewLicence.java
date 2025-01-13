@@ -36,7 +36,7 @@ public class WebTestRenewLicence {
     $(".ui-growl-title").hover();
     $(".ui-growl-icon-close").shouldBe(visible).click();
     var table = new Table(By.id("licence:fileUploadForm:licenceInfoTable"));
-    table.firstColumnShouldBe(size(13));
+    table.firstColumnShouldBe(size(10));
     table.valueForEntryShould("licence.type", 2, text("Standard Edition"));
   }
 
