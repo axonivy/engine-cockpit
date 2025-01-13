@@ -131,7 +131,6 @@
                 </goals>
                 <configuration>
                   <additionalVmArgs>
-                    <additionalVmArg>-Dlicence.base.uri=http://localhost:8080/test/api/test</additionalVmArg>
                     <additionalVmArg>-Ddb.host=${db.host}</additionalVmArg>
                     <additionalVmArg>-Divy.Applications.test.Databases.realdb.Url=jdbc:mysql://${db.host}:3306/test</additionalVmArg>
                     <additionalVmArg>-Dch.ivyteam.ivy.health.check.startup.delay=0</additionalVmArg>
