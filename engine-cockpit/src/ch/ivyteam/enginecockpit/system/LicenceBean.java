@@ -32,6 +32,7 @@ import ch.ivyteam.licence.SystemLicence;
 @ManagedBean
 @RequestScoped
 public class LicenceBean extends StepStatus {
+
   private static final String LICENCEE_ORGANISATION = "licencee.organisation";
   private static final String LICENCE_TYPE = "licence.type";
   private static final String LICENCE_VALID_UNTIL = "licence.valid.until";
@@ -89,14 +90,6 @@ public class LicenceBean extends StepStatus {
     return StringUtils.isBlank(expiryDate) ? "Never" : expiryDate;
   }
 
-  public boolean showRenewLicFeature() {
-    try {
-      return SystemLicence.isInstalled() && SystemLicence.getValidUntil() != null;
-    } catch (DateTimeParseException ex) {
-      return false;
-    }
-  }
-
   public boolean showExpiryWarning() {
     var inThreeMonth = LocalDate.now().plus(3, ChronoUnit.MONTHS);
     try {
@@ -107,16 +100,14 @@ public class LicenceBean extends StepStatus {
   }
 
   public String getUsers() {
-    if (users == null) { // lazy because calculation can be expensive with many
-                         // users
+    if (users == null) {
       users = calculateUsers();
     }
     return users;
   }
 
   public String getSessions() {
-    if (sessions == null) { // lazy because calculation can be expensive with
-                            // many sessions
+    if (sessions == null) {
       sessions = calculateSessions();
     }
     return sessions;
