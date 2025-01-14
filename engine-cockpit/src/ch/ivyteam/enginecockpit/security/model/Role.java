@@ -25,7 +25,7 @@ public class Role implements SecurityMember {
 
   public Role(IRole role) {
     this.name = role.getName();
-    this.description = role.getDisplayDescription();
+    this.description = role.getDescription();
     this.displayName = role.getDisplayName();
     this.externalName = role.getExternalName();
     this.member = false;
