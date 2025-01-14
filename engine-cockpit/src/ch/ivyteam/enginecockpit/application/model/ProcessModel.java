@@ -9,11 +9,13 @@ import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
+import ch.ivyteam.ivy.workflow.restricted.WorkflowContextInternal;
 
 public class ProcessModel extends AbstractActivity {
   private IProcessModel pm;
   private Boolean isOverrideProject;
   private long runningCasesCount = -1;
+  private List<String> deletable;
 
   public ProcessModel(IProcessModel pm, ApplicationBean bean) {
     super(pm.getName(), pm.getId(), pm, bean);
@@ -26,8 +28,12 @@ public class ProcessModel extends AbstractActivity {
   }
 
   @Override
+  @SuppressWarnings("restriction")
   public long getRunningCasesCount() {
-    countRunningCases();
+    if (runningCasesCount < 0) {
+      var wf = (WorkflowContextInternal) IWorkflowContext.current();
+      runningCasesCount = wf.getRunningCasesCount(pm);
+    }
     return runningCasesCount;
   }
 
@@ -63,7 +69,10 @@ public class ProcessModel extends AbstractActivity {
 
   @Override
   public List<String> isDeletable() {
-    return pm.isDeletableInternal();
+    if (deletable == null) {
+      deletable = pm.isDeletableInternal();
+    }
+    return deletable;
   }
 
   @SuppressWarnings("restriction")
@@ -81,14 +90,4 @@ public class ProcessModel extends AbstractActivity {
     }
     return isOverrideProject;
   }
-
-  private void countRunningCases() {
-    if (pm != null && runningCasesCount < 0) {
-      var wf = IWorkflowContext.current();
-      runningCasesCount = pm.getProcessModelVersions().parallelStream()
-              .mapToLong(pmv -> wf.getRunningCasesCount(pmv)).sum();
-    }
-  }
-
-
 }
