@@ -231,8 +231,8 @@ public class RoleDetailBean {
 
   public void saveRoleInfos() {
     var iRole = getIRole();
-    iRole.setDisplayDescriptionTemplate(role.getDescription());
-    iRole.setDisplayNameTemplate(role.getDisplayName());
+    iRole.setDescription(role.getDescription());
+    iRole.setDisplayName(role.getDisplayName());
     iRole.setExternalName(role.getExternalName());
     var msg = new FacesMessage("Role information changes saved");
     FacesContext.getCurrentInstance().addMessage("informationSaveSuccess", msg);

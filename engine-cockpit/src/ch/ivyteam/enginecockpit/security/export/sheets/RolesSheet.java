@@ -33,7 +33,7 @@ public class RolesSheet {
       var cellNr = 0;
       row.createResultCell(cellNr++, role.getName());
       row.createResultCell(cellNr++, role.getDisplayName());
-      row.createResultCell(cellNr++, role.getDisplayDescription());
+      row.createResultCell(cellNr++, role.getDescription());
       row.createResultCell(cellNr++, role.getSecurityMemberId());
       row.createResultCell(cellNr++, role.getExternalName());
       for (var propertyName : role.getAllPropertyNames()) {
