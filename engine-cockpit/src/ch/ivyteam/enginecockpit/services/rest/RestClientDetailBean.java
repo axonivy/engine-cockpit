@@ -93,10 +93,10 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   @SuppressWarnings("restriction")
   private void reloadExternalRestClient() {
     var restClientManager = RestClientExecutionManager.instance();
-    var restClient = findRestClient();
+    var client = findRestClient();
 
     var applicationContext = restClientManager.getRestWebServiceApplicationContext(app);
-    var restWebService = applicationContext.getRestWebService(restClient.uniqueId());
+    var restWebService = applicationContext.getRestWebService(client.uniqueId());
 
     history = new ArrayList<>(restWebService.getCallHistory().stream()
         .map(call -> new ExecHistory(
