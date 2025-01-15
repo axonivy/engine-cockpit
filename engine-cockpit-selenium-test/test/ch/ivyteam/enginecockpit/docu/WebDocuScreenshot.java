@@ -14,7 +14,6 @@ import static org.openqa.selenium.By.id;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.Duration;
-import java.util.function.Function;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,8 +21,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 
@@ -211,7 +210,7 @@ class WebDocuScreenshot {
 
   @Test
   void screenshotSecuritySystem() {
-	  
+
     Navigation.toSecuritySystem();
     takeScreenshot("security-system", new Dimension(SCREENSHOT_WIDTH, 500));
     takeDialogScreenshot("dialog-new-security", By.id("form:createSecuritySystemBtn"));
@@ -223,21 +222,12 @@ class WebDocuScreenshot {
         By.id("identityProvider:dynamicConfigForm:group:1:property:0:browseDirectory"));
     Navigation.toUsers();
     Tab.SECURITY_SYSTEM.switchToDefault();
-    //Selenide.$(By.id("user-detail"))
-    Selenide.sleep(200); // additional wait in reason of flaky test
-    if(Selenide.$(By.id("users")).isDisplayed()) {
-        takeScreenshot("users", new Dimension(SCREENSHOT_WIDTH, 600)); 	
-    }
-    Navigation.toUserDetail("foo");   
-   // $("user-detail").shouldBe(visible);
-
-    Selenide.sleep(200); // additional wait in reason of flaky test
+    takeScreenshot("users", new Dimension(SCREENSHOT_WIDTH, 600));
+    Navigation.toUserDetail("foo");
     takeScreenshot("user-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
     Navigation.toRoles();
-    Selenide.sleep(200); // additional wait in reason of flaky test
     takeScreenshot("roles", new Dimension(SCREENSHOT_WIDTH, 550));
     Navigation.toRoleDetail("boss");
-    Selenide.sleep(200); // additional wait in reason of flaky test
     takeScreenshot("role-detail", new Dimension(SCREENSHOT_WIDTH, 1000));
   }
 
@@ -290,49 +280,22 @@ class WebDocuScreenshot {
     Dimension oldSize = WebDriverRunner.getWebDriver().manage().window().getSize();
     resizeBrowser(size);
     executeJs("scroll(0,0);");
-    //Selenide.sleep(400); // wait for menu animation
+    // Selenide.sleep(400); // wait for menu animation
     waitForStateComplete();
     Selenide.screenshot("engine-cockpit-" + fileName);
     resizeBrowser(oldSize);
   }
-  
-//  private void takeScreenshot(String fileName, Dimension size, int waitForReady) {
-//	  Selenide.Wait().
-//	  boolean isReady = false;
-//	  while (waitForReady == 0 || isReady ) {
-//		  String js = "(document.readyState == 'complete' || document.readyState == 'interactive')";
-//		  var as = ((RemoteWebDriver) WebDriverRunner.getWebDriver()).executeScript(js);
-//		  isReady = executeJs(js);
-//		  Selenide.sleep(200);
-//	  }
-//	  if(waitForReady == 0  ) {
-//
-//	  }
-//
-//	    Dimension oldSize = WebDriverRunner.getWebDriver().manage().window().getSize();
-//	    resizeBrowser(size);
-//	    executeJs("scroll(0,0);");
-//	    
-//	    Selenide.screenshot("engine-cockpit-" + fileName);
-//	    
-//	    resizeBrowser(oldSize);
-//	  }
+
   private void resizeBrowser(Dimension size) {
     WebDriverRunner.getWebDriver().manage().window().setSize(size);
   }
-  
-	private static boolean waitForStateComplete() {
-		var driver = WebDriverRunner.getWebDriver();
-		FluentWait<WebDriver> wait = new FluentWait<>(driver).withTimeout(Duration.ofMillis(1000)) // Maximum wait
-				.pollingEvery(Duration.ofMillis(100)) // Polling interval
-				.ignoring(Exception.class); // Ignore any exceptions like NoSuchElementException
 
-		return wait.until(new Function<WebDriver, Boolean>() {
-			@Override
-			public Boolean apply(WebDriver driver) {
-				return ((String) ((org.openqa.selenium.JavascriptExecutor) driver)
-						.executeScript("return document.readyState")).equals("complete");
-			}
-		});
-	}
+  private static boolean waitForStateComplete() {
+    var driver = WebDriverRunner.getWebDriver();
+    FluentWait<WebDriver> wait = new FluentWait<>(driver).withTimeout(Duration.ofMillis(1000))
+        .pollingEvery(Duration.ofMillis(100))
+        .ignoring(Exception.class);
+
+    return wait.until(d -> "complete".equals(((JavascriptExecutor) d).executeScript("return document.readyState")));
+  }
 }
