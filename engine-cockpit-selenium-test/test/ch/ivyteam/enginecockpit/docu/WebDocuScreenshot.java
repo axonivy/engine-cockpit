@@ -13,6 +13,7 @@ import static org.openqa.selenium.By.id;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.Duration;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,7 +21,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.CollectionCondition;
@@ -183,8 +183,8 @@ class WebDocuScreenshot {
     $(By.id("restClientConfigurationForm:url")).clear();
     $(By.id("restClientConfigurationForm:url")).sendKeys("https://test-webservices.ivyteam.io:8090/api/v3");
     $(By.id("restClientConfigurationForm:testRestBtn")).click();
-    $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
-    Selenide.Wait().until(ExpectedConditions.elementToBeClickable(By.id("connResult:connTestForm:testTlsConectionBtn")));
+    $(By.id("connResult:connTestForm:testTlsConectionBtn")).shouldBe(visible).click();
+    $(By.id("connResult:connTestForm:resultTLS")).shouldBe(visible, Duration.ofSeconds(10));
     takeDialogScreenshot("tls-tester");
   }
 
@@ -254,7 +254,7 @@ class WebDocuScreenshot {
   }
 
   private void takeDialogScreenshot(String screenshotName) {
-    var dialogScreenshot = $$(".ui-dialog").find(visible).screenshot().toPath();
+    var dialogScreenshot = $$(".ui-dialog").find(visible).shouldBe(visible, Duration.ofSeconds(10)).screenshot().toPath();
     var screenshot = dialogScreenshot.getParent().resolve("engine-cockpit-" + screenshotName + ".png");
     try {
       Files.copy(dialogScreenshot, screenshot);
