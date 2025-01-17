@@ -6,13 +6,9 @@ def buildCockpit(def phase = 'verify', def testFilter = '') {
 }
 
 def buildScreenshots(def phase = 'verify', def imgRefBranch = 'master', def imgSimilarity= '97') {
-  def mvnArgs = "-Dref.screenshot.build='${imgRefBranch}' -Dimg.similarity=${imgSimilarity} "
-  build(phase, mvnArgs, 'screenshots');
+  build(phase, "", 'screenshots');
 
-  archiveArtifacts '**/target/docu/**/*, **/target/*.html'
-  recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image', id: 'image-warnings')],
-  qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
-  currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
+  archiveArtifacts '**/target/docu/**/*'
 }
 
 def build(def phase = 'verify', def mvnArgs = '', def profile = 'cockpit') {
@@ -39,10 +35,6 @@ def build(def phase = 'verify', def mvnArgs = '', def profile = 'cockpit') {
                 "-P${profile} " +
                 mvnArgs
 
-            recordIssues tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
-              excludeMessage('The system property test.engine.url is configured twice!*'),
-              excludeMessage('JAR will be empty*')
-            ]
             junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
             archiveArtifacts '.ivy-engine/logs/*'
             archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true
@@ -57,6 +49,13 @@ def build(def phase = 'verify', def mvnArgs = '', def profile = 'cockpit') {
 
 def dockerFileParams() {
   return '--shm-size 1g --hostname=ivy';
+}
+
+def recordMavenIssues() {
+  recordIssues tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
+    excludeMessage('The system property test.engine.url is configured twice!*'),
+    excludeMessage('JAR will be empty*')
+  ]
 }
 
 return this

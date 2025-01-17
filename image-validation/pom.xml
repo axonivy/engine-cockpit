@@ -14,7 +14,7 @@
 
   <profiles>
     <profile>
-      <id>screenshots</id>
+      <id>screenshots-verify</id>
 
       <properties>
         <test.target.dir>${project.build.directory}/../../engine-cockpit-selenium-test/target/</test.target.dir>
