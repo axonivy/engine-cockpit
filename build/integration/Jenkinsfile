@@ -21,6 +21,7 @@ pipeline {
           def common = load 'build/build.groovy'
           def mvnArgs = "-Dtest.filter=${getTestFilter()} -Dmaven.test.failure.ignore=true -Pengine -Pintegration "
           common.buildIntegration(mvnArgs);
+          common.recordMavenIssues();
         }
       }
     }
