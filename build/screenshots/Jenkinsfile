@@ -18,15 +18,24 @@ pipeline {
       steps {
         script {
           def common = load 'build/build.groovy'
-          def mvnArgs = "-Dref.screenshot.build='${getScreenshotRefBranch()}' " + 
-              "-Dimg.similarity=${getImageSimilarity()} " + 
-              "-Pengine -Pscreenshots "
-          common.buildIntegration(mvnArgs);
-
-          archiveArtifacts '**/target/docu/**/*, **/target/*.html'
-          recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image', id: 'image-warnings')],
-          qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
-          currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
+          common.buildIntegration("-Pengine -Pscreenshots ");
+          archiveArtifacts '**/target/docu/**/*'
+        }
+      }
+    }
+    stage('verify') {
+      steps {
+        script {
+          docker.build('maven', '-f build/Dockerfile .').inside() {
+            maven cmd: "verify -f image-validation/pom.xml -ntp -Dmaven.test.skip=true " + 
+                "-Dref.screenshot.build='${getScreenshotRefBranch()}' " + 
+                "-Dimg.similarity=${getImageSimilarity()} " + 
+                "-Pscreenshots-verify "
+            archiveArtifacts '**/target/*.html'
+            def common = load 'build/build.groovy'
+            common.recordMavenIssues();
+            currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
+          }
         }
       }
     }
