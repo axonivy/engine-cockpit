@@ -23,6 +23,22 @@ pipeline {
         }
       }
     }
+    stage('verify') {
+      steps {
+        script {
+          docker.build('maven', '-f build/Dockerfile .').inside() {
+            maven cmd: "verify -f image-validation/pom.xml -ntp -Dmaven.test.skip=true " + 
+                "-Dref.screenshot.build='${getScreenshotRefBranch()}' " + 
+                "-Dimg.similarity=${getImageSimilarity()} " + 
+                "-Pscreenshots-verify "
+            archiveArtifacts '**/target/*.html'
+            def common = load 'build/build.groovy'
+            common.recordMavenIssues();
+            currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
+          }
+        }
+      }
+    }
   }
 }
 
