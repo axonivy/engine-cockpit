@@ -39,12 +39,14 @@ def build() {
 def mvnBuild(def mvnArgs = '') {
   def phase = isReleasingBranch() ? 'deploy' : 'verify'
   maven cmd: "clean ${phase} -ntp -Divy.engine.version.latest.minor=true -Dmaven.test.skip=false " + mvnArgs
-  
+  junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
+}
+
+def recordMavenIssues() {
   recordIssues tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
     excludeMessage('The system property test.engine.url is configured twice!*'),
     excludeMessage('JAR will be empty*')
   ]
-  junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
 }
 
 return this
