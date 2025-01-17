@@ -31,8 +31,8 @@ pipeline {
         script {
           def common = load 'build/build.groovy'
           common.build();
-
           archiveArtifacts '**/target/engine-cockpit-*.iar, **/target/engine-cockpit-*.jar'
+          common.recordMavenIssues();
         }
       }
     }

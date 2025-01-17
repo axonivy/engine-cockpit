@@ -14,7 +14,7 @@
 
   <profiles>
     <profile>
-      <id>screenshots</id>
+      <id>screenshots-verify</id>
 
       <properties>
         <test.target.dir>${project.build.directory}/../../engine-cockpit-selenium-test/target/</test.target.dir>
@@ -72,8 +72,9 @@
                       <exclude>**/engine-cockpit-monitor-system-overview.png</exclude>
                       <exclude>**/engine-cockpit-monitor-process-execution.png</exclude>
                       <exclude>**/engine-cockpit-monitor-notification-deliveries.png</exclude>
-                      <exclude>**/engine-cockpit-monitor-notifications.png</exclude>                      
+                      <exclude>**/engine-cockpit-monitor-notifications.png</exclude>
                       <exclude>**/engine-cockpit-monitor-logs.png</exclude>
+                      <exclude>**/engine-cockpit-pmv-detail.png</exclude>
                     </excludes>
                   </newImagesFs>
                   <refImages>${project.build.directory}/screenshots</refImages>
