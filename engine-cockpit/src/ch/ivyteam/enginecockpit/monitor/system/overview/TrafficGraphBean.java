@@ -233,6 +233,9 @@ public class TrafficGraphBean {
     }
 
     public String getProtocolAndPort() {
+      if (protocol == null) {
+        return "";
+      }
       return this.protocol + (this.port == -1 ? "" : " [" + this.port + "]");
     }
 

@@ -17,8 +17,10 @@ import ch.ivyteam.enginecockpit.monitor.trace.TracerAccess;
 import ch.ivyteam.enginecockpit.monitor.trace.TstSpan;
 import ch.ivyteam.ivy.trace.Span;
 import ch.ivyteam.ivy.trace.SpanResult;
+import ch.ivyteam.ivy.trace.SystemOverview.SystemLink;
 
 class TestTrafficGraphBean {
+
   private final TrafficGraphBean bean = new TrafficGraphBean();
   private final TraceBean trace = new TraceBean();
 
@@ -120,6 +122,22 @@ class TestTrafficGraphBean {
     assertThat(bean.getModel().getElements()).hasSize(1);
   }
 
+  @Test
+  void system_ivy() {
+    var testee = new TrafficGraphBean.System("ivy");
+    assertThat(testee.getName()).isEqualTo("ivy");
+    assertThat(testee.getHost()).isNull();
+    assertThat(testee.getProtocolAndPort()).isEmpty();
+  }
+
+  @Test
+  void system_link() {
+    var testee = new TrafficGraphBean.System(new SystemLinkImpl());
+    assertThat(testee.getName()).isEqualTo("System Database");
+    assertThat(testee.getHost()).isEqualTo("db");
+    assertThat(testee.getProtocolAndPort()).isEqualTo("jdbc [1234]");
+  }
+
   private LabelOverlay toLabel(Connection con) {
     assertThat(con.getOverlays()).hasSize(2);
     return con
@@ -144,4 +162,25 @@ class TestTrafficGraphBean {
     assertThat(ivy.getStyleClass()).isEqualTo(styleClass);
   }
 
+  private static final class SystemLinkImpl implements SystemLink {
+    @Override
+    public String host() {
+      return "db";
+    }
+
+    @Override
+    public String name() {
+      return "System Database";
+    }
+
+    @Override
+    public int port() {
+      return 1234;
+    }
+
+    @Override
+    public String protocol() {
+      return "jdbc";
+    }
+  }
 }
