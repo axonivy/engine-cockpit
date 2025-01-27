@@ -21,7 +21,7 @@
       <!-- oshi needs to align it's jna dependency with the axon ivy core jna dependency -->
       <groupId>com.github.oshi</groupId>
       <artifactId>oshi-core</artifactId>
-      <version>5.8.7</version>
+      <version>6.6.6</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
