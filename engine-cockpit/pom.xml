@@ -35,7 +35,7 @@
 						<artifactItem>
 							<groupId>com.github.oshi</groupId>
 							<artifactId>oshi-core</artifactId>
-							<version>3.13.0</version>
+							<version>3.14.0</version>
 						</artifactItem>
 						<artifactItem>
 							<groupId>net.java.dev.jna</groupId>
