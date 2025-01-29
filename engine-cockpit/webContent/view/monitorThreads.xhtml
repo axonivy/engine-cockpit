@@ -135,7 +135,7 @@
               <p:outputPanel id="lockedMonitors" styleClass="code">#{threadBean.selected.lockedMonitors}</p:outputPanel>
               <h:panelGroup>
                 <p:outputLabel for="stackTrace" value="Stack Trace"/>
-                <p:commandButton id="copyStack" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard($('#thread\\:stackTrace').text())"
+                <p:commandButton id="copyStack" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="var button=this; copyToClipboard($('#thread\\:stackTrace').text(), button)"
                     styleClass="ui-button-flat rounded-button"/>
               </h:panelGroup>
               <p:outputPanel id="stackTrace" styleClass="code">#{threadBean.selected.stackTrace}</p:outputPanel>  
