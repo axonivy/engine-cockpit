@@ -10,7 +10,7 @@
       <h:outputText id="message" value="#{errorBean.selected.message}"/>
       <h:panelGroup>
         <p:outputLabel for="stackTrace" value="Stack Trace"/>
-        <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard($('#error\\:stackTrace').text())"
+        <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="var button=this; copyToClipboard($('#error\\:stackTrace').text(), button)"
             styleClass="ui-button-flat rounded-button"/>
       </h:panelGroup>
       <p:outputPanel id="stackTrace" styleClass="code">
