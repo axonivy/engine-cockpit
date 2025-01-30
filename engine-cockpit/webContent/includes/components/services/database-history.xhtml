@@ -29,7 +29,7 @@
       </p:column>
       <p:column headerText="SQL" sortBy="#{exec.sql}">
         <h:outputText value="#{exec.sql}" title="#{exec.sql}" styleClass="table-cell-autocut" style="width: calc(100% - 3rem);"/>
-        <p:commandButton icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard($(this).siblings('.table-cell-autocut').text())"
+        <p:commandButton icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="var button=this; copyToClipboard($(this).siblings('.table-cell-autocut').text(), button)"
           styleClass="ui-button-flat rounded-button"/>
       </p:column>
       <p:column headerText="Process Element" style="width: 75px; word-wrap: anywhere;" sortBy="#{exec.element}">
