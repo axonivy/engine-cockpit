@@ -61,15 +61,16 @@
                   <h6 class="m-0">Activity</h6>
                 </div>
               </div>
-                
+              
               <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
                 styleClass="grey-label-panel ui-fluid">
                 <label>State</label>
-                <h:outputText>
+                <h:panelGroup layout="block" styleClass="inline-flex align-items-center gap-2">
                   <i class="si si-#{pmvDetailBean.pmv.state.operationIcon} icon-bold
                     activity-state-#{pmvDetailBean.pmv.state.operationCssClass}"
                     title="#{pmvDetailBean.pmv.state.operation}" />
-                </h:outputText>
+                  <span>#{pmvDetailBean.pmv.state.errorMessage}"></span>
+                </h:panelGroup>
                 <label>Configured state</label>
                 <h:outputText>
                   <i class="si si-#{pmvDetailBean.pmv.state.stateIcon} icon-bold
