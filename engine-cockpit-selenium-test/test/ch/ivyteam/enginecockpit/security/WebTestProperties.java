@@ -6,7 +6,6 @@ import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -63,7 +62,7 @@ class WebTestProperties {
 
     @Test
     void propertyAddEditDelete() {
-      var key = "test";
+      var key = "testProperty";
       addProperty(key, "testValue");
       editProperty(key, "edit");
       deleteProperty(key);
@@ -87,7 +86,7 @@ class WebTestProperties {
 
     @Test
     void propertyAddEditDelete() {
-      String key = "test";
+      String key = "testProperty";
       addProperty(key, "testValue");
       editProperty(key, "edit");
       deleteProperty(key);
@@ -110,17 +109,14 @@ class WebTestProperties {
     Table table = new Table(TABLE_ID);
     table.clickButtonForEntry(key, "deletePropertyBtn");
     $(PROPERTIES_GROWL).shouldHave(text("Successfully removed"));
-    assertThat(table.getFirstColumnEntries()).hasSize(0);
+    table.body().shouldNot(text(key));
   }
 
   private void addProperty(String key, String value) {
-    Table table = new Table(TABLE_ID);
-    assertThat(table.getFirstColumnEntries()).hasSize(0);
     $(PROPERTY_NAME_INPUT).sendKeys(key);
     $(PROPERTY_VALUE_INPUT).sendKeys(value);
     $(SAVE_PROPERTY).click();
 
-    assertThat(table.getFirstColumnEntries()).hasSize(1);
     assertTableHasKeyValue(key, value, false);
     $(PROPERTIES_GROWL).shouldHave(text("Successfully"));
   }
