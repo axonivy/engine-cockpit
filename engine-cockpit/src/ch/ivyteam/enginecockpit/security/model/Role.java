@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.security.model;
 
+import java.util.Objects;
+
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +11,7 @@ import ch.ivyteam.ivy.security.ISecurityConstants;
 
 public class Role {
 
+  private String securityMemberId;
   private String name;
   private String description;
   private String displayName;
@@ -22,6 +25,7 @@ public class Role {
   }
 
   public Role(IRole role) {
+    this.securityMemberId = role.getSecurityMemberId();
     this.name = role.getName();
     this.description = role.getDisplayDescription();
     this.displayName = role.getDisplayName();
@@ -103,10 +107,30 @@ public class Role {
   public void setParentRoleName(String parentRoleName) {
     this.parentRoleName = parentRoleName;
   }
+  
+  public String getSecurityMemberId() {
+    return securityMemberId;
+  }
 
   @Override
   public String toString() {
     return name;
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj instanceof Role role) {
+      return getSecurityMemberId().equals(role.getSecurityMemberId());
+    }
+    return false;
+  }
+  
+  @Override
+  public int hashCode() {
+    return Objects.hash(getSecurityMemberId());
   }
 
   public boolean isTopLevel() {

@@ -349,9 +349,18 @@ public class RoleDetailBean {
   }
 
   public List<Role> searchMember(String query) {
-    return roleDataModel.getList().stream()
-            .filter(m -> StringUtils.containsIgnoreCase(m.getName(), query) && !isRoleMemberOfRole(m.getName()))
-            .limit(10).collect(Collectors.toList());
+    var directMatch = roleDataModel.getList().stream()
+        .filter(m -> StringUtils.equalsIgnoreCase(m.getName(), query))
+        .filter(m -> !isRoleMemberOfRole(m.getName()))
+        .findAny();
+    var result = roleDataModel.getList().stream()
+        .filter(m -> StringUtils.containsIgnoreCase(m.getName(), query))
+        .filter(m -> !isRoleMemberOfRole(m.getName()))
+        .limit(10).collect(Collectors.toList());
+    if (directMatch.isPresent() && !result.contains(directMatch.get())) {
+      result.add(0, directMatch.get());
+    }
+    return result;
   }
 
   public MemberProperty getMemberProperty() {
