@@ -161,6 +161,9 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter {
     if ("email".equals(sortField)) {
       applySorting(query.orderBy().eMailAddress(), sortOrder);
     }
+    if ("lastLogin".equals(sortField)) {
+      applySorting(query.orderBy().lastLoginTimestamp(), sortOrder);
+    }
   }
 
   private static void applySorting(UserQuery.OrderByColumnQuery query, SortOrder sortOrder) {
