@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
@@ -57,7 +58,7 @@ public class ManagerBean {
   public void reloadEnvironments() {
     if (!applications.isEmpty()) {
       if (StringUtils.isBlank(selectedEnvironment)) {
-        selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(),
+        selectedEnvironment = Objects.toString(getSelectedIApplication().getActiveEnvironment(),
                 IEnvironment.DEFAULT_ENVIRONMENT_NAME);
       }
       for (IApplication iApplication : getIApplications()) {
