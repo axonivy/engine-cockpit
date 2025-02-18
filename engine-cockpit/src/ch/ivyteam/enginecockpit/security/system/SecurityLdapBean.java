@@ -291,17 +291,16 @@ public class SecurityLdapBean {
     }
     var envProps = getEnvironmentProperties();
 
-
     var jndiProvider = provider();
     if (jndiProvider == null) {
       throw new IllegalStateException("provider is null " + provider);
     }
 
     return new JndiConfig(jndiProvider,
-            url,
+            StringUtils.defaultIfBlank(url, ExternalSecuritySystemConfiguration.props(provider).get(ConfigKey.CONNECTION_URL)),
             authenticationKind,
-            userName,
-            password,
+            StringUtils.defaultIfBlank(userName, ExternalSecuritySystemConfiguration.props(provider).get(ConfigKey.CONNECTION_USER_NAME)),
+            StringUtils.defaultIfBlank(password, ExternalSecuritySystemConfiguration.props(provider).get(ConfigKey.CONNECTION_PASSWORD)),
             useLdapConnectionPool,
             browseDefaultContext,
             envProps);
