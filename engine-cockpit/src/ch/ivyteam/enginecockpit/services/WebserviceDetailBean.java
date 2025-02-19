@@ -56,6 +56,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private Property activeProperty;
   private Feature activeFeature;
   private List<WebServiceExecHistory> history;
+  private String editFeature;
 
   public WebserviceDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -300,6 +301,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   @Override
   public void setFeature(String clazz) {
+    this.editFeature = clazz;
     this.activeFeature = findFeature(clazz);
   }
 
@@ -310,6 +312,9 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   @Override
   public void saveFeature(boolean isNewFeature) {
+    if (editFeature != null) {
+      removeFeature(editFeature);
+    }
     if (!isNewFeature || !isExistingFeature()) {
       saveWebService(wsBuilder().feature(getFeature().getClazz()));
     }
