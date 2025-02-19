@@ -148,6 +148,16 @@ class WebTestRestClientDetail {
     $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
   }
 
+  @Test
+  void editFeatureCancel() {
+    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:");
+    editor.addFeature("ch.ivyteam.ivy.rest.client.feature.AuthFeature");
+    editor.editFeatureCancel("ch.ivyteam.ivy.rest.client.feature.editFeature", 2, 2);
+    var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
+    table.row(2).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.AuthFeature"));
+    $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
+  }
+
   private void setConfiguration(String url, String username) {
     setUrl(url);
     setUserName(username);

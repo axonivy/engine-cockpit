@@ -25,4 +25,11 @@ public class FeatureEditor {
     $(By.id(featureEditor + nameInputNumber + ":editFeatureEditor:featureForm:nameInput")).sendKeys(value);
     $(By.id(featureEditor + nameInputNumber + ":editFeatureEditor:featureForm:saveFeature")).click();
   }
+  
+  public void editFeatureCancel(String value, Integer editFeatureNumber, Integer nameInputNumber) {
+    $(By.id(featureEditor + editFeatureNumber + ":editFeatureEditor:editFeatureBtn")).shouldBe(visible).click();
+    $(By.id(featureEditor + nameInputNumber + ":editFeatureEditor:featureForm:nameInput")).clear();
+    $(By.id(featureEditor + nameInputNumber + ":editFeatureEditor:featureForm:nameInput")).sendKeys(value);
+    $(By.id(featureEditor + nameInputNumber + ":editFeatureEditor:featureForm:cancelFeature")).click();
+  }
 }

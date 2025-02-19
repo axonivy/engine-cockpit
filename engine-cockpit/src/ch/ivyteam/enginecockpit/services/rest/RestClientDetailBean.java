@@ -50,6 +50,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   private Property activeProperty;
   private Feature activeFeature;
   private List<ExecHistory> history;
+  private String editFeature;
 
   public RestClientDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -243,6 +244,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   @Override
   public void setFeature(String clazz) {
+    this.editFeature = clazz;
     this.activeFeature = findFeature(clazz);
   }
 
@@ -253,6 +255,9 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   @Override
   public void saveFeature(boolean isNewFeature) {
+    if (editFeature != null) {
+      removeFeature(editFeature);
+    }
     if (!isExistingFeature()) {
       saveRestClient(restBuilder().feature(getFeature().getClazz()));
     }

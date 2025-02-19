@@ -204,6 +204,16 @@ class WebTestWebserviceDetail {
     $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
   }
 
+  @Test
+  void editFeatureCancel() {
+    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
+    editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
+    editor.editFeatureCancel("ch.ivyteam.ivy.webservice.feature.editFeature", 1, 0);
+    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
+    table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
+    $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
+  }
+
   private void setEndPoint(String defaultLink, String... fallbacks) {
     new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk")
         .clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
