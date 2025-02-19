@@ -19,10 +19,19 @@ public class FeatureEditor {
     $(By.id(featureEditor + "newFeatureEditor:featureForm:saveFeature")).click();
   }
 
-  public void editFeature(String value, Integer editFeatureNumber, Integer nameInputNumber) {
-    $(By.id(featureEditor + editFeatureNumber + ":editFeatureEditor:editFeatureBtn")).shouldBe(visible).click();
-    $(By.id(featureEditor + nameInputNumber + ":editFeatureEditor:featureForm:nameInput")).clear();
-    $(By.id(featureEditor + nameInputNumber + ":editFeatureEditor:featureForm:nameInput")).sendKeys(value);
-    $(By.id(featureEditor + nameInputNumber + ":editFeatureEditor:featureForm:saveFeature")).click();
+  public void editFeatureSave(String value, Integer editFeatureIndex) {
+    edit(value, editFeatureIndex);
+    $(By.id(featureEditor + editFeatureIndex + ":editFeatureEditor:featureForm:saveFeature")).click();
+  }
+
+  public void editFeatureCancel(String value, Integer editFeatureIndex) {
+    edit(value, editFeatureIndex);
+    $(By.id(featureEditor + editFeatureIndex + ":editFeatureEditor:featureForm:cancelFeature")).click();
+  }
+
+  private void edit(String value, Integer editFeatureIndex) {
+    $(By.id(featureEditor + editFeatureIndex + ":editFeatureEditor:editFeatureBtn")).shouldBe(visible).click();
+    $(By.id(featureEditor + editFeatureIndex + ":editFeatureEditor:featureForm:nameInput")).clear();
+    $(By.id(featureEditor + editFeatureIndex + ":editFeatureEditor:featureForm:nameInput")).sendKeys(value);
   }
 }
