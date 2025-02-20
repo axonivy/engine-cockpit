@@ -16,25 +16,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.browserup.bup.filters.ResponseFilter;
 import com.browserup.bup.util.HttpMessageContents;
 import com.browserup.bup.util.HttpMessageInfo;
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 
+import ch.ivyteam.enginecockpit.test.ProxyExtension;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import io.netty.handler.codec.http.HttpResponse;
 
 @IvyWebTest
+@ExtendWith({ProxyExtension.class})
 public class WebTestLogin {
   static RecordLoginStatusCode STATUS = new RecordLoginStatusCode();
 
   @BeforeAll
   static void beforeAll() {
-    Selenide.closeWebDriver();
-    Configuration.proxyEnabled = true;
     open(viewUrl(LOGIN));
     Selenide.webdriver().driver().getProxy().addResponseFilter(LOGIN, STATUS);
   }

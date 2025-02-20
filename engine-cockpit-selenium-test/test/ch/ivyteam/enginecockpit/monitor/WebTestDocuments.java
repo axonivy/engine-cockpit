@@ -10,31 +10,27 @@ import java.time.Duration;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.DownloadOptions;
-import com.codeborne.selenide.FileDownloadMode;
-import com.codeborne.selenide.Selenide;
 
+import ch.ivyteam.enginecockpit.test.FileDownloadExtension;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
+@ExtendWith({FileDownloadExtension.class})
 class WebTestDocuments {
 
   private static final long TIMEOUT = Duration.ofMinutes(1).toMillis();
 
   @BeforeEach
   void beforeEach() {
-    Selenide.closeWebDriver();
-    Configuration.proxyEnabled = true;
-    Configuration.fileDownload = FileDownloadMode.PROXY;
-
     login();
     EngineCockpitUtil.createBlob();
 
