@@ -198,9 +198,19 @@ class WebTestWebserviceDetail {
   void editFeature() {
     var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
     editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
-    editor.editFeature("ch.ivyteam.ivy.webservice.feature.editFeature", 1, 0);
+    editor.editFeatureSave("ch.ivyteam.ivy.webservice.feature.editFeature", 1);
     var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
     table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.editFeature"));
+    $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
+  }
+
+  @Test
+  void editFeatureCancel() {
+    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
+    editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
+    editor.editFeatureCancel("ch.ivyteam.ivy.webservice.feature.editFeature", 1);
+    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
+    table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
     $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
   }
 

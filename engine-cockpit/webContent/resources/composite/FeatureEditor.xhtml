@@ -14,16 +14,17 @@
 <cc:implementation>
   <p:commandButton id="editFeatureBtn"
     actionListener="#{cc.attrs.bean.setFeature(feature.clazz)}"
-    action="#{cc.attrs.bean.removeFeature(feature.clazz)}"
     icon="si si-pencil" title="Edit" disabled="#{feature.default}"
     update="@form" rendered="#{!cc.attrs.isNewFeature}"
     oncomplete="PF('featureModal').show();" process="@this" 
     styleClass="col-fixed ml-1 ui-button-secondary rounded-button" />
+
   <p:commandButton id="deleteFeatureBtn" disabled="#{feature.default}"
     actionListener="#{cc.attrs.bean.removeFeature(feature.clazz)}"
     update="#{cc.attrs.formName}" icon="si si-bin-1" title="Delete"
     rendered="#{!cc.attrs.isNewFeature}" process="@this"
     styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
+
   <p:commandButton id="newServiceFeatureBtn"
     oncomplete="PF('featureModal').show();" process="@this"
     actionListener="#{cc.attrs.bean.setFeature(null)}"
