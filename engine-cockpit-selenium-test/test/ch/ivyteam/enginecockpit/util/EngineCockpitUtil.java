@@ -46,11 +46,11 @@ public class EngineCockpitUtil {
 
   public static void login(String url, String username, String password) {
     open(viewUrl(url));
-    if (webdriver().driver().url().endsWith("LOGIN")) {
+    if (webdriver().driver().url().endsWith(LOGIN)) {
       loginUser(username, password);
     }
     $("#menuform").shouldBe(visible);
-    assertCurrentUrlContains(url == "LOGIN" ? DASHBOARD : url);
+    assertCurrentUrlContains(url == LOGIN ? DASHBOARD : url);
   }
   
   public static void forceLogin() {
