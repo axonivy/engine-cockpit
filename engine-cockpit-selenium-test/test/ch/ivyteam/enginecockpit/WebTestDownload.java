@@ -16,28 +16,23 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.DownloadOptions;
-import com.codeborne.selenide.FileDownloadMode;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.files.FileFilters;
 import com.codeborne.selenide.junit5.ScreenShooterExtension;
 
+import ch.ivyteam.enginecockpit.test.FileDownloadExtension;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
-@ExtendWith({ScreenShooterExtension.class})
+@ExtendWith({ScreenShooterExtension.class, FileDownloadExtension.class})
 class WebTestDownload {
 
   private static final long TIMEOUT = Duration.ofMinutes(1).toMillis();
 
   @BeforeAll
   static void setup() {
-    Selenide.closeWebDriver();
-    Configuration.proxyEnabled = true;
-    Configuration.fileDownload = FileDownloadMode.PROXY;
     EngineCockpitUtil.login();
   }
 
