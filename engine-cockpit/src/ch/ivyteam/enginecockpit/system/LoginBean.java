@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -16,7 +17,6 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 
 @ManagedBean
 @SessionScoped
-@SuppressWarnings("restriction")
 public class LoginBean {
   private String userName;
   private String password;
@@ -43,8 +43,17 @@ public class LoginBean {
       redirect(StringUtils.isNotBlank(originalUrl) ? originalUrl : "dashboard.xhtml");
       return;
     }
+    
+    sendUnauthorizedStatusCode();
     FacesContext.getCurrentInstance().addMessage(null,
             new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failed", "Login failed"));
+  }
+
+  private void sendUnauthorizedStatusCode() {
+    var response = FacesContext.getCurrentInstance().getExternalContext().getResponse();
+    if (response instanceof HttpServletResponse httpResponse) {
+      httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    }
   }
 
   public void logout() {

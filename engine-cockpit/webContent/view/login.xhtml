@@ -26,7 +26,7 @@
         <p:inputText id="userName" autocomplete="off" value="#{loginBean.userName}" required="true" placeholder="Username / Email" />
         <p:password id="password" autocomplete="off" value="#{loginBean.password}" required="true" placeholder="Password" />
         
-        <p:commandButton update="@form" id="login" actionListener="#{loginBean.login}" value="Sign In" icon="si si-login-3" />
+        <p:commandButton update="@form" id="login" actionListener="#{loginBean.login}" value="Sign In" icon="si si-login-3" ajax="false"/>
         <p:messages globalOnly="true" id="loginMessage" />
         
         <h:panelGroup rendered="#{!engineModeBean.isMaintenance() and !administratorBean.hasAdmins()}">

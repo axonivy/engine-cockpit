@@ -25,6 +25,9 @@ import com.codeborne.selenide.WebDriverRunner;
 
 public class EngineCockpitUtil {
 
+  public static final String DASHBOARD = "dashboard.xhtml";
+  public static final String LOGIN = "login.xhtml";
+  
   public static String pmvName() {
     return System.getProperty("test.engine.pmv", "engine-cockpit");
   }
@@ -34,7 +37,7 @@ public class EngineCockpitUtil {
   }
 
   public static void login() {
-    login("dashboard.xhtml");
+    login(DASHBOARD);
   }
 
   public static void login(String url) {
@@ -43,18 +46,33 @@ public class EngineCockpitUtil {
 
   public static void login(String url, String username, String password) {
     open(viewUrl(url));
-    if (webdriver().driver().url().endsWith("login.xhtml")) {
-      $("h4").shouldHave(text("Engine Cockpit"));
-      $("#loginForm\\:userName").sendKeys(username);
-      $("#loginForm\\:password").sendKeys(password);
-      $("#loginForm\\:login").click();
+    if (webdriver().driver().url().endsWith(LOGIN)) {
+      loginUser(username, password);
     }
     $("#menuform").shouldBe(visible);
-    assertCurrentUrlContains(url == "login.xhtml" ? "dashboard.xhtml" : url);
+    assertCurrentUrlContains(url == LOGIN ? DASHBOARD : url);
+  }
+  
+  public static void forceLogin() {
+    forceLogin(getAdminUser(), getAdminUser());
+  }
+  
+  public static void forceLogin(String username, String password) {
+    open(viewUrl(LOGIN));
+    loginUser(username, password);
+    open(viewUrl(DASHBOARD));
+    assertCurrentUrlContains(DASHBOARD);
+  }
+
+  public static void loginUser(String username, String password) {
+    $("h4").shouldHave(text("Engine Cockpit"));
+    $("#loginForm\\:userName").sendKeys(username);
+    $("#loginForm\\:password").sendKeys(password);
+    $("#loginForm\\:login").click();
   }
 
   public static void openDashboard() {
-    open(viewUrl("dashboard.xhtml"));
+    open(viewUrl(DASHBOARD));
   }
 
   public static void waitUntilAjaxIsFinished() {

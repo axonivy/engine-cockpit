@@ -28,11 +28,11 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
-public class WebTestDownload {
+class WebTestDownload {
 
   private static final long TIMEOUT = Duration.ofMinutes(1).toMillis();
 
-@BeforeAll
+  @BeforeAll
   static void setup() {
     Selenide.closeWebDriver();
     Configuration.proxyEnabled = true;
