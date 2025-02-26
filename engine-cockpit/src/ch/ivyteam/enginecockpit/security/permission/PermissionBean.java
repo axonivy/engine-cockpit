@@ -62,7 +62,7 @@ public class PermissionBean extends TreeView<AbstractPermission> {
       return;
     }
     securityMember = securityContext.members().find(member);
-    securityDescriptor = ISystemDatabasePersistencyService.instance().transaction().executeAndGet(tx -> securityContext.getSecurityDescriptor(tx));
+    securityDescriptor = ISystemDatabasePersistencyService.instance().tx().executeAndGet(tx -> securityContext.getSecurityDescriptor(tx));
     reloadTree();
   }
 
