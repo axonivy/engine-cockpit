@@ -183,6 +183,10 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
 
   private ConnectionTestResult testConnection() {
     var dbConfig = prepareDatabaseConnection();
+    return databases.getInDeclaringPmvContext(databaseName, () -> testConnection(dbConfig));
+  }
+
+  private ConnectionTestResult testConnection(DatabaseConnectionConfiguration dbConfig) {
     try (var connection = DatabaseUtil.openConnection(dbConfig)) {
       var metaData = connection.getMetaData();
       var productName = metaData.getDatabaseProductName();
