@@ -24,7 +24,7 @@ public interface FeatureEditor {
 
   void setFeature(String key);
 
-  default boolean isExistingFeature() {
+  default boolean isExistingFeatureThrowMessage() {
     for (Feature feature : getFeatures()) {
       if (feature.getClazz().equals(getFeature().getClazz())) {
         var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,

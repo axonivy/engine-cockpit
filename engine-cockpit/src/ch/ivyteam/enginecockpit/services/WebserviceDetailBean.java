@@ -54,9 +54,9 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private WebServiceMonitor liveStats;
   private WebServiceClients webServiceClients;
   private Property activeProperty;
-  private Feature activeFeature;
+  private Feature editFeature;
   private List<WebServiceExecHistory> history;
-  private String editFeature;
+  private String editFeatureOrigin;
 
   public WebserviceDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -296,13 +296,13 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   @Override
   public Feature getFeature() {
-    return activeFeature;
+    return editFeature;
   }
 
   @Override
   public void setFeature(String clazz) {
-    this.editFeature = clazz;
-    this.activeFeature = findFeature(clazz);
+    this.editFeatureOrigin = clazz;
+    this.editFeature = findFeature(clazz);
   }
 
   public void removeFeature(String name) {
@@ -312,12 +312,23 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   @Override
   public void saveFeature(boolean isNewFeature) {
-    if (editFeature != null) {
-      removeFeature(editFeature);
+    if (editFeatureOrigin.equals(editFeature.getClazz())) {
+      return;
     }
-    if (!isNewFeature || !isExistingFeature()) {
-      saveWebService(wsBuilder().feature(getFeature().getClazz()));
+
+    loadWebService();
+    if (isExistingFeatureThrowMessage()) {
+      return;
     }
+    Builder wsBuilder = wsBuilder();
+    if (isNewFeature) {
+      wsBuilder.feature(editFeature.getClazz());
+    } else {
+      wsBuilder.removeFeature(editFeatureOrigin);
+      wsBuilder.feature(editFeature.getClazz());
+    }
+    saveWebService(wsBuilder);
     loadWebService();
   }
+
 }

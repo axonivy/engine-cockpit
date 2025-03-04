@@ -197,11 +197,32 @@ class WebTestWebserviceDetail {
   @Test
   void editFeature() {
     var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
-    editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
-    editor.editFeatureSave("ch.ivyteam.ivy.webservice.feature.editFeature", 1);
-    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
-    table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.editFeature"));
-    $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
+    try {
+      editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
+      editor.editFeatureSave("ch.ivyteam.ivy.webservice.feature.editFeature", 1);
+      var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
+      Selenide.refresh();
+      table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.editFeature"));
+    } finally {
+      $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
+    }
+  }
+
+  @Test
+  void editFeatureExisting() {
+    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
+    try {
+      editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
+      editor.addFeature("ch.ivyteam.ivy.webservice.feature.JsonFeature");
+      editor.editFeatureSave("ch.ivyteam.ivy.webservice.feature.AuthFeature", 2);
+      var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
+      Selenide.refresh();
+      table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
+      table.row(2).shouldHave(text("ch.ivyteam.ivy.webservice.feature.JsonFeature"));
+    } finally {
+      $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
+      $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
+    }
   }
 
   @Test
@@ -212,6 +233,17 @@ class WebTestWebserviceDetail {
     var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
     table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
     $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
+  }
+
+  @Test
+  void deleteFirstFeature() {
+    Navigation.toWebserviceDetail("second-web");
+    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
+    editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
+    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
+    table.row(0).shouldHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
+    $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:0:editFeatureEditor:deleteFeatureBtn")).click();
+    table.row(0).shouldNotHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
   }
 
   private void setEndPoint(String defaultLink, String... fallbacks) {

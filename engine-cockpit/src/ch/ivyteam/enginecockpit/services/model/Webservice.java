@@ -43,7 +43,7 @@ public class Webservice implements IService {
     passwordChanged = false;
     features = webservice.features().stream()
         .map(f -> new Feature(f.clazz(), f.isDefault()))
-        .collect(Collectors.toList());
+        .toList();
     genId = webservice.id();
 
     webservice.portTypes()
