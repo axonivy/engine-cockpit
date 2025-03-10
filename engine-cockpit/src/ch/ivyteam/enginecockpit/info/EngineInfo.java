@@ -15,8 +15,10 @@ import org.primefaces.PrimeFaces;
 import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.context.EngineCockpitUrlPath;
+import ch.ivyteam.ivy.security.context.SecurityContextUrlPath;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 
@@ -117,6 +119,10 @@ public class EngineInfo {
 
   public String getEngineCockpitUrl() {
     return EngineCockpitUrlPath.toPath();
+  }
+  
+  public String getHomeUrl() {
+    return SecurityContextUrlPath.toPath(ISecurityContext.SYSTEM);
   }
 
   public String getDemoPortalUrl() {
