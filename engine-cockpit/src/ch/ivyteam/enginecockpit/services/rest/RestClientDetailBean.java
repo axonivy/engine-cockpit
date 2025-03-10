@@ -48,9 +48,9 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   private final ConnectionTestWrapper connectionTest;
   private Property activeProperty;
-  private Feature activeFeature;
+  private Feature editFeature;
   private List<ExecHistory> history;
-  private String editFeature;
+  private String editFeatureOrigin;
 
   public RestClientDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -239,13 +239,13 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   @Override
   public Feature getFeature() {
-    return activeFeature;
+    return editFeature;
   }
 
   @Override
   public void setFeature(String clazz) {
-    this.editFeature = clazz;
-    this.activeFeature = findFeature(clazz);
+    this.editFeatureOrigin = clazz;
+    this.editFeature = findFeature(clazz);
   }
 
   public void removeFeature(String name) {
@@ -255,12 +255,25 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   @Override
   public void saveFeature(boolean isNewFeature) {
-    if (editFeature != null) {
-      removeFeature(editFeature);
+    if (editFeatureOrigin.equals(editFeature.getClazz())) {
+      return;
     }
-    if (!isExistingFeature()) {
-      saveRestClient(restBuilder().feature(getFeature().getClazz()));
-    }
+
     loadRestClient();
+    if (isExistingFeatureThrowMessage()) {
+      return;
+    }
+
+    Builder restBuilder = restBuilder();
+
+    if (isNewFeature) {
+      restBuilder.feature(editFeature.getClazz());
+    } else {
+      restBuilder.removeFeature(editFeatureOrigin);
+      restBuilder.feature(editFeature.getClazz());
+    }
+    saveRestClient(restBuilder);
+    loadRestClient();
+
   }
 }

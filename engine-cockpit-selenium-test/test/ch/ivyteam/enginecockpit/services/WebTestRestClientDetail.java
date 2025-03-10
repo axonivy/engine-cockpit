@@ -141,11 +141,31 @@ class WebTestRestClientDetail {
   @Test
   void editFeature() {
     var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:");
-    editor.addFeature("ch.ivyteam.ivy.rest.client.feature.AuthFeature");
-    editor.editFeatureSave("ch.ivyteam.ivy.rest.client.feature.editFeature", 2);
-    var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
-    table.row(2).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.editFeature"));
-    $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
+    try {
+      editor.addFeature("ch.ivyteam.ivy.rest.client.feature.AuthFeature");
+      editor.editFeatureSave("ch.ivyteam.ivy.rest.client.feature.editFeature", 2);
+      var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
+      table.row(2).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.editFeature"));
+    } finally {
+      $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
+    }
+  }
+
+  @Test
+  void editFeatureExisting() {
+    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:");
+    try {
+      editor.addFeature("ch.ivyteam.ivy.rest.client.feature.AuthFeature");
+      editor.addFeature("ch.ivyteam.ivy.rest.client.feature.JsonFeature");
+      editor.editFeatureSave("ch.ivyteam.ivy.rest.client.feature.AuthFeature", 3);
+      var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
+      Selenide.refresh();
+      table.row(2).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.AuthFeature"));
+      table.row(3).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.JsonFeature"));
+    } finally {
+      $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
+      $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
+    }
   }
 
   @Test
