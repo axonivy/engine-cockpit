@@ -18,7 +18,7 @@ pipeline {
       steps {
         script {
           def common = load 'build/build.groovy'
-          common.buildIntegration("-Pengine -Pscreenshots ");
+          common.buildIntegrationOnLinux("-Pengine -Pscreenshots ");
           archiveArtifacts '**/target/docu/**/*'
         }
       }
