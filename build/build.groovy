@@ -1,4 +1,4 @@
-def buildIntegration(def mvnArgs = '') {
+def buildIntegrationOnLinux(def mvnArgs = '') {
   withCredentials([string(credentialsId: 'github.ivy-team.token', variable: 'GITHUB_TOKEN')]) {
     def random = (new Random()).nextInt(10000000)
     def networkName = "build-" + random
@@ -17,10 +17,7 @@ def buildIntegration(def mvnArgs = '') {
                 "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " +
                 "-Ddb.host=${dbName} " + 
                 mvnArgs
-            mvnBuild(mvnBuildArgs);
-
-            archiveArtifacts '.ivy-engine/logs/*'
-            archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true
+            buildIntegration(mvnBuildArgs);
           }
         }
       }
@@ -28,6 +25,23 @@ def buildIntegration(def mvnArgs = '') {
       sh "docker network rm ${networkName}"
     }
   }
+}
+
+def buildIntegrationOnWindows() {
+  def mvnBuildArgs = 
+                "-Dengine.page.url=${params.engineSource} " +
+                "-Dtest.filter=WebTestOs " +
+                 "-Dmaven.test.failure.ignore=true "+
+                 "-Pengine "+
+                 "-Pintegration"
+  buildIntegration(mvnBuildArgs);
+}
+
+def buildIntegration(def mvnBuildArgs) {
+  mvnBuild(mvnBuildArgs);
+
+  archiveArtifacts '.ivy-engine/logs/*'
+  archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true
 }
 
 def build() {
