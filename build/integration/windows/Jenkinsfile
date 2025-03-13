@@ -1,0 +1,33 @@
+pipeline {
+  agent {
+    label 'windows'
+  }
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '60', artifactNumToKeepStr: '5'))
+  }
+
+   tools {
+    jdk 'temurin-jdk-21.0.6.7'
+    maven '3.9'
+  }
+
+  triggers {
+    cron '@midnight'
+  }
+
+  parameters {
+    string(name: 'engineSource', defaultValue: 'https://product.ivyteam.io', description: 'Engine page url')
+  }
+
+  stages {
+    stage('WebTestOs') {
+      steps {
+        script {
+          def common = load 'build/build.groovy'
+          common.buildIntegrationOnWindows();
+          common.recordMavenIssues();
+        }
+      }
+    }
+  }
+}
