@@ -57,6 +57,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.8.1</version>
         <executions>
           <execution>
             <id>copy</id>
@@ -171,7 +172,7 @@
 
   <profiles>
     <profile>
-      <id>cockpit</id>
+      <id>integration</id>
       <properties>
         <test.filter>WebTest*.java</test.filter>
       </properties>
