@@ -32,7 +32,7 @@ def build(def phase = 'verify', def mvnArgs = '', def profiles = '-Pcockpit') {
                 "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " +
                 "-Ddb.host=${dbName} " + 
                 "-Dmaven.test.skip=false " +
-                profiles
+                profiles + " " +
                 mvnArgs;
 
             buildMvn(phase, mvnBuildArgs);
