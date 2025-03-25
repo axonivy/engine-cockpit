@@ -96,6 +96,9 @@ public class RestartBean {
     if (EngineMode.isEmbeddedInDesigner()) {
       return true;
     }
+    if (EngineMode.is(EngineMode.ENTERPRISE)) {
+      return true;
+    }
     return false;
   }
 
