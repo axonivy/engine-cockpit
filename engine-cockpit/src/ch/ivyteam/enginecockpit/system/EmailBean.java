@@ -1,12 +1,17 @@
 package ch.ivyteam.enginecockpit.system;
 
-import javax.faces.application.FacesMessage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
-import ch.ivyteam.enginecockpit.util.EmailUtil;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
+import ch.ivyteam.ivy.mail.MailClient;
 import ch.ivyteam.ivy.mail.MailClientConfigProvider;
+import ch.ivyteam.ivy.mail.MailMessage;
 
 @ManagedBean
 @ViewScoped
@@ -19,6 +24,10 @@ public class EmailBean {
   private String sendTo;
   private String subject;
   private String message;
+
+  private boolean sent;
+  private String debugLog;
+  private Exception exception;
 
   public EmailBean() {
     initEmailConfigs();
@@ -74,15 +83,61 @@ public class EmailBean {
     this.message = message;
   }
 
-  public void sendTestMail() {
-    FacesMessage facesMessage;
-    try {
-      EmailUtil.sendTestMail(subject, sendTo, message);
-      facesMessage = new FacesMessage("Successfully sent test mail", "");
-    } catch (Exception ex) {
-      facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while sending test mail",
-          ex.getMessage());
+  public void sendTestMail() throws IOException {
+    try (var out = new ByteArrayOutputStream();
+        var print = new PrintStream(out)) {
+      try (var mailClient = MailClient.newMailClient(print)) {
+
+        var mailMessage = MailMessage.create()
+            .to(sendTo)
+            .subject(subject)
+            .textContent(message)
+            .toMailMessage();
+
+        sent = true;
+        try {
+          mailClient.send(mailMessage);
+        } catch (Exception ex) {
+          exception = ex;
+        } finally {
+          debugLog = out.toString();
+          if (exception != null) {
+            debugLog += ExceptionUtils.getStackTrace(exception);
+          }
+        }
+      }
     }
-    FacesContext.getCurrentInstance().addMessage("msgs", facesMessage);
+  }
+
+  public String getDebugLog() {
+    return debugLog;
+  }
+
+  public String getResult() {
+    if (!sent) {
+      return "";
+    }
+    if (exception == null) {
+      return "Success";
+    }
+    return "Failure";
+  }
+
+  public boolean isSuccess() {
+    if (!sent) {
+      return false;
+    }
+    return exception == null;
+  }
+
+  public boolean isFailed() {
+    if (!sent) {
+      return false;
+    }
+    return exception != null;
+  }
+
+  public String getError() {
+    return exception == null ? "" : exception.getMessage();
   }
 }

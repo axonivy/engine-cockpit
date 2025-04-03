@@ -4,7 +4,7 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 <p:dialog header="Send Test Mail" id="sendTestMailModal" appendTo="@(body)"
-  widgetVar="sendTestMailModal" modal="true" responsive="true" closeOnEscape="true">
+  widgetVar="sendTestMailModal" modal="true" responsive="true" width="800px" closeOnEscape="true">
   <h:form id="sendTestMailForm" styleClass="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9"
       styleClass="grey-label-panel align-items-baseline ui-fluid">
@@ -22,11 +22,22 @@
 
       <p:outputLabel for="messageText" value="Message" />
       <p:inputTextarea id="messageText" value="#{emailBean.message}" autoResize="false" rows="5" />
+
+      <p:outputLabel for="debugLog" value="Log" />
+      <p:scrollPanel id="debugLog" style="height:400px;">
+        <pre style="margin:0px;"><code><h:outputText id="debugLogText" value="#{emailBean.debugLog}" /></code></pre>
+      </p:scrollPanel>
+
+      <p:outputLabel for="result"/>
+      <h:panelGroup id="result">
+        <p:staticMessage severity="info" summary="Success" rendered="#{emailBean.success}"/>
+        <p:staticMessage severity="error" summary="Failed" detail="#{emailBean.error}" rendered="#{emailBean.failed}"/>      
+      </h:panelGroup>
     </p:panelGrid>
     <div class="custom-dialog-footer">
       <p:commandButton id="cancelSendTestMailBtn" onclick="PF('sendTestMailModal').hide()" value="Cancel" 
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-      <p:commandButton id="sendTestMailBtn" validateClient="true" onsuccess="PF('sendTestMailModal').hide()"
+      <p:commandButton id="sendTestMailBtn" validateClient="true" update="debugLog result"
         actionListener="#{emailBean.sendTestMail}" value="Send" icon="si si-send-email" styleClass="modal-input-button" />
     </div>
   </h:form>
