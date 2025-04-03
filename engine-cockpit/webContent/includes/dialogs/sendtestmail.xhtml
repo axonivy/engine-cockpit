@@ -24,14 +24,14 @@
       <p:inputTextarea id="messageText" value="#{emailBean.message}" autoResize="false" rows="5" />
 
       <p:outputLabel for="debugLog" value="Log" />
-      <p:scrollPanel id="debugLog" style="height:400px;">
+      <p:scrollPanel id="debugLog" style="height:300px;">
         <pre style="margin:0px;"><code><h:outputText id="debugLogText" value="#{emailBean.debugLog}" /></code></pre>
       </p:scrollPanel>
 
       <p:outputLabel for="result"/>
       <h:panelGroup id="result">
         <p:staticMessage severity="info" summary="Success" rendered="#{emailBean.success}"/>
-        <p:staticMessage severity="error" summary="Failed" detail="#{emailBean.error}" rendered="#{emailBean.failed}"/>      
+        <p:staticMessage severity="error" summary="Failed" id="testMailFailed" detail="#{emailBean.error}" rendered="#{emailBean.failed}"/>      
       </h:panelGroup>
     </p:panelGrid>
     <div class="custom-dialog-footer">
