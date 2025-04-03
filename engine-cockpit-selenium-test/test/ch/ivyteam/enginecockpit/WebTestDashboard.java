@@ -93,25 +93,29 @@ public class WebTestDashboard {
   @Test
   void sendTestMailInvalidInputs() {
     openSendMailModal();
-    $("#sendTestMailForm\\:sendToInput").clear();
-    $("#sendTestMailForm\\:subjectInput").clear();
-    $("#sendTestMailForm\\:sendTestMailBtn").click();
-    $("#sendTestMailForm\\:sendToInput").shouldHave(cssClass("ui-state-error"));
-    $("#sendTestMailForm\\:subjectInput").shouldHave(cssClass("ui-state-error"));
+    $(By.id("sendTestMailForm:sendToInput")).clear();
+    $(By.id("sendTestMailForm:subjectInput")).clear();
+    $(By.id("sendTestMailForm:sendTestMailBtn"))
+        .scrollTo()
+        .click();
+    $(By.id("sendTestMailForm:sendToInput")).shouldHave(cssClass("ui-state-error"));
+    $(By.id("sendTestMailForm:subjectInput")).shouldHave(cssClass("ui-state-error"));    
   }
 
   @Test
   void sendTestMailError() {
     openSendMailModal();
-    $("#sendTestMailForm\\:sendToInput").sendKeys("test@example.com");
-    $("#sendTestMailForm\\:sendTestMailBtn").click();
-    $("#msgs_container").shouldBe(visible);
-    $("#msgs_container").shouldHave(Condition.text("Error while sending test mail"));
+    $(By.id("sendTestMailForm:sendToInput")).sendKeys("test@example.com");
+    $(By.id("sendTestMailForm:sendTestMailBtn"))
+        .scrollTo()
+        .click();
+    $(By.id("sendTestMailForm:testMailFailed"))
+        .shouldBe(visible)
+        .shouldHave(Condition.text("Failed"));        
   }
 
   private void openSendMailModal() {
     $("#openTestMailBtn").shouldBe(visible).click();
     $("#sendTestMailModal").shouldBe(visible);
   }
-
 }
