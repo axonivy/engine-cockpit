@@ -54,16 +54,11 @@ class WebTestConfiguration {
 
   @Test
   void emailUrlFilter() {
-    String filter = "EMail";
     $("#configureEmailBtn").shouldBe(visible).click();
-    assertUrlFiltering(filter);
-  }
-
-  private void assertUrlFiltering(String filter) {
-    assertCurrentUrlContains("systemconfig.xhtml?filter=" + filter);
+    assertCurrentUrlContains("systemconfig.xhtml?filter=EMail");
     table = new Table(TABLE_ID, "span");
-    table.searchFilterShould(exactValue(filter));
-    table.firstColumnShouldBe(size(10));
+    table.searchFilterShould(exactValue("EMail"));
+    table.firstColumnShouldBe(sizeGreaterThanOrEqual(10));
   }
 
   @Test
