@@ -15,7 +15,6 @@ import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -212,9 +211,9 @@ public class WebTestSystemDb {
 
     $("#systemDb\\:systemDbForm\\:newAdditionalPropertyBtn").click();
     $("#systemDb\\:addAdditionalPropertyDialog").shouldBe(visible);
-    $("#systemDb\\:addAdditionalPropertyForm\\:key").shouldBe(value(""));
+    $("#systemDb\\:addAdditionalPropertyForm\\:key").shouldBe(empty);
     $("#systemDb\\:addAdditionalPropertyForm\\:keyMessage").shouldBe(empty);
-    $("#systemDb\\:addAdditionalPropertyForm\\:value").shouldBe(value(""));
+    $("#systemDb\\:addAdditionalPropertyForm\\:value").shouldBe(empty);
     $("#systemDb\\:addAdditionalPropertyForm\\:valueMessage").shouldBe(empty);
 
     $("#systemDb\\:addAdditionalPropertyForm\\:saveProperty").click();
