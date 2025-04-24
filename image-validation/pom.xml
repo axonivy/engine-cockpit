@@ -38,7 +38,7 @@
             </executions>
             <configuration>
               <target>
-                <get src="https://jenkins.ivyteam.io/job/engine-cockpit-screenshots/job/${ref.screenshot.build}/lastSuccessfulBuild/artifact/engine-cockpit-selenium-test/target/docu/screenshots/*zip*/screenshots.zip"
+                <get src="https://jenkins.ivyteam.io/job/engine-cockpit_screenshots/job/${ref.screenshot.build}/lastSuccessfulBuild/artifact/engine-cockpit-selenium-test/target/docu/screenshots/*zip*/screenshots.zip"
                      dest="${project.build.directory}" />
                 <unzip dest="${project.build.directory}">
                   <fileset dir="${project.build.directory}">
