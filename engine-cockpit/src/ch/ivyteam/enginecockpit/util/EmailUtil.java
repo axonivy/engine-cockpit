@@ -46,7 +46,9 @@ public class EmailUtil
     emailSetupConfiguration.setSmtpPort(IConfiguration.get().getOrDefault(PORT, int.class));
     emailSetupConfiguration.setSmtpServer(IConfiguration.get().getOrDefault(HOST));
     emailSetupConfiguration.setSmtpUser(IConfiguration.get().getOrDefault(USER));
-    emailSetupConfiguration.setSmtpPassword(IConfiguration.get().getOrDefault(PASSWORD));
+
+    ch.ivyteam.ivy.email.EmailSetupProviderUtil.applyPassword(emailSetupConfiguration);
+
     emailSetupConfiguration.setSmtpEncryptionMethod(IConfiguration.get().getOrDefault(ENCRYPTION_METHOD, EmailEncryption.class));
     return emailSetupConfiguration;
   }
