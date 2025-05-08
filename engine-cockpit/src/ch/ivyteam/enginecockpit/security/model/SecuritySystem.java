@@ -6,6 +6,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.ws.rs.core.UriBuilder;
+
 import org.apache.commons.io.IOUtils;
 
 import ch.ivyteam.ivy.application.IApplication;
@@ -107,7 +109,10 @@ public class SecuritySystem {
   }
 
   public static String link(ISecurityContext securityContext) {
-    return "security-detail.xhtml?securitySystemName=" + securityContext.getName();
+    return UriBuilder.fromPath("security-detail.xhtml")
+        .queryParam("securitySystemName", securityContext.getName())
+        .build()
+        .toString(); 
   }
 
   @SuppressWarnings("removal")
