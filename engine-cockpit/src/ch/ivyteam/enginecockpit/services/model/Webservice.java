@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.ws.rs.core.UriBuilder;
+
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -69,7 +71,11 @@ public class Webservice implements IService {
   }
 
   public String getViewUrl(String app) {
-    return "webservicedetail.xhtml?app=" + app + "&id=" + genId;
+    return UriBuilder.fromPath("webservicedetail.xhtml")
+        .queryParam("app", app)
+        .queryParam("id", genId)
+        .build()
+        .toString();
   }
 
   public String getWsdlUrl() {

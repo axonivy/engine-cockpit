@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.ws.rs.core.UriBuilder;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.ivy.application.IApplication;
@@ -47,7 +48,10 @@ public class Application extends AbstractActivity {
 
   @Override
   public String getDetailView() {
-    return "application-detail.xhtml?appName=" + getName();
+    return UriBuilder.fromPath("application-detail.xhtml")
+        .queryParam("appName", getName())
+        .build()
+        .toString();
   }
 
   @Override
