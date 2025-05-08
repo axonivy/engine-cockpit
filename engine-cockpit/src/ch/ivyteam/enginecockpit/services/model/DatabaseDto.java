@@ -3,6 +3,8 @@ package ch.ivyteam.enginecockpit.services.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ws.rs.core.UriBuilder;
+
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.util.DateUtil;
@@ -36,7 +38,12 @@ public class DatabaseDto implements IService {
   }
 
   public String getViewUrl(String app, String env) {
-    return "databasedetail.xhtml?app=" + app + "&env=" + env + "&name=" + name;
+    return UriBuilder.fromPath("databasedetail.xhtml")
+        .queryParam("app", app)
+        .queryParam("env", env)
+        .queryParam("name", name)
+        .build()
+        .toString();
   }
 
   public String getUrl() {
