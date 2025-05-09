@@ -61,7 +61,11 @@ public class RestClientDto implements IService {
   }
 
   public String getViewUrl(String app) {
-    return "restclientdetail.xhtml?app=" + app + "&name=" + name;
+    return UriBuilder.fromPath("restclientdetail.xhtml")
+        .queryParam("app", app)
+        .queryParam("name", name)
+        .build()
+        .toString();
   }
 
   public String getUrl() {
