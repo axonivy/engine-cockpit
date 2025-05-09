@@ -3,6 +3,8 @@ package ch.ivyteam.enginecockpit.services.model;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.ws.rs.core.UriBuilder;
+
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.Property;
@@ -39,7 +41,11 @@ public class DatabaseDto implements IService {
   }
 
   public String getViewUrl(String app) {
-    return "databasedetail.xhtml?app=" + app + "&name=" + name;
+    return UriBuilder.fromPath("databasedetail.xhtml")
+        .queryParam("app", app)
+        .queryParam("name", name)
+        .build()
+        .toString();
   }
 
   public String getUrl() {
