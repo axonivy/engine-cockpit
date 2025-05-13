@@ -10,13 +10,13 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.axonivy.ivy.webtest.engine.EngineUrl.SERVLET;
@@ -282,5 +282,22 @@ public class EngineCockpitUtil {
     }
     $(".layout-config .layout-config-close").click();
     $(".layout-config .layout-config-close").shouldBe(hidden);
+  }
+
+  public static void open(String url) {
+    open(url, 1);
+  }
+
+  private static void open(String url, int retry) {
+    if (retry >= 3) {
+      throw new RuntimeException("Could not start browser instance.");
+    }
+    try {
+      Selenide.open(url);
+    } catch (TimeoutException ex) {
+      System.out.println("Browser didn't respond in time, retry: " + retry);
+      Selenide.closeWebDriver();
+      open(url, retry++);
+    }
   }
 }
