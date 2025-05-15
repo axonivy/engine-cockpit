@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.util;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.DASHBOARD;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.open;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.cssClass;
@@ -10,7 +11,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.open;
 
 import java.util.Map;
 
