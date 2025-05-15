@@ -52,6 +52,7 @@ public class RoleDetailBean {
   private RoleDataModel roleDataModel;
   private List<Role> membersOfRole;
   private List<Role> filteredMembers;
+  private String membersFilter;
 
   private MemberProperty roleProperties;
 
@@ -326,6 +327,14 @@ public class RoleDetailBean {
 
   public void setFilteredMembers(List<Role> filteredMembers) {
     this.filteredMembers = filteredMembers;
+  }
+
+  public String getMembersFitler() {
+    return membersFilter;
+  }
+
+  public void setMembersFitler(String membersFilter) {
+    this.membersFilter = membersFilter;
   }
 
   public void addMember() {

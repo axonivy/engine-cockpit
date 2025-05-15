@@ -20,6 +20,7 @@ public class HealthBean {
   private final List<Check> checks;
   private List<Message> messages;
   private String check;
+  private String filter;
 
   public HealthBean() {
     checks = checker.checks().stream().map(Check::new).collect(Collectors.toList());
@@ -93,6 +94,14 @@ public class HealthBean {
 
   public List<Check> getChecks() {
     return checks;
+  }
+
+  public String getFilter() {
+    return filter;
+  }
+
+  public void setFilter(String filter) {
+    this.filter = filter;
   }
 
   public String getCheck() {
