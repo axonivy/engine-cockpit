@@ -45,10 +45,10 @@
                 <f:facet name="header">
                   <div class="ui-input-icon-left filter-container">
                     <i class="pi pi-search"/>
-                    <p:inputText id="globalFilter" onkeyup="PF('threadTable').filter()" placeholder="Search"/>
+                    <p:inputText id="globalFilter" onkeyup="PF('threadTable').filter()" value="#{threadBean.filter}" placeholder="Search"/>
                   </div>
                 </f:facet>
-                <p:column headerText="Id" sortBy="#{thread.id}" filterBy="#{thread.id}" width="5%">              
+                <p:column headerText="Id" sortBy="#{thread.id}" filterBy="#{thread.id}" width="5%">
                   <p:commandLink oncomplete="PF('threadDialog').show();" title="Thread Detail" action="#{threadBean.setSelected(thread)}" update="threadDialog">
                     <i class="pr-3 si si-synchronize-arrow-clock"></i>
                     <h:outputText value="#{thread.id}"/>

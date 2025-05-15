@@ -16,6 +16,7 @@ import ch.ivyteam.ivy.security.administrator.AdministratorService;
 @ViewScoped
 public class AdministratorBean extends StepStatus {
   private final List<User> admins;
+  private String filter;
   private User editAdmin;
 
   public AdministratorBean() {
@@ -30,6 +31,14 @@ public class AdministratorBean extends StepStatus {
 
   public List<User> getAdmins() {
     return admins;
+  }
+
+  public String getFilter() {
+    return filter;
+  }
+
+  public void setFilter(String filter) {
+    this.filter = filter;
   }
 
   public void setAdmin(User admin) {

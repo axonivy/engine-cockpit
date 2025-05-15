@@ -46,7 +46,7 @@
             <f:facet name="header">
               <div class="ui-input-icon-left filter-container">
                 <i class="pi pi-search"/>
-                <p:inputText id="globalFilter" onkeyup="PF('checkTable').filter()" placeholder="Search"/>
+                <p:inputText id="globalFilter" onkeyup="PF('checkTable').filter()" value="#{healthBean.filter}" placeholder="Search"/>
               </div>
             </f:facet>
              <p:column width="7%" headerText="Severity" filterBy="#{check.severity}" sortBy="#{check.severity}" sortOrder="desc">

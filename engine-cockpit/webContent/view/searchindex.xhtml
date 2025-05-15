@@ -37,7 +37,7 @@
             globalFilter="#{searchIndexBean.filter}" id="docTable">
             <f:facet name="header">
               <div class="flex align-items-center justify-content-between">
-                <p:inputText id="globalFilter" onkeyup="PF('docTable').filter()" style="width:100%;" />
+                <p:inputText id="globalFilter" value="#{searchIndexBean.filter}" onkeyup="PF('docTable').filter()" style="width:100%;" />
               </div>
             </f:facet>
 
