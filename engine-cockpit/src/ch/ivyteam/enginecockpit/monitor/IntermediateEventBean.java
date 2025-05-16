@@ -21,6 +21,7 @@ public class IntermediateEventBean {
 
   private List<IntermediateEvent> beans;
   private IntermediateEvent selected;
+  private String filter;
 
   public IntermediateEventBean() {
     refresh();
@@ -41,6 +42,14 @@ public class IntermediateEventBean {
 
   public List<IntermediateEvent> getBeans() {
     return beans;
+  }
+
+  public String getFilter() {
+    return filter;
+  }
+
+  public void setFilter(String filter) {
+    this.filter = filter;
   }
 
   public IntermediateEvent getSelected() {

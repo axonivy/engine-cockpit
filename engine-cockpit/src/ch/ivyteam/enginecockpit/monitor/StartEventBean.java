@@ -21,6 +21,7 @@ public class StartEventBean {
 
   private List<StartEvent> beans;
   private StartEvent selected;
+  private String filter;
 
   public StartEventBean() {
     refresh();
@@ -41,6 +42,14 @@ public class StartEventBean {
 
   public List<StartEvent> getBeans() {
     return beans;
+  }
+
+  public String getFilter() {
+    return filter;
+  }
+
+  public void setFilter(String filter) {
+    this.filter = filter;
   }
 
   public StartEvent getSelected() {
