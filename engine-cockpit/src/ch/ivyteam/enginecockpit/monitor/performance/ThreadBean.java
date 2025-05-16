@@ -60,6 +60,10 @@ public class ThreadBean {
     return f;
   }
 
+  public void setFilter(String filter) {
+    this.filter = filter;
+  }
+
   public void refresh() {
     isCpuEnabled = threadMxBean().isThreadCpuTimeSupported() && threadMxBean().isThreadCpuTimeEnabled();
     deadLocked = threadMxBean().findDeadlockedThreads();
