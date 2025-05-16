@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
-import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
@@ -161,89 +160,56 @@ class WebTestWebserviceDetail {
 
   @Test
   void properties() {
-    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
-    table.row(0).shouldHave(text("password"), text("*****"));
-    table.row(1).shouldHave(text("sensitive"), text("*****"));
-    table.row(2).shouldHave(text("username"), text("admin"));
+    var table = new Table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
+    table.row("password").shouldHave(text("*****"));
+    table.row("sensitive").shouldHave(text("*****"));
+    table.row("username").shouldHave(text("admin"));
   }
 
   @Test
   void addProperty() {
-    var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable:newPropertyEditor:");
+    var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable");
     editor.addProperty("testProperty", "testValue");
-    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
-    table.row(1).shouldHave(text("testProperty"), text("testValue"));
-    $(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable:1:editPropertyEditor:deletePropertyBtn")).click();
+    editor.deleteProperty("testProperty");
   }
 
   @Test
   void editProperty() {
-    var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable:2:editPropertyEditor:");
-    editor.editProperty("editValue");
-    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webservicePropertiesTable"));
-    table.row(2).shouldHave(text("username"), text("editValue"));
-    editor.editProperty("admin");
+    var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable");
+    editor.editProperty("username","editValue");
+    editor.editProperty("username","admin");
   }
 
   @Test
   void addFeature() {
-    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
-    editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
-    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
-    table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
-    $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
+    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable");
+    editor.addFeature("TestFeature");
+    editor.deleteFeature("TestFeature");
   }
 
   @Test
   void editFeature() {
-    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
-    try {
-      editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
-      editor.editFeatureSave("ch.ivyteam.ivy.webservice.feature.editFeature", 1);
-      var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
-      Selenide.refresh();
-      table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.editFeature"));
-    } finally {
-      $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
-    }
+    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable");
+    editor.addFeature("TestFeature");
+    editor.editFeatureSave("TestFeature", "EditFeature");
+    editor.deleteFeature("EditFeature");
   }
 
   @Test
-  void editFeatureExisting() {
-    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
-    try {
-      editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
-      editor.addFeature("ch.ivyteam.ivy.webservice.feature.JsonFeature");
-      editor.editFeatureSave("ch.ivyteam.ivy.webservice.feature.AuthFeature", 2);
-      var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
-      Selenide.refresh();
-      table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
-      table.row(2).shouldHave(text("ch.ivyteam.ivy.webservice.feature.JsonFeature"));
-    } finally {
-      $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
-      $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
-    }
+  void addExistingFeature() {
+    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable");
+    editor.addFeature("TestFeature");
+    editor.addFeature("TestFeature");
+    $(By.id("webserviceAdditionalConfigForm:msg_container")).shouldHave(text("TestFeature couldn't be created"));
+    editor.deleteFeature("TestFeature");
   }
 
   @Test
   void editFeatureCancel() {
-    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
-    editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
-    editor.editFeatureCancel("ch.ivyteam.ivy.webservice.feature.editFeature", 1);
-    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
-    table.row(1).shouldHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
-    $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:1:editFeatureEditor:deleteFeatureBtn")).click();
-  }
-
-  @Test
-  void deleteFirstFeature() {
-    Navigation.toWebserviceDetail("second-web");
-    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable:");
-    editor.addFeature("ch.ivyteam.ivy.webservice.feature.AuthFeature");
-    var table = PrimeUi.table(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable"));
-    table.row(0).shouldHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
-    $(By.id("webserviceAdditionalConfigForm:webserviceFeaturesTable:0:editFeatureEditor:deleteFeatureBtn")).click();
-    table.row(0).shouldNotHave(text("ch.ivyteam.ivy.webservice.feature.AuthFeature"));
+    var editor = new FeatureEditor("webserviceAdditionalConfigForm:webserviceFeaturesTable");
+    editor.addFeature("TestFeature");
+    editor.editFeatureCancel("TestFeature");
+    editor.deleteFeature("TestFeature");
   }
 
   private void setEndPoint(String defaultLink, String... fallbacks) {

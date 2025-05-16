@@ -19,7 +19,7 @@
     <p:dataTable value="#{webserviceDetailBean.webservice.features}" var="feature"
       id="webserviceFeaturesTable" styleClass="mb-3">
       <p:column headerText="Features">
-        <p:outputLabel value="#{feature.clazz}" styleClass="webservice-feature" />
+        <h:outputText value="#{feature.clazz}" styleClass="webservice-feature" />
       </p:column>
       <p:column styleClass="table-btn-2">
         <f:facet name="header">
@@ -35,10 +35,10 @@
     
     <p:dataTable value="#{webserviceDetailBean.webservice.properties}" var="property" id="webservicePropertiesTable">
       <p:column headerText="Property">
-        <p:outputLabel value="#{property.name}" styleClass="webservice-property-name" />
+        <h:outputText value="#{property.name}" styleClass="webservice-property-name" />
       </p:column>
       <p:column headerText="Value">
-        <p:outputLabel value="#{property.sensitive ? '*****' : property.value}" styleClass="webservice-property-value" />
+        <h:outputText value="#{property.sensitive ? '*****' : property.value}" styleClass="webservice-property-value" />
       </p:column>
       <p:column styleClass="table-btn-2">
         <f:facet name="header">

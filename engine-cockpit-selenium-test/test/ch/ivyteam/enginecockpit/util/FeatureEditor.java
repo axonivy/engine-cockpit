@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.util;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -7,31 +8,45 @@ import org.openqa.selenium.By;
 
 public class FeatureEditor {
 
-  private final String featureEditor;
+  private final String featureTable;
+  private final Table table;
 
-  public FeatureEditor(String featureEditor) {
-    this.featureEditor = featureEditor;
+  public FeatureEditor(String featureTable) {
+    this.featureTable = featureTable;
+    this.table = new Table(By.id(featureTable));
   }
 
   public void addFeature(String feature) {
-    $(By.id(featureEditor + "newFeatureEditor:newServiceFeatureBtn")).shouldBe(visible).click();
-    $(By.id(featureEditor + "newFeatureEditor:featureForm:nameInput")).sendKeys(feature);
-    $(By.id(featureEditor + "newFeatureEditor:featureForm:saveFeature")).click();
+    var newEditor = featureTable + ":newFeatureEditor:";
+    $(By.id(newEditor + "newServiceFeatureBtn")).shouldBe(visible).click();
+    $(By.id(newEditor + "featureForm:nameInput")).sendKeys(feature);
+    $(By.id(newEditor + "featureForm:saveFeature")).click();
+    table.row(feature).shouldBe(visible);
   }
 
-  public void editFeatureSave(String value, Integer editFeatureIndex) {
-    edit(value, editFeatureIndex);
-    $(By.id(featureEditor + editFeatureIndex + ":editFeatureEditor:featureForm:saveFeature")).click();
+  public void editFeatureSave(String feature, String value) {
+    var editEditor = edit(feature, value);
+    $(By.id(editEditor + "featureForm:saveFeature")).click();
+    table.row(value).shouldBe(visible);
+    table.row(feature).shouldNotBe(visible);
   }
 
-  public void editFeatureCancel(String value, Integer editFeatureIndex) {
-    edit(value, editFeatureIndex);
-    $(By.id(featureEditor + editFeatureIndex + ":editFeatureEditor:featureForm:cancelFeature")).click();
+  public void editFeatureCancel(String feature) {
+    var editEditor = edit(feature, "cancel");
+    $(By.id(editEditor + "featureForm:cancelFeature")).click();
+    table.row(feature).shouldBe(visible);
   }
 
-  private void edit(String value, Integer editFeatureIndex) {
-    $(By.id(featureEditor + editFeatureIndex + ":editFeatureEditor:editFeatureBtn")).shouldBe(visible).click();
-    $(By.id(featureEditor + editFeatureIndex + ":editFeatureEditor:featureForm:nameInput")).clear();
-    $(By.id(featureEditor + editFeatureIndex + ":editFeatureEditor:featureForm:nameInput")).sendKeys(value);
+  public void deleteFeature(String feature) {
+    table.clickButtonForEntry(feature, "editFeatureEditor:deleteFeatureBtn");
+    table.body().shouldNotHave(text(feature));
+  }
+
+  private String edit(String feature, String value) {
+    var editEditor = featureTable + ":" + table.getRowNumber(feature) + ":editFeatureEditor:";
+    table.clickButtonForEntry(feature, "editFeatureEditor:editFeatureBtn");
+    $(By.id(editEditor + "featureForm:nameInput")).clear();
+    $(By.id(editEditor + "featureForm:nameInput")).sendKeys(value);
+    return editEditor;
   }
 }
