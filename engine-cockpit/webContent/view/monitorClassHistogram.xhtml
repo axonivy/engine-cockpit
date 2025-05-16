@@ -29,11 +29,11 @@
                   <i class="pr-3 si si-computer-chip-search"></i>
                   <h2 class="m-0">Class Histogram</h2>
                   <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{classHistogramBean.refresh()}" title="Refresh Class Histogram" 
-                      update="@form" styleClass="col-fixed ml-auto rounded-button"/>
+                      update="@form" styleClass="flex-shrink-0 ml-auto rounded-button"/>
                   <p:commandButton id="clear" actionListener="#{classHistogramBean.clear}" update="@form" title="Clear Class Histogram"
-                      icon="si si-bin-1" styleClass="col-fixed ml-1 ui-button-danger rounded-button" disabled="#{classHistogramBean.notClearable}"/>
+                      icon="si si-bin-1" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{classHistogramBean.notClearable}"/>
                   <p:commandButton id="dump" update="dumpMemory" title="Dump Heap Memory" onclick="PF('dumpMemoryDialog').show();"
-                      icon="si si-download-bottom" styleClass="col-fixed ml-1 ui-button-danger rounded-button"/>
+                      icon="si si-download-bottom" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button"/>
                 </div>
               </div>
               <p:dataTable var="class" value="#{classHistogramBean.classes}" filteredValue="#{classHistogramBean.filteredClasses}"

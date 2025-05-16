@@ -10,7 +10,7 @@
         <i class="pr-3 si si-lock-1"></i>
         <h6 class="m-0">Security System</h6>
         <p:commandButton id="moveApplication" title="Change Security System" type="button" icon="si si-pencil" onclick="PF('moveApplicationModal').show();"
-          styleClass="col-fixed ml-auto rounded-button">
+          styleClass="flex-shrink-0 ml-auto rounded-button">
             <p:ajax listener="#{moveApplicationBean.setApp(applicationDetailBean.application)}" update="moveApplicationForm" />
         </p:commandButton>
         <p:commandButton id="synchronizeSecurity"

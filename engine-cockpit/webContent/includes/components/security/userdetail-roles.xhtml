@@ -24,10 +24,10 @@
       </span>
       <p:commandButton id="expandAll" icon="si si-move-expand-vertical"
         actionListener="#{userDetailBean.roles.expandAllNodes}" update="rolesTree" title="Expand all"
-        styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined expand-all" />
+        styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined expand-all" />
       <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
         actionListener="#{userDetailBean.roles.collapseAllNodes}" update="rolesTree" title="Collapse all"
-        styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined" />
+        styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined" />
     </div>
     <p:treeTable id="rolesTree" value="#{userDetailBean.roles.tree}" var="role" nodeVar="node">
       <p:ajax event="expand" listener="#{userDetailBean.roles.nodeExpand}" />

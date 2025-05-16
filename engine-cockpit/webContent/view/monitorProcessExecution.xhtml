@@ -32,15 +32,15 @@
                 <i class="pr-3 si si-optimization-timer"></i>
                 <h2 class="m-0">Process Execution</h2>
                 <p:commandButton id="start" onclick="PF('startRecordingDialog').show();" title="Start recording"
-                    icon="si si-controls-play" styleClass="col-fixed ml-auto ui-button-success rounded-button" disabled="#{processExecutionBean.notStartable}" />
+                    icon="si si-controls-play" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button" disabled="#{processExecutionBean.notStartable}" />
                 <p:commandButton id="stop" actionListener="#{processExecutionBean.stop}" update="@form" title="Stop recording"
-                    icon="si si-controls-stop" styleClass="col-fixed ml-1 ui-button-danger rounded-button" disabled="#{processExecutionBean.notStoppable}" />
+                    icon="si si-controls-stop" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{processExecutionBean.notStoppable}" />
                 <p:commandButton id="clear" actionListener="#{processExecutionBean.clear}" update="@form" title="Clear statistic"
-                    icon="si si-bin-1" styleClass="col-fixed ml-1 ui-button-danger rounded-button" disabled="#{processExecutionBean.notCleanable}" />
+                    icon="si si-bin-1" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{processExecutionBean.notCleanable}" />
                 <p:commandButton id="refresh" actionListener="#{processExecutionBean.refresh}" update="@form" title="Refresh statistic"
-                    icon="si si-button-refresh-arrows" styleClass="col-fixed ml-1 rounded-button" disabled="#{processExecutionBean.notRefreshable}" />
+                    icon="si si-button-refresh-arrows" styleClass="flex-shrink-0 ml-1 rounded-button" disabled="#{processExecutionBean.notRefreshable}" />
                 <p:commandButton id="export" title="Export statistic" ajax="false"
-                    icon="si si-office-file-xls-1" styleClass="col-fixed ml-1 ui-button-secondary rounded-button" disabled="#{processExecutionBean.notCleanable}">
+                    icon="si si-office-file-xls-1" styleClass="flex-shrink-0 ml-1 ui-button-secondary rounded-button" disabled="#{processExecutionBean.notCleanable}">
                   <p:dataExporter type="xlsxstream" target="performanceTable" fileName="PerformanceStatistic"/>
                 </p:commandButton>
               </div>

@@ -34,10 +34,10 @@
               </span>
               <p:commandButton id="expandAll" icon="si si-move-expand-vertical"
                 actionListener="#{businessCalendarBean.expandAllNodes}" update="tree" title="Expand all"
-                styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined expand-all" />
+                styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined expand-all" />
               <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
                 actionListener="#{businessCalendarBean.collapseAllNodes}" update="tree" title="Collapse all"
-                styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined" />
+                styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined" />
             </div>
             <p:treeTable id="tree" value="#{businessCalendarBean.tree}" var="node" styleClass="hide-head">
               <p:ajax event="expand" listener="#{businessCalendarBean.nodeExpand}" />

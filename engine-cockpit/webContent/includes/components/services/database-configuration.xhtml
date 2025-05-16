@@ -16,9 +16,9 @@
         <p:commandButton id="testDatabaseBtn" title="Test Database Connection" update="connResult:connectionTestModel"
           oncomplete="PF('connectionTestModel').show()" icon="si si-phone-actions-call"
           actionListener="#{tlsTesterBean.setTlsTestRendered(false)}"
-          styleClass="col-fixed ml-auto ui-button-secondary rounded-button" />
+          styleClass="flex-shrink-0 ml-auto ui-button-secondary rounded-button" />
         <p:commandButton id="resetConfig" type="button" onclick="PF('resetDbConfirmDialog').show()"
-          title="Reset configuration" icon="si si-undo" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
+          title="Reset configuration" icon="si si-undo" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
         <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure you want to reset this Database?"
           header="Reset Database" severity="alert" widgetVar="resetDbConfirmDialog">
           <p:commandButton value="Cancel" onclick="PF('resetDbConfirmDialog').hide();" type="button"
@@ -28,7 +28,7 @@
             styleClass="modal-input-button" />
         </p:confirmDialog>
         <p:commandButton id="saveDatabaseConfig" actionListener="#{databaseDetailBean.saveDbConfig}"
-          title="Save changes" icon="si si-floppy-disk" styleClass="col-fixed ml-1 ui-button-success rounded-button"
+          title="Save changes" icon="si si-floppy-disk" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button"
           update="@form, connResult:connectionTestModel" />
       </div>
     </div>

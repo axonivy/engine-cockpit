@@ -15,7 +15,7 @@
               <h:outputText styleClass="text-sm name" value="#{event.timestamp}" style="color: var(--text-color-secondary);" />
               <h:outputText styleClass="message" value="#{event.message}" />
             </div>
-            <p:commandButton icon="si si-check-1" title="Confirm" styleClass="col-fixed ml-auto ui-button-secondary rounded-button ui-button-outlined"
+            <p:commandButton icon="si si-check-1" title="Confirm" styleClass="flex-shrink-0 ml-auto ui-button-secondary rounded-button ui-button-outlined"
               id="confirmEventBtn" actionListener="#{licenceBean.confirmLicenceEvent(event)}" update="@form" />
           </li>
         </ui:repeat>

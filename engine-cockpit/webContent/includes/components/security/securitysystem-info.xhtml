@@ -14,14 +14,14 @@
         <i class="pr-3 si si-information-circle"></i>
         <h6 class="m-0">Security System</h6>
         <p:commandButton id="downloadSecurityReport" title="Download Security Report" icon="si si-office-file-xls-1"
-          styleClass="col-fixed ml-auto rounded-button" onclick="PF('securityReportDownloadModal').show();"/>
+          styleClass="flex-shrink-0 ml-auto rounded-button" onclick="PF('securityReportDownloadModal').show();"/>
         <p:linkButton outcome="securitysystem-merge.xhtml" id="compareSecuritySystemBtn" type="button" 
-                title="Merge Security Systems" icon="si si-move-to-bottom" styleClass="col-fixed ml-1 rounded-button">
+                title="Merge Security Systems" icon="si si-move-to-bottom" styleClass="flex-shrink-0 ml-1 rounded-button">
           <f:param name="source" value="#{securityConfigBean.name}"/>
         </p:linkButton>
         
         <p:commandButton id="deleteSecuritySystem" type="button" onclick="PF('deleteSecuritySystemConfirmDialog').show()"
-              title="Delete this security system" icon="si si-bin-1" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
+              title="Delete this security system" icon="si si-bin-1" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
         <p:confirmDialog id="deleteSecuritySystemConfirmDialog"
           message="#{securityConfigBean.notToDeleteReason}"
           header="Delete Security System" severity="alert" widgetVar="deleteSecuritySystemConfirmDialog">

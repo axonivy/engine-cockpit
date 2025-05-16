@@ -16,9 +16,9 @@
         <p:commandButton id="testRestBtn" title="Test Rest Connection" oncomplete="PF('connectionTestModel').show()"
           icon="si si-phone-actions-call" update="restClientAdditionalConfigForm, connResult:connectionTestModel"
           actionListener="#{tlsTesterBean.setTlsTestRendered(false)}"
-          styleClass="col-fixed ml-auto ui-button-secondary rounded-button" />
+          styleClass="flex-shrink-0 ml-auto ui-button-secondary rounded-button" />
         <p:commandButton id="resetConfig" type="button" onclick="PF('resetRestConfirmDialog').show()"
-          title="Reset configuration" icon="si si-undo" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
+          title="Reset configuration" icon="si si-undo" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
         <p:confirmDialog id="resetRestConfirmDialog" message="Are you sure you want to reset this Rest Client?"
           header="Reset Rest Client" severity="alert" widgetVar="resetRestConfirmDialog">
           <p:commandButton value="Cancel" onclick="PF('resetRestConfirmDialog').hide();" type="button"
@@ -27,7 +27,7 @@
             icon="si si-undo" update="@form, restClientAdditionalConfigForm" styleClass="modal-input-button" />
         </p:confirmDialog>
         <p:commandButton id="saveRestConfig" actionListener="#{restClientDetailBean.saveConfig}" title="Save changes"
-          icon="si si-floppy-disk" styleClass="col-fixed ml-1 ui-button-success rounded-button"
+          icon="si si-floppy-disk" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button"
           update="@form, restClientAdditionalConfigForm, connResult:connectionTestModel" />
       </div>
     </div>
