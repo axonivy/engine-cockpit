@@ -12,6 +12,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.time.Duration;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -41,11 +42,11 @@ class WebTestSessions {
   @BeforeAll
   static void beforeAll() {
     EngineCockpitUtil.destroyOtherSessions();
-    login();
   }
 
   @BeforeEach
   void beforeEach() {
+    login();
     Navigation.toSessions();
     table = new Table(TABLE_ID, true);
     table.sortByColumn("Created");
@@ -112,7 +113,7 @@ class WebTestSessions {
     $(".layout-topbar-actions .help-link a").shouldBe(visible).click();
     Selenide.switchTo().window(1);
     openLogin();
-    $("#loginForm\\:userName").shouldBe(visible).sendKeys(SESSION_USER);
+    $("#loginForm\\:userName").shouldBe(visible, Duration.ofSeconds(10)).sendKeys(SESSION_USER);
     $("#loginForm\\:password").shouldBe(visible).sendKeys(SESSION_USER);
     $("#loginForm\\:login").click();
     $("#sessionUserName").shouldHave(text(SESSION_USER));
@@ -121,16 +122,11 @@ class WebTestSessions {
   }
 
   private void openLogin() {
-    var url = rootUri()
-
-        .toUrl();
-    Selenide.open(url);
+    var url = rootUri().toUrl();
+    EngineCockpitUtil.open(url);
   }
 
   private EngineUrl rootUri() {
-    if (EngineUrl.isDesigner()) {
-      return EngineUrl.create().app("dev-workflow-ui").path("faces/login.xhtml");
-    }
-    return EngineUrl.create().app("test").path("login");
+    return EngineUrl.create().app("dev-workflow-ui").path("faces/login.xhtml");
   }
 }
