@@ -29,9 +29,9 @@
           <i class="pr-3 si si-advertising-megaphone-2 card-title-icon"></i>
           <h2 class="m-0">Notification #{notificationBean.notification.id}</h2>
           <p:commandButton id="reusher" actionListener="#{notificationBean.notification.reusher}" title="Reevalute deliveries"
-            icon="si si-multiple-actions-add" styleClass="col-fixed ml-auto rounded-button" update="tableForm"/>
+            icon="si si-multiple-actions-add" styleClass="flex-shrink-0 ml-auto rounded-button" update="tableForm"/>
           <p:commandButton id="retry" actionListener="#{notificationBean.notification.retry}" title="Retry to deliver"
-            icon="si si-send-email" styleClass="col-fixed ml-1 rounded-button" update="tableForm"/>
+            icon="si si-send-email" styleClass="flex-shrink-0 ml-1 rounded-button" update="tableForm"/>
         </div>
 
         <h:form id="tableForm" onkeypress="if (event.keyCode == 13) return false;">

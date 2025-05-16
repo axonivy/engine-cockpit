@@ -22,7 +22,7 @@
             <p:inputText id="globalFilter" onkeyup="PF('configTable').filter()" placeholder="Search" value="#{cc.attrs.bean.filter}" />
           </span>
           <p:commandButton id="filterBtn" title="Filter: #{cc.attrs.bean.contentFilterText}" type="button" icon="si si-filter-1"
-            styleClass="ui-button-secondary rounded-button ml-1 col-fixed" onclick="PF('filterPanel').show();"
+            styleClass="ui-button-secondary rounded-button ml-1 flex-shrink-0" onclick="PF('filterPanel').show();"
             rendered="#{cc.attrs.showContentFilter}" />
         </div>
       </f:facet>
@@ -43,11 +43,11 @@
       </p:column>
       <p:column styleClass="table-btn-2">
         <p:commandButton id="editConfigBtn" icon="si si-pencil" title="Edit"
-          styleClass="col-fixed ml-1 ui-button-secondary rounded-button" process="@this"
+          styleClass="flex-shrink-0 ml-1 ui-button-secondary rounded-button" process="@this"
           actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" update=":#{cc.clientId}:editConfigurationModal"
           oncomplete="PF('editConfigurationModal').show();" />
         <p:commandButton title="More" id="tasksButton" disabled="#{config.default}" type="button"
-          icon="si si-navigation-menu" styleClass="col-fixed ml-1 ui-button-secondary ui-button-outlined rounded-button" />
+          icon="si si-navigation-menu" styleClass="flex-shrink-0 ml-1 ui-button-secondary ui-button-outlined rounded-button" />
         <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
           <p:menuitem value="View File" icon="si si-common-file-search"
             oncomplete="PF('showConfigurationFileModal').show()"

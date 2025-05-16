@@ -17,20 +17,20 @@
     icon="si si-pencil" title="Edit" disabled="#{feature.default}"
     update="@form" rendered="#{!cc.attrs.isNewFeature}"
     oncomplete="PF('featureModal').show();" process="@this" 
-    styleClass="col-fixed ml-1 ui-button-secondary rounded-button" />
+    styleClass="flex-shrink-0 ml-1 ui-button-secondary rounded-button" />
 
   <p:commandButton id="deleteFeatureBtn" disabled="#{feature.default}"
     actionListener="#{cc.attrs.bean.removeFeature(feature.clazz)}"
     update="#{cc.attrs.formName}" icon="si si-bin-1" title="Delete"
     rendered="#{!cc.attrs.isNewFeature}" process="@this"
-    styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
+    styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
 
   <p:commandButton id="newServiceFeatureBtn"
     oncomplete="PF('featureModal').show();" process="@this"
     actionListener="#{cc.attrs.bean.setFeature(null)}"
     update="featureModal" title="Add" icon="si si-add"
     rendered="#{cc.attrs.isNewFeature}"
-    styleClass="col-fixed ml-auto rounded-button" />
+    styleClass="flex-shrink-0 ml-auto rounded-button" />
 
   <p:dialog header="Feature" style="text-align: left;" id="featureModal"
     widgetVar="featureModal" modal="true" responsive="true"

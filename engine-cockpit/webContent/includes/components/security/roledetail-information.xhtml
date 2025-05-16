@@ -13,10 +13,10 @@
         <i class="pr-3 si si-information-circle"></i>
         <h6 class="m-0">Role information</h6>
         <p:commandButton id="createNewChildRole" type="button" onclick="PF('newChildRoleModal').show()"
-          title="Add new child role" icon="si si-add" styleClass="col-fixed ml-auto rounded-button" />
+          title="Add new child role" icon="si si-add" styleClass="flex-shrink-0 ml-auto rounded-button" />
         <p:commandButton id="deleteRole" rendered="#{roleDetailBean.canDeleteRole()}" type="button"
           onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role" icon="si si-bin-1"
-          styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
+          styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
         <p:confirmDialog id="deleteRoleConfirmDialog"
           message="Are you sure you want to delete the role '#{roleDetailBean.name}'?" header="Delete Role" severity="alert"
           widgetVar="deleteRoleConfirmDialog">
@@ -27,7 +27,7 @@
             action="#{roleDetailBean.deleteRole}" styleClass="modal-input-button" icon="si si-bin-1" />
         </p:confirmDialog>
         <p:commandButton id="saveRoleInformation" actionListener="#{roleDetailBean.saveRoleInfos}" title="Save changes"
-          icon="si si-floppy-disk" styleClass="col-fixed ml-1 ui-button-success rounded-button" update="usersOfRoleForm" />
+          icon="si si-floppy-disk" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button" update="usersOfRoleForm" />
       </div>
     </div>
     

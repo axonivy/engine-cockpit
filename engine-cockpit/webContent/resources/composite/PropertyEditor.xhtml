@@ -13,18 +13,18 @@
     actionListener="#{cc.attrs.bean.setProperty(property.name)}"
     icon="si si-pencil" title="Edit"
     update="propertyModal" rendered="#{!cc.attrs.isNewProperty}"
-    styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
+    styleClass="flex-shrink-0 ml-1 ui-button-secondary rounded-button"
     oncomplete="PF('propertyModal').show();" process="@this" />
   <p:commandButton id="deletePropertyBtn" disabled="#{property.default}"
     actionListener="#{cc.attrs.bean.removeProperty(property.name)}"
     update="#{cc.attrs.formName}" icon="si si-bin-1" title="Delete"
     rendered="#{!cc.attrs.isNewProperty}" process="@this"
-    styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
+    styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
   <p:commandButton id="newServicePropertyBtn" 
     oncomplete="PF('propertyModal').show();" process="@this"
     actionListener="#{cc.attrs.bean.setProperty(null)}" update="propertyModal" 
     title="Add" icon="si si-add" rendered="#{cc.attrs.isNewProperty}"
-    styleClass="col-fixed ml-auto rounded-button" />
+    styleClass="flex-shrink-0 ml-auto rounded-button" />
 
   <p:dialog header="Property" style="text-align: left;" id="propertyModal" widgetVar="propertyModal" modal="true"
     responsive="true" closeOnEscape="true">
