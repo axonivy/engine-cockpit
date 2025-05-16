@@ -32,16 +32,16 @@
           <h:outputText value="#{notificationChannelDetailBean.channel.displayIcon}" class="pr-3 si notification-channel-title-icon" escape="false" /> <!-- contains no user input, contains icon -->
           <h2 class="m-0">#{notificationChannelDetailBean.channel.displayName}</h2>
           <p:commandButton id="open" actionListener="#{notificationChannelDetailBean.open}" title="Unlock channel (clear error state)"
-            icon="si si-charger" styleClass="col-fixed ml-auto rounded-button" update="form" 
+            icon="si si-charger" styleClass="flex-shrink-0 ml-auto rounded-button" update="form" 
             rendered="#{notificationChannelDetailBean.channel.push}" disabled="#{not notificationChannelDetailBean.channel.locked}"/>
           <p:commandButton id="resetPush" actionListener="#{notificationChannelDetailBean.onload}" title="Reset changes"
-            icon="si si-undo" styleClass="col-fixed ml-1 ui-button-danger rounded-button" update="form"
+            icon="si si-undo" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" update="form"
             rendered="#{notificationChannelDetailBean.channel.push}"/>
           <p:commandButton id="resetNonPush" actionListener="#{notificationChannelDetailBean.onload}" title="Reset changes"
-            icon="si si-undo" styleClass="col-fixed ml-auto ui-button-danger rounded-button" update="form"
+            icon="si si-undo" styleClass="flex-shrink-0 ml-auto ui-button-danger rounded-button" update="form"
             rendered="#{not notificationChannelDetailBean.channel.push}"/>
           <p:commandButton id="save" actionListener="#{notificationChannelDetailBean.save}" title="Save changes"
-            icon="si si-floppy-disk" styleClass="col-fixed ml-1 ui-button-success rounded-button"/>
+            icon="si si-floppy-disk" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button"/>
         </div>
         <h:form id="form">
           <p:panelGrid columns="2" columnClasses="col-12 md:col-2 lg:col-2, col-12 md:col-10 lg:col-10"

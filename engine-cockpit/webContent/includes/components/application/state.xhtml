@@ -11,15 +11,15 @@
         <h6 class="m-0">Activity</h6>
         
         <p:commandButton id="activateApplication" title="Activate" type="button" icon="si si-controls-play"
-          disabled="#{applicationDetailBean.application.notStartable}" styleClass="col-fixed ml-auto ui-button-success rounded-button">
+          disabled="#{applicationDetailBean.application.notStartable}" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button">
           <p:ajax listener="#{applicationDetailBean.application.activate}" update="@form" />
         </p:commandButton>
         <p:commandButton id="deActivateApplication" title="Deactivate" type="button" icon="si si-controls-stop"
-          disabled="#{applicationDetailBean.application.notStopable}" styleClass="col-fixed ml-1 ui-button-danger rounded-button">
+          disabled="#{applicationDetailBean.application.notStopable}" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button">
           <p:ajax listener="#{applicationDetailBean.application.deactivate}" update="@form" />
         </p:commandButton>
         <p:commandButton id="lockApplication" title="Lock" type="button" icon="si si-lock-1"
-          disabled="#{applicationDetailBean.application.notLockable}" styleClass="col-fixed ml-1 ui-button-warning rounded-button">
+          disabled="#{applicationDetailBean.application.notLockable}" styleClass="flex-shrink-0 ml-1 ui-button-warning rounded-button">
           <p:ajax listener="#{applicationDetailBean.application.lock}" update="@form" />
         </p:commandButton>
       </div>

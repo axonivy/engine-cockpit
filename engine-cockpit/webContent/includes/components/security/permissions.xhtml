@@ -24,7 +24,7 @@
       </span>
       <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
         actionListener="#{permissionBean.collapseAllNodes}" update="permissionTable" title="Collapse all"
-        styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined" />
+        styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined" />
     </div>
     <p:treeTable id="permissionTable" value="#{permissionBean.tree}" var="permission">
       <p:ajax event="expand" listener="#{permissionBean.nodeExpand}" />

@@ -30,15 +30,15 @@
                 <i class="pr-3 si si-alarm-bell-timer"></i>
                 <h2 class="m-0">Slow Requests</h2>
                 <p:commandButton id="start" onclick="PF('startRecordingDialog').show();" title="Start recording"
-                    icon="si si-controls-play" styleClass="col-fixed ml-auto ui-button-success rounded-button" disabled="#{traceBean.notStartable}" />
+                    icon="si si-controls-play" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button" disabled="#{traceBean.notStartable}" />
                 <p:commandButton id="stop" actionListener="#{traceBean.stop}" update="@form" title="Stop recording"
-                    icon="si si-controls-stop" styleClass="col-fixed ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notStoppable}" />
+                    icon="si si-controls-stop" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notStoppable}" />
                 <p:commandButton id="clear" actionListener="#{traceBean.clear}" update="@form" title="Clear statistic"
-                    icon="si si-bin-1" styleClass="col-fixed ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notCleanable}" />
+                    icon="si si-bin-1" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notCleanable}" />
                 <p:commandButton id="refresh" actionListener="#{traceBean.refresh}" update="@form" title="Refresh statistic"
-                    icon="si si-button-refresh-arrows" styleClass="col-fixed ml-1 rounded-button" disabled="#{traceBean.notRefreshable}" />
+                    icon="si si-button-refresh-arrows" styleClass="flex-shrink-0 ml-1 rounded-button" disabled="#{traceBean.notRefreshable}" />
                 <p:commandButton id="export" title="Export traces" ajax="false"
-                    icon="si si-office-file-xls-1" styleClass="col-fixed ml-1 ui-button-secondary rounded-button" disabled="#{traceBean.notCleanable}">
+                    icon="si si-office-file-xls-1" styleClass="flex-shrink-0 ml-1 ui-button-secondary rounded-button" disabled="#{traceBean.notCleanable}">
                   <p:dataExporter type="xlsxstream" target="traceTable" fileName="Traces"/>
                 </p:commandButton>
               </div>
