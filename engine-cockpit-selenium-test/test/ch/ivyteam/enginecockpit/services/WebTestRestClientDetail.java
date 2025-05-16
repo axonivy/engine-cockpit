@@ -15,13 +15,13 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
-import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.FeatureEditor;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.PropertyEditor;
 import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 class WebTestRestClientDetail {
@@ -102,80 +102,59 @@ class WebTestRestClientDetail {
 
   @Test
   void properties() {
-    var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
-    table.row(0).shouldHave(text("PATH.host"), text("test-webservices.ivyteam.io"));
-    table.row(1).shouldHave(text("password"), text("*****"));
-    table.row(2).shouldHave(text("JSON.Deserialization.FAIL_ON_UNKNOWN_PROPERTIES"), text("false"));
-    table.row(3).shouldHave(text("sensitive"), text("*****"));
-    table.row(4).shouldHave(text("PATH.port"), text("91"));
-    table.row(5).shouldHave(text("username"), text("admin"));
+    var table = new Table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
+    table.row("PATH.host").shouldHave(text("test-webservices.ivyteam.io"));
+    table.row("password").shouldHave(text("*****"));
+    table.row("JSON.Deserialization.FAIL_ON_UNKNOWN_PROPERTIES").shouldHave(text("false"));
+    table.row("sensitive").shouldHave(text("*****"));
+    table.row("PATH.port").shouldHave(text("91"));
+    table.row("username").shouldHave(text("admin"));
   }
 
   @Test
   void addProperty() {
-    var editor = new PropertyEditor("restClientAdditionalConfigForm:restClientPropertiesTable:newPropertyEditor:");
+    var editor = new PropertyEditor("restClientAdditionalConfigForm:restClientPropertiesTable");
     editor.addProperty("testProperty", "testValue");
-    var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
-    table.row(2).shouldHave(text("testProperty"), text("testValue"));
-    $(By.id("restClientAdditionalConfigForm:restClientPropertiesTable:2:editPropertyEditor:deletePropertyBtn")).click();
+    editor.deleteProperty("testProperty");
   }
 
   @Test
   void editProperty() {
-    var editor = new PropertyEditor("restClientAdditionalConfigForm:restClientPropertiesTable:5:editPropertyEditor:");
-    editor.editProperty("editValue");
-    var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
-    table.row(5).shouldHave(text("username"), text("editValue"));
-    editor.editProperty("admin");
+    var editor = new PropertyEditor("restClientAdditionalConfigForm:restClientPropertiesTable");
+    editor.editProperty("username", "editValue");
+    editor.editProperty("username", "admin");
   }
 
   @Test
   void addFeature() {
-    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:");
-    editor.addFeature("ch.ivyteam.ivy.rest.client.feature.AuthFeature");
-    var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
-    table.row(2).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.AuthFeature"));
-    $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
+    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable");
+    editor.addFeature("TestFeature");
+    editor.deleteFeature("TestFeature");
   }
 
   @Test
   void editFeature() {
-    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:");
-    try {
-      editor.addFeature("ch.ivyteam.ivy.rest.client.feature.AuthFeature");
-      editor.editFeatureSave("ch.ivyteam.ivy.rest.client.feature.editFeature", 2);
-      var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
-      table.row(2).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.editFeature"));
-    } finally {
-      $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
-    }
+    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable");
+    editor.addFeature("TestFeature");
+    editor.editFeatureSave("TestFeature", "EditFeature");
+    editor.deleteFeature("EditFeature");
   }
 
   @Test
-  void editFeatureExisting() {
-    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:");
-    try {
-      editor.addFeature("ch.ivyteam.ivy.rest.client.feature.AuthFeature");
-      editor.addFeature("ch.ivyteam.ivy.rest.client.feature.JsonFeature");
-      editor.editFeatureSave("ch.ivyteam.ivy.rest.client.feature.AuthFeature", 3);
-      var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
-      Selenide.refresh();
-      table.row(2).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.AuthFeature"));
-      table.row(3).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.JsonFeature"));
-    } finally {
-      $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
-      $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
-    }
+  void addExistingFeature() {
+    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable");
+    editor.addFeature("TestFeature");
+    editor.addFeature("TestFeature");
+    $(By.id("restClientAdditionalConfigForm:msg_container")).shouldHave(text("TestFeature couldn't be created"));
+    editor.deleteFeature("TestFeature");
   }
 
   @Test
   void editFeatureCancel() {
-    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable:");
-    editor.addFeature("ch.ivyteam.ivy.rest.client.feature.AuthFeature");
-    editor.editFeatureCancel("ch.ivyteam.ivy.rest.client.feature.editFeature", 2);
-    var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientFeaturesTable"));
-    table.row(2).shouldHave(text("ch.ivyteam.ivy.rest.client.feature.AuthFeature"));
-    $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable:2:editFeatureEditor:deleteFeatureBtn")).click();
+    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable");
+    editor.addFeature("TestFeature");
+    editor.editFeatureCancel("TestFeature");
+    editor.deleteFeature("TestFeature");
   }
 
   private void setConfiguration(String url, String username) {

@@ -84,19 +84,16 @@ class WebTestDatabaseDetail {
 
   @Test
   void addProperty() {
-    var editor = new PropertyEditor("databasePropertiesForm:databasePropertiesTable:newPropertyEditor:");
+    var editor = new PropertyEditor("databasePropertiesForm:databasePropertiesTable");
     editor.addProperty("testProperty", "testValue");
-    $(By.id("databasePropertiesForm:databasePropertiesTable")).shouldHave(text("testProperty"));
-    $(By.id("databasePropertiesForm:databasePropertiesTable")).shouldHave(text("testValue"));
-    $(By.id("databasePropertiesForm:databasePropertiesTable:1:editPropertyEditor:deletePropertyBtn")).click();
+    editor.deleteProperty("testProperty");
   }
 
   @Test
   void editProperty() {
-    var editor = new PropertyEditor("databasePropertiesForm:databasePropertiesTable:0:editPropertyEditor:");
-    editor.editProperty("editValue");
-    $(By.id("databasePropertiesForm:databasePropertiesTable")).shouldHave(text("editValue"));
-    editor.editProperty("testvalue");
+    var editor = new PropertyEditor("databasePropertiesForm:databasePropertiesTable");
+    editor.editProperty("test", "editValue");
+    editor.editProperty("test", "testvalue");
   }
 
   @Test

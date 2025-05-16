@@ -123,7 +123,7 @@ public class Table {
     }
   }
 
-  private String getRowNumber(String entry) {
+  public String getRowNumber(String entry) {
     return $x(findColumnOverEntry(entry))
         .getAttribute(rowNumberField);
   }
