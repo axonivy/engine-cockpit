@@ -21,7 +21,7 @@
         placeholder="Search role to add" />
       <p:commandButton id="addMemberToRoleBtn" update="membersOfRoleForm" actionListener="#{roleDetailBean.addMember}"
         icon="si si-add" title="Add" 
-        styleClass="ml-1 col-fixed rounded-button" />
+        styleClass="ml-1 flex-shrink-0 rounded-button" />
     </div>
     <p:dataTable id="roleMemberTable" value="#{roleDetailBean.membersOfRole}" widgetVar="membersOfRoleTable" var="member"
       filteredValue="#{roleDetailBean.filteredMembers}" lazy="false" paginator="true" rows="10" paginatorPosition="bottom"

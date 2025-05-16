@@ -33,7 +33,7 @@
           <i class="pr-3 si si-road-sign-warning card-title-icon"></i>
           <h2 class="m-0">Health Checks</h2>
           <p:commandButton id="refresh" actionListener="#{healthBean.refresh}" update="form" title="Refresh Health Checks"
-              icon="si si-button-refresh-arrows" styleClass="col-fixed ml-auto rounded-button"/>
+              icon="si si-button-refresh-arrows" styleClass="flex-shrink-0 ml-auto rounded-button"/>
           
         </div>
         <h:form id="form" style="overflow: auto;">
@@ -70,11 +70,11 @@
              
              <p:column styleClass="table-btn-3">
                <p:commandButton id="enable" title="Enable the check" icon="si si-check-circle-1"
-                 action="#{check.enable()}" update="@form" styleClass="col-fixed ml-1 ui-button-success rounded-button" disabled="#{check.enabled}"/>
+                 action="#{check.enable()}" update="@form" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button" disabled="#{check.enabled}"/>
                <p:commandButton id="disable" title="Disable the check" icon="si si-subtract-circle"
-                 action="#{check.disable()}" update="@form" styleClass="col-fixed ml-1 ui-button-danger rounded-button" disabled="#{! check.enabled}"/>
+                 action="#{check.disable()}" update="@form" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{! check.enabled}"/>
                <p:commandButton id="checkNow" icon="si si-controls-play" title="Run check now"
-                 action="#{check.checkNow()}" update="@form" styleClass="col-fixed ml-1 rounded-button" disabled="#{! check.enabled}"/>
+                 action="#{check.checkNow()}" update="@form" styleClass="flex-shrink-0 ml-1 rounded-button" disabled="#{! check.enabled}"/>
            </p:column>
              
           </p:dataTable>

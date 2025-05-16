@@ -32,8 +32,8 @@
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-synchronize-arrow-clock"></i>
                   <h2 class="m-0">Threads</h2>
-                  <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{threadBean.refresh()}" title="Refresh" styleClass="col-fixed ml-auto rounded-button" update="threadTable"/>
-                  <p:commandButton id="dump" icon="pi pi-arrow-down" ajax="false" title="Save Thread Dump" styleClass="col-fixed ml-1 ui-button-success rounded-button">
+                  <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{threadBean.refresh()}" title="Refresh" styleClass="flex-shrink-0 ml-auto rounded-button" update="threadTable"/>
+                  <p:commandButton id="dump" icon="pi pi-arrow-down" ajax="false" title="Save Thread Dump" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button">
                     <p:fileDownload value="#{threadBean.dump()}"/>
                   </p:commandButton>
                 </div>
