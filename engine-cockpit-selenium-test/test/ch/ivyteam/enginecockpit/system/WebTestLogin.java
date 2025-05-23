@@ -14,6 +14,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,12 +32,15 @@ import io.netty.handler.codec.http.HttpResponse;
 @IvyWebTest
 @ExtendWith({ProxyExtension.class})
 public class WebTestLogin {
-  static RecordLoginStatusCode STATUS = new RecordLoginStatusCode();
 
   @BeforeAll
   static void beforeAll() {
     open(viewUrl(LOGIN));
-    Selenide.webdriver().driver().getProxy().addResponseFilter(LOGIN, STATUS);
+  }
+
+  @AfterEach
+  void afterEach() {
+    Selenide.webdriver().driver().getProxy().removeResponseFilter(LOGIN);
   }
 
   @Test
@@ -49,9 +53,10 @@ public class WebTestLogin {
 
   @Test
   void login() {
+    var filter = addStatusFilter();
     forceLogin();
-    assertThat(STATUS.code).isEqualTo(302);
-    assertThat(STATUS.isAjax).isEqualTo(false);
+    assertThat(filter.code).isEqualTo(302);
+    assertThat(filter.isAjax).isEqualTo(false);
     assertCurrentUrlContains(DASHBOARD);
     assertThat(Selenide.title()).startsWith("Engine Cockpit").doesNotContain("Login");
     $("#sessionUserName").shouldBe(exactText(getAdminUser()));
@@ -59,25 +64,26 @@ public class WebTestLogin {
 
   @Test
   void loginInvalid() {
-    open(viewUrl(LOGIN));
+    var filter = addStatusFilter();
     $("#loginForm\\:userName").shouldBe(visible).clear();
     $("#loginForm\\:password").shouldBe(visible).clear();
     $("#loginForm\\:login").shouldBe(visible).click();
+    assertThat(filter.code).isEqualTo(200);
+    assertThat(filter.isAjax).isEqualTo(false);
     $("#loginForm\\:userName").shouldHave(cssClass("ui-state-error"));
     $("#loginForm\\:password").shouldHave(cssClass("ui-state-error"));
 
     $("#loginForm\\:userName").sendKeys(getAdminUser());
-
     $("#loginForm\\:login").click();
-    assertThat(STATUS.code).isEqualTo(200);
-    assertThat(STATUS.isAjax).isEqualTo(false);
+    assertThat(filter.code).isEqualTo(200);
+    assertThat(filter.isAjax).isEqualTo(false);
     $("#loginForm\\:userName").shouldNotHave(cssClass("ui-state-error"));
     $("#loginForm\\:password").shouldHave(cssClass("ui-state-error"));
 
     $("#loginForm\\:password").sendKeys("test");
     $("#loginForm\\:login").click();
-    assertThat(STATUS.code).isEqualTo(401);
-    assertThat(STATUS.isAjax).isEqualTo(false);
+    assertThat(filter.code).isEqualTo(401);
+    assertThat(filter.isAjax).isEqualTo(false);
     $("#loginForm\\:userName").shouldNotHave(cssClass("ui-state-error"));
     $("#loginForm\\:password").shouldNotHave(cssClass("ui-state-error"));
     $("#loginForm\\:loginMessage").shouldBe(visible);
@@ -100,6 +106,13 @@ public class WebTestLogin {
   private void doLogout() {
     $(".user-profile > a").click();
     $("#sessionLogoutBtn").shouldBe(visible).click();
+  }
+
+  private RecordLoginStatusCode addStatusFilter() {
+    open(viewUrl(LOGIN));
+    var filter = new RecordLoginStatusCode();
+    Selenide.webdriver().driver().getProxy().addResponseFilter(LOGIN, filter);
+    return filter;
   }
 
   private static final class RecordLoginStatusCode implements ResponseFilter {

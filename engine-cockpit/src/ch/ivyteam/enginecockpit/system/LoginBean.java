@@ -30,10 +30,11 @@ public class LoginBean {
   }
 
   public void loginDefaultAdminOrRedirect() {
-    if (EngineMode.isAnyOf(EngineMode.DEMO, EngineMode.DESIGNER_EMBEDDED)) {
-      if (ISession.current().loginSessionUser("admin", "admin")) {
-        return;
-      }
+    if (EngineMode.isAnyOf(EngineMode.DEMO) && ISession.current().loginSessionUser("admin", "admin")) {
+      return;
+    }
+    if (EngineMode.isEmbeddedInDesigner() && ISession.current().loginSessionUser("Developer", "Developer")) {
+      return;
     }
     redirect();
   }
@@ -43,7 +44,7 @@ public class LoginBean {
       redirect(StringUtils.isNotBlank(originalUrl) ? originalUrl : "dashboard.xhtml");
       return;
     }
-    
+
     sendUnauthorizedStatusCode();
     FacesContext.getCurrentInstance().addMessage(null,
         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failed", "Login failed"));
