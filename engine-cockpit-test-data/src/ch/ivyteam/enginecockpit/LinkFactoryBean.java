@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -14,7 +15,6 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.engine.cockpit.CockpitLinkFactory;
 import ch.ivyteam.ivy.model.value.WebLink;
-import javassist.Modifier;
 
 @ManagedBean
 @RequestScoped
