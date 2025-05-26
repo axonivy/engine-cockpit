@@ -18,6 +18,19 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.axonivy.ivy.api</groupId>
+      <artifactId>ivy-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.axonivy.ivy.api.restricted</groupId>
+      <artifactId>ivy-engine-cockpit-api</artifactId>
+    </dependency>
+	<dependency>
+	  <groupId>org.apache.poi</groupId>
+	  <artifactId>poi-ooxml</artifactId>
+	</dependency>
+
+    <dependency>
       <!-- oshi needs to align it's jna dependency with the axon ivy core jna dependency -->
       <groupId>com.github.oshi</groupId>
       <artifactId>oshi-core</artifactId>
@@ -59,8 +72,8 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.7.1</version>
         <executions>
           <execution>
             <id>jar</id>

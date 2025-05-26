@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>ch.ivyteam.enginecockpit</groupId>
@@ -8,9 +7,20 @@
     <version>13.2.0-SNAPSHOT</version>
     <relativePath>../maven-config</relativePath>
   </parent>
-  
+
   <groupId>ch.ivyteam.enginecockpit</groupId>
   <artifactId>engine-cockpit-test-data</artifactId>
   <version>13.2.0-SNAPSHOT</version>
-  <packaging>iar</packaging>  
+  <packaging>iar</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.axonivy.ivy.api</groupId>
+      <artifactId>ivy-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.axonivy.ivy.api.restricted</groupId>
+      <artifactId>ivy-engine-cockpit-api</artifactId>
+    </dependency>
+  </dependencies>
 </project>

@@ -14,6 +14,11 @@
   <packaging>iar</packaging>
   <dependencies>
     <dependency>
+      <groupId>com.axonivy.ivy.api</groupId>
+      <artifactId>ivy-api</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>ch.ivyteam.enginecockpit</groupId>
       <artifactId>core-pmv-test</artifactId>
       <version>${project.version}</version>

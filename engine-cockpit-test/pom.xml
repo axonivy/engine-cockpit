@@ -20,6 +20,15 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.axonivy.ivy.api</groupId>
+      <artifactId>ivy-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.axonivy.ivy.api.restricted</groupId>
+      <artifactId>ivy-engine-cockpit-api</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>ch.ivyteam.enginecockpit</groupId>
       <artifactId>engine-cockpit</artifactId>
       <version>${project.version}</version>

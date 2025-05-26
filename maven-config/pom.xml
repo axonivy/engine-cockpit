@@ -1,5 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.axonivy.ivy.api</groupId>
+    <artifactId>ivy-project-parent</artifactId>
+    <version>13.2.0-SNAPSHOT</version>
+    <relativePath></relativePath>
+  </parent>
   <groupId>ch.ivyteam.enginecockpit</groupId>
   <artifactId>engine-cockpit-config</artifactId>
   <version>13.2.0-SNAPSHOT</version>
@@ -116,6 +122,20 @@
   </distributionManagement>
 
   <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+    <repository>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+      <id>maven.axonivy.com</id>
+      <url>https://maven.axonivy.com</url>
+    </repository>
     <repository>
       <id>nexus.ivyteam.io</id>
       <url>https://nexus.ivyteam.io/repository/maven/</url>
