@@ -180,6 +180,7 @@ public class Application extends AbstractActivity {
     return app;
   }
 
+  @SuppressWarnings("deprecation")
   public List<WebServiceProcess> getWebServiceProcesses() {
     if (webServiceProcesses == null) {
       webServiceProcesses = app.getProcessModels().stream()
