@@ -11,8 +11,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.ws.rs.client.WebTarget;
 
-import org.apache.commons.lang.text.StrSubstitutor;
-
 import ch.ivyteam.enginecockpit.commons.Feature;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
@@ -157,6 +155,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     return "To edit your Rest Client overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public String getYaml() {
     var valuesMap = new HashMap<String, String>();
@@ -165,7 +164,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     valuesMap.put("features", parseFeaturesToYaml(restClient.getFeatures()));
     valuesMap.put("properties", parsePropertiesToYaml(getProperties()));
     var templateString = readTemplateString("restclient.yaml");
-    var strSubstitutor = new StrSubstitutor(valuesMap);
+    var strSubstitutor = new org.apache.commons.lang3.text.StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
   }
 

@@ -13,7 +13,6 @@ import javax.faces.context.FacesContext;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Entity;
 
-import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -154,6 +153,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     return "To edit your Web Service overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public String getYaml() {
     var valuesMap = new HashMap<String, String>();
@@ -162,7 +162,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     valuesMap.put("features", parseFeaturesToYaml(getFeatures()));
     valuesMap.put("properties", parsePropertiesToYaml(getProperties()));
     var templateString = readTemplateString("webservice.yaml");
-    var strSubstitutor = new StrSubstitutor(valuesMap);
+    var strSubstitutor = new org.apache.commons.lang3.text.StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
   }
 

@@ -9,7 +9,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -158,6 +157,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     return "To edit your Database overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public String getYaml() {
     var valuesMap = new HashMap<String, String>();
@@ -168,7 +168,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     valuesMap.put("maxConnections", String.valueOf(database.getMaxConnections()));
     valuesMap.put("properties", parsePropertiesToYaml(getProperties()));
     String templateString = readTemplateString("database.yaml");
-    StrSubstitutor strSubstitutor = new StrSubstitutor(valuesMap);
+    var strSubstitutor = new org.apache.commons.lang3.text.StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
   }
 

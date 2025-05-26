@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.ChartModel;
 import org.primefaces.model.charts.axes.cartesian.CartesianScaleTitle;
@@ -240,7 +240,7 @@ public class Monitor {
   }
 
   private void setYAxisUnit(Unit unit) {
-    String label = StringUtils.defaultString(info.yAxisLabel, info.name);
+    String label = Objects.toString(info.yAxisLabel, info.name);
     if (unit != null && unit.hasSymbol()) {
       label += " " + unit.symbolWithBracesOrEmpty();
     }
