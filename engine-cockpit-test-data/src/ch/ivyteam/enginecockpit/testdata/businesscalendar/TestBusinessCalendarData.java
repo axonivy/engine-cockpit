@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.testdata.businesscalendar;
 
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IApplicationInternal;
+import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
 
 public class TestBusinessCalendarData {
 
