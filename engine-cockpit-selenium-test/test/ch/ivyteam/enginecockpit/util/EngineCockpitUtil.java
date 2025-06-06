@@ -267,8 +267,8 @@ public class EngineCockpitUtil {
     assertLiveStats(expectedChartTitles, null, emptyGraphs);
   }
 
-  public static void assertLiveStats(List<String> expectedChartTitles, String jmxSourceMessage,
-      boolean emptyGraphs) {
+  public static void assertLiveStats(List<String> expectedChartTitles, String jmxSourceMessage, boolean emptyGraphs) {
+    waitUntilFreyaJsIsInitialized();
     $("#layout-config-button").shouldBe(visible).click();
     $(".layout-config h3").shouldBe(visible, text("Live Stats"));
     $$(".layout-config h4").shouldHave(
@@ -300,4 +300,9 @@ public class EngineCockpitUtil {
       open(url, retry++);
     }
   }
+
+  public static void waitUntilFreyaJsIsInitialized() {
+    webdriver().shouldHave(WebDriverConditions.jsReturnsValue("FreyaEnvironment.isInitialized", "true"));
+  }
+
 }
