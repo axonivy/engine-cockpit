@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Objects;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
-import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.restricted.WorkflowContextInternal;
 

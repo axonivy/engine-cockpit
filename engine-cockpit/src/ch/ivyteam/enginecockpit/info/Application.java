@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.info;
 
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IApplicationInternal;
+import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
 import ch.ivyteam.log.Logger;
 
 public class Application {

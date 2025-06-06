@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
-import ch.ivyteam.ivy.application.IProcessModelVersionInternal;
+import ch.ivyteam.ivy.application.restricted.IProcessModelVersionInternal;
 
 public class TestProcessModelVersion {
 

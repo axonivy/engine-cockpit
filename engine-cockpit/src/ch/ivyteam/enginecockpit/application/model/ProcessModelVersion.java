@@ -6,7 +6,7 @@ import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
-import ch.ivyteam.ivy.application.IProcessModelVersionInternal;
+import ch.ivyteam.ivy.application.restricted.IProcessModelVersionInternal;
 import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
