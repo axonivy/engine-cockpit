@@ -18,7 +18,6 @@ import javax.faces.context.FacesContext;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.primefaces.util.ComponentUtils;
 
-import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.ivy.bpm.engine.restricted.IBpmEngineManager;
 import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IExecutionStatistic;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
@@ -28,7 +27,7 @@ import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 @SuppressWarnings("restriction")
 public final class ProcessExecutionBean {
 
-  private final IExecutionStatistic statistic = DiCore.getGlobalInjector().getInstance(IBpmEngineManager.class).getExecutionStatistic();
+  private final IExecutionStatistic statistic = IBpmEngineManager.instance().getExecutionStatistic();
   private String filter;
   private List<ProcessElementStatistic> filtered;
   private List<ProcessElementStatistic> elements = readData();
