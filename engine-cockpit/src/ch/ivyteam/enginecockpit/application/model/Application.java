@@ -10,8 +10,8 @@ import javax.ws.rs.core.UriBuilder;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.IProcessModel;
+import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
@@ -152,7 +152,7 @@ public class Application extends AbstractActivity {
 
   @Override
   public void delete() {
-    execute(() -> IApplicationConfigurationManager.instance().deleteApplication(getName()), "delete", false);
+    execute(() -> IApplicationRepository.instance().delete(getName()), "delete", false);
   }
 
   @Override
