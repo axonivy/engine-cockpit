@@ -14,8 +14,6 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
-import ch.ivyteam.ivy.security.identity.jndi.ads.MicrosoftActiveDirectoryIdentityProvider;
-import ch.ivyteam.ivy.security.identity.jndi.nds.NovellEDirectoryIdentityProvider;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 
@@ -104,26 +102,14 @@ public class SecuritySystem {
     return isIvySecuritySystem(securityContext);
   }
 
-  public boolean isJndiSecuritySystem() {
-    return isJndiSecuritySystem(securityContext);
-  }
-
   public static String link(ISecurityContext securityContext) {
     return UriBuilder.fromPath("security-detail.xhtml")
         .queryParam("securitySystemName", securityContext.getName())
         .build()
-        .toString(); 
+        .toString();
   }
 
-  @SuppressWarnings("removal")
-  public static boolean isJndiSecuritySystem(ISecurityContext securityContext) {
-    var name = securityContext.getExternalSecuritySystemName();
-    return MicrosoftActiveDirectoryIdentityProvider.ID.equals(name) ||
-        NovellEDirectoryIdentityProvider.ID.equals(name);
-  }
-
-  @SuppressWarnings("removal")
   public static boolean isIvySecuritySystem(ISecurityContext securityContext) {
-    return ISecurityConstants.IVY_ENGINE_SECURITY_SYSTEM_PROVIDER_NAME.equals(securityContext.getExternalSecuritySystemName());
+    return ISecurityConstants.IVY_ENGINE_SECURITY_SYSTEM_PROVIDER_NAME.equals(((ISecurityContextInternal) securityContext).identityProvider().id());
   }
 }
