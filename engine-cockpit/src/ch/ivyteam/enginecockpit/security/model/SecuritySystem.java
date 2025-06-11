@@ -12,7 +12,6 @@ import org.apache.commons.io.IOUtils;
 
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
-import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
@@ -110,6 +109,6 @@ public class SecuritySystem {
   }
 
   public static boolean isIvySecuritySystem(ISecurityContext securityContext) {
-    return ISecurityConstants.IVY_ENGINE_SECURITY_SYSTEM_PROVIDER_NAME.equals(((ISecurityContextInternal) securityContext).identityProvider().id());
+    return !((ISecurityContextInternal) securityContext).managed();
   }
 }
