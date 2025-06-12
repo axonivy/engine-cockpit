@@ -116,6 +116,12 @@ class WebTestConfiguration {
       String key = "Connector.HTTP.AllowTrace";
       assertShowConfigFile(key);
     }
+    
+    @Test
+    void reloadConfig() {
+      $(By.id("reloadConfig")).shouldBe(visible).click();
+      $(By.id("config:form:msgs_container")).shouldBe(visible).should(text("System configuration reloaded"));
+    }
 
     @Test
     void updateConfig() {
