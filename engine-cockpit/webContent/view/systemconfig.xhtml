@@ -29,6 +29,9 @@
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-cog card-title-icon"></i>
           <h2 class="m-0">System Configuration</h2>
+          <p:commandButton id="reloadConfig" title="Reload system configuration" icon="si si-button-refresh-arrows" 
+            actionListener="#{systemConfigBean.reloadConfig()}"
+            styleClass="flex-shrink-0 ml-auto rounded-button"/>
         </div>
         <cc:Configuration id="config" bean="#{systemConfigBean.configView}" />
         <cc:TableFilter id="contentFilter" bean="#{systemConfigBean.configView}" 
