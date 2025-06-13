@@ -105,4 +105,11 @@ class WebTestApplicationDetail {
     workflow.click();
     assertThat(Selenide.webdriver().driver().url()).contains("/dev-workflow-ui/");
   }
+  
+  @Test
+  void reloadConfig() {
+    Navigation.toApplicationDetail("test");
+    $(By.id("reloadConfig")).shouldBe(visible).click();
+    $(By.id("config:form:msgs_container")).shouldBe(visible).should(text("Configuration of application 'test' reloaded"));
+  }
 }
