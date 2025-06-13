@@ -8,8 +8,10 @@ import javax.faces.bean.ViewScoped;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.ContentFilter;
+import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
 @ManagedBean
 @ViewScoped
@@ -27,4 +29,10 @@ public class SystemConfigBean {
     return configView;
   }
 
+  public void reloadConfig() {
+    IConfiguration.instance().reload();
+    Message.info()
+        .summary("System configuration reloaded")
+        .show();
+  }
 }

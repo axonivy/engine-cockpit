@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.commons.ContentFilter;
+import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
@@ -86,6 +87,15 @@ public class ApplicationDetailBean {
     managerBean.apps().delete(appName);
     managerBean.reloadApplications();
     return "applications.xhtml?faces-redirect=true";
+  }
+
+  public void reloadConfig() {
+    var app = ((IApplicationInternal) getIApplication());
+    app.reloadConfig();
+    Message.info()
+      .clientId("applicationMessage")
+      .summary("Configuration of application '"+app.getName()+"' reloaded")
+      .show();
   }
 
   public String getSessionCount() {
