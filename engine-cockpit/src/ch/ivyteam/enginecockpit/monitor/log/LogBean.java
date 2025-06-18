@@ -30,15 +30,16 @@ public class LogBean implements AllResourcesDownload {
 
   private List<LogView> logs;
   private LocalDate date;
-  private String channel;
+  
+  private String fileName;
   private LogView logView;
 
-  public void setChannel(String channel) {
-    this.channel = channel;
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
   }
 
-  public String getChannel() {
-    return channel;
+  public String getFileName() {
+    return fileName;
   }
 
   public void setDate(String date) {
@@ -80,21 +81,35 @@ public class LogBean implements AllResourcesDownload {
       return;
     }
 
-    if (channel == null) {
-      channel = logs.get(0).getChannel();
+    if (fileName == null) {
+      logView = logs.get(0);
+    } else {
+      logView = logs.stream()
+          .filter(l -> l.getFileName().equals(fileName))
+          .findAny()
+          .orElse(null);
+      if (logView == null) {
+        logView = logs.stream()
+            .filter(l -> l.getFileName().startsWith(fileName))
+            .findAny()
+            .orElse(null);
+        if (logView != null) {
+          fileName = logView.getFileName();
+        }
+      }
     }
-
-    logView = logs.stream()
-        .filter(l -> l.getChannel().equals(channel))
-        .findAny()
-        .orElse(null);
     if (logView == null) {
-      ResponseHelper.notFound("Log for channel " + channel + " does not exist");
+      ResponseHelper.notFound("Log with filename '"+fileName+"' not found");
     }
   }
 
-  public void navigate() throws IOException {
-    var path = LogView.uri().channel(channel).date(date).toUri();
+  public void navigateDate() throws IOException {
+    var path = LogView.uri().date(date).toUri();
+    FacesContext.getCurrentInstance().getExternalContext().redirect(path);
+  }
+  
+  public void navigateFile() throws IOException {
+    var path = LogView.uri().fileName(fileName).date(date).toUri();
     FacesContext.getCurrentInstance().getExternalContext().redirect(path);
   }
 

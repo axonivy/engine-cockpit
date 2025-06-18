@@ -4,7 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewParam name="channel" value="#{logBean.channel}" />
+    <f:viewParam name="fileName" value="#{logBean.fileName}" />
     <f:viewParam name="date" value="#{logBean.date}" />
     <f:viewAction action="#{logBean.onload}" />
   </f:metadata>
@@ -44,16 +44,16 @@
                     showOn="button" pattern="yyyy-MM-dd"
                     maxdate="#{logBean.today}">
                     <p:ajax event="dateSelect"
-                      listener="#{logBean.navigate}" />
+                      listener="#{logBean.navigateDate}" />
                   </p:calendar>
 
                   <p:selectOneMenu id="logFiles" styleClass="ml-3"
-                    value="#{logBean.channel}">
+                    value="#{logBean.fileName}">
                     <f:selectItems value="#{logBean.logs}" var="log"
                       itemLabel="#{log.fileName} (#{log.size})"
-                      itemValue="#{log.channel}" />
+                      itemValue="#{log.fileName}" />
                     <p:ajax event="change"
-                      listener="#{logBean.navigate}"></p:ajax>
+                      listener="#{logBean.navigateFile}"></p:ajax>
                   </p:selectOneMenu>
                 </div>
               </h:form>
