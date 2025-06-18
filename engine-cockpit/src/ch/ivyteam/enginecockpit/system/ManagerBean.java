@@ -209,6 +209,6 @@ public class ManagerBean {
   }
 
   public String getConfigLogUrl() {
-    return LogView.uri().channel("config").toUri();
+    return LogView.uri().fileName("config").toUri();
   }
 }
