@@ -59,8 +59,7 @@ def mvnBuild(def mvnArgs = '') {
 def recordMavenIssues() {
   recordIssues tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
     excludeMessage('The system property test.engine.url is configured twice!*'),
-    excludeMessage('JAR will be empty*'),
-    excludeMessage('.*unkown identity provider.*')
+    excludeMessage('JAR will be empty*')
   ]
 }
 
