@@ -14,14 +14,11 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
-import ch.ivyteam.ivy.application.restricted.ApplicationConfigurationDumper;
-import ch.ivyteam.ivy.error.dumper.ErrorReport;
+import ch.ivyteam.ivy.error.report.ErrorReport;
 import ch.ivyteam.ivy.log.provider.LogFile;
 import ch.ivyteam.ivy.log.provider.LogFileRepository;
-import ch.ivyteam.ivy.persistence.restricted.PersistencyDumper;
 import ch.ivyteam.log.Logger;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @RequestScoped
 public class SupportBean {
@@ -29,7 +26,7 @@ public class SupportBean {
   private final static Logger LOGGER = Logger.getLogger(SupportBean.class);
 
   public StreamedContent getSupportReport() throws IOException {
-    var errorReport = createSupportReport();
+    var errorReport = ErrorReport.create().generate();
     var zippedFile = createZippedFile(errorReport);
     return createStreamedContent(zippedFile);
   }
@@ -55,7 +52,7 @@ public class SupportBean {
   }
 
   private void addEntryToZip(ZipOutputStream zos, String entryName, byte[] content) throws IOException {
-    ZipEntry entry = new ZipEntry(entryName);
+    var entry = new ZipEntry(entryName);
     zos.putNextEntry(entry);
     zos.write(content);
     zos.closeEntry();
@@ -67,12 +64,5 @@ public class SupportBean {
         .contentType("application/zip")
         .name("support-engine-report.zip")
         .build();
-  }
-
-  private String createSupportReport() {
-    var dumpers = ErrorReport.addStandardDumpers(false,
-        new ApplicationConfigurationDumper(),
-        new PersistencyDumper());
-    return ErrorReport.createErrorReport(null, dumpers);
   }
 }
