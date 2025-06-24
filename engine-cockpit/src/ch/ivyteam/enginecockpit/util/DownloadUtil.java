@@ -51,5 +51,4 @@ public class DownloadUtil {
       throw new RuntimeException(ex);
     }
   }
-
 }
