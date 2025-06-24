@@ -14,12 +14,10 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
-import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.restricted.ApplicationConfigurationDumper;
-import ch.ivyteam.ivy.error.restricted.ErrorReport;
+import ch.ivyteam.ivy.error.dumper.ErrorReport;
 import ch.ivyteam.ivy.log.provider.LogFile;
 import ch.ivyteam.ivy.log.provider.LogFileRepository;
-import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.persistence.restricted.PersistencyDumper;
 import ch.ivyteam.log.Logger;
 
@@ -29,7 +27,6 @@ import ch.ivyteam.log.Logger;
 public class SupportBean {
 
   private final static Logger LOGGER = Logger.getLogger(SupportBean.class);
-  private final ISystemDatabasePersistencyService systemDbService = ISystemDatabasePersistencyService.instance();
 
   public StreamedContent getSupportReport() throws IOException {
     var errorReport = createSupportReport();
@@ -74,8 +71,8 @@ public class SupportBean {
 
   private String createSupportReport() {
     var dumpers = ErrorReport.addStandardDumpers(false,
-        new ApplicationConfigurationDumper(IApplicationRepository.instance()),
-        new PersistencyDumper(systemDbService));
+        new ApplicationConfigurationDumper(),
+        new PersistencyDumper());
     return ErrorReport.createErrorReport(null, dumpers);
   }
 }
