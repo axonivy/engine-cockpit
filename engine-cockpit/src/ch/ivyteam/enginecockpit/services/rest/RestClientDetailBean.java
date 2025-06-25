@@ -9,7 +9,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.ws.rs.client.WebTarget;
 
 import org.apache.commons.lang.text.StrSubstitutor;
 
@@ -180,8 +179,8 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
         .setTimeout(TimeUnit.SECONDS, 5)
         .setReadTimeout(TimeUnit.SECONDS, 5)
         .toClient();
-    WebTarget target = RestTestRunner.createTarget(app, uiClient);
-    testResult = (ConnectionTestResult) connectionTest.test(() -> RestTestRunner.testConnection(target));
+    var runner = new RestTestRunner(app, uiClient);
+    testResult = (ConnectionTestResult) connectionTest.test(runner::test);
   }
 
   public void saveConfig() {
