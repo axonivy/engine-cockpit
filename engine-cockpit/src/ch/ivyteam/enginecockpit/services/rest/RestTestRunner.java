@@ -1,8 +1,6 @@
 package ch.ivyteam.enginecockpit.services.rest;
 
 import java.util.Optional;
-import java.util.UUID;
-import java.util.function.Supplier;
 
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.WebTarget;
@@ -16,37 +14,48 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.restricted.di.ApplicationContext;
+import ch.ivyteam.ivy.application.restricted.di.ProcessModelVersionContext;
 import ch.ivyteam.ivy.rest.client.RestClient;
+import ch.ivyteam.ivy.security.di.SecurityContextContext;
 
 public class RestTestRunner {
 
-  @SuppressWarnings("restriction")
-  public static WebTarget createTarget(IApplication app, RestClient uiStateClient) {
-    var clientPmv = findClientPmv(app, uiStateClient.uniqueId());
-    return createInContext(clientPmv, () -> new ch.ivyteam.ivy.rest.client.internal.ExternalRestWebService(app, uiStateClient).getWebTargetFactory().create());
+  private final IApplication app;
+  private final RestClient uiClient;
+
+  public RestTestRunner(IApplication app, RestClient uiClient) {
+    this.app = app;
+    this.uiClient = uiClient;
+  }
+
+  public ConnectionTestResult test() {
+    return new SecurityContextContext(app.getSecurityContext()).getInContext(this::testInSecurityContext);
   }
 
   @SuppressWarnings("restriction")
-  private static WebTarget createInContext(Optional<IProcessModelVersion> clientPmv, Supplier<WebTarget> creator) {
-    ch.ivyteam.ivy.application.restricted.di.ProcessModelVersionContext.push(clientPmv.get());
-    try {
-      return creator.get();
-    } finally {
-      ch.ivyteam.ivy.application.restricted.di.ProcessModelVersionContext.pop();
-    }
+  private ConnectionTestResult testInSecurityContext() {
+    return new ApplicationContext(app).getInContext(this::testInAppContext);
   }
 
   @SuppressWarnings("restriction")
-  private static Optional<IProcessModelVersion> findClientPmv(IApplication app, UUID clientId) {
+  private ConnectionTestResult testInAppContext() {
+    var clientPmv = findClientPmv();
+    return new ProcessModelVersionContext(clientPmv.get()).getInContext(this::testInPmvContext);
+  }
+
+  @SuppressWarnings("restriction")
+  private Optional<IProcessModelVersion> findClientPmv() {
     var restManager = ch.ivyteam.ivy.rest.client.config.restricted.IRestClientsManager.instance();
     return app.getProcessModels().stream()
         .map(IProcessModel::getReleasedProcessModelVersion)
-        .filter(pmv -> restManager.getProjectDataModelFor(pmv).findRestClient(clientId).isPresent())
+        .filter(pmv -> restManager.getProjectDataModelFor(pmv).findRestClient(uiClient.uniqueId()).isPresent())
         .findAny();
   }
 
-  public static ConnectionTestResult testConnection(WebTarget client) {
+  private ConnectionTestResult testInPmvContext() {
     try {
+      var client = createClient();
       try (var response = client.request().head()) {
         StatusType status = response.getStatusInfo();
         return toTestResult(status);
@@ -55,6 +64,13 @@ public class RestTestRunner {
       return new ConnectionTestResult("", 0, TestResult.ERROR, "Invalid Url (may contains script context)\n"
           + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
+  }
+
+  @SuppressWarnings("restriction")
+  private WebTarget createClient() {
+    return new ch.ivyteam.ivy.rest.client.internal.ExternalRestWebService(app, uiClient)
+        .getWebTargetFactory()
+        .create();
   }
 
   static ConnectionTestResult toTestResult(StatusType status) {
