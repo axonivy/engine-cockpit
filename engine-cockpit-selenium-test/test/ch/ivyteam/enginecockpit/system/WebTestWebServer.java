@@ -58,14 +58,21 @@ public class WebTestWebServer {
 
   @Test
   void checkData() {
-    $("#coreRequestData").shouldHave(text(EngineUrl.base()),
-        text("/engine-cockpit/faces/webserver.xhtml"));
-    $(By.id("form:requestHeaderTable")).shouldNot(exist);
-    $("#form\\:showHeaders").shouldBe(visible).click();
-    $("#form\\:showHeaders").shouldNotBe(visible);
-    var headerTable = new Table(By.id("form:requestHeaderTable"));
-    headerTable.firstColumnShouldBe(sizeGreaterThan(5));
-    headerTable.valueForEntryShould("user-agent", 2, text("Firefox"));
+    $(By.id("coreRequestData")).shouldHave(text(EngineUrl.base()), text("/engine-cockpit/faces/webserver.xhtml"));
+    $(By.id("requestForm:requestHeaderTable")).shouldNot(exist);
+    $(By.id("requestForm:showRequestHeaders")).shouldBe(visible).click();
+    $(By.id("requestForm:showRequestHeaders")).shouldNotBe(visible);
+    var requestHeaderTable = new Table(By.id("requestForm:requestHeaderTable"));
+    requestHeaderTable.firstColumnShouldBe(sizeGreaterThan(5));
+    requestHeaderTable.valueForEntryShould("user-agent", 2, text("Firefox"));
+
+    $(By.id("missingSecurityHeadersInfo")).shouldHave(text("Missing Security Headers"), text("Strict-Transport-Security"));
+    $(By.id("responseForm:responseHeaderTable")).shouldNot(exist);
+    $(By.id("responseForm:showResponseHeaders")).shouldBe(visible).click();
+    $(By.id("responseForm:showResponseHeaders")).shouldNotBe(visible);
+    var responseHeaderTable = new Table(By.id("responseForm:responseHeaderTable"));
+    responseHeaderTable.firstColumnShouldBe(sizeGreaterThan(3));
+    responseHeaderTable.valueForEntryShould("X-Frame-Options", 2, text("SAMEORIGIN"));
   }
 
   @Test
