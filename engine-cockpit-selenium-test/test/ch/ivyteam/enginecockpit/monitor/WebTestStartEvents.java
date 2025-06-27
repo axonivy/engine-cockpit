@@ -66,32 +66,6 @@ class WebTestStartEvents {
     login();
   }
 
-  static void stopTimerBeans() {
-    Navigation.toStartEvents();
-    Table table = new Table(TABLE_ID, true);
-    table.rows().shouldHave(CollectionCondition.sizeGreaterThan(1));
-    for (int row = 1; row < table.rows().size(); row++) {
-      if ("TimerBean".equals(table.tableEntry(row, 1).text())) {
-        $(By.id("form:beanTable:" + (row - 1) + ":stop")).shouldBe(enabled);
-        $(By.id("form:beanTable:" + (row - 1) + ":stop")).click();
-        $(By.id("form:beanTable:" + (row - 1) + ":stop")).shouldBe(disabled);
-      }
-    }
-  }
-
-  static void startTimerBeans() {
-    Navigation.toStartEvents();
-    Table table = new Table(TABLE_ID, true);
-    table.rows().shouldHave(CollectionCondition.sizeGreaterThan(1));
-    for (int row = 1; row < table.rows().size(); row++) {
-      if ("TimerBean".equals(table.tableEntry(row, 1).text())) {
-        $(By.id("form:beanTable:" + (row - 1) + ":start")).shouldBe(enabled);
-        $(By.id("form:beanTable:" + (row - 1) + ":start")).click();
-        $(By.id("form:beanTable:" + (row - 1) + ":start")).shouldBe(disabled);
-      }
-    }
-  }
-
   @BeforeEach
   void beforeEach() {
     Navigation.toStartEvents();
