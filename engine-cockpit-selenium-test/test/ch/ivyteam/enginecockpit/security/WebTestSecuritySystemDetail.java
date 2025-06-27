@@ -97,6 +97,7 @@ public class WebTestSecuritySystemDetail {
     language.selectedItemShould(value("agq"));
     language.selectItemByLabel("English (en)");
     $(SAVE_LANGUAGE_BTN).click();
+    language.selectedItemShould(value("en"));
 
     Selenide.refresh();
     language.selectedItemShould(value("en"));
