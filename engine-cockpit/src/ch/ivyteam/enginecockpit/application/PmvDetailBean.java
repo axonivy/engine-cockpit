@@ -12,7 +12,7 @@ import ch.ivyteam.enginecockpit.application.model.LibSpecification;
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
-import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
+import ch.ivyteam.ivy.application.restricted.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.ProcessModelVersionRelation;
 
 @ManagedBean
