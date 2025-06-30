@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
-import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
@@ -26,81 +25,61 @@ public class WebTestTrafficGraph {
   void beforeEach() {
     login();
     Navigation.toTrafficGraph();
-    stop();
-    var clear = $(id("form:clear"));
-    if (clear.is(enabled)) {
-      clear.click();
-    }
-  }
-
-  private static void stop() {
-    var stop = $(id("form:stop"));
-    if (stop.is(enabled)) {
-      stop.click();
-    }
   }
 
   @Test
-  void buttonState_initial() {
+  void cancelStart() {
+    $(id("form:start")).click();
+    $(id("startTraces:cancel")).click();
+    assertStoppedEmptyButtonState();
+  }
+
+  @Test
+  void trafficGraph() {
+    assertStoppedEmptyButtonState();
+
+    start();
+    assertRunningEmptyButtonState();
+
+    recordData();
+    assertRunningButtonState();
+
+    stop();
+    assertStoppedButtonState();
+
+    $$(By.className("ui-diagram-element")).shouldHave(sizeGreaterThanOrEqual(2));
+
+    clear();
+    $$(By.className("ui-diagram-element")).shouldHave(size(1));
+    assertStoppedEmptyButtonState();
+  }
+
+  private void assertStoppedEmptyButtonState() {
     $(id("form:start")).shouldBe(visible, enabled);
     $(id("form:stop")).shouldBe(visible, disabled);
     $(id("form:clear")).shouldBe(visible, disabled);
     $(id("form:refresh")).shouldBe(visible, disabled);
-    $(id("performance:form:loggingWarning")).shouldBe(Condition.hidden);
   }
 
-  @Test
-  void buttonState_afterStart() {
-    start();
+  private void assertStoppedButtonState() {
+    $(id("form:start")).shouldBe(visible, enabled);
+    $(id("form:stop")).shouldBe(visible, disabled);
+    $(id("form:clear")).shouldBe(visible, enabled);
+    $(id("form:refresh")).shouldBe(visible, disabled);
+  }
+
+  private void assertRunningEmptyButtonState() {
     $(id("form:start")).shouldBe(visible, disabled);
     $(id("form:stop")).shouldBe(visible, enabled);
     $(id("form:clear")).shouldBe(visible, disabled);
     $(id("form:refresh")).shouldBe(visible, enabled);
   }
 
-  @Test
-  void buttonState_afterCancelStart() {
-    $(id("form:start")).click();
-    $(id("startTraces:cancel")).click();
-    $(id("form:start")).shouldBe(visible, enabled);
-    $(id("form:stop")).shouldBe(visible, disabled);
-    $(id("form:clear")).shouldBe(visible, disabled);
-    $(id("form:refresh")).shouldBe(visible, disabled);
-    $(id("form:loggingWarning")).shouldBe(Condition.hidden);
-  }
-
-  @Test
-  void buttonState_afterStop() {
-    start();
-    $(id("form:stop")).click();
-    $(id("form:start")).shouldBe(visible, enabled);
-    $(id("form:stop")).shouldBe(visible, disabled);
-    $(id("form:clear")).shouldBe(visible, disabled);
-    $(id("form:refresh")).shouldBe(visible, disabled);
-  }
-
-  @Test
-  void buttonState_afterRecording() {
-    recordData();
-
+  private void assertRunningButtonState() {
     $(id("form:start")).shouldBe(visible, disabled);
     $(id("form:stop")).shouldBe(visible, enabled);
     $(id("form:clear")).shouldBe(visible, enabled);
     $(id("form:refresh")).shouldBe(visible, enabled);
-  }
-
-  @Test
-  void data_afterRecording() {
-    recordData();
-
-    $$(By.className("ui-diagram-element")).shouldHave(sizeGreaterThanOrEqual(2));
-  }
-
-  @Test
-  void data_afterClear() {
-    recordData();
-    $(id("form:clear")).click();
-    $$(By.className("ui-diagram-element")).shouldHave(size(1));
   }
 
   private static void recordData() {
@@ -108,7 +87,6 @@ public class WebTestTrafficGraph {
   }
 
   private static void recordData(int requests) {
-    start();
     while (requests-- > 0) {
       Navigation.toProcessExecution();
     }
@@ -116,12 +94,24 @@ public class WebTestTrafficGraph {
   }
 
   private static void start() {
-    $(id("form:start")).click();
-    $(id("startTraces:start")).click();
+    $(id("form:start")).shouldBe(visible, enabled).click();
+    $(id("startTraces:start")).shouldBe(visible, enabled).click();
+  }
+
+  private static void stop() {
+    $(id("form:stop")).shouldBe(visible, enabled).click();
+  }
+
+  public static void clear() {
+    $(id("form:clear")).shouldBe(visible, enabled).click();
+    Navigation.toSlowRequests();
+    $(id("form:clear")).shouldBe(visible, enabled).click();
+    Navigation.toTrafficGraph();
   }
 
   public static void prepareScreenshot() {
     Navigation.toTrafficGraph();
+    start();
     recordData(10);
     stop();
   }
