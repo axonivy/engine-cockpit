@@ -31,7 +31,7 @@ public class TracerAccess implements BeforeEachCallback, AfterEachCallback {
   }
 
   private void stop() {
-    Tracer.instance().start();
+    Tracer.instance().stop();
     Tracer.instance().slowTraces().clear();
     Tracer.instance().systemOverview().clear();
   }
