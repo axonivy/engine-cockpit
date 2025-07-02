@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
-import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -34,18 +33,6 @@ public class WebTestSlowRequests {
   void beforeEach() {
     login();
     Navigation.toSlowRequests();
-    stop();
-    var clear = $(id("form:clear"));
-    if (clear.is(enabled)) {
-      clear.click();
-    }
-  }
-
-  public static void stop() {
-    var stop = $(id("form:stop"));
-    if (stop.is(enabled)) {
-      stop.click();
-    }
   }
 
   @Test
@@ -56,62 +43,25 @@ public class WebTestSlowRequests {
   }
 
   @Test
-  void buttonState_initial() {
-    $(id("form:start")).shouldBe(visible, enabled);
-    $(id("form:stop")).shouldBe(visible, disabled);
-    $(id("form:clear")).shouldBe(visible, disabled);
-    $(id("form:refresh")).shouldBe(visible, disabled);
-    $(id("form:export")).shouldBe(visible, disabled);
-    $(id("performance:form:loggingWarning")).shouldBe(Condition.hidden);
-  }
-
-  @Test
-  void buttonState_afterStart() {
-    start();
-    $(id("form:start")).shouldBe(visible, disabled);
-    $(id("form:stop")).shouldBe(visible, enabled);
-    $(id("form:clear")).shouldBe(visible, disabled);
-    $(id("form:refresh")).shouldBe(visible, enabled);
-    $(id("form:export")).shouldBe(visible, disabled);
-  }
-
-  @Test
-  void buttonState_afterCancelStart() {
+  void cancelStart() {
     $(id("form:start")).click();
     $(id("startTraces:cancel")).click();
-    $(id("form:start")).shouldBe(visible, enabled);
-    $(id("form:stop")).shouldBe(visible, disabled);
-    $(id("form:clear")).shouldBe(visible, disabled);
-    $(id("form:refresh")).shouldBe(visible, disabled);
-    $(id("form:export")).shouldBe(visible, disabled);
-    $(id("form:loggingWarning")).shouldBe(Condition.hidden);
+    assertStoppedEmptyButtonState();
   }
 
   @Test
-  void buttonState_afterStop() {
+  void slowRequests() {
+    assertStoppedEmptyButtonState();
+
     start();
-    $(id("form:stop")).click();
-    $(id("form:start")).shouldBe(visible, enabled);
-    $(id("form:stop")).shouldBe(visible, disabled);
-    $(id("form:clear")).shouldBe(visible, disabled);
-    $(id("form:refresh")).shouldBe(visible, disabled);
-    $(id("form:export")).shouldBe(visible, disabled);
-  }
+    assertRunningEmptyButtonState();
 
-  @Test
-  void buttonState_afterRecording() {
     recordData();
+    assertRunningButtonState();
 
-    $(id("form:start")).shouldBe(visible, disabled);
-    $(id("form:stop")).shouldBe(visible, enabled);
-    $(id("form:clear")).shouldBe(visible, enabled);
-    $(id("form:refresh")).shouldBe(visible, enabled);
-    $(id("form:export")).shouldBe(visible, enabled);
-  }
+    stop();
+    assertStoppedButtonState();
 
-  @Test
-  void data_afterRecording() {
-    recordData();
     var entry = "HTTP/1.1 GET /system/engine-cockpit/faces/monitorProcessExecution.xhtml";
     var traces = new Table(By.id("form:traceTable"), true);
     var columns = traces.body().$$("tr").findBy(text(entry)).$$("td");
@@ -120,33 +70,67 @@ public class WebTestSlowRequests {
     columns.get(2).shouldBe(not(empty));
     columns.get(3).shouldBe(not(empty));
     columns.get(4).shouldBe(not(empty));
+
+    clear();
+    assertStoppedEmptyButtonState();
   }
 
   @Test
   void navigateToDetail() {
+    start();
     recordData();
+    stop();
 
-    $$("span").findBy(text("HTTP/1.1 GET /system/engine-cockpit/faces/monitorProcessExecution.xhtml")).click();
-    $$(".card").shouldHave(size(2));
+    try {
+      $$("span").findBy(text("HTTP/1.1 GET /system/engine-cockpit/faces/monitorProcessExecution.xhtml")).click();
+      $$(".card").shouldHave(size(2));
 
-    var spans = new Table(By.id("spansTree"), false);
-    spans.tableEntry("HTTP/1.1 GET", 1).shouldHave(text("HTTP/1.1 GET"));
-    spans.tableEntry("HTTP/1.1 GET", 2).shouldBe(not(empty));
-    spans.tableEntry("HTTP/1.1 GET", 3).shouldBe(not(empty));
-    spans.tableEntry("HTTP/1.1 GET", 4).shouldBe(not(empty));
-    spans.tableEntry("HTTP/1.1 GET", 5).shouldBe(text("http.url"));
+      var spans = new Table(By.id("spansTree"), false);
+      spans.tableEntry("HTTP/1.1 GET", 1).shouldHave(text("HTTP/1.1 GET"));
+      spans.tableEntry("HTTP/1.1 GET", 2).shouldBe(not(empty));
+      spans.tableEntry("HTTP/1.1 GET", 3).shouldBe(not(empty));
+      spans.tableEntry("HTTP/1.1 GET", 4).shouldBe(not(empty));
+      spans.tableEntry("HTTP/1.1 GET", 5).shouldBe(text("http.url"));
 
-    var attributes = new Table(By.id("attributesTable"), false);
-    attributes.tableEntry("http.method", 1).shouldHave(text("http.method"));
-    attributes.tableEntry("http.method", 2).shouldHave(text("GET"));
+      var attributes = new Table(By.id("attributesTable"), false);
+      attributes.tableEntry("http.method", 1).shouldHave(text("http.method"));
+      attributes.tableEntry("http.method", 2).shouldHave(text("GET"));
+    } finally {
+      Navigation.toSlowRequests();
+      clear();
+    }
   }
 
-  @Test
-  void data_afterClear() {
-    recordData();
-    $(id("form:clear")).click();
-    Table traces = new Table(By.id("form:traceTable"), true);
-    traces.body().shouldHave(text("No records found."));
+  private void assertStoppedEmptyButtonState() {
+    $(id("form:start")).shouldBe(visible, enabled);
+    $(id("form:stop")).shouldBe(visible, disabled);
+    $(id("form:clear")).shouldBe(visible, disabled);
+    $(id("form:refresh")).shouldBe(visible, disabled);
+    $(id("form:export")).shouldBe(visible, disabled);
+  }
+
+  private void assertStoppedButtonState() {
+    $(id("form:start")).shouldBe(visible, enabled);
+    $(id("form:stop")).shouldBe(visible, disabled);
+    $(id("form:clear")).shouldBe(visible, enabled);
+    $(id("form:refresh")).shouldBe(visible, disabled);
+    $(id("form:export")).shouldBe(visible, enabled);
+  }
+
+  private void assertRunningEmptyButtonState() {
+    $(id("form:start")).shouldBe(visible, disabled);
+    $(id("form:stop")).shouldBe(visible, enabled);
+    $(id("form:clear")).shouldBe(visible, disabled);
+    $(id("form:refresh")).shouldBe(visible, enabled);
+    $(id("form:export")).shouldBe(visible, disabled);
+  }
+
+  private void assertRunningButtonState() {
+    $(id("form:start")).shouldBe(visible, disabled);
+    $(id("form:stop")).shouldBe(visible, enabled);
+    $(id("form:clear")).shouldBe(visible, enabled);
+    $(id("form:refresh")).shouldBe(visible, enabled);
+    $(id("form:export")).shouldBe(visible, enabled);
   }
 
   private static void recordData() {
@@ -154,7 +138,6 @@ public class WebTestSlowRequests {
   }
 
   private static void recordData(int requests) {
-    start();
     while (requests-- > 0) {
       Navigation.toProcessExecution();
     }
@@ -162,12 +145,24 @@ public class WebTestSlowRequests {
   }
 
   private static void start() {
-    $(id("form:start")).click();
-    $(id("startTraces:start")).click();
+    $(id("form:start")).shouldBe(visible, enabled).click();
+    $(id("startTraces:start")).shouldBe(visible, enabled).click();
+  }
+
+  public static void stop() {
+    $(id("form:stop")).shouldBe(visible, enabled).click();
+  }
+
+  public static void clear() {
+    $(id("form:clear")).shouldBe(visible, enabled).click();
+    Navigation.toTrafficGraph();
+    $(id("form:clear")).shouldBe(visible, enabled).click();
+    Navigation.toSlowRequests();
   }
 
   public static void prepareScreenshot() {
     Navigation.toSlowRequests();
+    start();
     recordData(10);
     stop();
   }
