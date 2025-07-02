@@ -45,7 +45,7 @@
             </div>
 
             <p:dataTable var="trace" value="#{traceBean.slowTraces}"
-              widgetVar="traceTable"
+              widgetVar="traceTable" resizableColumns="true"
               filteredValue="#{traceBean.filteredTraces}"
               id="traceTable" styleClass="ui-fluid">
               <f:facet name="header">
@@ -59,7 +59,7 @@
               <p:column headerText="ID" style="display:none">
                 <h:outputText value="#{trace.id}" />
               </p:column>
-              <p:column headerText="Name" sortBy="#{trace.name}" filterBy="#{trace.name}" exportFunction="#{traceBean.export}">
+              <p:column headerText="Name" sortBy="#{trace.name}" filterBy="#{trace.name}" exportFunction="#{traceBean.export}" style="width: 100%;">
                 <a href="monitorTraceDetail.xhtml?traceId=#{trace.id}">
                   <h:outputText value="#{trace.name}" title="#{trace.info}" >
                     <i class="si si-time-clock-circle #{trace.statusClass} table-icon" title="#{trace.statusTooltip}"></i>
