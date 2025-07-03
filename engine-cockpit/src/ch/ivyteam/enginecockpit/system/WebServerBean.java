@@ -2,20 +2,24 @@ package ch.ivyteam.enginecockpit.system;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import ch.ivyteam.ivy.request.EngineUriResolver;
 
 @ManagedBean
 @ViewScoped
 public class WebServerBean {
+  private final static List<String> CHECK_SECURITY_HEADERS = List.of("X-Frame-Options", "Referrer-Policy", "Content-Security-Policy", "X-Content-Type-Options", "Strict-Transport-Security");
   private String baseUrl;
-  private boolean showHeaders = false;
+  private boolean showRequestHeaders = false;
+  private boolean showResponseHeaders = false;
 
   public WebServerBean() {
     baseUrl = EngineUriResolver.instance().baseUrl().toString();
@@ -29,12 +33,28 @@ public class WebServerBean {
     this.baseUrl = baseUrl;
   }
 
-  public List<RequestData> getRequestData() {
+  public List<HeaderData> getRequestData() {
     var request = getRequest();
-    var requestData = new ArrayList<RequestData>();
+    var requestData = new ArrayList<HeaderData>();
     request.getHeaderNames().asIterator()
-        .forEachRemaining(header -> requestData.add(new RequestData(header, request.getHeader(header))));
+        .forEachRemaining(name -> requestData.add(new HeaderData(name, request.getHeader(name))));
     return requestData;
+  }
+
+  public List<HeaderData> getResponseData() {
+    var response = getResponse();
+    var responseData = new ArrayList<HeaderData>();
+    response.getHeaderNames().forEach(name -> responseData.add(new HeaderData(name, response.getHeader(name))));
+    return responseData;
+  }
+
+  public String getMissingSecurityHeaders() {
+    var missingHeaders = new ArrayList<String>();
+    var headerNames = getResponseData().stream().map(header -> header.name.toLowerCase()).toList();
+    CHECK_SECURITY_HEADERS.stream()
+        .filter(header -> !headerNames.contains(header.toLowerCase()))
+        .forEach(missingHeaders::add);
+    return missingHeaders.stream().collect(Collectors.joining(", "));
   }
 
   public String getExternalUrl() {
@@ -49,12 +69,20 @@ public class WebServerBean {
     return getRequest().getRemoteAddr();
   }
 
-  public void setShowHeaders() {
-    showHeaders = true;
+  public void setShowRequestHeaders() {
+    showRequestHeaders = true;
   }
 
-  public boolean isShowHeaders() {
-    return showHeaders;
+  public boolean isShowRequestHeaders() {
+    return showRequestHeaders;
+  }
+
+  public void setShowResponseHeaders() {
+    showResponseHeaders = true;
+  }
+
+  public boolean isShowResponseHeaders() {
+    return showResponseHeaders;
   }
 
   public void saveBaseUrl() {
@@ -67,17 +95,21 @@ public class WebServerBean {
     return (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
   }
 
-  public class RequestData {
-    private final String data;
+  private HttpServletResponse getResponse() {
+    return (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+  }
+
+  public class HeaderData {
+    private final String name;
     private final String value;
 
-    RequestData(String data, String value) {
-      this.data = data;
+    HeaderData(String name, String value) {
+      this.name = name;
       this.value = value;
     }
 
-    public String getData() {
-      return data;
+    public String getName() {
+      return name;
     }
 
     public String getValue() {
