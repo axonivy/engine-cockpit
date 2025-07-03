@@ -2,12 +2,6 @@
 
 This is the repository of the Axon Ivy Engine Cockpit.
 
-## Build
-
-[Jenkins Pipeline](https://jenkins.ivyteam.io/job/engine-cockpit/job/master/)
-
-If you made some UI changes, you may need to trigger the pipeline manually with the `forceDeployScreenshots` parameter checked.
-
 ## Run local tests
 
 Requirements for some test run local in Designer:
