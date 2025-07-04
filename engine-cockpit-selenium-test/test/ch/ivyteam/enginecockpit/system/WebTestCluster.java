@@ -5,6 +5,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static org.openqa.selenium.By.id;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestCluster {
+class WebTestCluster {
 
   @BeforeEach
   void beforeEach() {
@@ -28,18 +29,22 @@ public class WebTestCluster {
   }
 
   @Test
-  void cluster() {
+  void nodes() {
     $("h2").shouldBe(text("Cluster"));
     new Table(By.className("ui-datatable"), true).firstColumnShouldBe(sizeGreaterThan(0));
+    $(id("clusterNodeDialog")).shouldNotBe(visible);
+    $(id("clusterTabView:clusterTable:0:clusterNode")).click();
+    $(id("clusterNodeDialog")).shouldBe(visible);
+  }
 
-    $("#clusterNodeDialog").shouldNotBe(visible);
-    $("#clusterTable\\:0\\:clusterNode").click();
-    $("#clusterNodeDialog").shouldBe(visible);
+  @Test
+  void sessions() {
+    $("h2").shouldBe(text("Cluster"));
+    $(By.partialLinkText("Sessions")).shouldBe(visible).click();
   }
 
   @Test
   void liveStats() {
     EngineCockpitUtil.assertLiveStats(List.of("Sent Messages", "Send Processing Time", "Received Messages", "Receive Processing Time"), true);
   }
-
 }
