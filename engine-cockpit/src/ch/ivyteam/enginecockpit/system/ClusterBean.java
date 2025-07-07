@@ -20,9 +20,7 @@ public class ClusterBean {
   private final List<ClusterNode> clusterNodes;
   private ClusterNode activeClusterNode;
 
-  private List<ClusterNode> filteredNodes;
   private String filter;
-  
   private List<ClusterSessionDto> sessions;
 
   private final IClusterManager clusterManager = IClusterManager.instance();
@@ -52,14 +50,6 @@ public class ClusterBean {
 
   public ClusterNode getActiveClusterNode() {
     return activeClusterNode;
-  }
-
-  public List<ClusterNode> getFilteredNodes() {
-    return filteredNodes;
-  }
-
-  public void setFilteredNodes(List<ClusterNode> filteredNodes) {
-    this.filteredNodes = filteredNodes;
   }
 
   public String getFilter() {
