@@ -33,7 +33,7 @@ class WebTestCluster {
     $("h2").shouldBe(text("Cluster"));
     new Table(By.className("ui-datatable"), true).firstColumnShouldBe(sizeGreaterThan(0));
     $(id("clusterNodeDialog")).shouldNotBe(visible);
-    $(id("clusterTabView:clusterTable:0:clusterNode")).click();
+    $(id("clusterTabView:nodesForm:clusterTable:0:clusterNode")).click();
     $(id("clusterNodeDialog")).shouldBe(visible);
   }
 
