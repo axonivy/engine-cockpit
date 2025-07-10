@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><span>Services</span></li>
+      <li>/</li>
+      <li><a href="webserviceprocesses.xhtml">Web Service Processes</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}services.html" />
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="card">
+        <div class="flex align-items-center mb-3">
+          <i class="pr-3 si si-network-arrow card-title-icon"></i>
+          <h2 class="m-0">Web Service Processes</h2>
+        </div>
+        <cc:ApplicationTabs tabChange="#{managerBean.reloadApplications}" id="tabs">
+          <h:form id="form">
+            <p:dataTable value="#{managerBean.webServiceProcessesOfCurrentApp}" var="ws" widgetVar="webServicesTable"
+              id="webServiceProcessesTable" emptyMessage="No web service processes found on deployed apps" styleClass="ui-fluid">
+              <p:column headerText="Web Service WSDL" filterBy="#{ws.processName}">
+                <p:link href="#{ws.link}" target="_blank" rel="noopener noreferrer">
+                  <i class="si si-network-arrow table-icon"></i> #{ws.processName}?WSDL
+                </p:link>
+              </p:column>
+            </p:dataTable>
+          </h:form>
+        </cc:ApplicationTabs>
+      </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>

@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><span>Services</span></li>
+      <li>/</li>
+      <li><a href="restservices.xhtml">REST Services</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}services.html" />
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="layout-dashboard">
+        <div class="grid">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-network-share"></i>
+                  <h2 class="m-0">Rest Services</h2>
+                  <p:linkButton id="browseRestAPI" title="Browse available REST Backend Services"
+                    icon="si si-network-browser" type="button"
+                    href="#{advisorBean.apiBrowserUrl}/index.html?urls.primaryName=#{managerBean.selectedApplicationName}"
+                    target="_blank" rel="noopener noreferrer" styleClass="ml-auto rounded-button" />
+                  <p:linkButton id="configRestBackend" title="Configure Rest Backend" icon="si si-cog" type="button"
+                    styleClass="ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=REST.Servlet" />
+                </div>
+              </div>
+              <iframe id="apiBrowser"
+                src="#{advisorBean.apiBrowserUrl}/index.html?urls.primaryName=#{managerBean.selectedApplicationName}"
+                style="border: none; width: 100%; height: calc(100vh - 200px); min-height: 400px; margin-top: 10px;"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>

@@ -33,7 +33,8 @@ public class Navigation {
   private static final String SERVICES_DATABASES_MENU = "#menuform\\:sr_database";
   private static final String SERVICES_RESTCLIENTS_MENU = "#menuform\\:sr_rest_client";
   private static final String SERVICES_WEBSERVICES_MENU = "#menuform\\:sr_web_service";
-  private static final String SERVICES_BACKEND_MENU = "#menuform\\:sr_backend";
+  private static final String SERVICES_WEBSERVICEPROCESSES_MENU = "#menuform\\:sr_web_service_processes";
+  private static final String SERVICES_REST_SERVICES_MENU = "#menuform\\:sr_rest_services";
   private static final String SYSTEM_MENU = "#menuform\\:sr_system";
   private static final String SYSTEM_ADMINS = "#menuform\\:sr_admins";
   private static final String SYSTEM_SYSTEMDB_MENU = "#menuform\\:sr_systemdb";
@@ -262,6 +263,12 @@ public class Navigation {
     menuShouldBeActive(SERVICES_WEBSERVICES_MENU);
   }
 
+  public static void toWebServiceProcesses() {
+    toSubMenu(SERVICES_MENU, SERVICES_WEBSERVICEPROCESSES_MENU);
+    assertCurrentUrlContains("webserviceprocesses.xhtml");
+    menuShouldBeActive(SERVICES_WEBSERVICEPROCESSES_MENU);
+  }
+
   public static void toWebserviceDetail(String webserviceName) {
     toWebservices();
     $$(Tab.APP.activePanelCss + " .webservice-name").find(text(webserviceName)).shouldBe(visible).click();
@@ -269,10 +276,10 @@ public class Navigation {
     menuShouldBeActive(SERVICES_WEBSERVICES_MENU);
   }
 
-  public static void toBackendApi() {
-    toSubMenu(SERVICES_MENU, SERVICES_BACKEND_MENU);
-    assertCurrentUrlContains("backend-api.xhtml");
-    menuShouldBeActive(SERVICES_BACKEND_MENU);
+  public static void toRestServices() {
+    toSubMenu(SERVICES_MENU, SERVICES_REST_SERVICES_MENU);
+    assertCurrentUrlContains("restservices.xhtml");
+    menuShouldBeActive(SERVICES_REST_SERVICES_MENU);
   }
 
   public static void toAdmins() {
