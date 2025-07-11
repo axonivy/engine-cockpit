@@ -24,7 +24,8 @@
         <cc:ApplicationTabs tabChange="#{managerBean.reloadApplications}" id="tabs">
           <h:form id="form">
             <p:dataTable value="#{managerBean.webServiceProcessesOfCurrentApp}" var="ws" widgetVar="webServicesTable"
-              id="webServiceProcessesTable" emptyMessage="No web service processes found on deployed apps" styleClass="ui-fluid">
+              id="webServiceProcessesTable" emptyMessage="No web service processes found on deployed apps"
+              styleClass="ui-fluid webServiceProcessesTable">
               <p:column headerText="Web Service WSDL" filterBy="#{ws.processName}">
                 <p:link href="#{ws.link}" target="_blank" rel="noopener noreferrer">
                   <i class="si si-network-arrow table-icon"></i> #{ws.processName}?WSDL
