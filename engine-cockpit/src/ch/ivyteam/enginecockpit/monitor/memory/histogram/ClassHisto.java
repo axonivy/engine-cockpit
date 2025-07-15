@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.monitor.trace.BackgroundMeterUtil;
 
@@ -134,8 +134,8 @@ public class ClassHisto {
   }
 
   private static String toUserFriendlyModule(String module) {
-    module = StringUtils.removeEnd(module, ")");
-    return StringUtils.removeStart(module, "(");
+    module = Strings.CS.removeEnd(module, ")");
+    return Strings.CS.removeStart(module, "(");
   }
 
   private ClassHisto merge(ClassHisto other) {

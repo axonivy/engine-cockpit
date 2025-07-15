@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.management.ObjectName;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -115,7 +116,7 @@ public class ThreadBean {
         return info.getId() == id;
       } catch (NumberFormatException ex) {}
       String name = info.getName();
-      if (name != null && StringUtils.containsIgnoreCase(name, filter.toString())) {
+      if (name != null && Strings.CI.contains(name, filter.toString())) {
         return true;
       }
     }

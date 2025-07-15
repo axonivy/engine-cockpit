@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.dynamic.config.ConfigProperty.KeyValueProperty;
 
@@ -69,7 +70,7 @@ public class ConfigPropertyGroup {
     var name = p.getName();
     if (p.isKeyValue()) {
       return Arrays.stream(StringUtils.splitByCharacterTypeCamelCase(name))
-          .map(part -> StringUtils.remove(part, "."))
+          .map(part -> Strings.CS.remove(part, "."))
           .map(String::trim)
           .collect(Collectors.joining(" "));
     }

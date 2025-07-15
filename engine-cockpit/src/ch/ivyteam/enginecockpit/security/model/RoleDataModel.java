@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -40,7 +40,7 @@ public class RoleDataModel extends TreeView<Role> {
   public void setFilter(String filter) {
     this.filter = filter;
     filteredTreeNode = new DefaultTreeNode<>("Filtered roles", null, null);
-    roles.stream().filter(role -> StringUtils.containsIgnoreCase(role.getName(), filter))
+    roles.stream().filter(role -> Strings.CI.contains(role.getName(), filter))
         .limit(showChildLimit)
         .forEach(role -> new DefaultTreeNode<>("role", role, filteredTreeNode));
     if (filteredTreeNode.getChildCount() >= showChildLimit) {

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.UriBuilder;
@@ -38,9 +39,9 @@ public class Webservice implements IService {
     properties = webservice.properties().stream()
         .map(p -> new Property(p.key(), p.value(), metas.get(p.key()), p.isDefault()))
         .collect(Collectors.toList());
-    password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password"))
+    password = properties.stream().filter(p -> Objects.equals(p.getName(), "password"))
         .map(Property::getValue).findFirst().orElse("");
-    username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username"))
+    username = properties.stream().filter(p -> Objects.equals(p.getName(), "username"))
         .map(Property::getValue).findFirst().orElse("");
     passwordChanged = false;
     features = webservice.features().stream()

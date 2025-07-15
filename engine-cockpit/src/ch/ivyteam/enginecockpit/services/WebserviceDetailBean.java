@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -13,7 +14,6 @@ import javax.faces.context.FacesContext;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Entity;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.enginecockpit.commons.Feature;
@@ -208,8 +208,8 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
 
   private boolean authSupportedForTesting() {
-    return StringUtils.equals(webservice.getAuthType(), "HttpBasic")
-        || StringUtils.equals(webservice.getAuthType(), "HTTP_BASIC");
+    return Objects.equals(webservice.getAuthType(), "HttpBasic")
+        || Objects.equals(webservice.getAuthType(), "HTTP_BASIC");
   }
 
   private String parseEndpointsToYaml(Map<String, PortType> portTypes) {
