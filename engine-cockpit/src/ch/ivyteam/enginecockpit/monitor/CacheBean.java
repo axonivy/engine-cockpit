@@ -14,6 +14,7 @@ import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
@@ -75,7 +76,7 @@ public class CacheBean {
     private static Stream<Cache> toCaches(ObjectName objectName) {
       try {
         var name = StringUtils.substringAfterLast(objectName.getKeyProperty("name"), ".");
-        name = StringUtils.removeEnd(name, "Data");
+        name = Strings.CS.removeEnd(name, "Data");
 
         return Stream.of(
             toEntityCache(name, objectName),

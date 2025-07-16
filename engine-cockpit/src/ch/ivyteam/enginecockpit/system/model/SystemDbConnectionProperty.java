@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.system.model;
 
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.db.jdbc.ConnectionProperty;
@@ -15,14 +17,14 @@ public class SystemDbConnectionProperty {
     this.property = connectionProperty;
     this.value = defaultValue;
     this.defaultValue = defaultValue;
-    this.isDefault = StringUtils.equals(value, defaultValue);
+    this.isDefault = Objects.equals(value, defaultValue);
   }
 
   public void setValue(String value) {
     if (ConnectionProperty.PASSWORD == this.property && StringUtils.isBlank(value)) {
       return;
     }
-    this.isDefault = StringUtils.equals(value, defaultValue);
+    this.isDefault = Objects.equals(value, defaultValue);
     this.value = value;
   }
 

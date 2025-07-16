@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.services.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -37,9 +38,9 @@ public class RestClientDto implements IService {
     properties = client.properties().stream()
         .map(p -> new Property(p.key(), p.value(), metas.get(p.key()), p.isDefault()))
         .collect(Collectors.toList());
-    password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password"))
+    password = properties.stream().filter(p -> Objects.equals(p.getName(), "password"))
         .map(Property::getValue).findFirst().orElse("");
-    username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username"))
+    username = properties.stream().filter(p -> Objects.equals(p.getName(), "username"))
         .map(Property::getValue).findFirst().orElse("");
     features = client.features().stream()
         .map(f -> new Feature(f.clazz(), f.isDefault()))

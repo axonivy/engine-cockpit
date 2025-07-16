@@ -7,7 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -80,7 +80,7 @@ public class ApplicationBean extends TreeView<AbstractActivity> {
   @SuppressWarnings("unused")
   protected void filterNode(TreeNode<AbstractActivity> node) {
     var activity = node.getData();
-    if (StringUtils.containsIgnoreCase(activity.getName(), filter)) {
+    if (Strings.CI.contains(activity.getName(), filter)) {
       new DefaultTreeNode<>(activity, filteredTreeNode);
     }
   }

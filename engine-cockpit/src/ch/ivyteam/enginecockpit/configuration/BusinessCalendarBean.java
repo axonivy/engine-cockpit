@@ -3,7 +3,7 @@ package ch.ivyteam.enginecockpit.configuration;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -68,7 +68,7 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
   @SuppressWarnings("unused")
   protected void filterNode(TreeNode<BusinessCalendar> node) {
     var calendar = node.getData();
-    if (StringUtils.containsIgnoreCase(calendar.getName(), filter)) {
+    if (Strings.CI.contains(calendar.getName(), filter)) {
       new DefaultTreeNode<>(calendar, filteredTreeNode);
     }
   }

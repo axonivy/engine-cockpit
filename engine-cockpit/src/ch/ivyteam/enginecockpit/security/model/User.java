@@ -3,11 +3,10 @@ package ch.ivyteam.enginecockpit.security.model;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.UriBuilder;
-
-import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.util.EmailUtil;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -199,7 +198,7 @@ public class User implements SecurityMember {
   }
 
   public String getRealPassword() {
-    if (!StringUtils.equals(password, "*".repeat(realPassword.length()))) {
+    if (!Objects.equals(password, "*".repeat(realPassword.length()))) {
       return password;
     }
     return realPassword;

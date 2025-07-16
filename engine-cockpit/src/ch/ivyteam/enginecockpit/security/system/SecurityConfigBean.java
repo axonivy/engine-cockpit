@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security.system;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -53,7 +54,7 @@ public class SecurityConfigBean {
 
   private void loadSecuritySystem() {
     securitySystem = managerBean.getSecuritySystems().stream()
-        .filter(system -> StringUtils.equals(system.getSecuritySystemName(), name))
+        .filter(system -> Objects.equals(system.getSecuritySystemName(), name))
         .findAny()
         .orElseThrow();
 

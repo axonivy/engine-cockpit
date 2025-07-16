@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.commons.Feature;
 
@@ -16,7 +17,7 @@ public class RestClientAuthTypeCalculator {
   }
 
   public String get() {
-    return features.stream().filter(f -> StringUtils.contains(f.getClazz(), "authentication"))
+    return features.stream().filter(f -> Strings.CS.contains(f.getClazz(), "authentication"))
         .map(f -> StringUtils.substringBetween(f.getClazz(), "authentication.", "AuthenticationFeature"))
         .filter(Objects::nonNull)
         .findFirst()
