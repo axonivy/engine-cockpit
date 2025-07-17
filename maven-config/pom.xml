@@ -11,6 +11,7 @@
     <flatten.plugin.version>1.7.1</flatten.plugin.version>
     <project.build.plugin.version>13.2.0-SNAPSHOT</project.build.plugin.version>
     <web.tester.version>13.2.0-SNAPSHOT</web.tester.version>
+    <ivy.bom.version>13.2.0-SNAPSHOT</ivy.bom.version>
     <maven.test.skip>true</maven.test.skip>
   </properties>
 
@@ -159,7 +160,7 @@
       <dependency>
         <groupId>com.axonivy.ivy.api</groupId>
         <artifactId>ivy-api-bom</artifactId>
-        <version>${project.version}</version>
+        <version>${ivy.bom.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
