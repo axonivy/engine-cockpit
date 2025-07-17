@@ -124,11 +124,8 @@
       </snapshots>
     </repository>
     <repository>
-      <id>nexus.axonivy.com</id>
-      <url>https://nexus.axonivy.com/repository/maven-snapshots/</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
+      <id>maven.axonivy.com</id>
+      <url>https://maven.axonivy.com</url>
       <snapshots>
         <updatePolicy>always</updatePolicy>
       </snapshots>
