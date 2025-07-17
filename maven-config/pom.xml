@@ -123,6 +123,16 @@
         <updatePolicy>always</updatePolicy>
       </snapshots>
     </repository>
+    <repository>
+      <id>nexus.axonivy.com</id>
+      <url>https://nexus.axonivy.com/repository/maven-snapshots/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
   </repositories>
 
   <pluginRepositories>
@@ -146,4 +156,17 @@
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
+  
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.axonivy.ivy.api</groupId>
+        <artifactId>ivy-api-bom</artifactId>
+        <version>${project.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
 </project>

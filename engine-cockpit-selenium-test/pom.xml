@@ -303,14 +303,12 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
-      <version>1.13.1</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>com.axonivy.ivy.webtest</groupId>
       <artifactId>web-tester</artifactId>
-      <version>${web.tester.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -327,5 +325,7 @@
       <version>1.21.1</version>
       <scope>test</scope>
     </dependency>
+    
   </dependencies>
+  
 </project>
