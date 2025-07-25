@@ -18,14 +18,14 @@
                   <i class="si si-tools-wench container-icon-big" />
                 </div>
                 <div>
-                  <h5>#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/MaintenanceMode')}</h5>
+                  <h5>#{ivy.cm.co('/info/MaintenanceMode')}</h5>
                 </div>
                 <div class="card-item-text">
                   <p>
                     <b>#{engineInfo.maintenanceReason}</b>
                   </p>
                   <h:outputText escape="false"
-                    value="#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/EngineMaintenanceInfo')}" />
+                    value="#{ivy.cm.co('/info/EngineMaintenanceInfo')}" />
                 </div>
               </div>
             </div>
@@ -42,13 +42,13 @@
                   <i class="si si-layout-dashboard container-icon-big" />
                 </div>
                 <div>
-                  <h5>#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/DemoPortal')}</h5>
+                  <h5>#{ivy.cm.co('/info/DemoPortal')}</h5>
                 </div>
                 <div class="card-item-text">
-                  <p>#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/DemoPortalIntroduction')}</p>
+                  <p>#{ivy.cm.co('/info/DemoPortalIntroduction')}</p>
                 </div>
                 <div class="card-item-open">
-                  <p:link href="#{engineInfo.demoPortalUrl}" styleClass="card-item-open-link">#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/OpenLink')}</p:link>
+                  <p:link href="#{engineInfo.demoPortalUrl}" styleClass="card-item-open-link">#{ivy.cm.co('/info/OpenLink')}</p:link>
                 </div>
               </div>
             </div>
@@ -61,13 +61,13 @@
                   <i class="si si-share container-icon-big" />
                 </div>
                 <div>
-                  <h5>#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/NEODesigner')}</h5>
+                  <h5>#{ivy.cm.co('/info/NEODesigner')}</h5>
                 </div>
                 <div class="card-item-text">
-                  <p>#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/NEODesignerIntroduction')}</p>
+                  <p>#{ivy.cm.co('/info/NEODesignerIntroduction')}</p>
                 </div>
                 <div class="card-item-open">
-                  <p:link href="/neo" styleClass="card-item-open-link">#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/OpenLink')}</p:link>
+                  <p:link href="/neo" styleClass="card-item-open-link">#{ivy.cm.co('/info/OpenLink')}</p:link>
                 </div>
               </div>
             </div>
@@ -77,7 +77,7 @@
 
       <h:outputText rendered="#{engineInfo.showApps}">
         <div class="col">
-          <h3>#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/Applications')}</h3>
+          <h3>#{ivy.cm.co('/common/Applications')}</h3>
           <hr />
           
           <div class="flex flex-wrap align-items-stretch">
@@ -99,8 +99,8 @@
                   </div>
                   <div>
                     <h:panelGroup id="action">
-                      <p:linkButton id="button" href="#{app.homeUrl}" value="#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/Open')}" style="font-weight:600;" disabled="#{app.disabled}" />
-                      <p:tooltip for="action" rendered="#{app.disabled}" value="#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/NoActiveProjects')}" position="bottom" />
+                      <p:linkButton id="button" href="#{app.homeUrl}" value="#{ivy.cm.co('/info/Open')}" style="font-weight:600;" disabled="#{app.disabled}" />
+                      <p:tooltip for="action" rendered="#{app.disabled}" value="#{ivy.cm.co('/info/NoActiveProjects')}" position="bottom" />
                     </h:panelGroup>
                   </div>
                 </div>
@@ -112,7 +112,7 @@
 
       <h:outputText rendered="#{engineInfo.showNoApps}">
         <div class="col">
-          <h3>#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/Applications')}</h3>
+          <h3>#{ivy.cm.co('/common/Applications')}</h3>
           <hr />
           <div class="flex flex-wrap align-items-stretch">
             <div class="col">
@@ -130,15 +130,15 @@
                   </div>
                 </div>
                 <div>
-                  <h3>#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/NoApplications')}</h3>
+                  <h3>#{ivy.cm.co('/info/NoApplications')}</h3>
                 </div>
                 <div>
-                  <p>#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/InstallYourApplications')}</p>
+                  <p>#{ivy.cm.co('/info/InstallYourApplications')}</p>
                 </div>
                 <div class="mt-5 flex-1" style="margin-bottom: 20px;">
                   <p:linkButton id="noAppCockpit"
                     href="#{engineInfo.engineCockpitUrl}/faces/applications.xhtml"
-                    value="#{ivy.cm.co('/Dialogs/ch/ivyteam/enginecockpit/info/EngineCockpit')}" icon="si si-cog" />
+                    value="#{ivy.cm.co('/common/EngineCockpit')}" icon="si si-cog" />
                 </div>
               </div>
             </div>

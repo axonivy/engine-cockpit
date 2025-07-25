@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.setup.migration;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,7 @@ import org.primefaces.model.file.UploadedFile;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator.Check;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.licence.NewLicenceFileInstaller;
 
 @ManagedBean
@@ -55,7 +57,7 @@ public class MigrationBean {
     } catch (Exception ex) {
       Message.error()
           .clientId("migrateGrowl")
-          .summary("Error during validation of the location")
+          .summary(Ivy.cm().co("/migrate/LocationValidationErrorMessage"))
           .exception(ex)
           .show();
     }
@@ -107,7 +109,7 @@ public class MigrationBean {
   }
 
   public String getInvalidLicenceMessage() {
-    return migrator.checkLicence().message();
+    return Ivy.cms().co("/migrate/InvalidLicenceMessage", Arrays.asList(migrator.checkLicence().message()));
   }
 
   public String getLicence() {
@@ -118,7 +120,7 @@ public class MigrationBean {
     try {
       return lic.save().toAsciiOnlyString();
     } catch (IOException ex) {
-      return "Error during reading licence: " + ex.getMessage();
+      return Ivy.cms().co("/migrate/ReadingLicenceErrorMessage", Arrays.asList(ex.getMessage()));
     }
   }
 
@@ -132,9 +134,10 @@ public class MigrationBean {
 
   public String getStartMigrationButtonName() {
     return switch (running) {
-      case START -> "Start";
-      case RUNNING -> "Running " + client.taskCountDone() + "/" + client.taskCountAll();
-      case FINISHED -> "Done";
+      case START -> Ivy.cm().co("/common/Start");
+      case RUNNING -> Ivy.cms().co("/migrate/Running",
+          Arrays.asList(client.taskCountDone() + "/" + client.taskCountAll()));
+      case FINISHED -> Ivy.cm().co("/migrate/Done");
     };
   }
 
@@ -209,10 +212,11 @@ public class MigrationBean {
       running = MigrationState.FINISHED;
       var exception = asyncRunner.get();
       if (exception == null) {
-        finishedMessage = "The Axon Ivy Engine migration was successful. Restart your Axon Ivy Engine now.";
+        finishedMessage = Ivy.cm().co("/migrate/EngineMigrationSuccessfulMessage");
         finishedSeverity = "info";
       } else {
-        finishedMessage = "Error during migration.\n<pre style=\"white-space:pre-wrap;word-break:break-all;margin:0px;\"><code>" + ExceptionUtils.getStackTrace(exception) + "</code></pre>";
+        finishedMessage = Ivy.cms().co("/migrate/EngineMigrationErrorMessage",
+            Arrays.asList(ExceptionUtils.getStackTrace(exception)));
         finishedSeverity = "error";
       }
     }

@@ -1,24 +1,48 @@
-Dialogs:
-  ch:
-    ivyteam:
-      enginecockpit:
-        info:
-          Applications: Applications
-          DemoPortal: Demo Portal
-          DemoPortalIntroduction: The demo portal offers the perfect entry point to explore and experience the powerful features of the Axon Ivy platform as a workflow engine. It allows users to discover how easily complex business processes can be automated, streamlined, and optimized. Whether you're
-            looking to manage tasks, integrate systems, or orchestrate workflows across departments, the platform provides intuitive tools and a flexible environment to meet your business needs.
-          EngineCockpit: Engine Cockpit
-          EngineMaintenanceInfo: <p>Therefore the Axon Ivy Engine is currently operating in maintenance mode. If your setup is broken for example because the Axon Ivy Engine can not connect to the system database or the licence has been expired, then go <b><a href="setup.xhtml">Setup Wizard</a></b> to
-            fix it. If the Axon Ivy Engine has undergone an update, it is essential to initiate the <b><a href="migrate.xhtml">Migration Wizard</a></b> to ensure that the existing instance is fully operational. This process is crucial for maintaining the functionality and integrity of the system.</p>
-          InstallYourApplications: Install your application in the Engine Cockpit.
-          MaintenanceMode: Maintenance Mode
-          NEODesigner: NEO Designer
-          NEODesignerIntroduction: NEO Designer is a low-code platform that accelerates application development by using visual tools and pre-built components, enabling seamless collaboration between business users and developers. This platform simplifies the automation of business tasks, streamlining
-            the development process and reducing complexity. Designed to enhance efficiency, NEO Designer supports the rapid deployment of scalable applications, tailored to meet specific business needs effectively.
-          NoActiveProjects: This app has no active projects.
-          NoApplications: No applications
-          Open: Open
-          OpenLink: Open 〉
-          ShutdownEngineConfirmationMessage: Do you really want to shutdown the Axon Ivy Engine?
-          ShutdownEngineMessage: The Axon Ivy Engine is shutting down. You can close the window.
-
+common:
+  Applications: Applications
+  Cancel: Cancel
+  EngineCockpit: Engine Cockpit
+  RequiredMessage: Value is required
+  Start: Start
+info:
+  DemoPortal: Demo Portal
+  DemoPortalIntroduction: The demo portal offers the perfect entry point to explore and experience the powerful features of the Axon Ivy platform as a workflow engine. It allows users to discover how easily complex business processes can be automated, streamlined, and optimized. Whether you're looking
+    to manage tasks, integrate systems, or orchestrate workflows across departments, the platform provides intuitive tools and a flexible environment to meet your business needs.
+  EngineMaintenanceInfo: <p>Therefore the Axon Ivy Engine is currently operating in maintenance mode. If your setup is broken for example because the Axon Ivy Engine can not connect to the system database or the licence has been expired, then go <b><a href="setup.xhtml">Setup Wizard</a></b> to fix it.
+    If the Axon Ivy Engine has undergone an update, it is essential to initiate the <b><a href="migrate.xhtml">Migration Wizard</a></b> to ensure that the existing instance is fully operational. This process is crucial for maintaining the functionality and integrity of the system.</p>
+  InstallYourApplications: Install your application in the Engine Cockpit.
+  MaintenanceMode: Maintenance Mode
+  NEODesigner: NEO Designer
+  NEODesignerIntroduction: NEO Designer is a low-code platform that accelerates application development by using visual tools and pre-built components, enabling seamless collaboration between business users and developers. This platform simplifies the automation of business tasks, streamlining the development
+    process and reducing complexity. Designed to enhance efficiency, NEO Designer supports the rapid deployment of scalable applications, tailored to meet specific business needs effectively.
+  NoActiveProjects: This app has no active projects.
+  NoApplications: No applications
+  Open: Open
+  OpenLink: Open 〉
+  ShutdownEngineConfirmationMessage: Do you really want to shutdown the Axon Ivy Engine?
+  ShutdownEngineMessage: The Axon Ivy Engine is shutting down. You can close the window.
+migrate:
+  BackupSystemDatabaseRemindMessage: Before you start the Migration make sure you have a backup of your system database and the whole Axon Ivy Engine installation directory.
+  Checks: Checks
+  Done: Done
+  EngineMigrationErrorMessage: Error during migration.<br><pre style=\"white-space:pre-wrap;word-break:break-all;margin:0px;\"><code>{0}</code></pre>
+  EngineMigrationSuccessfulMessage: The Axon Ivy Engine migration was successful. Restart your Axon Ivy Engine now.
+  InPlaceMigration: In-Place Migration
+  InPlaceMigrationIntroduction: This migration is an in place migration. Therefore, the new Axon Ivy Engine will be installed in exactly the same place as the old Axon Ivy Engine. The configuration files in container environments, such as the <code>ivy.yaml</code>, may be provided in a read-only mode.
+    As the migration needs to operate with write access onto these configuration files, you can define whether a temporary directory should be used to perform these changes. After the migration, you must manually add these files to the Axon Ivy Engine.
+  InvalidLicenceMessage: 'Licence is not valid. Please upload a new licence otherwise you can not start the Axon Ivy Engine after migration. Reason: {0}'
+  Licence: Licence
+  LoadLocation: Load Location
+  LocationValidationErrorMessage: Error during validation of the location
+  Log: Log
+  MigrateOldEngine: Migrate old Axon Ivy Engine
+  MigrationTasks: Migration Tasks
+  OldEngineLocation: Location of old Engine
+  ReadingLicenceErrorMessage: 'Error during reading licence: {0}'
+  Running: Running{0}
+  StartMigration: Start Migration
+  Summary: Summary
+  TemporaryDirectory: 'Temporary Directory: '
+  Upload: Upload
+  ValidLicenceFoundMessage: Valid licence found.
+  WriteConfigurationFilesToTemporaryDirectory: Write configuration files to temporary directory
