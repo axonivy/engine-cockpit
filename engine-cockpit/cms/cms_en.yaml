@@ -1,0 +1,24 @@
+Dialogs:
+  ch:
+    ivyteam:
+      enginecockpit:
+        info:
+          Applications: Applications
+          DemoPortal: Demo Portal
+          DemoPortalIntroduction: The demo portal offers the perfect entry point to explore and experience the powerful features of the Axon Ivy platform as a workflow engine. It allows users to discover how easily complex business processes can be automated, streamlined, and optimized. Whether you're
+            looking to manage tasks, integrate systems, or orchestrate workflows across departments, the platform provides intuitive tools and a flexible environment to meet your business needs.
+          EngineCockpit: Engine Cockpit
+          EngineMaintenanceInfo: <p>Therefore the Axon Ivy Engine is currently operating in maintenance mode. If your setup is broken for example because the Axon Ivy Engine can not connect to the system database or the licence has been expired, then go <b><a href="setup.xhtml">Setup Wizard</a></b> to
+            fix it. If the Axon Ivy Engine has undergone an update, it is essential to initiate the <b><a href="migrate.xhtml">Migration Wizard</a></b> to ensure that the existing instance is fully operational. This process is crucial for maintaining the functionality and integrity of the system.</p>
+          InstallYourApplications: Install your application in the Engine Cockpit.
+          MaintenanceMode: Maintenance Mode
+          NEODesigner: NEO Designer
+          NEODesignerIntroduction: NEO Designer is a low-code platform that accelerates application development by using visual tools and pre-built components, enabling seamless collaboration between business users and developers. This platform simplifies the automation of business tasks, streamlining
+            the development process and reducing complexity. Designed to enhance efficiency, NEO Designer supports the rapid deployment of scalable applications, tailored to meet specific business needs effectively.
+          NoActiveProjects: This app has no active projects.
+          NoApplications: No applications
+          Open: Open
+          OpenLink: Open 〉
+          ShutdownEngineConfirmationMessage: Do you really want to shutdown the Axon Ivy Engine?
+          ShutdownEngineMessage: The Axon Ivy Engine is shutting down. You can close the window.
+
