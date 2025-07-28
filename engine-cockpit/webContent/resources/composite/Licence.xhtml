@@ -13,11 +13,11 @@
 
   <h:form enctype="multipart/form-data" id="fileUploadForm">
     <div class="file-upload">
-      <p:commandButton id="chooseFileBtn" value="Choose licence" onclick="PF('uploadDnd').show();return false;"
+      <p:commandButton id="chooseFileBtn" value="#{ivy.cm.co('/licence/ChooseLicence')}" onclick="PF('uploadDnd').show();return false;"
         icon="si si-add" styleClass="mb-2"/>
       <p:inputTextarea id="dropZone" styleClass="drop-zone" readonly="true"
         style="width: 100%; line-height: 100px; text-align: center; margin-bottom: 20px;"
-        value="Choose or drop a file which ends with: .lic" rows="1" />
+        value="#{ivy.cm.co('/licence/ChooseLicencePlaceholder')}" rows="1" />
       <p:fileUpload id="licenceUpload" widgetVar="uploadDnd" listener="#{licenceBean.handleUploadLicence}"
         dropZone="dropZone" style="display: none" update="#{cc.attrs.updateFields}" value="#{licenceBean.file}"/>
     </div>
@@ -26,11 +26,11 @@
       <p:dataTable id="licenceInfoTable" var="property" rendered="#{!licenceBean.demo}"
         value="#{licenceBean.licenceProperties.entrySet().toArray()}"
         style="width: 100%; overflow-y: auto; min-height: 200px; max-height: calc(100vh - 510px);">
-        <p:column headerText="Name">
+        <p:column headerText="#{ivy.cm.co('/common/Name')}">
           <h:outputText value="#{property.key}" styleClass="licence-key" />
         </p:column>
-        <p:column headerText="Value">
-          <h:outputText value="#{property.value eq '0' or '' ? 'Unlimited' : property.value}" />
+        <p:column headerText="#{ivy.cm.co('/common/Value')}">
+          <h:outputText value="#{property.value eq '0' or '' ? ivy.cm.co('/licence/Unlimited') : property.value}" />
         </p:column>
       </p:dataTable>
     </h:panelGroup>

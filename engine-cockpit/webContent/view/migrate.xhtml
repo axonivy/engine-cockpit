@@ -40,7 +40,7 @@
 
             <f:facet name="header">
               <p:panelGrid columns="2" layout="flex" contentStyleClass="align-items-center" columnClasses="col-10, col-2">
-                <h:outputText value="Location" />
+                <h:outputText value="#{ivy.cm.co('/migrate/Location')}" />
                 <p:commandButton icon="si si-heavy-equipment-hook"
                 value="#{ivy.cm.co('/migrate/LoadLocation')}" id="checkLocation"
                 disabled="#{migrationBean.state == 'RUNNING'}"

@@ -17,8 +17,8 @@
       <div class="col-12">
         <p:outputPanel id="connectionPanel" styleClass="connection-panel">
           <p:staticMessage rendered="#{!systemDatabaseBean.isPersistentDb()}" severity="warn"
-            summary="Database not persistent"
-            detail="Please configure a persistent database to use this engine in a productive environment." />
+            summary="#{ivy.cms.co('/systemDb/DatabaseNotPersistentSummary')}"
+            detail="#{ivy.cms.co('/systemDb/DatabaseNotPersistentDetail')}" />
 
           <div class="ui-message ui-staticmessage #{systemDatabaseBean.connectionInfo.messageLevel} ui-widget ui-corner-all">
             <i id="connectionIcon" class="#{systemDatabaseBean.connectionInfo.icon}"></i>
@@ -28,12 +28,12 @@
           </div>
 
           <div>
-            <p:commandButton value="Check Connection" id="checkConnectionButton"
+            <p:commandButton value="#{ivy.cms.co('/systemDb/CheckConnection')}" id="checkConnectionButton"
               styleClass="mr-1 wizard-top-button"
               onstart="$('#connectionIcon').attr('class', 'si si-button-refresh-arrows si-is-spinning');" async="true"
               icon="si si-check-1" update="#{cc.attrs.updateFields}"
               actionListener="#{systemDatabaseBean.testConnection()}" />
-            <p:commandButton value="Create Database" id="createDatabaseButton" icon="si si-database-settings"
+            <p:commandButton value="#{ivy.cms.co('/systemDb/CreateDatabase')}" id="createDatabaseButton" icon="si si-database-settings"
               styleClass="mr-1 wizard-top-button ui-button-secondary" actionListener="#{systemDatabaseBean.initCreator()}"
               update="systemDb:createDatabaseDialog" oncomplete="PF('createDatabaseDialog').show();"
               disabled="#{!systemDatabaseBean.connectionInfo.mustCreate}" />
@@ -44,7 +44,7 @@
       <div class="col-12">
         <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9"
           styleClass="grey-label-panel ui-fluid">
-          <p:outputLabel for="databaseType" value="Database" />
+          <p:outputLabel for="databaseType" value="#{ivy.cms.co('/systemDb/Database')}" />
           <p:selectOneMenu id="databaseType" value="#{systemDatabaseBean.product}">
             <f:selectItems value="#{systemDatabaseBean.supporedDatabaseNames}" var="database" itemLabel="#{database}"
               itemValue="#{database}" />
@@ -52,7 +52,7 @@
               listener="#{systemDatabaseBean.configChanged}" />
           </p:selectOneMenu>
 
-          <p:outputLabel for="databaseDriver" value="Driver" />
+          <p:outputLabel for="databaseDriver" value="#{ivy.cms.co('/systemDb/Driver')}" />
           <p:selectOneMenu id="databaseDriver" value="#{systemDatabaseBean.driver}">
             <f:selectItems value="#{systemDatabaseBean.supportedDriverNames}" var="driver" itemLabel="#{driver}"
               itemValue="#{driver}" />
@@ -65,7 +65,7 @@
           <ui:repeat var="connProp" value="#{systemDatabaseBean.connectionProperties}">
             <ui:fragment rendered="#{connProp.number}">
               <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9"
-                styleClass="grey-label-panel ui-fluid">                
+                styleClass="grey-label-panel ui-fluid">
                 <p:outputLabel for="numberProp" value="#{connProp.label}" />
                 <h:panelGroup>
                   <p:inputNumber styleClass="#{connProp.cssClass}" id="numberProp" value="#{connProp.value}"
@@ -75,7 +75,7 @@
                       listener="#{systemDatabaseBean.configChanged}" />
                   </p:inputNumber>
                   <p:selectBooleanCheckbox id="defaultConnectionProperty" style="margin: 0; float: right;"
-                    itemLabel="Default" value="#{connProp.defaultValue}"
+                    itemLabel="#{ivy.cms.co('/common/Default')}" value="#{connProp.defaultValue}"
                     styleClass="#{connProp.cssClass}-default-checkbox">
                     <p:ajax process="@this" update="@parent:numberProp" />
                   </p:selectBooleanCheckbox>
@@ -118,7 +118,7 @@
 
         <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9"
           styleClass="grey-label-panel ui-fluid">
-          <label>Additional Properties</label>
+          <label>#{ivy.cms.co('/systemDb/AdditionalProperties')}</label>
           <h:panelGroup>
             <p:dataTable var="property" value="#{systemDatabaseBean.additionalProperties}"
               id="additionalPropertiesTable" styleClass="no-header-table">
@@ -131,27 +131,36 @@
               <p:column styleClass="table-btn-1" style="box-sizing: content-box;">
                 <p:commandButton id="removeAdditionalProperty"
                   actionListener="#{systemDatabaseBean.removeProp(property.key)}"
-                  update="@form:additionalPropertiesTable,#{cc.attrs.updateFields}" icon="si si-bin-1" title="Delete"
-                  styleClass="ui-button-danger rounded-button" process="@this" />
+                  update="@form:additionalPropertiesTable,#{cc.attrs.updateFields}"
+                  icon="si si-bin-1"
+                  title="#{ivy.cms.co('/systemDb/DeleteButtonTitle')}"
+                  styleClass="ui-button-danger rounded-button"
+                  process="@this" />
               </p:column>
             </p:dataTable>
-            <p:commandButton id="newAdditionalPropertyBtn" actionListener="#{systemDatabaseBean.addProp()}"
-              icon="si si-add" title="Add Property" update="systemDb:addAdditionalPropertyDialog" value="Add Property"
-              styleClass="mt-2 ui-button-secondary" oncomplete="PF('addAdditionalPropertyDialog').show();" process="@this"
-              style="float: right; width: 150px;" />
+            <p:commandButton id="newAdditionalPropertyBtn"
+              actionListener="#{systemDatabaseBean.addProp()}"
+              icon="si si-add" title="#{ivy.cms.co('/systemDb/AddProperty')}"
+              update="systemDb:addAdditionalPropertyDialog"
+              value="#{ivy.cms.co('/systemDb/AddProperty')}"
+              styleClass="mt-2 ui-button-secondary"
+              oncomplete="PF('addAdditionalPropertyDialog').show();"
+              process="@this" style="float: right; width: 150px;" />
           </h:panelGroup>
         </p:panelGrid>
       </div>
     </div>
   </h:form>
 
-  <p:dialog id="createDatabaseDialog" widgetVar="createDatabaseDialog" header="Create System Database" modal="true"
+  <p:dialog id="createDatabaseDialog" widgetVar="createDatabaseDialog" header="#{ivy.cms.co('/systemDb/CreateDatabaseDialogHeader')}" modal="true"
     closeOnEscape="true" width="400">
     <h:form id="createDatabaseForm" styleClass="custom-dialog-form">
       <div>
-        <p:staticMessage severity="info" summary="Info" detail="Enter the required parameters for your System Database configuration"
+        <p:staticMessage severity="info"
+          summary="#{ivy.cms.co('/common/Info')}"
+          detail="#{ivy.cms.co('/systemDb/CreateDatabaseDialogDetail')}"
           rendered="#{!systemDatabaseBean.dbCreatorRunning and !systemDatabaseBean.dbCreatorFinished}" />
-        
+
         <ui:repeat var="para" value="#{systemDatabaseBean.creationParams}">
           <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
             <p:outputLabel for="creationParam" value="#{para.label}" />
@@ -166,24 +175,24 @@
         
         <p:poll autoStart="#{systemDatabaseBean.dbCreatorRunning}" id="convertingOutputPoll"
           widgetVar="convertingOutputPoll" update="@form" interval="2" />
-        <p:staticMessage id="creationError" severity="error" summary="Error" detail="#{systemDatabaseBean.dbCreatorError}"
+        <p:staticMessage id="creationError" severity="error" summary="#{ivy.cms.co('/common/Error')}" detail="#{systemDatabaseBean.dbCreatorError}"
           rendered="#{not empty systemDatabaseBean.dbCreatorError}" />
-        <p:staticMessage id="creationInfo" severity="info" summary="Info" detail="The database was created successfully. Please check the connection!"
+        <p:staticMessage id="creationInfo" severity="info" summary="#{ivy.cms.co('/common/Info')}" detail="#{ivy.cms.co('/systemDb/CreateDatabaseSucessfulMessage')}"
           rendered="#{systemDatabaseBean.dbCreatorFinished}" />
       </div>
 
       <div class="custom-dialog-footer">
         <h:panelGroup rendered="#{!systemDatabaseBean.dbCreatorFinished}">
-          <p:commandButton value="Cancel" rendered="#{!systemDatabaseBean.dbCreatorRunning}" styleClass="ui-button-secondary ui-button-flat modal-input-button"
+          <p:commandButton value="#{ivy.cms.co('/common/Cancel')}" rendered="#{!systemDatabaseBean.dbCreatorRunning}" styleClass="ui-button-secondary ui-button-flat modal-input-button"
             oncomplete="PF('createDatabaseDialog').hide();" />
-          <p:commandButton id="confirmCreateButton" value="Save and create"
+          <p:commandButton id="confirmCreateButton" value="#{ivy.cms.co('/common/SaveAndCreate')}"
             disabled="#{systemDatabaseBean.dbCreatorRunning}"
             icon="si si-#{systemDatabaseBean.dbCreatorRunning ? 'button-refresh-arrows si-is-spinning' : 'database-settings'}"
             actionListener="#{systemDatabaseBean.createDatabase}" style="width: 170px;" update="@form"
             styleClass="modal-input-button" />
         </h:panelGroup>
         <h:panelGroup rendered="#{systemDatabaseBean.dbCreatorFinished}">
-          <p:commandButton id="closeCreationButton" value="Connect" icon="si si-check-1"
+          <p:commandButton id="closeCreationButton" value="#{ivy.cms.co('/systemDb/Connect')}" icon="si si-check-1"
             actionListener="#{systemDatabaseBean.testConnection}" onclick="PF('createDatabaseDialog').hide();"
             update="#{cc.attrs.updateFields}" styleClass="modal-input-button" />
         </h:panelGroup>
@@ -191,30 +200,30 @@
     </h:form>
   </p:dialog>
 
-  <p:dialog widgetVar="addAdditionalPropertyDialog" id="addAdditionalPropertyDialog" header="Additional property"
+  <p:dialog widgetVar="addAdditionalPropertyDialog" id="addAdditionalPropertyDialog" header="#{ivy.cms.co('/systemDb/AddAdditionalPropertyDialogHeader')}"
     modal="true" closeOnEscape="true" focus="addAdditionalPropertyForm:key">
     <h:form id="addAdditionalPropertyForm" styleClass="custom-dialog-form">
       <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
-        <p:outputLabel for="key" value="Key" />
+        <p:outputLabel for="key" value="#{ivy.cms.co('/common/Key')}" />
         <h:panelGroup styleClass="md-inputfield">
-          <p:inputText id="key" requiredMessage="Value is required" disabled="#{not empty systemDatabaseBean.propKey}"
+          <p:inputText id="key" requiredMessage="#{ivy.cms.co('/common/RequiredMessage')}" disabled="#{not empty systemDatabaseBean.propKey}"
             value="#{systemDatabaseBean.propKey}" required="true" />
           <p:message for="key" id="keyMessage" />
         </h:panelGroup>
 
-        <p:outputLabel for="value" value="Value" />
+        <p:outputLabel for="value" value="#{ivy.cms.co('/common/Value')}" />
         <h:panelGroup styleClass="md-inputfield">
-          <p:inputText id="value" requiredMessage="Value is required" value="#{systemDatabaseBean.propValue}"
+          <p:inputText id="value" requiredMessage="#{ivy.cms.co('/common/RequiredMessage')}" value="#{systemDatabaseBean.propValue}"
             required="true" />
           <p:message for="value" id="valueMessage" />
         </h:panelGroup>
       </p:panelGrid>
       <div class="custom-dialog-footer">
-        <p:commandButton id="cancelEditAdmin" onclick="PF('addAdditionalPropertyDialog').hide();" value="Cancel"
+        <p:commandButton id="cancelEditAdmin" onclick="PF('addAdditionalPropertyDialog').hide();" value="#{ivy.cms.co('/common/Cancel')}"
           type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
         <p:commandButton id="saveProperty" validateClient="true"
           update="@form,systemDb:systemDbForm:additionalPropertiesTable,#{cc.attrs.updateFields}" actionListener="#{systemDatabaseBean.saveProp()}"
-          value="Save" icon="si si-floppy-disk" styleClass="modal-input-button"
+          value="#{ivy.cms.co('/common/Save')}" icon="si si-floppy-disk" styleClass="modal-input-button"
           oncomplete="if (!args.validationFailed) PF('addAdditionalPropertyDialog').hide();" />
       </div>
     </h:form>

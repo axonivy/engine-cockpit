@@ -1,9 +1,61 @@
+administrators:
+  ConfirmPassword: Confirm Password
+  DeleteAdminButton: Delete
+  DeleteAdminButtonTitle: Delete
+  DeleteAdminDialogHeader: Delete {0}
+  DeleteAdminDialogMessage: Are you sure you want to delete the administrator ''{0}''?
+  EditAdminButtonTitle: Edit
+  EditAdminDialogHeader: Add / Edit Administrator
+  Email: Email
+  FullName: Full Name
+  NotMatchPasswordMessage: Password didn't match
+  Password: Password
+  Search: Search
 common:
   Applications: Applications
+  AxonIvyEngine: Axon Ivy Engine
   Cancel: Cancel
+  Cockpit: Cockpit
+  Default: Default
   EngineCockpit: Engine Cockpit
+  Error: Error
+  Finish: Finish
+  Finished: Finished
+  Info: Info
+  Key: Key
+  Login: Login
+  Migration: Migration
+  Name: Name
+  Next: Next
+  OK: OK
+  Port: Port
+  Previous: Previous
   RequiredMessage: Value is required
+  Reset: Reset
+  Restart: Restart
+  Save: Save
+  SaveAndCreate: Save and create
+  Setup: Setup
   Start: Start
+  Success: Success
+  Value: Value
+exception:
+  AjaxExceptionDialogHeader: Error
+  ViewExpiredExceptionDialogContent: The view or session has expired.
+  ViewExpiredExceptionDialogHeader: View or Session Expired
+exceptionDetail:
+  Application: Application
+  Attributes: Attributes
+  Element: 'Element:'
+  Process: 'Process:'
+  ProcessCallStack: Process call stack
+  RequestUri: Request Uri
+  Servlet: Servlet
+  StackTrace: Stack-Trace
+  TechnicalCause: Technical cause
+  ThreadLocalValues: Thread local values
+  ThrownBy: Thrown by
+  UnexpectedErrorOccured: 'An unexpected error has occured:'
 info:
   DemoPortal: Demo Portal
   DemoPortalIntroduction: The demo portal offers the perfect entry point to explore and experience the powerful features of the Axon Ivy platform as a workflow engine. It allows users to discover how easily complex business processes can be automated, streamlined, and optimized. Whether you're looking
@@ -21,6 +73,16 @@ info:
   OpenLink: Open 〉
   ShutdownEngineConfirmationMessage: Do you really want to shutdown the Axon Ivy Engine?
   ShutdownEngineMessage: The Axon Ivy Engine is shutting down. You can close the window.
+licence:
+  ChooseLicence: Choose licence
+  ChooseLicencePlaceholder: 'Choose or drop a file which ends with: .lic'
+  EngineRunsInMaintenanceMode: Your engine runs in maintenance mode.
+  ExpiredLicenceMessage: Your licence has expired. {0}
+  InvalidLicenceMessage: Invalid licence installed. {0}
+  Never: Never
+  SuccessfullyUploadedMessage: Successfully uploaded licence
+  Unlimited: Unlimited
+  UploadValidLicence: Please upload a valid licence.
 migrate:
   BackupSystemDatabaseRemindMessage: Before you start the Migration make sure you have a backup of your system database and the whole Axon Ivy Engine installation directory.
   Checks: Checks
@@ -33,6 +95,7 @@ migrate:
   InvalidLicenceMessage: 'Licence is not valid. Please upload a new licence otherwise you can not start the Axon Ivy Engine after migration. Reason: {0}'
   Licence: Licence
   LoadLocation: Load Location
+  Location: Location
   LocationValidationErrorMessage: Error during validation of the location
   Log: Log
   MigrateOldEngine: Migrate old Axon Ivy Engine
@@ -46,3 +109,57 @@ migrate:
   Upload: Upload
   ValidLicenceFoundMessage: Valid licence found.
   WriteConfigurationFilesToTemporaryDirectory: Write configuration files to temporary directory
+progressLoader:
+  Loading: Loading...
+setup:
+  Administrators: Administrators
+  ConfigurationIncompleteDetailFirstPart: 'You have warnings in your '
+  ConfigurationIncompleteDetailSecondPart: ' configuration.'
+  ConfigurationIncompleteSummary: Configuration incomplete
+  EngineRestartDetail: Your engine needs to be restarted to finish the setup process!
+  EngineRestartSummary: Engine restart
+  FinishSetupWizard: Finish Setup Wizard
+  Licence: Licence
+  Storage: Storage
+  SystemDatabase: System Database
+  WebServer: Web Server
+setupAdmins:
+  AddAdministratorButton: Add Administrator
+  AddAdministratorButtonTitle: Edit
+  AdminAddedMessage: '''''{0}'''' added successfully'
+  AdminModifiedMessage: '''''{0}'''' modified successfully'
+  AdminRemovedMessage: '''''{0}'''' removed successfully'
+  StepWarningMessage: Please configure at least one admin!
+setupStorage:
+  AppDirectory: App Directory
+  DataDirectory: Data Directory
+  DirectoryChangesMessage: Directory changes saved successfully
+  StepWarningMessage: AppDirectory shouldn't be empty
+systemDb:
+  AddAdditionalPropertyDialogHeader: Additional property
+  AddProperty: Add Property
+  AdditionalProperties: Additional Properties
+  CheckConnection: Check Connection
+  Connect: Connect
+  CreateDatabase: Create Database
+  CreateDatabaseDialogDetail: Enter the required parameters for your System Database configuration
+  CreateDatabaseDialogHeader: Create System Database
+  CreateDatabaseSucessfulMessage: The database was created successfully. Please check the connection!
+  Database: Database
+  DatabaseNotPersistentDetail: Please configure a persistent database to use this engine in a productive environment.
+  DatabaseNotPersistentSummary: Database not persistent
+  DeleteButtonTitle: Delete
+  Driver: Driver
+  SystemDatabaseConfigSavedSuccessfulMessage: System Database config saved successfully
+webServer:
+  ChangedConfigSuccessfulMessage: '''''{0}'''' changed successfully'
+  Enabled: 'Enabled:'
+  HTTPConnector: HTTP Connector
+  HTTPSConnectorctor: HTTPS Connector
+  Port: 'Port:'
+  StepWarningMessage: Enable at least the HTTP or HTTPS Connector
+wizard:
+  Dark: Dark
+  Help: Help
+  Light: Light
+  Logout: Logout

@@ -26,6 +26,7 @@ import ch.ivyteam.enginecockpit.system.model.ConnectionInfo;
 import ch.ivyteam.enginecockpit.system.model.SystemDbConnectionProperty;
 import ch.ivyteam.enginecockpit.system.model.SystemDbCreationParameter;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTester;
 import ch.ivyteam.ivy.persistence.db.init.SystemDatabaseCreator;
 import ch.ivyteam.ivy.persistence.db.init.SystemDatabaseSetup;
@@ -179,9 +180,8 @@ public class SystemDatabaseBean extends StepStatus {
         .dbConnectionConfig(dbConnectionConfig)
         .toSystemDatabaseConfig();
     SystemDatabaseSetup.saveSystemDatabaseConfig(newSystemDbConfig);
-    FacesContext.getCurrentInstance().addMessage("systemDbSave",
-        new FacesMessage(FacesMessage.SEVERITY_INFO, "Success",
-            "System Database config saved successfully"));
+    FacesContext.getCurrentInstance().addMessage("systemDbSave", new FacesMessage(FacesMessage.SEVERITY_INFO,
+        Ivy.cm().co("/common/Success"), Ivy.cm().co("/systemDb/SystemDatabaseConfigSavedSuccessfulMessage")));
   }
 
   public void saveConfigurationAndRestart() throws IOException {
@@ -215,7 +215,7 @@ public class SystemDatabaseBean extends StepStatus {
   public boolean isDbCreatorFinished() {
     return creator != null &&
         !creator.isRunning() &&
-        Objects.equals(creator.getProgressText(), "Finished") &&
+        Objects.equals(creator.getProgressText(), Ivy.cm().co("/common/Finished")) &&
         getDbCreatorError().isBlank();
   }
 
@@ -264,7 +264,7 @@ public class SystemDatabaseBean extends StepStatus {
   }
 
   private static boolean wasDefaultPort(SystemDbConnectionProperty oldPort) {
-    return Objects.equals(oldPort.getProperty().getLabel(), "Port") && oldPort.isDefaultValue();
+    return Objects.equals(oldPort.getProperty().getLabel(), Ivy.cm().co("/common/Port")) && oldPort.isDefaultValue();
   }
 
   private DatabaseConnectionConfiguration createConfiguration() {

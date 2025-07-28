@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.setup;
 
+import java.util.Arrays;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -7,6 +9,7 @@ import javax.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -68,8 +71,8 @@ public class WebServerConnectorBean extends StepStatus {
 
   private void setConfig(String key, Object httpEnabled) {
     IConfiguration.instance().set(key, httpEnabled);
-    FacesContext.getCurrentInstance().addMessage("",
-        new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + key + "' changed successfully", ""));
+    FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO,
+        Ivy.cms().co("/webServer/ChangedConfigSuccessfulMessage", Arrays.asList(key)), ""));
   }
 
   @Override
@@ -79,6 +82,6 @@ public class WebServerConnectorBean extends StepStatus {
 
   @Override
   public String getStepWarningMessage() {
-    return "Enable at least the HTTP or HTTPS Connector";
+    return Ivy.cm().co("/webServer/StepWarningMessage");
   }
 }

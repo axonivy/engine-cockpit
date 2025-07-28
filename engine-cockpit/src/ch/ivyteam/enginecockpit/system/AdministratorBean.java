@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,7 @@ import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.security.model.User;
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.administrator.AdministratorService;
 
 @ManagedBean
@@ -48,9 +50,8 @@ public class AdministratorBean extends StepStatus {
   public void removeAdmin() {
     AdministratorService.instance().find(editAdmin.getName())
         .ifPresent(a -> AdministratorService.instance().remove(a));
-    FacesContext.getCurrentInstance().addMessage("",
-        new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + editAdmin.getName() + "' removed successfully",
-            ""));
+    FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO,
+        Ivy.cms().co("/setupAdmins/AdminRemovedMessage", Arrays.asList(editAdmin.getName())), ""));
     admins.remove(editAdmin);
   }
 
@@ -69,16 +70,16 @@ public class AdministratorBean extends StepStatus {
 
   @Override
   public String getStepWarningMessage() {
-    return "Please configure at least one admin!";
+    return Ivy.cm().co("/setupAdmins/StepWarningMessage");
   }
 
   public void saveAdmin() {
     var message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-        "'" + editAdmin.getName() + "' modified successfully", "");
+        Ivy.cms().co("/setupAdmins/AdminModifiedMessage", Arrays.asList(editAdmin.getName())), "");
     if (!admins.contains(editAdmin)) {
       admins.add(editAdmin);
       message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-          "'" + editAdmin.getName() + "' added successfully", "");
+          Ivy.cms().co("/setupAdmins/AdminAddedMessage", Arrays.asList(editAdmin.getName())), "");
     }
     FacesContext.getCurrentInstance().addMessage("", message);
     AdministratorService.instance().save(editAdmin.getAdmin());
@@ -86,5 +87,15 @@ public class AdministratorBean extends StepStatus {
 
   public boolean hasAdmins() {
     return !admins.isEmpty();
+  }
+
+  public String getDeleteAdminDialogHeader() {
+    return Ivy.cms().co("/administrators/DeleteAdminDialogHeader",
+        Arrays.asList(editAdmin != null ? editAdmin.getName() : ""));
+  }
+
+  public String getDeleteAdminDialogMessage() {
+    return Ivy.cms().co("/administrators/DeleteAdminDialogMessage",
+        Arrays.asList(editAdmin != null ? editAdmin.getName() : ""));
   }
 }

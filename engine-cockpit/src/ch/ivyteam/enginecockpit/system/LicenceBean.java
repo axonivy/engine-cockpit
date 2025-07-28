@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.system;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ import org.primefaces.model.file.UploadedFile;
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.enginecockpit.system.model.LicenceMessage;
 import ch.ivyteam.ivy.cluster.restricted.IClusterManager;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
@@ -52,11 +54,12 @@ public class LicenceBean extends StepStatus {
   }
 
   public void handleUploadLicence(FileUploadEvent event) {
-    var message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Successfully uploaded licence");
+    var message = new FacesMessage(FacesMessage.SEVERITY_INFO, Ivy.cm().co("/common/Success"),
+        Ivy.cm().co("/licence/SuccessfullyUploadedMessage"));
     try (var in = event.getFile().getInputStream()) {
       NewLicenceFileInstaller.install(event.getFile().getFileName(), in);
     } catch (Exception ex) {
-      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage());
+      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"), ex.getMessage());
     }
     FacesContext.getCurrentInstance().addMessage(null, message);
   }
@@ -87,7 +90,7 @@ public class LicenceBean extends StepStatus {
 
   public String getExpiryDate() {
     var expiryDate = getValueFromProperty(LICENCE_VALID_UNTIL);
-    return StringUtils.isBlank(expiryDate) ? "Never" : expiryDate;
+    return StringUtils.isBlank(expiryDate) ? Ivy.cm().co("/licence/Never") : expiryDate;
   }
 
   public boolean showExpiryWarning() {
@@ -117,7 +120,7 @@ public class LicenceBean extends StepStatus {
     var nodes = IClusterManager.instance().getNumberOfRunningClusterNodes();
     var nodesLimit = getValueFromProperty(LicenceConstants.PARAM_SRV_MAX_NODES);
     if (StringUtils.isBlank(nodesLimit)) {
-      nodesLimit = "Unlimited";
+      nodesLimit = Ivy.cm().co("/licence/Unlimited");
     }
     return nodes + " / " + nodesLimit;
   }
@@ -143,13 +146,13 @@ public class LicenceBean extends StepStatus {
   }
 
   public String getProblemMessage() {
-    var maintenanceMode = EngineMode.is(EngineMode.MAINTENANCE) ? " Your engine runs in maintenance mode."
-        : "";
+    var maintenanceMode =
+        EngineMode.is(EngineMode.MAINTENANCE) ? Ivy.cm().co("/licence/EngineRunsInMaintenanceMode") : "";
     if (isExpired()) {
-      return "Your licence has expired." + maintenanceMode;
+      return Ivy.cms().co("/licence/EngineRunsInMaintenanceMode", Arrays.asList(maintenanceMode));
     }
     if (!isValid()) {
-      return "Invalid licence installed." + maintenanceMode;
+      return Ivy.cms().co("/licence/InvalidLicenceMessage", Arrays.asList(maintenanceMode));
     }
     return "";
   }
@@ -161,7 +164,7 @@ public class LicenceBean extends StepStatus {
 
   @Override
   public String getStepWarningMessage() {
-    return isDemo() ? "Please upload a valid licence." : getProblemMessage();
+    return isDemo() ? Ivy.cm().co("/licence/UploadValidLicence") : getProblemMessage();
   }
 
   public List<LicenceMessage> getLicenceEvents() {
@@ -189,7 +192,7 @@ public class LicenceBean extends StepStatus {
     if (sessionLimit != null && NumberUtils.isParsable(sessionLimit) && Long.parseLong(sessionLimit) > 0) {
       return licensedSessions + " / " + sessionLimit;
     }
-    return licensedSessions + " / Unlimited";
+    return licensedSessions + " / " + Ivy.cm().co("/licence/Unlimited");
   }
 
   private String calculateUsers() {
@@ -198,7 +201,7 @@ public class LicenceBean extends StepStatus {
     if (usersLimit != null && NumberUtils.isParsable(usersLimit) && Long.parseLong(usersLimit) > 0) {
       return licensedUsers + " / " + usersLimit;
     }
-    return licensedUsers + " / Unlimited";
+    return licensedUsers + " / " + Ivy.cm().co("/licence/Unlimited");
   }
 
   private void reloadLicenceMessages() {

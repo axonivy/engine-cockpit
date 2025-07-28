@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -77,7 +78,7 @@ public class StorageBean extends StepStatus {
 
   private void showChangeMessage() {
     FacesContext.getCurrentInstance().addMessage("",
-        new FacesMessage(FacesMessage.SEVERITY_INFO, "Directory changes saved successfully", ""));
+        new FacesMessage(FacesMessage.SEVERITY_INFO, Ivy.cm().co("/setupStorage/DirectoryChangesMessage"), ""));
   }
 
   @Override
@@ -87,7 +88,7 @@ public class StorageBean extends StepStatus {
 
   @Override
   public String getStepWarningMessage() {
-    return "AppDirectory shouldn't be empty";
+    return Ivy.cm().co("/setupStorage/StepWarningMessage");
   }
 
 }
