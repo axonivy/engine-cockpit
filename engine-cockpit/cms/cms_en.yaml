@@ -11,6 +11,15 @@ administrators:
   NotMatchPasswordMessage: Password didn't match
   Password: Password
   Search: Search
+axonivy:
+  AxonIvy: Axon Ivy
+  AxonIvyAG: Axon Ivy AG
+  Build: Build
+  Copyright: Copyright
+  CopyrightValue: '&copy; 2001 - '
+  InstallationDirectory: Installation Directory
+  Product: Product
+  Version: Version
 common:
   Applications: Applications
   AxonIvyEngine: Axon Ivy Engine
@@ -19,8 +28,11 @@ common:
   Default: Default
   EngineCockpit: Engine Cockpit
   Error: Error
+  Failed: Failed
+  Failure: Failure
   Finish: Finish
   Finished: Finished
+  Help: Help
   Info: Info
   Key: Key
   Login: Login
@@ -35,10 +47,24 @@ common:
   Restart: Restart
   Save: Save
   SaveAndCreate: Save and create
+  Send: Send
   Setup: Setup
   Start: Start
   Success: Success
   Value: Value
+dashboard:
+  Applications: Applications
+  RunningCases: Running Cases
+  Sessions: Sessions
+  Users: Users
+email:
+  ConfigureEmailServer: Configure Email Server
+  Email: Email
+  MailAddress: Mail address
+  Port: Port
+  SendTestMail: Send Test Mail
+  Server: Server
+  User: User
 exception:
   AjaxExceptionDialogHeader: Error
   ViewExpiredExceptionDialogContent: The view or session has expired.
@@ -56,6 +82,14 @@ exceptionDetail:
   ThreadLocalValues: Thread local values
   ThrownBy: Thrown by
   UnexpectedErrorOccured: 'An unexpected error has occured:'
+health:
+  Health: Health
+  HealthDetails: Health Details
+  HealthyMessage: No problems detected. Engine is healthy.
+  Problems: Problems
+  ProblemsDetectedMessage: '{0} problems detected.'
+  RunHealthChecks: Run Health Checks
+  Severity: Severity
 info:
   DemoPortal: Demo Portal
   DemoPortalIntroduction: The demo portal offers the perfect entry point to explore and experience the powerful features of the Axon Ivy platform as a workflow engine. It allows users to discover how easily complex business processes can be automated, streamlined, and optimized. Whether you're looking
@@ -73,16 +107,46 @@ info:
   OpenLink: Open 〉
   ShutdownEngineConfirmationMessage: Do you really want to shutdown the Axon Ivy Engine?
   ShutdownEngineMessage: The Axon Ivy Engine is shutting down. You can close the window.
+java:
+  Java: Java
+  JavaDetails: Java Details
+  Product: Product
+  Vendor: Vendor
+  Version: Version
+javaInfo:
+  JVMArgumentTableHeader: JVM Argument
+  JavaDetailDialogHeader: Java Detail
 licence:
   ChooseLicence: Choose licence
   ChooseLicencePlaceholder: 'Choose or drop a file which ends with: .lic'
+  ClusterNodes: Cluster nodes
+  ConcurrentSessions: Concurrent sessions
+  ConfigureLicence: Configure Licence
+  EngineRunsInDemoMode: No licence installed. Your engine runs in demo mode.
   EngineRunsInMaintenanceMode: Your engine runs in maintenance mode.
   ExpiredLicenceMessage: Your licence has expired. {0}
+  ExpiredLicenceTouchYourSalesMessage: Your licence is about to expire. Please get in touch with your sales.
+  Expires: Expires
   InvalidLicenceMessage: Invalid licence installed. {0}
+  Licence: Licence
+  LicenceEvents: Licence Events
+  LicenceType: Licence type
+  NamedUsers: Named users
   Never: Never
+  Owner: Owner
   SuccessfullyUploadedMessage: Successfully uploaded licence
   Unlimited: Unlimited
+  UploadLicence: Never
   UploadValidLicence: Please upload a valid licence.
+login:
+  EngineCockpitLoginTitle: Engine Cockpit - Login
+  IvyYamlFile: ivy.yaml
+  LoginFooterCopyright: Copyright Ⓒ Axon Ivy
+  LoginFooterEngineCockpit: Engine Cockpit
+  NoAdministratorsConfigured: 'No administrators configured, check your '
+  PasswordPlaceholder: Username / Email
+  SignInButton: Sign In
+  UserNamePlaceholder: Password
 migrate:
   BackupSystemDatabaseRemindMessage: Before you start the Migration make sure you have a backup of your system database and the whole Axon Ivy Engine installation directory.
   Checks: Checks
@@ -111,6 +175,15 @@ migrate:
   WriteConfigurationFilesToTemporaryDirectory: Write configuration files to temporary directory
 progressLoader:
   Loading: Loading...
+sendtestmail:
+  Email: Email
+  Log: Log
+  Message: Message
+  SendTestMailDialogHeader: Send Test Mail
+  Subject: Subject
+  TestMailMessageDefault: This is a test mail.
+  TestMailSubjectDefault: Test Mail
+  To: To
 setup:
   Administrators: Administrators
   ConfigurationIncompleteDetailFirstPart: 'You have warnings in your '
@@ -135,12 +208,74 @@ setupStorage:
   DataDirectory: Data Directory
   DirectoryChangesMessage: Directory changes saved successfully
   StepWarningMessage: AppDirectory shouldn't be empty
+sidebar:
+  Administrators: Administrators
+  Applications: Applications
+  Branding: Branding
+  BusinessCalendar: Business Calendar
+  Cache: Cache
+  ClassHistogram: Class Histogram
+  Cluster: Cluster
+  ConfigFileEditor: Config File Editor
+  Configuration: Configuration
+  Dashboard: Dashboard
+  Databases: Databases
+  Documents: Documents
+  Engine: Engine
+  FlightRecorder: Flight Recorder
+  Health: Health
+  IntermediateEvents: Intermediate Events
+  JVM: JVM
+  Java: Java
+  Jobs: Jobs
+  Licence: Licence
+  Logs: Logs
+  MBeans: MBeans
+  Memory: Memory
+  Monitor: Monitor
+  NotificationChannels: Notification Channels
+  Notifications: Notifications
+  OS: OS
+  Performance: Performance
+  ProcessExecution: Process Execution
+  RestClients: Rest Clients
+  RestServices: Rest Services
+  Roles: Roles
+  SSL: SSL
+  SearchEngine: Search Engine
+  Security: Security
+  SecuritySystems: Security Systems
+  Services: Services
+  Sessions: Sessions
+  SlowRequests: Slow Requests
+  StartEvents: Start Events
+  System: System
+  SystemConfiguration: System Configuration
+  SystemDatabase: System Database
+  Threads: Threads
+  TrafficGraph: Traffic Graph
+  Users: Users
+  Variables: Variables
+  WebServer: Web Server
+  WebServiceClients: Web Service Clients
+  WebServiceProcesses: Web Service Processes
+  Workflow: Workflow
+systemDatabase:
+  ConfigureSystemDb: Configure SystemDb
+  Driver: Driver
+  HSQLMemoryDbIsUsedMessage: HSQL Memory Db is used
+  NoLicenceInstalledSummary: No licence installed
+  NoSystemDatabaseConfiguredSummary: Driver
+  SystemDatabase: System Database
+  URL: URL
 systemDb:
   AddAdditionalPropertyDialogHeader: Additional property
   AddProperty: Add Property
   AdditionalProperties: Additional Properties
   CheckConnection: Check Connection
   Connect: Connect
+  ConnectionInfoAdvise: Please check the connection to the Database.
+  ConnectionInfoLabel: Connection state unknown
   CreateDatabase: Create Database
   CreateDatabaseDialogDetail: Enter the required parameters for your System Database configuration
   CreateDatabaseDialogHeader: Create System Database
@@ -150,7 +285,16 @@ systemDb:
   DatabaseNotPersistentSummary: Database not persistent
   DeleteButtonTitle: Delete
   Driver: Driver
+  Error: 'Error: '
   SystemDatabaseConfigSavedSuccessfulMessage: System Database config saved successfully
+template:
+  ClusterModeWarning: |-
+    <b>Cluster Mode!</b><br/>
+    Configuration changes may only be applied on local node!
+  Logout: Logout
+  ServerIndex: Server Index
+  ShowHealthDetails: Show health details ...
+  SupportReport: Support Report
 webServer:
   ChangedConfigSuccessfulMessage: '''''{0}'''' changed successfully'
   Enabled: 'Enabled:'
@@ -160,6 +304,5 @@ webServer:
   StepWarningMessage: Enable at least the HTTP or HTTPS Connector
 wizard:
   Dark: Dark
-  Help: Help
   Light: Light
   Logout: Logout

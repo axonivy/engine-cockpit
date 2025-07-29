@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system.model;
 
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
 
 @SuppressWarnings("restriction")
@@ -14,8 +15,8 @@ public class ConnectionInfo {
   private Exception error;
 
   public ConnectionInfo() {
-    label = "Connection state unknown";
-    advise = "Please check the connection to the Database.";
+    label = Ivy.cm().co("/systemDb/ConnectionInfoLabel");
+    advise = Ivy.cm().co("/systemDb/ConnectionInfoAdvise");
     messageLevel = "ui-message-info";
     icon = "si si-question-circle";
   }
@@ -48,7 +49,7 @@ public class ConnectionInfo {
   }
 
   public String getErrorMessage() {
-    return hasError() ? "Error: " + error.getMessage() : "";
+    return hasError() ? Ivy.cm().co("/systemDb/Error") + error.getMessage() : "";
   }
 
   public String getMessageLevel() {

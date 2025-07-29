@@ -7,23 +7,23 @@
   <div class="card-header">
     <div class="card-title flex align-items-center">
       <i class="pr-3 si si-tools-wench"></i>
-      <h6 class="m-0">Axon Ivy</h6>
+      <h6 class="m-0">#{ivy.cm.co('/axonivy/AxonIvy')}</h6>
     </div>
   </div>
   <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8"
     styleClass="grey-label-panel">
-    <label>Product</label>
+    <label>#{ivy.cm.co('/axonivy/Product')}</label>
     <h:outputText value="#{advisorBean.applicationName}" />
-    <label>Version</label>
+    <label>#{ivy.cm.co('/axonivy/Version')}</label>
     <h:outputText value="#{advisorBean.version}" />
-    <label>Build</label>
+    <label>#{ivy.cm.co('/axonivy/Build')}</label>
     <h:outputText value="#{advisorBean.buildDate}" />
-    <label>Copyright</label>
+    <label>#{ivy.cm.co('/axonivy/Copyright')}</label>
     <h:panelGroup>
       <h:outputText escape="false" value="#{advisorBean.copyright}" /> <!-- contains no user input, contains html-->
-      <a href='https://www.axonivy.com'>Axon Ivy AG</a>
+      <a href='https://www.axonivy.com'>#{ivy.cm.co('/axonivy/AxonIvyAG')}</a>
     </h:panelGroup>
-    <label>Installation Directory</label>
+    <label>#{ivy.cm.co('/axonivy/InstallationDirectory')}</label>
     <h:outputText value="#{advisorBean.installationDirectory}" style="word-break: break-all;"/>
   </p:panelGrid>
 </div>
