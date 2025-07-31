@@ -69,7 +69,7 @@ class WebTestDeployment {
       return;
     }
     toAppDetailAndOpenDeployment();
-    deployAndAssert("Using default>DeploymentOptions");
+    deployAndAssert("Using options>DeploymentOptions");
   }
 
   @Test
@@ -79,7 +79,7 @@ class WebTestDeployment {
     }
     toAppDetailAndOpenDeployment();
     showDeploymentOptions();
-    deployAndAssert("Using resource.params>DeploymentOptions");
+    deployAndAssert("Using options>DeploymentOptions");
   }
 
   private void deployAndAssert(String expectedDeployOptionsText) {
