@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import ch.ivyteam.ivy.deployment.DeploymentOptions.TargetFileFormat;
 import ch.ivyteam.ivy.deployment.DeploymentOptions.TargetState;
 import ch.ivyteam.ivy.deployment.DeploymentOptions.TargetVersion;
 import ch.ivyteam.ivy.deployment.DeploymentOptions.TestUser;
@@ -23,9 +22,6 @@ public class DeployOptionsBean {
 
   private String state = TargetState.ACTIVE_AND_RELEASED.name();
   private List<String> states = listNames(TargetState.values());
-
-  private String fileFormat = TargetFileFormat.AUTO.name();
-  private List<String> fileFormats = listNames(TargetFileFormat.values());
 
   private static List<String> listNames(Enum<?>[] vals) {
     return Arrays.stream(vals)
@@ -57,14 +53,6 @@ public class DeployOptionsBean {
     return states;
   }
 
-  public String getFileFormat() {
-    return fileFormat;
-  }
-
-  public List<String> getFileFormats() {
-    return fileFormats;
-  }
-
   public void setDeployTestUsers(String deployTestUsers) {
     this.deployTestUsers = deployTestUsers;
   }
@@ -88,13 +76,4 @@ public class DeployOptionsBean {
   public void setStates(List<String> states) {
     this.states = states;
   }
-
-  public void setFileFormat(String fileFormat) {
-    this.fileFormat = fileFormat;
-  }
-
-  public void setFileFormats(List<String> fileFormats) {
-    this.fileFormats = fileFormats;
-  }
-
 }

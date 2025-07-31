@@ -116,7 +116,6 @@ class WebTestDeployment {
     PrimeUi.selectOne(By.id("deploymentModal:deployTestUsers")).selectedItemShould(exactText("AUTO"));
     PrimeUi.selectOne(By.id("deploymentModal:version")).selectedItemShould(exactText("AUTO"));
     PrimeUi.selectOne(By.id("deploymentModal:state")).selectedItemShould(exactText("ACTIVE_AND_RELEASED"));
-    PrimeUi.selectOne(By.id("deploymentModal:fileFormat")).selectedItemShould(exactText("AUTO"));
   }
 
   @Test
