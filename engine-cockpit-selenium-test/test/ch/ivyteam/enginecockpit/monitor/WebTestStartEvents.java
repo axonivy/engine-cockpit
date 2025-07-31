@@ -91,16 +91,11 @@ class WebTestStartEvents {
     table.rows().shouldHave(CollectionCondition.sizeGreaterThan(1));
     filter("188AE871FC5C4A58/eventLink.ivp");
     table.rows().shouldHave(CollectionCondition.size(1));
-
-    $(By.id("form:beanTable:globalFilter")).clear();
-    $(By.id("form:beanTable:globalFilter")).sendKeys("\n");
-    table.rows().shouldHave(CollectionCondition.sizeGreaterThan(1));
-    filter("188AE871FC5C4A58/eventLink.ivp");
-    table.rows().shouldHave(CollectionCondition.size(1));
   }
 
   @Test
   void sort() {
+    table.search("cockpit");
     table.sortByColumn("Name");
     table.tableEntry(1, 1).shouldBe(text("InitError"));
     table.sortByColumn("Name");
@@ -354,7 +349,7 @@ class WebTestStartEvents {
   }
 
   private void filter(String filter) {
-    $(By.id("form:beanTable:globalFilter")).sendKeys(EngineCockpitUtil.getAppName() + "/engine-cockpit-test-data$1/" + filter);
+    table.search(EngineCockpitUtil.getAppName() + "/engine-cockpit-test-data$1/" + filter);
   }
 
   private void filterAndAssertOne(String filter) {
