@@ -8,6 +8,7 @@ import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.restricted.WorkflowContextInternal;
 
@@ -84,7 +85,7 @@ public class ProcessModel extends AbstractActivity {
 
   @Override
   public String getWarningMessageForNoReleasedPmv() {
-    return "No released process model version";
+    return Ivy.cm().co("/applications/WarningMessageForNoReleasedPmv");
   }
 
   @SuppressWarnings("restriction")

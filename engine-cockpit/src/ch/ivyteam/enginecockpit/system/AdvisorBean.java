@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.system;
 
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import javax.faces.bean.ManagedBean;
@@ -62,5 +63,25 @@ public class AdvisorBean {
 
   public String getInstallationDirectory() {
     return Paths.get("").toAbsolutePath().toString();
+  }
+
+  public String getRestartWarningMessage() {
+    return Ivy.cms().co("/restart/RestartWarningMessage", Arrays.asList(getApplicationName()));
+  }
+
+  public String getRestartWarningLink(long workingUsers) {
+    return Ivy.cms().co("/restart/RestartFirstWarningMessageSecondPart", Arrays.asList(workingUsers));
+  }
+
+  public String getRestartFirstWarningMessageThirdPart() {
+    return Ivy.cms().co("/restart/RestartFirstWarningMessageThirdPart", Arrays.asList(getApplicationName()));
+  }
+
+  public String getRestartSecondWarningMessage() {
+    return Ivy.cms().co("/restart/RestartSecondWarningMessage", Arrays.asList(getApplicationName()));
+  }
+
+  public String getRestartConfirmMessage() {
+    return Ivy.cms().co("/restart/RestartConfirmMessage", Arrays.asList(getApplicationName()));
   }
 }

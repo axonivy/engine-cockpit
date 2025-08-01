@@ -3,31 +3,31 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog header="Add new application" id="newApplicationModal"
+<p:dialog header="#{ivy.cm.co('/newApplication/AddNewApplicationDialogHeader')}" id="newApplicationModal"
   widgetVar="newApplicationModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="newApplicationForm" styleClass="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9"
       styleClass="grey-label-panel ui-fluid">
-      <p:outputLabel for="newApplicationNameInput" value="Name" />
+      <p:outputLabel for="newApplicationNameInput" value="#{ivy.cm.co('/common/Name')}" />
       <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="newApplicationNameInput" requiredMessage="Value is required"
+        <p:inputText id="newApplicationNameInput" requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}"
           value="#{applicationBean.newApplication.name}" required="true" />
         <p:message for="newApplicationNameInput" id="newApplicationNameMessage" />
       </h:panelGroup>
 
-      <p:outputLabel for="newApplicationSecSystemInput" value="Security System" />
+      <p:outputLabel for="newApplicationSecSystemInput" value="#{ivy.cm.co('/common/SecuritySystem')}" />
       <p:selectOneMenu id="newApplicationSecSystemInput" value="#{applicationBean.newApplication.secSystem}">
         <f:selectItems value="#{securityBean.availableSecuritySystems}" />
       </p:selectOneMenu>
 
-      <p:outputLabel for="newApplicationActivate" value="Activate" />
+      <p:outputLabel for="newApplicationActivate" value="#{ivy.cm.co('/common/Activate')}" />
       <p:selectBooleanCheckbox id="newApplicationActivate" value="#{applicationBean.activateNewApp}" />
     </p:panelGrid>
     <div class="custom-dialog-footer">
       <p:commandButton id="saveNewApplication" validateClient="true" ajax="false"
-        actionListener="#{applicationBean.createNewApplication}" value="Save" icon="si si-floppy-disk"
+        actionListener="#{applicationBean.createNewApplication}" value="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk"
         styleClass="modal-input-button" />
-      <p:commandButton id="cancelNewApplication" onclick="PF('newApplicationModal').hide();" value="Cancel"
+      <p:commandButton id="cancelNewApplication" onclick="PF('newApplicationModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
         type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
     </div>
   </h:form>

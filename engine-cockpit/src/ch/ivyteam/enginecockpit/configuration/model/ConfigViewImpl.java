@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.configuration.model;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -16,6 +17,7 @@ import ch.ivyteam.enginecockpit.commons.ContentFilter;
 import ch.ivyteam.enginecockpit.commons.TableFilter;
 import ch.ivyteam.ivy.configuration.internal.Configuration;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @SuppressWarnings("restriction")
 public class ConfigViewImpl implements TableFilter, ConfigView {
@@ -147,23 +149,24 @@ public class ConfigViewImpl implements TableFilter, ConfigView {
     if (filteredConfigs != null) {
       filteredConfigs.remove(activeConfig);
     }
-    reloadAndUiMessage("reset");
+    String resetMessage = Ivy.cms().co("/configuration/ConfigReset", Arrays.asList(activeConfig.getKey()));
+    reloadAndUiMessage(resetMessage);
   }
 
   @Override
   public void saveConfig() {
     configuration.set(activeConfig.getKey(), activeConfig.getValue());
-    reloadAndUiMessage("saved");
+    String savedMessage = Ivy.cms().co("/configuration/ConfigSaved", Arrays.asList(activeConfig.getKey()));
+    reloadAndUiMessage(savedMessage);
   }
 
   private void reloadAndUiMessage(String message) {
     reloadConfigs();
-    FacesContext.getCurrentInstance().addMessage("msgs",
-        new FacesMessage("'" + activeConfig.getKey() + "' " + message));
+    FacesContext.getCurrentInstance().addMessage("msgs", new FacesMessage(message));
     triggerTableFilter();
   }
 
   public static ContentFilter<ConfigProperty> defaultFilter() {
-    return new ContentFilter<>(DEFINED_FILTER, "Show only defined values", c -> !c.isDefault());
+    return new ContentFilter<>(DEFINED_FILTER, Ivy.cm().co("/configuration/ShowOnlyDefinedValuesMessage"), c -> !c.isDefault());
   }
 }

@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.security.system.compare;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -13,6 +14,7 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISecurityManager;
@@ -89,7 +91,8 @@ public class SecuritySystemCompareBean {
       solved.add(issue);
     } else {
       if (showMessage) {
-        var message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Exceution failed", solveResult.error());
+        var message = new FacesMessage(FacesMessage.SEVERITY_WARN, Ivy.cm().co("/securitySystemMerge/ExceutionFailed"),
+            solveResult.error());
         FacesContext.getCurrentInstance().addMessage("msgs", message);
       }
     }
@@ -97,10 +100,14 @@ public class SecuritySystemCompareBean {
 
   public String solveHint(Issue issue) {
     return switch (issue.solver().type()) {
-      case CREATE -> "This will create the entry in the target security system " + targetSecuritySystem;
-      case UPDATE -> "This will update the entry in the target security system " + targetSecuritySystem;
-      case DELETE -> "This will delete the entry in the target security system " + targetSecuritySystem;
+      case CREATE -> Ivy.cms().co("/securitySystemMerge/CreateSolveHintMessage", Arrays.asList(targetSecuritySystem));
+      case UPDATE -> Ivy.cms().co("/securitySystemMerge/UpdateSolveHintMessage", Arrays.asList(targetSecuritySystem));
+      case DELETE -> Ivy.cms().co("/securitySystemMerge/DeleteSolveHintMessage", Arrays.asList(targetSecuritySystem));
     };
+  }
+
+  public String getIssueChangedDialogMessage(Issue issue) {
+    return Ivy.cms().co("/securitySystemMerge/ApplyChangeDialogMessage", Arrays.asList(issue.solver().type()));
   }
 
   public void solveCreateIssues() {

@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.application.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -9,6 +10,7 @@ import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IActivity;
+import ch.ivyteam.ivy.environment.Ivy;
 
 public abstract class AbstractActivity {
   private String name;
@@ -114,7 +116,7 @@ public abstract class AbstractActivity {
   }
 
   public String getDeleteHint() {
-    return "Are you sure you want to delete this " + getActivityType() + "?";
+    return Ivy.cms().co("/applications/DeleteHintMessage", Arrays.asList(getActivityType()));
   }
 
   public void activate() {
@@ -149,13 +151,13 @@ public abstract class AbstractActivity {
       reloadBean(reloadOnlyStats);
       Message.info()
           .clientId("applicationMessage")
-          .summary("Successfully " + action + " module")
+          .summary(Ivy.cms().co("/applications/ExecutionSuccessMessageSummary", Arrays.asList(action)))
           .detail(getActivityType() + " " + getName())
           .show();
     } catch (IllegalStateException ex) {
       Message.error()
           .clientId("applicationMessage")
-          .summary("Could not " + action + " module")
+          .summary(Ivy.cms().co("/applications/ExecutionErrorMessageSummary", Arrays.asList(action)))
           .detail(ex.getMessage())
           .exception(ex)
           .show();

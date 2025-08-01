@@ -8,14 +8,14 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-lock-1"></i>
-        <h6 class="m-0">Security System</h6>
-        <p:commandButton id="moveApplication" title="Change Security System" type="button" icon="si si-pencil" onclick="PF('moveApplicationModal').show();"
+        <h6 class="m-0">#{ivy.cm.co('/common/SecuritySystem')}</h6>
+        <p:commandButton id="moveApplication" title="#{ivy.cm.co('/security/ChangeSecuritySystem')}" type="button" icon="si si-pencil" onclick="PF('moveApplicationModal').show();"
           styleClass="flex-shrink-0 ml-auto rounded-button">
             <p:ajax listener="#{moveApplicationBean.setApp(applicationDetailBean.application)}" update="moveApplicationForm" />
         </p:commandButton>
         <p:commandButton id="synchronizeSecurity"
           rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
-          title="Synchronize" type="button"
+          title="#{ivy.cm.co('/common/Synchronize')}" type="button"
           icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''}"
           styleClass="ml-1 ui-button-secondary rounded-button spin-icon" onclick="PF('logPoller').start()">
           <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
@@ -26,16 +26,16 @@
       </div>
     </div>
     <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex" styleClass="grey-label-panel">
-      <label>Name</label>
+      <label>#{ivy.cm.co('/common/Name')}</label>
       <h:outputLink value="#{applicationDetailBean.securitySystem.link}">
         <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemName}"
           rendered="#{not empty applicationDetailBean.securitySystem.link}">
           <i class="si si-lock-1 link-icon"></i>
         </h:outputText>
       </h:outputLink>
-      <label>Provider</label>
+      <label>#{ivy.cm.co('/common/Provider')}</label>
       <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemProvider}" />
-      <label>Users</label>
+      <label>#{ivy.cm.co('/common/Users')}</label>
       <h:outputLink value="users.xhtml">
         <h:outputText value="#{applicationDetailBean.securitySystem.usersCount}">
           <i class="si si-single-neutral-actions link-icon"></i>

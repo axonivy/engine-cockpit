@@ -9,9 +9,9 @@
 
   <ui:composition template="../includes/template/template.xhtml">
     <ui:define name="breadcrumb">
-      <li><span>Security</span></li>
+      <li><span>#{ivy.cm.co('/securitySystemMerge/Security')}</span></li>
       <li>/</li>
-      <li><a href="securitysystem.xhtml">Merge Security Systems</a></li>
+      <li><a href="securitysystem.xhtml">#{ivy.cm.co('/securitySystemMerge/MergeSecuritySystems')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -25,22 +25,22 @@
             <p:autoUpdate />
           </p:growl>
           <div class="flex align-items-center mb-3">
-            <i class="pr-3 si si-move-to-bottom card-title-icon"></i>
-            <h2 class="m-0">Merge Security Systems</h2>
+            <i class="pr-3 si si-move-to-bottom card-title-icon" />
+            <h2 class="m-0">#{ivy.cm.co('/securitySystemMerge/MergeSecuritySystems')}</h2>
           </div>
 
           <p:panelGrid columns="1" layout="flex" styleClass="compare-card">
-            <p:outputLabel style="font-weight: bold" for="sourceSecuritySystem">Source Security System</p:outputLabel>
-            <h:outputText id="sourceSecuritySystem" value="#{securitySystemCompareBean.sourceSecuritySystem}"></h:outputText>
+            <p:outputLabel style="font-weight: bold" for="sourceSecuritySystem" value="#{ivy.cm.co('/securitySystemMerge/SourceSecuritySystem')}" />
+            <h:outputText id="sourceSecuritySystem" value="#{securitySystemCompareBean.sourceSecuritySystem}" />
 
-            <p:outputLabel style="font-weight: bold" for="sourceSecuritySystem">Target Security System</p:outputLabel>
+            <p:outputLabel style="font-weight: bold" for="sourceSecuritySystem" value="#{ivy.cm.co('/securitySystemMerge/TargetSecuritySystem')}" />
             <p:selectOneMenu id="targetSecuritySystem" value="#{securitySystemCompareBean.targetSecuritySystem}">
               <f:selectItems value="#{securitySystemCompareBean.securitySystems}" var="securitySystem"
                 itemLabel="#{securitySystem}" itemValue="#{securitySystem}" />
             </p:selectOneMenu>
 
-            <p:commandButton update="form" id="compare" icon="si si-move-to-bottom" value="Compare" 
-              title="This will only compare the source with the target security system. This will NOT make any changes."
+            <p:commandButton update="form" id="compare" icon="si si-move-to-bottom" value="#{ivy.cm.co('/securitySystemMerge/CompareButton')}" 
+              title="#{ivy.cm.co('/securitySystemMerge/CompareButtonTitle')}"
               actionListener="#{securitySystemCompareBean.run}"
               oncomplete="var button=this; buttonRemoveSpinner(button, 'si-move-to-bottom');"
               onclick="var button=this; buttonAddSpinner(button);" 
@@ -48,72 +48,68 @@
           </p:panelGrid>
 
           <h:panelGroup rendered="#{securitySystemCompareBean.isReportAvailable()}">
-            <h3>Comparison Report</h3>
+            <h3>#{ivy.cm.co('/securitySystemMerge/ComparisonReport')}</h3>
 
-              <p:staticMessage severity="info" detail="To move an application from source to target security system the same users and roles must exist in
-                the target security system as in the source system. By executing all CREATE operations, all missing users and roles
-                will be created in the target security system. There is no need to execute the UPDATE operations or DELETE operations, but you may want
-                to cleanup the target security system with these operations. It could be that the role already exists, but this one is not actually the same role. If this is the case, the role must
-                be manually renamed in the target security system as well as the role in the Axon Ivy Project. Then the Axon Ivy Project must be redeployed." >
-              </p:staticMessage>
+              <p:staticMessage severity="info" detail="#{ivy.cm.co('/securitySystemMerge/ComparisonReportInfo')}" />
 
-              <p:commandButton value="Execute all CREATE operations" styleClass="mr-2 mb-2 ui-button-success"
-                title="This will run all CREATE operations in the target security system" update="report" icon="si si-add"
+              <p:commandButton value="#{ivy.cm.co('/securitySystemMerge/ExecuteAllCreateOperationsButton')}" styleClass="mr-2 mb-2 ui-button-success"
+                title="#{ivy.cm.co('/securitySystemMerge/ExecuteAllCreateOperationsButtonTitle')}" update="report" icon="si si-add"
                 actionListener="#{securitySystemCompareBean.solveCreateIssues()}">
-                <p:confirm header="Execute all CREATE operations"
-                  message="This will create all missing entries in the target security system" icon="ui-icon-alert" />
+                <p:confirm header="#{ivy.cm.co('/securitySystemMerge/ExecuteAllCreateOperationsConfirmDialogHeader')}"
+                  message="#{ivy.cm.co('/securitySystemMerge/ExecuteAllCreateOperationsConfirmDialogContent')}" icon="ui-icon-alert" />
               </p:commandButton>
 
-              <p:commandButton value="Execute all UPDATE operations" styleClass="mr-2 mb-2" icon="si si-navigation-right-circle"
-                title="This will run all UPDATE operations in the target security system" update="report"
+              <p:commandButton value="#{ivy.cm.co('/securitySystemMerge/ExecuteAllUpdateOperationsButton')}" styleClass="mr-2 mb-2" icon="si si-navigation-right-circle"
+                title="#{ivy.cm.co('/securitySystemMerge/ExecuteAllUpdateOperationsButtonTitle')}" update="report"
                 actionListener="#{securitySystemCompareBean.solveUpdateIssues()}">
-                <p:confirm header="Execute all UPDATE operations"
-                  message="This will update all entries in the target security system which are different from the source security system"
+                <p:confirm header="#{ivy.cm.co('/securitySystemMerge/ExecuteAllUpdateOperationsConfirmDialogHeader')}"
+                  message="#{ivy.cm.co('/securitySystemMerge/ExecuteAllUpdateOperationsConfirmDialogContent')}"
                   icon="ui-icon-alert" />
               </p:commandButton>
 
-              <p:commandButton value="Execute all DELETE operations" styleClass="mr-2 mb-2 ui-button-danger" icon="si si-bin-1"
-                title="This will run all DELETE operations in the target security system" update="report"
+              <p:commandButton value="#{ivy.cm.co('/securitySystemMerge/ExecuteAllDeleteOperationsButton')}" styleClass="mr-2 mb-2 ui-button-danger" icon="si si-bin-1"
+                title="#{ivy.cm.co('/securitySystemMerge/ExecuteAllDeleteOperationsButtonTitle')}" update="report"
                 actionListener="#{securitySystemCompareBean.solveDeleteIssues()}">
-                <p:confirm header="Execute all DELETE operations"
-                  message="This will delete all entries in the target security system which are missing in the source security system"
+                <p:confirm header="#{ivy.cm.co('/securitySystemMerge/ExecuteAllDeleteOperationsConfirmDialogHeader')}"
+                  message="#{ivy.cm.co('/securitySystemMerge/ExecuteAllDeleteOperationsConfirmDialogContent')}"
                   icon="ui-icon-alert" />
               </p:commandButton>
 
               <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
-                <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no ui-button-flat" />
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+                <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" type="button" styleClass="ui-confirmdialog-no ui-button-flat" />
+                <p:commandButton value="#{ivy.cm.co('/common/Yes')}" type="button" styleClass="ui-confirmdialog-yes" />
               </p:confirmDialog>
 
             <p:dataTable id="report" var="issue" paginator="true" rows="50"
+                emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}"
                 widgetVar="reportTable"
                 filteredValue="#{securitySystemCompareBean.filteredResult}"
                 globalFilterFunction="#{securitySystemCompareBean.globalFilterFunction}"
                 paginatorPosition="bottom" value="#{securitySystemCompareBean.report}">
-              
+
               <f:facet name="header">
                 <div class="flex justify-content-end">
                     <p:inputText id="globalFilter" onkeyup="PF('reportTable').filter()" style="width:100%" />
                 </div>
               </f:facet>
-              
+
               <p:column style="width: 45px" sortBy="#{issue.entity()}">
                 <h:outputText value="#{issue.entity()}" />
               </p:column>
 
-              <p:column headerText="Name" style="width: 150px" sortBy="#{issue.id()}">
+              <p:column headerText="#{ivy.cm.co('/common/Name')}" style="width: 150px" sortBy="#{issue.id()}">
                 <h:outputText value="#{issue.id()}" />
               </p:column>
 
-              <p:column headerText="What" sortBy="#{issue.what()}">
+              <p:column headerText="#{ivy.cm.co('/securitySystemMerge/IssueWhatHeader')}" sortBy="#{issue.what()}">
                 <h:outputText value="#{issue.what()} #{issue.name()}" />
               </p:column>
 
-              <p:column headerText="Source" sortBy="#{issue.source()}">
+              <p:column headerText="#{ivy.cm.co('/common/Source')}" sortBy="#{issue.source()}">
                 <h:outputText value="#{issue.source()}" />
               </p:column>
 
-              <p:column headerText="Target" sortBy="#{issue.target()}">
+              <p:column headerText="#{ivy.cm.co('/securitySystemMerge/IssueTargetHeader')}" sortBy="#{issue.target()}">
                 <h:outputText value="#{issue.target()}" />
               </p:column>
 
@@ -121,8 +117,8 @@
                 <p:commandButton value="#{issue.solver().type()}" title="#{securitySystemCompareBean.solveHint(issue)}"
                   rendered="#{issue.isSolveable()}" styleClass="#{securitySystemCompareBean.styleClassForButton(issue)}" disabled="#{securitySystemCompareBean.isSolved(issue)}"
                   update="report" actionListener="#{securitySystemCompareBean.solve(issue)}">
-                  <p:confirm header="Apply change"
-                  message="Do you really want to #{issue.solver().type()} this entry?" 
+                  <p:confirm header="#{ivy.cm.co('/securitySystemMerge/ApplyChangeDialogHeader')}"
+                  message="#{securitySystemCompareBean.getIssueChangedDialogMessage(issue)}" 
                   icon="ui-icon-alert" />
                 </p:commandButton>
               </p:column>

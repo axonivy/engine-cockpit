@@ -1,9 +1,12 @@
 package ch.ivyteam.enginecockpit.fileupload;
 
+import java.util.Arrays;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -17,9 +20,8 @@ public class UploadHelperBean {
   }
 
   public String getDeploymentPossibleReason() {
-    return "The system configuration '" + REST_SERVLET_ENABLED + "' or '"
-        + REST_DEPLOYMENT_ENABLED + "' is disabled.<br/>"
-        + "Please enable them or use the file system for the deployment.";
+    return Ivy.cms().co("/applications/DeploymentPossibleReason",
+        Arrays.asList(REST_SERVLET_ENABLED, REST_DEPLOYMENT_ENABLED));
   }
 
   private static boolean isRestEnabled() {

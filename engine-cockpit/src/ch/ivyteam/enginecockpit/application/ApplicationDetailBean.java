@@ -24,6 +24,7 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.workflow.StandardProcessType;
 import ch.ivyteam.ivy.workflow.standard.DefaultPagesConfigurator;
 import ch.ivyteam.ivy.workflow.standard.StandardProcessStartFinder;
@@ -59,19 +60,19 @@ public class ApplicationDetailBean {
         .findAny()
         .orElse(null);
     if (app == null) {
-      ResponseHelper.notFound("Application '" + appName + "' not found");
+      ResponseHelper.notFound(Ivy.cms().co("/configuration/NotFoundApplicationMessage", Arrays.asList(appName)));
       return;
     }
 
     configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
         this::enrichPmvProperties, List.of(ConfigViewImpl.defaultFilter(),
-            new ContentFilter<>("Variables", "Show Variables",
+            new ContentFilter<>("Variables", Ivy.cm().co("/configuration/ShowVariablesMessage"),
                 p -> !Strings.CI.startsWith(p.getKey(), "Variables."), true),
-            new ContentFilter<>("Databases", "Show Databases",
+            new ContentFilter<>("Databases", Ivy.cm().co("/configuration/ShowDatabasesMessage"),
                 p -> !Strings.CI.startsWith(p.getKey(), "Databases."), true),
-            new ContentFilter<>("RestClients", "Show Rest Clients",
+            new ContentFilter<>("RestClients", Ivy.cm().co("/configuration/ShowRestClientsMessage"),
                 p -> !Strings.CI.startsWith(p.getKey(), "RestClients."), true),
-            new ContentFilter<>("WebServiceClients", "Show Web Service Clients",
+            new ContentFilter<>("WebServiceClients", Ivy.cm().co("/configuration/ShowWebServiceClientsMessage"),
                 p -> !Strings.CI.startsWith(p.getKey(), "WebServiceClients."), true)));
   }
 
@@ -94,7 +95,7 @@ public class ApplicationDetailBean {
     app.reloadConfig();
     Message.info()
         .clientId("applicationMessage")
-        .summary("Configuration of application '" + app.getName() + "' reloaded")
+        .summary(Ivy.cms().co("/configuration/ReloadApplicationConfigurationMessage", Arrays.asList(app.getName())))
         .show();
   }
 

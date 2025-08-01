@@ -6,11 +6,7 @@
 </cc:interface>
 <cc:implementation>
   <div style="color: var(--error-color); font-weight: bold;">
-    <h:outputText
-      value="Deletion is dangerous and might leave the engine in a bad state." />
-    <br />
-    <h:outputText
-      value="You may lose cases and data. Proceed with caution." />
+    <h:outputText escape="false" value="#{ivy.cm.co('/deletionWarning/DeletionWarningMessage')}" />
   </div>
   <br />
   <br />

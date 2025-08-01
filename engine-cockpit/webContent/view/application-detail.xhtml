@@ -16,7 +16,7 @@
     </ui:define>
 
     <ui:define name="breadcrumb">
-      <li><a href="applications.xhtml">Applications</a></li>
+      <li><a href="applications.xhtml">#{ivy.cm.co('/common/Applications')}</a></li>
       <li>/</li>
       <li><a href="application-detail.xhtml?appName=#{applicationDetailBean.appName}">#{applicationDetailBean.appName}</a></li>
     </ui:define>
@@ -32,13 +32,13 @@
           <div class="col-12">
             <div class="grid">
               <cc:OverviewBox box="white" count="#{applicationDetailBean.sessionCount}" icon="si si-style-two-pin-user"
-                title="Sessions" link="users.xhtml" />
+                title="#{ivy.cms.co('/common/Sessions')}" link="users.xhtml" />
               <cc:OverviewBox box="blue" count="#{applicationDetailBean.usersCount}" icon="si si-single-neutral-actions"
-                title="Users" link="users.xhtml" />
+                title="#{ivy.cms.co('/common/Users')}" link="users.xhtml" />
               <cc:OverviewBox box="gray" count="#{applicationDetailBean.casesCount}" icon="si si-layout-bullets"
-                title="Running Cases" link="#" />
+                title="#{ivy.cms.co('/common/RunningCases')}" link="#" />
               <cc:OverviewBox box="darkgray" count="#{applicationDetailBean.pmCount}" icon="si si-module-three-2"
-                title="Process Models" link="#" />
+                title="#{ivy.cms.co('/applicationDetail/ProcessModels')}" link="#" />
             </div>
           </div>
           

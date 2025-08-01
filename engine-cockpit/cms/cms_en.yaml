@@ -11,6 +11,38 @@ administrators:
   NotMatchPasswordMessage: Password didn't match
   Password: Password
   Search: Search
+applicationDetail:
+  ProcessModels: Process Models
+applications:
+  ActivateButtonTitle: Activate
+  AddButton: Add
+  AppPmPmvHeader: App / PM / PMV
+  ApplicationConvertToLatestVersionMessage: All Axon Ivy Projects in state RELEASED and DEPRECATED will be converted to the latest version.
+  ApplicationWarningMessageForNoReleasedPmv: At least one process model has no released process model version
+  CollapseAllButtonTitle: Collapse all
+  Convert: Convert
+  ConvertButtonTitle: Converts the project to the latest version
+  DeactivateButtonTitle: Deactivate
+  DeleteButtonTitle: Delete
+  DeleteHintMessage: Are you sure you want to delete this {0} ?
+  DeleteRunningCasesHintMessage: '{0} has {1} running cases. They will also be deleted.'
+  DeploymentButtonTitle: Deployment
+  DeploymentPossibleReason: |-
+    The system configuration ''{0}'' or ''{1}'' is disabled.<br/>
+    Please enable them or use the file system for the deployment.
+  DisableErrorMessage: Cannot evaluate the state of the application ''{0}''
+  ExecutionErrorMessageSummary: Could not {0} module
+  ExecutionSuccessMessageSummary: Successfully {0} module
+  ExpandAllButtonTitle: Expand all
+  ForceDeleteButtonTitle: Force Delete
+  LastChangeDate: 'Last change date:'
+  LibraryVersion: 'Library version:'
+  PmvConvertToLatestVersionMessage: The Axon Ivy Project will be converted to the latest version.
+  ReleaseButtonTitle: Release
+  RunningCasesHeader: Running Cases
+  SearchPlaceholder: Search
+  StateHeader: State
+  WarningMessageForNoReleasedPmv: No released process model version
 axonivy:
   AxonIvy: Axon Ivy
   AxonIvyAG: Axon Ivy AG
@@ -21,11 +53,24 @@ axonivy:
   Product: Product
   Version: Version
 common:
+  Activate: Activate
+  Activity: Activity
+  Application: Application
   Applications: Applications
+  Apply: Apply
   AxonIvyEngine: Axon Ivy Engine
+  Back: Back
   Cancel: Cancel
+  Close: Close
   Cockpit: Cockpit
+  Confirm: Confirm
+  Deactivate: Deactivate
   Default: Default
+  Delete: Delete
+  Deployment: Deployment
+  Description: Description
+  Download: Download
+  Edit: Edit
   EngineCockpit: Engine Cockpit
   Error: Error
   Failed: Failed
@@ -35,28 +80,69 @@ common:
   Help: Help
   Info: Info
   Key: Key
+  Lock: Lock
   Login: Login
   Migration: Migration
+  More: More
   Name: Name
   Next: Next
+  NoRecordsFound: No records found.
   OK: OK
   Port: Port
   Previous: Previous
+  Provider: Provider
   RequiredMessage: Value is required
   Reset: Reset
   Restart: Restart
+  RunningCases: Running Cases
   Save: Save
   SaveAndCreate: Save and create
+  SecuritySystem: Security System
   Send: Send
-  Setup: Setup
-  Start: Start
-  Success: Success
-  Value: Value
-dashboard:
-  Applications: Applications
-  RunningCases: Running Cases
   Sessions: Sessions
+  Setup: Setup
+  Source: Source
+  Start: Start
+  State: State
+  Success: Success
+  Synchronize: Synchronize
+  Upload: Upload
   Users: Users
+  Value: Value
+  Variable: Variable
+  'Yes': 'Yes'
+configuration:
+  ApplicationConfiguration: Application Configuration
+  ConfigReset: '''''{0}'''' reset'
+  ConfigSaved: '''''{0}'''' saved'
+  EditConfigurationInfoMessage: If you change this property, you have to restart you engine
+  Examples: Examples
+  Filter: 'Filter:'
+  GoEditVariableValueLink: Go and edit the Variable value
+  NotFoundApplicationMessage: Application ''{0}'' not found
+  QuestionMark: '?'
+  ReloadApplicationConfiguration: Reload application configuration
+  ReloadApplicationConfigurationMessage: Configuration of application ''{0}'' reloaded
+  ResetConfigConfirmDialogMessage: Are you sure you want to reset the
+  SearchPlaceholder: Search
+  ShowDatabasesMessage: Show Databases
+  ShowOnlyDefinedValuesMessage: Show only defined values
+  ShowRestClientsMessage: Show Rest Clients
+  ShowVariablesMessage: Show Variables
+  ShowWebServiceClientsMessage: Show Web Service Clients
+  ViewFile: View File
+deletionWarning:
+  DeletionWarningMessage: |-
+    Deletion is dangerous and might leave the engine in a bad state.
+    <br />
+    You may lose cases and data. Proceed with caution.
+deployment:
+  DeployTestUsers: Deploy Test Users
+  DeployToApp: Deploy to App
+  FileFormat: File Format
+  Options: Options
+  Version: Version
+  VersionRange: Version Range
 email:
   ConfigureEmailServer: Configure Email Server
   Email: Email
@@ -82,6 +168,11 @@ exceptionDetail:
   ThreadLocalValues: Thread local values
   ThrownBy: Thrown by
   UnexpectedErrorOccured: 'An unexpected error has occured:'
+fileUpload:
+  AcceptFilesPlaceholder: 'Choose or drop a file which ends with: '
+  ChooseFileButton: Choose file
+  ChooseValidFileBeforeUpload: Choose a valid file before upload
+  FileUploadDialogDefaultTitle: File Upload
 health:
   Health: Health
   HealthDetails: Health Details
@@ -107,6 +198,11 @@ info:
   OpenLink: Open 〉
   ShutdownEngineConfirmationMessage: Do you really want to shutdown the Axon Ivy Engine?
   ShutdownEngineMessage: The Axon Ivy Engine is shutting down. You can close the window.
+information:
+  ApplicationHome: Application Home
+  ApplicationInformation: Application information
+  FileDirectory: File Directory
+  WorkflowUI: Workflow UI
 java:
   Java: Java
   JavaDetails: Java Details
@@ -138,6 +234,16 @@ licence:
   Unlimited: Unlimited
   UploadLicence: Never
   UploadValidLicence: Please upload a valid licence.
+licenceEvents:
+  ConfirmAll: Confirm all
+  LicenceEventsDialogHeader: Licence Events
+  SupportReportDialogContent: |-
+    <p>If you spot a problem while using the Axon Ivy Engine please open a support ticket, download this zip archive and attach it to the ticket.</p>
+    <p>This zip archive contains:</p>
+    <ul>
+        <li>Axon Ivy Engine Support Report</li>
+         <li>Today's log files</li>
+    </ul>
 login:
   EngineCockpitLoginTitle: Engine Cockpit - Login
   IvyYamlFile: ivy.yaml
@@ -173,8 +279,65 @@ migrate:
   Upload: Upload
   ValidLicenceFoundMessage: Valid licence found.
   WriteConfigurationFilesToTemporaryDirectory: Write configuration files to temporary directory
+moveApplication:
+  ChangeSecuritySystemDialogContent: 'To change the security system of an application, the target security system must have the same roles and users so that all runtime data like tasks, cases, business data and more can be re-assigned. Therefore, you first need to validate if the target security system
+    is ready. If this is not the case, you can check and prepare the target security system:'
+  ChangeSecuritySystemDialogHeader: Change security system
+  ChangeSecuritySystemWarningMessage: This is a heavy operation that moves a lot of data. We highly recommend to making a backup of your system database first.
+  MergeSecuritySystem: Merge Security System
+  Move: Move
+  NoTargetSecuritysystemSelectedMessage: No target security system selected
+  SourceSecuritySystem: Source Security System
+  TargetSecuritySystem: Target Security System
+  ValidSecuritysystemSelectedMessage: Application can be moved to target security system
+  Validate: Validate
+newApplication:
+  AddNewApplicationDialogHeader: Add new application
+  AddNewApplicationDialogHeader1: Add new application
 progressLoader:
   Loading: Loading...
+restart:
+  Restart: Restart
+  RestartConfirmMessage: Are you sure you want to restart the {0}?
+  RestartFirstWarningMessageFirstPart: All
+  RestartFirstWarningMessageSecondPart: users (currently {0})
+  RestartFirstWarningMessageThirdPart: working with {0} will lose their current work.
+  RestartSecondWarningMessage: Users will not be able to connect to {0} for a short time.
+  RestartThirdWarningMessage: Restarting may fail and then you need access to the operating system to start it again.
+  RestartWarningMessage: Restarting {0} is a dangerous operation.
+security:
+  ChangeSecuritySystem: Change Security System
+securitySystemMerge:
+  ApplyChangeDialogHeader: Apply change
+  ApplyChangeDialogMessage: Do you really want to {0} this entry?
+  CompareButton: Compare
+  CompareButtonTitle: This will only compare the source with the target security system. This will NOT make any changes.
+  ComparisonReport: Comparison Report
+  ComparisonReportInfo: To move an application from source to target security system the same users and roles must exist in the target security system as in the source system. By executing all CREATE operations, all missing users and roles will be created in the target security system. There is no need
+    to execute the UPDATE operations or DELETE operations, but you may want to cleanup the target security system with these operations. It could be that the role already exists, but this one is not actually the same role. If this is the case, the role must be manually renamed in the target security system
+    as well as the role in the Axon Ivy Project. Then the Axon Ivy Project must be redeployed.
+  CreateSolveHintMessage: This will create the entry in the target security system {0}
+  DeleteSolveHintMessage: This will delete the entry in the target security system {0}
+  ExceutionFailed: Exceution failed
+  ExecuteAllCreateOperationsButton: Execute all CREATE operations
+  ExecuteAllCreateOperationsButtonTitle: This will run all CREATE operations in the target security system
+  ExecuteAllCreateOperationsConfirmDialogContent: This will create all missing entries in the target security system
+  ExecuteAllCreateOperationsConfirmDialogHeader: Execute all CREATE operations
+  ExecuteAllDeleteOperationsButton: Execute all DELETE operations
+  ExecuteAllDeleteOperationsButtonTitle: This will run all DELETE operations in the target security system
+  ExecuteAllDeleteOperationsConfirmDialogContent: This will delete all entries in the target security system which are missing in the source security system
+  ExecuteAllDeleteOperationsConfirmDialogHeader: Execute all DELETE operations
+  ExecuteAllUpdateOperationsButton: Execute all UPDATE operations
+  ExecuteAllUpdateOperationsButtonTitle: This will run all UPDATE operations in the target security system
+  ExecuteAllUpdateOperationsConfirmDialogContent: This will update all entries in the target security system which are different from the source security system
+  ExecuteAllUpdateOperationsConfirmDialogHeader: Execute all UPDATE operations
+  IssueTargetHeader: Target
+  IssueWhatHeader: What
+  MergeSecuritySystems: Merge Security Systems
+  Security: Security
+  SourceSecuritySystem: Source Security System
+  TargetSecuritySystem: Target Security System
+  UpdateSolveHintMessage: This will update the entry in the target security system {0}
 sendtestmail:
   Email: Email
   Log: Log
@@ -260,6 +423,18 @@ sidebar:
   WebServiceClients: Web Service Clients
   WebServiceProcesses: Web Service Processes
   Workflow: Workflow
+state:
+  ConfiguredState: Configured state
+supportReport:
+  DownloadSupportReport: Download Support Report
+  SupportReportDialogContent: |-
+    <p>If you spot a problem while using the Axon Ivy Engine please open a support ticket, download this zip archive and attach it to the ticket.</p>
+    <p>This zip archive contains:</p>
+    <ul>
+        <li>Axon Ivy Engine Support Report</li>
+         <li>Today's log files</li>
+    </ul>
+  SupportReportDialogHeader: Support Report
 systemDatabase:
   ConfigureSystemDb: Configure SystemDb
   Driver: Driver
