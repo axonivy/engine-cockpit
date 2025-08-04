@@ -18,7 +18,7 @@
     <div class="table-search flex ui-fluid">
       <span class="ui-input-icon-left filter-container">
         <i class="pi pi-search"/>
-        <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/permissions/SearchPlaceholder')}" value="#{permissionBean.filter}">
+        <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{permissionBean.filter}">
           <p:ajax event="keyup" delay="300" update="@form:permissionTable" />
         </p:inputText>
       </span>

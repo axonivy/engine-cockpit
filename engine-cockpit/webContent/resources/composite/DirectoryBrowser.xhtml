@@ -40,7 +40,7 @@
     <f:facet name="footer">
       <p:commandButton id="cancelDirectoryBrowser" onclick="PF('directoryBrowserDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-      <p:commandButton id="chooseDirectoryName" actionListener="#{cc.attrs.returnListener}" value="#{ivy.cm.co('/directoryBrowser/Choose')}"
+      <p:commandButton id="chooseDirectoryName" actionListener="#{cc.attrs.returnListener}" value="#{ivy.cm.co('/common/Choose')}"
         icon="si si-check-1" styleClass="modal-input-button" update="#{cc.attrs.updateFields}"
         onclick="PF('directoryBrowserDialog').hide();" disabled="#{cc.attrs.directoryBrowser.tree.childCount == 0}"/>
     </f:facet>

@@ -40,9 +40,11 @@ applications:
   PmvConvertToLatestVersionMessage: The Axon Ivy Project will be converted to the latest version.
   ReleaseButtonTitle: Release
   RunningCasesHeader: Running Cases
-  SearchPlaceholder: Search
   StateHeader: State
   WarningMessageForNoReleasedPmv: No released process model version
+applicationTabs:
+  CreateApplication: Create Application
+  NoConfiguredApplication: You don't have any applications configured.
 axonivy:
   AxonIvy: Axon Ivy
   AxonIvyAG: Axon Ivy AG
@@ -52,6 +54,32 @@ axonivy:
   InstallationDirectory: Installation Directory
   Product: Product
   Version: Version
+branding:
+  ChooseOrDropFileWhichEndsWith: 'Choose or drop a file which ends with:'
+  DefaultValue: 'Default Value: '
+  DownloadBrandingResourcesDialogHeader: Download Branding resources of ''{0}''
+  EditColorDialogHeader: Edit color
+  EditCustomCSSDialogHeader: Edit custom.css
+  FaviconHelperMessage: The logo fot the browser tab (square format recommended)
+  LogoHelperMessage: The main logo image
+  LogoLightHelperMessage: Same as the main logo, but e.g. in our case with white writing
+  LogoMailHelperMessage: The logo with is taken by the default Axon Ivy Engine email notifications
+  LogoSmallHelperMessage: The logo in small (square format recommended), used by e.g. error, login pages
+  ResetBrandingResourceConfirmMessage: Are you sure you want to reset the Branding resource ''{0}''?
+  ResetBrandingResourceDialogHeader: Reset Branding Resource
+  ResetCSSColorConfirmMessage: Are you sure you want to reset the CSS Color ''{0}''?
+  ResetColorDialogHeader: Reset Color
+  ResetResourceSuccessfulMessage: Successfully reset ''{0}''
+  ResetResourceUnsuccessfulMessage: Couldn't reset ''{0}''
+  UpdateColorSuccessfulMessage: Successfully update color ''{0}''
+  UpdateColorUnsuccessfulMessage: Couldn't update ''{0}''
+  UpdateCustomCSSSuccessfulMessage: Successfully saved 'custom.css'
+  UpdateCustomCSSUnsuccessfulMessage: Couldn't save 'custom.css'
+  UploadFileSuccessfulMessage: Successfully uploaded {0}
+  UploadResourceDialogHeader: Upload resources to ''{0}''
+  Value: 'Value: '
+businessCalendarDetail:
+  EditAppYamlFile: Edit app yaml file
 common:
   Activate: Activate
   Activity: Activity
@@ -61,13 +89,20 @@ common:
   Apply: Apply
   AxonIvyEngine: Axon Ivy Engine
   Back: Back
+  Branding: Branding
+  BusinessCalendar: Business Calendar
   Cancel: Cancel
+  Choose: Choose
   Close: Close
   Cockpit: Cockpit
   CollapseAll: Collapse all
+  Color: Color
+  Configuration: Configuration
   Confirm: Confirm
+  Date: Date
   Deactivate: Deactivate
   Default: Default
+  DefinedBy: Defined by
   Delete: Delete
   Deployment: Deployment
   Description: Description
@@ -108,8 +143,10 @@ common:
   Save: Save
   SaveAndCreate: Save and create
   SaveChanges: Save changes
+  SearchPlaceholder: Search
   Security: Security
   SecuritySystem: Security System
+  SecuritySystems: Security Systems
   Send: Send
   Sessions: Sessions
   Setup: Setup
@@ -122,6 +159,7 @@ common:
   Users: Users
   Value: Value
   Variable: Variable
+  Variables: Variables
   Warning: Warning
   'Yes': 'Yes'
 configuration:
@@ -136,7 +174,6 @@ configuration:
   ReloadApplicationConfiguration: Reload application configuration
   ReloadApplicationConfigurationMessage: Configuration of application ''{0}'' reloaded
   ResetConfigConfirmDialogMessage: Are you sure you want to reset the {0} ''{1}''?
-  SearchPlaceholder: Search
   ShowDatabasesMessage: Show Databases
   ShowOnlyDefinedValuesMessage: Show only defined values
   ShowRestClientsMessage: Show Rest Clients
@@ -156,7 +193,6 @@ deployment:
   Version: Version
   VersionRange: Version Range
 directoryBrowser:
-  Choose: Choose
   DirectoryBrowserDialogHeader: Directory Browser
   NodePropertiesEmptyMessage: Select a node to see its attributes
 email:
@@ -189,6 +225,11 @@ fileUpload:
   ChooseFileButton: Choose file
   ChooseValidFileBeforeUpload: Choose a valid file before upload
   FileUploadDialogDefaultTitle: File Upload
+freeDays:
+  FreeDateTooltip: Free day at fixed date
+  FreeDayOfYearTooltip: Free day (MM-dd) every year
+  FreeDays: Free days
+  FreeEasterRelativeDayTooltip: Free day relative to easter every year
 health:
   Health: Health
   HealthDetails: Health Details
@@ -275,7 +316,6 @@ memberProperties:
   RemovePropertyMessage: Successfully removed property
   SavePropertyErrorMessage: The property ''{0}'' has already been imported from your Security System
   SavePropertyMessage: Successfully updated property
-  SearchPlaceholder: Search
 migrate:
   BackupSystemDatabaseRemindMessage: Before you start the Migration make sure you have a backup of your system database and the whole Axon Ivy Engine installation directory.
   Checks: Checks
@@ -333,7 +373,6 @@ permissions:
   PermissionDenied: Permission denied
   PermissionGranted: Permission granted
   Permissions: Permissions
-  SearchPlaceholder: Search
   SomePermissionDenied: Some Permission denied
   SomePermissionGranted: Some Permission granted
 progressLoader:
@@ -385,7 +424,6 @@ roleDetailUsers:
 roles:
   ExternalRoleNameMessage: '[External: ''''{0}'''']'
   SearchDummyPerformanceReason: For performance reasons only the first 100 roles are loaded. Use the search to find a specific role.
-  SearchPlaceholder: Search
   ShowMoreRoleLeftMessage: Show more ({0} left)
   SynchronizationLog: Synchronization Log
   Synchronize: Synchronize
@@ -393,14 +431,10 @@ security:
   ChangeSecuritySystem: Change Security System
 securityDetail:
   ProcessModels: Process Models
-  SecuritySystems: Security Systems
 securityReportDownloadDialog:
   DownloadSecurityReportInfo: The following download contains a security report in form of a excel. In the excel are detailed information about users, roles, user roles, role members, user permissions and role permissions. The download may take a few minutes depending on the amount of users.
   Generate: Generate
   SecurityReportGeneratedMessage: Security Report Generated
-securitySystem:
-  SearchPlaceholder: Search
-  SecuritySystems: Security Systems
 securitySystemInfo:
   CreateSecurityReport: Create Security Report
   DeleteSecuritySystemButtonTitle: Delete this security system
@@ -501,14 +535,10 @@ setupStorage:
   StepWarningMessage: AppDirectory shouldn't be empty
 sidebar:
   Administrators: Administrators
-  Applications: Applications
-  Branding: Branding
-  BusinessCalendar: Business Calendar
   Cache: Cache
   ClassHistogram: Class Histogram
   Cluster: Cluster
   ConfigFileEditor: Config File Editor
-  Configuration: Configuration
   Dashboard: Dashboard
   Databases: Databases
   Documents: Documents
@@ -534,8 +564,6 @@ sidebar:
   Roles: Roles
   SSL: SSL
   SearchEngine: Search Engine
-  Security: Security
-  SecuritySystems: Security Systems
   Services: Services
   Sessions: Sessions
   SlowRequests: Slow Requests
@@ -545,8 +573,6 @@ sidebar:
   SystemDatabase: System Database
   Threads: Threads
   TrafficGraph: Traffic Graph
-  Users: Users
-  Variables: Variables
   WebServer: Web Server
   WebServiceClients: Web Service Clients
   WebServiceProcesses: Web Service Processes
@@ -658,7 +684,6 @@ usersDetailRoles:
   AllRoles: All Roles
   RoleInExternalSecuritySystemMessage: Role is managed by the external security system
   RoleSearchPerformanceReasonsMessage: For performance reasons only the first 20 roles are loaded. Use the search to find a specific role.
-  SearchPlaceholder: Search
 usersTable:
   Disabled: '[disabled]'
   DisabledUsersFilter: disabled users
@@ -670,7 +695,6 @@ usersTable:
   LoggedIn: Logged in
   ManualDisabledUsersFilter: manual disabled users
   ManualUsersFilter: manual users
-  SearchPlaceholder: Search
   ShowDisabledUsers: Show disabled users
   ShowManualUsers: Show manual users
   SynchSingleUser: Synch Single User
@@ -682,6 +706,13 @@ webServer:
   HTTPSConnectorctor: HTTPS Connector
   Port: 'Port:'
   StepWarningMessage: Enable at least the HTTP or HTTPS Connector
+weekConfiguration:
+  DefinedWorkingTime: Defined working time
+  FreeDay: free
+  FromTo: From to
+  WeekConfiguration: Week configuration
+  WorkingDay: work
+  WorkingTime: Working time
 wizard:
   Dark: Dark
   Light: Light

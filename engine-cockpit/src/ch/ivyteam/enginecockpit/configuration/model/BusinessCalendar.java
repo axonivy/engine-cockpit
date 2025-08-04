@@ -13,6 +13,7 @@ import ch.ivyteam.ivy.application.calendar.FreeDayOfYear;
 import ch.ivyteam.ivy.application.calendar.FreeEasterRelativeDay;
 import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;
 import ch.ivyteam.ivy.application.calendar.WorkingTime;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.util.date.Weekday;
 
 public class BusinessCalendar {
@@ -108,28 +109,28 @@ public class BusinessCalendar {
       this(freeDay);
       this.calendarName = calendarName;
       this.icon = "synchronize-arrow-clock";
-      this.tooltip = "Free day (MM-dd) every year";
+      this.tooltip = Ivy.cm().co("/freeDays/FreeDayOfYearTooltip");
     }
 
     public TimeDayConfig(FreeEasterRelativeDay freeDay, String calendarName) {
       this(freeDay);
       this.calendarName = calendarName;
       this.icon = "synchronize-arrow-clock";
-      this.tooltip = "Free day relative to easter every year";
+      this.tooltip = Ivy.cm().co("/freeDays/FreeEasterRelativeDayTooltip");
     }
 
     public TimeDayConfig(FreeDate freeDay, String calendarName) {
       this(freeDay);
       this.calendarName = calendarName;
       this.icon = "time-clock-circle";
-      this.tooltip = "Free day at fixed date";
+      this.tooltip = Ivy.cm().co("/freeDays/FreeDateTooltip");
     }
 
     public TimeDayConfig(WorkingTime time, String calendarName) {
       this(time);
       this.calendarName = calendarName;
       this.icon = "hourglass";
-      this.tooltip = "Defined working time";
+      this.tooltip = Ivy.cm().co("/weekConfiguration/DefinedWorkingTime");
     }
 
     public String getDesc() {

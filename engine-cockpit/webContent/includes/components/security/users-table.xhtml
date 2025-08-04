@@ -12,7 +12,7 @@
       <div class="flex">
         <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
           <i class="pi pi-search"/>
-          <p:inputText id="globalFilter" onkeyup="PF('usersTable_#{app.id}').filter()" placeholder="#{ivy.cm.co('/usersTable/SearchPlaceholder')}" value="#{userBean.userDataModel.filter}" />
+          <p:inputText id="globalFilter" onkeyup="PF('usersTable_#{app.id}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{userBean.userDataModel.filter}" />
         </span>
         <p:commandButton id="filterBtn" title="#{ivy.cm.co('/usersTable/Filter')} #{userBean.userDataModel.contentFilterText}" type="button" icon="si si-filter-1"
           styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button" onclick="PF('filterPanel_#{securitySystem.id}').show();" />

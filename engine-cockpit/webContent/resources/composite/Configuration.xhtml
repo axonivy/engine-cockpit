@@ -19,7 +19,7 @@
         <div class="flex">
           <span class="ui-input-icon-left filter-container" style="width: 100%;">
             <i class="pi pi-search"/>
-            <p:inputText id="globalFilter" onkeyup="PF('configTable').filter()" placeholder="#{ivy.cm.co('/configuration/SearchPlaceholder')}" value="#{cc.attrs.bean.filter}" />
+            <p:inputText id="globalFilter" onkeyup="PF('configTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{cc.attrs.bean.filter}" />
           </span>
           <p:commandButton id="filterBtn" title="#{ivy.cm.co('/configuration/Filter')} #{cc.attrs.bean.contentFilterText}" type="button" icon="si si-filter-1"
             styleClass="ui-button-secondary rounded-button ml-1 flex-shrink-0" onclick="PF('filterPanel').show();"
@@ -84,7 +84,7 @@
         <h:panelGroup styleClass="code-block" layout="block">
           <pre><code class="yaml"><h:outputText value="#{cc.attrs.bean.activeConfig.fileContent}" escape="false"/></code></pre> <!-- contains configfiles -->
         </h:panelGroup>
-        
+
       </p:panelGrid>
       <p:commandButton id="downloadConfigurationFile" ajax="false" value="#{ivy.cm.co('/common/Download')}" icon="si si-download-bottom"
         styleClass="modal-input-button" style="width: 125px;">

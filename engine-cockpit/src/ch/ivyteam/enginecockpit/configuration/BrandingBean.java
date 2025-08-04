@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -32,17 +33,18 @@ import ch.ivyteam.enginecockpit.util.DownloadUtil;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.branding.BrandingIO;
 import ch.ivyteam.ivy.config.IFileAccess;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class BrandingBean implements AllResourcesDownload {
 
-  private static final Map<String, String> RESOURCE_NAMES = Map.of("logo", "The main logo image",
-      "logo_light", "Same as the main logo, but e.g. in our case with white writing",
-      "logo_small", "The logo in small (square format recommended), used by e.g. error, login pages",
-      "logo_mail", "The logo with is taken by the default Axon Ivy Engine email notifications",
-      "favicon", "The logo fot the browser tab (square format recommended)");
+  private static final Map<String, String> RESOURCE_NAMES = Map.of("logo", Ivy.cm().co("/branding/LogoHelperMessage"),
+      "logo_light", Ivy.cm().co("/branding/LogoLightHelperMessage"),
+      "logo_small", Ivy.cm().co("/branding/LogoSmallHelperMessage"),
+      "logo_mail", Ivy.cm().co("/branding/LogoMailHelperMessage"),
+      "favicon", Ivy.cm().co("/branding/FaviconHelperMessage"));
   private static final Set<String> ALLOWED_EXTENSIONS = Set.of("png", "jpg", "jpeg", "svg", "webp", "gif");
 
   private final ManagerBean managerBean;
@@ -75,10 +77,10 @@ public class BrandingBean implements AllResourcesDownload {
       var app = IApplicationRepository.instance().findByName(managerBean.getSelectedApplicationName()).orElse(null);
       try (var in = uploadFile.getInputStream()) {
         var newResourceName = new BrandingIO(app).setImage(getCurrentRes(), extension, in);
-        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Successfully uploaded " + newResourceName);
+        message = new FacesMessage(FacesMessage.SEVERITY_INFO, Ivy.cm().co("/common/Success"), Ivy.cms().co("/branding/UploadFileSuccessfulMessage", Arrays.asList(newResourceName)));
       }
     } catch (Exception ex) {
-      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage());
+      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"), ex.getMessage());
     }
     FacesContext.getCurrentInstance().addMessage("msgs", message);
   }
@@ -150,33 +152,39 @@ public class BrandingBean implements AllResourcesDownload {
   }
 
   public void setColor(String value) {
-    var message = new FacesMessage("Successfully update color '" + selectedCssColor.getColor() + "'", "");
+    var message = new FacesMessage(
+        Ivy.cms().co("/branding/UpdateColorSuccessfulMessage", Arrays.asList(selectedCssColor.getColor())), "");
     try {
       brandingIO.writeCssColor(selectedCssColor.getColor(), value);
     } catch (Exception ex) {
-      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't update '" + selectedCssColor.getColor() + "'", ex.getMessage());
+      message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+          Ivy.cms().co("/branding/UpdateColorUnsuccessfulMessage", Arrays.asList(selectedCssColor.getColor())),
+          ex.getMessage());
     }
     FacesContext.getCurrentInstance().addMessage(null, message);
     reloadCustomCssContent();
   }
 
   public void saveCustomCss() {
-    var message = new FacesMessage("Successfully saved 'custom.css'", "");
+    var message = new FacesMessage(Ivy.cm().co("/branding/UpdateCustomCSSSuccessfulMessage"), "");
     try {
       brandingIO.writeCustomCss(customCssContent);
     } catch (Exception ex) {
-      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't save 'custom.css'", ex.getMessage());
+      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/branding/UpdateCustomCSSUnsuccessfulMessage"), ex.getMessage());
     }
     FacesContext.getCurrentInstance().addMessage(null, message);
     reloadCustomCssContent();
   }
 
   public void resetRes() {
-    var message = new FacesMessage("Successfully reset '" + currentResourceName + "'", "");
+    var message = new FacesMessage(
+        Ivy.cms().co("/branding/ResetResourceSuccessfulMessage", Arrays.asList(currentResourceName)), "");
     try {
       brandingIO.resetResource(currentResourceName);
     } catch (Exception ex) {
-      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't reset '" + currentResourceName + "'", ex.getMessage());
+      message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+          Ivy.cms().co("/branding/ResetResourceUnsuccessfulMessage", Arrays.asList(currentResourceName)),
+          ex.getMessage());
     }
     FacesContext.getCurrentInstance().addMessage(null, message);
     reloadResources();
@@ -207,7 +215,7 @@ public class BrandingBean implements AllResourcesDownload {
           .name("branding-" + appName + ".zip")
           .build();
     } catch (IOException ex) {
-      var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage());
+      var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"), ex.getMessage());
       FacesContext.getCurrentInstance().addMessage("msgs", message);
     }
     return null;
@@ -244,4 +252,19 @@ public class BrandingBean implements AllResourcesDownload {
         .collect(Collectors.joining(", "));
   }
 
+  public String getDownloadBrandingResourcesDialogHeader(String applicationName) {
+    return Ivy.cms().co("/branding/DownloadBrandingResourcesDialogHeader", Arrays.asList(applicationName));
+  }
+
+  public String getUploadResourceDialogHeader(String applicationName) {
+    return Ivy.cms().co("/branding/UploadResourceDialogHeader", Arrays.asList(applicationName));
+  }
+
+  public String getResetBrandingResourceConfirmMessage(String resourceName) {
+    return Ivy.cms().co("/branding/ResetBrandingResourceConfirmMessage", Arrays.asList(resourceName));
+  }
+
+  public String getResetCSSColorConfirmMessage(String cssColor) {
+    return Ivy.cms().co("/branding/ResetCSSColorConfirmMessage", Arrays.asList(cssColor));
+  }
 }

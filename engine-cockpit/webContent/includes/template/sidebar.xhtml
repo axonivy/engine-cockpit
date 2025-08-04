@@ -13,21 +13,21 @@
       <h:form id="menuform">
         <pm:menu widgetVar="sidebar_menu">
           <p:menuitem id="sr_dashboard" value="#{ivy.cm.co('/sidebar/Dashboard')}" icon="si si-layout-dashboard" url="dashboard.xhtml" />
-          <p:menuitem id="sr_applications" value="#{ivy.cm.co('/sidebar/Applications')}" icon="si si-layout-module"
+          <p:menuitem id="sr_applications" value="#{ivy.cm.co('/common/Applications')}" icon="si si-layout-module"
             url="applications.xhtml" />
-          <p:submenu id="sr_security" label="#{ivy.cm.co('/sidebar/Security')}" icon="si si-shield-lock">
-            <p:menuitem id="sr_security_system" value="#{ivy.cm.co('/sidebar/SecuritySystems')}" icon="si si-lock-1"
+          <p:submenu id="sr_security" label="#{ivy.cm.co('/common/Security')}" icon="si si-shield-lock">
+            <p:menuitem id="sr_security_system" value="#{ivy.cm.co('/common/SecuritySystems')}" icon="si si-lock-1"
               url="securitysystem.xhtml" />
-            <p:menuitem id="sr_users" value="#{ivy.cm.co('/sidebar/Users')}" icon="si si-single-neutral-actions" url="users.xhtml" />
-            <p:menuitem id="sr_roles" value="#{ivy.cm.co('/sidebar/Roles')}" icon="si si-multiple-neutral-1" url="roles.xhtml" />
+            <p:menuitem id="sr_users" value="#{ivy.cm.co('/common/Users')}" icon="si si-single-neutral-actions" url="users.xhtml" />
+            <p:menuitem id="sr_roles" value="#{ivy.cm.co('/common/Roles')}" icon="si si-multiple-neutral-1" url="roles.xhtml" />
           </p:submenu>
 
-          <p:submenu id="sr_configuration" label="#{ivy.cm.co('/sidebar/Configuration')}" icon="si si-cog">
-            <p:menuitem id="sr_variables" value="#{ivy.cm.co('/sidebar/Variables')}" icon="si si-archive-folder"
+          <p:submenu id="sr_configuration" label="#{ivy.cm.co('/common/Configuration')}" icon="si si-cog">
+            <p:menuitem id="sr_variables" value="#{ivy.cm.co('/common/Variables')}" icon="si si-archive-folder"
               url="variables.xhtml" />
-            <p:menuitem id="sr_business_calendar" value="#{ivy.cm.co('/sidebar/BusinessCalendar')}" icon="si si-calendar"
+            <p:menuitem id="sr_business_calendar" value="#{ivy.cm.co('/common/BusinessCalendar')}" icon="si si-calendar"
               url="businesscalendar.xhtml" />
-            <p:menuitem id="sr_branding" value="#{ivy.cm.co('/sidebar/Branding')}" icon="si si-buildings-1"
+            <p:menuitem id="sr_branding" value="#{ivy.cm.co('/common/Branding')}" icon="si si-buildings-1"
               url="branding.xhtml" />
           </p:submenu>
 

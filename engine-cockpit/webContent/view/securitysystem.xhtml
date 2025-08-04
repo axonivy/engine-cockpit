@@ -8,7 +8,7 @@
     <ui:define name="breadcrumb">
       <li><span>#{ivy.cm.co('/common/Security')}</span></li>
       <li>/</li>
-      <li><a href="securitysystem.xhtml">#{ivy.cm.co('/securitySystem/SecuritySystems')}</a></li>
+      <li><a href="securitysystem.xhtml">#{ivy.cm.co('/common/SecuritySystems')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -23,7 +23,7 @@
           </p:growl>
           <div class="flex align-items-center mb-3">
             <i class="pr-3 si si-lock-1 card-title-icon"></i>
-            <h2 class="m-0">#{ivy.cm.co('/securitySystem/SecuritySystems')}</h2>
+            <h2 class="m-0">#{ivy.cm.co('/common/SecuritySystems')}</h2>
             <p:commandButton styleClass="ml-auto" id="createSecuritySystemBtn" icon="si si-add" type="button" value="#{ivy.cm.co('/common/Add')}"
               onclick="PF('newSecuritySystemModal').show();" />
           </div>
@@ -34,7 +34,7 @@
             <f:facet name="header">
               <div class="ui-input-icon-left filter-container">
                 <i class="pi pi-search"/>
-                <p:inputText id="globalFilter" onkeyup="PF('securitySystemTable').filter()" placeholder="#{ivy.cm.co('/securitySystem/SearchPlaceholder')}" value="#{securityBean.filter}" />
+                <p:inputText id="globalFilter" onkeyup="PF('securitySystemTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{securityBean.filter}" />
               </div>
             </f:facet>
             <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{system.securitySystemName}" filterBy="#{system.securitySystemName}">
