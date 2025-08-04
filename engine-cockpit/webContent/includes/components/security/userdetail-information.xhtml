@@ -35,7 +35,7 @@
               action="#{userDetailBean.deleteSelectedUser}" icon="si si-bin-1" styleClass="modal-input-button" />
           </p:confirmDialog>
         </h:panelGroup>
-        <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="#{ivy.cm.co('/userDetailInformation/SaveChanges')}"
+        <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="#{ivy.cm.co('/common/SaveChanges')}"
           icon="si si-floppy-disk" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button" />
       </div>
     </div>
@@ -43,7 +43,7 @@
     <ui:param name="isManaged" value="#{userDetailBean.user.external and !userDetailBean.ivySecuritySystem}" />
     <div class="card-top-static-message">
       <p:staticMessage rendered="#{userDetailBean.isUserDisabled()}" severity="warn" summary="#{ivy.cm.co('/common/Warning')}"
-        detail="#{ivy.cm.co('/userDetailInformation/SaveChanges')}" />
+        detail="#{ivy.cm.co('/common/SaveChanges')}" />
       <h:panelGroup rendered="#{isManaged}" layout="block"
         styleClass="ui-message ui-staticmessage ui-message-info ui-widget ui-corner-all">
         <span class="ui-message-info-icon" />

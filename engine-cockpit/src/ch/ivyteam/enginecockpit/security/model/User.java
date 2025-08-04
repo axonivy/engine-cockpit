@@ -327,7 +327,7 @@ public class User implements SecurityMember {
       } else {
         role = substitutionRole.getName();
         memberIcon = "multiple-neutral-1";
-        memberTitle = Ivy.cm().co("/userDetailSubstitutes/Role");
+        memberTitle = Ivy.cm().co("/common/Role");
       }
 
       boolean onAbsence = SubstitutionType.ON_ABSENCE.equals(substitute.getSubstitutionType());

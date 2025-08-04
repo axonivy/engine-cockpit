@@ -102,10 +102,12 @@ common:
   RequiredMessage: Value is required
   Reset: Reset
   Restart: Restart
+  Role: Role
   Roles: Roles
   RunningCases: Running Cases
   Save: Save
   SaveAndCreate: Save and create
+  SaveChanges: Save changes
   Security: Security
   SecuritySystem: Security System
   Send: Send
@@ -131,10 +133,9 @@ configuration:
   Filter: 'Filter:'
   GoEditVariableValueLink: Go and edit the Variable value
   NotFoundApplicationMessage: Application ''{0}'' not found
-  QuestionMark: '?'
   ReloadApplicationConfiguration: Reload application configuration
   ReloadApplicationConfigurationMessage: Configuration of application ''{0}'' reloaded
-  ResetConfigConfirmDialogMessage: Are you sure you want to reset the
+  ResetConfigConfirmDialogMessage: Are you sure you want to reset the {0} ''{1}''?
   SearchPlaceholder: Search
   ShowDatabasesMessage: Show Databases
   ShowOnlyDefinedValuesMessage: Show only defined values
@@ -154,6 +155,10 @@ deployment:
   Options: Options
   Version: Version
   VersionRange: Version Range
+directoryBrowser:
+  Choose: Choose
+  DirectoryBrowserDialogHeader: Directory Browser
+  NodePropertiesEmptyMessage: Select a node to see its attributes
 email:
   ConfigureEmailServer: Configure Email Server
   Email: Email
@@ -312,6 +317,8 @@ moveApplication:
 newApplication:
   AddNewApplicationDialogHeader: Add new application
   AddNewApplicationDialogHeader1: Add new application
+newRole:
+  NewChildRoleDialogHeader: Add new child role for {0}
 newSecuritySystem:
   AddNewSecuritySystemDialogHeader: Add new security system
 newUser:
@@ -331,6 +338,10 @@ permissions:
   SomePermissionGranted: Some Permission granted
 progressLoader:
   Loading: Loading...
+renameRole:
+  RenameRoleDialogHeader: Rename Role
+  RenameRoleDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes
+    will fail in the future.
 restart:
   Restart: Restart
   RestartConfirmMessage: Are you sure you want to restart the {0}?
@@ -340,6 +351,44 @@ restart:
   RestartSecondWarningMessage: Users will not be able to connect to {0} for a short time.
   RestartThirdWarningMessage: Restarting may fail and then you need access to the operating system to start it again.
   RestartWarningMessage: Restarting {0} is a dangerous operation.
+roleDetail:
+  DirectOpenTasks: Direct open tasks
+  InheritUsers: Inherit users
+  RunningTasks: Running Tasks
+roleDetailInformation:
+  AddNewChildRole: Add new child role
+  BrowseButtonTitle: Browse
+  DeleteRole: Delete this role
+  DeleteRoleDialogConfirmMessage: Are you sure you want to delete the role ''{0}''?
+  DeleteRoleDialogHeader: Delete Role
+  DeleteRoleDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes
+    will fail in the future.
+  DisplayName: Display Name
+  ExternalName: External Name
+  ParentRole: Parent Role
+  RenameRole: Rename Role
+  RoleInformation: Role information
+  RoleInformationChangesSavedMessage: Role information changes saved
+  UpdateRoleParentButtonTitle: Update Role Parent
+roleDetailMembers:
+  Filter: 'Filter:'
+  RoleMembers: Role members
+  RoleMembersOfRole: Role Members Of Role
+  SearchRoleToAddPlaceholder: Search role to add
+  SearchRolesPlaceholder: Search
+roleDetailUsers:
+  Filter: 'Filter:'
+  InheritedUser: This user is inherited by a sub role or a role member
+  SearchUserToAddPlaceholder: Search user to add
+  SearchUsersPlaceholder: Search
+  UsersOfRole: Users Of Role
+roles:
+  ExternalRoleNameMessage: '[External: ''''{0}'''']'
+  SearchDummyPerformanceReason: For performance reasons only the first 100 roles are loaded. Use the search to find a specific role.
+  SearchPlaceholder: Search
+  ShowMoreRoleLeftMessage: Show more ({0} left)
+  SynchronizationLog: Synchronization Log
+  Synchronize: Synchronize
 security:
   ChangeSecuritySystem: Change Security System
 securityDetail:
@@ -549,6 +598,9 @@ template:
   ServerIndex: Server Index
   ShowHealthDetails: Show health details ...
   SupportReport: Support Report
+updateRoleParent:
+  UpdateRoleParentDialogHeader: Update Role Parent
+  UpdateRoleParentDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. The role hierarchy is defined in your Axon Ivy Project and your running process may depend on this hierachy.
 userDetail:
   CanWorkOnTasks: Can work on tasks
   PersonalTasks: Personal tasks
@@ -576,7 +628,6 @@ userDetailInformation:
   NotFoundSecuritySystemMessage: Security System ''{0}'' not found
   NotFoundUserMessage: User ''{0}'' not found
   Password: Password
-  SaveChanges: Save changes
   Synch: Synch
   UserDeleteHintMessage: You may want to disable this user instead of deleting it, you could lose part of the workflow history.
   UserDeleteHintMessageWithPersonalTasks: The user ''{0}'' has {1} personal tasks. If you delete this user, no other user can work on these tasks. You may want to disable this user instead of deleting it, you could lose part of the workflow history.
@@ -591,14 +642,12 @@ userDetailNotifications:
   NotificationChannelsChangesSavedMessage: Notification Channels changes saved
   NotificationChannelsResetMessage: Notification Channels reset
   ResetToDefault: Reset to default
-  SaveChanges: Save changes
   Subscribed: Subscribed
 userDetailSubstitutes:
   For: For
   OnAbsence: On absence
   Permanent: Permanent
   Personal: Personal
-  Role: Role
   Substitutes: Substitutes
   Type: Type
 users:
@@ -610,7 +659,6 @@ usersDetailRoles:
   RoleInExternalSecuritySystemMessage: Role is managed by the external security system
   RoleSearchPerformanceReasonsMessage: For performance reasons only the first 20 roles are loaded. Use the search to find a specific role.
   SearchPlaceholder: Search
-  ShowMoreRoleLeftMessage: Show more ({0} left)
 usersTable:
   Disabled: '[disabled]'
   DisabledUsersFilter: disabled users

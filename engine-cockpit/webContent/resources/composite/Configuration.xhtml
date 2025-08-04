@@ -63,7 +63,7 @@
   </h:form>
 
   <p:confirmDialog id="resetConfigConfirmDialog" header="#{ivy.cm.co('/common/Reset')} #{cc.attrs.dialogTitle}" appendTo="@(body)"
-    message="#{ivy.cm.co('/configuration/ResetConfigConfirmDialogMessage')} #{cc.attrs.dialogTitle} '#{cc.attrs.bean.activeConfig.key}'#{ivy.cm.co('/configuration/QuestionMark')}"
+    message="#{configurationBean.getResetConfigConfirmDialogMessage(cc.attrs.dialogTitle, cc.attrs.bean.activeConfig.key)}"
     severity="alert" widgetVar="resetConfigConfirmDialog">
     <h:form id="resetConfigConfirmForm">
       <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('resetConfigConfirmDialog').hide();" type="button"

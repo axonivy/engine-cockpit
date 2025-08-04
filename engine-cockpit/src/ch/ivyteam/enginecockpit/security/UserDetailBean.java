@@ -255,8 +255,4 @@ public class UserDetailBean {
   public boolean isRoleManaged(Role role) {
     return role.isManaged() && isIvySecuritySystem();
   }
-
-  public String getShowMoreRoleLeftMessage(String roleName) {
-    return Ivy.cms().co("/usersDetailRoles/ShowMoreRoleLeftMessage", Arrays.asList(roleName));
-  }
 }

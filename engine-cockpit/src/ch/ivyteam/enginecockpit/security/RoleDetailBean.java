@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.model.User;
 import ch.ivyteam.enginecockpit.security.model.UserDataModel;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -235,7 +237,7 @@ public class RoleDetailBean {
     iRole.setDescription(role.getDescription());
     iRole.setDisplayName(role.getDisplayName());
     iRole.setExternalName(role.getExternalName());
-    var msg = new FacesMessage("Role information changes saved");
+    var msg = new FacesMessage(Ivy.cm().co("/roleDetailInformation/RoleInformationChangesSavedMessage"));
     FacesContext.getCurrentInstance().addMessage("informationSaveSuccess", msg);
   }
 
@@ -430,5 +432,13 @@ public class RoleDetailBean {
         .map(IRole::getName)
         .filter(name -> !roleName.equals(name))
         .collect(Collectors.toList());
+  }
+
+  public String getDeleteRoleDialogConfirmMessage(String roleName) {
+    return Ivy.cms().co("/roleDetailInformation/DeleteRoleDialogConfirmMessage", Arrays.asList(roleName));
+  }
+
+  public String getAddNewChildRoleDialogHeader(String roleName) {
+    return Ivy.cms().co("/newRole/NewChildRoleDialogHeader", Arrays.asList(roleName));
   }
 }

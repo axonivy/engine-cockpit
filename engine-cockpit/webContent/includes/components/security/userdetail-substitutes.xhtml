@@ -36,7 +36,7 @@
         </h:outputText>
       </p:column>
 
-      <p:column headerText="#{ivy.cm.co('/userDetailSubstitutes/Role')}" sortBy="#{substitute.role}">
+      <p:column headerText="#{ivy.cm.co('/common/Role')}" sortBy="#{substitute.role}">
         <a href="#{substitute.roleViewUrl}">
           <h:outputText value="#{substitute.role}" styleClass="substitute-name" rendered="#{!substitute.role.blank}">
             <i class="si si-#{substitute.memberIcon} table-icon" />
