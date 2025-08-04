@@ -6,9 +6,9 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Security</span></li>
+      <li><span>#{ivy.cm.co('/common/Security')}</span></li>
       <li>/</li>
-      <li><a href="securitysystem.xhtml">Security Systems</a></li>
+      <li><a href="securitysystem.xhtml">#{ivy.cm.co('/securitySystem/SecuritySystems')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -23,28 +23,28 @@
           </p:growl>
           <div class="flex align-items-center mb-3">
             <i class="pr-3 si si-lock-1 card-title-icon"></i>
-            <h2 class="m-0">Security Systems</h2>
-            <p:commandButton styleClass="ml-auto" id="createSecuritySystemBtn" icon="si si-add" type="button" value="Add"
+            <h2 class="m-0">#{ivy.cm.co('/securitySystem/SecuritySystems')}</h2>
+            <p:commandButton styleClass="ml-auto" id="createSecuritySystemBtn" icon="si si-add" type="button" value="#{ivy.cm.co('/common/Add')}"
               onclick="PF('newSecuritySystemModal').show();" />
           </div>
           <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
             var="system" value="#{securityBean.securitySystems}" widgetVar="securitySystemTable"
             filteredValue="#{securityBean.filteredSystems}" lazy="false" styleClass="userTable ui-fluid"
-            id="securitySystemTable">
+            id="securitySystemTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
             <f:facet name="header">
               <div class="ui-input-icon-left filter-container">
                 <i class="pi pi-search"/>
-                <p:inputText id="globalFilter" onkeyup="PF('securitySystemTable').filter()" placeholder="Search" value="#{securityBean.filter}" />
+                <p:inputText id="globalFilter" onkeyup="PF('securitySystemTable').filter()" placeholder="#{ivy.cm.co('/securitySystem/SearchPlaceholder')}" value="#{securityBean.filter}" />
               </div>
             </f:facet>
-            <p:column headerText="Name" sortBy="#{system.securitySystemName}" filterBy="#{system.securitySystemName}">
+            <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{system.securitySystemName}" filterBy="#{system.securitySystemName}">
               <h:outputLink value="#{system.link}">
                 <i class="si si-lock-1 table-icon"></i>
                 <h:outputText value="#{system.securitySystemName}" styleClass="security-name" />
               </h:outputLink>
             </p:column>
             
-            <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}"
+            <p:column headerText="#{ivy.cm.co('/common/Provider')}" sortBy="#{system.securitySystemProvider}"
               filterBy="#{system.securitySystemProvider}">
               <span class="inline-flex align-items-center gap-1">
                 <h:outputText value="#{system.identityProviderImage}" class="provider-icon" escape="false" /> <!-- contains no user input, contains icon-->
@@ -52,7 +52,7 @@
               </span>
             </p:column>
             
-            <p:column headerText="Application">
+            <p:column headerText="#{ivy.cm.co('/common/Application')}">
               <ui:repeat var="app" value="#{system.appNames}" varStatus="status">
                 <a href="application-detail.xhtml?appName=#{app}">
                   <i class="si si-module table-icon"></i>#{app}

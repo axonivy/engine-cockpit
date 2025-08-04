@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.system;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -15,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.security.SecurityContextRemovalCheck;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.language.LanguageConfigurator;
 import ch.ivyteam.ivy.language.LanguageManager;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -99,7 +101,7 @@ public class SecurityConfigBean {
   public String getNotToDeleteReason() {
     var result = new SecurityContextRemovalCheck(securitySystem.getSecurityContext()).run();
     if (result.removable()) {
-      return "Are you sure you want to delete the security system '" + name + "'?";
+      return Ivy.cms().co("/securitySystemInfo/DeleteSecuritySystemConfirmMessage", Arrays.asList(name));
     }
     return result.reason();
   }
@@ -121,7 +123,7 @@ public class SecurityConfigBean {
     languageConfigurator.content(LocaleUtils.toLocale(language));
     languageConfigurator.formatting(LocaleUtils.toLocale(formattingLanguage));
     FacesContext.getCurrentInstance().addMessage("securityLanguageSaveSuccess",
-        new FacesMessage("Security System Languages saved"));
+        new FacesMessage(Ivy.cm().co("/securitySystemLanguage/SecuritySystemLanguagesSavedMessage")));
   }
 
   public String deleteConfiguration() {

@@ -8,27 +8,27 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-cog"></i>
-        <h6 class="m-0">Workflow Languages</h6>
+        <h6 class="m-0">#{ivy.cm.co('/securitySystemWorkflowLanguage/WorkflowLanguages')}</h6>
         <p:commandButton id="addBtn" oncomplete="PF('addWorkflowLanguageModal').show();" process="@this"
-          update="securityWorkflowLanguageForm" title="Add a new language"
+          update="securityWorkflowLanguageForm" title="#{ivy.cm.co('/securitySystemWorkflowLanguage/AddNewLanguage')}"
           icon="si si-add" styleClass="flex-shrink-0 ml-auto rounded-button" disabled="#{empty securityWorkflowLanguageBean.addable}"/>
       </div>
     </div>
-    
+
     <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
       value="#{securityWorkflowLanguageBean.languages}" var="language" id="workflowLanguageTable">
-      <p:column headerText="Language">
+      <p:column headerText="#{ivy.cm.co('/common/Language')}">
         <h:outputText value="#{language.displayName}" styleClass="language-displayname" />
       </p:column>
-      <p:column headerText="Default" styleClass="language-default">
+      <p:column headerText="#{ivy.cm.co('/common/Default')}" styleClass="language-default">
         <i class="#{securityWorkflowLanguageBean.isDefault(language) ? 'si si-check-circle-1 table-icon activity-state-active' : ''}"></i>
       </p:column>
       <p:column styleClass="table-btn-2">
         <p:commandButton id="defaultBtn" actionListener="#{securityWorkflowLanguageBean.setDefault(language)}"
-          icon="si si-pencil" title="Make this the default language" update="@form"
+          icon="si si-pencil" title="#{ivy.cm.co('/securitySystemWorkflowLanguage/MakeDefaultLanguage')}" update="@form"
           styleClass="ui-button-secondary rounded-button" disabled="#{securityWorkflowLanguageBean.isDefault(language)}" />
-        <p:commandButton id="deleteBtn"  actionListener="#{securityWorkflowLanguageBean.setEditLanguage(language)}" oncomplete="PF('deleteWorkflowLanguageModal').show();"
-          icon="si si-bin-1" title="Delete this language" update="@form"
+        <p:commandButton id="deleteBtn" actionListener="#{securityWorkflowLanguageBean.setEditLanguage(language)}" oncomplete="PF('deleteWorkflowLanguageModal').show();"
+          icon="si si-bin-1" title="#{ivy.cm.co('/securitySystemWorkflowLanguage/DeleteLanguage')}" update="@form"
           styleClass="ml-1 ui-button-danger rounded-button"  
           disabled="#{securityWorkflowLanguageBean.isDefault(language)}">
         </p:commandButton>
@@ -37,34 +37,34 @@
   </h:form>
 </div>
 
-<p:dialog style="min-width: 300px;" header="Add Workflow Language" id="addWorkflowLanguageModal" widgetVar="addWorkflowLanguageModal"
+<p:dialog style="min-width: 300px;" header="#{ivy.cm.co('/securitySystemWorkflowLanguage/AddWorkflowLanguageDialogHeader')}" id="addWorkflowLanguageModal" widgetVar="addWorkflowLanguageModal"
   modal="true" responsive="true" closeOnEscape="true">
-  <p:staticMessage severity="warn" detail="If you add a new workflow language the name and description of all existing tasks (#{securityWorkflowLanguageBean.tasks}) and cases (#{securityWorkflowLanguageBean.cases}) of the default language (#{securityWorkflowLanguageBean.default.displayName}) are copied to the new language." />
-  <p:staticMessage severity="warn" detail="This operation will takes some time and the space of your system database will grow." />
+  <p:staticMessage severity="warn" detail="#{securityWorkflowLanguageBean.getAddWorkflowLanguageWarningMessage()}" />
+  <p:staticMessage severity="warn" detail="#{ivy.cm.co('/securitySystemWorkflowLanguage/AddWorkflowLanguageSystemDatabaseSpaceWarningMessage')}" />
   <h:form id="addWorkflowLanguageForm" styleClass="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
-      <p:outputLabel for="language" value="Language" />
+      <p:outputLabel for="language" value="#{ivy.cm.co('/common/Language')}" />
       <p:selectOneMenu id="language" value="#{securityWorkflowLanguageBean.editLanguage}" editable="true" converter="localeConverter">
         <f:selectItems value="#{securityWorkflowLanguageBean.addable}" var="language" itemLabel="#{language.getDisplayName()}" />
       </p:selectOneMenu>
     </p:panelGrid>
     <div class="custom-dialog-footer">
       <p:commandButton id="addBtn" validateClient="true" ajax="false" update=":securityWorkflowLanguageForm"
-        actionListener="#{securityWorkflowLanguageBean.add(securityWorkflowLanguageBean.editLanguage)}" value="Add" icon="si si-add"
+        actionListener="#{securityWorkflowLanguageBean.add(securityWorkflowLanguageBean.editLanguage)}" value="#{ivy.cm.co('/common/Add')}" icon="si si-add"
         styleClass="modal-input-button" />
-      <p:commandButton id="cancelBtn" onclick="PF('addWorkflowLanguageModal').hide();" value="Cancel" type="button"
+      <p:commandButton id="cancelBtn" onclick="PF('addWorkflowLanguageModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
-    </div>      
+    </div>
   </h:form>
 </p:dialog>
 
-<p:confirmDialog style="min-width: 300px;" header="Delete Workflow Language" id="deleteWorkflowLanguageModal" widgetVar="deleteWorkflowLanguageModal"
-  responsive="true" closeOnEscape="true" message="If you delete a workflow language the name and description of all existing tasks (#{securityWorkflowLanguageBean.tasks}) and cases (#{securityWorkflowLanguageBean.cases}) of the language will be deleted! This operation will takes some time." severity="warn">
+<p:confirmDialog style="min-width: 300px;" header="#{ivy.cm.co('/securitySystemWorkflowLanguage/DeleteWorkflowLanguageDialogHeader')}" id="deleteWorkflowLanguageModal" widgetVar="deleteWorkflowLanguageModal"
+  responsive="true" closeOnEscape="true" message="#{securityWorkflowLanguageBean.getDeleteWorkflowLanguageWarningMessage()}" severity="warn">
   <h:form id="deleteWorkflowLanguageForm">
-    <p:commandButton id="cancelBtn" onclick="PF('deleteWorkflowLanguageModal').hide();" value="Cancel" type="button"
+    <p:commandButton id="cancelBtn" onclick="PF('deleteWorkflowLanguageModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
       styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
     <p:commandButton id="deleteBtn" validateClient="true" ajax="false" update=":securityWorkflowLanguageForm"
-      actionListener="#{securityWorkflowLanguageBean.delete(securityWorkflowLanguageBean.editLanguage)}" value="Delete" icon="si si-bin-1"
+      actionListener="#{securityWorkflowLanguageBean.delete(securityWorkflowLanguageBean.editLanguage)}" value="#{ivy.cm.co('/common/Delete')}" icon="si si-bin-1"
       styleClass="modal-input-button" />
   </h:form>
 </p:confirmDialog>

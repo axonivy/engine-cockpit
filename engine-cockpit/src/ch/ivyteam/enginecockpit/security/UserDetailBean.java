@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -15,6 +16,7 @@ import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.model.User;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.IUser;
@@ -67,13 +69,15 @@ public class UserDetailBean {
   public void onload() {
     securityContext = ISecurityContextRepository.instance().get(securitySystemName);
     if (securityContext == null) {
-      ResponseHelper.notFound("Security System '" + securitySystemName + "' not found");
+      ResponseHelper.notFound(
+          Ivy.cms().co("/userDetailInformation/NotFoundSecuritySystemMessage", Arrays.asList(securitySystemName)));
       return;
     }
 
     var iUser = securityContext.users().find(userName);
     if (iUser == null) {
-      ResponseHelper.notFound("User '" + userName + "' not found");
+      ResponseHelper
+          .notFound(Ivy.cms().co("/userDetailInformation/NotFoundUserMessage", Arrays.asList(securitySystemName)));
       return;
     }
 
@@ -115,7 +119,7 @@ public class UserDetailBean {
     }
     iUser.setLanguage(user.getLanguage());
     iUser.setFormattingLanguage(user.getFormattingLanguage());
-    var msg = new FacesMessage("User information changes saved");
+    var msg = new FacesMessage(Ivy.cm().co("/userDetailInformation/UserInformationChangesSavedMessage"));
     FacesContext.getCurrentInstance().addMessage("informationSaveSuccess", msg);
   }
 
@@ -161,7 +165,7 @@ public class UserDetailBean {
       getIUser().addRole(securityContext.roles().find(roleName));
     } catch (Exception e) {
       FacesContext.getCurrentInstance().addMessage("roleMessage",
-          new FacesMessage("User already member of this role"));
+          new FacesMessage(Ivy.cm().co("/userDetailInformation/AddRoleFailedMessage")));
     }
   }
 
@@ -182,13 +186,11 @@ public class UserDetailBean {
   }
 
   public String userDeleteHint() {
-    var message = "";
     if (personalTasks != 0) {
-      message += "The user '" + userName + "' has " + getPersonalTasks() + " personal tasks. "
-          + "If you delete this user, no other user can work on these tasks. ";
+      return Ivy.cms().co("/userDetailInformation/UserDeleteHintMessageWithPersonalTasks",
+          Arrays.asList(userName, getPersonalTasks()));
     }
-    return message
-        + "You may want to disable this user instead of deleting it, you could lose part of the workflow history.";
+    return Ivy.cm().co("/userDetailInformation/UserDeleteHintMessage");
   }
 
   public String getSecuritySystemName() {
@@ -252,5 +254,9 @@ public class UserDetailBean {
 
   public boolean isRoleManaged(Role role) {
     return role.isManaged() && isIvySecuritySystem();
+  }
+
+  public String getShowMoreRoleLeftMessage(String roleName) {
+    return Ivy.cms().co("/usersDetailRoles/ShowMoreRoleLeftMessage", Arrays.asList(roleName));
   }
 }

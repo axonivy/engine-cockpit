@@ -55,6 +55,7 @@ axonivy:
 common:
   Activate: Activate
   Activity: Activity
+  Add: Add
   Application: Application
   Applications: Applications
   Apply: Apply
@@ -63,23 +64,28 @@ common:
   Cancel: Cancel
   Close: Close
   Cockpit: Cockpit
+  CollapseAll: Collapse all
   Confirm: Confirm
   Deactivate: Deactivate
   Default: Default
   Delete: Delete
   Deployment: Deployment
   Description: Description
+  Disable: Disable
   Download: Download
   Edit: Edit
   EngineCockpit: Engine Cockpit
   Error: Error
+  ExpandAll: Expand all
   Failed: Failed
   Failure: Failure
   Finish: Finish
   Finished: Finished
+  FullName: Full Name
   Help: Help
   Info: Info
   Key: Key
+  Language: Language
   Lock: Lock
   Login: Login
   Migration: Migration
@@ -90,13 +96,17 @@ common:
   OK: OK
   Port: Port
   Previous: Previous
+  Properties: Properties
   Provider: Provider
+  Remove: Remove
   RequiredMessage: Value is required
   Reset: Reset
   Restart: Restart
+  Roles: Roles
   RunningCases: Running Cases
   Save: Save
   SaveAndCreate: Save and create
+  Security: Security
   SecuritySystem: Security System
   Send: Send
   Sessions: Sessions
@@ -110,6 +120,7 @@ common:
   Users: Users
   Value: Value
   Variable: Variable
+  Warning: Warning
   'Yes': 'Yes'
 configuration:
   ApplicationConfiguration: Application Configuration
@@ -253,6 +264,13 @@ login:
   PasswordPlaceholder: Username / Email
   SignInButton: Sign In
   UserNamePlaceholder: Password
+memberProperties:
+  Property: Property
+  PropertyInExternalSecuritySystem: Property is managed by the external security system
+  RemovePropertyMessage: Successfully removed property
+  SavePropertyErrorMessage: The property ''{0}'' has already been imported from your Security System
+  SavePropertyMessage: Successfully updated property
+  SearchPlaceholder: Search
 migrate:
   BackupSystemDatabaseRemindMessage: Before you start the Migration make sure you have a backup of your system database and the whole Axon Ivy Engine installation directory.
   Checks: Checks
@@ -294,6 +312,23 @@ moveApplication:
 newApplication:
   AddNewApplicationDialogHeader: Add new application
   AddNewApplicationDialogHeader1: Add new application
+newSecuritySystem:
+  AddNewSecuritySystemDialogHeader: Add new security system
+newUser:
+  AddUserDialogHeader: Add new user
+  ConfirmPassword: Confirm Password
+  EMailAddress: E-Mail Address
+  NotMatchPasswordMessage: Password didn't match
+  Password: Password
+permissions:
+  AllPermissions: All Permissions
+  Grant: Grant
+  PermissionDenied: Permission denied
+  PermissionGranted: Permission granted
+  Permissions: Permissions
+  SearchPlaceholder: Search
+  SomePermissionDenied: Some Permission denied
+  SomePermissionGranted: Some Permission granted
 progressLoader:
   Loading: Loading...
 restart:
@@ -307,6 +342,30 @@ restart:
   RestartWarningMessage: Restarting {0} is a dangerous operation.
 security:
   ChangeSecuritySystem: Change Security System
+securityDetail:
+  ProcessModels: Process Models
+  SecuritySystems: Security Systems
+securityReportDownloadDialog:
+  DownloadSecurityReportInfo: The following download contains a security report in form of a excel. In the excel are detailed information about users, roles, user roles, role members, user permissions and role permissions. The download may take a few minutes depending on the amount of users.
+  Generate: Generate
+  SecurityReportGeneratedMessage: Security Report Generated
+securitySystem:
+  SearchPlaceholder: Search
+  SecuritySystems: Security Systems
+securitySystemInfo:
+  CreateSecurityReport: Create Security Report
+  DeleteSecuritySystemButtonTitle: Delete this security system
+  DeleteSecuritySystemConfirmMessage: Are you sure you want to delete the security system ''{0}''?
+  DeleteSecuritySystemDialogHeader: Delete Security System
+  DeleteSecuritySystemWarningMessage: Note that all users and roles of this security system will be deleted as well.
+  DownloadSecurityReport: Download Security Report
+  MergeSecuritySystems: Merge Security Systems
+  UsedByApplications: Used by applications
+  UsedByApplicationsTooltip: Every application, which using this security system.
+securitySystemLanguage:
+  FormattingLanguage: Formatting language
+  Languages: Languages
+  SecuritySystemLanguagesSavedMessage: Security System Languages saved
 securitySystemMerge:
   ApplyChangeDialogHeader: Apply change
   ApplyChangeDialogMessage: Do you really want to {0} this entry?
@@ -338,6 +397,26 @@ securitySystemMerge:
   SourceSecuritySystem: Source Security System
   TargetSecuritySystem: Target Security System
   UpdateSolveHintMessage: This will update the entry in the target security system {0}
+securitySystemProvider:
+  IdentityProvider: Identity Provider
+  ImportUsersOnSchedule: Import users on schedule
+  ProviderChangeWarningMessage: If you change the identity provider, you will lose ALL current settings of this security system!
+  ScheduleCronPlaceholder: 0 0 0 * * ?
+  ScheduleTimePlaceholder: 00:00
+  SynchronizationScheduleTime: Synchronization schedule time
+  SynchronizeUsersOnLogin: Synchronize users on login
+  SynchronizeUsersOnSchedule: Synchronize users on schedule
+  UseCronExpressionConfiguration: Use cron expression configuration
+securitySystemWorkflowLanguage:
+  AddNewLanguage: Add a new language
+  AddWorkflowLanguageDialogHeader: Add Workflow Language
+  AddWorkflowLanguageSystemDatabaseSpaceWarningMessage: This operation will takes some time and the space of your system database will grow.
+  AddWorkflowLanguageWarningMessage: If you add a new workflow language the name and description of all existing tasks ({0}) and cases ({1}) of the default language ({2}) are copied to the new language.
+  DeleteLanguage: Delete this language
+  DeleteWorkflowLanguageDialogHeader: Delete Workflow Language
+  DeleteWorkflowLanguageWarningMessage: If you delete a workflow language the name and description of all existing tasks ({0}) and cases ({1}) of the language will be deleted! This operation will takes some time.
+  MakeDefaultLanguage: Make this the default language
+  WorkflowLanguages: Workflow Languages
 sendtestmail:
   Email: Email
   Log: Log
@@ -470,6 +549,84 @@ template:
   ServerIndex: Server Index
   ShowHealthDetails: Show health details ...
   SupportReport: Support Report
+userDetail:
+  CanWorkOnTasks: Can work on tasks
+  PersonalTasks: Personal tasks
+  StartedCases: Started cases
+  WorkingOnTasks: Working on tasks
+userDetailAbsences:
+  Absences: Absences
+  End: End
+  Start: Start
+  UserIsCurrentlyAbsent: User is currently absent
+  UserIsCurrentlyNotAbsent: User is currently not absent
+  Working: Working
+userDetailInformation:
+  AddRoleFailedMessage: User already member of this role
+  ConfirmPassword: Confirm Password
+  DeleteUser: Delete this user
+  DeleteUserDialogHeader: Delete User
+  DisableUser: Disable this user
+  DisabledUserWarningMessage: This user is disabled
+  EMailAddress: E-Mail Address
+  EnableUser: Enable this user
+  ExternalID: External ID
+  ExternalName: External Name
+  FormattingLanguage: Formatting language
+  NotFoundSecuritySystemMessage: Security System ''{0}'' not found
+  NotFoundUserMessage: User ''{0}'' not found
+  Password: Password
+  SaveChanges: Save changes
+  Synch: Synch
+  UserDeleteHintMessage: You may want to disable this user instead of deleting it, you could lose part of the workflow history.
+  UserDeleteHintMessageWithPersonalTasks: The user ''{0}'' has {1} personal tasks. If you delete this user, no other user can work on these tasks. You may want to disable this user instead of deleting it, you could lose part of the workflow history.
+  UserInExternalSecuritySystemMessage: This user is managed by the external security system
+  UserInformation: User information
+  UserInformationChangesSavedMessage: User information changes saved
+userDetailNotifications:
+  ByDefault: by default
+  Event: Event
+  NotSubscribed: Not subscribed
+  NotificationChannels: Notification Channels
+  NotificationChannelsChangesSavedMessage: Notification Channels changes saved
+  NotificationChannelsResetMessage: Notification Channels reset
+  ResetToDefault: Reset to default
+  SaveChanges: Save changes
+  Subscribed: Subscribed
+userDetailSubstitutes:
+  For: For
+  OnAbsence: On absence
+  Permanent: Permanent
+  Personal: Personal
+  Role: Role
+  Substitutes: Substitutes
+  Type: Type
+users:
+  AddUser: Add User
+  SynchSingleUser: Synch Single User
+  SynchronizationLog: Synchronization Log
+usersDetailRoles:
+  AllRoles: All Roles
+  RoleInExternalSecuritySystemMessage: Role is managed by the external security system
+  RoleSearchPerformanceReasonsMessage: For performance reasons only the first 20 roles are loaded. Use the search to find a specific role.
+  SearchPlaceholder: Search
+  ShowMoreRoleLeftMessage: Show more ({0} left)
+usersTable:
+  Disabled: '[disabled]'
+  DisabledUsersFilter: disabled users
+  Email: Email
+  EnabledUsersFilter: enabled users
+  External: '[external]'
+  Filter: 'Filter:'
+  LastLogin: Last Login
+  LoggedIn: Logged in
+  ManualDisabledUsersFilter: manual disabled users
+  ManualUsersFilter: manual users
+  SearchPlaceholder: Search
+  ShowDisabledUsers: Show disabled users
+  ShowManualUsers: Show manual users
+  SynchSingleUser: Synch Single User
+  Working: Working
 webServer:
   ChangedConfigSuccessfulMessage: '''''{0}'''' changed successfully'
   Enabled: 'Enabled:'

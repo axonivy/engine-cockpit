@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.system.ManagerBean;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.IUser;
 
@@ -66,12 +68,12 @@ public class MemberProperty {
 
   public void savePropertyMessage() {
     FacesContext.getCurrentInstance().addMessage("propertiesMessage",
-        new FacesMessage("Successfully updated property", ""));
+        new FacesMessage(Ivy.cm().co("/memberProperties/SavePropertyMessage"), ""));
   }
 
   public void removePropertyMessage() {
     FacesContext.getCurrentInstance().addMessage("propertiesMessage",
-        new FacesMessage("Successfully removed property", ""));
+        new FacesMessage(Ivy.cm().co("/memberProperties/RemovePropertyMessage"), ""));
   }
 
   public class RoleProperty extends MemberProperty {
@@ -122,8 +124,8 @@ public class MemberProperty {
     public void saveProperty() {
       if (user.isPropertyBacked(super.property.getKey())) {
         FacesContext.getCurrentInstance().addMessage("propertiesMessage",
-            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "The property '"
-                + super.property.getKey() + "' has already been imported from your Security System"));
+            new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"),
+                Ivy.cms().co("/memberProperties/SavePropertyErrorMessage", Arrays.asList(super.property.getKey()))));
         return;
       }
       user.setProperty(super.property.getKey(), super.property.getValue());

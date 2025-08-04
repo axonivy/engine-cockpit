@@ -8,23 +8,26 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-beach-palm-sunbed"></i>
-        <h6 class="m-0">Absences</h6>
+        <h6 class="m-0">#{ivy.cm.co('/userDetailAbsences/Absences')}</h6>
       </div>
-      <div class="flex align-items-center" title="#{userDetailBean.user.working ? 'User is currently not absent' : 'User is currently absent'}">
-        <h:outputLabel for="working" value="Working" />
-        <i id="working" class="pl-3 si si-#{userDetailBean.user.working ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
+      <div class="flex align-items-center"
+        title="#{userDetailBean.user.working ? ivy.cm.co('/userDetailAbsences/UserIsCurrentlyNotAbsent') : ivy.cm.co('/userDetailAbsences/UserIsCurrentlyAbsent')}">
+        <h:outputLabel for="working"
+          value="#{ivy.cm.co('/userDetailAbsences/Working')}" />
+        <i id="working"
+          class="pl-3 si si-#{userDetailBean.user.working ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
       </div>
     </div>
-    
+
     <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
       var="absence" value="#{userDetailBean.user.absences}" id="absencesTable"
-      lazy="false" styleClass="ui-fluid">
-      
-      <p:column headerText="Start" sortBy="#{absence.start}">
+      lazy="false" styleClass="ui-fluid" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+
+      <p:column headerText="#{ivy.cm.co('/userDetailAbsences/Start')}" sortBy="#{absence.start}">
         <h:outputText value="#{absence.start}" styleClass="absence-start" />
       </p:column>
-      
-      <p:column headerText="End" sortBy="#{absence.end}">
+
+      <p:column headerText="#{ivy.cm.co('/userDetailAbsences/End')}" sortBy="#{absence.end}">
         <h:outputText value="#{absence.end}" />
       </p:column>
     </p:dataTable>

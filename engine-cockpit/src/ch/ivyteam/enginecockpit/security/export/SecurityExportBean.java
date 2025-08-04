@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
@@ -84,7 +85,7 @@ public class SecurityExportBean implements AllResourcesDownload {
   }
 
   public void onComplete() {
-    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Security Report Generated"));
+    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(Ivy.cm().co("/securityReportDownloadDialog/SecurityReportGeneratedMessage")));
     setDisableDownloadButton(false);
   }
 }

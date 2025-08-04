@@ -11,28 +11,28 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-multiple-neutral-1"></i>
-        <h6 class="m-0">Roles</h6>
+        <h6 class="m-0">#{ivy.cm.co('/common/Roles')}</h6>
       </div>
     </div>
     
     <div class="table-search flex ui-fluid">
       <span class="ui-input-icon-left filter-container">
         <i class="pi pi-search"/>
-        <p:inputText id="globalFilter" placeholder="Search" value="#{userDetailBean.roles.filter}">
+        <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/usersDetailRoles/SearchPlaceholder')}" value="#{userDetailBean.roles.filter}">
           <p:ajax event="keyup" delay="300" update="@form:rolesTree" />
         </p:inputText>
       </span>
       <p:commandButton id="expandAll" icon="si si-move-expand-vertical"
-        actionListener="#{userDetailBean.roles.expandAllNodes}" update="rolesTree" title="Expand all"
+        actionListener="#{userDetailBean.roles.expandAllNodes}" update="rolesTree" title="#{ivy.cm.co('/common/ExpandAll')}"
         styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined expand-all" />
       <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
-        actionListener="#{userDetailBean.roles.collapseAllNodes}" update="rolesTree" title="Collapse all"
+        actionListener="#{userDetailBean.roles.collapseAllNodes}" update="rolesTree" title="#{ivy.cm.co('/common/CollapseAll')}"
         styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined" />
     </div>
-    <p:treeTable id="rolesTree" value="#{userDetailBean.roles.tree}" var="role" nodeVar="node">
+    <p:treeTable id="rolesTree" value="#{userDetailBean.roles.tree}" var="role" nodeVar="node" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
       <p:ajax event="expand" listener="#{userDetailBean.roles.nodeExpand}" />
       <p:ajax event="collapse" listener="#{userDetailBean.roles.nodeCollapse}" />
-      <p:column headerText="All Roles" sortBy="#{role.name}">
+      <p:column headerText="#{ivy.cm.co('/usersDetailRoles/AllRoles')}" sortBy="#{role.name}">
         <p:treeNode type="role" rendered="#{node.type == 'role'}">
           <a href="#{role.getViewUrl()}">
             <h:outputText value="#{role.name}" styleClass="role-name">
@@ -40,22 +40,22 @@
             </h:outputText>
             <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
             <h:panelGroup rendered="#{userDetailBean.isRoleManaged(role)}">
-              <i class="si si-button-refresh-arrows table-icon" title="Role is managed by the external security system"></i>
+              <i class="si si-button-refresh-arrows table-icon" title="#{ivy.cm.co('/usersDetailRoles/RoleInExternalSecuritySystemMessage')}"></i>
             </h:panelGroup>
           </a>
         </p:treeNode>
         <p:treeNode type="dummy" rendered="#{node.type == 'dummy'}">
-          <p:commandButton value="Show more (#{role.name} left)" update="rolesTree"
+          <p:commandButton value="#{userDetailBean.getShowMoreRoleLeftMessage(role.name)}" update="rolesTree"
             actionListener="#{userDetailBean.increaseShowChildLimitAndReloadTree(1000)}" />
           </p:treeNode>
         <p:treeNode type="searchDummy" rendered="#{node.type == 'searchDummy'}">
           <h:outputText value="#{role.name}"
-            title="For performance reasons only the first 20 roles are loaded. Use the search to find a specific role.">
+            title="#{ivy.cm.co('/usersDetailRoles/RoleSearchPerformanceReasonsMessage')}">
             <i class="si si-navigation-menu-horizontal table-icon"></i>
           </h:outputText>
         </p:treeNode>
       </p:column>
-      
+
       <p:column styleClass="table-btn-1">
         <h:panelGroup rendered="#{node.type == 'role'}">
           <h:outputText rendered="#{userDetailBean.isUserMemberOfButNotDirect(role)}">
@@ -66,14 +66,14 @@
           </h:outputText>
         </h:panelGroup>
       </p:column>
-      
+
       <p:column styleClass="table-btn-2">
         <h:panelGroup rendered="#{node.type == 'role'}">
           <p:commandButton id="addRoleToUserBtn" update="@form" actionListener="#{userDetailBean.addRole(role.name)}"
-            icon="si si-add" title="Add" styleClass="rounded-button"
+            icon="si si-add" title="#{ivy.cm.co('/common/Add')}" styleClass="rounded-button"
             disabled="#{userDetailBean.isAddRoleButtonDisabled(role)}" />
           <p:commandButton id="removeRoleFromUserBtn" update="@form"
-            actionListener="#{userDetailBean.removeRole(role.name)}" icon="si si-subtract" title="Remove"
+            actionListener="#{userDetailBean.removeRole(role.name)}" icon="si si-subtract" title="#{ivy.cm.co('/common/Remove')}"
             styleClass="ml-1 ui-button-secondary rounded-button"
             disabled="#{userDetailBean.isRemoveRoleButtonDisabled(role)}" />
         </h:panelGroup>

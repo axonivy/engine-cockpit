@@ -6,9 +6,9 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Security</span></li>
+      <li><span>#{ivy.cm.co('/common/Security')}</span></li>
       <li>/</li>
-      <li><a href="users.xhtml">Users</a></li>
+      <li><a href="users.xhtml">#{ivy.cm.co('/common/Users')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -20,21 +20,21 @@
         <p:growl id="msgs" showDetail="true" />
         <h:form id="form" class="flex align-items-center mb-3">
           <i class="pr-3 si si-single-neutral-actions card-title-icon"></i>
-          <h2 class="m-0">Users <i id="userCount">(#{userBean.userCount})</i></h2>
+          <h2 class="m-0">#{ivy.cm.co('/common/Users')} <i id="userCount">(#{userBean.userCount})</i></h2>
           <h:panelGroup id="syncPanel" styleClass="ml-auto">
-            <p:splitButton value="Synchronize"
+            <p:splitButton value="#{ivy.cm.co('/common/Synchronize')}"
               icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedSecuritySystem ? 'si-is-spinning' : ''} spin-icon"
               id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedSecuritySystem}" immediate="true"
               process="@this" actionListener="#{securityBean.triggerSyncForSelectedSecuritySystem}" update="@parent">
-              <p:menuitem id="synchUserBtn" value="Synch Single User" icon="si si-button-refresh-arrows"
+              <p:menuitem id="synchUserBtn" value="#{ivy.cm.co('/users/SynchSingleUser')}" icon="si si-button-refresh-arrows"
                 onclick="PF('synchUserModal').show()" />
-              <p:menuitem id="userSyncLog" value="Synchronization Log" icon="si si-common-file-text"
+              <p:menuitem id="userSyncLog" value="#{ivy.cm.co('/users/SynchronizationLog')}" icon="si si-common-file-text"
                 onclick="window.location.href='#{securityBean.synchLogUri}'" />
               <p:divider style="margin: 0;" />
-              <p:menuitem id="syncNewUserBtn" value="Add User" icon="si si-add" onclick="PF('newUserModal').show();" />
+              <p:menuitem id="syncNewUserBtn" value="#{ivy.cm.co('/users/AddUser')}" icon="si si-add" onclick="PF('newUserModal').show();" />
             </p:splitButton>
             <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedSecuritySystem}" interval="2" update="@parent" />
-            <p:commandButton id="newUserBtn" value="Add" icon="si si-add" type="button"
+            <p:commandButton id="newUserBtn" value="#{ivy.cm.co('/common/Add')}" icon="si si-add" type="button"
               onclick="PF('newUserModal').show();" rendered="#{securityBean.ivySecurityForSelectedSecuritySystem}" />
           </h:panelGroup>
         </h:form>

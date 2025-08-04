@@ -15,6 +15,7 @@ import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.identity.core.IdentityProviderRegistry;
@@ -125,7 +126,7 @@ public class SecurityBean {
       loadSecuritySystems();
     } catch (IllegalArgumentException ex) {
       FacesContext.getCurrentInstance().addMessage("msgs",
-          new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"), ex.getMessage()));
     }
   }
 

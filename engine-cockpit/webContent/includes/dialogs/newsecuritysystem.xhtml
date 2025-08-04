@@ -3,19 +3,19 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog style="min-width: 400px;" header="Add new security system" id="newSecuritySystemModal"
+<p:dialog style="min-width: 400px;" header="#{ivy.cm.co('/newSecuritySystem/AddNewSecuritySystemDialogHeader')}" id="newSecuritySystemModal"
   widgetVar="newSecuritySystemModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="newSecuritySystemForm" styleClass="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9"
       styleClass="grey-label-panel ui-fluid">
-      <p:outputLabel for="newSecuritySystemNameInput" value="Name" />
+      <p:outputLabel for="newSecuritySystemNameInput" value="#{ivy.cm.co('/common/Name')}" />
       <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="newSecuritySystemNameInput" requiredMessage="Value is required"
+        <p:inputText id="newSecuritySystemNameInput" requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}"
           value="#{securityBean.newSecuritySystemName}" required="true" />
         <p:message for="newSecuritySystemNameInput" id="newSecuritySystemNameMessage" />
       </h:panelGroup>
 
-      <p:outputLabel for="newSecuritySystemProviderSelect" value="Provider" />
+      <p:outputLabel for="newSecuritySystemProviderSelect" value="#{ivy.cm.co('/common/Provider')}" />
       <h:panelGroup>
         <p:selectOneMenu id="newSecuritySystemProviderSelect" value="#{securityBean.newSecuritySystemProvider}">
           <f:selectItems value="#{securityBean.providers}" var="provider" itemValue="#{provider.id()}" itemLabel="#{provider.name()}" />
@@ -23,10 +23,10 @@
       </h:panelGroup>
     </p:panelGrid>
     <div class="custom-dialog-footer">
-      <p:commandButton id="cancelNewSecuritySystem" onclick="PF('newSecuritySystemModal').hide();" value="Cancel"
+      <p:commandButton id="cancelNewSecuritySystem" onclick="PF('newSecuritySystemModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
         type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="saveNewSecuritySystem" validateClient="true" update="form:securitySystemTable, @form"
-        actionListener="#{securityBean.createNewSecuritySystem}" value="Save" icon="si si-floppy-disk"
+        actionListener="#{securityBean.createNewSecuritySystem}" value="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk"
         styleClass="modal-input-button" oncomplete="PF('newSecuritySystemModal').hide();" />
     </div>
   </h:form>
