@@ -87,10 +87,12 @@ common:
   Application: Application
   Applications: Applications
   Apply: Apply
+  AxonIvy: Axon Ivy
   AxonIvyEngine: Axon Ivy Engine
   Back: Back
   Branding: Branding
   BusinessCalendar: Business Calendar
+  Bytes: Bytes
   Cancel: Cancel
   Choose: Choose
   Close: Close
@@ -99,6 +101,8 @@ common:
   Color: Color
   Configuration: Configuration
   Confirm: Confirm
+  CopyToClipboard: Copy to clipboard
+  Created: Created
   Date: Date
   Deactivate: Deactivate
   Default: Default
@@ -109,8 +113,10 @@ common:
   Disable: Disable
   Download: Download
   Edit: Edit
+  EmptyMessage: No records found.
   EngineCockpit: Engine Cockpit
   Error: Error
+  Event: Event
   ExpandAll: Expand all
   Failed: Failed
   Failure: Failure
@@ -118,21 +124,31 @@ common:
   Finished: Finished
   FullName: Full Name
   Help: Help
+  ID: ID
   Info: Info
+  Instances: Instances
   Key: Key
   Language: Language
   Lock: Lock
   Login: Login
   Migration: Migration
+  Module: Module
   More: More
   Name: Name
   Next: Next
   NoRecordsFound: No records found.
+  None: None
   OK: OK
+  PMV: PMV
   Port: Port
   Previous: Previous
+  Priority: Priority
   Properties: Properties
   Provider: Provider
+  Read: Read
+  Receive: Receive
+  Receiver: Receiver
+  Refresh: Refresh
   Remove: Remove
   RequiredMessage: Value is required
   Reset: Reset
@@ -143,6 +159,7 @@ common:
   Save: Save
   SaveAndCreate: Save and create
   SaveChanges: Save changes
+  Search: Search
   SearchPlaceholder: Search
   Security: Security
   SecuritySystem: Security System
@@ -155,12 +172,14 @@ common:
   State: State
   Success: Success
   Synchronize: Synchronize
+  Template: Template
   Upload: Upload
   Users: Users
   Value: Value
   Variable: Variable
   Variables: Variables
   Warning: Warning
+  Write: Write
   'Yes': 'Yes'
 configuration:
   ApplicationConfiguration: Application Configuration
@@ -342,6 +361,90 @@ migrate:
   Upload: Upload
   ValidLicenceFoundMessage: Valid licence found.
   WriteConfigurationFilesToTemporaryDirectory: Write configuration files to temporary directory
+monitor:
+  Active: Active
+  CPULoad: CPU Load
+  Classes: Classes
+  Committed: Committed
+  Cores: Cores
+  Deamons: Deamons
+  GCCount: '{0} {1} Count {2}'
+  GarbageCollection: Garbage Collection
+  HeapMemory: Heap Memory
+  IO: IO
+  Init: Init
+  JVMMaxMemory: Jvm max memory
+  JVMMemoryUsage: Jvm memory usage
+  Load: Load
+  Loaded: Loaded
+  Max: Max
+  Memory: Memory
+  MemoryUsage: Memory usage
+  Network: Network
+  NonHeapMemory: Non Heap Memory
+  Of: '{0} of {1}'
+  Peak: Peak
+  Process: Process
+  Read: Read
+  ReadWrite: Read / Write
+  Receiving: Receiving
+  SendRecv: Send / Recv
+  Sending: Sending
+  System: System
+  Threads: Threads
+  Time: Time
+  TotalLoaded: Total Loaded
+  TotalStarted: Total Started
+  Unloaded: Unloaded
+  Used: Used
+  Write: Write
+  classHistogram:
+    BytesTooltip: Total number of bytes allocated on the Java heap for instances of this class
+    Clear: Clear Class Histogram
+    Delta: '&#x394;'
+    DeltaMax: '&#x394; Max'
+    DeltaMaxDetailTooltip: |-
+      &#x394;: {0}<br/>
+      Max: {1}
+    DeltaMaxTooltip: Delta between the current and maximum instances allocated on the Java heap since the last clear
+    DeltaMin: '&#x394; Min'
+    DeltaMinDetailTooltip: |-
+      &#x394;: {0}<br/>
+      Min: {1}
+    DeltaTooltip: Delta between the current and minimum instances allocated on the Java heap since the last clear
+    Dump: Dump Heap Memory
+    DumpHeapMemory: Dump Heap Memory
+    DumpMemoryMessage1: This will dump the whole heap memory to a file.
+    DumpMemoryMessage2: The resulting file can be huge (depending on the current heap size).
+    DumpMemoryMessage3: The engine may not be response for a few seconds.
+    EmptyHistogramMessage: Press refresh to load class histogram. Note that this triggers a full garbage collection and can influence the performance of the engine
+    InstancesTooltip: Total number of instances/objects allocated on the Java heap for this class
+    MemoryDump: Memory Dump
+    Refresh: Refresh Class Histogram
+  thread:
+    Blocked: Blocked
+    CPUTime: CPU Time
+    CPUTimeTooltip: Total CPU Time [ns]
+    Daemon: Daemon
+    DeadLockedMessage: This thread is deadlocked! It is waiting to lock {0} which is owned by thread {1}.
+    Deadlocked: Deadlocked
+    LockOwner: Lock Owner
+    LockTooltip: Waiting on or for Lock
+    LockedMonitors: Locked Monitors
+    LockedSynchronizers: Locked Synchronizers
+    Native: In Native Code
+    SaveThreadDump: Save Thread Dump
+    ThreadDetail: Thread Detail
+    ThreadDumpFileName: ThreadDump.txt
+    ThreadNewMessage: Thread is new and not yet started.
+    ThreadRunnableMessage: Thread is runnable.
+    ThreadTerminatedMessage: Thread is terminated.
+    ThreadTitle: Thread {0} - {1}
+    ThreadWaitOnLockMessage: Thread is waiting on lock {0}.
+    ThreadWaitOnLockWithTimeoutMessage: Thread is waiting with a timeout on lock {0}.
+    UserTime: User Time
+    UserTimeTooltip: User CPU Time [ns]
+    Waited: Waited
 moveApplication:
   ChangeSecuritySystemDialogContent: 'To change the security system of an application, the target security system must have the same roles and users so that all runtime data like tasks, cases, business data and more can be re-assigned. Therefore, you first need to validate if the target security system
     is ready. If this is not the case, you can check and prepare the target security system:'
@@ -367,6 +470,9 @@ newUser:
   EMailAddress: E-Mail Address
   NotMatchPasswordMessage: Password didn't match
   Password: Password
+notification:
+  Payload: Payload
+  ShowPayload: Show payload
 permissions:
   AllPermissions: All Permissions
   Grant: Grant
