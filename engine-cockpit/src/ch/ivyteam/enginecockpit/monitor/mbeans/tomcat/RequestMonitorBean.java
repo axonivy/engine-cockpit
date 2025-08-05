@@ -14,6 +14,7 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
@@ -54,7 +55,7 @@ public class RequestMonitorBean {
   private void setupRequestProcessingMonitors(ObjectName requestProcessor) {
     String label = requestProcessor.getKeyProperty("name");
     label = StringUtils.substringBefore(label, "-");
-    label = StringUtils.removeStart(label, "\"");
+    label = Strings.CS.removeStart(label, "\"");
     label = StringUtils.capitalize(label);
     setupRequestsMonitor(requestProcessor, label);
     setupErrorsMonitor(requestProcessor, label);
@@ -65,7 +66,7 @@ public class RequestMonitorBean {
   private void setupProtocolHandlerMonitors(ObjectName protocolHandler) {
     String label = attribute(protocolHandler, "name", Unit.ONE).nextValue().toString();
     label = StringUtils.substringBefore(label, "-");
-    label = StringUtils.removeStart(label, "\"");
+    label = Strings.CS.removeStart(label, "\"");
     label = StringUtils.capitalize(label);
     setupConnectionsMonitor(protocolHandler, label);
   }

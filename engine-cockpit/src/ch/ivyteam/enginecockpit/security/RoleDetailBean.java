@@ -9,7 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.directory.DirectoryBrowserBean;
@@ -361,11 +361,11 @@ public class RoleDetailBean {
 
   public List<Role> searchMember(String query) {
     var directMatch = roleDataModel.getList().stream()
-        .filter(m -> StringUtils.equalsIgnoreCase(m.getName(), query))
+        .filter(m -> Strings.CI.equals(m.getName(), query))
         .filter(m -> !isRoleMemberOfRole(m.getName()))
         .findAny();
     var result = roleDataModel.getList().stream()
-        .filter(m -> StringUtils.containsIgnoreCase(m.getName(), query))
+        .filter(m -> Strings.CI.contains(m.getName(), query))
         .filter(m -> !isRoleMemberOfRole(m.getName()))
         .limit(10).collect(Collectors.toList());
     if (directMatch.isPresent() && !result.contains(directMatch.get())) {

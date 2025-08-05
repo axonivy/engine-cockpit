@@ -23,8 +23,10 @@ import static com.codeborne.selenide.Selenide.refresh;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -116,7 +118,7 @@ class WebTestConfiguration {
       String key = "Connector.HTTP.AllowTrace";
       assertShowConfigFile(key);
     }
-    
+
     @Test
     void reloadConfig() {
       $(By.id("reloadConfig")).shouldBe(visible).click();
@@ -208,7 +210,7 @@ class WebTestConfiguration {
       var config = "Data.FilesDirectory";
       table.firstColumnShouldBe(itemWithText(config));
       toggleDefaultFilter();
-      table.firstColumnShouldBe(noneMatch("Hide default values", e -> StringUtils.equals(e.getText(), config)));
+      table.firstColumnShouldBe(noneMatch("Hide default values", e -> Objects.equals(e.getText(), config)));
       resetContentFilter();
       table.firstColumnShouldBe(itemWithText(config));
     }
@@ -235,12 +237,12 @@ class WebTestConfiguration {
 
     private void assertShowAppConfigFilter(String filter, String config) {
       table.firstColumnShouldBe(noneMatch("Config should not be listed in the config table per default: " + config,
-          element -> StringUtils.equals(element.getText(), config)));
+          element -> Objects.equals(element.getText(), config)));
       toggleFilter(List.of(filter));
       table.firstColumnShouldBe(itemWithText(config));
       resetContentFilter();
       table.firstColumnShouldBe(noneMatch("Config should not be listed in the config table after reset filter: " + config,
-          element -> StringUtils.equals(element.getText(), config)));
+          element -> Objects.equals(element.getText(), config)));
     }
 
     @Test
@@ -403,16 +405,16 @@ class WebTestConfiguration {
     public ConfigAssert assertValue(String value) {
       var configValue = $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
       String classAttr = configValue.getAttribute("class");
-      if (StringUtils.contains(classAttr, "ui-chkbox")) {
+      if (Strings.CS.contains(classAttr, "ui-chkbox")) {
         PrimeUi.selectBooleanCheckbox(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"))
             .shouldBeChecked(Boolean.parseBoolean(value));
-      } else if (StringUtils.contains(classAttr, "ui-inputnumber")) {
+      } else if (Strings.CS.contains(classAttr, "ui-inputnumber")) {
         $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue_input"))
             .shouldBe(exactValue(value));
-      } else if (StringUtils.contains(classAttr, "ui-selectonemenu")) {
+      } else if (Strings.CS.contains(classAttr, "ui-selectonemenu")) {
         SelectOneMenu menu = PrimeUi.selectOne(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
         menu.selectedItemShould(exactText(value));
-      } else if (StringUtils.contains(configValue.getTagName(), "textarea")) {
+      } else if (Strings.CS.contains(configValue.getTagName(), "textarea")) {
         configValue.shouldNotBe(visible).shouldBe(exactValue(value));
         $(".CodeMirror").shouldBe(visible, text("this is a json file"));
       } else {

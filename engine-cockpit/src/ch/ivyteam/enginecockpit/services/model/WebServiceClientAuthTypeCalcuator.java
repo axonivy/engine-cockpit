@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.commons.Feature;
 
@@ -16,7 +17,7 @@ public class WebServiceClientAuthTypeCalcuator {
   }
 
   public String get() {
-    return features.stream().filter(f -> StringUtils.contains(f.getClazz(), "AuthenticationFeature"))
+    return features.stream().filter(f -> Strings.CS.contains(f.getClazz(), "AuthenticationFeature"))
         .map(f -> StringUtils.substringBetween(f.getClazz(), "cxf.feature.", "AuthenticationFeature"))
         .filter(Objects::nonNull)
         .findFirst()

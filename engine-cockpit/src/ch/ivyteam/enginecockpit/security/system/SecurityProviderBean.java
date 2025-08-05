@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security.system;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.util.Objects;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -57,7 +58,7 @@ public class SecurityProviderBean {
 
   public void loadConfiguration() {
     securitySystem = ManagerBean.instance().getSecuritySystems().stream()
-        .filter(system -> StringUtils.equals(system.getSecuritySystemName(), name))
+        .filter(system -> Objects.equals(system.getSecuritySystemName(), name))
         .findAny()
         .orElseThrow();
 
@@ -141,7 +142,7 @@ public class SecurityProviderBean {
     if (!validateUpdateTime()) {
       return;
     }
-    if (!StringUtils.isEmpty(provider) && !StringUtils.equals(provider, securitySystem.getSecuritySystemProviderId())) {
+    if (!StringUtils.isEmpty(provider) && !Objects.equals(provider, securitySystem.getSecuritySystemProviderId())) {
       var context = (SecurityContext) securitySystem.getSecurityContext();
       deleteProvider();
       context.config().identity().setName(provider);

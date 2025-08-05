@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.util;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -91,7 +92,7 @@ public class HttpAsserter {
 
     private static boolean containsQueryParamIgnore(Set<String> crawled, String url) {
       var urlWithoutQuery = StringUtils.substringBefore(url, "?");
-      return crawled.stream().anyMatch(c -> StringUtils.equals(StringUtils.substringBefore(c, "?"), urlWithoutQuery));
+      return crawled.stream().anyMatch(c -> Objects.equals(StringUtils.substringBefore(c, "?"), urlWithoutQuery));
     }
 
     private boolean check(String urlToCheck, String sessionId) {

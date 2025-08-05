@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.enginecockpit.services.model.SearchEngine;
@@ -112,7 +112,7 @@ public class SearchEngineBean {
 
   public List<String> queryProposals(String value) {
     return getQueryApis().stream()
-        .filter(api -> StringUtils.startsWith(api, value))
+        .filter(api -> Strings.CS.startsWith(api, value))
         .distinct()
         .collect(Collectors.toList());
   }

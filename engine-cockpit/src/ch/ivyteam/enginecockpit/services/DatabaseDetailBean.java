@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.db.jdbc.DatabaseConnectionConfiguration;
@@ -142,8 +143,8 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     return JdbcDriver.all().stream()
         .filter(JdbcDriver::isInstalled)
         .map(JdbcDriver::getDriverName)
-        .filter(name -> !StringUtils.startsWith(name, SystemDatabaseBean.HSQL_DB))
-        .filter(name -> StringUtils.startsWith(name, value))
+        .filter(name -> !Strings.CS.startsWith(name, SystemDatabaseBean.HSQL_DB))
+        .filter(name -> Strings.CS.startsWith(name, value))
         .distinct()
         .collect(Collectors.toList());
   }
