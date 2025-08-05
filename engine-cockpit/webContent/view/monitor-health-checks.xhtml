@@ -14,13 +14,13 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Monitor</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
       <li>/</li>
-      <li><span>Engine</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Engine')}</span></li>
       <li>/</li>
-      <li><a href="monitor-health.xhtml">Health</a></li>
+      <li><a href="monitor-health.xhtml">#{ivy.cm.co('/sidebar/Health')}</a></li>
       <li>/</li>
-      <li><a href="monitor-health-checks.xhtml">Health Checks</a></li>
+      <li><a href="monitor-health-checks.xhtml">#{ivy.cm.co('/monitor/health/HealthChecks')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -31,8 +31,8 @@
       <div class="card">
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-road-sign-warning card-title-icon"></i>
-          <h2 class="m-0">Health Checks</h2>
-          <p:commandButton id="refresh" actionListener="#{healthBean.refresh}" update="form" title="Refresh Health Checks"
+          <h2 class="m-0">#{ivy.cm.co('/monitor/health/HealthChecks')}</h2>
+          <p:commandButton id="refresh" actionListener="#{healthBean.refresh}" update="form" title="#{ivy.cm.co('/monitor/health/RefreshHealthChecks')}"
               icon="si si-button-refresh-arrows" styleClass="flex-shrink-0 ml-auto rounded-button"/>
           
         </div>
@@ -41,42 +41,42 @@
              widgetVar="checkTable" styleClass="ui-fluid"
              paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
              id="checkTable" style="min-width: 950px;"
-             globalFilter="#{healthBean.check}">
+             globalFilter="#{healthBean.check}"
+             emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
              
             <f:facet name="header">
               <div class="ui-input-icon-left filter-container">
                 <i class="pi pi-search"/>
-                <p:inputText id="globalFilter" onkeyup="PF('checkTable').filter()" value="#{healthBean.filter}" placeholder="Search"/>
+                <p:inputText id="globalFilter" onkeyup="PF('checkTable').filter()" value="#{healthBean.filter}" placeholder="#{ivy.cm.co('/common/Search')}"/>
               </div>
             </f:facet>
-             <p:column width="7%" headerText="Severity" filterBy="#{check.severity}" sortBy="#{check.severity}" sortOrder="desc">
+             <p:column width="7%" headerText="#{ivy.cm.co('/health/Severity')}" filterBy="#{check.severity}" sortBy="#{check.severity}" sortOrder="desc">
                <h:panelGroup class="#{check.severityClass}">
-                 <i class="#{check.severityIcon} table-icon"></i>
+                 <i class="#{check.severityIcon} table-icon" />
                  <h:outputLabel value="#{check.severity}"/>
                </h:panelGroup>
              </p:column>
              
-             <p:column width="30%" headerText="Name" filterBy="#{check.name}" sortBy="#{check.name}">
+             <p:column width="30%" headerText="#{ivy.cm.co('/common/Name')}" filterBy="#{check.name}" sortBy="#{check.name}">
                <h:outputText value="#{check.name}"/>
              </p:column>
    
-             <p:column width="50%" headerText="Description" filterBy="#{check.name}" sortBy="#{check.description}">
+             <p:column width="50%" headerText="#{ivy.cm.co('/common/Description')}" filterBy="#{check.name}" sortBy="#{check.description}">
                <h:outputText value="#{check.description}"/>
              </p:column>
 
-             <p:column width="15%" headerText="Next Execution" sortBy="#{check.nextExecution}">
+             <p:column width="15%" headerText="#{ivy.cm.co('/monitor/job/NextExecution')}" sortBy="#{check.nextExecution}">
                <h:outputText value="#{check.timeUntilNextExecution} (#{check.nextExecution})" />
              </p:column>
              
              <p:column styleClass="table-btn-3">
-               <p:commandButton id="enable" title="Enable the check" icon="si si-check-circle-1"
+               <p:commandButton id="enable" title="#{ivy.cm.co('/monitor/health/EnableCheck')}" icon="si si-check-circle-1"
                  action="#{check.enable()}" update="@form" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button" disabled="#{check.enabled}"/>
-               <p:commandButton id="disable" title="Disable the check" icon="si si-subtract-circle"
-                 action="#{check.disable()}" update="@form" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{! check.enabled}"/>
-               <p:commandButton id="checkNow" icon="si si-controls-play" title="Run check now"
+               <p:commandButton id="disable" title="#{ivy.cm.co('/monitor/health/DisableCheck')}" icon="si si-subtract-circle"
+                 action="#{check.disable()}" update="@form" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{!check.enabled}"/>
+               <p:commandButton id="checkNow" icon="si si-controls-play" title="#{ivy.cm.co('/monitor/health/RunCheckNow')}"
                  action="#{check.checkNow()}" update="@form" styleClass="flex-shrink-0 ml-1 rounded-button" disabled="#{! check.enabled}"/>
            </p:column>
-             
           </p:dataTable>
         </h:form>
       </div>

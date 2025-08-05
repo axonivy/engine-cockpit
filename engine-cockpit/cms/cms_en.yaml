@@ -87,6 +87,8 @@ common:
   Application: Application
   Applications: Applications
   Apply: Apply
+  Attribute: Attribute
+  Attributes: Attributes
   AxonIvy: Axon Ivy
   AxonIvyEngine: Axon Ivy Engine
   Back: Back
@@ -94,7 +96,10 @@ common:
   BusinessCalendar: Business Calendar
   Bytes: Bytes
   Cancel: Cancel
+  Chart: Chart
+  Check: Check
   Choose: Choose
+  Clear: Clear
   Close: Close
   Cockpit: Cockpit
   CollapseAll: Collapse all
@@ -102,24 +107,30 @@ common:
   Configuration: Configuration
   Confirm: Confirm
   CopyToClipboard: Copy to clipboard
+  Count: Count
   Created: Created
+  Creator: Creator
   Date: Date
   Deactivate: Deactivate
   Default: Default
   DefinedBy: Defined by
   Delete: Delete
+  DeleteRecording: Delete recording
   Deployment: Deployment
   Description: Description
   Disable: Disable
   Download: Download
+  DownloadRecording: Download recording
+  Duration: Duration
   Edit: Edit
-  EmptyMessage: No records found.
+  End: End
   EngineCockpit: Engine Cockpit
   Error: Error
   Event: Event
   ExpandAll: Expand all
   Failed: Failed
   Failure: Failure
+  Filter: Filter
   Finish: Finish
   Finished: Finished
   FullName: Full Name
@@ -129,20 +140,35 @@ common:
   Instances: Instances
   Key: Key
   Language: Language
+  Limit: Limit
   Lock: Lock
   Login: Login
+  Message: Message
   Migration: Migration
+  MimeType: Mime Type
+  Modified: Modified
+  Modifier: Modifier
   Module: Module
   More: More
+  MoreOptions: More Options
   Name: Name
   Next: Next
   NoRecordsFound: No records found.
+  NoValue: No value
   None: None
   OK: OK
+  Object: Object
+  Order: Order
+  PM: PM
   PMV: PMV
+  Path: Path
   Port: Port
   Previous: Previous
   Priority: Priority
+  Process: Process
+  ProcessModel: Process Model
+  ProcessModelVersion: Process Model Version
+  ProcessName: Process Name
   Properties: Properties
   Provider: Provider
   Read: Read
@@ -159,6 +185,7 @@ common:
   Save: Save
   SaveAndCreate: Save and create
   SaveChanges: Save changes
+  Schedule: Schedule
   Search: Search
   SearchPlaceholder: Search
   Security: Security
@@ -167,17 +194,25 @@ common:
   Send: Send
   Sessions: Sessions
   Setup: Setup
+  Size: Size
   Source: Source
   Start: Start
+  StartTime: Start Time
   State: State
+  StopRecording: Stop recording
+  StopTime: Stop Time
   Success: Success
   Synchronize: Synchronize
   Template: Template
+  Total: Total
+  Type: Type
   Upload: Upload
+  User: User
   Users: Users
   Value: Value
   Variable: Variable
   Variables: Variables
+  Version: Version
   Warning: Warning
   Write: Write
   'Yes': 'Yes'
@@ -329,6 +364,11 @@ login:
   PasswordPlaceholder: Username / Email
   SignInButton: Sign In
   UserNamePlaceholder: Password
+logs:
+  DownloadAllLogFiles: Download all log files
+  DownloadLog: Download log
+  NoLogMessage: 'No logs found on date: {0}'
+  OpenLog: Open log
 memberProperties:
   Property: Property
   PropertyInExternalSecuritySystem: Property is managed by the external security system
@@ -364,6 +404,7 @@ migrate:
 monitor:
   Active: Active
   CPULoad: CPU Load
+  Caches: Caches
   Classes: Classes
   Committed: Committed
   Cores: Cores
@@ -375,6 +416,7 @@ monitor:
   Init: Init
   JVMMaxMemory: Jvm max memory
   JVMMemoryUsage: Jvm memory usage
+  JavaFlightRecorder: Java Flight Recorder
   Load: Load
   Loaded: Loaded
   Max: Max
@@ -398,6 +440,18 @@ monitor:
   Unloaded: Unloaded
   Used: Used
   Write: Write
+  cache:
+    CacheTooltip: "More cache limits:<br/>\n<ul>\n <li>Max: Maximum number of bytes or characters that are cached.</li>\n <li>TTL: Time to live. The maximum time an object will stay in the cache after it was first read.</li> \n<li>TTI: Time to idle. The maximum time an object will stay in the cache after\
+      \ it was last read.</li>\n</ul>"
+    CountTooltip: The number of objects that are currently cached in memory
+    LimitTooltip: The number of objects in the cache (see count) is periodically reduced to this value
+    NameTooltip: The name of the cache
+    ReadHits: Read Hits
+    ReadHitsTooltip: How many times an object was successfully read from the cache instead of the system database
+    ReadMisses: Read Misses
+    ReadMissesTooltip: How many times an object was not found in the cache and instead had to be read from the system database
+    WriteTooltip: How many times an object was invalidated from the cache because it was written to the system database
+    Writes: Writes
   classHistogram:
     BytesTooltip: Total number of bytes allocated on the Java heap for instances of this class
     Clear: Clear Class Histogram
@@ -421,6 +475,99 @@ monitor:
     InstancesTooltip: Total number of instances/objects allocated on the Java heap for this class
     MemoryDump: Memory Dump
     Refresh: Refresh Class Histogram
+  execution:
+    ClearStatistic: Clear statistic
+    ExecutionHelpText: Start the recording of the performance statistics can have a negative impact on the performance of the engine.
+    ExecutionOrder: Order of first execution
+    ExtAvg: Ext Avg
+    ExtAvgTooltip: Average of external execution time [ms]
+    ExtExecutions: Ext Executions
+    ExtExecutionsTooltip: Number of external executions
+    ExtMax: Ext Max
+    ExtMaxTooltip: Maximum of external execution time [ms]
+    ExtMin: Ext Min
+    ExtMinTooltip: Minimum of external execution time [ms]
+    ExtTotal: Ext Total
+    ExtTotalTooltip: Total of external execution time [ms]
+    IntAvg: Int Avg
+    IntAvgTooltip: Average of engine internal execution time [ms]
+    IntExecutionTooltip: Number of engine internal executions
+    IntExecutions: Int Executions
+    IntMax: Int Max
+    IntMaxTooltip: Maximum of engine internal execution time [ms]
+    IntMin: Int Min
+    IntMinTooltip: Minimum of engine internal execution time [ms]
+    IntTotal: Int Total
+    IntTotalTooltip: Total of engine internal execution time [ms]
+    LoggingActive: Logging Active!
+    LoggingActiveDetails: The process element performance statistic logger is active. The statistic is automatically cleaned by the logger every {0}
+    OneSecond: 1 second
+    PerformanceStatisticFileName: PerformanceStatistic
+    PerformanceTooltip: Performance Statistic Configuration
+    ProcessElementId: Process Element Id (PID)
+    ProcessElementName: Process Element Name
+    ProcessElementType: Process Element Type
+    Seconds: seconds
+    TotalTooltip: Total execution time [ms] (internal + external)
+  health:
+    AdditionalInformationConfiguration: Additional information or configuration
+    DisableCheck: Disable the check
+    EnableCheck: Enable the check
+    HealthChecks: Health Checks
+    RefreshHealth: Refresh Health
+    RefreshHealthChecks: Refresh Health Checks
+    RunCheckNow: Run check now
+    RunHealthChecks: Run Health Checks
+  jfr:
+    AddConfiguration: Add configuration
+    RecordingMessage1: Start of a Fligh recording can have a negative impact on the performance of the engine.
+    RecordingMessage2: There is already at least one recording running. Sure you want to start another one?
+    RecordingMessage3: There is already at least one recording available. Consider deleting it before starting another one.
+    StartRecording: Start recording
+  job:
+    DurationTooltip: min / avg / max
+    Errors: Errors
+    ExecutionDuration: Execution Duration
+    Executions: Executions
+    JobDetail: Job Detail
+    JobTitle: Job {0}
+    LastError: Last Error
+    LastSuccessfulExecution: Last successful execution
+    LastTimeTheJobFailed: Last time the job failed
+    NextExecution: Next execution
+    RefreshJobs: Refresh jobs
+    ScheduleExecuteJob: Schedule to execute the job now
+    ScheduleJob: Schedule Job {0}
+    ScheduleJobTooltip: Scheduling a job for immediate execution can have negative side effects like disturbing users with unnecessary daily task mails, or degraded performance.
+  mbean:
+    EmptyMBeanMessage: Select a bean to see its attributes
+    LastValue: Last Value
+  session:
+    Auth: Auth
+    Cause: Cause
+    ContextPath: Context Path
+    Creation: Creation
+    HTTPSessions: HTTP Sessions
+    InvalidSessionMessage: Creation invalid / Last Accessed invalid
+    KillSession: Kill session
+    LastAccessed: Last accessed
+    LicensedSessions: Licensed Sessions
+    LicensedUsers: Licensed Users
+    RefreshStatistic: Refresh statistic
+    ShowTemporarySessions: Show temporary sessions
+    ShowUnauthenticatedSessions: Show unauthenticated sessions
+    Temp: Temp
+    TempTooltip: A temporary session is only created for technical reasons and shoud have a very short lifetime (approx. 1s). Temporary sessions do not count for licensed concurrent sessions.
+  startEvent:
+    NextPoll: Next poll
+    Poll: Poll
+    PollBeanTitle: Poll Bean {0}
+    RefreshStartEvents: Refresh Start Events
+    RequestPath: Request Path
+    SchedulePollTooltip: Scheduling to poll a bean can have negative side effects.
+    ScheduleToPollTheBeanNow: Schedule to poll the bean now
+    StartsTheBean: Starts the bean
+    StopsTheBean: Stops the bean
   thread:
     Blocked: Blocked
     CPUTime: CPU Time
@@ -445,6 +592,12 @@ monitor:
     UserTime: User Time
     UserTimeTooltip: User CPU Time [ns]
     Waited: Waited
+  traces:
+    ExecutionTime: Execution Time
+    ExecutionTimeTooltip: Execution time [ms]
+    ExportTraces: Export traces
+    StartTracesHelpText: Start the recording of the slow requests can have a negative impact on the performance of the engine.
+    Traces: Traces
 moveApplication:
   ChangeSecuritySystemDialogContent: 'To change the security system of an application, the target security system must have the same roles and users so that all runtime data like tasks, cases, business data and more can be re-assigned. Therefore, you first need to validate if the target security system
     is ready. If this is not the case, you can check and prepare the target security system:'
@@ -656,6 +809,8 @@ sidebar:
   Java: Java
   Jobs: Jobs
   Licence: Licence
+  LiveStats: Live Stats
+  LiveStatsFoundFrom: Live stats found from
   Logs: Logs
   MBeans: MBeans
   Memory: Memory

@@ -21,6 +21,7 @@ import org.primefaces.util.ComponentUtils;
 import ch.ivyteam.ivy.bpm.engine.restricted.IBpmEngineManager;
 import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IExecutionStatistic;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
@@ -104,10 +105,10 @@ public final class ProcessExecutionBean {
   public String getLoggingInterval() {
     var seconds = IConfiguration.instance().getOrDefault("ProcessEngine.FiringStatistic.Interval", long.class);
     if (seconds == 1) {
-      return "1 second";
+      return Ivy.cm().co("/monitor/execution/OneSecond");
     }
     if (seconds < 60) {
-      return seconds + " seconds";
+      return seconds + " " + Ivy.cm().co("/monitor/execution/Seconds");
     }
     Instant now = Instant.now();
     var then = now.plus(Duration.ofSeconds(seconds));
@@ -122,7 +123,7 @@ public final class ProcessExecutionBean {
         return ComponentUtils.getValueToRender(FacesContext.getCurrentInstance(), child);
       }
     }
-    return "No value";
+    return Ivy.cm().co("/common/NoValue");
   }
 
   private boolean isRunning() {

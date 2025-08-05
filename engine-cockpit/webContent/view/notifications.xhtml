@@ -29,7 +29,7 @@
           <h:form id="form" onkeypress="if (event.keyCode == 13) return false;">
             <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
               var="notification" value="#{notificationsBean.dataModel}" lazy="true" widgetVar="notificationTable"
-              id="notificationTable" emptyMessage="#{ivy.cm.co('/common/EmptyMessage')}">
+              id="notificationTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
               <f:facet name="header">
                 <div class="flex">
                   <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">

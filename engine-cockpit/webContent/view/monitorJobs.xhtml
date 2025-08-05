@@ -10,11 +10,11 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Monitor</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
       <li>/</li>
-      <li><span>Engine</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Engine')}</span></li>
       <li>/</li>
-      <li><a href="monitorJobs.xhtml">Jobs</a></li>
+      <li><a href="monitorJobs.xhtml">#{ivy.cm.co('/sidebar/Jobs')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -28,8 +28,8 @@
       <div class="card">
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-task-list-approve card-title-icon"></i>
-          <h2 class="m-0">Jobs</h2>
-          <p:commandButton id="refresh" actionListener="#{jobBean.refresh}" update="form" title="Refresh jobs"
+          <h2 class="m-0">#{ivy.cm.co('/sidebar/Jobs')}</h2>
+          <p:commandButton id="refresh" actionListener="#{jobBean.refresh}" update="form" title="#{ivy.cm.co('/monitor/job/RefreshJobs')}"
               icon="si si-button-refresh-arrows" styleClass="flex-shrink-0 ml-auto rounded-button"/>
 
         </div>
@@ -41,93 +41,94 @@
             <f:facet name="header">
               <div class="ui-input-icon-left filter-container">
                 <i class="pi pi-search"/>
-                <p:inputText id="globalFilter" onkeyup="PF('jobTable').filter()" placeholder="Search" value="#{jobBean.filter}" />
+                <p:inputText id="globalFilter" onkeyup="PF('jobTable').filter()" placeholder="#{ivy.cm.co('/common/Search')}" value="#{jobBean.filter}" />
               </div>
             </f:facet>
 
-            <p:column headerText="Name" sortBy="#{job.name}" filterBy="#{job.name}">
-              <p:commandLink oncomplete="PF('jobDialog').show();" title="Job Detail" action="#{jobBean.setSelected(job)}" update="jobDialog">
-              <i class="si si-task-list-approve table-icon"/>
-              <h:outputText value="#{job.name}"/>
+            <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{job.name}" filterBy="#{job.name}">
+              <p:commandLink oncomplete="PF('jobDialog').show();" title="#{ivy.cm.co('/monitor/job/JobDetail')}" action="#{jobBean.setSelected(job)}" update="jobDialog">
+                <i class="si si-task-list-approve table-icon"/>
+                <h:outputText value="#{job.name}"/>
               </p:commandLink>
             </p:column>
 
-            <p:column headerText="Description" sortBy="#{job.description}" filterBy="#{job.description}">
+            <p:column headerText="#{ivy.cm.co('/common/Description')}" sortBy="#{job.description}" filterBy="#{job.description}">
               <h:outputText value="#{job.description}"/>
             </p:column>
 
-            <p:column headerText="Configuration" sortBy="#{job.configuration}" filterBy="#{job.configuration}" style="width: 130px;">
+            <p:column headerText="#{ivy.cm.co('/common/Configuration')}" sortBy="#{job.configuration}" filterBy="#{job.configuration}" width="130px">
               <h:outputText value="#{job.configuration}"/>
             </p:column>
 
-            <p:column headerText="Next execution" sortBy="#{job.nextExecutionTime}" style="width: 160px;">
+            <p:column headerText="#{ivy.cm.co('/monitor/job/NextExecution')}" sortBy="#{job.nextExecutionTime}" width="160px">
               <h:outputText value="#{job.timeUntilNextExecutionFormated} (#{job.nextExecutionTime})"/>
             </p:column>
 
-            <p:column headerText="Executions" sortBy="#{job.executions}" style="width: 100px;">
+            <p:column headerText="#{ivy.cm.co('/monitor/job/Executions')}" sortBy="#{job.executions}" width="100px">
               <h:outputText value="#{job.executions}" title="#{job.executions}">
                 <f:convertNumber/>
               </h:outputText>
             </p:column>
 
-            <p:column headerText="Errors" sortBy="#{job.errors}" style="width: 100px;">
+            <p:column headerText="#{ivy.cm.co('/monitor/job/Errors')}" sortBy="#{job.errors}" width="100px">
               <h:outputText value="#{job.errors}" title="#{job.errors}">
                 <f:convertNumber/>
               </h:outputText>
             </p:column>
 
              <p:column styleClass="table-btn-1">
-              <p:commandButton id="schedule" oncomplete="PF('scheduleJobDialog').show();" title="Schedule to execute the job now" icon="si si-controls-play"
+              <p:commandButton id="schedule" oncomplete="PF('scheduleJobDialog').show();" title="#{ivy.cm.co('/monitor/job/ScheduleExecuteJob')}" icon="si si-controls-play"
                 action="#{jobBean.setSelected(job)}" update="scheduleJobDialog" styleClass="rounded-button" />
             </p:column>
           </p:dataTable>
         </h:form>
-        <p:dialog style="min-width: 300px;" header="Schedule Job #{jobBean.selected.name}" id="scheduleJobDialog"
-            widgetVar="scheduleJobDialog" responsive="true" closeOnEscape="true">
+        <p:dialog header="#{ivy.cms.co('/monitor/job/ScheduleJob', [jobBean.selected.name])}" id="scheduleJobDialog"
+            widgetVar="scheduleJobDialog" responsive="true" closeOnEscape="true" minWidth="300">
           <h:form id="scheduleJob" styleClass="custom-dialog-form">
-            <p:staticMessage severity="warn" detail="Scheduling a job for immediate execution can have negative side effects like disturbing users with unnecessary daily task mails, or degraded performance." />
+            <p:staticMessage severity="warn" detail="#{ivy.cm.co('/monitor/job/ScheduleJobTooltip')}" />
             <div class="custom-dialog-footer">
-              <p:commandButton id="cancel" type="button" onclick="PF('scheduleJobDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
-              <p:commandButton id="schedule" onclick="PF('scheduleJobDialog').hide();" value="Schedule" icon="si si-controls-play"
+              <p:commandButton id="cancel" type="button" onclick="PF('scheduleJobDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+              <p:commandButton id="schedule" onclick="PF('scheduleJobDialog').hide();" value="#{ivy.cm.co('/common/Schedule')}" icon="si si-controls-play"
                   styleClass="modal-input-button" actionListener="#{jobBean.selected.schedule()}" update="form"/>
             </div>
           </h:form>
         </p:dialog>
       </div>
-       <p:dialog style="min-width: 300px; max-width: 80%;" header="Job #{jobBean.selected.name}" id="jobDialog"
+       <p:dialog style="min-width: 300px; max-width: 80%;"
+           header="#{ivy.cms.co('/monitor/job/JobTitle', [jobBean.selected.name])}" id="jobDialog"
            widgetVar="jobDialog" responsive="true" closeOnEscape="true">
         <h:form id="job" styleClass="custom-dialog-form">
           <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
-            <p:outputLabel for="name" value="Name" />
+            <p:outputLabel for="name" value="#{ivy.cm.co('/common/Name')}" />
             <h:outputText id="name" value="#{jobBean.selected.name}"/>
-            <p:outputLabel for="description" value="Description" />
+            <p:outputLabel for="description" value="#{ivy.cm.co('/common/Description')}" />
             <h:outputText id="description" value="#{jobBean.selected.description}"/>
-            <p:outputLabel for="configuration" value="Configuration" />
+            <p:outputLabel for="configuration" value="#{ivy.cm.co('/common/Configuration')}" />
             <h:outputText id="configuration" value="#{jobBean.selected.configuration}"/>
-            <p:outputLabel for="exectutions" value="Executions" />
+            <p:outputLabel for="exectutions" value="#{ivy.cm.co('/monitor/job/Executions')}" />
             <h:outputText id="exectutions" value="#{jobBean.selected.executions}"/>
-            <p:outputLabel for="nextExecution" value="Next Execution" />
+            <p:outputLabel for="nextExecution" value="#{ivy.cm.co('/monitor/job/NextExecution')}" />
             <h:outputText id="nextExecution" value="#{jobBean.selected.timeUntilNextExecutionFormated} (#{jobBean.selected.nextExecutionTime})"/>
-            <p:outputLabel for="duration" value="Execution Duration" />
+            <p:outputLabel for="duration" value="#{ivy.cm.co('/monitor/job/ExecutionDuration')}" />
             <h:panelGroup>
               <h:outputText id="duration" value="#{jobBean.selected.minExecutionTime} / #{jobBean.selected.avgExecutionTime} / #{jobBean.selected.maxExecutionTime}"/>
-              <p:tooltip for="duration" value="min / avg / max"/>
+              <p:tooltip for="duration" value="#{ivy.cm.co('/monitor/job/DurationTooltip')}"/>
             </h:panelGroup>
-            <p:outputLabel for="lastSuccessTime" value="Last successful execution" />
+            <p:outputLabel for="lastSuccessTime" value="#{ivy.cm.co('/monitor/job/LastSuccessfulExecution')}" />
             <h:outputText id="lastSuccessTime" value="#{jobBean.selected.lastSuccessTime}"/>
-            <p:outputLabel for="errors" value="Errors" />
+            <p:outputLabel for="errors" value="#{ivy.cm.co('/monitor/job/Errors')}" />
             <h:outputText id="errors" value="#{jobBean.selected.errors}"/>
-            <p:outputLabel for="lastErrorTime" value="Last time the job failed" />
+            <p:outputLabel for="lastErrorTime" value="#{ivy.cm.co('/monitor/job/LastTimeTheJobFailed')}" />
             <h:outputText id="lastErrorTime" value="#{jobBean.selected.lastErrorTime}"/>
             <h:panelGroup>
-              <p:outputLabel for="lastError" value="Last Error"/>
-              <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="var button=this; copyToClipboard($('#job\\:lastError').text(), button)"
+              <p:outputLabel for="lastError" value="#{ivy.cm.co('/monitor/job/LastError')}"/>
+              <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="#{ivy.cm.co('/common/CopyToClipboard')}" onclick="var button=this; copyToClipboard($('#job\\:lastError').text(), button)"
                   styleClass="ui-button-flat rounded-button"/>
             </h:panelGroup>
             <p:outputPanel id="lastError" styleClass="code">#{jobBean.selected.lastError}</p:outputPanel>  
           </p:panelGrid>
           <div class="custom-dialog-footer">
-            <p:commandButton id="close" type="button" onclick="PF('jobDialog').hide();" value="Close" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+            <p:commandButton id="close" type="button" onclick="PF('jobDialog').hide();" value="#{ivy.cm.co('/common/Close')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
           </div>
         </h:form>
       </p:dialog>
