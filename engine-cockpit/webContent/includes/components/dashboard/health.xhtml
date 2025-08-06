@@ -8,7 +8,7 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-road-sign-warning"></i>
-        <h6 class="m-0" style="margin: 0; padding-left: 0">#{ivy.cm.co('/health/Health')}</h6>
+        <h6 class="m-0" style="margin: 0; padding-left: 0">#{ivy.cm.co('/common/Health')}</h6>
         <p:linkButton id="detail" title="#{ivy.cm.co('/health/HealthDetails')}" type="button" href="monitor-health.xhtml"
            icon="si si-road-sign-warning" styleClass="flex-shrink-0 ml-auto ui-button-secondary rounded-button" />
         <p:commandButton id="runCheck" title="#{ivy.cm.co('/health/RunHealthChecks')}" action="#{healthBean.checkNow()}"

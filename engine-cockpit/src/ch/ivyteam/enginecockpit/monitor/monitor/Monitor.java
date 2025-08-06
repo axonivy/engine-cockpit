@@ -27,6 +27,7 @@ import org.primefaces.model.charts.optionconfig.legend.Legend;
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.Value;
 import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
+import ch.ivyteam.ivy.environment.Ivy;
 
 public class Monitor {
   private long lastTimestamp;
@@ -71,7 +72,7 @@ public class Monitor {
     yAxis.setTicks(yTicks);
 
     xTitle.setDisplay(true);
-    xTitle.setText("Time");
+    xTitle.setText(Ivy.cm().co("/common/Time"));
     xTitle.setFontSize(14);
     xAxis.setScaleTitle(xTitle);
 

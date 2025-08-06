@@ -78,8 +78,16 @@ branding:
   UploadFileSuccessfulMessage: Successfully uploaded {0}
   UploadResourceDialogHeader: Upload resources to ''{0}''
   Value: 'Value: '
+breadcrumbInfos:
+  SelectedApplication: Selected Application
+  SelectedSecuritySystem: Selected Security System
 businessCalendarDetail:
   EditAppYamlFile: Edit app yaml file
+channelState:
+  ErrorInformation: Error Information
+  FailedDeliverAttempsSoFar: 'Failed deliver attemps so far:'
+  LastError: 'Last Error:'
+  NextRetryToDeliver: 'Next retry to deliver:'
 common:
   Activate: Activate
   Activity: Activity
@@ -87,6 +95,7 @@ common:
   Application: Application
   Applications: Applications
   Apply: Apply
+  AuthenticationType: Authentication Type
   AxonIvyEngine: Axon Ivy Engine
   Back: Back
   Branding: Branding
@@ -99,6 +108,8 @@ common:
   Color: Color
   Configuration: Configuration
   Confirm: Confirm
+  Connections: Connections
+  Databases: Databases
   Date: Date
   Deactivate: Deactivate
   Default: Default
@@ -108,15 +119,24 @@ common:
   Description: Description
   Disable: Disable
   Download: Download
+  Driver: Driver
   Edit: Edit
   EngineCockpit: Engine Cockpit
   Error: Error
+  ExecTime: Exec Time
+  ExecTimeValueTitle: The time needed to execute the statement
+  ExecutionHistory: Execution History (last 200)
+  ExecutionTime: Execution Time
   ExpandAll: Expand all
   Failed: Failed
   Failure: Failure
+  Feature: Feature
+  Features: Features
+  FeaturesAndProperties: Features and properties
   Finish: Finish
   Finished: Finished
   FullName: Full Name
+  Health: Health
   Help: Help
   Info: Info
   Key: Key
@@ -127,27 +147,39 @@ common:
   More: More
   Name: Name
   Next: Next
+  NoData: No Data
+  NoDataAvailable: No data available
   NoRecordsFound: No records found.
+  NotFoundApplication: Application ''{0}'' not found
+  NotificationChannels: Notification Channels
   OK: OK
+  Password: Password
   Port: Port
   Previous: Previous
   Properties: Properties
+  Property: Property
   Provider: Provider
   Remove: Remove
   RequiredMessage: Value is required
   Reset: Reset
+  RestClients: Rest Clients
+  RestServices: Rest Services
   Restart: Restart
   Role: Role
   Roles: Roles
+  Run: Run
+  RunSearchEngineQuery: Run Search Engine Query
   RunningCases: Running Cases
   Save: Save
   SaveAndCreate: Save and create
   SaveChanges: Save changes
+  SearchEngine: Search Engine
   SearchPlaceholder: Search
   Security: Security
   SecuritySystem: Security System
   SecuritySystems: Security Systems
   Send: Send
+  Services: Services
   Sessions: Sessions
   Setup: Setup
   Source: Source
@@ -155,12 +187,18 @@ common:
   State: State
   Success: Success
   Synchronize: Synchronize
+  Time: Time
+  Timestamp: Timestamp
   Upload: Upload
+  Url: Url
+  Username: Username
   Users: Users
   Value: Value
   Variable: Variable
   Variables: Variables
   Warning: Warning
+  WebServiceClients: Web Service Clients
+  WebServiceProcesses: Web Service Processes
   'Yes': 'Yes'
 configuration:
   ApplicationConfiguration: Application Configuration
@@ -170,7 +208,6 @@ configuration:
   Examples: Examples
   Filter: 'Filter:'
   GoEditVariableValueLink: Go and edit the Variable value
-  NotFoundApplicationMessage: Application ''{0}'' not found
   ReloadApplicationConfiguration: Reload application configuration
   ReloadApplicationConfigurationMessage: Configuration of application ''{0}'' reloaded
   ResetConfigConfirmDialogMessage: Are you sure you want to reset the {0} ''{1}''?
@@ -180,6 +217,44 @@ configuration:
   ShowVariablesMessage: Show Variables
   ShowWebServiceClientsMessage: Show Web Service Clients
   ViewFile: View File
+connectionTestResult:
+  ConnectToDatabaseFailMessage: 'An error occurred: %s'
+  ConnectToDatabaseSuccessMessage: 'Successfully connected to database: %s %s with JDBC Version %s'
+  ConnectToRestServiceFailMessage: Could not connect to REST service
+  ConnectToRestServiceSuccessMessage: Successfully sent test request to REST service
+  ConnectionTestDialogHeader: 'Connection Test - Url:'
+  ConnectionTestDialogHintMessage: Make sure that you saved your changes before you test the connection.
+  ConnectionTestRestClientAuthenticationMessage: Authentication was not successful
+  ConnectionTestRestClientNotUnderstandRequestMessage: REST service does not understand test request
+  InvalidRestClientUrlMessage: "Invalid Url (may contains script context)\nAn error occurred: "
+  TLSTestButton: TLS Test
+  TLSTestButtonTitle: TLS Connection Test
+  TestConnection: Test Connection
+databaseConfiguration:
+  DatabaseConfigurations: Database configurations
+  MaxConnections: Max Connections
+  ResetConfiguration: Reset configuration
+  ResetDatabaseConfigurationMessage: Database configuration reset
+  ResetDatabaseConfirmDialogHeader: Reset Database
+  ResetDatabaseConfirmDialogMessage: Are you sure you want to reset this Database?
+  SaveDatabaseConfigurationMessage: Database configuration reset
+  TestDatabaseConnection: Test Database Connection
+databaseConnections:
+  InUse: In Use
+  LastUsed: Last Used
+databaseDetail:
+  GuideText: To edit your Database overwrite your app.yaml file. For example copy and paste the snippet below.
+  NotFoundDatabase: Database ''{0}'' not found
+  Title: Database ''{0}''
+databaseHistory:
+  CopyToClipboardButtonTitle: Copy to clipboard
+  ProcessElementHeader: Process Element
+  ResultTimeHeader: Result Time
+  ResultTimeValueTitle: The time needed to read the results of the statement
+  RowsAffectedHeader: Rows Affected
+  SQLHeader: SQL
+databases:
+  NoDatabasesFound: No Databases found on deployed apps
 deletionWarning:
   DeletionWarningMessage: |-
     Deletion is dangerous and might leave the engine in a bad state.
@@ -231,13 +306,23 @@ freeDays:
   FreeDays: Free days
   FreeEasterRelativeDayTooltip: Free day relative to easter every year
 health:
-  Health: Health
   HealthDetails: Health Details
   HealthyMessage: No problems detected. Engine is healthy.
   Problems: Problems
   ProblemsDetectedMessage: '{0} problems detected.'
   RunHealthChecks: Run Health Checks
   Severity: Severity
+indices:
+  ClosedIndexHint: It seems like your machine is out of disk space. Please check your search engine watermark settings.
+  Index: Index
+  Indices: Indices
+  OpenIndexHint: Everything is okay, the index is open.
+  Reindex: Reindex
+  ReindexDialogInfo: This step triggers the reindexation of the search engine and can take a while!
+  Size: Size
+  Status: Status
+  StatusInfo: 'Status:'
+  Store: Store
 info:
   DemoPortal: Demo Portal
   DemoPortalIntroduction: The demo portal offers the perfect entry point to explore and experience the powerful features of the Axon Ivy platform as a workflow engine. It allows users to discover how easily complex business processes can be automated, streamlined, and optimized. Whether you're looking
@@ -301,6 +386,38 @@ licenceEvents:
         <li>Axon Ivy Engine Support Report</li>
          <li>Today's log files</li>
     </ul>
+liveStats:
+  Calls: Calls
+  CallsMonitorErrors: Errors
+  CallsMonitorErrorsTotalValue: Errors Total %5d
+  CallsMonitorErrorsValue: Errors %5d
+  CallsMonitorTotalValue: Total %5d
+  ConnectionsMonitorMaxValue: Max %5d
+  ConnectionsMonitorOpen: Open
+  ConnectionsMonitorOpenValue: Open %5d
+  ConnectionsMonitorUsed: Used
+  ConnectionsMonitorUsedValue: Used %5d
+  DatabaseConnections: Database Connections
+  DatabaseQueries: Database Queries
+  DatabaseQueryExecutionTime: Database Query Execution Time
+  ExecutionTimeMonitorAvg: Avg
+  ExecutionTimeMonitorAvgValue: Avg %t
+  ExecutionTimeMonitorMax: Max
+  ExecutionTimeMonitorMaxValue: Max %t
+  ExecutionTimeMonitorMin: Min
+  ExecutionTimeMonitorMinValue: Min %t
+  ExecutionTimeMonitorTotalValue: Total %t
+  ExecutionTimeYAxisLabel: Execution Time
+  Queries: Queries
+  QueriesMonitorErrors: Errors
+  QueriesMonitorErrorsTotalValue: Errors Total %5d
+  QueriesMonitorErrorsValue: Errors %5d
+  QueriesMonitorTotalValue: Total %5d
+  RestClientCalls: REST Client Calls
+  RestClientConnections: REST Client Connections
+  RestClientExecutionTime: REST Client Execution Time
+  WebServiceCalls: Web Service Calls
+  WebServiceExecutionTime: Web Service Execution Time
 login:
   EngineCockpitLoginTitle: Engine Cockpit - Login
   IvyYamlFile: ivy.yaml
@@ -367,6 +484,9 @@ newUser:
   EMailAddress: E-Mail Address
   NotMatchPasswordMessage: Password didn't match
   Password: Password
+notificationChannelsTable:
+  AllEvents: All Events
+  Enabled: Enabled
 permissions:
   AllPermissions: All Permissions
   Grant: Grant
@@ -390,6 +510,28 @@ restart:
   RestartSecondWarningMessage: Users will not be able to connect to {0} for a short time.
   RestartThirdWarningMessage: Restarting may fail and then you need access to the operating system to start it again.
   RestartWarningMessage: Restarting {0} is a dangerous operation.
+restClientConfiguration:
+  ResetConfiguration: Reset configuration
+  ResetRestClientDialogHeader: Reset Rest Client
+  ResetRestClientDialogMessage: Are you sure you want to reset this Rest Client?
+  RestClientConfigurations: Rest Client configurations
+  RestConfigurationResetMessage: Rest configuration reset
+  RestConfigurationSavedMessage: Rest configuration saved
+  TestRestConnection: Test Rest Connection
+  UUID: UUID
+restClientDetail:
+  GuideText: To edit your Rest Client overwrite your app.yaml file. For example copy and paste the snippet below.
+  NotFoundRestClient: Rest client ''{0}'' not found
+  Title: Rest Client ''{0}''
+restClients:
+  NoRestClientsFound: No rest clients found on deployed apps
+restHistory:
+  ProcessElement: Process Element
+  RequestUrl: Request Url
+restServices:
+  BrowseRestAPIButtonTitle: Browse available REST Backend Services
+  ConfigureRestBackendButtonTitle: Configure Rest Backend
+  RESTServices: REST Services
 roleDetail:
   DirectOpenTasks: Direct open tasks
   InheritUsers: Inherit users
@@ -427,6 +569,28 @@ roles:
   ShowMoreRoleLeftMessage: Show more ({0} left)
   SynchronizationLog: Synchronization Log
   Synchronize: Synchronize
+searchEngine:
+  SearchEngineHealthGreenHint: Everything is ok
+  SearchEngineHealthRedHint: There is a problem which needs your attention. Some data may be unavailable or functions are not working correctly.
+  SearchEngineHealthUnknownHint: Health state unknown
+  SearchEngineHealthYellowHint: Everything is ok, if you run on a single node cluster, like the internal ivy ES, this is normal. On an external multi node cluster this can indicate some upcoming issues. Please check the ES logs.
+  SearchEngineServerProblem: Search Engine server problem
+  SearchEngineServerProblemMessage: 'Could not connect to Search Engine server:'
+searchEngineInformation:
+  ConfigureSearchEngineButtonTitle: Configure Search Engine
+  DiskThresholdEnabled: Disk threshold enabled
+  DiskThresholdEnabledInfo: This defines if the settings underneath have an effect or not
+  FloodStage: Flood stage
+  FloodStageInfo: Search Engine will put indices in read-only mode if available disk space is less than this value. This setting is a last resort to prevent nodes from running out of disk space. The index block is automatically released when the disk utilization falls below the high watermark.
+  FloodStageWarning: If your available disk space is below the flood stage, the search engine will stop indexing new documents and put current indices in read-only mode
+  NotSupportESVersionMessage: This elastic search version is not supported
+  WatermarkHigh: Watermark high
+  WatermarkHighInfo: Search Engine will attempt to relocate shards away from a node whose available disk space is less than this value. This setting affects the allocation of all shards, whether previously allocated or not.
+  WatermarkLow: Watermark low
+  WatermarkLowInfo: Search Engine will not allocate shards to nodes that have less diskpace available than this value. This setting has no effect on the primary shards of newly-created indices but will prevent their replicas from being allocated.
+searchEngineTool:
+  Get: 'GET:'
+  RunSearchEngineQueryDialogHeader: Run Search Engine Query
 security:
   ChangeSecuritySystem: Change Security System
 securityDetail:
@@ -550,21 +714,18 @@ sidebar:
   Java: Java
   Jobs: Jobs
   Licence: Licence
+  LiveStateInfoMessage: Live stats found from
+  LiveStats: Live Stats
   Logs: Logs
   MBeans: MBeans
   Memory: Memory
   Monitor: Monitor
-  NotificationChannels: Notification Channels
   Notifications: Notifications
   OS: OS
   Performance: Performance
   ProcessExecution: Process Execution
-  RestClients: Rest Clients
-  RestServices: Rest Services
   Roles: Roles
   SSL: SSL
-  SearchEngine: Search Engine
-  Services: Services
   Sessions: Sessions
   SlowRequests: Slow Requests
   StartEvents: Start Events
@@ -574,9 +735,10 @@ sidebar:
   Threads: Threads
   TrafficGraph: Traffic Graph
   WebServer: Web Server
-  WebServiceClients: Web Service Clients
-  WebServiceProcesses: Web Service Processes
   Workflow: Workflow
+soapHistory:
+  Endpoint: Endpoint
+  Operation: Operation
 state:
   ConfiguredState: Configured state
 supportReport:
@@ -624,6 +786,15 @@ template:
   ServerIndex: Server Index
   ShowHealthDetails: Show health details ...
   SupportReport: Support Report
+tlsTester:
+  Tests: Tests
+tlsTesterMissingCertView:
+  AddToTruststore: Add To Truststore
+  MissingCert: 'Missing Cert:'
+  PublicKey: 'PublicKey:'
+  Subject: 'Subject:'
+  ValidFrom: 'valid from:'
+  ValidUntil: 'valid until:'
 updateRoleParent:
   UpdateRoleParentDialogHeader: Update Role Parent
   UpdateRoleParentDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. The role hierarchy is defined in your Axon Ivy Project and your running process may depend on this hierachy.
@@ -706,6 +877,38 @@ webServer:
   HTTPSConnectorctor: HTTPS Connector
   Port: 'Port:'
   StepWarningMessage: Enable at least the HTTP or HTTPS Connector
+webServiceConfiguration:
+  ResetConfiguration: Reset configuration
+  ResetWSConfirmDialogHeader: Reset Web Service
+  ResetWSConfirmDialogMessage: Are you sure you want to reset this Web Service?
+  WebServiceConfigurationResetMessage: Web Service configuration reset
+  WebServiceConfigurationSavedMessage: Web Service configuration saved
+  WebServiceConfigurations: Web Service configurations
+  WsdlUrl: Wsdl Url
+webServiceDetail:
+  GuideText: To edit your Web Service overwrite your app.yaml file. For example copy and paste the snippet below.
+  NotFoundWebService: Web service ''{0}'' not found
+  Title: Web Service ''{0}''
+  WebService: Web Service
+webServiceEndpoints:
+  EditEndpointsConfigurationDialogHeader: Edit endpoint
+  EndPointSavedMessage: EndPoint saved
+  Endpoints: Endpoints
+  Fallbacks: Fallbacks
+  NoEndpointInfoMessage: No Enpoint defined for this webservice
+  TestConnectionAuthenticationMessage: Authentication (only HttpBasic supported) was not successful
+  TestConnectionErrorMessage: |-
+    The URL seems to be not correct or contains scripting context (can not be evaluated)
+    An error occurred: {0}
+  TestConnectionNotFoundMessage: Service not found
+  TestConnectionSuccessMessage: Successfully reached web service
+  TestWsEndpointButtonTitle: Test Web Service Endpoint Connection
+webServiceProcesses:
+  NoWebServiceProcessesFound: No web service processes found on deployed apps
+  WebServiceWSDL: Web Service WSDL
+webServices:
+  EndpointUrls: Endpoint Urls
+  NoWebServicesFound: No webservices found on deployed apps
 weekConfiguration:
   DefinedWorkingTime: Defined working time
   FreeDay: free

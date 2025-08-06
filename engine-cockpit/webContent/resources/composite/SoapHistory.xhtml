@@ -11,35 +11,35 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-optimization-timer"></i>
-        <h6 class="m-0">Execution History (last 200)</h6>
+        <h6 class="m-0">#{ivy.cm.co('/common/ExecutionHistory')}</h6>
       </div>
     </div>
 
-      <p:dataTable value="#{cc.attrs.bean.executionHistory}" var="exec"
+      <p:dataTable value="#{cc.attrs.bean.executionHistory}" var="exec" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}"
         id="execHistoryTable" paginator="true" rows="5" tableStyle="width:auto"
         paginatorPosition="bottom" paginatorAlwaysVisible="false">
-        
-        <p:column headerText="Timestamp" sortBy="#{exec.timestamp()}">
+
+        <p:column headerText="#{ivy.cm.co('/common/Timestamp')}" sortBy="#{exec.timestamp()}">
           <h:outputText value="#{exec.prettyTime}" title="#{exec.formattedTime}"/>
         </p:column>
 
-        <p:column headerText="Exec Time"
+        <p:column headerText="#{ivy.cm.co('/common/ExecTime')}"
           sortBy="#{exec.execTime()}">
-          <h:outputText value="#{exec.execTime()} ms" title="The time needed to execute the statement" />
+          <h:outputText value="#{exec.execTime()} ms" title="#{ivy.cm.co('/common/ExecTimeValueTitle')}" />
         </p:column>
 
-        <p:column headerText="Endpoint" style="word-wrap: anywhere;">
+        <p:column headerText="#{ivy.cm.co('/soapHistory/Endpoint')}" style="word-wrap: anywhere;">
           <h:outputText value="#{exec.endpoint()}" />
         </p:column>
-        
-        <p:column headerText="Port" sortBy="#{exec.port()}">
+
+        <p:column headerText="#{ivy.cm.co('/common/Port')}" sortBy="#{exec.port()}">
           <h:outputText value="#{exec.port()}" />
         </p:column>
-        
-        <p:column headerText="Operation" sortBy="#{exec.operation()}">
+
+        <p:column headerText="#{ivy.cm.co('/soapHistory/Operation')}" sortBy="#{exec.operation()}">
           <h:outputText value="#{exec.operation()}" />
         </p:column>
-        
+
       </p:dataTable>
     </h:form>
 </div>

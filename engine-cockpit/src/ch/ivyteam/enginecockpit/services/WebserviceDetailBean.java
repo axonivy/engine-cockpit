@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.ssl.restricted.SslConnectionTesterClient;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
@@ -80,7 +82,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   public void onload() {
     app = IApplicationRepository.instance().findByName(appName).orElse(null);
     if (app == null) {
-      ResponseHelper.notFound("Application '" + appName + "' not found");
+      ResponseHelper.notFound(Ivy.cms().co("/common/NotFoundApplication", Arrays.asList(appName)));
       return;
     }
     webServiceClients = WebServiceClients.of(app);
@@ -114,7 +116,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private void loadWebService() {
     var ws = webServiceClients.find(webserviceId);
     if (ws == null) {
-      ResponseHelper.notFound("Web service '" + webserviceId + "' not found");
+      ResponseHelper.notFound(Ivy.cms().co("/webServiceDetail/NotFoundWebService", Arrays.asList(webserviceId)));
       return;
     }
     webservice = new Webservice(ws);
@@ -145,12 +147,12 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   @Override
   public String getTitle() {
-    return "Web Service '" + webservice.getName() + "'";
+    return Ivy.cms().co("/webServiceDetail/Title", Arrays.asList(webservice.getName()));
   }
 
   @Override
   public String getGuideText() {
-    return "To edit your Web Service overwrite your app.yaml file. For example copy and paste the snippet below.";
+    return Ivy.cm().co("/webServiceDetail/GuideText");
   }
 
   @SuppressWarnings("deprecation")
@@ -193,17 +195,17 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
       int status = client.target(activeEndpointUrl).request().post(Entity.json("")).getStatus();
       if (status == 401) {
         return new ConnectionTestResult("POST", status, TestResult.WARNING,
-            "Authentication (only HttpBasic supported) was not successful");
+            Ivy.cm().co("/webServiceEndpoints/TestConnectionAuthenticationMessage"));
       } else if (status == 404) {
-        return new ConnectionTestResult("POST", status, TestResult.WARNING, "Service not found");
+        return new ConnectionTestResult("POST", status, TestResult.WARNING,
+            Ivy.cm().co("/webServiceEndpoints/TestConnectionNotFoundMessage"));
       } else {
         return new ConnectionTestResult("POST", status, TestResult.SUCCESS,
-            "Successfully reached web service");
+            Ivy.cm().co("/webServiceEndpoints/TestConnectionSuccessMessage"));
       }
     } catch (ProcessingException ex) {
-      return new ConnectionTestResult("", 0, TestResult.ERROR,
-          "The URL seems to be not correct or contains scripting context (can not be evaluated)\n"
-              + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
+      return new ConnectionTestResult("", 0, TestResult.ERROR, Ivy.cms()
+          .co("/webServiceEndpoints/TestConnectionErrorMessage", Arrays.asList(ExceptionUtils.getStackTrace(ex))));
     }
   }
 
@@ -227,7 +229,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
       builder.property("password", webservice.getPassword());
     }
     webServiceClients.set(builder.toWebServiceClient());
-    var msg = new FacesMessage("Web Service configuration saved", "");
+    var msg = new FacesMessage(Ivy.cm().co("/webServiceConfiguration/WebServiceConfigurationSavedMessage"), "");
     FacesContext.getCurrentInstance().addMessage("wsConfigMsg", msg);
     loadWebService();
   }
@@ -235,7 +237,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   public void resetConfig() {
     connectionTest.stop();
     webServiceClients.remove(webservice.getName());
-    var msg = new FacesMessage("Web Service configuration reset", "");
+    var msg = new FacesMessage(Ivy.cm().co("/webServiceConfiguration/WebServiceConfigurationResetMessage"), "");
     FacesContext.getCurrentInstance().addMessage("wsConfigMsg", msg);
     loadWebService();
   }
@@ -253,7 +255,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
         .endpoints(activePortType.getName(), activePortType.getLinks())
         .toWebServiceClient();
     webServiceClients.set(client);
-    var msg = new FacesMessage("EndPoint saved", "");
+    var msg = new FacesMessage(Ivy.cm().co("/webServiceEndpoints/EndPointSavedMessage"), "");
     FacesContext.getCurrentInstance().addMessage("wsConfigMsg", msg);
     loadWebService();
   }

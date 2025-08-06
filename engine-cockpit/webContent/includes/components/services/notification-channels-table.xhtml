@@ -7,27 +7,27 @@
 <h:form id="tableForm">
   <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
     styleClass="ui-fluid" var="channel" value="#{notificationChannelsBean.channels}" widgetVar="channelsTable_#{app.id}"
-    filteredValue="#{notificationChannelsBean.filteredChannels}" lazy="false" id="channelsTable">
+    filteredValue="#{notificationChannelsBean.filteredChannels}" lazy="false" id="channelsTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
     <f:facet name="header">
       <div class="ui-input-icon-left filter-container">
         <i class="pi pi-search"/>
-        <p:inputText id="globalFilter" onkeyup="PF('channelsTable_#{app.id}').filter()" placeholder="Search" value="#{notificationChannelsBean.filter}" />
+        <p:inputText id="globalFilter" onkeyup="PF('channelsTable_#{app.id}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{notificationChannelsBean.filter}" />
       </div>
     </f:facet>
-    
-    <p:column headerText="Name" sortBy="#{channel.displayName}" filterBy="#{channel.displayName}">
+
+    <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{channel.displayName}" filterBy="#{channel.displayName}">
       <a href="#{channel.getViewUrl()}" class="inline-flex align-items-center gap-1">
         <h:outputText value="#{channel.displayIcon}" class="notification-channel-table-icon" escape="false" /> <!-- contains no user input, contains encoded image -->
         <h:outputText value="#{channel.displayName}" styleClass="channel-name" />
       </a>
     </p:column>
-    <p:column headerText="Enabled" sortBy="#{channel.enabled}" style="text-align: center">
+    <p:column headerText="#{ivy.cm.co('/notificationChannelsTable/Enabled')}" sortBy="#{channel.enabled}" style="text-align: center">
       <i class="si table-icon si-#{channel.enabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
     </p:column>
-    <p:column headerText="All Events" sortBy="#{channel.allEventsEnabled}" style="text-align: center">
+    <p:column headerText="#{ivy.cm.co('/notificationChannelsTable/AllEvents')}" sortBy="#{channel.allEventsEnabled}" style="text-align: center">
       <i class="si table-icon si-#{channel.allEventsEnabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
     </p:column>
-    <p:column headerText="State" sortBy="#{channel.stateText}" style="text-align: center">
+    <p:column headerText="#{ivy.cm.co('/common/State')}" sortBy="#{channel.stateText}" style="text-align: center">
       <cc:ChannelState id="state" channel="#{channel}"/>
     </p:column>
   </p:dataTable>

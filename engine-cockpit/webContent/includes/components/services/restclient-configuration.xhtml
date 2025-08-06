@@ -12,48 +12,48 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-information-circle"></i>
-        <h6 class="m-0">Rest Client configurations</h6>
-        <p:commandButton id="testRestBtn" title="Test Rest Connection" oncomplete="PF('connectionTestModel').show()"
+        <h6 class="m-0">#{ivy.cm.co('/restClientConfiguration/RestClientConfigurations')}</h6>
+        <p:commandButton id="testRestBtn" title="#{ivy.cm.co('/restClientConfiguration/TestRestConnection')}" oncomplete="PF('connectionTestModel').show()"
           icon="si si-phone-actions-call" update="restClientAdditionalConfigForm, connResult:connectionTestModel"
           actionListener="#{tlsTesterBean.setTlsTestRendered(false)}"
           styleClass="flex-shrink-0 ml-auto ui-button-secondary rounded-button" />
         <p:commandButton id="resetConfig" type="button" onclick="PF('resetRestConfirmDialog').show()"
-          title="Reset configuration" icon="si si-undo" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
-        <p:confirmDialog id="resetRestConfirmDialog" message="Are you sure you want to reset this Rest Client?"
-          header="Reset Rest Client" severity="alert" widgetVar="resetRestConfirmDialog">
-          <p:commandButton value="Cancel" onclick="PF('resetRestConfirmDialog').hide();" type="button"
+          title="#{ivy.cm.co('/restClientConfiguration/ResetConfiguration')}" icon="si si-undo" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
+        <p:confirmDialog id="resetRestConfirmDialog" message="#{ivy.cm.co('/restClientConfiguration/ResetRestClientDialogMessage')}"
+          header="#{ivy.cm.co('/restClientConfiguration/ResetRestClientDialogHeader')}" severity="alert" widgetVar="resetRestConfirmDialog">
+          <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('resetRestConfirmDialog').hide();" type="button"
             styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-          <p:commandButton id="resetRestConfirmYesBtn" value="Reset" actionListener="#{restClientDetailBean.resetConfig}"
+          <p:commandButton id="resetRestConfirmYesBtn" value="#{ivy.cm.co('/common/Reset')}" actionListener="#{restClientDetailBean.resetConfig}"
             icon="si si-undo" update="@form, restClientAdditionalConfigForm" styleClass="modal-input-button" />
         </p:confirmDialog>
-        <p:commandButton id="saveRestConfig" actionListener="#{restClientDetailBean.saveConfig}" title="Save changes"
+        <p:commandButton id="saveRestConfig" actionListener="#{restClientDetailBean.saveConfig}" title="#{ivy.cm.co('/common/SaveChanges')}"
           icon="si si-floppy-disk" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button"
           update="@form, restClientAdditionalConfigForm, connResult:connectionTestModel" />
       </div>
     </div>
-    
+
     <p:panelGrid columns="2" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9" layout="flex"
       styleClass="grey-label-panel ui-fluid">
-      <label>UUID</label>
+      <label>#{ivy.cm.co('/restClientConfiguration/UUID')}</label>
       <h:outputText id="uuid" value="#{restClientDetailBean.restClient.uniqueId}" />
-  
-      <label>Name</label>
+
+      <label>#{ivy.cm.co('/common/Name')}</label>
       <h:outputText id="name" value="#{restClientDetailBean.name}" />
-  
-      <p:outputLabel for="decription" value="Description" />
+
+      <p:outputLabel for="decription" value="#{ivy.cm.co('/common/Description')}" />
       <h:outputText id="decription" value="#{restClientDetailBean.restClient.description}" />
-  
-      <p:outputLabel for="url" value="Url" />
+
+      <p:outputLabel for="url" value="#{ivy.cm.co('/common/Url')}" />
       <p:inputText id="url" value="#{restClientDetailBean.restClient.url}" />
-  
-      <p:outputLabel for="type" value="Authentication Type" />
+
+      <p:outputLabel for="type" value="#{ivy.cm.co('/common/AuthenticationType')}" />
       <h:outputText id="type" value="#{restClientDetailBean.restClient.authType}" />
-  
-      <p:outputLabel for="username" value="Username" />
+
+      <p:outputLabel for="username" value="#{ivy.cm.co('/common/Username')}" />
       <p:inputText id="username" value="#{restClientDetailBean.restClient.username}"
         disabled="#{empty restClientDetailBean.restClient.authType}" />
-  
-      <p:outputLabel for="password" value="Password" />
+
+      <p:outputLabel for="password" value="#{ivy.cm.co('/common/Password')}" />
       <p:password id="password" value="#{restClientDetailBean.restClient.password}"
         disabled="#{empty restClientDetailBean.restClient.authType}" />
     </p:panelGrid>

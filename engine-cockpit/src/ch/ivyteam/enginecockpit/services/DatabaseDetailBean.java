@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +35,7 @@ import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.db.Database.Builder;
 import ch.ivyteam.ivy.db.Databases;
 import ch.ivyteam.ivy.db.IExternalDatabaseManager;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
@@ -76,7 +78,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   public void onload() {
     app = IApplicationRepository.instance().findByName(appName).orElse(null);
     if (app == null) {
-      ResponseHelper.notFound("Application '" + appName + "' not found");
+      ResponseHelper.notFound(Ivy.cms().co("/common/NotFoundApplication", Arrays.asList(appName)));
       return;
     }
 
@@ -92,7 +94,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   private void reloadExternalDb() {
     var db = databases.find(databaseName);
     if (db == null) {
-      ResponseHelper.notFound("Database '" + databaseName + "' not found");
+      ResponseHelper.notFound(Ivy.cms().co("/databaseDetail/NotFoundDatabase", Arrays.asList(databaseName)));
       return;
     }
 
@@ -150,12 +152,12 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
 
   @Override
   public String getTitle() {
-    return "Database '" + databaseName + "'";
+    return Ivy.cms().co("/databaseDetail/Title", Arrays.asList(databaseName));
   }
 
   @Override
   public String getGuideText() {
-    return "To edit your Database overwrite your app.yaml file. For example copy and paste the snippet below.";
+    return Ivy.cm().co("/databaseDetail/GuideText");
   }
 
   @SuppressWarnings("deprecation")
@@ -184,21 +186,22 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
 
   private ConnectionTestResult testConnection() {
     var dbConfig = prepareDatabaseConnection();
-    return databases.getInDeclaringPmvContext(databaseName, () -> testConnection(dbConfig));
+    String successMessage = Ivy.cm().co("/connectionTestResult/ConnectToDatabaseSuccessMessage");
+    String failMessage = Ivy.cm().co("/connectionTestResult/ConnectToDatabaseFailMessage");
+    return databases.getInDeclaringPmvContext(databaseName, () -> testConnection(dbConfig, successMessage, failMessage));
   }
 
-  private ConnectionTestResult testConnection(DatabaseConnectionConfiguration dbConfig) {
+  private ConnectionTestResult testConnection(DatabaseConnectionConfiguration dbConfig, String successMessage, String failMessage) {
     try (var connection = DatabaseUtil.openConnection(dbConfig)) {
       var metaData = connection.getMetaData();
       var productName = metaData.getDatabaseProductName();
       var productVersion = metaData.getDatabaseProductVersion();
       var jdbcVersion = metaData.getJDBCMajorVersion();
       return new ConnectionTestResult("", 0, TestResult.SUCCESS,
-          "Successfully connected to database: " + productName
-              + " (" + productVersion + ") with JDBC Version " + jdbcVersion);
+          String.format(successMessage, productName, productVersion, jdbcVersion));
     } catch (Exception ex) {
       return new ConnectionTestResult("", 0, TestResult.ERROR,
-          "An error occurred: " + ExceptionUtils.getStackTrace(ex));
+          String.format(failMessage, ExceptionUtils.getStackTrace(ex)));
     }
   }
 
@@ -225,7 +228,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     }
     saveDatabase(dbBuilder);
     FacesContext.getCurrentInstance().addMessage("databaseConfigMsg",
-        new FacesMessage("Database configuration saved", ""));
+        new FacesMessage(Ivy.cm().co("/databaseConfiguration/SaveDatabaseConfigurationMessage"), ""));
     reloadExternalDb();
   }
 
@@ -233,7 +236,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     connectionTest.stop();
     databases.remove(databaseName);
     FacesContext.getCurrentInstance().addMessage("databaseConfigMsg",
-        new FacesMessage("Database configuration reset", ""));
+        new FacesMessage(Ivy.cm().co("/databaseConfiguration/ResetDatabaseConfigurationMessage"), ""));
     reloadExternalDb();
   }
 

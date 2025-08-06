@@ -6,9 +6,9 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Services</span></li>
+      <li><span>#{ivy.cm.co('/common/Services')}</span></li>
       <li>/</li>
-      <li><a href="webservices.xhtml">Web Service Clients</a></li>
+      <li><a href="webservices.xhtml">#{ivy.cm.co('/common/WebServiceClients')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -20,22 +20,22 @@
         <p:growl id="msgs" />
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-network-arrow card-title-icon"></i>
-          <h2 class="m-0">Web Service Clients</h2>
+          <h2 class="m-0">#{ivy.cm.co('/common/WebServiceClients')}</h2>
         </div>
         <cc:ApplicationTabs tabChange="#{webserviceBean.reloadWebservices}" id="tabs">
           <h:form id="form">
             <p:dataTable paginator="true" rows="20" paginatorPosition="bottom"
-              paginatorAlwaysVisible="false" emptyMessage="No webservices found on deployed apps" styleClass="ui-fluid"
+              paginatorAlwaysVisible="false" emptyMessage="#{ivy.cm.co('/webServices/NoWebServicesFound')}" styleClass="ui-fluid"
               var="webservice" value="#{webserviceBean.webservices}" widgetVar="webservicesTable_#{app.id}"
               filteredValue="#{webserviceBean.filteredWebservices}" lazy="false" id="webservicesTable">
               <f:facet name="header">
                 <div class="ui-input-icon-left filter-container">
                   <i class="pi pi-search"/>
-                  <p:inputText id="globalFilter" onkeyup="PF('webservicesTable_#{app.id}').filter()" placeholder="Search" value="#{webserviceBean.filter}" />
+                  <p:inputText id="globalFilter" onkeyup="PF('webservicesTable_#{app.id}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{webserviceBean.filter}" />
                 </div>
               </f:facet>
-              
-              <p:column headerText="Name" sortBy="#{webservice.name}" filterBy="#{webservice.name}"
+
+              <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{webservice.name}" filterBy="#{webservice.name}"
                 styleClass="webservice-name-column">
                 <a href="#{webservice.getViewUrl(app.name)}">
                   <h:outputText value="#{webservice.name}" styleClass="webservice-name">
@@ -43,7 +43,7 @@
                   </h:outputText>
                 </a>
               </p:column>
-              <p:column headerText="Endpoint Urls" sortBy="#{webservice.endpoints}" filterBy="#{webservice.endpoints}">
+              <p:column headerText="#{ivy.cm.co('/webServices/EndpointUrls')}" sortBy="#{webservice.endpoints}" filterBy="#{webservice.endpoints}">
                 <h:outputText value="#{webservice.endpoints}" styleClass="webservice-wsdlurl" />
               </p:column>
             </p:dataTable>

@@ -60,7 +60,7 @@ public class ApplicationDetailBean {
         .findAny()
         .orElse(null);
     if (app == null) {
-      ResponseHelper.notFound(Ivy.cms().co("/configuration/NotFoundApplicationMessage", Arrays.asList(appName)));
+      ResponseHelper.notFound(Ivy.cms().co("/common/NotFoundApplication", Arrays.asList(appName)));
       return;
     }
 

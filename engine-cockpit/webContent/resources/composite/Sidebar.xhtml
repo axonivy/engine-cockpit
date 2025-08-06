@@ -15,11 +15,11 @@
   <div id="layout-config" class="layout-config">
     <div class="layout-config-content">
       <div class="flex">
-        <h3>Live Stats</h3>
+        <h3>#{ivy.cm.co('/sidebar/LiveStats')}</h3>
         <p:commandButton icon="si si-remove" styleClass="ml-auto ui-button-danger ui-button-outlined rounded-button layout-config-close" 
           onclick="PF('liveStatePoll').stop(); $('#layout-config').toggleClass('layout-config-active');" type="button" />
       </div>
-      
+
       <h:form id="config-form">
         <p:poll widgetVar="liveStatePoll" update="charts" interval="1" autoStart="false" />
         <h:panelGroup id="charts" layout="block" class="ui-g-12">
@@ -29,7 +29,7 @@
             }
           </script>
           <p:staticMessage rendered="#{not empty cc.attrs.jmxSource}" severity="info"
-            summary="Live stats found from" detail="#{cc.attrs.jmxSource}" />
+            summary="#{ivy.cm.co('/sidebar/LiveStateInfoMessage')}" detail="#{cc.attrs.jmxSource}" />
           <cc:insertChildren />
         </h:panelGroup>
       </h:form>

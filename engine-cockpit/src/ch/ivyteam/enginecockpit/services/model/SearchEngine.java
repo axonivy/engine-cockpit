@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.searchengine.client.SearchEngineInfo;
 import ch.ivyteam.ivy.searchengine.client.Watermark;
 import ch.ivyteam.ivy.searchengine.server.ISearchEngineServer;
@@ -62,11 +63,10 @@ public class SearchEngine {
 
   public enum SearchEngineHealth {
 
-    GREEN("green", "check-circle-1", "Everything is ok"),
-    YELLOW("yellow", "check-circle-1", "Everything is ok, if you run on a single node cluster, like the internal ivy ES, this is normal."
-        + "On an external multi node cluster this can indicate some upcoming issues. Please check the ES logs."),
-    RED("red", "remove-circle", "There is a problem which needs your attention. Some data may be unavailable or functions are not working correctly."),
-    UNKNOWN("unknown", "question-circle", "Health state unknown");
+    GREEN("green", "check-circle-1", Ivy.cm().co("/searchEngine/SearchEngineHealthGreenHint")),
+    YELLOW("yellow", "check-circle-1", Ivy.cm().co("/searchEngine/SearchEngineHealthYellowHint")),
+    RED("red", "remove-circle", Ivy.cm().co("/searchEngine/SearchEngineHealthRedHint")),
+    UNKNOWN("unknown", "question-circle", Ivy.cm().co("/searchEngine/SearchEngineHealthUnknownHint"));
 
     private final String state;
     private final String icon;
