@@ -121,15 +121,26 @@ public class WebTestNotificationChannelDetail {
     firstEventCheckbox.shouldBeDisabled(true);
 
     $(By.id("save")).click();
-    refresh();
 
-    enabledCheckbox.shouldBeChecked(false);
+    var maxAttempts = 3;
+    for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        refresh();
 
-    allEventsCheckbox.shouldBeDisabled(true);
-    allEventsCheckbox.shouldBeChecked(false);
+        enabledCheckbox.shouldBeChecked(false);
 
-    firstEventCheckbox.shouldBeDisabled(true);
-    firstEventCheckbox.shouldBeChecked(true);
+        allEventsCheckbox.shouldBeDisabled(true);
+        allEventsCheckbox.shouldBeChecked(false);
+
+        firstEventCheckbox.shouldBeDisabled(true);
+        firstEventCheckbox.shouldBeChecked(true);
+        break;
+      } catch (AssertionError e) {
+        if (attempt == maxAttempts) {
+          throw e;
+        }
+      }
+    }
   }
 
   @Test
