@@ -7,6 +7,7 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.util.List;
 
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.ssl.restricted.IvyKeystore;
 import ch.ivyteam.log.Logger;
 
@@ -37,22 +38,16 @@ class KeyStoreUtils {
     return cert;
   }
 
-  public void addNewCert(Certificate certFile) {
-    try {
-      var ivyKS = loadInternal();
-      ivyKS.addCert(certFile);
-      ivyKS.store(password);
-    } catch (KeyStoreException ex) {
-      LOGGER.error("failed to add certificat to " + file, ex);
-    }
+  public void addNewCert(Certificate certFile) throws KeyStoreException {
+    var ivyKS = loadInternal();
+    ivyKS.addCert(certFile);
+    ivyKS.store(password);
   }
 
   List<StoredCert> getStoredCerts() {
     try {
       var certs = loadInternal().getStoredCertificates();
-      return certs.stream()
-          .map(cert -> new StoredCert(cert.alias(), cert.cert()))
-          .toList();
+      return certs.stream().map(cert -> new StoredCert(cert.alias(), cert.cert())).toList();
     } catch (KeyStoreException ex) {
       LOGGER.error("failed to read certificates of " + file, ex);
       return List.of();

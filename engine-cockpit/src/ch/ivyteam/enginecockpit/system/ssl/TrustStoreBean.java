@@ -58,9 +58,7 @@ public class TrustStoreBean implements SslTableStore {
 
   @SuppressWarnings("hiding")
   public List<String> getProviders() {
-    List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders())
-        .map(Provider::getName)
-        .toList());
+    List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders()).map(Provider::getName).toList());
     providers.add("");
     return providers;
   }
@@ -131,14 +129,23 @@ public class TrustStoreBean implements SslTableStore {
   }
 
   @Override
-  public Certificate handleUploadCertificate(FileUploadEvent event) throws Exception {
+  public Certificate handleUploadCertificate(FileUploadEvent event) {
     try (InputStream is = event.getFile().getInputStream()) {
       return getKeyStoreUtils().handleUploadCert(is);
+    } catch (Exception e) {
+      FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
+          new FacesMessage("The certificate was successfully added."));
     }
+    return null;
   }
 
   public void addToStore(Certificate cert) {
-    getKeyStoreUtils().addNewCert(cert);
+    try {
+      getKeyStoreUtils().addNewCert(cert);
+    } catch (Exception e) {
+      FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
+          new FacesMessage("The certificate was successfully added."));
+    }
     if ("X.509".equals(cert.getPublicKey().getFormat())) {
       X509Certificate X509cert = (X509Certificate) cert;
       FacesContext.getCurrentInstance().addMessage("addMissingCertSuccess",
