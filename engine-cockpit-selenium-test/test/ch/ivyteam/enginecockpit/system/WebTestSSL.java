@@ -119,6 +119,19 @@ class WebTestSSL {
       table.firstColumnShouldBe(texts("ivy"));
     }
 
+    @Test
+    void wrongPassword() {
+      PrimeUi.selectBooleanCheckbox(By.id(Key.USE_CUSTOM)).setChecked();
+      var propertyPassword = $(By.id(Key.STORE_PASSWORD));
+      propertyPassword.clear();
+      propertyPassword.sendKeys("invalidPassword");
+
+      saveKeyStore();
+      successKeyStore();
+
+      $(By.id("sslKeyTable:storeTable:certificateLoadError")).shouldHave(text("Failed to load store configuration/keystore.p12"));
+    }
+
     @AfterEach
     void cleanUpKeyStore() {
 
@@ -231,6 +244,19 @@ class WebTestSSL {
 
       propertyFile.shouldHave(exactValue("invalidFile"));
       propertyPassword.shouldHave(exactValue(""));
+    }
+
+    @Test
+    void wrongPassword() {
+      var propertyPassword = $(By.id(Trust.PASSWORD));
+      propertyPassword.clear();
+      propertyPassword.sendKeys("invalidPassword");
+
+      saveTrustStore();
+      successTrustStore();
+
+      $(By.id("sslTrustTable:storeTable:certificateLoadError"))
+          .shouldHave(text("Failed to load store configuration/truststore.p12"));
     }
 
     @AfterEach
