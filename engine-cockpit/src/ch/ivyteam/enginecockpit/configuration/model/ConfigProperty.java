@@ -196,7 +196,7 @@ public class ConfigProperty {
   }
 
   public String getEditorMode() {
-    return StringUtils.equals(fileExtension, "json") ? "javascript" : "";
+    return Objects.equals(fileExtension, "json") ? "javascript" : "";
   }
 
   public boolean fileExist() {

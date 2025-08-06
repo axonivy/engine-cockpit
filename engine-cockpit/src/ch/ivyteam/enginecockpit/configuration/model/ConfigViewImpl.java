@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.configuration.model;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -131,7 +132,7 @@ public class ConfigViewImpl implements TableFilter, ConfigView {
 
   @Override
   public void setActiveConfig(String configKey) {
-    this.activeConfig = configs.stream().filter(c -> StringUtils.equals(c.getKey(), configKey)).findFirst()
+    this.activeConfig = configs.stream().filter(c -> Objects.equals(c.getKey(), configKey)).findFirst()
         .orElse(new ConfigProperty());
   }
 

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.commons.ContentFilter;
@@ -66,13 +66,13 @@ public class ApplicationDetailBean {
     configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
         this::enrichPmvProperties, List.of(ConfigViewImpl.defaultFilter(),
             new ContentFilter<>("Variables", "Show Variables",
-                p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Variables."), true),
+                p -> !Strings.CI.startsWith(p.getKey(), "Variables."), true),
             new ContentFilter<>("Databases", "Show Databases",
-                p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Databases."), true),
+                p -> !Strings.CI.startsWith(p.getKey(), "Databases."), true),
             new ContentFilter<>("RestClients", "Show Rest Clients",
-                p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "RestClients."), true),
+                p -> !Strings.CI.startsWith(p.getKey(), "RestClients."), true),
             new ContentFilter<>("WebServiceClients", "Show Web Service Clients",
-                p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "WebServiceClients."), true)));
+                p -> !Strings.CI.startsWith(p.getKey(), "WebServiceClients."), true)));
   }
 
   public Application getApplication() {
@@ -93,9 +93,9 @@ public class ApplicationDetailBean {
     var app = ((IApplicationInternal) getIApplication());
     app.reloadConfig();
     Message.info()
-      .clientId("applicationMessage")
-      .summary("Configuration of application '"+app.getName()+"' reloaded")
-      .show();
+        .clientId("applicationMessage")
+        .summary("Configuration of application '" + app.getName() + "' reloaded")
+        .show();
   }
 
   public String getSessionCount() {
@@ -125,7 +125,7 @@ public class ApplicationDetailBean {
 
   @SuppressWarnings("restriction")
   private ConfigProperty enrichPmvProperties(ConfigProperty property) {
-    if (StringUtils.startsWith(property.getKey(), "StandardProcess")) {
+    if (Strings.CS.startsWith(property.getKey(), "StandardProcess")) {
       property.setConfigValueFormat(ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat.ENUMERATION);
       property.setEnumerationValues(() -> availableStandardProcesses(property));
     }

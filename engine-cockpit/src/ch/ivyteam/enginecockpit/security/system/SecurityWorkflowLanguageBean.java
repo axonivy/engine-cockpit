@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
@@ -55,7 +56,7 @@ public class SecurityWorkflowLanguageBean {
 
   private void loadSecuritySystem() {
     securitySystem = managerBean.getSecuritySystems().stream()
-        .filter(system -> StringUtils.equals(system.getSecuritySystemName(), name))
+        .filter(system -> Objects.equals(system.getSecuritySystemName(), name))
         .findAny()
         .orElseThrow();
     languages = LanguageManager.instance().languages(securitySystem.getSecurityContext());

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
@@ -130,7 +131,7 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
       return true;
     }
     for (var f : GLOBAL_FILTERS) {
-      if (StringUtils.containsIgnoreCase(f.apply(session), filter)) {
+      if (Strings.CI.contains(f.apply(session), filter)) {
         return true;
       }
     }

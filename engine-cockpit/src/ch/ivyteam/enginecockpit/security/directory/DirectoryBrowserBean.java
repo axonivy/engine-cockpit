@@ -5,7 +5,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -127,7 +127,7 @@ public class DirectoryBrowserBean {
     if (ex.getCause() != null) {
       message = ex.getCause().getMessage();
     }
-    if (StringUtils.contains(message, "AcceptSecurityContext")) {
+    if (Strings.CS.contains(message, "AcceptSecurityContext")) {
       return "There seems to be a problem with your credentials.";
     }
     return message;

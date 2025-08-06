@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,7 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.db.jdbc.DatabaseConnectionConfiguration;
 import ch.ivyteam.db.jdbc.DatabaseProduct;
@@ -85,7 +86,7 @@ public class SystemDatabaseBean extends StepStatus {
   }
 
   public void setProduct(String product) {
-    this.product = getSupportedDatabases().stream().filter(p -> StringUtils.equals(p.getName(), product))
+    this.product = getSupportedDatabases().stream().filter(p -> Objects.equals(p.getName(), product))
         .findFirst().orElseThrow();
     setDriver(getSupportedDriverNames().get(0));
   }
@@ -100,7 +101,7 @@ public class SystemDatabaseBean extends StepStatus {
 
   public void setDriver(String driver) {
     var newDriver = getSupportedDrivers().stream()
-        .filter(d -> StringUtils.equals(d.getName(), driver))
+        .filter(d -> Objects.equals(d.getName(), driver))
         .findFirst()
         .orElseThrow();
 
@@ -214,7 +215,7 @@ public class SystemDatabaseBean extends StepStatus {
   public boolean isDbCreatorFinished() {
     return creator != null &&
         !creator.isRunning() &&
-        StringUtils.equals(creator.getProgressText(), "Finished") &&
+        Objects.equals(creator.getProgressText(), "Finished") &&
         getDbCreatorError().isBlank();
   }
 
@@ -263,7 +264,7 @@ public class SystemDatabaseBean extends StepStatus {
   }
 
   private static boolean wasDefaultPort(SystemDbConnectionProperty oldPort) {
-    return StringUtils.equals(oldPort.getProperty().getLabel(), "Port") && oldPort.isDefaultValue();
+    return Objects.equals(oldPort.getProperty().getLabel(), "Port") && oldPort.isDefaultValue();
   }
 
   private DatabaseConnectionConfiguration createConfiguration() {
@@ -281,7 +282,7 @@ public class SystemDatabaseBean extends StepStatus {
   }
 
   public boolean isPersistentDb() {
-    return !StringUtils.contains(driver.getDriverName(), HSQL_DB);
+    return !Strings.CS.contains(driver.getDriverName(), HSQL_DB);
   }
 
   @Override

@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -48,7 +49,7 @@ public class PermissionBean extends TreeView<AbstractPermission> {
   }
 
   public String getUserMember() {
-    return StringUtils.removeStart(member, "#");
+    return Strings.CS.removeStart(member, "#");
   }
 
   public void setUserMember(String member) {
@@ -84,7 +85,7 @@ public class PermissionBean extends TreeView<AbstractPermission> {
     filteredTreeNode = new DefaultTreeNode<>("Filtered tree", null, null);
     var rootPermissionGroup = securityDescriptor.getSecurityDescriptorType().getRootPermissionGroup();
     rootPermissionGroup.getAllPermissions().stream()
-        .filter(permission -> StringUtils.containsIgnoreCase(permission.getName(), filter))
+        .filter(permission -> Strings.CI.contains(permission.getName(), filter))
         .map(permission -> {
           var access = securityDescriptor.getPermissionAccess(permission, securityMember);
           return new Permission(access, this);
