@@ -123,10 +123,10 @@ class WebTestSearchEngine {
   }
 
   private void assertQueryToolProposal(int apiCount) {
-    $("#searchEngineQueryToolForm\\:query > button").click();
+    $("#searchEngineQueryToolForm\\:query_button").click();
     $("#searchEngineQueryToolForm\\:query_panel").shouldBe(visible);
     $$("#searchEngineQueryToolForm\\:query_panel li").shouldHave(size(apiCount));
-    $("#searchEngineQueryToolForm\\:query_input").click();
+    $(".querytool-url").click();
   }
 
   private void checkIndexValues(Table table, String tableRow, String count) {
