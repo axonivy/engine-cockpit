@@ -7,7 +7,7 @@ import org.primefaces.event.FileUploadEvent;
 
 public interface SslTableStore {
 
-  void deleteCertificate(String alias);
+  void deleteCertificate(String alias) throws Exception;
   Certificate handleUploadCertificate(FileUploadEvent event) throws Exception;
   List<StoredCert> getCertificats();
 
