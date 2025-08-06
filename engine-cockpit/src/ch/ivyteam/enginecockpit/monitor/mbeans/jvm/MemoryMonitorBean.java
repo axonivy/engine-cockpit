@@ -4,8 +4,13 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.attribute;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.composite;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.delta;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
+import static ch.ivyteam.ivy.environment.Ivy.cm;
+import static ch.ivyteam.ivy.environment.Ivy.cms;
+import static java.lang.String.join;
+import static org.apache.commons.lang3.StringUtils.SPACE;
 
 import java.lang.management.ManagementFactory;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -20,12 +25,18 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 @ManagedBean
 @ViewScoped
 public class MemoryMonitorBean {
-  private final Monitor heapMemoryMonitor = Monitor.build().name("Heap Memory")
-      .icon("analytics-board-graph-line").yAxisLabel("Memory").toMonitor();
-  private final Monitor nonHeapMemoryMonitor = Monitor.build().name("Non Heap Memory")
-      .icon("analytics-board-graph-line").yAxisLabel("Memory").toMonitor();
-  private final Monitor gcMonitor = Monitor.build().name("Garbage Collection").icon("recycling-trash-bin-2")
-      .yAxisLabel("Time").toMonitor();
+  private final Monitor heapMemoryMonitor = Monitor.build().name(cm().co("/monitor/HeapMemory"))
+      .icon("analytics-board-graph-line")
+      .yAxisLabel(cm().co("/monitor/Memory"))
+      .toMonitor();
+  private final Monitor nonHeapMemoryMonitor = Monitor.build().name(cm().co("/monitor/NonHeapMemory"))
+      .icon("analytics-board-graph-line")
+      .yAxisLabel(cm().co("/monitor/Memory"))
+      .toMonitor();
+  private final Monitor gcMonitor = Monitor.build().name(cm().co("/monitor/GarbageCollection"))
+      .icon("recycling-trash-bin-2")
+      .yAxisLabel(cm().co("/monitor/Time"))
+      .toMonitor();
 
   public MemoryMonitorBean() {
     setupHeapMemoryMonitor();
@@ -34,19 +45,25 @@ public class MemoryMonitorBean {
   }
 
   private void setupHeapMemoryMonitor() {
-    heapMemoryMonitor.addInfoValue(format("Used %5d", heapMemoryUsed()));
-    heapMemoryMonitor.addInfoValue(format("Committed %5d", heapMemoryCommitted()));
-    heapMemoryMonitor.addInfoValue(format("Init %5d", heapMemoryInit()));
-    heapMemoryMonitor.addInfoValue(format("Max %5d", heapMemoryMax()));
-    heapMemoryMonitor.addSeries(Series.build(heapMemoryUsed(), "Used").toSeries());
-    heapMemoryMonitor.addSeries(Series.build(heapMemoryCommitted(), "Committed").toSeries());
+    var usedInfo = join(SPACE, cm().co("/monitor/Used"), "%5d");
+    var committedInfo = join(SPACE, cm().co("/monitor/Committed"), "%5d");
+    var initInfo = join(SPACE, cm().co("/monitor/Init"), "%5d");
+    var maxInfo = join(SPACE, cm().co("/monitor/Max"), "%5d");
+    heapMemoryMonitor.addInfoValue(format(usedInfo, heapMemoryUsed()));
+    heapMemoryMonitor.addInfoValue(format(committedInfo, heapMemoryCommitted()));
+    heapMemoryMonitor.addInfoValue(format(initInfo, heapMemoryInit()));
+    heapMemoryMonitor.addInfoValue(format(maxInfo, heapMemoryMax()));
+    heapMemoryMonitor.addSeries(Series.build(heapMemoryUsed(), cm().co("/monitor/Used")).toSeries());
+    heapMemoryMonitor.addSeries(Series.build(heapMemoryCommitted(), cm().co("/monitor/Committed")).toSeries());
   }
 
   private void setupNonHeapMemoryMonitor() {
-    nonHeapMemoryMonitor.addInfoValue(format("Used %5d", nonHeapMemoryUsed()));
-    nonHeapMemoryMonitor.addInfoValue(format("Committed %5d", nonHeapMemoryCommitted()));
-    nonHeapMemoryMonitor.addSeries(Series.build(nonHeapMemoryUsed(), "Used").toSeries());
-    nonHeapMemoryMonitor.addSeries(Series.build(nonHeapMemoryCommitted(), "Committed").toSeries());
+    var usedInfo = join(SPACE, cm().co("/monitor/Used"), "%5d");
+    var committedInfo = join(SPACE, cm().co("/monitor/Committed"), "%5d");
+    nonHeapMemoryMonitor.addInfoValue(format(usedInfo, nonHeapMemoryUsed()));
+    nonHeapMemoryMonitor.addInfoValue(format(committedInfo, nonHeapMemoryCommitted()));
+    nonHeapMemoryMonitor.addSeries(Series.build(nonHeapMemoryUsed(), cm().co("/monitor/Used")).toSeries());
+    nonHeapMemoryMonitor.addSeries(Series.build(nonHeapMemoryCommitted(), cm().co("/monitor/Committed")).toSeries());
   }
 
   private void setupGcMonitors() {
@@ -55,7 +72,8 @@ public class MemoryMonitorBean {
           .queryNames(new ObjectName("java.lang:type=GarbageCollector,name=*"), null);
       for (ObjectName garbageCollector : garbageCollectors) {
         String label = garbageCollector.getKeyProperty("name");
-        gcMonitor.addInfoValue(format(label + " %t/%t Count %5d", deltaGcCollectionTime(garbageCollector),
+        var gcCountLabel = cms().co("/monitor/GCCount", List.of(label, "%t/%t", "%5d"));
+        gcMonitor.addInfoValue(format(gcCountLabel, deltaGcCollectionTime(garbageCollector),
             gcCollectionTime(garbageCollector), gcCollections(garbageCollector)));
         gcMonitor.addSeries(Series.build(deltaGcCollectionTime(garbageCollector), label).toSeries());
       }

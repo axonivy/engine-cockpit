@@ -10,9 +10,9 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Services</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Services')}</span></li>
       <li>/</li>
-      <li><a href="notifications.xhtml">Notifications</a></li>
+      <li><a href="notifications.xhtml">#{ivy.cm.co('/sidebar/Notifications')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -23,39 +23,39 @@
       <div class="card">
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-advertising-megaphone-2 card-title-icon"></i>
-          <h2 class="m-0">Notifications</h2>
+          <h2 class="m-0">#{ivy.cm.co('/sidebar/Notifications')}</h2>
         </div>
         <cc:SecuritySystemTabs tabChange="#{notificationsBean.onload}" id="tabs">
           <h:form id="form" onkeypress="if (event.keyCode == 13) return false;">
             <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
               var="notification" value="#{notificationsBean.dataModel}" lazy="true" widgetVar="notificationTable"
-              id="notificationTable">
+              id="notificationTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
               <f:facet name="header">
                 <div class="flex">
                   <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
                     <i class="pi pi-search"/>
-                    <p:inputText id="globalFilter" onkeyup="PF('notificationTable').filter()" placeholder="Search" value="#{notificationsBean.dataModel.filter}" />
+                    <p:inputText id="globalFilter" onkeyup="PF('notificationTable').filter()" placeholder="#{ivy.cm.co('/common/Search')}" value="#{notificationsBean.dataModel.filter}" />
                   </span>
                 </div>
               </f:facet>
 
-              <p:column headerText="ID">
+              <p:column headerText="#{ivy.cm.co('/common/ID')}">
                 <a href="#{notification.viewUrl}" class="flex align-items-center">
                   <h:outputText value="#{notification.id}" />
                 </a>
               </p:column>
 
-              <p:column headerText="Created" sortBy="#{notification.createdAt}" sortOrder="desc">
+              <p:column headerText="#{ivy.cm.co('/common/Created')}" sortBy="#{notification.createdAt}" sortOrder="desc">
                 <h:outputText value="#{notification.createdAt}">
                   <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
                 </h:outputText>
               </p:column>
  
-              <p:column headerText="Event" sortBy="#{notification.event}">
+              <p:column headerText="#{ivy.cm.co('/common/Event')}" sortBy="#{notification.event}">
                 <h:outputText value="#{notification.event}" />
               </p:column>
 
-              <p:column headerText="Receiver">
+              <p:column headerText="#{ivy.cm.co('/common/Receiver')}">
                 <ui:repeat value="#{notification.receivers}" var="receiver">
                   <p:link href="#{receiver.viewUrl}">
                     <i class="#{receiver.cssIconClass} table-icon"/>
@@ -65,19 +65,19 @@
                 <h:outputText value="..." rendered="#{notification.receiversConcat}"/>
               </p:column>
 
-              <p:column headerText="PMV">
+              <p:column headerText="#{ivy.cm.co('/common/PMV')}">
                 <p:link rendered="#{not empty notification.pmvUri}" href="#{notification.pmvUri}">
                   <i class="si-#{notification.pmvIcon} table-icon"/>
                   <h:outputText value="#{notification.pmv}" />
                 </p:link>
               </p:column>
 
-              <p:column headerText="Template">
+              <p:column headerText="#{ivy.cms.co('/common/Template')}">
                 <h:outputText value="#{notification.template}" />
               </p:column>
 
               <p:column styleClass="table-btn-1">
-                <p:commandButton id="showPayload" title="Show payload" icon="si si-office-file-doc-1"
+                <p:commandButton id="showPayload" title="#{ivy.cms.co('/notification/ShowPayload')}" icon="si si-office-file-doc-1"
                     actionListener="#{notificationPayloadBean.setNotification(notification)}" update="payloadModal" styleClass="rounded-button"
                     oncomplete="PF('payloadModal').show()" />
               </p:column>
@@ -86,7 +86,7 @@
         </cc:SecuritySystemTabs>
       </div>
 
-     <p:dialog header="Payload" id="payloadModal" width="50%" modal="true"
+     <p:dialog header="#{ivy.cms.co('/notification/Payload')}" id="payloadModal" width="50%" modal="true"
         onShow="hljs.highlightBlock(document.querySelector('pre code.json'))" widgetVar="payloadModal"
         responsive="true" closeOnEscape="true">
         <pre>

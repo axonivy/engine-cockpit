@@ -10,11 +10,11 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Monitor</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
       <li>/</li>
-      <li><span>Engine</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Engine')}</span></li>
       <li>/</li>
-      <li><a href="monitor-sessions.xhtml">Sessions</a></li>
+      <li><a href="monitor-sessions.xhtml">#{ivy.cm.co('/sidebar/Sessions')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -28,83 +28,83 @@
             <div class="card-header flex-wrap">
               <div class="card-title flex align-items-center">
                 <i class="pr-3 si si-analytics-graph-line card-title-icon"></i>
-                <h2 class="m-0">Sessions</h2>
-                <p:commandButton id="refresh" update="@form" title="Refresh statistic"
+                <h2 class="m-0">#{ivy.cm.co('/sidebar/Sessions')}</h2>
+                <p:commandButton id="refresh" update="@form" title="#{ivy.cm.co('/monitor/session/RefreshStatistic')}"
                     icon="si si-button-refresh-arrows" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button" />
               </div>
             </div>
             <p:dataTable var="ses" value="#{sessionBean.dataModel}"
               widgetVar="sessionTable" styleClass="ui-fluid"
               paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-              id="sessionTable" resizableColumns="true">
+              id="sessionTable" resizableColumns="true" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
               <f:facet name="header">
                 <div class="flex">
                   <div class="ui-input-icon-left filter-container" style="width: 100%;">
                     <i class="pi pi-search"/>
-                    <p:inputText id="globalFilter" value="#{sessionBean.dataModel.filter}" onkeyup="PF('sessionTable').filter()" placeholder="Search" onkeypress="if (event.keyCode === 13) { return false; } else { return true; }" />
+                    <p:inputText id="globalFilter" value="#{sessionBean.dataModel.filter}" onkeyup="PF('sessionTable').filter()" placeholder="#{ivy.cm.co('/common/Search')}" onkeypress="if (event.keyCode === 13) { return false; } else { return true; }" />
                   </div>
 
-                  <p:commandButton id="filterBtn" title="Filter" type="button" icon="si si-filter-1"
-                  styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button" onclick="PF('filterPanel').show();" />
+                  <p:commandButton id="filterBtn" title="#{ivy.cm.co('/common/Filter')}" type="button" icon="si si-filter-1"
+                    styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button" onclick="PF('filterPanel').show();" />
                   <p:overlayPanel id="filterPanel" for="filterBtn" widgetVar="filterPanel" styleClass="table-content-filter">
                     <h:panelGroup style="display:block;margin-bottom:5px;">
-                      <p:selectBooleanCheckbox value="#{sessionBean.dataModel.showUnauthenticatedSessions}" id="filterUnauthenticatedSession" itemLabel="Show unauthenticated sessions" />
+                      <p:selectBooleanCheckbox value="#{sessionBean.dataModel.showUnauthenticatedSessions}" id="filterUnauthenticatedSession" itemLabel="#{ivy.cm.co('/monitor/session/ShowUnauthenticatedSessions')}" />
                     </h:panelGroup>
                     <h:panelGroup>
-                      <p:selectBooleanCheckbox value="#{sessionBean.dataModel.showTemporarySessions}" id="filterTemporarySession" itemLabel="Show temporary sessions" />
+                      <p:selectBooleanCheckbox value="#{sessionBean.dataModel.showTemporarySessions}" id="filterTemporarySession" itemLabel="#{ivy.cm.co('/monitor/session/ShowTemporarySessions')}" />
                     </h:panelGroup>
                     <h:panelGroup layout="block" styleClass="mt-1 flex justify-content-end">
-                      <p:commandButton id="cancelFilter" value="Cancel" styleClass="ui-button-flat ui-button-secondary modal-input-button"
+                      <p:commandButton id="cancelFilter" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-flat ui-button-secondary modal-input-button"
                         onclick="PF('filterPanel').hide();" type="button" />
-                      <p:commandButton id="resetFilterBtn" value="Reset" styleClass="ml-1 ui-button-secondary modal-input-button" icon="si si-delete-2"
+                      <p:commandButton id="resetFilterBtn" value="#{ivy.cm.co('/common/Reset')}" styleClass="ml-1 ui-button-secondary modal-input-button" icon="si si-delete-2"
                         update="@form" actionListener="#{sessionBean.dataModel.resetFilters()}" />
-                      <p:commandButton id="applyFilter" value="Apply" styleClass="ml-1 modal-input-button" icon="si si-check-1" update="@form" />
+                      <p:commandButton id="applyFilter" value="#{ivy.cm.co('/common/Apply')}" styleClass="ml-1 modal-input-button" icon="si si-check-1" update="@form" />
                     </h:panelGroup>
                   </p:overlayPanel>
                 </div>
               </f:facet>
 
-              <p:column headerText="User" sortBy="#{ses.user}">
+              <p:column headerText="#{ivy.cm.co('/common/User')}" sortBy="#{ses.user}">
                 <h:outputLink value="#{ses.userLink}" rendered="#{!ses.isUserInternal()}">
-                  <h:outputText value="#{ses.user}" styleClass=""/>
+                  <h:outputText value="#{ses.user}"/>
                 </h:outputLink>
-                <h:outputText value="#{ses.user}" rendered="#{ses.isUserInternal()}" styleClass=""/>
+                <h:outputText value="#{ses.user}" rendered="#{ses.isUserInternal()}"/>
               </p:column>
 
-              <p:column headerText="Created" sortBy="#{ses.createdAt}">
+              <p:column headerText="#{ivy.cm.co('/common/Created')}" sortBy="#{ses.createdAt}">
                 <h:outputText value="#{ses.createdAt}">
                   <f:convertDateTime type="both" dateStyle="short" timeStyle="medium" />
                 </h:outputText>
               </p:column>
 
-              <p:column headerText="Last accessed" sortBy="#{ses.lastAccessedAt}">
+              <p:column headerText="#{ivy.cm.co('/monitor/session/LastAccessed')}" sortBy="#{ses.lastAccessedAt}">
                 <h:outputText value="#{ses.lastAccessedAt}">
                   <f:convertDateTime type="both" dateStyle="short" timeStyle="medium" />
                 </h:outputText>
               </p:column>
 
-              <p:column headerText="System" sortBy="#{ses.securitySystem}">
+              <p:column headerText="#{ivy.cm.co('/sidebar/System')}" sortBy="#{ses.securitySystem}">
                 <h:outputLink value="#{ses.securitySystemLink}" rendered="#{!ses.isSecuritySystemInternal()}">#{ses.securitySystem}</h:outputLink>
                 <h:outputText value="#{ses.securitySystem}" rendered="#{ses.isSecuritySystemInternal()}" />
               </p:column>
 
-              <p:column headerText="Cause" sortBy="#{ses.cause}">
+              <p:column headerText="#{ivy.cm.co('/monitor/session/Cause')}" sortBy="#{ses.cause}">
                 <h:outputText value="#{ses.cause}" />
               </p:column>
 
-              <p:column headerText="Auth" sortBy="#{ses.authMode}">
+              <p:column headerText="#{ivy.cm.co('/monitor/session/Auth')}" sortBy="#{ses.authMode}">
                 <h:outputText value="#{ses.authMode}" />
               </p:column>
 
-              <p:column headerText="Temp" sortBy="#{ses.temporary}">
-                <h:outputText value="#{ses.temporary}" title="A temporary session is only created for technical reasons and shoud have a very short lifetime (approx. 1s). Temporary sessions do not count for licensed concurrent sessions." />
+              <p:column headerText="#{ivy.cm.co('/monitor/session/Temp')}" sortBy="#{ses.temporary}">
+                <h:outputText value="#{ses.temporary}" title="#{ivy.cm.co('/monitor/session/TempTooltip')}" />
               </p:column>
 
-              <p:column headerText="Id" sortBy="#{ses.id}">
+              <p:column headerText="#{ivy.cm.co('/common/ID')}" sortBy="#{ses.id}">
                 <h:outputText value="#{ses.id}" />
               </p:column>
 
-               <p:column headerText="HTTP Sessions" sortBy="#{ses.httpSessionCount}">
+               <p:column headerText="#{ivy.cm.co('/monitor/session/HTTPSessions')}" sortBy="#{ses.httpSessionCount}">
                 <h:panelGroup id="httpSessionGrp">
                    <h:outputText id="httpSession" value="#{ses.httpSessionCount}"/>
                    <i class="fa-solid fa-info-circle"/>
@@ -112,22 +112,22 @@
                 <p:tooltip for="httpSessionGrp" rendered="#{!ses.httpSessions.isEmpty()}">
                   <ui:repeat value="#{ses.httpSessions}" var="httpSession">
                     <h:panelGroup rendered="#{httpSession.valid}">
-                      <h:outputLabel for="creationTime" value="Creation: "/>
+                      <h:outputLabel for="creationTime" value="#{ivy.cm.co('/monitor/session/Creation')}: "/>
                       <h:outputText id="creationTime" value="#{httpSession.creationTime}">
                         <f:convertDateTime type="both" dateStyle="short" timeStyle="medium"/>
                       </h:outputText>
                       |
-                      <h:outputLabel for="lastAccessedTime" value="Last Accessed: "/>
+                      <h:outputLabel for="lastAccessedTime" value="#{ivy.cm.co('/monitor/session/LastAccessed')}: "/>
                       <h:outputText id="lastAccessedTime" value="#{httpSession.lastAccessedTime}">
                         <f:convertDateTime type="both" dateStyle="short" timeStyle="medium"/>
                       </h:outputText>
                       |
-                      <h:outputLabel for="servletContext" value="Context Path: "/>
+                      <h:outputLabel for="servletContext" value="#{ivy.cm.co('/monitor/session/ContextPath')}: "/>
                       <h:outputText id="servletContext" value="#{httpSession.servletContextPath}"/>
                     </h:panelGroup>
 
                     <h:panelGroup rendered="#{!httpSession.valid}">
-                      <h:outputText id="invalidSession" value="Creation invalid / Last Accessed invalid" />
+                      <h:outputText id="invalidSession" value="#{ivy.cm.co('/monitor/session/InvalidSessionMessage')}" />
                     </h:panelGroup>
 
                     <br />
@@ -136,7 +136,7 @@
               </p:column>
 
               <p:column styleClass="table-btn-1">
-                <p:commandButton id="killSession" title="Kill session" icon="si si-logout-1"
+                <p:commandButton id="killSession" title="#{ivy.cm.co('/monitor/session/KillSession')}" icon="si si-logout-1"
                   actionListener="#{sessionBean.killSession(ses)}" ajax="true" update="@form" disabled="#{!ses.canKill()}" styleClass="ui-button-danger rounded-button" />
               </p:column>
             </p:dataTable>

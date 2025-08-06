@@ -5,7 +5,12 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.difference;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.percentage;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.value;
+import static ch.ivyteam.ivy.environment.Ivy.cm;
+import static ch.ivyteam.ivy.environment.Ivy.cms;
+import static java.lang.String.join;
+import static org.apache.commons.lang3.StringUtils.SPACE;
 
+import java.util.List;
 import java.util.function.DoubleSupplier;
 
 import javax.faces.bean.ManagedBean;
@@ -19,13 +24,23 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 @ManagedBean
 @ViewScoped
 public class OsBean {
-  private final Monitor memoryMonitor = Monitor.build().name("Memory").icon("analytics-board-graph-line")
-      .yAxisLabel("Memory").reverseColors().toMonitor();
-  private final Monitor cpuMonitor = Monitor.build().name("CPU Load").icon("computer-chip").yAxisLabel("Load")
+  private final Monitor memoryMonitor = Monitor.build().name(cm().co("/monitor/Memory"))
+      .icon("analytics-board-graph-line")
+      .yAxisLabel(cm().co("/monitor/Memory"))
+      .reverseColors()
       .toMonitor();
-  private final Monitor networkMonitor = Monitor.build().name("Network").icon("network-signal")
-      .yAxisLabel("Send / Recv").toMonitor();
-  private final Monitor ioMonitor = Monitor.build().name("IO").icon("cd").yAxisLabel("Read / Write").toMonitor();
+  private final Monitor cpuMonitor = Monitor.build().name(cm().co("/monitor/CPULoad"))
+      .icon("computer-chip")
+      .yAxisLabel(cm().co("/monitor/Load"))
+      .toMonitor();
+  private final Monitor networkMonitor = Monitor.build().name(cm().co("/monitor/Network"))
+      .icon("network-signal")
+      .yAxisLabel(cm().co("/monitor/SendRecv"))
+      .toMonitor();
+  private final Monitor ioMonitor = Monitor.build().name(cm().co("/monitor/IO"))
+      .icon("cd")
+      .yAxisLabel(cm().co("/monitor/ReadWrite"))
+      .toMonitor();
 
   private long[] oldTicks;
   private double cpuLoad;
@@ -38,33 +53,41 @@ public class OsBean {
   }
 
   private void setupCpuMonitor() {
+    var cpuUsed = join(SPACE, cm().co("/monitor/Cores"), "%d");
+    var threadsUsed = join(SPACE, cm().co("/monitor/Thread"), "%d");
     cpuMonitor.addInfoValue(format("%.1f", cpuLoad()));
-    cpuMonitor.addInfoValue(format("%d Cores", cpuCores()));
-    cpuMonitor.addInfoValue(format("%d Threads", cpuThreads()));
-    cpuMonitor.addSeries(Series.build(cpuLoad(), "Load").fill().smoothLine().toSeries());
+    cpuMonitor.addInfoValue(format(cpuUsed, cpuCores()));
+    cpuMonitor.addInfoValue(format(threadsUsed, cpuThreads()));
+    cpuMonitor.addSeries(Series.build(cpuLoad(), cm().co("/monitor/Load")).fill().smoothLine().toSeries());
   }
 
   private void setupMemoryMonitor() {
-    memoryMonitor.addInfoValue(format("%4d of %4d (%.1f)", memoryUsed(), memoryMax(), memoryUsage()));
-    memoryMonitor.addInfoValue(format("JVM %4d of %4d", memoryJvmUsed(), memoryJvmMax()));
-    memoryMonitor.addSeries(Series.build(memoryJvmMax(), "Jvm max memory").smoothLine().toSeries());
-    memoryMonitor.addSeries(Series.build(memoryJvmUsed(), "Jvm memory usage").fill().smoothLine().toSeries());
-    memoryMonitor.addSeries(Series.build(memoryUsed(), "Memory usage").fill().smoothLine().toSeries());
+    var memoryOf = cms().co("/monitor/Of", List.of("%4d", "%4d (%.1f)"));
+    var jvmOf = cms().co("/monitor/Of", List.of("JVM %4d", "%4d"));
+    memoryMonitor.addInfoValue(format(memoryOf, memoryUsed(), memoryMax(), memoryUsage()));
+    memoryMonitor.addInfoValue(format(jvmOf, memoryJvmUsed(), memoryJvmMax()));
+    memoryMonitor.addSeries(Series.build(memoryJvmMax(), cm().co("/monitor/JVMMaxMemory")).smoothLine().toSeries());
+    memoryMonitor.addSeries(Series.build(memoryJvmUsed(), cm().co("/monitor/JVMMemoryUsage")).fill().smoothLine().toSeries());
+    memoryMonitor.addSeries(Series.build(memoryUsed(), cm().co("/monitor/MemoryUsage")).fill().smoothLine().toSeries());
 
   }
 
   private void setupNetworkMonitor() {
-    networkMonitor.addInfoValue(format("Sending %4d / %4d", networkSend(), networkSendTotal()));
-    networkMonitor.addInfoValue(format("Receiving %4d / %4d", networkReceive(), networkReceiveTotal()));
-    networkMonitor.addSeries(Series.build(networkSend(), "Send").smoothLine().toSeries());
-    networkMonitor.addSeries(Series.build(networkReceive(), "Receive").smoothLine().toSeries());
+    var sendingData = join(SPACE, cm().co("/monitor/Sending"), "%4d / %4d");
+    var receivingData = join(SPACE, cm().co("/monitor/Receiving"), "%4d / %4d");
+    networkMonitor.addInfoValue(format(sendingData, networkSend(), networkSendTotal()));
+    networkMonitor.addInfoValue(format(receivingData, networkReceive(), networkReceiveTotal()));
+    networkMonitor.addSeries(Series.build(networkSend(), cm().co("/common/Send")).smoothLine().toSeries());
+    networkMonitor.addSeries(Series.build(networkReceive(), cm().co("/common/Receive")).smoothLine().toSeries());
   }
 
   private void setupIoMonitor() {
-    ioMonitor.addInfoValue(format("Write %4d / %4d", ioWrite(), ioWriteTotal()));
-    ioMonitor.addInfoValue(format("Read %4d / %4d", ioRead(), ioReadTotal()));
-    ioMonitor.addSeries(Series.build(ioWrite(), "Write").smoothLine().toSeries());
-    ioMonitor.addSeries(Series.build(ioRead(), "Read").smoothLine().toSeries());
+    var writeData = join(SPACE, cm().co("/monitor/Write"), "%4d / %4d");
+    var readData = join(SPACE, cm().co("/monitor/Read"), "%4d / %4d");
+    ioMonitor.addInfoValue(format(writeData, ioWrite(), ioWriteTotal()));
+    ioMonitor.addInfoValue(format(readData, ioRead(), ioReadTotal()));
+    ioMonitor.addSeries(Series.build(ioWrite(), cm().co("/common/Write")).smoothLine().toSeries());
+    ioMonitor.addSeries(Series.build(ioRead(), cm().co("/common/Read")).smoothLine().toSeries());
   }
 
   public Monitor getCpuMonitor() {

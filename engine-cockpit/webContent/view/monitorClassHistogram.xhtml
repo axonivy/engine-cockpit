@@ -6,11 +6,11 @@
   <h:body>
     <ui:composition template="../includes/template/template.xhtml">
       <ui:define name="breadcrumb">
-        <li><span>Monitor</span></li>
+        <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
         <li>/</li>
-        <li><span>Java</span></li>
+        <li><span>#{ivy.cm.co('/sidebar/Java')}</span></li>
         <li>/</li>
-        <li><a href="monitorClassHistogram.xhtml">Class Histogram</a></li>
+        <li><a href="monitorClassHistogram.xhtml">#{ivy.cms.co('/sidebar/ClassHistogram')}</a></li>
       </ui:define>
 
       <ui:define name="topbar-items">
@@ -27,35 +27,36 @@
               <div class="card-header flex-wrap">
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-computer-chip-search"></i>
-                  <h2 class="m-0">Class Histogram</h2>
-                  <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{classHistogramBean.refresh()}" title="Refresh Class Histogram" 
+                  <h2 class="m-0">#{ivy.cms.co('/sidebar/ClassHistogram')}</h2>
+                  <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{classHistogramBean.refresh()}" title="#{ivy.cm.co('/monitor/classHistogram/Refresh')}"
                       update="@form" styleClass="flex-shrink-0 ml-auto rounded-button"/>
-                  <p:commandButton id="clear" actionListener="#{classHistogramBean.clear}" update="@form" title="Clear Class Histogram"
+                  <p:commandButton id="clear" actionListener="#{classHistogramBean.clear}" update="@form" title="#{ivy.cm.co('/monitor/classHistogram/Clear')}"
                       icon="si si-bin-1" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{classHistogramBean.notClearable}"/>
-                  <p:commandButton id="dump" update="dumpMemory" title="Dump Heap Memory" onclick="PF('dumpMemoryDialog').show();"
+                  <p:commandButton id="dump" update="dumpMemory" title="#{ivy.cm.co('/monitor/classHistogram/Dump')}" onclick="PF('dumpMemoryDialog').show();"
                       icon="si si-download-bottom" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button"/>
                 </div>
               </div>
               <p:dataTable var="class" value="#{classHistogramBean.classes}" filteredValue="#{classHistogramBean.filteredClasses}"
                 widgetVar="classesTable" styleClass="ui-fluid"
-                id="classTable" style="min-width: 950px;" emptyMessage="Press refresh to load class histogram. Note that this triggers a full garbage collection and can influence the performance of the engine"
+                id="classTable" style="min-width: 950px;" emptyMessage="#{ivy.cm.co('/monitor/classHistogram/EmptyHistogramMessage')}"
                 paginator="true" rows="100" paginatorPosition="bottom" resizableColumns="true" sortBy="#{class.instances}">
                 <f:facet name="header">
                   <div class="ui-input-icon-left filter-container">
                     <i class="pi pi-search"/>
-                    <p:inputText id="globalFilter" onkeyup="PF('classesTable').filter()" placeholder="Search" value="#{classHistogramBean.filter}" />
+                    <p:inputText id="globalFilter" onkeyup="PF('classesTable').filter()" placeholder="#{ivy.cm.co('/common/Search')}"
+                      value="#{classHistogramBean.filter}" />
                   </div>
                 </f:facet>
 
-                <p:column headerText="Class" sortBy="#{class.name}" filterBy="#{class.name}">
+                <p:column headerText="#{ivy.cm.co('/monitor/Classes')}" sortBy="#{class.name}" filterBy="#{class.name}">
                   <span><h:outputText value="#{class.name}"/></span>
                 </p:column>
-                <p:column headerText="Module" sortBy="#{class.module}" filterBy="#{class.module}" width="15%">
+                <p:column headerText="#{ivy.cm.co('/common/Module')}" sortBy="#{class.module}" filterBy="#{class.module}" width="15%">
                   <span><h:outputText value="#{class.module}"/></span>
                 </p:column>
                 <p:column sortBy="#{class.instances}" width="10%" sortOrder="desc">
                   <f:facet name="header">
-                    <h:outputText value="Instances" title="Total number of instances/objects allocated on the Java heap for this class"/>
+                    <h:outputText value="#{ivy.cm.co('/common/Instances')}" title="#{ivy.cm.co('/monitor/classHistogram/InstancesTooltip')}"/>
                   </f:facet>
                   <div style="background: #{class.instancesBackground};">
                     <h:outputText id="instances" value="#{class.instances}" styleClass="gradient-text" title="#{class.instances}">
@@ -66,7 +67,7 @@
                 </p:column>
                 <p:column sortBy="#{class.bytes}" width="10%">
                   <f:facet name="header">
-                    <h:outputText value="Bytes" title="Total number of bytes allocated on the Java heap for instances of this class"/>
+                    <h:outputText value="#{ivy.cm.co('/common/Bytes')}" title="#{ivy.cm.co('/monitor/classHistogram/BytesTooltip')}"/>
                   </f:facet>
                   <div style="background: #{class.bytesBackground};">
                     <h:outputText id="bytes" value="#{class.bytes}" styleClass="gradient-text" title="#{class.bytes}">
@@ -77,32 +78,29 @@
                 </p:column>
                 <p:column sortBy="#{class.deltaToMinInstances}" width="10%">
                   <f:facet name="header">
-                    <h:outputText value="&#x394; Min" title="Delta between the current and minimum instances allocated on the Java heap since the last clear"/>
+                    <h:outputText value="#{ivy.cms.co('/monitor/classHistogram/DeltaMin')}" title="#{ivy.cm.co('/monitor/classHistogram/DeltaTooltip')}" escape="false"/>
                   </f:facet>
                   <div style="background: #{class.deltaMinBackground};">
-                    <h:panelGroup id="deltaMin" styleClass="gradient-text">            
-                      <h:outputText value="&#x394; "/>
+                    <h:panelGroup id="deltaMin" styleClass="gradient-text">
+                      <h:outputText value="#{ivy.cm.co('/monitor/classHistogram/Delta')} " escape="false"/>
                       <h:outputText value="#{class.deltaToMinInstances}">
                         <f:convertNumber/>
                       </h:outputText>
                       <h:outputText value=" ("/>
                       <h:outputText value="#{class.minInstances}">
                         <f:convertNumber/>
-                       </h:outputText>
+                      </h:outputText>
                       <h:outputText value=")"/>
                     </h:panelGroup>
-                    <p:tooltip for="deltaMin">
-                      &#x394;: #{class.deltaToMinInstances}<br/>
-                      Min: #{class.minInstances}
-                    </p:tooltip>
+                    <p:tooltip for="deltaMin" value="#{ivy.cms.co('/monitor/classHistogram/DeltaMinDetailTooltip', [class.deltaToMinInstances, class.minInstances])}" escape="false"/>
                   </div>
                 </p:column>
                 <p:column sortBy="#{class.deltaToMaxInstances}" width="10%">
                   <f:facet name="header">
-                    <h:outputText value="&#x394; Max" title="Delta between the current and maximum instances allocated on the Java heap since the last clear"/>
+                    <h:outputText value="#{ivy.cm.co('/monitor/classHistogram/DeltaMax')}" title="#{ivy.cm.co('/monitor/classHistogram/DeltaMaxTooltip')}" escape="false"/>
                   </f:facet>
-                  <h:panelGroup id="deltaMax" styleClass="gradient-text">            
-                    <h:outputText value="&#x394; "/>
+                  <h:panelGroup id="deltaMax" styleClass="gradient-text">
+                    <h:outputText value="#{ivy.cm.co('/monitor/classHistogram/Delta')} "/>
                     <h:outputText value="#{class.deltaToMaxInstances}">
                       <f:convertNumber/>
                     </h:outputText>
@@ -112,24 +110,21 @@
                      </h:outputText>
                     <h:outputText value=")"/>
                   </h:panelGroup>
-                  <p:tooltip for="deltaMax">
-                    &#x394;: #{class.deltaToMaxInstances}<br/>
-                    Max: #{class.maxInstances}
-                  </p:tooltip>
+                  <p:tooltip for="deltaMax" value="#{ivy.cms.co('/monitor/classHistogram/DeltaMaxDetailTooltip', [class.deltaToMinInstances, class.minInstances])}" escape="false"/>
                 </p:column>
               </p:dataTable>
             </div>
           </div>
         </h:form>
-        <p:dialog style="min-width: 300px;" header="Dump Heap Memory" id="dumpMemoryDialog"
-              widgetVar="dumpMemoryDialog" responsive="true" closeOnEscape="true">
+        <p:dialog header="#{ivy.cm.co('/monitor/classHistogram/DumpHeapMemory')}" id="dumpMemoryDialog"
+              widgetVar="dumpMemoryDialog" responsive="true" closeOnEscape="true" minWidth="300">
           <h:form id="dumpMemory" styleClass="custom-dialog-form">
-            <p:staticMessage severity="warn" detail="This will dump the whole heap memory to a file."/>
-            <p:staticMessage severity="warn" detail="The resulting file can be huge (depending on the current heap size)."/>
-             <p:staticMessage severity="warn" detail="The engine may not be response for a few seconds."/>
+            <p:staticMessage severity="warn" detail="#{ivy.cm.co('/monitor/classHistogram/DumpMemoryMessage1')}"/>
+            <p:staticMessage severity="warn" detail="#{ivy.cm.co('/monitor/classHistogram/DumpMemoryMessage2')}"/>
+            <p:staticMessage severity="warn" detail="#{ivy.cm.co('/monitor/classHistogram/DumpMemoryMessage3')}"/>
             <div class="custom-dialog-footer">
-              <p:commandButton id="cancel" type="button" onclick="PF('dumpMemoryDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
-              <p:commandButton id="dump" ajax="false" value="Dump" update="form" title="Dump Heap Memory" 
+              <p:commandButton id="cancel" type="button" onclick="PF('dumpMemoryDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+              <p:commandButton id="dump" ajax="false" value="#{ivy.cm.co('/monitor/classHistogram/Dump')}" update="form" title="#{ivy.cm.co('/monitor/classHistogram/DumpHeapMemory')}"
                   onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'si-download-bottom'); PF('dumpMemoryDialog').hide();}"
                   icon="si si-download-bottom" styleClass="modal-input-button">
                 <p:fileDownload value="#{classHistogramBean.dumpMemory()}"/>
