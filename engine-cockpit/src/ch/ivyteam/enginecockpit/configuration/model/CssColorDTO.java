@@ -1,8 +1,7 @@
 package ch.ivyteam.enginecockpit.configuration.model;
 
 import java.io.Serializable;
-
-import org.apache.commons.lang3.StringUtils;
+import java.util.Objects;
 
 import ch.ivyteam.ivy.configuration.restricted.branding.CssColor;
 
@@ -23,30 +22,37 @@ public class CssColorDTO implements Serializable {
     this.color = color;
     this.value = value;
     this.defaultValue = defaultValue;
-    this.isDefault = StringUtils.equals(value, defaultValue);
+    this.isDefault = Objects.equals(value, defaultValue);
   }
 
   public String getColor() {
     return color;
   }
+
   public void setColor(String color) {
     this.color = color;
   }
+
   public String getValue() {
     return value;
   }
+
   public void setValue(String value) {
     this.value = value;
   }
+
   public String getDefaultValue() {
     return defaultValue;
   }
+
   public void setDefaultValue(String defaultValue) {
     this.defaultValue = defaultValue;
   }
+
   public boolean isDefault() {
     return isDefault;
   }
+
   public void setDefault(boolean isDefault) {
     this.isDefault = isDefault;
   }

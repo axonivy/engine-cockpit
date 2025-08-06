@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.util;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class HttpAsserter {
 
   public static class HttpAssert {
 
-    private String url;
+    private final String url;
 
     private HttpAssert(String url) {
       this.url = url;
@@ -54,9 +55,9 @@ public class HttpAsserter {
 
     private Set<String> findDeadLinks(Set<String> linksToCheck, Set<String> linksAlreadyChecked, String sessionId) {
       return linksToCheck.stream()
-              .filter(link -> !containsQueryParamIgnore(linksAlreadyChecked, link))
-              .filter(link -> !check(link, sessionId))
-              .collect(Collectors.toSet());
+          .filter(link -> !containsQueryParamIgnore(linksAlreadyChecked, link))
+          .filter(link -> !check(link, sessionId))
+          .collect(Collectors.toSet());
     }
 
     private static Set<String> parseLinks(String url, String sessionId) {
@@ -91,19 +92,19 @@ public class HttpAsserter {
 
     private static boolean containsQueryParamIgnore(Set<String> crawled, String url) {
       var urlWithoutQuery = StringUtils.substringBefore(url, "?");
-      return crawled.stream().anyMatch(c -> StringUtils.equals(StringUtils.substringBefore(c, "?"), urlWithoutQuery));
+      return crawled.stream().anyMatch(c -> Objects.equals(StringUtils.substringBefore(c, "?"), urlWithoutQuery));
     }
 
     private boolean check(String urlToCheck, String sessionId) {
-        System.out.println("check " + urlToCheck);
-        try {
-          var con = Jsoup.connect(urlToCheck);
-          con.cookie("JSESSIONID", sessionId);
-          con.get();
-          return true;
-        } catch (IOException ex) {
-          return false;
-        }
+      System.out.println("check " + urlToCheck);
+      try {
+        var con = Jsoup.connect(urlToCheck);
+        con.cookie("JSESSIONID", sessionId);
+        con.get();
+        return true;
+      } catch (IOException ex) {
+        return false;
+      }
     }
   }
 }

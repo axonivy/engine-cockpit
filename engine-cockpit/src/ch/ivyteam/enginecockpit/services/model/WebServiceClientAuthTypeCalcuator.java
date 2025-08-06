@@ -14,10 +14,10 @@ public class WebServiceClientAuthTypeCalcuator {
   }
 
   public String get() {
-    return features.stream().filter(f -> StringUtils.contains(f, "AuthenticationFeature"))
-            .map(f -> StringUtils.substringBetween(f, "cxf.feature.", "AuthenticationFeature"))
-            .filter(Objects::nonNull)
-            .findFirst()
-            .orElse("");
+    return features.stream().filter(f -> f != null && f.contains("AuthenticationFeature"))
+        .map(f -> StringUtils.substringBetween(f, "cxf.feature.", "AuthenticationFeature"))
+        .filter(Objects::nonNull)
+        .findFirst()
+        .orElse("");
   }
 }

@@ -8,20 +8,19 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.ivy.migration.MigrationTask;
 import ch.ivyteam.ivy.migration.input.Quest;
 
-@SuppressWarnings("restriction")
 public class Task {
 
-  private String name;
-  private String description;
+  private final String name;
+  private final String description;
   private String state;
   private String stateIcon;
-  private MigrationTask task;
-  private List<Question> questions;
+  private final MigrationTask task;
+  private final List<Question> questions;
 
   public Task(MigrationTask task) {
     this.task = task;
     name = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(task.getClass().getSimpleName()),
-            StringUtils.SPACE);
+        StringUtils.SPACE);
     description = task.getDescription();
     stateIcon = "navigation-menu-horizontal";
     questions = new ArrayList<>();

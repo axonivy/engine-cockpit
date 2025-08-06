@@ -6,7 +6,7 @@ import java.util.Optional;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -14,6 +14,7 @@ import org.primefaces.model.TreeNode;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
+import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISecurityDescriptor;
 import ch.ivyteam.ivy.security.ISecurityMember;
@@ -47,7 +48,7 @@ public class PermissionBean extends TreeView<AbstractPermission> {
   }
 
   public String getUserMember() {
-    return StringUtils.removeStart(member, "#");
+    return Strings.CS.removeStart(member, "#");
   }
 
   public void setUserMember(String member) {
@@ -74,22 +75,22 @@ public class PermissionBean extends TreeView<AbstractPermission> {
 
   @Override
   public void setFilter(String filter) {
-    if (StringUtils.isBlank(filter))
-    {
-      if (StringUtils.isNotBlank(this.filter)) {
+    if (filter == null || filter.isBlank()) {
+      if (this.filter != null && !this.filter.isBlank()) {
         reloadTree();
       }
       return;
     }
-    filteredTreeNode = new DefaultTreeNode<AbstractPermission>("Filtered tree", null, null);
+    filteredTreeNode = new DefaultTreeNode<>("Filtered tree", null, null);
     var rootPermissionGroup = securityDescriptor.getSecurityDescriptorType().getRootPermissionGroup();
+    final String lowerCaseFilter = filter.toLowerCase();
     rootPermissionGroup.getAllPermissions().stream()
-            .filter(permission -> StringUtils.containsIgnoreCase(permission.getName(), filter))
-            .map(permission -> {
-              var access = securityDescriptor.getPermissionAccess(permission, securityMember);
-              return new Permission(access, this);
-            })
-            .forEach(permission -> addPermissionNode(filteredTreeNode, permission));
+        .filter(permission -> permission.getName() != null && permission.getName().toLowerCase().contains(lowerCaseFilter))
+        .map(permission -> {
+          var access = securityDescriptor.getPermissionAccess(permission, securityMember);
+          return new Permission(access, this);
+        })
+        .forEach(permission -> addPermissionNode(filteredTreeNode, permission));
     this.filter = filter;
   }
 
@@ -167,7 +168,7 @@ public class PermissionBean extends TreeView<AbstractPermission> {
   }
 
   private void reloadPermissionTree(Permission permission) {
-    if (StringUtils.isBlank(filter)) {
+    if (filter == null || filter.isBlank()) {
       reloadPermissionsUp(searchPermissionNode(rootTreeNode.getChildren(), permission));
     } else {
       reSetPermission(permission);
@@ -242,6 +243,6 @@ public class PermissionBean extends TreeView<AbstractPermission> {
     permission.setDeny(permissionAccess.isDenied());
     permission.setExplicit(permissionAccess.isExplicit());
     permission.setPermissionHolder(
-            Optional.ofNullable(permissionAccess.getPermissionHolder()).map(r -> r.getName()).orElse(null));
+        Optional.ofNullable(permissionAccess.getPermissionHolder()).map(IRole::getName).orElse(null));
   }
 }

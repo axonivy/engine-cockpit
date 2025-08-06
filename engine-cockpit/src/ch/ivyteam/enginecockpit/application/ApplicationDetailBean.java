@@ -12,7 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.commons.ContentFilter;
@@ -25,10 +25,12 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.restricted.IEnvironment;
 import ch.ivyteam.ivy.workflow.StandardProcessType;
 import ch.ivyteam.ivy.workflow.standard.DefaultPagesConfigurator;
 import ch.ivyteam.ivy.workflow.standard.StandardProcessStartFinder;
 
+@SuppressWarnings("removal")
 @ManagedBean
 @ViewScoped
 public class ApplicationDetailBean {
@@ -40,7 +42,7 @@ public class ApplicationDetailBean {
 
   private ConfigViewImpl configView;
 
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
 
   public ApplicationDetailBean() {
     managerBean = ManagerBean.instance();
@@ -54,34 +56,33 @@ public class ApplicationDetailBean {
     return appName;
   }
 
-  @SuppressWarnings("removal")
   public void onload() {
     managerBean.reloadApplications();
     app = managerBean.getApplications().stream()
-            .filter(a -> a.getName().equals(appName))
-            .findAny()
-            .orElse(null);
+        .filter(a -> a.getName().equals(appName))
+        .findAny()
+        .orElse(null);
     if (app == null) {
       ResponseHelper.notFound("Application '" + appName + "' not found");
       return;
     }
 
     environments = managerBean.getIApplication(app.getId())
-              .getEnvironmentsSortedByName()
-              .stream()
-              .map(e -> e.getName())
-              .collect(Collectors.toList());
+        .getEnvironmentsSortedByName()
+        .stream()
+        .map(IEnvironment::getName)
+        .collect(Collectors.toList());
 
     configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
-            this::enrichPmvProperties, List.of(ConfigViewImpl.defaultFilter(),
-                    new ContentFilter<>("Variables", "Show Variables",
-                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Variables."), true),
-                    new ContentFilter<>("Databases", "Show Databases",
-                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Databases."), true),
-                    new ContentFilter<>("RestClients", "Show Rest Clients",
-                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "RestClients."), true),
-                    new ContentFilter<>("WebServiceClients", "Show Web Service Clients",
-                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "WebServiceClients."), true)));
+        this::enrichPmvProperties, List.of(ConfigViewImpl.defaultFilter(),
+            new ContentFilter<>("Variables", "Show Variables",
+                p -> !Strings.CI.startsWith(p.getKey(), "Variables."), true),
+            new ContentFilter<>("Databases", "Show Databases",
+                p -> !Strings.CI.startsWith(p.getKey(), "Databases."), true),
+            new ContentFilter<>("RestClients", "Show Rest Clients",
+                p -> !Strings.CI.startsWith(p.getKey(), "RestClients."), true),
+            new ContentFilter<>("WebServiceClients", "Show Web Service Clients",
+                p -> !Strings.CI.startsWith(p.getKey(), "WebServiceClients."), true)));
   }
 
   public Application getApplication() {
@@ -112,18 +113,17 @@ public class ApplicationDetailBean {
 
   public String getPmCount() {
     return managerBean.formatNumber(getIApplication().getProcessModels().stream()
-            .mapToInt(pm -> pm.getProcessModelVersions().size()).sum());
+        .mapToInt(pm -> pm.getProcessModelVersions().size()).sum());
   }
 
   public List<String> getEnvironments() {
     return environments;
   }
 
-  @SuppressWarnings("removal")
   public void saveApplicationInfos() {
     getIApplication().setActiveEnvironment(app.getActiveEnv());
     FacesContext.getCurrentInstance().addMessage("informationSaveSuccess",
-            new FacesMessage("Active Environment change saved"));
+        new FacesMessage("Active Environment change saved"));
   }
 
   private IApplication getIApplication() {
@@ -136,7 +136,7 @@ public class ApplicationDetailBean {
 
   @SuppressWarnings("restriction")
   private ConfigProperty enrichPmvProperties(ConfigProperty property) {
-    if (StringUtils.startsWith(property.getKey(), "StandardProcess")) {
+    if (Strings.CS.startsWith(property.getKey(), "StandardProcess")) {
       property.setConfigValueFormat(ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat.ENUMERATION);
       property.setEnumerationValues(() -> availableStandardProcesses(property));
     }
@@ -154,8 +154,8 @@ public class ApplicationDetailBean {
     libraries.add(StandardProcessStartFinder.AUTO);
     libraries.add(config.getValue());
     Arrays.stream(StandardProcessType.values())
-            .filter(type -> type.kind() == StandardProcessType.Kind.PAGE)
-            .forEach(type -> libraries.addAll(configurator.findLibraries(type)));
+        .filter(type -> type.kind() == StandardProcessType.Kind.PAGE)
+        .forEach(type -> libraries.addAll(configurator.findLibraries(type)));
     return List.copyOf(libraries);
   }
 
@@ -163,12 +163,12 @@ public class ApplicationDetailBean {
     List<String> libs = new LinkedList<>();
     libs.add("");
     var available = app.getProcessModels().stream()
-      .flatMap(pm -> pm.getProcessModelVersions().stream())
-      .map(IProcessModelVersion::getLibrary)
-      .filter(Objects::nonNull)
-      .map(ILibrary::getId)
-      .distinct()
-      .collect(Collectors.toList());
+        .flatMap(pm -> pm.getProcessModelVersions().stream())
+        .map(IProcessModelVersion::getLibrary)
+        .filter(Objects::nonNull)
+        .map(ILibrary::getId)
+        .distinct()
+        .collect(Collectors.toList());
     libs.addAll(available);
     return libs;
   }

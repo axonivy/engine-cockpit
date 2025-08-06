@@ -32,7 +32,7 @@ public class LdapBrowser {
     try (var context = new LdapBrowserContext(config, enableInsecureSsl)) {
       this.jndiConfig = config;
       this.insecureSsl = enableInsecureSsl;
-      this.root = new DefaultTreeNode<LdapBrowserNode>(null, null);
+      this.root = new DefaultTreeNode<>(null, null);
       Name initialName = parseInitialName(context, initialValue);
       var name = jndiConfig.getDefaultContextName();
       if (name.isEmpty()) {
@@ -116,7 +116,6 @@ public class LdapBrowser {
     return selectedNode.getData().getName();
   }
 
-
   public List<Property> getSelectedNodeAttributes() {
     return selectedNodeAttributes;
   }
@@ -133,7 +132,7 @@ public class LdapBrowser {
   private void errorMessage(Exception ex) {
     Ivy.log().error("Error in LDAP call", ex);
     var message = ex.getMessage();
-    if (StringUtils.contains(message, "AcceptSecurityContext")) {
+    if (message != null && message.contains("AcceptSecurityContext")) {
       message = "There seems to be a problem with your credentials.";
     }
     FacesContext.getCurrentInstance().addMessage("ldapBrowserMessage", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", message));

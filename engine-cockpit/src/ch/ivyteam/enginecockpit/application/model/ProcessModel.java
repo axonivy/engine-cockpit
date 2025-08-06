@@ -11,8 +11,9 @@ import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.restricted.WorkflowContextInternal;
 
+@SuppressWarnings("restriction")
 public class ProcessModel extends AbstractActivity {
-  private IProcessModel pm;
+  private final IProcessModel pm;
   private Boolean isOverrideProject;
   private long runningCasesCount = -1;
   private List<String> deletable;
@@ -28,7 +29,6 @@ public class ProcessModel extends AbstractActivity {
   }
 
   @Override
-  @SuppressWarnings("restriction")
   public long getRunningCasesCount() {
     if (runningCasesCount < 0) {
       var wf = (WorkflowContextInternal) IWorkflowContext.current();
@@ -75,17 +75,16 @@ public class ProcessModel extends AbstractActivity {
     return deletable;
   }
 
-  @SuppressWarnings("restriction")
   public boolean isOverrideProject() {
     if (isOverrideProject == null) {
       var overrideProject = ((IApplicationInternal) pm.getApplication()).getConfiguration().getOrDefault("OverrideProject");
       var projectId = pm.getProcessModelVersions().stream()
-              .map(IProcessModelVersion::getLibrary)
-              .filter(Objects::nonNull)
-              .map(ILibrary::getId)
-              .distinct()
-              .findFirst()
-              .orElse(null);
+          .map(IProcessModelVersion::getLibrary)
+          .filter(Objects::nonNull)
+          .map(ILibrary::getId)
+          .distinct()
+          .findFirst()
+          .orElse(null);
       isOverrideProject = projectId != null && projectId.equals(overrideProject);
     }
     return isOverrideProject;

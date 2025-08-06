@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security.system;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -29,7 +30,7 @@ public class SecurityConfigBean {
   private Locale language;
   private Locale formattingLanguage;
   private SecuritySystem securitySystem;
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
 
   public SecurityConfigBean() {
     managerBean = ManagerBean.instance();
@@ -53,9 +54,9 @@ public class SecurityConfigBean {
 
   private void loadSecuritySystem() {
     securitySystem = managerBean.getSecuritySystems().stream()
-            .filter(system -> StringUtils.equals(system.getSecuritySystemName(), name))
-            .findAny()
-            .orElseThrow();
+        .filter(system -> Objects.equals(system.getSecuritySystemName(), name))
+        .findAny()
+        .orElseThrow();
 
     var languageConfigurator = languageConfigurator();
     language = languageConfigurator.content();
@@ -120,7 +121,7 @@ public class SecurityConfigBean {
     languageConfigurator.content(LocaleUtils.toLocale(language));
     languageConfigurator.formatting(LocaleUtils.toLocale(formattingLanguage));
     FacesContext.getCurrentInstance().addMessage("securityLanguageSaveSuccess",
-            new FacesMessage("Security System Languages saved"));
+        new FacesMessage("Security System Languages saved"));
   }
 
   public String deleteConfiguration() {

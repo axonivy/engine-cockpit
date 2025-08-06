@@ -1,9 +1,10 @@
 package ch.ivyteam.enginecockpit.configuration;
 
+import java.util.Objects;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -18,10 +19,10 @@ import ch.ivyteam.ivy.scripting.objects.Tree;
 @SuppressWarnings("removal")
 public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
 
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
   private BusinessCalendar activeCalendar;
   private String calendarSelection;
-  private String environmentCalendar;
+  private final String environmentCalendar;
 
   public BusinessCalendarBean() {
     managerBean = ManagerBean.instance();
@@ -32,7 +33,7 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
   @Override
   protected void buildTree() {
     var rootTree = managerBean.getSelectedIApplication().getBusinessCalendarSettings()
-            .getAllBusinessCalendarConfigurations();
+        .getAllBusinessCalendarConfigurations();
     var node = new DefaultTreeNode<>(findCalendar(rootTree.getInfo()), rootTreeNode);
     node.setExpanded(true);
     buildCalendarTree(rootTree, node);
@@ -49,8 +50,8 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
   private BusinessCalendar findCalendar(String name) {
     var businessCalendar = new BusinessCalendar(getBusinessCalendarConfiguration(name));
     managerBean.getSelectedIApplication().getEnvironments().stream()
-            .filter(e -> StringUtils.equals(e.getBusinessCalendar().getName(), businessCalendar.getName()))
-            .forEach(e -> businessCalendar.addEnvironment(e.getName()));
+        .filter(e -> Objects.equals(e.getBusinessCalendar().getName(), businessCalendar.getName()))
+        .forEach(e -> businessCalendar.addEnvironment(e.getName()));
     return businessCalendar;
   }
 
@@ -79,7 +80,8 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
   @SuppressWarnings("unused")
   protected void filterNode(TreeNode<BusinessCalendar> node) {
     var calendar = node.getData();
-    if (StringUtils.containsIgnoreCase(calendar.getName(), filter)) {
+    var name = calendar.getName();
+    if (name != null && name.contains(filter)) {
       new DefaultTreeNode<>(calendar, filteredTreeNode);
     }
   }

@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.system;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,7 +43,7 @@ public class SystemDatabaseBean extends StepStatus {
   private List<SystemDbConnectionProperty> connectionProperties;
   private List<SystemDbCreationParameter> creationParameters;
   private ConnectionInfo connectionInfo;
-  private Properties additionalProps;
+  private final Properties additionalProps;
   private String propKey;
   private String propValue;
   private SystemDatabaseConverter converter;
@@ -86,8 +87,8 @@ public class SystemDatabaseBean extends StepStatus {
   }
 
   public void setProduct(String product) {
-    this.product = getSupportedDatabases().stream().filter(p -> StringUtils.equals(p.getName(), product))
-            .findFirst().orElseThrow();
+    this.product = getSupportedDatabases().stream().filter(p -> Objects.equals(p.getName(), product))
+        .findFirst().orElseThrow();
     setDriver(getSupportedDriverNames().get(0));
   }
 
@@ -101,14 +102,14 @@ public class SystemDatabaseBean extends StepStatus {
 
   public void setDriver(String driver) {
     var newDriver = getSupportedDrivers().stream()
-            .filter(d -> StringUtils.equals(d.getName(), driver))
-            .findFirst()
-            .orElseThrow();
+        .filter(d -> Objects.equals(d.getName(), driver))
+        .findFirst()
+        .orElseThrow();
 
     if (!newDriver.equals(this.driver)) {
       this.driver = newDriver;
       this.connectionProperties = mergeConnectionProperties(connectionProperties,
-              getConnectionPropertiesList());
+          getConnectionPropertiesList());
     }
   }
 
@@ -158,7 +159,7 @@ public class SystemDatabaseBean extends StepStatus {
 
   public boolean isHasProblem() {
     return EngineMode.is(EngineMode.MAINTENANCE) &&
-            MaintenanceReason.isSystemDatabaseReason();
+        MaintenanceReason.isSystemDatabaseReason();
   }
 
   public String getProblemMessage() {
@@ -166,7 +167,7 @@ public class SystemDatabaseBean extends StepStatus {
   }
 
   public void testConnection() {
-    connectionInfo = (ConnectionInfo) connectionTest.test(() -> testSystemDbConnection());
+    connectionInfo = (ConnectionInfo) connectionTest.test(this::testSystemDbConnection);
   }
 
   private ConnectionInfo testSystemDbConnection() {
@@ -177,27 +178,27 @@ public class SystemDatabaseBean extends StepStatus {
   public void saveConfiguration() {
     var dbConnectionConfig = createConfiguration();
     var newSystemDbConfig = SystemDatabaseConfig.create()
-            .dbConnectionConfig(dbConnectionConfig)
-            .toSystemDatabaseConfig();
+        .dbConnectionConfig(dbConnectionConfig)
+        .toSystemDatabaseConfig();
     SystemDatabaseSetup.saveSystemDatabaseConfig(newSystemDbConfig);
     FacesContext.getCurrentInstance().addMessage("systemDbSave",
-            new FacesMessage(FacesMessage.SEVERITY_INFO, "Success",
-                    "System Database config saved successfully"));
+        new FacesMessage(FacesMessage.SEVERITY_INFO, "Success",
+            "System Database config saved successfully"));
   }
 
   public void initCreator() {
     creationParameters = new SystemDatabaseSetup(createConfiguration())
-            .getDatabaseCreationParameters().entrySet().stream()
-            .map(e -> new SystemDbCreationParameter(e.getKey(), e.getValue()))
-            .collect(Collectors.toList());
+        .getDatabaseCreationParameters().entrySet().stream()
+        .map(e -> new SystemDbCreationParameter(e.getKey(), e.getValue()))
+        .collect(Collectors.toList());
     creator = null;
   }
 
   public void createDatabase() {
     saveConfiguration();
     creator = new SystemDatabaseSetup(createConfiguration())
-            .createCreator(creationParameters.stream()
-                    .collect(Collectors.toMap(p -> p.getParam(), p -> p.getValue())));
+        .createCreator(creationParameters.stream()
+            .collect(Collectors.toMap(SystemDbCreationParameter::getParam, SystemDbCreationParameter::getValue)));
     creator.executeAsync();
   }
 
@@ -210,9 +211,9 @@ public class SystemDatabaseBean extends StepStatus {
 
   public boolean isDbCreatorFinished() {
     return creator != null &&
-            !creator.isRunning() &&
-            StringUtils.equals(creator.getProgressText(), "Finished") &&
-            getDbCreatorError().isBlank();
+        !creator.isRunning() &&
+        Objects.equals(creator.getProgressText(), "Finished") &&
+        getDbCreatorError().isBlank();
   }
 
   public String getDbCreatorError() {
@@ -224,7 +225,7 @@ public class SystemDatabaseBean extends StepStatus {
 
   public void createConverter() {
     converter = new SystemDatabaseSetup(createConfiguration())
-            .createConverter();
+        .createConverter();
   }
 
   public void convertDatabase() {
@@ -238,9 +239,9 @@ public class SystemDatabaseBean extends StepStatus {
 
   public boolean isDbConversionFinished() {
     return converter != null &&
-            !converter.isRunning() &&
-            StringUtils.equals(converter.getProgressText(), "Finished") &&
-            StringUtils.isBlank(getDbConversionError());
+        !converter.isRunning() &&
+        Objects.equals(converter.getProgressText(), "Finished") &&
+        StringUtils.isBlank(getDbConversionError());
   }
 
   public String getDbConversionError() {
@@ -259,10 +260,10 @@ public class SystemDatabaseBean extends StepStatus {
   }
 
   private List<SystemDbConnectionProperty> getConnectionPropertiesList(
-          DatabaseConnectionConfiguration config) {
+      DatabaseConnectionConfiguration config) {
     var connectionPropertiesWithCorrectOrder = getConnectionPropertiesList();
     var connectionPropertiesWithValues = driver.getConnectionConfigurator()
-            .getDatabaseConnectionProperties(config);
+        .getDatabaseConnectionProperties(config);
     for (var connectionProperty : connectionPropertiesWithCorrectOrder) {
       var value = connectionPropertiesWithValues.get(connectionProperty.getProperty());
       connectionProperty.setValue(value);
@@ -272,14 +273,14 @@ public class SystemDatabaseBean extends StepStatus {
 
   private List<SystemDbConnectionProperty> getConnectionPropertiesList() {
     return driver.getConnectionConfigurator().getDatabaseConnectionProperties().stream()
-            .map(p -> new SystemDbConnectionProperty(p,
-                    driver.getConnectionConfigurator().getDefaultValue(p)))
-            .collect(Collectors.toList());
+        .map(p -> new SystemDbConnectionProperty(p,
+            driver.getConnectionConfigurator().getDefaultValue(p)))
+        .collect(Collectors.toList());
   }
 
   private static List<SystemDbConnectionProperty> mergeConnectionProperties(
-          List<SystemDbConnectionProperty> oldProps,
-          List<SystemDbConnectionProperty> newProps) {
+      List<SystemDbConnectionProperty> oldProps,
+      List<SystemDbConnectionProperty> newProps) {
     oldProps.forEach(old -> {
       newProps.forEach(p -> {
         if (p.getProperty().equals(old.getProperty()) && !old.getValue().isBlank() && !wasDefaultPort(old)) {
@@ -291,13 +292,13 @@ public class SystemDatabaseBean extends StepStatus {
   }
 
   private static boolean wasDefaultPort(SystemDbConnectionProperty oldPort) {
-    return StringUtils.equals(oldPort.getProperty().getLabel(), "Port") && oldPort.isDefaultValue();
+    return Objects.equals(oldPort.getProperty().getLabel(), "Port") && oldPort.isDefaultValue();
   }
 
   private DatabaseConnectionConfiguration createConfiguration() {
     var configurator = driver.getConnectionConfigurator();
     var props = connectionProperties.stream()
-            .collect(Collectors.toMap(p -> p.getProperty(), p -> p.getValue()));
+        .collect(Collectors.toMap(SystemDbConnectionProperty::getProperty, SystemDbConnectionProperty::getValue));
     var config = configurator.getDatabaseConnectionConfiguration(props);
     config.setProperties(getAdditionalProperties());
     return config;
@@ -309,7 +310,7 @@ public class SystemDatabaseBean extends StepStatus {
   }
 
   public boolean isPersistentDb() {
-    return !StringUtils.contains(driver.getDriverName(), HSQL_DB);
+    return (driver == null || driver.getDriverName().contains(HSQL_DB));
   }
 
   @Override

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.security.identity.ConfigProperty.KeyValueProperty;
 
@@ -47,9 +48,13 @@ public class ConfigPropertyGroup {
       }
       var name = toName(p);
       var group = groups.stream()
-              .filter(g -> g.getName().equals(name))
-              .findAny()
-              .orElseGet(() -> { var g = new ConfigPropertyGroup(name); groups.add(g); return g; });
+          .filter(g -> g.getName().equals(name))
+          .findAny()
+          .orElseGet(() -> {
+            var g = new ConfigPropertyGroup(name);
+            groups.add(g);
+            return g;
+          });
       group.add(p);
     }
     return groups;
@@ -57,17 +62,17 @@ public class ConfigPropertyGroup {
 
   private static boolean isParentKey(List<ConfigProperty> properties, String n) {
     return properties.stream()
-            .map(ConfigProperty::getName)
-            .anyMatch(na -> !n.equals(na) && na.startsWith(n));
+        .map(ConfigProperty::getName)
+        .anyMatch(na -> !n.equals(na) && na.startsWith(n));
   }
 
   private static String toName(ConfigProperty p) {
     var name = p.getName();
     if (p.isKeyValue()) {
       return Arrays.stream(StringUtils.splitByCharacterTypeCamelCase(name))
-              .map(part -> StringUtils.remove(part, "."))
-              .map(part -> part.trim())
-              .collect(Collectors.joining(" "));
+          .map(part -> Strings.CS.remove(part, "."))
+          .map(String::trim)
+          .collect(Collectors.joining(" "));
     }
     if (name.contains(".")) {
       return StringUtils.substringBefore(name, ".");

@@ -1,12 +1,11 @@
 package ch.ivyteam.enginecockpit.services;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
-
-import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.services.model.DatabaseDto;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
@@ -20,7 +19,7 @@ public class DatabaseBean {
   private List<DatabaseDto> filteredDatabases;
   private String filter;
 
-  private ManagerBean managerBean;
+  private final ManagerBean managerBean;
 
   public DatabaseBean() {
     managerBean = ManagerBean.instance();
@@ -29,10 +28,10 @@ public class DatabaseBean {
 
   public void reloadDatabases() {
     databases = Databases.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment())
-            .all().stream()
-            .filter(db -> !StringUtils.equals(db.name(), "IvySystemDatabase"))
-            .map(db -> new DatabaseDto(db))
-            .collect(Collectors.toList());
+        .all().stream()
+        .filter(db -> !Objects.equals(db.name(), "IvySystemDatabase"))
+        .map(DatabaseDto::new)
+        .collect(Collectors.toList());
   }
 
   public List<DatabaseDto> getDatabases() {
