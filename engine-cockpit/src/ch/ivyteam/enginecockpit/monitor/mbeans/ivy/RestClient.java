@@ -7,6 +7,7 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 import javax.management.ObjectName;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
@@ -16,11 +17,11 @@ class RestClient {
   public static final RestClient NO_DATA = new RestClient();
 
   private final Monitor connectionsMonitor = Monitor.build().name("Connections")
-          .title("REST Client Connections").icon("insert_link").toMonitor();
+      .title("REST Client Connections").icon("insert_link").toMonitor();
   private final Monitor callsMonitor = Monitor.build().name("Calls").title("REST Client Calls")
-          .icon("settings_ethernet").toMonitor();
+      .icon("settings_ethernet").toMonitor();
   private final Monitor executionTimeMonitor = Monitor.build().name("Execution Time")
-          .title("REST Client Execution Time").icon("timer").yAxisLabel("Execution Time").toMonitor();
+      .title("REST Client Execution Time").icon("timer").yAxisLabel("Execution Time").toMonitor();
 
   private final String label;
   private final String id;
@@ -45,11 +46,11 @@ class RestClient {
       return;
     }
     var nm = restClient.getKeyProperty("name");
-    nm = StringUtils.removeStart(nm, "\"");
-    nm = StringUtils.removeEnd(nm, "\"");
+    nm = Strings.CS.removeStart(nm, "\"");
+    nm = Strings.CS.removeEnd(nm, "\"");
     this.name = StringUtils.substringBeforeLast(nm, "(").trim();
     var identifier = StringUtils.substringAfterLast(nm, "(");
-    this.id = StringUtils.removeEnd(identifier, ")");
+    this.id = Strings.CS.removeEnd(identifier, ")");
 
     application = restClient.getKeyProperty("application");
     environment = restClient.getKeyProperty("environment");

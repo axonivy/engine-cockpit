@@ -14,10 +14,10 @@ public class RestClientAuthTypeCalculator {
   }
 
   public String get() {
-    return features.stream().filter(f -> StringUtils.contains(f, "authentication"))
-            .map(f -> StringUtils.substringBetween(f, "authentication.", "AuthenticationFeature"))
-            .filter(Objects::nonNull)
-            .findFirst()
-            .orElse("");
+    return features.stream().filter(f -> f != null && f.contains("authentication"))
+        .map(f -> StringUtils.substringBetween(f, "authentication.", "AuthenticationFeature"))
+        .filter(Objects::nonNull)
+        .findFirst()
+        .orElse("");
   }
 }

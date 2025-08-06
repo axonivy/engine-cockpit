@@ -4,7 +4,7 @@ import javax.naming.Name;
 import javax.naming.directory.Attribute;
 import javax.naming.ldap.LdapContext;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 public class LdapBrowserNode {
   private static final String ICON_DEFAULT = "folder-empty";
@@ -35,14 +35,14 @@ public class LdapBrowserNode {
     if (name.isEmpty()) {
       return ICON_DEFAULT;
     }
-    var suffix = name.getSuffix(name.size()-1);
-    if (StringUtils.startsWithIgnoreCase(suffix.toString(), "ou")) {
+    var suffix = name.getSuffix(name.size() - 1);
+    if (Strings.CI.startsWith(suffix.toString(), "ou")) {
       return ICON_ORGANIZATION;
     }
-    if (StringUtils.startsWithIgnoreCase(suffix.toString(), "dc")) {
+    if (Strings.CI.startsWith(suffix.toString(), "dc")) {
       return ICON_DOMAIN;
     }
-    if (StringUtils.startsWithIgnoreCase(suffix.toString(), "cn")) {
+    if (Strings.CI.startsWith(suffix.toString(), "cn")) {
       try {
         var attribute = context.getAttributes(name, new String[] {"objectClass"}).get("objectClass");
         if (attribute == null) {

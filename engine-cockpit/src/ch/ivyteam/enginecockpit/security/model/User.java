@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.security.model;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -57,10 +58,10 @@ public class User {
 
   public String getViewUrl(String securitySystem) {
     return UriBuilder.fromPath("userdetail.xhtml")
-            .queryParam("system", securitySystem)
-            .queryParam("name", name)
-            .build()
-            .toString();
+        .queryParam("system", securitySystem)
+        .queryParam("name", name)
+        .build()
+        .toString();
   }
 
   public String getName() {
@@ -155,7 +156,7 @@ public class User {
   }
 
   public String getRealPassword() {
-    if (!StringUtils.equals(password, "*".repeat(realPassword.length()))) {
+    if (!Objects.equals(password, "*".repeat(realPassword.length()))) {
       return password;
     }
     return realPassword;
@@ -163,10 +164,10 @@ public class User {
 
   public Administrator getAdmin() {
     return new Administrator.Builder().username(getName())
-            .fullName(getFullName())
-            .email(getEmail())
-            .password(getRealPassword())
-            .toAdministrator();
+        .fullName(getFullName())
+        .email(getEmail())
+        .password(getRealPassword())
+        .toAdministrator();
   }
 
   public IUser getIUser() {

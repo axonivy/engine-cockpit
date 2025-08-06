@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.input.ReversedLinesFileReader;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.time.DateUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -25,12 +25,12 @@ import ch.ivyteam.enginecockpit.util.UrlUtil;
 
 public class LogView implements Comparable<LogView> {
   private Path file;
-  private String fileName;
+  private final String fileName;
   private String content;
   private boolean downloadEnabled = false;
   private long size;
   private boolean endReached = true;
-  private String date;
+  private final String date;
 
   public LogView(String logName, Date date) {
     fileName = logName;
@@ -39,7 +39,7 @@ public class LogView implements Comparable<LogView> {
       file = UrlUtil.getLogFile(logName);
       content = readContent();
     } else {
-      var name = StringUtils.removeEnd(logName, ".log");
+      var name = Strings.CS.removeEnd(logName, ".log");
       file = UrlUtil.getLogFile(name + "-" + this.date + ".log.gz");
       content = readFile(() -> "Logfile '" + file.getFileName().toString() + "' is compressed.");
     }
@@ -80,8 +80,8 @@ public class LogView implements Comparable<LogView> {
   private List<String> readFileLines() {
     List<String> lines = new ArrayList<>();
     try (ReversedLinesFileReader reader = ReversedLinesFileReader.builder()
-                .setPath(file)
-                .setCharset(StandardCharsets.UTF_8).get()) {
+        .setPath(file)
+        .setCharset(StandardCharsets.UTF_8).get()) {
       String line = reader.readLine();
       int count = 0;
       while (line != null && count < 1000) {

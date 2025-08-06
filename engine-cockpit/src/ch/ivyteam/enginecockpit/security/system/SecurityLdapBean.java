@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -47,8 +48,7 @@ public class SecurityLdapBean {
   private String ldapBrowserTarget;
   private ExternalSecuritySystemConfiguration securityConfiguration;
 
-  public SecurityLdapBean() {
-  }
+  public SecurityLdapBean() {}
 
   public SecurityLdapBean(String secSystemName) {
     this();
@@ -76,7 +76,7 @@ public class SecurityLdapBean {
   }
 
   public String getLink() {
-    return "security-ldap.xhtml?securitySystemName="+name;
+    return "security-ldap.xhtml?securitySystemName=" + name;
   }
 
   private void loadLdapConfig() {
@@ -90,12 +90,12 @@ public class SecurityLdapBean {
     password = getConfiguration(ConfigKey.CONNECTION_PASSWORD);
 
     useLdapConnectionPool = getInitBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL,
-            securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL));
+        securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL));
     derefAlias = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES);
-    ssl = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL)
-            .equalsIgnoreCase("ssl");
+    ssl = "ssl"
+        .equalsIgnoreCase(getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL));
     enableInsecureSsl = getInitBooleanValue(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL,
-            securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL));
+        securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL));
     referral = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL);
     defaultContext = getConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT);
     importUsersOfGroup = getConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP);
@@ -226,23 +226,23 @@ public class SecurityLdapBean {
     setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
     setConfiguration(ConfigKey.CONNECTION_PASSWORD, this.password);
     setConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL,
-            getSaveBooleanValue(this.useLdapConnectionPool, securityConfiguration
-                    .getDefaultBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL)));
+        getSaveBooleanValue(this.useLdapConnectionPool, securityConfiguration
+            .getDefaultBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL)));
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES,
-            StringUtils.equals(this.derefAlias,
-                    securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES)) ? ""
-                            : this.derefAlias);
+        Objects.equals(this.derefAlias,
+            securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES)) ? ""
+                : this.derefAlias);
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL, this.ssl ? "ssl" : "");
     setConfiguration(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL,
-            getSaveBooleanValue(this.enableInsecureSsl,
-                    securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL)));
+        getSaveBooleanValue(this.enableInsecureSsl,
+            securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL)));
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL,
-            StringUtils.equals(this.referral,
-                    securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL)) ? ""
-                            : this.referral);
+        Objects.equals(this.referral,
+            securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL)) ? ""
+                : this.referral);
     SecuritySystemConfig.setAuthenticationKind(name);
     FacesContext.getCurrentInstance().addMessage("securityLdapConnectionSaveSuccess",
-            new FacesMessage("Security System Connection saved"));
+        new FacesMessage("Security System Connection saved"));
   }
 
   public void saveBinding() {
@@ -250,7 +250,7 @@ public class SecurityLdapBean {
     setConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP, this.importUsersOfGroup);
     setConfiguration(ConfigKey.BINDING_USER_FILTER, this.userFilter);
     FacesContext.getCurrentInstance().addMessage("securityLdapBindingSaveSuccess",
-            new FacesMessage("Security System Binging saved"));
+        new FacesMessage("Security System Binging saved"));
   }
 
   private String getConfiguration(String key) {
@@ -297,13 +297,13 @@ public class SecurityLdapBean {
     }
 
     return new JndiConfig(jndiProvider,
-            StringUtils.defaultIfBlank(url, ExternalSecuritySystemConfiguration.props(provider).get(ConfigKey.CONNECTION_URL)),
-            authenticationKind,
-            StringUtils.defaultIfBlank(userName, ExternalSecuritySystemConfiguration.props(provider).get(ConfigKey.CONNECTION_USER_NAME)),
-            StringUtils.defaultIfBlank(password, ExternalSecuritySystemConfiguration.props(provider).get(ConfigKey.CONNECTION_PASSWORD)),
-            useLdapConnectionPool,
-            browseDefaultContext,
-            envProps);
+        StringUtils.defaultIfBlank(url, ExternalSecuritySystemConfiguration.props(provider).get(ConfigKey.CONNECTION_URL)),
+        authenticationKind,
+        StringUtils.defaultIfBlank(userName, ExternalSecuritySystemConfiguration.props(provider).get(ConfigKey.CONNECTION_USER_NAME)),
+        StringUtils.defaultIfBlank(password, ExternalSecuritySystemConfiguration.props(provider).get(ConfigKey.CONNECTION_PASSWORD)),
+        useLdapConnectionPool,
+        browseDefaultContext,
+        envProps);
   }
 
   public JndiProvider provider() {
@@ -320,8 +320,12 @@ public class SecurityLdapBean {
   public Map<String, String> getEnvironmentProperties() {
     var properties = IConfiguration.instance().getMap(SecuritySystemConfig.SECURITY_SYSTEMS + "." + name + "." + "Connection.Environment");
     var newProperties = new HashMap<String, String>();
+    final String prefix = "Connection.Environment.";
     for (var entry : properties.entrySet()) {
-      var key = StringUtils.removeStartIgnoreCase(entry.getKey(), "Connection.Environment.");
+      var originalKey = entry.getKey();
+      var key = (originalKey != null && originalKey.toLowerCase().startsWith(prefix.toLowerCase()))
+          ? originalKey.substring(prefix.length())
+          : originalKey;
       var value = entry.getValue();
       newProperties.put(key, value);
     }

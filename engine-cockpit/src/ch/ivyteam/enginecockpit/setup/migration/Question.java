@@ -6,14 +6,13 @@ import org.apache.commons.lang3.RegExUtils;
 
 import ch.ivyteam.ivy.migration.input.Quest;
 
-@SuppressWarnings("restriction")
 public class Question {
 
-  private String title;
-  private String more;
-  private List<?> options;
+  private final String title;
+  private final String more;
+  private final List<?> options;
   private String answer;
-  private String diff;
+  private final String diff;
 
   public Question(Quest<?> quest, String diff) {
     title = quest.title;

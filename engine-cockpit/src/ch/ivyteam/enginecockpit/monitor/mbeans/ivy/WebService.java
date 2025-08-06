@@ -5,6 +5,7 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 import javax.management.ObjectName;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
@@ -13,9 +14,9 @@ class WebService {
   public static final WebService NO_DATA = new WebService();
 
   private final Monitor callsMonitor = Monitor.build().name("Calls").title("Web Service Calls")
-          .icon("language").toMonitor();
+      .icon("language").toMonitor();
   private final Monitor executionTimeMonitor = Monitor.build().name("Execution Time")
-          .title("Web Service Execution Time").icon("timer").yAxisLabel("Execution Time").toMonitor();
+      .title("Web Service Execution Time").icon("timer").yAxisLabel("Execution Time").toMonitor();
 
   private final String label;
   private final String id;
@@ -39,11 +40,11 @@ class WebService {
       return;
     }
     var nm = webService.getKeyProperty("name");
-    nm = StringUtils.removeStart(nm, "\"");
-    nm = StringUtils.removeEnd(nm, "\"");
+    nm = Strings.CS.removeStart(nm, "\"");
+    nm = Strings.CS.removeEnd(nm, "\"");
     this.name = StringUtils.substringBeforeLast(nm, "(").trim();
     var identifier = StringUtils.substringAfterLast(nm, "(");
-    this.id = StringUtils.removeEnd(identifier, ")");
+    this.id = Strings.CS.removeEnd(identifier, ")");
 
     application = webService.getKeyProperty("application");
     environment = webService.getKeyProperty("environment");

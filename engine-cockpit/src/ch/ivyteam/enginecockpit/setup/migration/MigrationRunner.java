@@ -18,9 +18,9 @@ import ch.ivyteam.ivy.migration.restricted.diff.TextContentComparison;
 
 public class MigrationRunner implements MigrationClient {
 
-  private List<Task> tasks;
+  private final List<Task> tasks;
   private boolean paused = false;
-  private MigrationLog log = new MigrationLog4j();
+  private final MigrationLog log = new MigrationLog4j();
 
   public MigrationRunner(List<Task> tasks) {
     this.tasks = tasks;
@@ -77,15 +77,14 @@ public class MigrationRunner implements MigrationClient {
   private final <T> void show(Task dto, Quest<T> quest) {
     var diff = "";
     if (quest instanceof FileChoice) {
-      diff = ((FileChoice) quest).getDiff().flatMap(content -> getChange(content)).orElse("");
+      diff = ((FileChoice) quest).getDiff().flatMap(this::getChange).orElse("");
     }
     dto.question(quest, diff);
   }
 
   @Override
   public void event(MigrationEvent event) {
-    if (event instanceof MigrationTaskEvent) {
-      var taskEvent = (MigrationTaskEvent) event;
+    if (event instanceof MigrationTaskEvent taskEvent) {
       var dto = findDTOByTask(taskEvent.getTask());
       switch (taskEvent.getState()) {
         case DONE:
@@ -108,15 +107,17 @@ public class MigrationRunner implements MigrationClient {
   }
 
   private Task findRunningDTO() {
-    return tasks.stream().filter(t -> StringUtils.contains(t.getStateIcon(), "si-is-spinning")).findFirst()
-            .get();
+    return tasks.stream()
+        .filter(t -> t.getStateIcon() != null && t.getStateIcon().contains("si-is-spinning"))
+        .findFirst()
+        .get();
   }
 
   protected Optional<String> getChange(TextContentComparison compare) {
     var change = compare.getChangedLines();
     change = change.lines()
-            .map(line -> fixWindowsPath(line))
-            .collect(Collectors.joining("\n"));
+        .map(MigrationRunner::fixWindowsPath)
+        .collect(Collectors.joining("\n"));
     return Optional.of(change);
   }
 

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,16 +52,16 @@ class WebTestPages {
 
   private boolean isNotInViewFolder(Path file) {
     var name = file.toString();
-    return !StringUtils.startsWith(name, "view/") && StringUtils.contains(name, "/");
+    return !Strings.CS.startsWith(name, "view/") && Strings.CS.contains(name, "/");
   }
 
   private static List<Path> getSubDirectoryXhtmlFiles(Path basePath, Predicate<Path> filter) {
     try {
       return Files.walk(basePath)
-              .map(basePath::relativize)
-              .filter(filter)
-              .filter(file -> StringUtils.endsWith(file.getFileName().toString(), ".xhtml"))
-              .collect(Collectors.toList());
+          .map(basePath::relativize)
+          .filter(filter)
+          .filter(file -> Strings.CS.endsWith(file.getFileName().toString(), ".xhtml"))
+          .collect(Collectors.toList());
     } catch (IOException ex) {
       throw new RuntimeException(ex);
     }

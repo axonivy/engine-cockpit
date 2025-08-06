@@ -12,7 +12,6 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 
 @ManagedBean
 @SessionScoped
-@SuppressWarnings("restriction")
 public class AdvisorBean {
 
   public String getApplicationName() {
@@ -35,7 +34,7 @@ public class AdvisorBean {
   private String getApp() {
     return EngineMode.isEmbeddedInDesigner() ? "designer" : "system";
   }
-  
+
   public String getAppBaseUrl() {
     return UrlUtil.getAppBaseUrl(getApp());
   }

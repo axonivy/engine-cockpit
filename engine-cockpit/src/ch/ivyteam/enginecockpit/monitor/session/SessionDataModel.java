@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
@@ -18,28 +19,24 @@ import ch.ivyteam.ivy.security.ISessionInternal;
 
 public class SessionDataModel extends LazyDataModel<SessionDto> {
 
-  private static final List<Function<ISessionInternal, String>> GLOBAL_FILTERS =  List.of(
-          s -> s.getSessionUser() == null ? "" : s.getSessionUser().getName(),
-          ISessionInternal::creationReason,
-          ISessionInternal::getAuthenticationMode,
-          s -> Integer.toString(s.getIdentifier()),
-          s -> s.getSecurityContext().getName()
-  );
+  private static final List<Function<ISessionInternal, String>> GLOBAL_FILTERS = List.of(
+      s -> s.getSessionUser() == null ? "" : s.getSessionUser().getName(),
+      ISessionInternal::creationReason,
+      ISessionInternal::getAuthenticationMode,
+      s -> Integer.toString(s.getIdentifier()),
+      s -> s.getSecurityContext().getName());
 
-  private static final Map<String, Function<ISessionInternal, String>> SORTS_STRING =  Map.of(
-          "user", s -> s.getSessionUser() == null ? "" : s.getSessionUser().getName(),
-          "securitySystem", s -> s.getSecurityContext().getName(),
-          "cause", s -> StringUtils.defaultString(s.creationReason()),
-          "authMode", s -> StringUtils.defaultString(s.getAuthenticationMode())
-  );
-  private static final Map<String, Function<ISessionInternal, Instant>> SORTS_DATE =  Map.of(
-          "createdAt", ISessionInternal::createdAt,
-          "lastAccessedAt", ISessionInternal::lastAccessedAt
-  );
-  private static final Map<String, Function<ISessionInternal, Integer>> SORTS_NUMBER =  Map.of(
-          "httpSessionCount", s -> s.getHttpSessions().size(),
-          "id", ISessionInternal::getIdentifier
-  );
+  private static final Map<String, Function<ISessionInternal, String>> SORTS_STRING = Map.of(
+      "user", s -> s.getSessionUser() == null ? "" : s.getSessionUser().getName(),
+      "securitySystem", s -> s.getSecurityContext().getName(),
+      "cause", s -> StringUtils.defaultString(s.creationReason()),
+      "authMode", s -> StringUtils.defaultString(s.getAuthenticationMode()));
+  private static final Map<String, Function<ISessionInternal, Instant>> SORTS_DATE = Map.of(
+      "createdAt", ISessionInternal::createdAt,
+      "lastAccessedAt", ISessionInternal::lastAccessedAt);
+  private static final Map<String, Function<ISessionInternal, Integer>> SORTS_NUMBER = Map.of(
+      "httpSessionCount", s -> s.getHttpSessions().size(),
+      "id", ISessionInternal::getIdentifier);
 
   private boolean showUnauthenticatedSessions;
   private String filter;
@@ -72,8 +69,8 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
   @Override
   public int count(Map<String, FilterMeta> filterBy) {
     return (int) sessions()
-            .filter(this::filter)
-            .count();
+        .filter(this::filter)
+        .count();
   }
 
   @Override
@@ -84,10 +81,10 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
       stream = stream.sorted(comparator);
     }
     return stream
-            .skip(first)
-            .limit(pageSize)
-            .map(SessionDto::new)
-            .collect(Collectors.toList());
+        .skip(first)
+        .limit(pageSize)
+        .map(SessionDto::new)
+        .collect(Collectors.toList());
   }
 
   private Comparator<ISessionInternal> createComparator(Map<String, SortMeta> sortBy) {
@@ -124,7 +121,7 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
       return true;
     }
     for (var f : GLOBAL_FILTERS) {
-      if (StringUtils.containsIgnoreCase(f.apply(session), filter)) {
+      if (Strings.CI.contains(f.apply(session), filter)) {
         return true;
       }
     }
@@ -133,10 +130,10 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
 
   private Stream<ISessionInternal> sessions() {
     return ISecurityContextRepository.instance().all()
-            .stream()
-            .flatMap(s -> s.sessions().all().stream())
-            .filter(s -> !s.isSessionUserSystemUser())
-            .filter(s -> showUnauthenticatedSessions || (!showUnauthenticatedSessions && !s.isSessionUserUnknown()))
-            .map(ISessionInternal.class::cast);
+        .stream()
+        .flatMap(s -> s.sessions().all().stream())
+        .filter(s -> !s.isSessionUserSystemUser())
+        .filter(s -> showUnauthenticatedSessions || (!showUnauthenticatedSessions && !s.isSessionUserUnknown()))
+        .map(ISessionInternal.class::cast);
   }
 }

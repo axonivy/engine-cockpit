@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.system;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import javax.faces.application.FacesMessage;
@@ -53,9 +54,9 @@ public class SecurityProviderBean {
 
   public void loadConfiguration() {
     securitySystem = ManagerBean.instance().getSecuritySystems().stream()
-            .filter(system -> StringUtils.equals(system.getSecuritySystemName(), name))
-            .findAny()
-            .orElseThrow();
+        .filter(system -> Objects.equals(system.getSecuritySystemName(), name))
+        .findAny()
+        .orElseThrow();
 
     provider = systemConfig.getProperty(ConfigKey.PROVIDER);
     onScheduleEnabled = systemConfig.getPropertyAsBoolean(ConfigKey.ON_SCHEDULE_ENABLED);
@@ -121,7 +122,7 @@ public class SecurityProviderBean {
       return;
     }
 
-    if (! StringUtils.isEmpty(provider) && (! StringUtils.equals(provider, securitySystem.getSecuritySystemProviderId()))) {
+    if (!StringUtils.isEmpty(provider) && (!Objects.equals(provider, securitySystem.getSecuritySystemProviderId()))) {
       var context = (SecurityContext) securitySystem.getSecurityContext();
       deleteProvider();
       context.config().setProperty(ISecurityConstants.PROVIDER_CONFIG_KEY, provider);
@@ -137,7 +138,7 @@ public class SecurityProviderBean {
 
     setShowWarningMessage(false);
     FacesContext.getCurrentInstance().addMessage("securityProviderSaveSuccess",
-            new FacesMessage("Security System Identity Provider saved"));
+        new FacesMessage("Security System Identity Provider saved"));
   }
 
   /**

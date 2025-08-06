@@ -10,7 +10,6 @@ import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 
 @ManagedBean
 @SessionScoped
-@SuppressWarnings("restriction")
 public class EngineModeBean {
   public boolean isDemo() {
     return EngineMode.is(EngineMode.DEMO) || EngineMode.is(EngineMode.DESIGNER_EMBEDDED);
@@ -38,7 +37,7 @@ public class EngineModeBean {
       return licenceProblemMsg;
     }
     return new SystemDatabaseBean().isPersistentDb() ? "Unfinished setup."
-            : "No persistent database configured.";
+        : "No persistent database configured.";
   }
 
   public String getMaintenanceReason() {

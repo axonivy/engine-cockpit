@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.management.ObjectName;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -48,7 +49,7 @@ public class ThreadBean {
     ThreadInfo[] infos = threadMxBean().dumpAllThreads(true, true);
     maxCpuTime = Stream.of(infos).map(this::toCpuTime).max(Long::compareTo).orElse(-1L);
     maxUserTime = Stream.of(infos).map(this::toUserTime).max(Long::compareTo).orElse(-1L);
-    threads = Stream.of(infos).map(info -> infoFor(info)).collect(Collectors.toList());
+    threads = Stream.of(infos).map(this::infoFor).collect(Collectors.toList());
     filteredThreads = threads;
   }
 
@@ -58,14 +59,14 @@ public class ThreadBean {
       return null;
     }
     return DefaultStreamedContent.builder().name("ThreadDump.txt").contentType("text/text")
-            .stream(() -> new ByteArrayInputStream(dump.getBytes(StandardCharsets.UTF_8))).build();
+        .stream(() -> new ByteArrayInputStream(dump.getBytes(StandardCharsets.UTF_8))).build();
   }
 
   private String dumpToString() {
     try {
       return (String) ManagementFactory.getPlatformMBeanServer().invoke(
-              new ObjectName("com.sun.management", "type", "DiagnosticCommand"), "threadPrint",
-              new Object[] {new String[0]}, new String[] {String[].class.getName()});
+          new ObjectName("com.sun.management", "type", "DiagnosticCommand"), "threadPrint",
+          new Object[] {new String[0]}, new String[] {String[].class.getName()});
     } catch (Exception ex) {
       var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getClass().getSimpleName(), ex.getMessage());
       FacesContext.getCurrentInstance().addMessage("msgs", message);
@@ -88,7 +89,7 @@ public class ThreadBean {
   public boolean filter(Object value, Object filter, @SuppressWarnings("unused") Locale locale) {
     if (value instanceof Info info) {
       String name = info.getName();
-      return name != null && StringUtils.containsIgnoreCase(name, filter.toString());
+      return name != null && Strings.CI.contains(name, filter.toString());
     }
     return false;
   }
@@ -130,7 +131,6 @@ public class ThreadBean {
     private final ThreadInfo info;
 
     private Info(ThreadInfo info, long cpuTime, long userTime) {
-      super();
       this.id = info.getThreadId();
       this.name = info.getThreadName();
       this.state = info.getThreadState();
@@ -166,12 +166,12 @@ public class ThreadBean {
     public String getStateTitle() {
       if (isDeadLocked()) {
         return "This thread is deadlocked! It is waiting to lock " + getLockName()
-                + " which is owned by thread " + getLockOwner() + ".";
+            + " which is owned by thread " + getLockOwner() + ".";
       }
       return switch (state) {
         case RUNNABLE -> "Thread is runnable.";
         case BLOCKED -> "Thread is blocked. It waits to lock " + getLockName() + " which is owned by thread "
-                + getLockOwner() + ".";
+            + getLockOwner() + ".";
         case WAITING -> "Thread is waiting on lock " + getLockName() + ".";
         case TIMED_WAITING -> "Thread is waiting with a timeout on lock " + getLockName() + ".";
         case NEW -> "Thread is new and not yet started";
@@ -226,7 +226,7 @@ public class ThreadBean {
     private String toMonitorString(MonitorInfo monitor) {
       var frame = monitor.getLockedStackFrame();
       return monitor.toString() + " - " + frame.getClassName() + "." + frame.getMethodName() + "("
-              + frame.getFileName() + ":" + frame.getLineNumber() + ")";
+          + frame.getFileName() + ":" + frame.getLineNumber() + ")";
     }
 
     public String getLockName() {

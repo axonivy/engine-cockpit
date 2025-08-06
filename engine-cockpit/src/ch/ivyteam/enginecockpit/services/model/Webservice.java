@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.UriBuilder;
@@ -17,17 +18,17 @@ import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient;
 
 public class Webservice implements IService {
-  private String name;
-  private String genId;
-  private String description;
-  private String wsdlUrl;
-  private List<String> features;
-  private List<Property> properties;
+  private final String name;
+  private final String genId;
+  private final String description;
+  private final String wsdlUrl;
+  private final List<String> features;
+  private final List<Property> properties;
   private String username;
   private String password;
   private boolean passwordChanged;
-  private TreeNode<EndPoint> portTypes = new DefaultTreeNode<>("PortTypes", null, null);
-  private Map<String, PortType> portTypeMap = new HashMap<>();
+  private final TreeNode<EndPoint> portTypes = new DefaultTreeNode<>("PortTypes", null, null);
+  private final Map<String, PortType> portTypeMap = new HashMap<>();
 
   public Webservice(WebServiceClient webservice) {
     name = webservice.name();
@@ -35,23 +36,23 @@ public class Webservice implements IService {
     wsdlUrl = webservice.wsdlUrl();
     var metas = webservice.metas();
     properties = webservice.properties().entrySet().stream()
-            .map(p -> new Property(p.getKey(), p.getValue(), metas.get(p.getKey())))
-            .collect(Collectors.toList());
-    password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password"))
-            .map(p -> p.getValue()).findFirst().orElse("");
-    username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username"))
-            .map(p -> p.getValue()).findFirst().orElse("");
+        .map(p -> new Property(p.getKey(), p.getValue(), metas.get(p.getKey())))
+        .collect(Collectors.toList());
+    password = properties.stream().filter(p -> Objects.equals(p.getName(), "password"))
+        .map(Property::getValue).findFirst().orElse("");
+    username = properties.stream().filter(p -> Objects.equals(p.getName(), "username"))
+        .map(Property::getValue).findFirst().orElse("");
     passwordChanged = false;
     features = webservice.features();
     genId = webservice.id();
 
     webservice.portTypes()
-            .forEach(p -> {
-              var portType = new DefaultTreeNode<>(new EndPoint("port", p), portTypes);
-              portType.setExpanded(true);
-              webservice.endpoints().get(p)
-                      .forEach(e -> new DefaultTreeNode<>(new EndPoint("link", e), portType));
-            });
+        .forEach(p -> {
+          var portType = new DefaultTreeNode<>(new EndPoint("port", p), portTypes);
+          portType.setExpanded(true);
+          webservice.endpoints().get(p)
+              .forEach(e -> new DefaultTreeNode<>(new EndPoint("link", e), portType));
+        });
     webservice.portTypes().forEach(p -> portTypeMap.put(p, new PortType(p, webservice.endpoints().get(p))));
   }
 
@@ -126,12 +127,12 @@ public class Webservice implements IService {
   }
 
   public String getEndpoints() {
-    return getPortTypeMap().values().stream().map(pt -> pt.getDefault()).collect(Collectors.joining(", "));
+    return getPortTypeMap().values().stream().map(PortType::getDefault).collect(Collectors.joining(", "));
   }
 
   public static class EndPoint {
-    private String type;
-    private String name;
+    private final String type;
+    private final String name;
 
     public EndPoint(String type, String name) {
       this.type = type;
@@ -148,7 +149,7 @@ public class Webservice implements IService {
   }
 
   public static class PortType {
-    private String name;
+    private final String name;
     private String defaultLink = "";
     private String fallbacks = "";
 
@@ -168,8 +169,8 @@ public class Webservice implements IService {
       var links = new ArrayList<String>();
       links.add(defaultLink);
       Arrays.stream(StringUtils.split(fallbacks, "\n"))
-              .map(link -> StringUtils.trim(link))
-              .forEach(link -> links.add(link));
+          .map(StringUtils::trim)
+          .forEach(link -> links.add(link));
       return links;
     }
 

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
@@ -22,10 +22,10 @@ import ch.ivyteam.ivy.business.data.store.search.restricted.elasticsearch.server
 @ManagedBean
 @ViewScoped
 public class SearchEngineBean {
-  private IBusinessDataManager searchEngine = IBusinessDataManager.instance();
-  private ServerConfig serverConfig = ServerConfig.instance();
+  private final IBusinessDataManager searchEngine = IBusinessDataManager.instance();
+  private final ServerConfig serverConfig = ServerConfig.instance();
 
-  private ElasticSearch elasticSearch;
+  private final ElasticSearch elasticSearch;
 
   private String filter;
 
@@ -34,11 +34,11 @@ public class SearchEngineBean {
   private String query;
   private String queryResult;
 
-  private SearchIndexDataModel model;
+  private final SearchIndexDataModel model;
 
   public SearchEngineBean() {
     elasticSearch = new ElasticSearch(serverConfig.getServerUrl(),
-            searchEngine.getBusinessDataInfo());
+        searchEngine.getBusinessDataInfo());
     model = new SearchIndexDataModel();
   }
 
@@ -93,17 +93,17 @@ public class SearchEngineBean {
 
   public List<String> queryProposals(String value) {
     return getQueryApis().stream()
-            .map(api -> StringUtils.removeStart(api, "/"))
-            .filter(api -> StringUtils.startsWith(api, value))
-            .distinct()
-            .collect(Collectors.toList());
+        .map(api -> Strings.CS.removeStart(api, "/"))
+        .filter(api -> Strings.CS.startsWith(api, value))
+        .distinct()
+        .collect(Collectors.toList());
   }
 
   private List<String> getQueryApis() {
     if (activeIndex == null) {
       return Arrays.asList(ElasticSearch.ElasticSearchApi.ALIASES_URL,
-              ElasticSearch.ElasticSearchApi.HEALTH_URL,
-              ElasticSearch.ElasticSearchApi.INDICIES_URL);
+          ElasticSearch.ElasticSearchApi.HEALTH_URL,
+          ElasticSearch.ElasticSearchApi.INDICIES_URL);
     }
     return Arrays.asList(ElasticSearch.ElasticSearchIndexApi.MAPPING_URL);
   }
@@ -111,7 +111,7 @@ public class SearchEngineBean {
   public void runQuery() {
     try {
       elasticSearch.executeRequest(getQueryUrl() + "/" + getQuery())
-              .ifPresent(result -> queryResult = tryToBeutifyQueryResult(result));
+          .ifPresent(result -> queryResult = tryToBeutifyQueryResult(result));
 
     } catch (Exception ex) {
       queryResult = ex.getMessage();
