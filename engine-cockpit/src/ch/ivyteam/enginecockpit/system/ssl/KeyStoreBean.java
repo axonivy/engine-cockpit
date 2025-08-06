@@ -1,13 +1,17 @@
 package ch.ivyteam.enginecockpit.system.ssl;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.security.KeyStoreException;
 import java.security.Provider;
 import java.security.Security;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -31,6 +35,8 @@ public class KeyStoreBean implements SslTableStore {
   private String provider;
   private String type;
   private String algorithm;
+
+  private String certificateLoadError;
 
   public KeyStoreBean() {
     this.store = SslClientSettings.instance().getKeyStore();
@@ -131,29 +137,49 @@ public class KeyStoreBean implements SslTableStore {
     store.setProvider(provider);
     store.setType(type);
     store.setAlgorithm(algorithm);
+    getCertificats();
     FacesContext.getCurrentInstance().addMessage("sslKeystoreSaveSuccess",
         new FacesMessage("Key Store configurations saved"));
   }
 
   @Override
   public List<StoredCert> getCertificats() {
-    return getKeyStoreUtils().getStoredCerts();
+    try {
+      setCertificateLoadError(null);
+      return getKeyStoreUtils().getStoredCerts();
+    } catch (KeyStoreException ex) {
+      setCertificateLoadError(ex.getCause().getMessage());
+      return List.of();
+    }
   }
 
   @Override
-  public void deleteCertificate(String alias) {
+  public void deleteCertificate(String alias) throws KeyStoreException {
     getKeyStoreUtils().deleteCertificate(alias);
   }
 
   @Override
-  public Certificate handleUploadCertificate(FileUploadEvent event) throws Exception {
+  public Certificate handleUploadCertificate(FileUploadEvent event) throws CertificateException, KeyStoreException, IOException {
     try (InputStream is = event.getFile().getInputStream()) {
       return getKeyStoreUtils().handleUploadCert(is);
     }
   }
 
+  @PostConstruct
+  public void init() {
+    getCertificats();
+  }
+
   private KeyStoreUtils getKeyStoreUtils() {
     return new KeyStoreUtils(file, type, provider, password);
+  }
+
+  public String getCertificateLoadError() {
+    return certificateLoadError;
+  }
+
+  public void setCertificateLoadError(String certificateLoadError) {
+    this.certificateLoadError = certificateLoadError;
   }
 
 }
