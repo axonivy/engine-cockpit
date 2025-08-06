@@ -26,12 +26,17 @@
           </p:commandButton>
         </div>
       </div>
+      <p:staticMessage
+        rendered="#{not empty cc.attrs.bean.certificateLoadError}"
+        id="certificateLoadError" severity="warn" 
+        detail="#{cc.attrs.bean.certificateLoadError}" />
 
-      <p:dataTable var="certificate" value="#{cc.attrs.bean.certificats}" id="storeCertificates">
+      <p:dataTable var="certificate"
+        value="#{cc.attrs.bean.certificats}" id="storeCertificates">
         <p:column headerText="Alias">
           <h:outputText value="#{certificate.alias}" id="alias" />
         </p:column>
-      
+
         <p:column headerText="Subject">
           <h:outputText value="#{certificate.subject}" id="subject" />
         </p:column>
@@ -44,11 +49,14 @@
 
         <p:column headerText="Expiry date">
           <h:panelGroup id="valid">
-            <i class="si table-icon si-#{certificate.isValid() ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
-            <h:outputText value="#{certificate.cert.notAfter}" id="expiryDate"
+            <i
+              class="si table-icon si-#{certificate.isValid() ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
+            <h:outputText value="#{certificate.cert.notAfter}"
+              id="expiryDate"
               styleClass="#{certificate.isValid() ? '' : 'state-inactive'}" />
           </h:panelGroup>
-          <p:tooltip for="valid" value="#{certificate.isValid() ? 'Valid' : certificate.invalidityMessage}" />
+          <p:tooltip for="valid"
+            value="#{certificate.isValid() ? 'Valid' : certificate.invalidityMessage}" />
         </p:column>
 
         <p:column styleClass="table-btn-1">
