@@ -4,15 +4,13 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.security.KeyStoreException;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.List;
 
 import ch.ivyteam.ivy.ssl.restricted.IvyKeystore;
-import ch.ivyteam.log.Logger;
 
 class KeyStoreUtils {
-
-  private static final Logger LOGGER = Logger.getLogger(KeyStoreUtils.class);
 
   private final String file;
   private final String type;
@@ -30,43 +28,30 @@ class KeyStoreUtils {
     return ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(Path.of(file), type, provider, password);
   }
 
-  Certificate handleUploadCert(InputStream is) throws Exception {
+  Certificate handleUploadCert(InputStream is) throws CertificateException, KeyStoreException {
     var certFactory = CertificateFactory.getInstance("X509");
     Certificate cert = certFactory.generateCertificate(is);
     addNewCert(cert);
     return cert;
   }
 
-  public void addNewCert(Certificate certFile) {
-    try {
-      var ivyKS = loadInternal();
-      ivyKS.addCert(certFile);
-      ivyKS.store(password);
-    } catch (KeyStoreException ex) {
-      LOGGER.error("failed to add certificat to " + file, ex);
-    }
+  public void addNewCert(Certificate certFile) throws KeyStoreException {
+    var ivyKS = loadInternal();
+    ivyKS.addCert(certFile);
+    ivyKS.store(password);
   }
 
-  List<StoredCert> getStoredCerts() {
-    try {
-      var certs = loadInternal().getStoredCertificates();
-      return certs.stream()
-          .map(cert -> new StoredCert(cert.alias(), cert.cert()))
-          .toList();
-    } catch (KeyStoreException ex) {
-      LOGGER.error("failed to read certificates of " + file, ex);
-      return List.of();
-    }
+  List<StoredCert> getStoredCerts() throws KeyStoreException {
+    var certs = loadInternal().getStoredCertificates();
+    return certs.stream()
+        .map(cert -> new StoredCert(cert.alias(), cert.cert()))
+        .toList();
   }
 
-  void deleteCertificate(String alias) {
-    try {
-      var ivyKS = loadInternal();
-      ivyKS.getKeyStore().deleteEntry(alias);
-      ivyKS.store(password);
-    } catch (Exception ex) {
-      LOGGER.error("failed to delete " + alias, ex);
-    }
+  void deleteCertificate(String alias) throws KeyStoreException {
+    var ivyKS = loadInternal();
+    ivyKS.getKeyStore().deleteEntry(alias);
+    ivyKS.store(password);
   }
 
 }
