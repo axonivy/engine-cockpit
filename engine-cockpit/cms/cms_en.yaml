@@ -520,6 +520,86 @@ monitor:
     RunHealthChecks: Run Health Checks
   jfr:
     AddConfiguration: Add configuration
+    Option:
+      disk:
+        DefaultValue: 'false'
+        Description: |-
+          Stores recorded data as it is recorded.
+
+          String representation of a Boolean value, "true" or "false"
+
+          Examples:
+          "true"
+          "false"
+        Name: Disk
+      dumpOnExit:
+        DefaultValue: 'false'
+        Description: |-
+          Dumps recording data to disk on Java Virtual Machine (JVM) exit.
+
+          String representation of a Boolean value, "true" or "false"
+
+          Examples:
+          "true"
+          "false"
+        Name: Dump on exit
+      duration:
+        DefaultValue: '0'
+        Description: |-
+          Sets how long the recording should be running.
+
+          "0" if no limit should be imposed, otherwise a string representation of a positive Long
+          followed by an empty space and one of the following units:
+
+          "ns" (nanoseconds)
+          "us" (microseconds)
+          "ms" (milliseconds)
+          "s" (seconds)
+          "m" (minutes)
+          "h" (hours)
+          "d" (days)
+
+          Examples:
+          "60 s",
+          "10 m",
+          "4 h",
+          "0"
+        Name: Duration
+      maxAge:
+        DefaultValue: '0'
+        Description: |-
+          Specify the length of time that the data is kept in the disk repository until the oldest
+          data may be deleted. Only works if disk=true, otherwise this parameter is ignored.
+
+          "0" if no limit is imposed, otherwise a string representation of a positive Long value
+          followed by an empty space and one of the following units,
+
+          "ns" (nanoseconds)
+          "us" (microseconds)
+          "ms" (milliseconds)
+          "s" (seconds)
+          "m" (minutes)
+          "h" (hours)
+          "d" (days)
+
+          Examples:
+          "2 h"
+          "24 h"
+          "2 d"
+          "0"
+        Name: Max age
+      maxSize:
+        DefaultValue: '0'
+        Description: |-
+          Specifies the size, measured in bytes, at which data is kept in disk repository.
+          Only works if disk=true, otherwise this parameter is ignored.
+
+          String representation of a Long value, must be positive
+
+          Examples:
+          "0"
+          "100000000"
+        Name: Max size
     RecordingMessage1: Start of a Fligh recording can have a negative impact on the performance of the engine.
     RecordingMessage2: There is already at least one recording running. Sure you want to start another one?
     RecordingMessage3: There is already at least one recording available. Consider deleting it before starting another one.
@@ -581,6 +661,7 @@ monitor:
     LockedSynchronizers: Locked Synchronizers
     Native: In Native Code
     SaveThreadDump: Save Thread Dump
+    StackTrace: Stack Trace
     ThreadDetail: Thread Detail
     ThreadDumpFileName: ThreadDump.txt
     ThreadNewMessage: Thread is new and not yet started.

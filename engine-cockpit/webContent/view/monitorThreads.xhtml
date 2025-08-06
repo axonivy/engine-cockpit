@@ -135,7 +135,7 @@
               <p:outputLabel for="lockedMonitors" value="#{ivy.cm.co('/monitor/thread/LockedMonitors')}"/>
               <p:outputPanel id="lockedMonitors" styleClass="code">#{threadBean.selected.lockedMonitors}</p:outputPanel>
               <h:panelGroup>
-                <p:outputLabel for="stackTrace" value="Stack Trace"/>
+                <p:outputLabel for="stackTrace" value="#{ivy.cm.co('/monitor/thread/StackTrace')}"/>
                 <p:commandButton id="copyStack" icon="si si-copy-paste" type="button" title="#{ivy.cm.co('/common/CopyToClipboard')}"
                   onclick="var button=this; copyToClipboard($('#thread\\:stackTrace').text(), button)"
                   styleClass="ui-button-flat rounded-button"/>

@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor.performance.jfr;
 
 import java.util.List;
+import ch.ivyteam.ivy.environment.Ivy;
 
 public final class Option {
   private final String name;
@@ -43,74 +44,29 @@ public final class Option {
 
   public static List<Option> createAll() {
     return List.of(
-        new Option("duration", "Duration", """
-          Sets how long the recording should be running.
+        new Option("duration",
+            getCmsValue("duration/Name"),
+            getCmsValue("duration/Description"),
+            getCmsValue("duration/DefaultValue")),
+        new Option("maxAge",
+            getCmsValue("maxAge/Name"),
+            getCmsValue("maxAge/Description"),
+            getCmsValue("maxAge/DefaultValue")),
+        new Option("maxSize",
+            getCmsValue("maxSize/Name"),
+            getCmsValue("maxSize/Description"),
+            getCmsValue("maxSize/DefaultValue")),
+        new Option("disk",
+            getCmsValue("disk/Name"),
+            getCmsValue("disk/Description"),
+            getCmsValue("disk/DefaultValue")),
+        new Option("dumpOnExit",
+            getCmsValue("dumpOnExit/Name"),
+            getCmsValue("dumpOnExit/Description"),
+            getCmsValue("dumpOnExit/DefaultValue")));
+  }
 
-          "0" if no limit should be imposed, otherwise a string representation of a positive Long
-          followed by an empty space and one of the following units:
-
-          "ns" (nanoseconds)
-          "us" (microseconds)
-          "ms" (milliseconds)
-          "s" (seconds)
-          "m" (minutes)
-          "h" (hours)
-          "d" (days)
-
-          Examples:
-          "60 s",
-          "10 m",
-          "4 h",
-          "0"
-          """, "0"),
-        new Option("maxAge", "Max age", """
-          Specify the length of time that the data is kept in the disk repository until the oldest
-          data may be deleted. Only works if disk=true, otherwise this parameter is ignored.
-
-          "0" if no limit is imposed, otherwise a string representation of a positive Long value
-          followed by an empty space and one of the following units,
-
-          "ns" (nanoseconds)
-          "us" (microseconds)
-          "ms" (milliseconds)
-          "s" (seconds)
-          "m" (minutes)
-          "h" (hours)
-          "d" (days)
-
-          Examples:
-          "2 h"
-          "24 h"
-          "2 d"
-          "0"
-          """, "0"),
-        new Option("maxSize", "Max size", """
-          Specifies the size, measured in bytes, at which data is kept in disk repository.
-          Only works if disk=true, otherwise this parameter is ignored.
-
-          String representation of a Long value, must be positive
-
-          Examples:
-          "0"
-          "100000000"
-          """, "0"),
-        new Option("disk", "Disk", """
-          Stores recorded data as it is recorded.
-
-          String representation of a Boolean value, "true" or "false"
-
-          Examples:
-          "true"
-          "false"
-          """, "false"),
-        new Option("dumpOnExit", "Dump on exit", """
-          Dumps recording data to disk on Java Virtual Machine (JVM) exit.
-
-          String representation of a Boolean value, "true" or "false"
-
-          Examples:
-          "true"
-          "false"
-          """, "false"));
+  private static String getCmsValue(String cmsPath) {
+    return Ivy.cm().co("/monitor/jfr/Option/" + cmsPath);
   }
 }
