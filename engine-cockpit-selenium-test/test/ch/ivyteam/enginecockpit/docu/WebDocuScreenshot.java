@@ -266,6 +266,7 @@ class WebDocuScreenshot {
   }
 
   private void takeLiveStatsScreenshot(String fileName, Dimension size) {
+    EngineCockpitUtil.waitUntilFreyaJsIsInitialized();
     $("#layout-config-button").shouldBe(visible).click();
     $(".layout-config h3").shouldBe(visible, text("Live Stats"));
     takeScreenshot(fileName, size);

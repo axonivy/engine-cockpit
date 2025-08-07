@@ -47,8 +47,8 @@
 
             <p:column headerText="Name" sortBy="#{job.name}" filterBy="#{job.name}">
               <p:commandLink oncomplete="PF('jobDialog').show();" title="Job Detail" action="#{jobBean.setSelected(job)}" update="jobDialog">
-              <i class="si si-task-list-approve table-icon"/>
-              <h:outputText value="#{job.name}"/>
+                <i class="si si-task-list-approve table-icon"/>
+                <span><h:outputText value="#{job.name}"/></span>
               </p:commandLink>
             </p:column>
 
