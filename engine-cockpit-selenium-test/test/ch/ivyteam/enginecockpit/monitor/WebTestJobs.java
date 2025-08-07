@@ -9,11 +9,11 @@ import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.Wait;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -27,6 +27,7 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.junit5.ScreenShooterExtension;
 
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
@@ -82,10 +83,11 @@ class WebTestJobs {
 
   @Test
   void refresh() {
-    var content = table.rows().texts();
+    var row = table.row("Invalidate UserData cache");
+    var rowContent = row.shouldBe(visible).text();
     Selenide.sleep(1000); // Sleep to make sure next execution differs
     $(By.id("refresh")).click();
-    assertThat(table.rows().texts()).isNotEqualTo(content);
+    row.shouldBe(visible, not(text(rowContent)));
   }
 
   @Test
@@ -107,9 +109,7 @@ class WebTestJobs {
 
   @Test
   void liveStats() {
-    $(By.id("layout-config-button")).click();
-    $$("h4").get(0).shouldBe(text("Jobs Executed"));
-    $$("h4").get(1).shouldHave(text("Job Execution Time"));
+    EngineCockpitUtil.assertLiveStats(List.of("Jobs Executed", "Job Execution Time"));
   }
 
   @Test
