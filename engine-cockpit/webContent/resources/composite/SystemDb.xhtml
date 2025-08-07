@@ -52,7 +52,7 @@
               listener="#{systemDatabaseBean.configChanged}" />
           </p:selectOneMenu>
 
-          <p:outputLabel for="databaseDriver" value="#{ivy.cms.co('/systemDb/Driver')}" />
+          <p:outputLabel for="databaseDriver" value="#{ivy.cms.co('/common/Driver')}" />
           <p:selectOneMenu id="databaseDriver" value="#{systemDatabaseBean.driver}">
             <f:selectItems value="#{systemDatabaseBean.supportedDriverNames}" var="driver" itemLabel="#{driver}"
               itemValue="#{driver}" />

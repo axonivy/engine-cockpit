@@ -239,6 +239,7 @@ common:
   Success: Success
   Synchronize: Synchronize
   System: System
+  SystemDatabase: System Database
   Template: Template
   Time: Time
   Timestamp: Timestamp
@@ -1071,7 +1072,6 @@ sidebar:
   StartEvents: Start Events
   System: System
   SystemConfiguration: System Configuration
-  SystemDatabase: System Database
   Threads: Threads
   TrafficGraph: Traffic Graph
   WebServer: Web Server
@@ -1115,7 +1115,6 @@ systemDb:
   DatabaseNotPersistentDetail: Please configure a persistent database to use this engine in a productive environment.
   DatabaseNotPersistentSummary: Database not persistent
   DeleteButtonTitle: Delete
-  Driver: Driver
   Error: 'Error: '
   SystemDatabaseConfigSavedSuccessfulMessage: System Database config saved successfully
 template:

@@ -205,6 +205,7 @@ common:
   Success: Thành công
   Synchronize: Đồng bộ
   System: Hệ thống
+  SystemDatabase: Cơ sở dữ liệu hệ thống
   Template: Mẫu
   Total: Tổng
   Type: Loại
@@ -840,7 +841,6 @@ sidebar:
   StartEvents: Sự kiện bắt đầu
   System: Hệ thống
   SystemConfiguration: Cấu hình hệ thống
-  SystemDatabase: Cơ sở dữ liệu hệ thống
   Threads: Luồng
   TrafficGraph: Biểu đồ lưu lượng
   WebServer: Máy chủ web
@@ -876,8 +876,8 @@ systemDb:
   Database: Cơ sở dữ liệu
   DatabaseNotPersistentDetail: Vui lòng cấu hình một cơ sở dữ liệu bền vững để sử dụng trình điều khiển này trong môi trường sản xuất.
   DatabaseNotPersistentSummary: Cơ sở dữ liệu không bền vững
+  DefineAtLeastOneAdministratorMessage: ''
   DeleteButtonTitle: Xóa
-  Driver: Trình điều khiển
   Error: 'Lỗi: '
   SystemDatabaseConfigSavedSuccessfulMessage: Cấu hình cơ sở dữ liệu hệ thống đã được lưu thành công
 template:
