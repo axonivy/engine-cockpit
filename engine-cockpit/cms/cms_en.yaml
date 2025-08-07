@@ -1,4 +1,7 @@
 administrators:
+  AdminAddedMessage: '''''{0}'''' added successfully'
+  AdminModifiedMessage: '''''{0}'''' modified successfully'
+  AdminRemovedMessage: '''''{0}'''' removed successfully'
   ConfirmPassword: Confirm Password
   DeleteAdminButton: Delete
   DeleteAdminButtonTitle: Delete
@@ -6,11 +9,9 @@ administrators:
   DeleteAdminDialogMessage: Are you sure you want to delete the administrator ''{0}''?
   EditAdminButtonTitle: Edit
   EditAdminDialogHeader: Add / Edit Administrator
-  Email: Email
-  FullName: Full Name
   NotMatchPasswordMessage: Password didn't match
-  Password: Password
-  Search: Search
+admins:
+  DefineAtLeastOneAdministratorMessage: You need to define at least one administrator!
 applicationDetail:
   ProcessModels: Process Models
 applications:
@@ -92,13 +93,14 @@ common:
   Activate: Activate
   Activity: Activity
   Add: Add
+  Administrators: Administrators
   Application: Application
   Applications: Applications
   Apply: Apply
   Attribute: Attribute
   Attributes: Attributes
-  AxonIvy: Axon Ivy
   AuthenticationType: Authentication Type
+  AxonIvy: Axon Ivy
   AxonIvyEngine: Axon Ivy Engine
   Back: Back
   Branding: Branding
@@ -115,11 +117,11 @@ common:
   Color: Color
   Configuration: Configuration
   Confirm: Confirm
+  Connections: Connections
   CopyToClipboard: Copy to clipboard
   Count: Count
   Created: Created
   Creator: Creator
-  Connections: Connections
   Databases: Databases
   Date: Date
   Deactivate: Deactivate
@@ -132,9 +134,10 @@ common:
   Disable: Disable
   Download: Download
   DownloadRecording: Download recording
-  Duration: Duration
   Driver: Driver
+  Duration: Duration
   Edit: Edit
+  Email: Email
   End: End
   EngineCockpit: Engine Cockpit
   Error: Error
@@ -146,10 +149,10 @@ common:
   ExpandAll: Expand all
   Failed: Failed
   Failure: Failure
-  Filter: Filter
   Feature: Feature
   Features: Features
   FeaturesAndProperties: Features and properties
+  Filter: Filter
   Finish: Finish
   Finished: Finished
   FullName: Full Name
@@ -176,16 +179,16 @@ common:
   NoData: No Data
   NoDataAvailable: No data available
   NoRecordsFound: No records found.
-  NotFoundApplication: Application ''{0}'' not found
-  NotificationChannels: Notification Channels
   NoValue: No value
   None: None
+  NotFoundApplication: Application ''{0}'' not found
+  NotificationChannels: Notification Channels
   OK: OK
-  Password: Password
   Object: Object
   Order: Order
   PM: PM
   PMV: PMV
+  Password: Password
   Path: Path
   Port: Port
   Previous: Previous
@@ -215,9 +218,9 @@ common:
   Save: Save
   SaveAndCreate: Save and create
   SaveChanges: Save changes
-  SearchEngine: Search Engine
   Schedule: Schedule
   Search: Search
+  SearchEngine: Search Engine
   SearchPlaceholder: Search
   Security: Security
   SecuritySystem: Security System
@@ -235,24 +238,25 @@ common:
   StopTime: Stop Time
   Success: Success
   Synchronize: Synchronize
+  System: Security System
   Template: Template
-  Total: Total
-  Type: Type
   Time: Time
   Timestamp: Timestamp
+  Total: Total
+  Type: Type
   Upload: Upload
   Url: Url
-  Username: Username
   User: User
+  Username: Username
   Users: Users
   Value: Value
   Variable: Variable
   Variables: Variables
   Version: Version
   Warning: Warning
-  Write: Write
   WebServiceClients: Web Service Clients
   WebServiceProcesses: Web Service Processes
+  Write: Write
   'Yes': 'Yes'
 configuration:
   ApplicationConfiguration: Application Configuration
@@ -1028,9 +1032,6 @@ setup:
 setupAdmins:
   AddAdministratorButton: Add Administrator
   AddAdministratorButtonTitle: Edit
-  AdminAddedMessage: '''''{0}'''' added successfully'
-  AdminModifiedMessage: '''''{0}'''' modified successfully'
-  AdminRemovedMessage: '''''{0}'''' removed successfully'
   StepWarningMessage: Please configure at least one admin!
 setupStorage:
   AppDirectory: App Directory
@@ -1038,7 +1039,6 @@ setupStorage:
   DirectoryChangesMessage: Directory changes saved successfully
   StepWarningMessage: AppDirectory shouldn't be empty
 sidebar:
-  Administrators: Administrators
   Cache: Cache
   ClassHistogram: Class Histogram
   Cluster: Cluster

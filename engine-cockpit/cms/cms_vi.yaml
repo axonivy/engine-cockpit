@@ -1,4 +1,7 @@
 administrators:
+  AdminAddedMessage: '''''{0}'''' đã được thêm thành công'
+  AdminModifiedMessage: '''''{0}'''' đã được sửa đổi thành công'
+  AdminRemovedMessage: '''''{0}'''' đã bị xóa thành công'
   ConfirmPassword: Xác nhận mật khẩu
   DeleteAdminButton: Xóa
   DeleteAdminButtonTitle: Xóa
@@ -6,11 +9,9 @@ administrators:
   DeleteAdminDialogMessage: Bạn có chắc chắn muốn xóa tài khoản quản trị viên ''{0}'' không?
   EditAdminButtonTitle: Sửa
   EditAdminDialogHeader: Thêm / Sửa quản trị viên
-  Email: Email
-  FullName: Họ và tên
   NotMatchPasswordMessage: Mật khẩu không khớp
-  Password: Mật khẩu
-  Search: Tìm
+admins:
+  DefineAtLeastOneAdministratorMessage: ''
 applicationDetail:
   ProcessModels: Mô hình quy trình
 applications:
@@ -82,6 +83,7 @@ common:
   Activate: Kích hoạt
   Activity: Hoạt động
   Add: Thêm
+  Administrators: Quản trị viên
   Application: Ứng dụng
   Applications: Ứng dụng
   Apply: Áp dụng
@@ -121,6 +123,7 @@ common:
   DownloadRecording: Tải xuống bản ghi âm
   Duration: Thời lượng
   Edit: Chỉnh sửa
+  Email: Email
   End: Kết thúc
   EngineCockpit: Buồng lái động cơ
   Error: Lỗi
@@ -201,6 +204,7 @@ common:
   StopTime: Thời gian dừng
   Success: Thành công
   Synchronize: Đồng bộ
+  System: Hệ thống bảo mật
   Template: Mẫu
   Total: Tổng
   Type: Loại
@@ -291,8 +295,8 @@ info:
   DemoPortal: Cổng thông tin demo
   DemoPortalIntroduction: Cổng thông tin demo cung cấp điểm truy cập lý tưởng để khám phá và trải nghiệm các tính năng mạnh mẽ của nền tảng Axon Ivy như một công cụ quản lý quy trình làm việc. Nền tảng này cho phép người dùng khám phá cách tự động hóa, tối ưu hóa và đơn giản hóa các quy trình kinh doanh
     phức tạp một cách dễ dàng. Dù bạn đang cần quản lý tác vụ, tích hợp hệ thống hay điều phối quy trình làm việc giữa các bộ phận, nền tảng này cung cấp các công cụ trực quan và môi trường linh hoạt để đáp ứng nhu cầu kinh doanh của bạn.
-  EngineMaintenanceInfo: '<p>Do đó, Axon Ivy Engine hiện đang hoạt động ở chế độ bảo trì. Nếu hệ thống của bạn gặp sự cố, ví dụ như Axon Ivy Engine không thể kết nối với cơ sở dữ liệu hệ thống hoặc giấy phép đã hết hạn, hãy truy cập <b><a href="setup.xhtml">Trình hướng dẫn cài đặt</a></b>
-    để khắc phục. Nếu Axon Ivy Engine đã được cập nhật, việc khởi chạy <b><a href="migrate.xhtml">Trình hướng dẫn di chuyển</a></b> là bắt buộc để đảm bảo rằng phiên bản hiện tại hoạt động đầy đủ. Quy trình này rất quan trọng để duy trì tính năng và tính toàn vẹn của hệ thống.</p>'
+  EngineMaintenanceInfo: <p>Do đó, Axon Ivy Engine hiện đang hoạt động ở chế độ bảo trì. Nếu hệ thống của bạn gặp sự cố, ví dụ như Axon Ivy Engine không thể kết nối với cơ sở dữ liệu hệ thống hoặc giấy phép đã hết hạn, hãy truy cập <b><a href="setup.xhtml">Trình hướng dẫn cài đặt</a></b> để khắc phục.
+    Nếu Axon Ivy Engine đã được cập nhật, việc khởi chạy <b><a href="migrate.xhtml">Trình hướng dẫn di chuyển</a></b> là bắt buộc để đảm bảo rằng phiên bản hiện tại hoạt động đầy đủ. Quy trình này rất quan trọng để duy trì tính năng và tính toàn vẹn của hệ thống.</p>
   InstallYourApplications: Cài đặt ứng dụng của bạn trong Engine Cockpit.
   MaintenanceMode: Chế độ bảo trì
   NEODesigner: NEO Designer
@@ -343,8 +347,7 @@ licence:
 licenceEvents:
   ConfirmAll: Xác nhận tất cả
   LicenceEventsDialogHeader: Sự kiện giấy phép
-  SupportReportDialogContent: '<p>Nếu bạn gặp vấn đề khi sử dụng Axon Ivy Engine, vui lòng mở một phiếu hỗ trợ, tải xuống tệp zip này và đính kèm vào phiếu.</p> <p>Tệp zip này chứa:</p> <ul>     <li>Báo cáo hỗ trợ Axon Ivy Engine</li>      <li>Tệp nhật ký
-    hôm nay</li> </ul>'
+  SupportReportDialogContent: <p>Nếu bạn gặp vấn đề khi sử dụng Axon Ivy Engine, vui lòng mở một phiếu hỗ trợ, tải xuống tệp zip này và đính kèm vào phiếu.</p> <p>Tệp zip này chứa:</p> <ul>     <li>Báo cáo hỗ trợ Axon Ivy Engine</li>      <li>Tệp nhật ký hôm nay</li> </ul>
 login:
   EngineCockpitLoginTitle: Bảng điều khiển động cơ - Đăng nhập
   IvyYamlFile: ivy.yaml
@@ -372,8 +375,8 @@ migrate:
   EngineMigrationErrorMessage: Lỗi trong quá trình di chuyển.<br><pre style=\"white-space:pre-wrap;word-break:break-all;margin:0px;\"><code>{0}</code></pre>
   EngineMigrationSuccessfulMessage: Quá trình di chuyển Axon Ivy Engine đã thành công. Khởi động lại Axon Ivy Engine ngay bây giờ.
   InPlaceMigration: Di chuyển tại chỗ
-  InPlaceMigrationIntroduction: Quá trình di chuyển này là di chuyển tại chỗ. Do đó, Axon Ivy Engine mới sẽ được cài đặt chính xác tại vị trí của Axon Ivy Engine cũ. Các tệp cấu hình trong môi trường container, chẳng hạn như <code>ivy.yaml</code>, có thể được cung cấp ở chế độ chỉ đọc. Vì
-    quá trình di chuyển cần quyền ghi vào các tệp cấu hình này, bạn có thể định nghĩa xem có nên sử dụng thư mục tạm thời để thực hiện các thay đổi này hay không. Sau khi di chuyển, bạn phải thêm thủ công các tệp này vào Axon Ivy Engine.
+  InPlaceMigrationIntroduction: Quá trình di chuyển này là di chuyển tại chỗ. Do đó, Axon Ivy Engine mới sẽ được cài đặt chính xác tại vị trí của Axon Ivy Engine cũ. Các tệp cấu hình trong môi trường container, chẳng hạn như <code>ivy.yaml</code>, có thể được cung cấp ở chế độ chỉ đọc. Vì quá trình di
+    chuyển cần quyền ghi vào các tệp cấu hình này, bạn có thể định nghĩa xem có nên sử dụng thư mục tạm thời để thực hiện các thay đổi này hay không. Sau khi di chuyển, bạn phải thêm thủ công các tệp này vào Axon Ivy Engine.
   InvalidLicenceMessage: 'Giấy phép không hợp lệ. Vui lòng tải lên giấy phép mới, nếu không bạn sẽ không thể khởi động Axon Ivy Engine sau khi di chuyển. Lý do: {0}'
   Licence: Giấy phép
   LoadLocation: Vị trí tải
@@ -431,8 +434,8 @@ monitor:
   Used: Đã sử dụng
   Write: Ghi
   cache:
-    CacheTooltip: 'Giới hạn bộ nhớ đệm bổ sung:<br/> <ul>  <li>Max: Số byte hoặc ký tự tối đa được lưu trong bộ nhớ đệm.</li>  <li>TTL: Thời gian tồn tại. Thời gian tối đa mà một đối tượng sẽ ở trong bộ nhớ đệm sau khi được đọc lần đầu.</li>  <li>TTI: Thời gian
-      không hoạt động. Thời gian tối đa mà một đối tượng sẽ ở trong bộ nhớ đệm sau khi được đọc lần cuối.</li> </ul>'
+    CacheTooltip: 'Giới hạn bộ nhớ đệm bổ sung:<br/> <ul>  <li>Max: Số byte hoặc ký tự tối đa được lưu trong bộ nhớ đệm.</li>  <li>TTL: Thời gian tồn tại. Thời gian tối đa mà một đối tượng sẽ ở trong bộ nhớ đệm sau khi được đọc lần đầu.</li>  <li>TTI: Thời gian không hoạt động. Thời gian tối đa mà một
+      đối tượng sẽ ở trong bộ nhớ đệm sau khi được đọc lần cuối.</li> </ul>'
     CountTooltip: Số lượng đối tượng hiện đang được lưu trong bộ nhớ cache
     LimitTooltip: Số lượng đối tượng trong bộ nhớ đệm (xem count) được giảm xuống giá trị này theo định kỳ
     NameTooltip: Tên của bộ nhớ đệm
@@ -793,9 +796,6 @@ setup:
 setupAdmins:
   AddAdministratorButton: Thêm quản trị viên
   AddAdministratorButtonTitle: Chỉnh sửa
-  AdminAddedMessage: '''''{0}'''' đã được thêm thành công'
-  AdminModifiedMessage: '''''{0}'''' đã được sửa đổi thành công'
-  AdminRemovedMessage: '''''{0}'''' đã bị xóa thành công'
   StepWarningMessage: Vui lòng cấu hình ít nhất một quản trị viên!
 setupStorage:
   AppDirectory: Thư mục ứng dụng
@@ -803,7 +803,6 @@ setupStorage:
   DirectoryChangesMessage: Thay đổi thư mục đã được lưu thành công
   StepWarningMessage: Thư mục Ứng dụng không được để trống
 sidebar:
-  Administrators: Quản trị viên
   Cache: Bộ nhớ đệm
   ClassHistogram: Biểu đồ phân phối lớp
   Cluster: Cluster
@@ -852,8 +851,7 @@ state:
   ConfiguredState: Trạng thái đã cấu hình
 supportReport:
   DownloadSupportReport: Tải báo cáo hỗ trợ
-  SupportReportDialogContent: '<p>Nếu bạn gặp vấn đề khi sử dụng Axon Ivy Engine, vui lòng mở một phiếu hỗ trợ, tải xuống tệp zip này và đính kèm vào phiếu hỗ trợ.</p> <p>Tệp zip này chứa:</p> <ul>     <li>Báo cáo hỗ trợ Axon Ivy Engine</li>      <li>Tệp
-    nhật ký hôm nay</li> </ul>'
+  SupportReportDialogContent: <p>Nếu bạn gặp vấn đề khi sử dụng Axon Ivy Engine, vui lòng mở một phiếu hỗ trợ, tải xuống tệp zip này và đính kèm vào phiếu hỗ trợ.</p> <p>Tệp zip này chứa:</p> <ul>     <li>Báo cáo hỗ trợ Axon Ivy Engine</li>      <li>Tệp nhật ký hôm nay</li> </ul>
   SupportReportDialogHeader: Báo cáo hỗ trợ
 systemDatabase:
   ConfigureSystemDb: Cấu hình SystemDb
@@ -883,7 +881,7 @@ systemDb:
   Error: 'Lỗi: '
   SystemDatabaseConfigSavedSuccessfulMessage: Cấu hình cơ sở dữ liệu hệ thống đã được lưu thành công
 template:
-  ClusterModeWarning: '<b>Chế độ cụm!</b><br/> Các thay đổi cấu hình chỉ có thể được áp dụng trên nút cục bộ!'
+  ClusterModeWarning: <b>Chế độ cụm!</b><br/> Các thay đổi cấu hình chỉ có thể được áp dụng trên nút cục bộ!
   Logout: Đăng xuất
   ServerIndex: Chỉ mục máy chủ
   ShowHealthDetails: Hiển thị chi tiết trạng thái ...

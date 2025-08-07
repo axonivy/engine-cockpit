@@ -51,7 +51,7 @@ public class AdministratorBean extends StepStatus {
     AdministratorService.instance().find(editAdmin.getName())
         .ifPresent(a -> AdministratorService.instance().remove(a));
     FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO,
-        Ivy.cms().co("/setupAdmins/AdminRemovedMessage", Arrays.asList(editAdmin.getName())), ""));
+        Ivy.cms().co("/administrators/AdminRemovedMessage", Arrays.asList(editAdmin.getName())), ""));
     admins.remove(editAdmin);
   }
 
@@ -75,11 +75,11 @@ public class AdministratorBean extends StepStatus {
 
   public void saveAdmin() {
     var message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-        Ivy.cms().co("/setupAdmins/AdminModifiedMessage", Arrays.asList(editAdmin.getName())), "");
+        Ivy.cms().co("/administrators/AdminModifiedMessage", Arrays.asList(editAdmin.getName())), "");
     if (!admins.contains(editAdmin)) {
       admins.add(editAdmin);
       message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-          Ivy.cms().co("/setupAdmins/AdminAddedMessage", Arrays.asList(editAdmin.getName())), "");
+          Ivy.cms().co("/administrators/AdminAddedMessage", Arrays.asList(editAdmin.getName())), "");
     }
     FacesContext.getCurrentInstance().addMessage("", message);
     AdministratorService.instance().save(editAdmin.getAdmin());

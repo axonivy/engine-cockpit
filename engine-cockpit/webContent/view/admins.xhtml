@@ -6,9 +6,9 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>System</span></li>
+      <li><span>#{ivy.cm.co('/common/System')}</span></li>
       <li>/</li>
-      <li><a href="admins.xhtml">Administrators</a></li>
+      <li><a href="admins.xhtml">#{ivy.cm.co('/common/Administrators')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -22,16 +22,16 @@
       <div class="card">
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-single-neutral-shield card-title-icon"></i>
-          <h2 class="m-0">Administrators</h2>
+          <h2 class="m-0">#{ivy.cm.co('/common/Administrators')}</h2>
           <h:form id="addAdminForm" styleClass="ml-auto">
             <p:commandButton id="newAdminBtn" actionListener="#{administratorBean.addAdmin()}" icon="si si-add"
-              title="Edit" update="admins:editAdminDialog" value="Add"
+              title="#{ivy.cm.co('/common/Edit')}" update="admins:editAdminDialog" value="#{ivy.cm.co('/common/Add')}"
               oncomplete="PF('editAdminDialog').show();" process="@this" />
           </h:form>
         </div>
         <h:panelGroup id="adminMessages">
           <p:staticMessage rendered="#{!engineModeBean.demo and empty administratorBean.admins}"
-            severity="error" detail="You need to define at least one administrator!" />
+            severity="error" detail="#{ivy.cm.co('/admins/DefineAtLeastOneAdministratorMessage')}" />
         </h:panelGroup>
         <cc:Administrators id="admins" updateFields="admins:adminForm,@form,adminMessages" />
       </div>
