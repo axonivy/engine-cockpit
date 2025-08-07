@@ -121,6 +121,7 @@ public class WebTestNotificationChannelDetail {
     firstEventCheckbox.shouldBeDisabled(true);
 
     $(By.id("save")).click();
+    $(".ui-growl-message").shouldHave(text("Successfully saved"));
     refresh();
 
     enabledCheckbox.shouldBeChecked(false);
