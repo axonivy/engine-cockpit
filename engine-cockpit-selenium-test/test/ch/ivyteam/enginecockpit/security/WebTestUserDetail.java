@@ -208,6 +208,7 @@ class WebTestUserDetail {
     var allEventsCheckbox = PrimeUi.selectBooleanCheckbox(By.id("form:allEvents"));
     allEventsCheckbox.removeChecked();
     $(By.id("save")).click();
+    $(".ui-growl-message").shouldHave(text("Successfully saved"));
 
     Navigation.toUserDetail(USER_FOO);
 
