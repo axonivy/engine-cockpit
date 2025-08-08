@@ -52,7 +52,7 @@ public class SecurityBean {
   }
 
   private static Stream<ISecurityContext> readAllSecurityContexts() {
-    return ISecurityManager.instance().securityContexts().all().stream();
+    return ISecurityManager.instance().securityContexts().allWithSystem().stream();
   }
 
   public static boolean isDefaultWithNoApps(SecuritySystem system) {

@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.system.administrators;
 
+import java.util.Date;
+
 import ch.ivyteam.enginecockpit.util.EmailUtil;
 import ch.ivyteam.ivy.security.administrator.Administrator;
 
@@ -9,16 +11,19 @@ public class AdministratorDto {
   private String fullName;
   private String email;
   private String password;
+  private Date lastLogin;
   
   public AdministratorDto() {
     
   }
   
   public AdministratorDto(Administrator admin) {
-    this.userName = admin.getUsername();
-    this.fullName = admin.getFullName();
-    this.email = admin.getEmail();
-    this.password = admin.getPassword();
+    this.userName = admin.username();
+    this.fullName = admin.fullName();
+    this.email = admin.email();
+    this.password = admin.password();
+    var login = admin.lastLogin();
+    this.lastLogin = login == null ? null : Date.from(login);
   }
 
   public String getName() {
@@ -55,6 +60,10 @@ public class AdministratorDto {
   
   public void setPassword(String password) {
     this.password = password;
+  }
+  
+  public Date getLastLogin() {
+    return lastLogin;
   }
   
   public Administrator toAdministrator() {

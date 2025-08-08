@@ -3,6 +3,11 @@
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
 <h:body>
+   <f:metadata>
+    <f:viewAction action="#{securityConfigBean.setSecuritySystemName('system')}" />
+    <f:viewAction action="#{securityProviderBean.setSecuritySystemName('system')}" />
+  </f:metadata>
+
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
@@ -19,21 +24,53 @@
       <p:growl>
         <p:autoUpdate />
       </p:growl>
+      
       <div class="card">
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-single-neutral-shield card-title-icon"></i>
           <h2 class="m-0">Administrators</h2>
+          
           <h:form id="addAdminForm" styleClass="ml-auto">
             <p:commandButton id="newAdminBtn" actionListener="#{administratorBean.addAdmin()}" icon="si si-add"
-              title="Edit" update="admins:editAdminDialog" value="Add"
+              title="Edit" update="adminsTabView:admins:editAdminDialog" value="Add"
               oncomplete="PF('editAdminDialog').show();" process="@this" />
           </h:form>
         </div>
-        <h:panelGroup id="adminMessages">
-          <p:staticMessage rendered="#{!engineModeBean.demo and empty administratorBean.admins}"
-            severity="error" detail="You need to define at least one administrator!" />
-        </h:panelGroup>
-        <cc:Administrators id="admins" updateFields="admins:adminForm,@form,adminMessages" />
+        
+        
+        <p:tabView id="adminsTabView" styleClass="tab-view-card">
+          <p:tab id="adminsTab">
+            <f:facet name="title">
+              <i class="si si-monitor table-icon" />
+              <h:outputText value=" Admins" />
+            </f:facet>
+            <!-- 
+            <h:form id="addAdminForm" styleClass="ml-auto">
+              <p:commandButton id="newAdminBtn" actionListener="#{administratorBean.addAdmin()}" icon="si si-add"
+                title="Edit" update="adminsTabView:admins:editAdminDialog" value="Add"
+                oncomplete="PF('editAdminDialog').show();" process="@this" />
+            </h:form>
+              -->
+            <h:panelGroup id="adminMessages">
+              <p:staticMessage rendered="#{!engineModeBean.demo and empty administratorBean.admins}" severity="error" detail="You need to define at least one administrator!" />
+            </h:panelGroup>
+            <cc:Administrators id="admins" updateFields="adminsTabView:admins:adminForm,@form,adminsTabView:adminMessages" updateFieldsAdminDialog="adminsTabView:admins:editAdminDialog" />
+          </p:tab>
+          
+          <p:tab id="configTab">
+            <f:facet name="title">
+              <i class="si si-analytics-graph-line" />
+              <h:outputText value=" Config" />
+            </f:facet>
+            <div class="layout-dashboard">
+              <div class="grid">
+                <div class="col-12 md:col-12 xl:col-6">
+                  <ui:include src="../includes/components/security/securitysystem-provider.xhtml" />
+                </div>
+              </div>
+            </div>
+          </p:tab>
+        </p:tabView>
       </div>
     </ui:define>
   </ui:composition>
