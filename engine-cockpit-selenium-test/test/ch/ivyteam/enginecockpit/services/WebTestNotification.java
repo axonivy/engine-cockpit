@@ -223,5 +223,6 @@ class WebTestNotification {
     var enabledCheckbox = PrimeUi.selectBooleanCheckbox(By.id("form:enabled"));
     enabledCheckbox.setChecked();
     $(By.id("save")).click();
+    $(".ui-growl-message").shouldHave(text("Successfully saved"));
   }
 }

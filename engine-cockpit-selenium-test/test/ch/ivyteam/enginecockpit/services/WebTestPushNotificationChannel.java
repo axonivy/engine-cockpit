@@ -103,6 +103,7 @@ public class WebTestPushNotificationChannel {
   private void enable() {
     enabledCheckbox.setChecked();
     $(By.id("save")).click();
+    $(".ui-growl-message").shouldHave(text("Successfully saved"));
   }
 
   private void assertDefault() {
