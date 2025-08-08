@@ -12,6 +12,9 @@ public class AdministratorDto {
   private String email;
   private String password;
   private Date lastLogin;
+  private boolean external;
+  private String externalId;
+  private boolean enabled;
   
   public AdministratorDto() {
     
@@ -24,6 +27,9 @@ public class AdministratorDto {
     this.password = admin.password();
     var login = admin.lastLogin();
     this.lastLogin = login == null ? null : Date.from(login);
+    this.external = admin.external();
+    this.externalId = admin.externalId();
+    this.enabled = admin.enabled();
   }
 
   public String getName() {
@@ -64,6 +70,18 @@ public class AdministratorDto {
   
   public Date getLastLogin() {
     return lastLogin;
+  }
+  
+  public boolean isEnabled() {
+    return enabled;
+  }
+  
+  public boolean isExternal() {
+    return external;
+  }
+  
+  public String getExternalId() {
+    return externalId;
   }
   
   public Administrator toAdministrator() {
