@@ -6,9 +6,9 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>System</span></li>
+      <li><span>#{ivy.cm.co('/common/System')}</span></li>
       <li>/</li>
-      <li><a href="webserver.xhtml">Web Server</a></li>
+      <li><a href="webserver.xhtml">#{ivy.cm.co('/common/WebServer')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -26,99 +26,99 @@
               <div class="card-header">
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-network-signal"></i>
-                  <h6 class="m-0">Web Server Connectors</h6>
+                  <h6 class="m-0">#{ivy.cm.co('/webServer/WebServerConnectors')}</h6>
                 </div>
               </div>
               <cc:WebServer id="webServer" />
             </div>
           </div>
-          
+
           <div class="col-12 md:col-12 lg:col-4">
             <div class="card">
               <h:form id="baseUrlForm">
                 <div class="card-header">
                   <div class="card-title flex align-items-center">
                     <i class="pr-3 si si-cog"></i>
-                    <h6 class="m-0">Base Url Settings</h6>
-                    <p:commandButton id="save" actionListener="#{webServerBean.saveBaseUrl}" title="Save changes"
+                    <h6 class="m-0">#{ivy.cm.co('/webServer/BaseUrlSettings')}</h6>
+                    <p:commandButton id="save" actionListener="#{webServerBean.saveBaseUrl}" title="#{ivy.cm.co('/common/SaveChanges')}"
                       icon="si si-floppy-disk" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button" />
                   </div>
                 </div>
                 <p:panelGrid columns="2" columnClasses="col-12 md:col-3 lg:col-12, col-12 md:col-9 lg:col-12" layout="flex" 
                   styleClass="grey-label-panel ui-fluid">
                   <h:panelGroup>
-                    <label>Base Url</label>
+                    <label>#{ivy.cm.co('/webServer/BaseUrl')}</label>
                     <h:panelGroup id="baseUrlHelp" styleClass="label-help-icon">
                       <i class="si si-question-circle"></i>
-                      <p:tooltip for="baseUrlHelp" value="Base Url used by the engine to build absolute URI's without a request (email links, ...)" position="top" />
+                      <p:tooltip for="baseUrlHelp" value="#{ivy.cm.co('/webServer/BaseUrlHelpMessage')}" position="top" />
                     </h:panelGroup>
                   </h:panelGroup>
                   <p:inputText id="baseUrl" value="#{webServerBean.baseUrl}" />
                 </p:panelGrid>
 
-                <p:staticMessage id="infoMessage" severity="info" summary="Problem detected" 
+                <p:staticMessage id="infoMessage" severity="info" summary="#{ivy.cm.co('/webServer/BaseUrlProblemDetectedSummaryMessage')}" 
                   style="display: none;"
-                  detail="'Base Url' seems to be different form your current browser base Url. You may need to configure your 'Base Url' correctly"/>
+                  detail="#{ivy.cm.co('/webServer/BaseUrlProblemDetectedDetailMessage')}"/>
               </h:form>
             </div>
           </div>
-          
+
           <div class="col-12">
             <div class="card">
               <div class="card-header">
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-monitor-heart-beat-search"></i>
-                  <h6 class="m-0">Request Data</h6>
+                  <h6 class="m-0">#{ivy.cm.co('/webServer/RequestData')}</h6>
                 </div>
               </div>
-              <p:staticMessage id="problemMessage" severity="warn" summary="Problem detected" 
-                detail="'External Base Url' seems to be different form your current browser base Url"
+              <p:staticMessage id="problemMessage" severity="warn" summary="#{ivy.cm.co('/webServer/ExternalBaseUrlProblemDetectedSummaryMessage')}" 
+                detail="#{ivy.cm.co('/webServer/ExternalBaseUrlProblemDetectedDetailMessage')}"
                 style="display: none;" />
-              
+
               <p:panelGrid id="coreRequestData" columns="2" columnClasses="col-12 md:col-4 lg:col-3, col-12 md:col-8 lg:col-9" layout="flex"
                 styleClass="grey-label-panel">
                 <h:panelGroup>
-                  <label>External Base URL</label>
+                  <label>#{ivy.cm.co('/webServer/ExternalBaseUrl')}</label>
                   <h:panelGroup id="externalUrlHelp" styleClass="label-help-icon">
                     <i class="si si-question-circle"></i>
-                    <p:tooltip for="externalUrlHelp" value="Base-URL used by the engine to build absolute URI's (start links, email links, ...)" position="top" />
+                    <p:tooltip for="externalUrlHelp" value="#{ivy.cm.co('/webServer/ExternalBaseUrlHelpMessage')}" position="top" />
                   </h:panelGroup>
                 </h:panelGroup>
                 <h:outputText value="#{webServerBean.externalUrl}" />
-                
+
                 <h:panelGroup>
-                  <label>Evaluated URL</label>
+                  <label>#{ivy.cm.co('/webServer/EvaluatedUrl')}</label>
                   <h:panelGroup id="evaluatedUrlHelp" styleClass="label-help-icon">
                     <i class="si si-question-circle"></i>
-                    <p:tooltip for="evaluatedUrlHelp" value="Example how an external link is calculated" position="top" />
+                    <p:tooltip for="evaluatedUrlHelp" value="#{ivy.cm.co('/webServer/EvaluatedUrlHelpMessage')}" position="top" />
                   </h:panelGroup>
                 </h:panelGroup>
                 <h:outputText value="#{webServerBean.evaluatedUrl}" />
-                
+
                 <h:panelGroup>
-                  <label>Remote Address</label>
+                  <label>#{ivy.cm.co('/webServer/RemoteAddress')}</label>
                   <h:panelGroup id="remoteAddrHelp" styleClass="label-help-icon">
                     <i class="si si-question-circle"></i>
-                    <p:tooltip for="remoteAddrHelp" value="The address form where the request comes from (should be your IP)" position="top" />
+                    <p:tooltip for="remoteAddrHelp" value="#{ivy.cm.co('/webServer/RemoteAddressHelpMessage')}" position="top" />
                   </h:panelGroup>
                 </h:panelGroup>
                 <h:outputText value="#{webServerBean.remoteAddr}" />
               </p:panelGrid>
-              
+
               <h:form id="requestForm">
-                <p:commandButton id="showRequestHeaders" value="Show Request Headers" icon="si si-view-1" actionListener="#{webServerBean.setShowRequestHeaders}" 
+                <p:commandButton id="showRequestHeaders" value="#{ivy.cm.co('/webServer/ShowRequestHeaders')}" icon="si si-view-1" actionListener="#{webServerBean.setShowRequestHeaders}" 
                   update="@form" rendered="#{!webServerBean.showRequestHeaders}" style="margin: 20px 0; width: 250px;" />
-                
+
                 <p:dataTable id="requestHeaderTable" var="data" value="#{webServerBean.requestData}" rendered="#{webServerBean.showRequestHeaders}">
-                  <p:column headerText="Request Header">
+                  <p:column headerText="#{ivy.cm.co('/webServer/RequestHeader')}">
                     <h:outputText styleClass="header" value="#{data.name}" />
                   </p:column>
-                  <p:column headerText="Value">
+                  <p:column headerText="#{ivy.cm.co('/common/Value')}">
                     <h:outputText value="#{data.value}" />
                   </p:column>
                 </p:dataTable>
               </h:form>
-              
+
               <script>
               if (!window.location.href.startsWith('#{webServerBean.externalUrl}')) {
                 $('#problemMessage').show();
@@ -131,33 +131,36 @@
               </script>
             </div>
           </div>
-        
+
           <div class="col-12">
             <div class="card">
               <div class="card-header">
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-monitor-heart-beat-search"></i>
-                  <h6 class="m-0">Response Headers</h6>
+                  <h6 class="m-0">#{ivy.cm.co('/webServer/ResponseHeaders')}</h6>
                 </div>
               </div>
               
               <h:panelGroup id="missingSecurityHeadersInfo" layout="block" rendered="#{not empty webServerBean.missingSecurityHeaders}" styleClass="ui-message ui-staticmessage ui-message-info">
                 <span class="ui-message-info-icon"></span>
-                <span class="ui-message-info-summary">Missing Security Headers?</span>
-                <span class="ui-message-info-detail">Security Headers are not recognized in the response, but maybe they are added via a reverse proxy (You can check that via the Browser DevTools): #{webServerBean.missingSecurityHeaders}.
-                  Check our <a href="#{advisorBean.engineGuideBaseUrl}/security/http-headers.html#http-headers"><i class="si si-hyperlink-3" /> documentation</a> for more details.
+                <span class="ui-message-info-summary">#{ivy.cm.co('/webServer/MissingSecurityHeadersSummaryMessage')}</span>
+                <span class="ui-message-info-detail">#{ivy.cm.co('/webServer/MissingSecurityHeadersDetailMessage')} #{webServerBean.missingSecurityHeaders}.
+                  <a href="#{advisorBean.engineGuideBaseUrl}/security/http-headers.html#http-headers">
+                    <h:outputText escape="false" value="#{ivy.cm.co('/webServer/CheckDocumentLink')}" />
+                  </a>
                 </span>
               </h:panelGroup>
-              
+
               <h:form id="responseForm">
-                <p:commandButton id="showResponseHeaders" value="Show Response Headers" icon="si si-view-1" actionListener="#{webServerBean.setShowResponseHeaders}" 
+                <p:commandButton id="showResponseHeaders" value="#{ivy.cm.co('/webServer/ShowResponseHeaders')}" icon="si si-view-1" actionListener="#{webServerBean.setShowResponseHeaders}" 
                   update="@form" rendered="#{!webServerBean.showResponseHeaders}" style="margin: 20px 0; width: 250px;" />
-                
-                <p:dataTable id="responseHeaderTable" var="data" value="#{webServerBean.responseData}" rendered="#{webServerBean.showResponseHeaders}">
-                  <p:column headerText="Response Header">
+
+                <p:dataTable id="responseHeaderTable" var="data" value="#{webServerBean.responseData}" rendered="#{webServerBean.showResponseHeaders}"
+                  emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+                  <p:column headerText="#{ivy.cm.co('/webServer/ResponseHeader')}">
                     <h:outputText styleClass="header" value="#{data.name}" />
                   </p:column>
-                  <p:column headerText="Value">
+                  <p:column headerText="#{ivy.cm.co('/common/Value')}">
                     <h:outputText value="#{data.value}" />
                   </p:column>
                 </p:dataTable>

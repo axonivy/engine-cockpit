@@ -6,29 +6,29 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><a href="cluster.xhtml">Cluster</a></li>
+      <li><a href="cluster.xhtml">#{ivy.cm.co('/common/Cluster')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
       <cc:TopBarItem href="#{advisorBean.engineGuideBaseUrl}/integration/cluster/index.html" />
     </ui:define>
-    
+
     <ui:define name="content">
       <div class="card">
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-monitor-network card-title-icon"></i>
-          <h2 class="m-0">Cluster</h2>
+          <h2 class="m-0">#{ivy.cm.co('/common/Cluster')}</h2>
         </div>
-        
+
         <p:tabView id="clusterTabView" styleClass="tab-view-card">
           <p:tab id="nodesTab">
             <f:facet name="title">
               <i class="si si-monitor table-icon" />
-              <h:outputText value=" Nodes" />
+              <h:outputText value="#{ivy.cm.co('/cluster/Nodes')}" />
             </f:facet>
             <h:form id="nodesForm">
               <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-                var="node" value="#{clusterBean.nodes}" widgetVar="clusterTable"
+                var="node" value="#{clusterBean.nodes}" widgetVar="clusterTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}"
                 lazy="false" styleClass="ui-fluid" id="clusterTable">
                 <f:facet name="header">
                   <div class="ui-input-icon-left filter-container">
@@ -36,8 +36,8 @@
                     <p:inputText id="globalFilter" placeholder="Search" value="#{clusterBean.filter}" onkeyup="PF('clusterTable').filter()" />
                   </div>
                 </f:facet>
-                
-                <p:column headerText="Name" sortBy="#{node.name}" filterBy="#{node.name}">
+
+                <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{node.name}" filterBy="#{node.name}">
                   <p:commandLink id="clusterNode">
                     <p:ajax listener="#{clusterBean.setActiveClusterNode(node)}" process="@this"
                       oncomplete="PF('clusterNodeDialog').show()" update="clusterNodeDialog" />
@@ -45,66 +45,66 @@
                     <h:outputText value="#{node.name}" styleClass="node-name" />
                   </p:commandLink>
                 </p:column>
-                <p:column headerText="Host" sortBy="#{node.hostName}" filterBy="#{node.hostName}">
+                <p:column headerText="#{ivy.cm.co('/common/Host')}" sortBy="#{node.hostName}" filterBy="#{node.hostName}">
                   <h:outputText value="#{node.hostName}" />
                 </p:column>
-                <p:column headerText="State" sortBy="#{node.state}" filterBy="#{node.state}">
+                <p:column headerText="#{ivy.cm.co('/common/State')}" sortBy="#{node.state}" filterBy="#{node.state}">
                   <h:outputText value="#{node.state}" styleClass="#{node.stateClass}" />
-                  <i class="#{node.licensedClass}" title="Node is not licensed. It will always response with error code 503 Service Unavailable."></i>
+                  <i class="#{node.licensedClass}" title="#{ivy.cm.co('/cluster/ClusterNodeState')}"></i>
                 </p:column>
-                <p:column headerText="Communication" sortBy="#{node.communicationState}" filterBy="#{node.communicationState}">
+                <p:column headerText="#{ivy.cm.co('/common/Communication')}" sortBy="#{node.communicationState}" filterBy="#{node.communicationState}">
                   <h:outputText value="#{node.communicationState}" styleClass="#{node.communicationStateClass}" />
                 </p:column>
-                <p:column headerText="Is Master" sortBy="#{node.master}">
+                <p:column headerText="#{ivy.cm.co('/common/IsMaster')}" sortBy="#{node.master}">
                   <h:outputText>
                     <i
                       class="si si-#{node.master ? 'check-circle-1' : 'remove-circle'} table-icon #{node.master ? 'state-active' : 'state-inactive'}"></i>
                   </h:outputText>
                 </p:column>
-                <p:column headerText="Is Local" sortBy="#{node.local}">
+                <p:column headerText="#{ivy.cm.co('/common/IsLocal')}" sortBy="#{node.local}">
                   <h:outputText>
                     <i
                       class="si si-#{node.local ? 'check-circle-1' : 'remove-circle'} table-icon #{node.local ? 'state-active' : 'state-inactive'}"></i>
                   </h:outputText>
                 </p:column>
-                <p:column headerText="Start Timestamp" sortBy="#{node.startTimestamp}">
+                <p:column headerText="#{ivy.cm.co('/common/StartTimestamp')}" sortBy="#{node.startTimestamp}">
                   <h:outputText value="#{node.startTimestamp}" />
                 </p:column>
-                <p:column headerText="Stop Timestamp" sortBy="#{node.stopTimestamp}">
+                <p:column headerText="#{ivy.cm.co('/common/StopTimestamp')}" sortBy="#{node.stopTimestamp}">
                   <h:outputText value="#{node.stopTimestamp}" />
                 </p:column>
-                <p:column headerText="Fail Timestamp" sortBy="#{node.failTimestamp}">
+                <p:column headerText="#{ivy.cm.co('/common/FailTimestamp')}" sortBy="#{node.failTimestamp}">
                   <h:outputText value="#{node.failTimestamp}" />
                 </p:column>
               </p:dataTable>
             </h:form>
           </p:tab>
-          
+
           <p:tab id="sessionsTab">
             <f:facet name="title">
               <i class="si si-analytics-graph-line" />
-              <h:outputText value=" Sessions" />
+              <h:outputText value="#{ivy.cm.co('/cluster/Sessions')}" />
             </f:facet>
             <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-              var="ses" value="#{clusterBean.sessions}" widgetVar="sessionsTable"
+              var="ses" value="#{clusterBean.sessions}" widgetVar="sessionsTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}"
               lazy="false" styleClass="ui-fluid" id="sessionsTable">
-              <p:column headerText="Context" sortBy="#{ses.context}">
+              <p:column headerText="#{ivy.cm.co('/cluster/Context')}" sortBy="#{ses.context}">
                 <h:outputText value="#{ses.context}" />
               </p:column>
-              <p:column headerText="Username" sortBy="#{ses.userName}">
+              <p:column headerText="#{ivy.cm.co('/common/Username')}" sortBy="#{ses.userName}">
                 <h:outputText value="#{ses.userName}" />
               </p:column>
-              <p:column headerText="Node" sortBy="#{ses.nodeName}">
+              <p:column headerText="#{ivy.cm.co('/cluster/Node')}" sortBy="#{ses.nodeName}">
                 <h:outputText value="#{ses.nodeName}" />
               </p:column>
             </p:dataTable>
           </p:tab>
         </p:tabView>
-        
+
       </div>
       <ui:include src="../includes/dialogs/clusternodeinfo.xhtml" />
     </ui:define>
-    
+
     <ui:define name="live-stats">
       <cc:Sidebar>
         <cc:LiveStats monitor="#{clusterMonitorBean.sendMessagesMonitor}" id="send" />

@@ -11,6 +11,7 @@ import javax.management.ObjectName;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
@@ -31,12 +32,13 @@ public class ClusterMonitorBean {
   private final Monitor receiveProcessingTimeMonitor;
 
   public ClusterMonitorBean() {
-    sendMessagesMonitor = Monitor.build().name("Sent Messages").icon("dns").toMonitor();
-    sendProcessingTimeMonitor = Monitor.build().name("Send Processing Time").icon("timer").yAxisLabel("Time")
-        .toMonitor();
-    receiveMessagesMonitor = Monitor.build().name("Received Messages").icon("dns").toMonitor();
-    receiveProcessingTimeMonitor = Monitor.build().name("Receive Processing Time").icon("timer")
-        .yAxisLabel("Time").toMonitor();
+    sendMessagesMonitor = Monitor.build().name(Ivy.cm().co("/liveStats/SentMessagesMonitor")).icon("dns").toMonitor();
+    sendProcessingTimeMonitor = Monitor.build().name(Ivy.cm().co("/liveStats/SendProcessingTimeMonitor")).icon("timer")
+        .yAxisLabel(Ivy.cm().co("/common/Time")).toMonitor();
+    receiveMessagesMonitor =
+        Monitor.build().name(Ivy.cm().co("/liveStats/ReceivedMessagesMonitor")).icon("dns").toMonitor();
+    receiveProcessingTimeMonitor = Monitor.build().name(Ivy.cm().co("/liveStats/ReceiveProcessingTimeMonitor"))
+        .icon("timer").yAxisLabel(Ivy.cm().co("/common/Time")).toMonitor();
 
     if (ManagementFactory.getPlatformMBeanServer().queryNames(CLUSTER_CHANNEL, null).isEmpty()) {
       return;
@@ -46,41 +48,41 @@ public class ClusterMonitorBean {
         "receiveErrors");
 
     sendMessagesMonitor.addInfoValue(format("%5d", sendMessages.deltaExecutions()));
-    sendMessagesMonitor.addInfoValue(format("Total %5d", sendMessages.executions()));
-    sendMessagesMonitor.addInfoValue(format("Errors %5d", sendMessages.deltaErrors()));
-    sendMessagesMonitor.addInfoValue(format("Errors Total %5d", sendMessages.errors()));
+    sendMessagesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/MessageMonitorTotalValue"), sendMessages.executions()));
+    sendMessagesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/MessageMonitorErrorsValue"), sendMessages.deltaErrors()));
+    sendMessagesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/MessageMonitorErrorsTotalValue"), sendMessages.errors()));
 
-    sendMessagesMonitor.addSeries(Series.build(sendMessages.deltaExecutions(), "Sent").toSeries());
-    sendMessagesMonitor.addSeries(Series.build(sendMessages.deltaErrors(), "Errors").toSeries());
+    sendMessagesMonitor.addSeries(Series.build(sendMessages.deltaExecutions(), Ivy.cm().co("/liveStats/MessagesMonitorSent")).toSeries());
+    sendMessagesMonitor.addSeries(Series.build(sendMessages.deltaErrors(), Ivy.cm().co("/liveStats/MonitorErrors")).toSeries());
 
-    sendProcessingTimeMonitor.addInfoValue(format("Min %t", sendMessages.deltaMinExecutionTime()));
-    sendProcessingTimeMonitor.addInfoValue(format("Avg %t", sendMessages.deltaAvgExecutionTime()));
-    sendProcessingTimeMonitor.addInfoValue(format("Max %t", sendMessages.deltaMaxExecutionTime()));
-    sendProcessingTimeMonitor.addInfoValue(format("Total %t", sendMessages.executionTime()));
+    sendProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ProcessingTimeMonitorMinValue"), sendMessages.deltaMinExecutionTime()));
+    sendProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ProcessingTimeMonitorAvgValue"), sendMessages.deltaAvgExecutionTime()));
+    sendProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ProcessingTimeMonitorMaxValue"), sendMessages.deltaMaxExecutionTime()));
+    sendProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ProcessingTimeMonitorTotal"), sendMessages.executionTime()));
 
-    sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaMinExecutionTime(), "Min").toSeries());
-    sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaAvgExecutionTime(), "Avg").toSeries());
-    sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaMaxExecutionTime(), "Max").toSeries());
+    sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaMinExecutionTime(), Ivy.cm().co("/liveStats/ProcessingTimeMonitorMin")).toSeries());
+    sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaAvgExecutionTime(), Ivy.cm().co("/liveStats/ProcessingTimeMonitorAvg")).toSeries());
+    sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaMaxExecutionTime(), Ivy.cm().co("/liveStats/ProcessingTimeMonitorMax")).toSeries());
 
     receiveMessagesMonitor.addInfoValue(format("%5d", receivedMessages.deltaExecutions()));
-    receiveMessagesMonitor.addInfoValue(format("Total %5d", receivedMessages.executions()));
-    receiveMessagesMonitor.addInfoValue(format("Errors %5d", receivedMessages.deltaErrors()));
-    receiveMessagesMonitor.addInfoValue(format("Errors Total %5d", receivedMessages.errors()));
+    receiveMessagesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/MessageMonitorTotalValue"), receivedMessages.executions()));
+    receiveMessagesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/MessageMonitorErrorsValue"), receivedMessages.deltaErrors()));
+    receiveMessagesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/MessageMonitorErrorsTotalValue"), receivedMessages.errors()));
 
-    receiveMessagesMonitor.addSeries(Series.build(receivedMessages.deltaExecutions(), "Received").toSeries());
-    receiveMessagesMonitor.addSeries(Series.build(receivedMessages.deltaErrors(), "Errors").toSeries());
+    receiveMessagesMonitor.addSeries(Series.build(receivedMessages.deltaExecutions(), Ivy.cm().co("/liveStats/MessagesMonitorReceived")).toSeries());
+    receiveMessagesMonitor.addSeries(Series.build(receivedMessages.deltaErrors(), Ivy.cm().co("/liveStats/MonitorErrors")).toSeries());
 
-    receiveProcessingTimeMonitor.addInfoValue(format("Min %t", receivedMessages.deltaMinExecutionTime()));
-    receiveProcessingTimeMonitor.addInfoValue(format("Avg %t", receivedMessages.deltaAvgExecutionTime()));
-    receiveProcessingTimeMonitor.addInfoValue(format("Max %t", receivedMessages.deltaMaxExecutionTime()));
-    receiveProcessingTimeMonitor.addInfoValue(format("Total %t", receivedMessages.executionTime()));
+    receiveProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ProcessingTimeMonitorMinValue"), receivedMessages.deltaMinExecutionTime()));
+    receiveProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ProcessingTimeMonitorAvgValue"), receivedMessages.deltaAvgExecutionTime()));
+    receiveProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ProcessingTimeMonitorMaxValue"), receivedMessages.deltaMaxExecutionTime()));
+    receiveProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ProcessingTimeMonitorTotal"), receivedMessages.executionTime()));
 
     receiveProcessingTimeMonitor
-        .addSeries(Series.build(receivedMessages.deltaMinExecutionTime(), "Min").toSeries());
+        .addSeries(Series.build(receivedMessages.deltaMinExecutionTime(), Ivy.cm().co("/liveStats/ProcessingTimeMonitorMin")).toSeries());
     receiveProcessingTimeMonitor
-        .addSeries(Series.build(receivedMessages.deltaAvgExecutionTime(), "Avg").toSeries());
+        .addSeries(Series.build(receivedMessages.deltaAvgExecutionTime(), Ivy.cm().co("/liveStats/ProcessingTimeMonitorAvg")).toSeries());
     receiveProcessingTimeMonitor
-        .addSeries(Series.build(receivedMessages.deltaMaxExecutionTime(), "Max").toSeries());
+        .addSeries(Series.build(receivedMessages.deltaMaxExecutionTime(), Ivy.cm().co("/liveStats/ProcessingTimeMonitorMax")).toSeries());
   }
 
   public Monitor getSendMessagesMonitor() {

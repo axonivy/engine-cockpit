@@ -51,17 +51,17 @@
               url="admins.xhtml" />
             <p:menuitem id="sr_systemdb" value="#{ivy.cm.co('/common/SystemDatabase')}" icon="si si-database-settings"
               url="systemdb.xhtml" />
-            <p:menuitem id="sr_licence" value="#{ivy.cm.co('/sidebar/Licence')}" icon="si si-real-estate-action-house-key"
+            <p:menuitem id="sr_licence" value="#{ivy.cm.co('/common/Licence')}" icon="si si-real-estate-action-house-key"
               url="licence.xhtml" />
-            <p:menuitem id="sr_web_server" value="#{ivy.cm.co('/sidebar/WebServer')}" icon="si si-network-signal"
+            <p:menuitem id="sr_web_server" value="#{ivy.cm.co('/common/WebServer')}" icon="si si-network-signal"
               url="webserver.xhtml" />
-            <p:menuitem id="sr_system_config" value="#{ivy.cm.co('/sidebar/SystemConfiguration')}" icon="si si-cog-double"
+            <p:menuitem id="sr_system_config" value="#{ivy.cm.co('/common/SystemConfiguration')}" icon="si si-cog-double"
               url="systemconfig.xhtml" />
-            <p:menuitem id="sr_ssl" value="#{ivy.cm.co('/sidebar/SSL')}" icon="si si-lock-1"
+            <p:menuitem id="sr_ssl" value="#{ivy.cm.co('/common/SSL')}" icon="si si-lock-1"
               url="sslconfig.xhtml" />
-            <p:menuitem id="sr_cluster" value="#{ivy.cm.co('/sidebar/Cluster')}" icon="si si-monitor-network" url="cluster.xhtml"
+            <p:menuitem id="sr_cluster" value="#{ivy.cm.co('/common/Cluster')}" icon="si si-monitor-network" url="cluster.xhtml"
               rendered="#{clusterBean.clusterServer or param['cluster'] != null}" />
-            <p:menuitem id="sr_editor" value="#{ivy.cm.co('/sidebar/ConfigFileEditor')}" icon="si si-common-file-text-edit" url="editor.xhtml" />
+            <p:menuitem id="sr_editor" value="#{ivy.cm.co('/common/ConfigFileEditor')}" icon="si si-common-file-text-edit" url="editor.xhtml" />
           </p:submenu>
           <p:submenu id="sr_monitor" label="#{ivy.cm.co('/sidebar/Monitor')}" icon="si si-pie-line-graph-desktop">
             <p:menuitem id="sr_monitor_os" value="#{ivy.cm.co('/sidebar/OS')}" icon="si si-server-search" url="monitorOs.xhtml" />

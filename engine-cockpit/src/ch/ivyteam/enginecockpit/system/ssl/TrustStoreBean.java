@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
 
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.TrustStoreConfig;
 
@@ -122,7 +123,7 @@ public class TrustStoreBean implements SslTableStore {
     store.setAlgorithm(algorithm);
     sslClientSettings.setEnableInsecureSSL(enableInsecureSSL);
     FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
-        new FacesMessage("Trust Store configurations saved"));
+        new FacesMessage(Ivy.cm().co("/sslTrustStore/TrustStoreConfigurationsSavedMessage")));
   }
 
   @Override
@@ -142,10 +143,11 @@ public class TrustStoreBean implements SslTableStore {
     if ("X.509".equals(cert.getPublicKey().getFormat())) {
       X509Certificate X509cert = (X509Certificate) cert;
       FacesContext.getCurrentInstance().addMessage("addMissingCertSuccess",
-          new FacesMessage(X509cert.getSubjectX500Principal() + " was successfully added"));
+          new FacesMessage(Ivy.cms().co("/tlsTesterMissingCertView/AddX509CertificateToTruststoreSuccessMesage",
+              Arrays.asList(X509cert.getSubjectX500Principal()))));
     } else {
       FacesContext.getCurrentInstance().addMessage("addMissingCertSuccess",
-          new FacesMessage("The certificate was successfully added."));
+          new FacesMessage(Ivy.cm().co("/tlsTesterMissingCertView/AddCertificateToTruststoreSuccessMesage")));
     }
   }
 

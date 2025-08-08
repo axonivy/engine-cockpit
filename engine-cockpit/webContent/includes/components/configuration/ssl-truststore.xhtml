@@ -17,8 +17,8 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-information-circle"></i>
-        <h6 class="m-0">Trust Store configurations</h6>
-        <p:commandButton title="Save" icon="si si-floppy-disk" id="save"
+        <h6 class="m-0">#{ivy.cm.co('/sslTrustStore/TrustStoreConfigurations')}</h6>
+        <p:commandButton title="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk" id="save"
           styleClass="flex-shrink-0 ml-auto ml-1 ui-button-success rounded-button"
           actionListener="#{trustStoreBean.saveTrustStore}" />
       </div>
@@ -28,28 +28,28 @@
       columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9"
       layout="flex" styleClass="grey-label-panel ui-fluid">
 
-      <label>File</label>
+      <label>#{ivy.cm.co('/common/File')}</label>
         <p:inputText id="trustStoreFile"
           value="#{trustStoreBean.file}"/>
 
-      <label>Password</label>
+      <label>#{ivy.cm.co('/common/Password')}</label>
       <p:password id="trustStorePassword"
         value="#{trustStoreBean.password}" />
 
-      <label>Provider</label>
+      <label>#{ivy.cm.co('/common/Provider')}</label>
       <p:selectOneMenu id="trustStoreProvider"
         value="#{trustStoreBean.provider}">
         <p:ajax update="sslClientform:trustStoreType"></p:ajax>
         <f:selectItems value="#{trustStoreBean.providers}" />
       </p:selectOneMenu>
 
-      <label>Type</label>
+      <label>#{ivy.cm.co('/common/Type')}</label>
       <p:selectOneMenu id="trustStoreType"
         value="#{trustStoreBean.type}">
         <f:selectItems value="#{trustStoreBean.types}" />
       </p:selectOneMenu>
 
-      <label>Algorithm</label>
+      <label>#{ivy.cm.co('/common/Algorithm')}</label>
       <p:selectOneMenu id="trustStoreAlgorithm"
         value="#{trustStoreBean.algorithm}">
         <f:selectItems value="#{trustStoreBean.algorithms}" />
@@ -58,7 +58,7 @@
     </p:panelGrid>
     <p:selectBooleanCheckbox id="enableInsecureSSL"
       value="#{trustStoreBean.enableInsecureSSL}"
-      itemLabel="Enable insecure SSL and HTTPS connections" />
+      itemLabel="#{ivy.cm.co('/sslTrustStore/EnableInsecureSSLAndHTTPSConnections')}" />
   </h:form>
 </div>
 

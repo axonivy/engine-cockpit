@@ -37,17 +37,17 @@
         <cc:SystemDb id="systemDb" updateFields="systemDb:systemDbForm:connectionPanel,sysDbSaveButtons" />
       </div>
 
-      <p:dialog style="min-width: 300px;" header="No Connection" id="saveUnknownConnectionModel"
+      <p:dialog style="min-width: 300px;" header="#{ivy.cm.co('/systemDb/NoConnection')}" id="saveUnknownConnectionModel"
         widgetVar="saveUnknownConnectionModel" modal="true" responsive="true" closeOnEscape="true"
         styleClass="dashboard-card">
         <h:form id="saveUnknownConnectionForm" styleClass="custom-dialog-form">
-          <p:staticMessage severity="warn" summary="No Connection"
-            detail="Do really you want to save this configuration?" />
+          <p:staticMessage severity="warn" summary="#{ivy.cm.co('/systemDb/NoConnection')}"
+            detail="#{ivy.cm.co('/systemDb/SaveUnknownConnectionWarningMessage')}" />
           <div class="custom-dialog-footer">
             <p:commandButton id="cancelSaveUnknownConnection" onclick="PF('saveUnknownConnectionModel').hide();"
-              value="Cancel" type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+              value="#{ivy.cm.co('/common/Cancel')}" type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
             <p:commandButton id="saveUnknownConneciton" actionListener="#{systemDatabaseBean.saveConfiguration}"
-              value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" widgetVar="saveUnknownConneciton"
+              value="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk" styleClass="modal-input-button" widgetVar="saveUnknownConneciton"
               oncomplete="PF('saveUnknownConnectionModel').hide();" />
           </div>
         </h:form>

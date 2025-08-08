@@ -15,16 +15,12 @@ admins:
 applicationDetail:
   ProcessModels: プロセスモデル
 applications:
-  ActivateButtonTitle: 有効化
-  AddButton: 追加
   AppPmPmvHeader: アプリ / PM / PMV
   ApplicationConvertToLatestVersionMessage: 状態が「RELEASED」または「DEPRECATED」のすべてのAxon Ivyプロジェクトが最新のバージョンに更新されます。
   ApplicationWarningMessageForNoReleasedPmv: 少なくとも1つのプロセスモデルにリリースされたプロセスモデルバージョンがありません
-  CollapseAllButtonTitle: すべて折りたたむ
   Convert: 変換
   ConvertButtonTitle: プロジェクトを最新バージョンにコンバートします
   DeactivateButtonTitle: 無効化
-  DeleteButtonTitle: 削除
   DeleteHintMessage: この {0} を削除してよろしいですか？
   DeleteRunningCasesHintMessage: '{0}には{1}のアクティブなケースがあります。これらも削除されます。'
   DeploymentButtonTitle: デプロイ
@@ -32,7 +28,6 @@ applications:
   DisableErrorMessage: アプリケーション ''{0}'' の状態を評価できません。
   ExecutionErrorMessageSummary: '{0} モジュールを {0} できませんでした'
   ExecutionSuccessMessageSummary: '{0} モジュールを正常に実行しました'
-  ExpandAllButtonTitle: すべて展開
   ForceDeleteButtonTitle: 強制削除
   LastChangeDate: '最終変更日:'
   LibraryVersion: 'ライブラリバージョン:'
@@ -51,8 +46,6 @@ axonivy:
   Copyright: 著作権
   CopyrightValue: '&amp;copy; 2001 - '
   InstallationDirectory: インストールディレクトリ
-  Product: 製品
-  Version: バージョン
 branding:
   ChooseOrDropFileWhichEndsWith: ファイルを選択またはドロップしてください（ファイル名に以下の文字列が含まれるもの）：
   DefaultValue: 'デフォルト値: '
@@ -87,11 +80,31 @@ channelState:
   FailedDeliverAttempsSoFar: '現在の失敗した配信試行回数:'
   LastError: '最後のエラー:'
   NextRetryToDeliver: '次の配信再試行:'
+cluster:
+  ClusterNodeState: ノードはライセンスを取得していません。常にエラーコード503「サービス利用不可」を返します。
+  Context: 文脈
+  Node: ノード
+  Nodes: ' ノード'
+  Sessions: ' セッション'
+clusterNodeInfo:
+  AxonIvyVersion: Axon Ivy バージョン
+  ClusterNodeDetail: クラスター ノードの詳細
+  IPAddress: IPアドレス
+  IPPort: IP ポート
+  IsLicensed: ライセンスを取得しています
+  JavaVersion: Java バージョン
+  JavaVirtualMachineName: Java仮想マシン名
+  JvmRoute: JVM ルート
+  OperatingSystemArchitecture: オペレーティングシステムアーキテクチャ
+  OperatingSystemName: オペレーティングシステム名
+  OperatingSystemVersion: オペレーティングシステム バージョン
+  Sessions: ' セッション'
 common:
   Activate: アクティベート
   Activity: アクティビティ
   Add: 追加
   Administrators: 管理者
+  Algorithm: アルゴリズム
   Application: アプリケーション
   Applications: アプリケーション
   Apply: 申請
@@ -110,9 +123,12 @@ common:
   Choose: 選択
   Clear: クリア
   Close: 閉じる
+  Cluster: クラスヒストグラム
   Cockpit: コックピット
   CollapseAll: すべて折りたたむ
   Color: 色
+  Communication: 通信
+  ConfigFileEditor: クラスター
   Configuration: 設定
   Confirm: 確認
   Connections: 接続
@@ -130,6 +146,7 @@ common:
   Deployment: 展開
   Description: 説明
   Disable: 無効化
+  DiskSize: ディスク容量
   Download: ダウンロード
   DownloadRecording: 録画をダウンロード
   Driver: ドライバー
@@ -145,22 +162,29 @@ common:
   ExecutionHistory: 実行履歴（直近200件）
   ExecutionTime: 実行時間
   ExpandAll: すべて展開
+  FailTimestamp: 失敗時刻スタンプ
   Failed: 失敗
   Failure: 失敗
   Feature: 機能
   Features: 機能
   FeaturesAndProperties: 機能と特性
+  File: ファイル
   Filter: フィルター
   Finish: 仕上げ
   Finished: 仕上げ済み
+  Fragmentation: 断片化
   FullName: フルネーム
   Health: 健康
   Help: ヘルプ
+  Host: ホスト
   ID: ID
   Info: 情報
   Instances: インスタンス
+  IsLocal: ローカルですか？
+  IsMaster: マスターですか？
   Key: キー
   Language: 言語
+  Licence: 無効なライセンスがインストールされています。{0}
   Limit: 制限
   Lock: ロック
   Login: ログイン
@@ -174,11 +198,13 @@ common:
   MoreOptions: 詳細オプション
   Name: 名前
   Next: 次
+  'No': いいえ
   NoData: データなし
   NoDataAvailable: データがありません
   NoRecordsFound: 記録が見つかりませんでした。
   NoValue: 値がありません
   None: なし
+  NotAvailable: n.a.
   NotFoundApplication: アプリケーション ''{0}'' が見つかりません
   NotificationChannels: 通知チャネル
   OK: OK
@@ -195,6 +221,7 @@ common:
   ProcessModel: プロセスモデル
   ProcessModelVersion: プロセスモデルバージョン
   ProcessName: プロセス名
+  Product: Javaの詳細
   Properties: プロパティ
   Property: プロパティ
   Provider: プロバイダー
@@ -213,6 +240,7 @@ common:
   Run: 実行
   RunSearchEngineQuery: 実行中の検索エンジンクエリ
   RunningCases: 実行中のケース
+  SSL: システムデータベース
   Save: 保存
   SaveAndCreate: 保存して作成
   SaveChanges: 変更を保存
@@ -231,12 +259,17 @@ common:
   Source: ソース
   Start: 開始
   StartTime: 開始時間
+  StartTimestamp: 開始時刻スタンプ
   State: 状態
   StopRecording: 記録停止
   StopTime: 停止時間
+  StopTimestamp: 停止時刻スタンプ
   Success: 成功
   Synchronize: 同期
   System: セキュリティシステム
+  SystemConfiguration: Webサーバー
+  TableName: テーブル名
+  Tables: テーブル
   Template: テンプレート
   Time: 時間
   Timestamp: タイムスタンプ
@@ -252,6 +285,8 @@ common:
   Variables: 変数
   Version: バージョン
   Warning: 警告
+  Warnings: 警告
+  WebServer: 設定状態
   WebServiceClients: Webサービスクライアント
   WebServiceProcesses: Web サービス プロセス
   Write: 書き込み
@@ -321,6 +356,17 @@ deployment:
 directoryBrowser:
   DirectoryBrowserDialogHeader: バージョン
   NodePropertiesEmptyMessage: バージョン範囲
+editor:
+  AutoMigratedToLatestVersionWarningMessage: これらのファイルの内容は、最新のバージョンに自動移行されました。
+  DownloadP12: ダウンロード .p12
+  NotFoundConfigFile: 設定ファイル『{0}』が見つかりません
+  ReadOnlyFileWarningMessage: このファイルは読み取り専用です！
+  ReadOnlyOriginalFileWarningMessage: 元のファイル {0} は読み取り専用です。このファイルは起動時に書き込み可能なディレクトリにコピーされました。変更内容は元のファイルに手動で適用する必要があります。これにより、再起動後も変更内容が保持されます。
+  UploadFileErrorDetailMessage: 『{0}』は、ファイル拡張子が正しくないためアップロードできませんでした。
+  UploadFileErrorSummaryMessage: 無効な拡張子
+  UploadFileSuccessDetailMessage: 『{0}』 が正常にアップロードされ、{1} として保存されました。
+  UploadFileSuccessSummaryMessage: ファイルがアップロードされました
+  UploadP12: アップロード .p12
 email:
   ConfigureEmailServer: ディレクトリブラウザ
   Email: ノードを選択してその属性を表示
@@ -364,6 +410,12 @@ health:
   ProblemsDetectedMessage: 問題
   RunHealthChecks: '{0} の問題が検出されました。'
   Severity: 健康状態チェックを実行
+indexes:
+  Cardinality: 基数
+  Columns: 列
+  Indexes: 索引
+  Pages: ページ
+  Unique: ユニーク
 indices:
   ClosedIndexHint: 深刻度
   Index: ディスク容量が不足しているようです。検索エンジンのウォーターマーク設定を確認してください。
@@ -398,12 +450,13 @@ information:
 java:
   Java: ワークフロー UI
   JavaDetails: Java
-  Product: Javaの詳細
   Vendor: 製品
   Version: ベンダー
 javaInfo:
   JVMArgumentTableHeader: Java 詳細
   JavaDetailDialogHeader: バージョン
+jdbcDriver:
+  JDBCDriver: JDBC ドライバー
 licence:
   ChooseLicence: JVM 引数
   ChooseLicencePlaceholder: ライセンスを選択
@@ -416,7 +469,6 @@ licence:
   ExpiredLicenceTouchYourSalesMessage: ライセンスが期限切れです。{0}
   Expires: ライセンスが間もなく期限切れになります。販売担当までご連絡ください。
   InvalidLicenceMessage: 有効期限切れ
-  Licence: 無効なライセンスがインストールされています。{0}
   LicenceEvents: ライセンス
   LicenceType: ライセンスイベント
   NamedUsers: ライセンスの種類
@@ -431,37 +483,61 @@ licenceEvents:
   LicenceEventsDialogHeader: すべてを確認してください
   SupportReportDialogContent: ライセンスイベント
 liveStats:
-  Calls: '&lt;p&gt;Axon Ivy Engineを使用中に問題が発生した場合は、サポートチケットを開き、このZIPアーカイブをダウンロードしてチケットに添付してください。&lt;/p&gt; &lt;p&gt;このZIPアーカイブには以下の内容が含まれています：&lt;/p&gt; &lt;ul&gt;     &lt;li&gt;Axon Ivy Engine サポートレポート&lt;/li&gt;      &lt;li&gt;本日のログファイル&lt;/li&gt; &lt;/ul&gt;'
-  CallsMonitorErrors: コール
-  CallsMonitorErrorsTotalValue: エラー
+  Bytes: バイト
+  Calls: 通話
+  CallsMonitorErrorsTotalValue: エラーの合計 %5d
   CallsMonitorErrorsValue: エラー 総数 %5d
   CallsMonitorTotalValue: エラー %5d
   ConnectionsMonitorMaxValue: 合計 %5d
-  ConnectionsMonitorOpen: 最大 %5d
-  ConnectionsMonitorOpenValue: 開いている
-  ConnectionsMonitorUsed: 開いている %5d
-  ConnectionsMonitorUsedValue: 使用中
-  DatabaseConnections: 使用中 %5d
-  DatabaseQueries: データベース接続
-  DatabaseQueryExecutionTime: データベースクエリ
-  ExecutionTimeMonitorAvg: データベースクエリ実行時間
-  ExecutionTimeMonitorAvgValue: 平均
-  ExecutionTimeMonitorMax: 平均 %t
-  ExecutionTimeMonitorMaxValue: 最大
-  ExecutionTimeMonitorMin: 最大 %t
-  ExecutionTimeMonitorMinValue: 最小
-  ExecutionTimeMonitorTotalValue: 最小値 %t
-  ExecutionTimeYAxisLabel: 合計 %t
-  Queries: 実行時間
-  QueriesMonitorErrors: クエリ
-  QueriesMonitorErrorsTotalValue: エラー
-  QueriesMonitorErrorsValue: エラー 総数 %5d
-  QueriesMonitorTotalValue: エラー数 %5d
-  RestClientCalls: 合計 %5d
-  RestClientConnections: RESTクライアント呼び出し
-  RestClientExecutionTime: RESTクライアント接続数
-  WebServiceCalls: RESTクライアント実行時間
-  WebServiceExecutionTime: Web サービス呼び出し
+  ConnectionsMonitorOpen: 開く
+  ConnectionsMonitorOpenValue: 開く %5d
+  ConnectionsMonitorUsed: 使用済み
+  ConnectionsMonitorUsedValue: 使用済み %5d
+  DatabaseConnections: データベース接続
+  DatabaseQueries: データベースクエリ
+  DatabaseQueryExecutionTime: データベースクエリの実行時間
+  ExecutionTimeMonitorAvg: 平均
+  ExecutionTimeMonitorAvgValue: 平均 %t
+  ExecutionTimeMonitorMax: 最大
+  ExecutionTimeMonitorMaxValue: 最大 %t
+  ExecutionTimeMonitorMin: 最小
+  ExecutionTimeMonitorMinValue: 最小 %t
+  ExecutionTimeMonitorTotalValue: 合計 %t
+  ExecutionTimeYAxisLabel: 実行時間
+  MessageMonitorErrorsTotalValue: エラーの合計 %5d
+  MessageMonitorErrorsValue: エラー %5d
+  MessageMonitorTotalValue: 合計 %t
+  MessagesMonitorReceived: 受領
+  MessagesMonitorSent: 送信
+  MonitorErrors: コール
+  MonitorErrorsTotalValue: ' 合計 %5d'
+  ProcessingTime: 処理時間
+  ProcessingTimeMonitorAvg: 平均
+  ProcessingTimeMonitorAvgValue: 平均 %t
+  ProcessingTimeMonitorMax: 最大
+  ProcessingTimeMonitorMaxValue: 最大 %t
+  ProcessingTimeMonitorMin: 最小
+  ProcessingTimeMonitorMinValue: 最小 %t
+  ProcessingTimeMonitorTotal: 合計 %t
+  ProcessingTimeMonitorTotalValue: ' 合計 %t'
+  Queries: クエリ
+  QueriesMonitorErrors: エラー
+  QueriesMonitorErrorsTotalValue: エラーの合計 %5d
+  QueriesMonitorErrorsValue: エラー %5d
+  QueriesMonitorTotalValue: 合計 %5d
+  ReceiveProcessingTimeMonitor: 受領処理時間
+  Received: ' 受領'
+  ReceivedMessagesMonitor: 受信メッセージ
+  Requests: リクエスト
+  RestClientCalls: RESTクライアントの呼び出し
+  RestClientConnections: RESTクライアント接続
+  RestClientExecutionTime: RESTクライアントの実行時間
+  SendProcessingTimeMonitor: 送信処理時間
+  Sent: ' 送信'
+  SentMessagesMonitor: 送信したメッセージ
+  Transactions: 取引
+  WebServiceCalls: ウェブサービス呼び出し
+  WebServiceExecutionTime: ウェブサービスの実行時間
 login:
   EngineCockpitLoginTitle: Web サービス実行時間
   IvyYamlFile: エンジン コックピット - ログイン
@@ -958,8 +1034,6 @@ setupStorage:
 sidebar:
   Cache: AppDirectoryは空にしてはいけません
   ClassHistogram: キャッシュ
-  Cluster: クラスヒストグラム
-  ConfigFileEditor: クラスター
   Dashboard: 設定ファイルエディター
   Databases: ダッシュボード
   Documents: データベース
@@ -985,30 +1059,50 @@ sidebar:
   RestClients: 役割
   RestServices: セッション
   Roles: 遅いリクエスト
-  SSL: システムデータベース
   SearchEngine: SSL
   Services: 開始イベント
   Sessions: システム
   SlowRequests: システム設定
   StartEvents: スレッド
-  System: トラフィックグラフ
-  SystemConfiguration: Webサーバー
   SystemDatabase: ワークフロー
   Threads: エンドポイント
   TrafficGraph: 操作
-  WebServer: 設定状態
   WebServiceClients: サポートレポートのダウンロード
   WebServiceProcesses: '&lt;p&gt;Axon Ivy Engineを使用中に問題が発生した場合は、サポートチケットを開き、このZIPアーカイブをダウンロードしてチケットに添付してください。&lt;/p&gt; &lt;p&gt;このZIPアーカイブには以下の内容が含まれています：&lt;/p&gt; &lt;ul&gt;     &lt;li&gt;Axon Ivy Engine サポートレポート&lt;/li&gt;      &lt;li&gt;本日のログファイル&lt;/li&gt; &lt;/ul&gt;'
   Workflow: サポートレポート
 soapHistory:
   Endpoint: システムDbの構成
   Operation: ドライバー
+sslConfig:
+  KeyStoreCertificates: キーストア証明書
+  TrustStoreCertificates: 信頼ストア証明書
+sslKeyStore:
+  KeyPassword: キーパスワード
+  KeyStoreConfigurations: キーストアの設定
+  KeyStoreConfigurationsSavedMessage: キーストアの設定が保存されました
+  StorePassword: ストアパスワード
+  UseCustomKeyStore: カスタム キー ストアを使用する
+sslTable:
+  AddCertificate: 証明書を追加する
+  Alias: 別名
+  ExpiryDate: 有効期限
+  Subject: 件名
+  ValidCertificate: 有効
+sslTrustStore:
+  EnableInsecureSSLAndHTTPSConnections: 不安全なSSLおよびHTTPS接続を有効にする
+  TrustStoreConfigurations: トラスト ストアの設定
+  TrustStoreConfigurationsSavedMessage: トラスト ストアの設定が保存されました
 state:
   ConfiguredState: HSQL メモリ DB が使用されています
 supportReport:
   DownloadSupportReport: ライセンスがインストールされていません
   SupportReportDialogContent: ドライバー
   SupportReportDialogHeader: システムデータベース
+systemConfig:
+  ReloadSystemConfiguration: システム構成の再読み込み
+  ReloadSystemConfigurationMessage: システム構成の再設定
+  ShowConfigurationLog: 設定ログを表示する
+  ShowSecuritySystems: セキュリティシステムを表示する
 systemDatabase:
   ConfigureSystemDb: URL
   Driver: 追加のプロパティ
@@ -1035,7 +1129,14 @@ systemDb:
   DeleteButtonTitle: サーバーインデックス
   Driver: 健康状態の詳細を表示 ...
   Error: サポートレポート
+  NoConnection: 接続なし
+  SaveUnknownConnectionWarningMessage: 本当にこの設定を保存しますか？
   SystemDatabaseConfigSavedSuccessfulMessage: テスト
+systemDbInfo:
+  LoadDataDetailMessage: これには数分かかる場合があります。
+  LoadDataSummaryMessage: 収集システム データベース情報
+tables:
+  RowCount: 行数
 template:
   ClusterModeWarning: 信頼ストアに追加
   Logout: '証明書が欠落しています:'
@@ -1045,12 +1146,19 @@ template:
 tlsTester:
   Tests: '有効期限:'
 tlsTesterMissingCertView:
+  AddCertificateToTruststoreSuccessMesage: 証明書が正常に追加されました。
   AddToTruststore: ロールの親を更新
+  AddX509CertificateToTruststoreSuccessMesage: '{0} が正常に追加されました。'
   MissingCert: これは、少なくとも動的でない役割の場合、重要な危険な操作です。役割の階層構造はAxon Ivyプロジェクトで定義されており、実行中のプロセスはこの階層構造に依存している可能性があります。
   PublicKey: タスクを実行可能
   Subject: 個人タスク
   ValidFrom: 開始されたケース
   ValidUntil: タスクを処理中
+topBarItem:
+  Help: ヘルプ
+triggers:
+  Timing: タイミング
+  Triggers: トリガー
 updateRoleParent:
   UpdateRoleParentDialogHeader: 欠勤
   UpdateRoleParentDialogWarningMessage: 終了
@@ -1127,12 +1235,36 @@ usersTable:
   SynchSingleUser: xxxx
   Working: xxxx
 webServer:
-  ChangedConfigSuccessfulMessage: xxxx
-  Enabled: xxxx
+  BaseUrl: ベースURL
+  BaseUrlHelpMessage: エンジンがリクエストなしで絶対URIを構築するために使用するベースURL（メールリンクなど）
+  BaseUrlProblemDetectedDetailMessage: 「Base Url」は、現在のブラウザのベースURLと異なるようです。正しく「Base Url」を設定する必要があるかもしれません。
+  BaseUrlProblemDetectedSummaryMessage: 問題が検出されました
+  BaseUrlSavedMessage: ベースURLが保存されました
+  BaseUrlSettings: ベースURL設定
+  ChangedConfigSuccessfulMessage: 「{0}」が正常に変更されました。
+  CheckDocumentLink: 詳細については、当社の<i class="si si-hyperlink-3"></i>ドキュメントをご確認ください。
+  Enabled: '有効:'
+  EvaluatedUrl: 評価対象のURL
+  EvaluatedUrlHelpMessage: 外部リンクの計算方法の例
+  ExternalBaseUrl: 外部ベースURL
+  ExternalBaseUrlHelpMessage: エンジンが絶対URI（スタートリンク、メールリンクなど）を生成するために使用するベースURL。
+  ExternalBaseUrlProblemDetectedDetailMessage: 「外部ベースURL」は、現在のブラウザのベースURLと異なるようです。
+  ExternalBaseUrlProblemDetectedSummaryMessage: 問題が検出されました
   HTTPConnector: HTTP コネクタ
   HTTPSConnectorctor: HTTPS コネクタ
+  MissingSecurityHeadersDetailMessage: セキュリティヘッダーはレスポンスで認識されていませんが、リバースプロキシ経由で追加されている可能性があります（ブラウザのデベロッパーツールで確認できます）：
+  MissingSecurityHeadersSummaryMessage: セキュリティヘッダーが欠落していますか？
   Port: 'ポート:'
-  StepWarningMessage: HTTP または HTTPS コネクタの少なくとも一方を有効にしてください
+  RemoteAddress: リモートアドレス
+  RemoteAddressHelpMessage: リクエストが送信される元のアドレス形式（あなたのIPアドレスであるべきです）
+  RequestData: データのリクエスト
+  RequestHeader: リクエストヘッダー
+  ResponseHeader: レスポンスヘッダー
+  ResponseHeaders: レスポンスヘッダー
+  ShowRequestHeaders: リクエストヘッダーを表示する
+  ShowResponseHeaders: レスポンスヘッダーを表示する
+  StepWarningMessage: 少なくともHTTPまたはHTTPSコネクタを有効にします。
+  WebServerConnectors: ウェブサーバー接続アダプター
 webServiceConfiguration:
   ResetConfiguration: 設定をリセット
   ResetWSConfirmDialogHeader: Web サービスをリセット

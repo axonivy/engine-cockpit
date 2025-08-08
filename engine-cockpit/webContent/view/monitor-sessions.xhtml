@@ -83,7 +83,7 @@
                 </h:outputText>
               </p:column>
 
-              <p:column headerText="#{ivy.cm.co('/sidebar/System')}" sortBy="#{ses.securitySystem}">
+              <p:column headerText="#{ivy.cm.co('/common/System')}" sortBy="#{ses.securitySystem}">
                 <h:outputLink value="#{ses.securitySystemLink}" rendered="#{!ses.isSecuritySystemInternal()}">#{ses.securitySystem}</h:outputLink>
                 <h:outputText value="#{ses.securitySystem}" rendered="#{ses.isSecuritySystemInternal()}" />
               </p:column>

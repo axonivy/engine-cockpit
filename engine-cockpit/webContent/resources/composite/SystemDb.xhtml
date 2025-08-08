@@ -121,7 +121,7 @@
           <label>#{ivy.cms.co('/systemDb/AdditionalProperties')}</label>
           <h:panelGroup>
             <p:dataTable var="property" value="#{systemDatabaseBean.additionalProperties}"
-              id="additionalPropertiesTable" styleClass="no-header-table">
+              id="additionalPropertiesTable" styleClass="no-header-table" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
               <p:column>
                 <h:outputText value="#{property.key}" styleClass="property_key" />
               </p:column>
@@ -133,7 +133,7 @@
                   actionListener="#{systemDatabaseBean.removeProp(property.key)}"
                   update="@form:additionalPropertiesTable,#{cc.attrs.updateFields}"
                   icon="si si-bin-1"
-                  title="#{ivy.cms.co('/systemDb/DeleteButtonTitle')}"
+                  title="#{ivy.cms.co('/common/Delete')}"
                   styleClass="ui-button-danger rounded-button"
                   process="@this" />
               </p:column>

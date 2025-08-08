@@ -15,16 +15,12 @@ admins:
 applicationDetail:
   ProcessModels: Process Models
 applications:
-  ActivateButtonTitle: Activate
-  AddButton: Add
   AppPmPmvHeader: App / PM / PMV
   ApplicationConvertToLatestVersionMessage: All Axon Ivy Projects in state RELEASED and DEPRECATED will be converted to the latest version.
   ApplicationWarningMessageForNoReleasedPmv: At least one process model has no released process model version
-  CollapseAllButtonTitle: Collapse all
   Convert: Convert
   ConvertButtonTitle: Converts the project to the latest version
   DeactivateButtonTitle: Deactivate
-  DeleteButtonTitle: Delete
   DeleteHintMessage: Are you sure you want to delete this {0} ?
   DeleteRunningCasesHintMessage: '{0} has {1} running cases. They will also be deleted.'
   DeploymentButtonTitle: Deployment
@@ -34,7 +30,6 @@ applications:
   DisableErrorMessage: Cannot evaluate the state of the application ''{0}''
   ExecutionErrorMessageSummary: Could not {0} module
   ExecutionSuccessMessageSummary: Successfully {0} module
-  ExpandAllButtonTitle: Expand all
   ForceDeleteButtonTitle: Force Delete
   LastChangeDate: 'Last change date:'
   LibraryVersion: 'Library version:'
@@ -53,8 +48,6 @@ axonivy:
   Copyright: Copyright
   CopyrightValue: '&copy; 2001 - '
   InstallationDirectory: Installation Directory
-  Product: Product
-  Version: Version
 branding:
   ChooseOrDropFileWhichEndsWith: 'Choose or drop a file which ends with:'
   DefaultValue: 'Default Value: '
@@ -89,11 +82,31 @@ channelState:
   FailedDeliverAttempsSoFar: 'Failed deliver attemps so far:'
   LastError: 'Last Error:'
   NextRetryToDeliver: 'Next retry to deliver:'
+cluster:
+  ClusterNodeState: Node is not licensed. It will always response with error code 503 Service Unavailable.
+  Context: Context
+  Node: Node
+  Nodes: ' Nodes'
+  Sessions: ' Sessions'
+clusterNodeInfo:
+  AxonIvyVersion: Axon Ivy Version
+  ClusterNodeDetail: Cluster Node Detail
+  IPAddress: IP Address
+  IPPort: IP Port
+  IsLicensed: Is Licensed
+  JavaVersion: Java Version
+  JavaVirtualMachineName: Java Virtual Machine Name
+  JvmRoute: Jvm Route
+  OperatingSystemArchitecture: Operating System Architecture
+  OperatingSystemName: Operating System Name
+  OperatingSystemVersion: Operating System Version
+  Sessions: ' Sessions'
 common:
   Activate: Activate
   Activity: Activity
   Add: Add
   Administrators: Administrators
+  Algorithm: Algorithm
   Application: Application
   Applications: Applications
   Apply: Apply
@@ -112,9 +125,12 @@ common:
   Choose: Choose
   Clear: Clear
   Close: Close
+  Cluster: Cluster
   Cockpit: Cockpit
   CollapseAll: Collapse all
   Color: Color
+  Communication: Communication
+  ConfigFileEditor: Config File Editor
   Configuration: Configuration
   Confirm: Confirm
   Connections: Connections
@@ -132,6 +148,7 @@ common:
   Deployment: Deployment
   Description: Description
   Disable: Disable
+  DiskSize: Disk Size
   Download: Download
   DownloadRecording: Download recording
   Driver: Driver
@@ -147,22 +164,29 @@ common:
   ExecutionHistory: Execution History (last 200)
   ExecutionTime: Execution Time
   ExpandAll: Expand all
+  FailTimestamp: Fail Timestamp
   Failed: Failed
   Failure: Failure
   Feature: Feature
   Features: Features
   FeaturesAndProperties: Features and properties
+  File: File
   Filter: Filter
   Finish: Finish
   Finished: Finished
+  Fragmentation: Fragmentation
   FullName: Full Name
   Health: Health
   Help: Help
+  Host: Host
   ID: ID
   Info: Info
   Instances: Instances
+  IsLocal: Is Local
+  IsMaster: Is Master
   Key: Key
   Language: Language
+  Licence: Licence
   Limit: Limit
   Lock: Lock
   Login: Login
@@ -176,11 +200,13 @@ common:
   MoreOptions: More Options
   Name: Name
   Next: Next
+  'No': 'No'
   NoData: No Data
   NoDataAvailable: No data available
   NoRecordsFound: No records found.
   NoValue: No value
   None: None
+  NotAvailable: n.a.
   NotFoundApplication: Application ''{0}'' not found
   NotificationChannels: Notification Channels
   OK: OK
@@ -197,6 +223,7 @@ common:
   ProcessModel: Process Model
   ProcessModelVersion: Process Model Version
   ProcessName: Process Name
+  Product: Product
   Properties: Properties
   Property: Property
   Provider: Provider
@@ -215,6 +242,7 @@ common:
   Run: Run
   RunSearchEngineQuery: Run Search Engine Query
   RunningCases: Running Cases
+  SSL: SSL
   Save: Save
   SaveAndCreate: Save and create
   SaveChanges: Save changes
@@ -233,13 +261,18 @@ common:
   Source: Source
   Start: Start
   StartTime: Start Time
+  StartTimestamp: Start Timestamp
   State: State
   StopRecording: Stop recording
   StopTime: Stop Time
+  StopTimestamp: Stop Timestamp
   Success: Success
   Synchronize: Synchronize
   System: System
+  SystemConfiguration: System Configuration
   SystemDatabase: System Database
+  TableName: Table name
+  Tables: Tables
   Template: Template
   Time: Time
   Timestamp: Timestamp
@@ -255,6 +288,8 @@ common:
   Variables: Variables
   Version: Version
   Warning: Warning
+  Warnings: Warnings
+  WebServer: Web Server
   WebServiceClients: Web Service Clients
   WebServiceProcesses: Web Service Processes
   Write: Write
@@ -329,6 +364,17 @@ deployment:
 directoryBrowser:
   DirectoryBrowserDialogHeader: Directory Browser
   NodePropertiesEmptyMessage: Select a node to see its attributes
+editor:
+  AutoMigratedToLatestVersionWarningMessage: These file contents were auto-migrated to the latest version.
+  DownloadP12: Download .p12
+  NotFoundConfigFile: Config File ''{0}'' not found
+  ReadOnlyFileWarningMessage: This file is read-only!
+  ReadOnlyOriginalFileWarningMessage: The original file {0} is read-only. The file was copied during startup to a writeable directory. Changes need to be applied in the original file manually, so that the changes will survive a restart.
+  UploadFileErrorDetailMessage: '''''{0}'''' could not be uploaded because of wrong file extension.'
+  UploadFileErrorSummaryMessage: Invalid extension
+  UploadFileSuccessDetailMessage: '''{0}'' uploaded successfully and stored as {1}.'
+  UploadFileSuccessSummaryMessage: File Uploaded
+  UploadP12: Upload .p12
 email:
   ConfigureEmailServer: Configure Email Server
   Email: Email
@@ -371,6 +417,12 @@ health:
   ProblemsDetectedMessage: '{0} problems detected.'
   RunHealthChecks: Run Health Checks
   Severity: Severity
+indexes:
+  Cardinality: Cardinality
+  Columns: Columns
+  Indexes: Indexes
+  Pages: Pages
+  Unique: Unique
 indices:
   ClosedIndexHint: It seems like your machine is out of disk space. Please check your search engine watermark settings.
   Index: Index
@@ -407,12 +459,13 @@ information:
 java:
   Java: Java
   JavaDetails: Java Details
-  Product: Product
   Vendor: Vendor
   Version: Version
 javaInfo:
   JVMArgumentTableHeader: JVM Argument
   JavaDetailDialogHeader: Java Detail
+jdbcDriver:
+  JDBCDriver: JDBC Driver
 licence:
   ChooseLicence: Choose licence
   ChooseLicencePlaceholder: 'Choose or drop a file which ends with: .lic'
@@ -425,7 +478,6 @@ licence:
   ExpiredLicenceTouchYourSalesMessage: Your licence is about to expire. Please get in touch with your sales.
   Expires: Expires
   InvalidLicenceMessage: Invalid licence installed. {0}
-  Licence: Licence
   LicenceEvents: Licence Events
   LicenceType: Licence type
   NamedUsers: Named users
@@ -446,8 +498,8 @@ licenceEvents:
          <li>Today's log files</li>
     </ul>
 liveStats:
+  Bytes: Bytes
   Calls: Calls
-  CallsMonitorErrors: Errors
   CallsMonitorErrorsTotalValue: Errors Total %5d
   CallsMonitorErrorsValue: Errors %5d
   CallsMonitorTotalValue: Total %5d
@@ -467,14 +519,38 @@ liveStats:
   ExecutionTimeMonitorMinValue: Min %t
   ExecutionTimeMonitorTotalValue: Total %t
   ExecutionTimeYAxisLabel: Execution Time
+  MessageMonitorErrorsTotalValue: Errors Total %5d
+  MessageMonitorErrorsValue: Errors %5d
+  MessageMonitorTotalValue: Total %t
+  MessagesMonitorReceived: Received
+  MessagesMonitorSent: Sent
+  MonitorErrors: Errors
+  MonitorErrorsTotalValue: ' Total %5d'
+  ProcessingTime: Processing Time
+  ProcessingTimeMonitorAvg: Avg
+  ProcessingTimeMonitorAvgValue: Avg %t
+  ProcessingTimeMonitorMax: Max
+  ProcessingTimeMonitorMaxValue: Max %t
+  ProcessingTimeMonitorMin: Min
+  ProcessingTimeMonitorMinValue: Min %t
+  ProcessingTimeMonitorTotal: Total %t
+  ProcessingTimeMonitorTotalValue: ' Total %t'
   Queries: Queries
   QueriesMonitorErrors: Errors
   QueriesMonitorErrorsTotalValue: Errors Total %5d
   QueriesMonitorErrorsValue: Errors %5d
   QueriesMonitorTotalValue: Total %5d
+  ReceiveProcessingTimeMonitor: Receive Processing Time
+  Received: ' Received'
+  ReceivedMessagesMonitor: Received Messages
+  Requests: Requests
   RestClientCalls: REST Client Calls
   RestClientConnections: REST Client Connections
   RestClientExecutionTime: REST Client Execution Time
+  SendProcessingTimeMonitor: Send Processing Time
+  Sent: ' Sent'
+  SentMessagesMonitor: Sent Messages
+  Transactions: Transactions
   WebServiceCalls: Web Service Calls
   WebServiceExecutionTime: Web Service Execution Time
 login:
@@ -1042,8 +1118,6 @@ setupStorage:
 sidebar:
   Cache: Cache
   ClassHistogram: Class Histogram
-  Cluster: Cluster
-  ConfigFileEditor: Config File Editor
   Dashboard: Dashboard
   Databases: Databases
   Documents: Documents
@@ -1066,19 +1140,34 @@ sidebar:
   Performance: Performance
   ProcessExecution: Process Execution
   Roles: Roles
-  SSL: SSL
   Sessions: Sessions
   SlowRequests: Slow Requests
   StartEvents: Start Events
-  System: System
-  SystemConfiguration: System Configuration
   Threads: Threads
   TrafficGraph: Traffic Graph
-  WebServer: Web Server
   Workflow: Workflow
 soapHistory:
   Endpoint: Endpoint
   Operation: Operation
+sslConfig:
+  KeyStoreCertificates: Key Store Certificates
+  TrustStoreCertificates: Trust Store Certificates
+sslKeyStore:
+  KeyPassword: KeyPassword
+  KeyStoreConfigurations: Key Store configurations
+  KeyStoreConfigurationsSavedMessage: Key Store configurations saved
+  StorePassword: StorePassword
+  UseCustomKeyStore: Use custom key store
+sslTable:
+  AddCertificate: Add Certificate
+  Alias: Alias
+  ExpiryDate: Expiry date
+  Subject: Subject
+  ValidCertificate: Valid
+sslTrustStore:
+  EnableInsecureSSLAndHTTPSConnections: Enable insecure SSL and HTTPS connections
+  TrustStoreConfigurations: Trust Store configurations
+  TrustStoreConfigurationsSavedMessage: Trust Store configurations saved
 state:
   ConfiguredState: Configured state
 supportReport:
@@ -1091,6 +1180,11 @@ supportReport:
          <li>Today's log files</li>
     </ul>
   SupportReportDialogHeader: Support Report
+systemConfig:
+  ReloadSystemConfiguration: Reload system configuration
+  ReloadSystemConfigurationMessage: System configuration reloaded
+  ShowConfigurationLog: Show configuration log
+  ShowSecuritySystems: Show Security Systems
 systemDatabase:
   ConfigureSystemDb: Configure SystemDb
   Driver: Driver
@@ -1116,7 +1210,14 @@ systemDb:
   DatabaseNotPersistentSummary: Database not persistent
   DeleteButtonTitle: Delete
   Error: 'Error: '
+  NoConnection: No Connection
+  SaveUnknownConnectionWarningMessage: Do really you want to save this configuration?
   SystemDatabaseConfigSavedSuccessfulMessage: System Database config saved successfully
+systemDbInfo:
+  LoadDataDetailMessage: This may take several minutes
+  LoadDataSummaryMessage: Gathering System Database information
+tables:
+  RowCount: Row count
 template:
   ClusterModeWarning: |-
     <b>Cluster Mode!</b><br/>
@@ -1128,12 +1229,19 @@ template:
 tlsTester:
   Tests: Tests
 tlsTesterMissingCertView:
+  AddCertificateToTruststoreSuccessMesage: The certificate was successfully added.
   AddToTruststore: Add To Truststore
+  AddX509CertificateToTruststoreSuccessMesage: '{0} was successfully added'
   MissingCert: 'Missing Cert:'
   PublicKey: 'PublicKey:'
   Subject: 'Subject:'
   ValidFrom: 'valid from:'
   ValidUntil: 'valid until:'
+topBarItem:
+  Help: Help
+triggers:
+  Timing: Timing
+  Triggers: Triggers
 updateRoleParent:
   UpdateRoleParentDialogHeader: Update Role Parent
   UpdateRoleParentDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. The role hierarchy is defined in your Axon Ivy Project and your running process may depend on this hierachy.
@@ -1210,12 +1318,36 @@ usersTable:
   SynchSingleUser: Synch Single User
   Working: Working
 webServer:
+  BaseUrl: Base Url
+  BaseUrlHelpMessage: Base Url used by the engine to build absolute URI's without a request (email links, ...)
+  BaseUrlProblemDetectedDetailMessage: '''Base Url'' seems to be different form your current browser base Url. You may need to configure your ''Base Url'' correctly'
+  BaseUrlProblemDetectedSummaryMessage: Problem detected
+  BaseUrlSavedMessage: Base Url saved
+  BaseUrlSettings: Base Url Settings
   ChangedConfigSuccessfulMessage: '''''{0}'''' changed successfully'
+  CheckDocumentLink: Check our <i class="si si-hyperlink-3"></i> documentation for more details.
   Enabled: 'Enabled:'
+  EvaluatedUrl: Evaluated URL
+  EvaluatedUrlHelpMessage: Example how an external link is calculated
+  ExternalBaseUrl: External Base URL
+  ExternalBaseUrlHelpMessage: Base-URL used by the engine to build absolute URI's (start links, email links, ...)
+  ExternalBaseUrlProblemDetectedDetailMessage: '''External Base Url'' seems to be different form your current browser base Url'
+  ExternalBaseUrlProblemDetectedSummaryMessage: Problem detected
   HTTPConnector: HTTP Connector
   HTTPSConnectorctor: HTTPS Connector
+  MissingSecurityHeadersDetailMessage: 'Security Headers are not recognized in the response, but maybe they are added via a reverse proxy (You can check that via the Browser DevTools):'
+  MissingSecurityHeadersSummaryMessage: Missing Security Headers?
   Port: 'Port:'
+  RemoteAddress: Remote Address
+  RemoteAddressHelpMessage: The address form where the request comes from (should be your IP)
+  RequestData: Request Data
+  RequestHeader: Request Header
+  ResponseHeader: Response Header
+  ResponseHeaders: Response Headers
+  ShowRequestHeaders: Show Request Headers
+  ShowResponseHeaders: Show Response Headers
   StepWarningMessage: Enable at least the HTTP or HTTPS Connector
+  WebServerConnectors: Web Server Connectors
 webServiceConfiguration:
   ResetConfiguration: Reset configuration
   ResetWSConfirmDialogHeader: Reset Web Service

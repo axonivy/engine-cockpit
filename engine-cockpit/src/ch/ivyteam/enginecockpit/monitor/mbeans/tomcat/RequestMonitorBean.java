@@ -20,19 +20,21 @@ import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
 public class RequestMonitorBean {
-  private final Monitor requestsMonitor = Monitor.build().name("Requests").icon("network-signal").toMonitor();
-  private final Monitor errorsMonitor = Monitor.build().name("Errors").icon("global-warming-globe-fire")
-      .toMonitor();
-  private final Monitor bytesMonitor = Monitor.build().name("Bytes").icon("cd").yAxisLabel("Bytes")
-      .toMonitor();
-  private final Monitor processingTimeMonitor = Monitor.build().name("Processing Time")
-      .icon("optimization-timer").yAxisLabel("Time").toMonitor();
-  private final Monitor connectionsMonitor = Monitor.build().name("Connections").icon("insert_link-timer")
-      .yAxisLabel("Connections").toMonitor();
+  private final Monitor requestsMonitor =
+      Monitor.build().name(Ivy.cm().co("/liveStats/Requests")).icon("network-signal").toMonitor();
+  private final Monitor errorsMonitor =
+      Monitor.build().name(Ivy.cm().co("/liveStats/MonitorErrors")).icon("global-warming-globe-fire").toMonitor();
+  private final Monitor bytesMonitor = Monitor.build().name(Ivy.cm().co("/liveStats/Bytes")).icon("cd")
+      .yAxisLabel(Ivy.cm().co("/liveStats/Bytes")).toMonitor();
+  private final Monitor processingTimeMonitor = Monitor.build().name(Ivy.cm().co("/liveStats/ProcessingTime"))
+      .icon("optimization-timer").yAxisLabel(Ivy.cm().co("/common/Time")).toMonitor();
+  private final Monitor connectionsMonitor = Monitor.build().name(Ivy.cm().co("/common/Connections"))
+      .icon("insert_link-timer").yAxisLabel(Ivy.cm().co("/common/Connections")).toMonitor();
 
   public RequestMonitorBean() {
     try {
@@ -73,36 +75,39 @@ public class RequestMonitorBean {
 
   private void setupRequestsMonitor(ObjectName requestProcessor, String label) {
     requestsMonitor.addInfoValue(format(label + " %5d", deltaRequestCount(requestProcessor)));
-    requestsMonitor.addInfoValue(format(label + " Total %5d", requestCount(requestProcessor)));
+    requestsMonitor.addInfoValue(format(label + Ivy.cm().co("/liveStats/MonitorErrorsTotalValue"), requestCount(requestProcessor)));
     requestsMonitor.addSeries(Series.build(deltaRequestCount(requestProcessor), label).toSeries());
   }
 
   private void setupErrorsMonitor(ObjectName requestProcessor, String label) {
     errorsMonitor.addInfoValue(format(label + " %5d", deltaErrorCount(requestProcessor)));
-    errorsMonitor.addInfoValue(format(label + " Total %5d", errorCount(requestProcessor)));
+    errorsMonitor.addInfoValue(format(label + Ivy.cm().co("/liveStats/MonitorErrorsTotalValue"), errorCount(requestProcessor)));
     errorsMonitor.addSeries(Series.build(deltaErrorCount(requestProcessor), label).toSeries());
   }
 
   private void setupBytesMonitor(ObjectName requestProcessor, String label) {
-    bytesMonitor.addInfoValue(
-        format(label + " Sent %5d/%5d", deltaBytesSent(requestProcessor), bytesSent(requestProcessor)));
-    bytesMonitor.addInfoValue(format(label + " Received %5d/%5d", deltaBytesReceived(requestProcessor),
-        bytesReceived(requestProcessor)));
-
-    bytesMonitor.addSeries(Series.build(deltaBytesSent(requestProcessor), label + " Sent").toSeries());
+    String sentLabel = label + Ivy.cm().co("/liveStats/Sent");
+    String receivedLabel = label + Ivy.cm().co("/liveStats/Received");
     bytesMonitor
-        .addSeries(Series.build(deltaBytesReceived(requestProcessor), label + " Received").toSeries());
+        .addInfoValue(format(sentLabel + " %5d/%5d", deltaBytesSent(requestProcessor), bytesSent(requestProcessor)));
+    bytesMonitor.addInfoValue(
+        format(receivedLabel + " %5d/%5d", deltaBytesReceived(requestProcessor), bytesReceived(requestProcessor)));
+
+    bytesMonitor.addSeries(Series.build(deltaBytesSent(requestProcessor), sentLabel).toSeries());
+    bytesMonitor.addSeries(Series.build(deltaBytesReceived(requestProcessor), receivedLabel).toSeries());
   }
 
   private void setupProcessTimeMonitor(ObjectName requestProcessor, String label) {
     processingTimeMonitor.addInfoValue(format(label + " %t", deltaProcessingTime(requestProcessor)));
-    processingTimeMonitor.addInfoValue(format(label + " Total %t", processingTime(requestProcessor)));
+    processingTimeMonitor.addInfoValue(
+        format(label + Ivy.cm().co("/liveStats/ProcessingTimeMonitorTotalValue"), processingTime(requestProcessor)));
     processingTimeMonitor.addSeries(Series.build(deltaProcessingTime(requestProcessor), label).toSeries());
   }
 
   private void setupConnectionsMonitor(ObjectName protocolHandler, String label) {
     connectionsMonitor.addInfoValue(format(label + " %5d", openConnections(protocolHandler)));
-    connectionsMonitor.addInfoValue(format(label + " Max %5d", maxConnections(protocolHandler)));
+    connectionsMonitor.addInfoValue(format(label + " " + Ivy.cm().co("/liveStats/ProcessingTimeMonitorTotalValue"),
+        maxConnections(protocolHandler)));
     connectionsMonitor.addSeries(Series.build(openConnections(protocolHandler), label).toSeries());
   }
 

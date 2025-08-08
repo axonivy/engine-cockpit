@@ -55,7 +55,7 @@ class WebService {
     callsMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/CallsMonitorErrorsValue"), calls.deltaErrors()));
     callsMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/CallsMonitorErrorsTotalValue"), calls.errors()));
     callsMonitor.addSeries(Series.build(calls.deltaExecutions(), Ivy.cm().co("/liveStats/Calls")).toSeries());
-    callsMonitor.addSeries(Series.build(calls.deltaErrors(), Ivy.cm().co("/liveStats/CallsMonitorErrors")).toSeries());
+    callsMonitor.addSeries(Series.build(calls.deltaErrors(), Ivy.cm().co("/liveStats/MonitorErrors")).toSeries());
 
     executionTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ExecutionTimeMonitorMinValue"), calls.deltaMinExecutionTime()));
     executionTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ExecutionTimeMonitorAvgValue"), calls.deltaAvgExecutionTime()));

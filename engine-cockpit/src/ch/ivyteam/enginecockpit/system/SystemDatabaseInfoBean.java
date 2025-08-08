@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import ch.ivyteam.enginecockpit.monitor.trace.BackgroundMeterUtil;
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.LongValueFormatter;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.persistence.db.DatabasePersistencyService;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.persistence.db.info.SystemDbIndex;
@@ -44,7 +45,7 @@ public class SystemDatabaseInfoBean {
     if (size != Long.MIN_VALUE && size != 0) {
       return scaleValue.format(size, Unit.BYTES);
     }
-    return "n.a.";
+    return Ivy.cm().co("/tables/NotAvailable");
   }
 
   public List<SystemDbTable> getFilteredTables() {

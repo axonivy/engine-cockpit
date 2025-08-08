@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -17,6 +18,7 @@ import org.primefaces.model.StreamedContent;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFileRepository;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
@@ -47,7 +49,7 @@ public class EditorBean {
         .findFirst()
         .orElse(null);
     if (activeConfigFile == null) {
-      ResponseHelper.notFound("Config File '" + selectedFile + "' not found");
+      ResponseHelper.notFound(Ivy.cms().co("/editor/UploadFileErrorDetailMessage", Arrays.asList(selectedFile)));
       return;
     }
     PrimeFaces.current().executeScript("handleAutocompleteSelection()");
@@ -107,15 +109,15 @@ public class EditorBean {
       String extension = originalFileName.substring(originalFileName.lastIndexOf('.') + 1);
       if (!activeConfigFile.getFileName().endsWith(extension)) {
         Message.error()
-            .summary("Invalid extension")
-            .detail("'" + originalFileName + "' could not be uploaded because of wrong file extension.")
+            .summary(Ivy.cm().co("/editor/UploadFileErrorSummaryMessage"))
+            .detail(Ivy.cms().co("/editor/UploadFileErrorDetailMessage", Arrays.asList(originalFileName)))
             .show();
         return;
       }
       activeConfigFile.setBinary(is);
       Message.info()
-          .summary("File Uploaded")
-          .detail("'" + originalFileName + "' uploaded successfully and stored as " + getName() + ".")
+          .summary(Ivy.cm().co("/editor/UploadFileSuccessSummaryMessage"))
+          .detail(Ivy.cms().co("/editor/UploadFileSuccessDetailMessage", Arrays.asList(originalFileName, getName())))
           .show();
     } catch (Exception ex) {
       throw new RuntimeException("Failed to load inputstream", ex);
@@ -124,5 +126,10 @@ public class EditorBean {
 
   public boolean canSave() {
     return !activeConfigFile.isReadOnly();
+  }
+
+  public String getReadOnlyOriginalFileWarningMessage() {
+    return Ivy.cms().co("/editor/ReadOnlyOriginalFileWarningMessage",
+        Arrays.asList(activeConfigFile.getOriginalPath()));
   }
 }

@@ -15,6 +15,7 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
 
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.KeyStoreConfig;
 
@@ -132,7 +133,7 @@ public class KeyStoreBean implements SslTableStore {
     store.setType(type);
     store.setAlgorithm(algorithm);
     FacesContext.getCurrentInstance().addMessage("sslKeystoreSaveSuccess",
-        new FacesMessage("Key Store configurations saved"));
+        new FacesMessage(Ivy.cm().co("/sslKeyStore/KeyStoreConfigurationsSavedMessage")));
   }
 
   @Override

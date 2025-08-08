@@ -9,9 +9,9 @@
 
   <ui:composition template="../includes/template/template.xhtml">
     <ui:define name="breadcrumb">
-      <li><span>System</span></li>
+      <li><span>#{ivy.cm.co('/common/System')}</span></li>
       <li>/</li>
-      <li><a href="editor.xhtml">Config File Editor</a></li>
+      <li><a href="editor.xhtml">#{ivy.cm.co('/common/ConfigFileEditor')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -25,7 +25,7 @@
         </p:growl>
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-common-file-text-edit card-title-icon"></i>
-          <h2 class="m-0">Config File Editor</h2>
+          <h2 class="m-0">#{ivy.cm.co('/common/ConfigFileEditor')}</h2>
 
           <h:form id="fileChooserForm" styleClass="ml-auto">
             <div>
@@ -59,15 +59,15 @@
         <h:panelGroup id="currentFileContainer">
           <h:panelGroup id="currentFile" styleClass="my-2" layout="block" rendered="#{editorBean.activeConfigFile != null}">
             <p:staticMessage rendered="#{editorBean.activeConfigFile.readOnly}"
-               summary="This file is read-only!" severity="warn" />
+               summary="#{ivy.cm.co('/editor/ReadOnlyFileWarningMessage')}" severity="warn" />
             <b id="currentFile">#{editorBean.activeConfigFile.path}</b>
             
             <p:staticMessage rendered="#{!editorBean.activeConfigFile.originalFile}"
-               summary="The original file #{editorBean.activeConfigFile.originalPath} is read-only. The file was copied during startup to a writeable directory. Changes need to be applied in the original file manually, so that the changes will survive a restart." 
+               summary="#{editorBean.readOnlyOriginalFileWarningMessage}" 
                severity="warn" />
           </h:panelGroup>
         </h:panelGroup>
-        
+
         <h:panelGroup id="uploadDownloadBinaryFilesContainer" >
           <h:form id="uploadDownloadBinary" rendered="#{editorBean.isBinary()}">
             <p:messages id="messages" showDetail="true" closable="true" />
@@ -76,22 +76,22 @@
                 listener="#{editorBean.upload}"
                 update="uploadDownloadBinary"
                 style="display: none;" />
-              <p:commandButton title="Upload .p12" value="Upload .p12" 
+              <p:commandButton title="#{ivy.cm.co('/editor/UploadP12')}" value="#{ivy.cm.co('/editor/UploadP12')}" 
                 icon="si si-upload-bottom"
                 type="button" id="uploadbtn"
                 styleClass="ui-button-outlined"
                 onclick="document.getElementById(this.id.replace(':uploadbtn',':binaryUpload_input')).click(); return false;">
               </p:commandButton>
-              <p:commandButton title="Download .p12" id="binaryDownload"
+              <p:commandButton title="#{ivy.cm.co('/editor/DownloadP12')}" id="binaryDownload"
                 actionListener="#{editorBean.fileDownloadView()}"
-                value="Download .p12" ajax="false"
+                value="#{ivy.cm.co('/editor/DownloadP12')}" ajax="false"
                 icon="si si-download-bottom" styleClass="ui-button-outlined">
                 <p:fileDownload value="#{editorBean.file}" />
               </p:commandButton>
-              <p:tooltip for="binaryDownload" value="#{editorBean.name} #{editorBean.size} Bytes" />
+              <p:tooltip for="binaryDownload" value="#{editorBean.name} #{editorBean.size} #{ivy.cm.co('/common/Bytes')}" />
           </h:form>
         </h:panelGroup>
-        
+
         <h:panelGroup id="editorFormContainer" >
           <h:form id="editorForm" styleClass="editor-card" rendered="#{!editorBean.isBinary()}">
             <script>
@@ -143,12 +143,12 @@
             style="border: 0; width: 100%; height: 100%"/>
             <h:inputTextarea id="codeHolder" value="#{editorBean.activeConfigFile.content}" escape="false" style="display:none" /> <!-- contains configfiles to be edited -->
             <p:staticMessage severity="warn" rendered="#{editorBean.activeConfigFile.migrated}" 
-              detail="These file contents were auto-migrated to the latest version." />
+              detail="#{ivy.cm.co('/editor/AutoMigratedToLatestVersionWarningMessage')}" />
     
             <div class="flex flex-wrap">
-              <p:commandButton id="cancelEditor" onclick="window.location.reload(true)" value="Cancel" type="button"
+              <p:commandButton id="cancelEditor" onclick="window.location.reload(true)" value="#{ivy.cm.co('/common/Cancel')}" type="button"
                 styleClass="ml-auto ui-button-secondary ui-button-flat" disabled="#{editorBean.activeConfigFile == null}" />
-              <p:commandButton id="saveEditor" styleClass="ml-1" value="Save" disabled="#{!editorBean.canSave()}"
+              <p:commandButton id="saveEditor" styleClass="ml-1" value="#{ivy.cm.co('/common/Save')}" disabled="#{!editorBean.canSave()}"
                 icon="si si-floppy-disk" onclick="saveEditor()" actionListener="#{editorBean.activeConfigFile.save()}" widgetVar="saveEditor" />
             </div>
           </h:form>
