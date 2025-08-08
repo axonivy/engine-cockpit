@@ -22,13 +22,24 @@
       <p:inputText id="email" value="#{userBean.newUser.email}" />
 
       <p:outputLabel for="password1" value="#{ivy.cm.co('/newUser/Password')}" />
-      <p:password id="password1" widgetVar="password1" validatorMessage="#{ivy.cm.co('/newUser/NotMatchPasswordMessage')}" match="password2"
-        value="#{userBean.newUser.password}" feedback="true" inline="true" />
+      <p:password id="password1" widgetVar="password1"
+        validatorMessage="#{ivy.cm.co('/newUser/NotMatchPasswordMessage')}"
+        match="password2" value="#{userBean.newUser.password}"
+        feedback="true" inline="true"
+        promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+        goodLabel="#{ivy.cm.co('/common/Good')}"
+        weakLabel="#{ivy.cm.co('/common/Weak')}"
+        strongLabel="#{ivy.cm.co('/common/Strong')}" />
 
       <p:outputLabel for="password2" value="#{ivy.cm.co('/newUser/ConfirmPassword')}" />
-      <p:password id="password2" widgetVar="password2" value="#{userBean.newUser.password}" feedback="true"
-        inline="true" />
-      </p:panelGrid>
+      <p:password id="password2" widgetVar="password2"
+        value="#{userBean.newUser.password}" feedback="true"
+        inline="true"
+        promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+        goodLabel="#{ivy.cm.co('/common/Good')}"
+        weakLabel="#{ivy.cm.co('/common/Weak')}"
+        strongLabel="#{ivy.cm.co('/common/Strong')}" />
+    </p:panelGrid>
       <div class="custom-dialog-footer">
         <p:commandButton id="cancelNewUser" onclick="PF('newUserModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />

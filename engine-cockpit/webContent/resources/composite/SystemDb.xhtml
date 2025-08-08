@@ -88,10 +88,18 @@
                 styleClass="grey-label-panel ui-fluid">
                 <p:outputLabel for="passwordProperty" value="#{connProp.label}" />
                 <h:panelGroup styleClass="md-inputfield">
-                  <p:password styleClass="#{connProp.cssClass}" id="passwordProperty"
-                    placeholder="#{connProp.passwordPlaceholder}" value="#{connProp.value}"
-                    required="#{connProp.required}" autocomplete="new-password">
-                    <p:ajax event="keyup" update="#{cc.attrs.updateFields},@parent:passwordPropertyMessage"
+                  <p:password styleClass="#{connProp.cssClass}"
+                    id="passwordProperty"
+                    placeholder="#{connProp.passwordPlaceholder}"
+                    value="#{connProp.value}"
+                    required="#{connProp.required}"
+                    autocomplete="new-password"
+                    promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+                    goodLabel="#{ivy.cm.co('/common/Good')}"
+                    weakLabel="#{ivy.cm.co('/common/Weak')}"
+                    strongLabel="#{ivy.cm.co('/common/Strong')}">
+                    <p:ajax event="keyup"
+                      update="#{cc.attrs.updateFields},@parent:passwordPropertyMessage"
                       listener="#{systemDatabaseBean.configChanged}" />
                   </p:password>
                   <p:message for="passwordProperty" id="passwordPropertyMessage" />

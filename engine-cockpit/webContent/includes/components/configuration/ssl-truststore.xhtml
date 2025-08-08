@@ -34,7 +34,11 @@
 
       <label>#{ivy.cm.co('/common/Password')}</label>
       <p:password id="trustStorePassword"
-        value="#{trustStoreBean.password}" />
+        value="#{trustStoreBean.password}"
+        promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+        goodLabel="#{ivy.cm.co('/common/Good')}"
+        weakLabel="#{ivy.cm.co('/common/Weak')}"
+        strongLabel="#{ivy.cm.co('/common/Strong')}" />
 
       <label>#{ivy.cm.co('/common/Provider')}</label>
       <p:selectOneMenu id="trustStoreProvider"

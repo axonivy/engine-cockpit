@@ -3,11 +3,8 @@ administrators:
   AdminModifiedMessage: '''''{0}'''' modified successfully'
   AdminRemovedMessage: '''''{0}'''' removed successfully'
   ConfirmPassword: Confirm Password
-  DeleteAdminButton: Delete
-  DeleteAdminButtonTitle: Delete
   DeleteAdminDialogHeader: Delete {0}
   DeleteAdminDialogMessage: Are you sure you want to delete the administrator ''{0}''?
-  EditAdminButtonTitle: Edit
   EditAdminDialogHeader: Add / Edit Administrator
   NotMatchPasswordMessage: Password didn't match
 admins:
@@ -36,7 +33,6 @@ applications:
   PmvConvertToLatestVersionMessage: The Axon Ivy Project will be converted to the latest version.
   ReleaseButtonTitle: Release
   RunningCasesHeader: Running Cases
-  StateHeader: State
   WarningMessageForNoReleasedPmv: No released process model version
 applicationTabs:
   CreateApplication: Create Application
@@ -176,6 +172,7 @@ common:
   Finished: Finished
   Fragmentation: Fragmentation
   FullName: Full Name
+  Good: Good
   Health: Health
   Help: Help
   Host: Host
@@ -216,6 +213,7 @@ common:
   PMV: PMV
   Password: Password
   Path: Path
+  PleaseEnterPassword: Please enter a password
   Port: Port
   Previous: Previous
   Priority: Priority
@@ -266,6 +264,7 @@ common:
   StopRecording: Stop recording
   StopTime: Stop Time
   StopTimestamp: Stop Timestamp
+  Strong: Strong
   Success: Success
   Synchronize: Synchronize
   System: System
@@ -289,6 +288,7 @@ common:
   Version: Version
   Warning: Warning
   Warnings: Warnings
+  Weak: Weak
   WebServer: Web Server
   WebServiceClients: Web Service Clients
   WebServiceProcesses: Web Service Processes

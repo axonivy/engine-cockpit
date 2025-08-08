@@ -49,8 +49,13 @@
       <p:inputText id="userName" value="#{databaseDetailBean.database.userName}" />
   
       <p:outputLabel for="password" value="#{ivy.cm.co('/common/Password')}" />
-      <p:password id="password" value="#{databaseDetailBean.database.password}" />
-  
+      <p:password id="password"
+        value="#{databaseDetailBean.database.password}"
+        promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+        goodLabel="#{ivy.cm.co('/common/Good')}"
+        weakLabel="#{ivy.cm.co('/common/Weak')}"
+        strongLabel="#{ivy.cm.co('/common/Strong')}" />
+
       <p:outputLabel for="maxConnections" value="#{ivy.cm.co('/databaseConfiguration/MaxConnections')}" />
       <p:inputNumber id="maxConnections" value="#{databaseDetailBean.database.maxConnections}"
         decimalPlaces="0" />

@@ -85,10 +85,15 @@
               <h:panelGroup styleClass="md-inputfield dynamic-config-group"
                 rendered="#{property.password}">
                 <p:outputLabel value="#{property.label}" />
-                <p:password id="propertyPassword"
-                  value="#{property.value}" styleClass="dynamic-config-field"
-                  placeholder="#{property.passwordPlaceholder}"></p:password>
-                <small class="block">
+              <p:password id="propertyPassword"
+                value="#{property.value}"
+                styleClass="dynamic-config-field"
+                placeholder="#{property.passwordPlaceholder}"
+                promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+                goodLabel="#{ivy.cm.co('/common/Good')}"
+                weakLabel="#{ivy.cm.co('/common/Weak')}"
+                strongLabel="#{ivy.cm.co('/common/Strong')}" />
+              <small class="block">
                   #{property.descriptionFirstline}
                   <h:panelGroup id="usedByHelpPassword"
                     styleClass="label-help-icon"

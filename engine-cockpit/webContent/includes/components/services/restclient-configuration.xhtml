@@ -54,8 +54,13 @@
         disabled="#{empty restClientDetailBean.restClient.authType}" />
 
       <p:outputLabel for="password" value="#{ivy.cm.co('/common/Password')}" />
-      <p:password id="password" value="#{restClientDetailBean.restClient.password}"
-        disabled="#{empty restClientDetailBean.restClient.authType}" />
+      <p:password id="password"
+        value="#{restClientDetailBean.restClient.password}"
+        disabled="#{empty restClientDetailBean.restClient.authType}"
+        promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+        goodLabel="#{ivy.cm.co('/common/Good')}"
+        weakLabel="#{ivy.cm.co('/common/Weak')}"
+        strongLabel="#{ivy.cm.co('/common/Strong')}" />
     </p:panelGrid>
   </h:form>
 </div>

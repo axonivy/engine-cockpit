@@ -46,8 +46,13 @@
         disabled="#{empty webserviceDetailBean.webservice.authType}" />
   
       <p:outputLabel for="password" value="#{ivy.cm.co('/common/Password')}" />
-      <p:password id="password" value="#{webserviceDetailBean.webservice.password}"
-        disabled="#{empty webserviceDetailBean.webservice.authType}" />
+      <p:password id="password"
+        value="#{webserviceDetailBean.webservice.password}"
+        disabled="#{empty webserviceDetailBean.webservice.authType}"
+        promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+        goodLabel="#{ivy.cm.co('/common/Good')}"
+        weakLabel="#{ivy.cm.co('/common/Weak')}"
+        strongLabel="#{ivy.cm.co('/common/Strong')}" />
     </p:panelGrid>
   </h:form>
 </div>

@@ -1,14 +1,11 @@
 administrators:
-  AdminAddedMessage: '''''{0}'''' が正常に追加されました'
-  AdminModifiedMessage: '''''{0}'''' が正常に修正されました'
-  AdminRemovedMessage: '''''{0}'''' が正常に削除されました'
-  ConfirmPassword: パスワードを確認
-  DeleteAdminButton: 削除
-  DeleteAdminButtonTitle: 削除
-  DeleteAdminDialogHeader: '{0} を削除します'
-  DeleteAdminDialogMessage: 管理者の「{0}」を削除してもよろしいですか？
-  EditAdminButtonTitle: 編集
-  EditAdminDialogHeader: 管理者追加/編集
+  AdminAddedMessage: 「{0}」が正常に追加されました。
+  AdminModifiedMessage: 「{0}」が正常に更新されました。
+  AdminRemovedMessage: 「{0}」が正常に削除されました。
+  ConfirmPassword: パスワードを確認してください
+  DeleteAdminDialogHeader: '{0} を削除する'
+  DeleteAdminDialogMessage: 本当に管理者「{0}」を削除しますか？
+  EditAdminDialogHeader: 管理者を追加/編集する
   NotMatchPasswordMessage: パスワードが一致しません
 admins:
   DefineAtLeastOneAdministratorMessage: 少なくとも1人の管理者をご指定ください！
@@ -16,7 +13,7 @@ applicationDetail:
   ProcessModels: プロセスモデル
 applications:
   AppPmPmvHeader: アプリ / PM / PMV
-  ApplicationConvertToLatestVersionMessage: 状態が「RELEASED」または「DEPRECATED」のすべてのAxon Ivyプロジェクトが最新のバージョンに更新されます。
+  ApplicationConvertToLatestVersionMessage: 状態が「RELEASED」および「DEPRECATED」にあるすべてのAxon Ivyプロジェクトは、最新のバージョンに更新されます。
   ApplicationWarningMessageForNoReleasedPmv: 少なくとも1つのプロセスモデルにリリースされたプロセスモデルバージョンがありません
   Convert: 変換
   ConvertButtonTitle: プロジェクトを最新バージョンにコンバートします
@@ -24,28 +21,29 @@ applications:
   DeleteHintMessage: この {0} を削除してよろしいですか？
   DeleteRunningCasesHintMessage: '{0}には{1}のアクティブなケースがあります。これらも削除されます。'
   DeploymentButtonTitle: デプロイ
-  DeploymentPossibleReason: システム構成 ''{0}'' または ''{1}'' が無効になっています。&lt;br/&gt; 有効にするか、デプロイメントにファイルシステムを使用してください。
-  DisableErrorMessage: アプリケーション ''{0}'' の状態を評価できません。
-  ExecutionErrorMessageSummary: '{0} モジュールを {0} できませんでした'
+  DeploymentPossibleReason: |-
+    システム構成 ''{0}'' または ''{1}'' が無効になっています。<br/>
+    有効にするか、デプロイメントにファイルシステムを使用してください。
+  DisableErrorMessage: アプリケーション「{0}」の状態を評価できません。
+  ExecutionErrorMessageSummary: '{0} モジュールを実行できませんでした。'
   ExecutionSuccessMessageSummary: '{0} モジュールを正常に実行しました'
   ForceDeleteButtonTitle: 強制削除
   LastChangeDate: '最終変更日:'
   LibraryVersion: 'ライブラリバージョン:'
   PmvConvertToLatestVersionMessage: Axon Ivy プロジェクトは最新のバージョンに更新されます。
   ReleaseButtonTitle: リリース
-  RunningCasesHeader: 実行中のケース
-  StateHeader: 状態
-  WarningMessageForNoReleasedPmv: リリースされたプロセスモデルバージョンなし
+  RunningCasesHeader: 進行中の案件
+  WarningMessageForNoReleasedPmv: リリースされたプロセスモデルバージョンはありません。
 applicationTabs:
   CreateApplication: アプリケーションの作成
   NoConfiguredApplication: アプリケーションが設定されていません。
 axonivy:
   AxonIvy: Axon Ivy
   AxonIvyAG: Axon Ivy AG
-  Build: ビルド
+  Build: 構築する
   Copyright: 著作権
-  CopyrightValue: '&amp;copy; 2001 - '
-  InstallationDirectory: インストールディレクトリ
+  CopyrightValue: '&copy; 2001 - '
+  InstallationDirectory: インストール ディレクトリ
 branding:
   ChooseOrDropFileWhichEndsWith: ファイルを選択またはドロップしてください（ファイル名に以下の文字列が含まれるもの）：
   DefaultValue: 'デフォルト値: '
@@ -174,6 +172,7 @@ common:
   Finished: 仕上げ済み
   Fragmentation: 断片化
   FullName: フルネーム
+  Good: 良い
   Health: 健康
   Help: ヘルプ
   Host: ホスト
@@ -214,6 +213,7 @@ common:
   PMV: PMV
   Password: パスワード
   Path: パス
+  PleaseEnterPassword: パスワードを入力してください。
   Port: ポート
   Previous: 前
   Priority: 優先度
@@ -264,6 +264,7 @@ common:
   StopRecording: 記録停止
   StopTime: 停止時間
   StopTimestamp: 停止時刻スタンプ
+  Strong: 強い
   Success: 成功
   Synchronize: 同期
   System: セキュリティシステム
@@ -286,6 +287,7 @@ common:
   Version: バージョン
   Warning: 警告
   Warnings: 警告
+  Weak: 弱い
   WebServer: 設定状態
   WebServiceClients: Webサービスクライアント
   WebServiceProcesses: Web サービス プロセス

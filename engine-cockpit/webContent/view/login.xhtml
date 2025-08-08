@@ -24,7 +24,13 @@
 
         <p:focus for="userName" />
         <p:inputText id="userName" autocomplete="off" value="#{loginBean.userName}" required="true" placeholder="#{ivy.cm.co('/login/UserNamePlaceholder')}" />
-        <p:password id="password" autocomplete="off" value="#{loginBean.password}" required="true" placeholder="#{ivy.cm.co('/login/PasswordPlaceholder')}" />
+        <p:password id="password" autocomplete="off"
+          value="#{loginBean.password}" required="true"
+          placeholder="#{ivy.cm.co('/login/PasswordPlaceholder')}"
+          promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+          goodLabel="#{ivy.cm.co('/common/Good')}"
+          weakLabel="#{ivy.cm.co('/common/Weak')}"
+          strongLabel="#{ivy.cm.co('/common/Strong')}" />
 
         <p:commandButton update="@form" id="login" actionListener="#{loginBean.login}" value="#{ivy.cm.co('/login/SignInButton')}" icon="si si-login-3" ajax="false"/>
         <p:messages globalOnly="true" id="loginMessage" />

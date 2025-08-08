@@ -135,7 +135,12 @@
             <p:selectBooleanCheckbox id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" />
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'PASSWORD'}">
-            <p:password id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" />
+            <p:password id="editConfigurationValue"
+              value="#{cc.attrs.bean.activeConfig.value}"
+              promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+              goodLabel="#{ivy.cm.co('/common/Good')}"
+              weakLabel="#{ivy.cm.co('/common/Weak')}"
+              strongLabel="#{ivy.cm.co('/common/Strong')}" />
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'ENUMERATION'}">
             <p:selectOneMenu id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}">

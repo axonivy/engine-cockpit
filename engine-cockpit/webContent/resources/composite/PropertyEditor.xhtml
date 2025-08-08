@@ -41,9 +41,13 @@
         value="#{cc.attrs.bean.property.name}" />
       <p:outputLabel rendered="#{cc.attrs.bean.sensitive}" for="sensitiveValueInput" value="#{ivy.cm.co('/common/Value')}" />
       <h:panelGroup rendered="#{cc.attrs.bean.sensitive}" styleClass="md-inputfield">
-        <p:password id="sensitiveValueInput"
-          value="#{cc.attrs.bean.property.value}"/>
-      </h:panelGroup>
+          <p:password id="sensitiveValueInput"
+            value="#{cc.attrs.bean.property.value}"
+            promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+            goodLabel="#{ivy.cm.co('/common/Good')}"
+            weakLabel="#{ivy.cm.co('/common/Weak')}"
+            strongLabel="#{ivy.cm.co('/common/Strong')}" />
+        </h:panelGroup>
 
       <p:outputLabel rendered="#{!cc.attrs.bean.sensitive}" for="valueInput" value="#{ivy.cm.co('/common/Value')}" />
       <h:panelGroup rendered="#{!cc.attrs.bean.sensitive}" styleClass="md-inputfield">
