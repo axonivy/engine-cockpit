@@ -1,14 +1,18 @@
 package ch.ivyteam.enginecockpit.system.ssl;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.security.KeyStoreException;
 import java.security.Provider;
 import java.security.Security;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -32,6 +36,8 @@ public class TrustStoreBean implements SslTableStore {
   private String algorithm;
   private String enableInsecureSSL;
   private final SslClientSettings sslClientSettings;
+
+  private String certificateLoadError;
 
   public TrustStoreBean() {
     this.sslClientSettings = SslClientSettings.instance();
@@ -121,24 +127,27 @@ public class TrustStoreBean implements SslTableStore {
     store.setType(type);
     store.setAlgorithm(algorithm);
     sslClientSettings.setEnableInsecureSSL(enableInsecureSSL);
+    getCertificats();
     FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
         new FacesMessage("Trust Store configurations saved"));
   }
 
   @Override
-  public void deleteCertificate(String alias) {
+  public void deleteCertificate(String alias) throws KeyStoreException {
     getKeyStoreUtils().deleteCertificate(alias);
   }
 
   @Override
-  public Certificate handleUploadCertificate(FileUploadEvent event) throws Exception {
+  public Certificate handleUploadCertificate(FileUploadEvent event)
+      throws CertificateException, KeyStoreException, IOException {
     try (InputStream is = event.getFile().getInputStream()) {
       return getKeyStoreUtils().handleUploadCert(is);
     }
+
   }
 
-  public void addToStore(Certificate cert) {
-    getKeyStoreUtils().addNewCert(cert);
+  public void addToStore(Certificate cert) throws KeyStoreException {
+      getKeyStoreUtils().addNewCert(cert);
     if ("X.509".equals(cert.getPublicKey().getFormat())) {
       X509Certificate X509cert = (X509Certificate) cert;
       FacesContext.getCurrentInstance().addMessage("addMissingCertSuccess",
@@ -149,12 +158,35 @@ public class TrustStoreBean implements SslTableStore {
     }
   }
 
-  @Override
   public List<StoredCert> getCertificats() {
-    return getKeyStoreUtils().getStoredCerts();
+    try {
+      setCertificateLoadError(null);
+      return getKeyStoreUtils().getStoredCerts();
+    } catch (KeyStoreException ex) {
+      if (ex.getCause() instanceof IOException) {
+        setCertificateLoadError(ex.getMessage());
+      } else {
+        setCertificateLoadError(ex.getCause().getMessage());
+      }
+      return List.of();
+    }
+  }
+
+  @PostConstruct
+  public void init() {
+    getCertificats();
   }
 
   private KeyStoreUtils getKeyStoreUtils() {
     return new KeyStoreUtils(file, type, provider, password);
   }
+
+  public String getCertificateLoadError() {
+    return certificateLoadError;
+  }
+
+  public void setCertificateLoadError(String certificateLoadError) {
+    this.certificateLoadError = certificateLoadError;
+  }
+
 }
