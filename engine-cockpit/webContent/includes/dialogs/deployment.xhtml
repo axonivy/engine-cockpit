@@ -11,7 +11,7 @@
       <f:selectItems value="#{deployOptionsBean.deployTestUsersValues}" />
     </p:selectOneMenu>
 
-    <p:outputLabel value="#{ivy.cm.co('/deployment/Version')}" for="version" />
+    <p:outputLabel value="#{ivy.cm.co('/common/Version')}" for="version" />
     <p:selectOneMenu value="#{deployOptionsBean.version}" widgetVar="version" id="version"
       onchange="versionSelectChange()">
       <f:selectItems value="#{deployOptionsBean.versions}" />

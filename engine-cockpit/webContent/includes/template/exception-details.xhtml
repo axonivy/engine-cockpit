@@ -24,7 +24,7 @@
     </span>
   </h3>
   <ui:fragment rendered="#{!errorPage.error.attributeNames.isEmpty()}">
-    <h4 class="list-group-item-heading">#{ivy.cm.co('/exceptionDetail/Attributes')}</h4>
+    <h4 class="list-group-item-heading">#{ivy.cm.co('/common/Attributes')}</h4>
     <div class="table-responsive">
       <table class="table table-bordered table-striped" style="font-size: 1.0em">
         <thead>
@@ -84,7 +84,7 @@
   <p>#{errorPage.getServletName()}</p>
   <br />
 
-  <h4 class="list-group-item-heading">#{ivy.cm.co('/exceptionDetail/Application')}</h4>
+  <h4 class="list-group-item-heading">#{ivy.cm.co('/common/Application')}</h4>
   <p>#{errorPage.applicationName}</p>
   <br />
 

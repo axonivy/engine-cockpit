@@ -22,7 +22,7 @@ applications:
   DeleteRunningCasesHintMessage: '{0}には{1}のアクティブなケースがあります。これらも削除されます。'
   DeploymentButtonTitle: デプロイ
   DeploymentPossibleReason: |-
-    システム構成 ''{0}'' または ''{1}'' が無効になっています。<br/>
+    システム構成 「{0}」 または 「{1}」 が無効になっています。<br/>
     有効にするか、デプロイメントにファイルシステムを使用してください。
   DisableErrorMessage: アプリケーション「{0}」の状態を評価できません。
   ExecutionErrorMessageSummary: '{0} モジュールを実行できませんでした。'
@@ -45,39 +45,39 @@ axonivy:
   CopyrightValue: '&copy; 2001 - '
   InstallationDirectory: インストール ディレクトリ
 branding:
-  ChooseOrDropFileWhichEndsWith: ファイルを選択またはドロップしてください（ファイル名に以下の文字列が含まれるもの）：
-  DefaultValue: 'デフォルト値: '
-  DownloadBrandingResourcesDialogHeader: '''''{0}''''のブランドリソースをダウンロード'
-  EditColorDialogHeader: 色を編集
-  EditCustomCSSDialogHeader: カスタム.cssを編集
-  FaviconHelperMessage: ブラウザタブのロゴ（正方形形式が推奨されます）
-  LogoHelperMessage: メインロゴ画像
-  LogoLightHelperMessage: メインロゴと同じデザインですが、例えば当社の場合、文字を白色に変更したもの
-  LogoMailHelperMessage: デフォルトのAxon Ivy Engineメール通知で使用されるロゴ
-  LogoSmallHelperMessage: 小さなロゴ（正方形形式が推奨）、エラーページやログインページなどで使用
-  ResetBrandingResourceConfirmMessage: 「{0}」のブランディングリソースをリセットしますか？
-  ResetBrandingResourceDialogHeader: ブランディングリソースをリセットします
-  ResetCSSColorConfirmMessage: CSS カラー「{0}」をリセットしますか？
-  ResetColorDialogHeader: カラーのリセット
-  ResetResourceSuccessfulMessage: 「{0}」のリセットに成功しました
-  ResetResourceUnsuccessfulMessage: '''''{0}''''のリセットに失敗しました'
-  UpdateColorSuccessfulMessage: 色「{0}」を更新しました
-  UpdateColorUnsuccessfulMessage: '''''{0}''''を更新できませんでした'
-  UpdateCustomCSSSuccessfulMessage: '''custom.css'' を正常に保存しました'
-  UpdateCustomCSSUnsuccessfulMessage: '''custom.css'' を保存できませんでした'
-  UploadFileSuccessfulMessage: '{0} を正常にアップロードしました'
-  UploadResourceDialogHeader: リソースを''{0}''にアップロードしてください
-  Value: '値: '
+  ChooseOrDropFileWhichEndsWith: 次で終わるファイルを選択または削除してください：
+  DefaultValue: 'デフォルト値:'
+  DownloadBrandingResourcesDialogHeader: 「{0}」のブランディングリソースをダウンロードする
+  EditColorDialogHeader: 色を編集する
+  EditCustomCSSDialogHeader: custom.cssを編集する
+  FaviconHelperMessage: ブラウザのタブ用のロゴ（正方形形式が推奨されます）
+  LogoHelperMessage: メインのロゴ画像
+  LogoLightHelperMessage: メインのロゴと同じですが、例えば当社の場合、白文字で表示されています。
+  LogoMailHelperMessage: デフォルトのAxon Ivy Engineメール通知で使用されているロゴは、以下の通りです。
+  LogoSmallHelperMessage: ロゴ（小サイズ、正方形形式が推奨）は、例えばエラー画面やログイン画面などで使用されます。
+  ResetBrandingResourceConfirmMessage: 「{0}」というブランディング リソースをリセットしてもよろしいですか？
+  ResetBrandingResourceDialogHeader: ブランドリソースのリセット
+  ResetCSSColorConfirmMessage: CSS カラー「{0}」をリセットしてもよろしいですか？
+  ResetColorDialogHeader: 色をリセット
+  ResetResourceSuccessfulMessage: 「{0}」を正常にリセットしました。
+  ResetResourceUnsuccessfulMessage: 「{0}」をリセットできませんでした。
+  UpdateColorSuccessfulMessage: 色「{0}」を正常に更新しました。
+  UpdateColorUnsuccessfulMessage: 「{0}」を更新できませんでした。
+  UpdateCustomCSSSuccessfulMessage: 「custom.css」を正常に保存しました。
+  UpdateCustomCSSUnsuccessfulMessage: 「custom.css」を保存できませんでした。
+  UploadFileSuccessfulMessage: '{0}を正常にアップロードしました。'
+  UploadResourceDialogHeader: リソースを「{0}」にアップロードしてください。
+  Value: '価値: '
 breadcrumbInfos:
   SelectedApplication: 選択されたアプリケーション
   SelectedSecuritySystem: 選択されたセキュリティシステム
 businessCalendarDetail:
-  EditAppYamlFile: アプリ YAML ファイルを編集
+  EditAppYamlFile: アプリ YAML ファイルを編集する
 channelState:
   ErrorInformation: エラー情報
-  FailedDeliverAttempsSoFar: '現在の失敗した配信試行回数:'
+  FailedDeliverAttempsSoFar: これまでの配送失敗回数：
   LastError: '最後のエラー:'
-  NextRetryToDeliver: '次の配信再試行:'
+  NextRetryToDeliver: '次の再試行配送日時:'
 cluster:
   ClusterNodeState: ノードはライセンスを取得していません。常にエラーコード503「サービス利用不可」を返します。
   Context: 文脈
@@ -98,55 +98,55 @@ clusterNodeInfo:
   OperatingSystemVersion: オペレーティングシステム バージョン
   Sessions: ' セッション'
 common:
-  Activate: アクティベート
-  Activity: アクティビティ
+  Activate: 有効化
+  Activity: 活動
   Add: 追加
   Administrators: 管理者
   Algorithm: アルゴリズム
   Application: アプリケーション
   Applications: アプリケーション
-  Apply: 申請
+  Apply: 応募する
   Attribute: 属性
   Attributes: 属性
-  AuthenticationType: 認証タイプ
+  AuthenticationType: 認証方式
   AxonIvy: Axon Ivy
   AxonIvyEngine: Axon Ivy エンジン
-  Back: バック
-  Branding: ブランド
+  Back: 戻る
+  Branding: ブランディング
   BusinessCalendar: ビジネスカレンダー
   Bytes: バイト
   Cancel: キャンセル
   Chart: チャート
   Check: 確認
-  Choose: 選択
+  Choose: 選ぶ
   Clear: クリア
   Close: 閉じる
-  Cluster: クラスヒストグラム
-  Cockpit: コックピット
-  CollapseAll: すべて折りたたむ
+  Cluster: クラスター
+  Cockpit: コクピット
+  CollapseAll: すべてを展開
   Color: 色
-  Communication: 通信
-  ConfigFileEditor: クラスター
+  Communication: コミュニケーション
+  ConfigFileEditor: 設定ファイル エディター
   Configuration: 設定
-  Confirm: 確認
+  Confirm: 確認する
   Connections: 接続
   CopyToClipboard: クリップボードにコピー
   Count: カウント
-  Created: 作成
+  Created: 作成されました
   Creator: 作成者
   Databases: データベース
   Date: 日付
   Deactivate: 無効化
   Default: デフォルト
-  DefinedBy: 定義元
+  DefinedBy: 定義される
   Delete: 削除
-  DeleteRecording: 記録を削除
+  DeleteRecording: 録画を削除する
   Deployment: 展開
   Description: 説明
   Disable: 無効化
   DiskSize: ディスク容量
   Download: ダウンロード
-  DownloadRecording: 録画をダウンロード
+  DownloadRecording: 録音のダウンロード
   Driver: ドライバー
   Duration: 期間
   Edit: 編集
@@ -171,7 +171,7 @@ common:
   Finish: 仕上げ
   Finished: 仕上げ済み
   Fragmentation: 断片化
-  FullName: フルネーム
+  FullName: 氏名
   Good: 良い
   Health: 健康
   Help: ヘルプ
@@ -183,7 +183,7 @@ common:
   IsMaster: マスターですか？
   Key: キー
   Language: 言語
-  Licence: 無効なライセンスがインストールされています。{0}
+  Licence: ライセンス
   Limit: 制限
   Lock: ロック
   Login: ログイン
@@ -193,18 +193,18 @@ common:
   Modified: 変更
   Modifier: 変更者
   Module: モジュール
-  More: 詳細
-  MoreOptions: 詳細オプション
+  More: さらに
+  MoreOptions: さらに多くのオプション
   Name: 名前
   Next: 次
   'No': いいえ
   NoData: データなし
-  NoDataAvailable: データがありません
+  NoDataAvailable: データが利用できません。
   NoRecordsFound: 記録が見つかりませんでした。
   NoValue: 値がありません
   None: なし
   NotAvailable: n.a.
-  NotFoundApplication: アプリケーション ''{0}'' が見つかりません
+  NotFoundApplication: アプリケーション「{0}」が見つかりません。
   NotificationChannels: 通知チャネル
   OK: OK
   Object: オブジェクト
@@ -225,22 +225,22 @@ common:
   Properties: プロパティ
   Property: プロパティ
   Provider: プロバイダー
-  Read: 読み取り
+  Read: 読む
   Receive: 受信
   Receiver: 受信者
   Refresh: 更新
   Remove: 削除
   RequiredMessage: 値が必要です
   Reset: リセット
-  RestClients: クライアントを再接続
-  RestServices: サービスを再起動
+  RestClients: RESTクライアント
+  RestServices: RESTサービス
   Restart: 再起動
   Role: 役割
-  Roles: ロール
+  Roles: 役割
   Run: 実行
   RunSearchEngineQuery: 実行中の検索エンジンクエリ
   RunningCases: 実行中のケース
-  SSL: システムデータベース
+  SSL: SSL
   Save: 保存
   SaveAndCreate: 保存して作成
   SaveChanges: 変更を保存
@@ -255,6 +255,7 @@ common:
   Services: サービス
   Sessions: セッション
   Setup: 設定
+  ShowConfigurationLog: 設定ログを表示する
   Size: サイズ
   Source: ソース
   Start: 開始
@@ -267,8 +268,9 @@ common:
   Strong: 強い
   Success: 成功
   Synchronize: 同期
-  System: セキュリティシステム
-  SystemConfiguration: Webサーバー
+  System: システム
+  SystemConfiguration: システム構成
+  SystemDatabase: システムデータベース
   TableName: テーブル名
   Tables: テーブル
   Template: テンプレート
@@ -288,76 +290,83 @@ common:
   Warning: 警告
   Warnings: 警告
   Weak: 弱い
-  WebServer: 設定状態
+  WebServer: Webサーバー
   WebServiceClients: Webサービスクライアント
   WebServiceProcesses: Web サービス プロセス
-  Write: 書き込み
+  Write: 書く
   'Yes': はい
 configuration:
   ApplicationConfiguration: アプリケーション設定
-  ConfigReset: '''''{0}'''' リセット'
-  ConfigSaved: '''''{0}'''' 保存されました'
+  ConfigReset: 「{0}」 リセット
+  ConfigSaved: 「{0}」 保存されました
   EditConfigurationInfoMessage: このプロパティを変更すると、エンジンを再起動する必要があります
   Examples: 例
-  Filter: フィルター
+  Filter: 'フィルター:'
   GoEditVariableValueLink: 変数値を編集してください
-  ResetConfigConfirmDialogMessage: アプリケーションの設定を再読み込み
-  ShowDatabasesMessage: アプリケーション ''{0}'' の設定が再読み込みされました
-  ShowOnlyDefinedValuesMessage: '{0} ''''{1}'''' をリセットしますか？'
-  ShowRestClientsMessage: データベースを表示
-  ShowVariablesMessage: 定義済みの値のみを表示
-  ShowWebServiceClientsMessage: 残りのクライアントを表示
-  ViewFile: 変数を表示
+  ReloadApplicationConfiguration: アプリケーションの設定を再読み込みします。
+  ReloadApplicationConfigurationMessage: アプリケーション「{0}」の設定が再読み込みされました。
+  ResetConfigConfirmDialogMessage: '{0}「{1}」をリセットしてもよろしいですか？'
+  ShowDatabasesMessage: データベースを表示する
+  ShowOnlyDefinedValuesMessage: 定義された値のみを表示する
+  ShowRestClientsMessage: RESTクライアントを表示する
+  ShowVariablesMessage: 変数を表示する
+  ShowWebServiceClientsMessage: Webサービスクライアントを表示する
+  ViewFile: ファイルを表示する
 connectionTestResult:
-  ConnectToDatabaseFailMessage: 認証に失敗しました
-  ConnectToDatabaseSuccessMessage: REST サービスはテストリクエストを理解できませんでした
-  ConnectToRestServiceFailMessage: 'エラーが発生しました: %s'
-  ConnectToRestServiceSuccessMessage: 'データベースに正常に接続しました: %s %s (JDBC バージョン %s)'
-  ConnectionTestDialogHeader: Web サービス クライアントを表示
-  ConnectionTestDialogHintMessage: ファイルを表示
-  ConnectionTestRestClientAuthenticationMessage: '接続テスト - URL:'
-  ConnectionTestRestClientNotUnderstandRequestMessage: 接続テストを行う前に、変更内容を保存してください。
-  InvalidRestClientUrlMessage: REST サービスに接続できませんでした
-  TLSTestButton: '無効なURL（スクリプトコンテキストを含む可能性があります）エラーが発生しました: '
-  TLSTestButtonTitle: 接続テスト
-  TestConnection: テストリクエストを REST サービスに正常に送信しました
+  ConnectToDatabaseFailMessage: 'エラーが発生しました: %s'
+  ConnectToDatabaseSuccessMessage: 'データベースへの接続に成功しました: %s %s を JDBC バージョン %s で接続しました。'
+  ConnectToRestServiceFailMessage: RESTサービスに接続できませんでした。
+  ConnectToRestServiceSuccessMessage: RESTサービスへのテストリクエストを正常に送信しました。
+  ConnectionTestDialogHeader: '接続テスト - URL:'
+  ConnectionTestDialogHintMessage: 接続テストを行う前に、必ず変更内容を保存してください。
+  ConnectionTestRestClientAuthenticationMessage: 認証に失敗しました
+  ConnectionTestRestClientNotUnderstandRequestMessage: RESTサービスはテストリクエストを理解できません。
+  InvalidRestClientUrlMessage: |-
+    無効なURL（スクリプトコンテキストを含む可能性があります）
+
+    エラーが発生しました：
+  TLSTestButton: TLS テスト
+  TLSTestButtonTitle: TLS接続テスト
+  TestConnection: 接続テスト
 databaseConfiguration:
-  DatabaseConfigurations: TLS テスト
-  MaxConnections: TLS接続テスト
-  ResetConfiguration: データベース設定
-  ResetDatabaseConfigurationMessage: 最大接続数
-  ResetDatabaseConfirmDialogHeader: 設定のリセット
-  ResetDatabaseConfirmDialogMessage: データベース設定のリセット
-  SaveDatabaseConfigurationMessage: データベースのリセット
-  TestDatabaseConnection: このデータベースの設定をリセットしますか？
+  DatabaseConfigurations: データベースの設定
+  MaxConnections: 最大接続数
+  ResetConfiguration: 設定をリセットする
+  ResetDatabaseConfigurationMessage: データベース構成のリセット
+  ResetDatabaseConfirmDialogHeader: データベースをリセットする
+  ResetDatabaseConfirmDialogMessage: このデータベースをリセットしてもよろしいですか？
+  SaveDatabaseConfigurationMessage: データベース構成のリセット
+  TestDatabaseConnection: データベース接続のテスト
 databaseConnections:
-  InUse: データベース設定のリセット
-  LastUsed: データベース接続テスト
+  InUse: 使用中
+  LastUsed: 最終使用
 databaseDetail:
-  GuideText: 使用中
-  NotFoundDatabase: 最後に使用
-  Title: データベースを編集するには、app.yaml ファイルを上書きしてください。例として、以下のスニペットをコピーして貼り付けてください。
+  GuideText: データベースを編集するには、app.yaml ファイルを上書きしてください。例えば、以下のスニペットをコピーして貼り付けてください。
+  NotFoundDatabase: データベース「{0}」が見つかりません。
+  Title: データベース 「{0}」
 databaseHistory:
-  CopyToClipboardButtonTitle: データベース ''{0}'' が見つかりません
-  ProcessElementHeader: データベース ''{0}''
-  ResultTimeHeader: クリップボードにコピー
-  ResultTimeValueTitle: 要素を処理
-  RowsAffectedHeader: 結果時間
-  SQLHeader: ステートメントの結果を読み込むのに必要な時間
+  CopyToClipboardButtonTitle: クリップボードにコピー
+  ProcessElementHeader: プロセス要素
+  ResultTimeHeader: 結果時間
+  ResultTimeValueTitle: ステートメントの結果を読み取るのに必要な時間
+  RowsAffectedHeader: 影響を受ける行数
+  SQLHeader: SQL
 databases:
-  NoDatabasesFound: 影響を受けた行数
+  NoDatabasesFound: 展開されたアプリにデータベースが見つかりませんでした。
 deletionWarning:
-  DeletionWarningMessage: SQL
+  DeletionWarningMessage: |-
+    削除は危険であり、エンジンを不良状態に陥らせる可能性があります。
+    <br />
+    ケースやデータが失われる可能性があります。注意して作業を進めてください。
 deployment:
-  DeployTestUsers: デプロイされたアプリにデータベースが見つかりませんでした
-  DeployToApp: 削除は危険であり、エンジンを正常な状態から外す可能性があります。&lt;br /&gt; データやケースが失われる可能性があります。注意して実行してください。
-  FileFormat: テストユーザーをデプロイ
-  Options: アプリにデプロイ
-  Version: ファイル形式
-  VersionRange: オプション
+  DeployTestUsers: テストユーザーを展開する
+  DeployToApp: アプリにデプロイする
+  FileFormat: ファイル形式
+  Options: オプション
+  VersionRange: バージョン範囲
 directoryBrowser:
-  DirectoryBrowserDialogHeader: バージョン
-  NodePropertiesEmptyMessage: バージョン範囲
+  DirectoryBrowserDialogHeader: ディレクトリブラウザ
+  NodePropertiesEmptyMessage: ノードを選択して、その属性を表示します。
 editor:
   AutoMigratedToLatestVersionWarningMessage: これらのファイルの内容は、最新のバージョンに自動移行されました。
   DownloadP12: ダウンロード .p12
@@ -370,48 +379,42 @@ editor:
   UploadFileSuccessSummaryMessage: ファイルがアップロードされました
   UploadP12: アップロード .p12
 email:
-  ConfigureEmailServer: ディレクトリブラウザ
-  Email: ノードを選択してその属性を表示
-  MailAddress: メールサーバーの設定
-  Port: メール
-  SendTestMail: メール アドレス
-  Server: ポート
-  User: テストメールを送信
+  ConfigureEmailServer: メールサーバーの設定
+  MailAddress: メールアドレス
+  SendTestMail: テストメールを送信する
+  Server: サーバー
 exception:
-  AjaxExceptionDialogHeader: サーバー
-  ViewExpiredExceptionDialogContent: ユーザー
-  ViewExpiredExceptionDialogHeader: エラー
+  AjaxExceptionDialogHeader: エラー
+  ViewExpiredExceptionDialogContent: ビューまたはセッションが期限切れになりました。
+  ViewExpiredExceptionDialogHeader: 表示またはセッションが期限切れになりました
 exceptionDetail:
-  Application: ビューまたはセッションが期限切れになりました。
-  Attributes: ビューまたはセッションが期限切れです
-  Element: アプリケーション
-  Process: 属性
-  ProcessCallStack: '要素:'
-  RequestUri: 'プロセス:'
-  Servlet: プロセス呼び出しスタック
-  StackTrace: リクエストURI
-  TechnicalCause: サーブレット
-  ThreadLocalValues: スタックトレース
-  ThrownBy: 技術的な原因
-  UnexpectedErrorOccured: スレッドローカル値
+  Element: '要素:'
+  Process: 'プロセス:'
+  ProcessCallStack: プロセス コールスタック
+  RequestUri: リクエストURI
+  Servlet: サーブレット
+  StackTrace: スタックトレース
+  TechnicalCause: 技術的な原因
+  ThreadLocalValues: スレッドローカル値
+  ThrownBy: 投げられた
+  UnexpectedErrorOccured: 予期せぬエラーが発生しました：
 fileUpload:
-  AcceptFilesPlaceholder: 発生元
-  ChooseFileButton: '予期しないエラーが発生しました:'
-  ChooseValidFileBeforeUpload: 'ファイルを選択または削除してください。ファイル名は次で終わる必要があります: '
-  FileUploadDialogDefaultTitle: ファイルを選択してください
+  AcceptFilesPlaceholder: 次で終わるファイルを選択または削除してください：
+  ChooseFileButton: ファイルを選択してください
+  ChooseValidFileBeforeUpload: アップロード前に有効なファイルを選択してください。
+  FileUploadDialogDefaultTitle: ファイルのアップロード
 freeDays:
-  FreeDateTooltip: アップロード前に有効なファイルを選択してください
-  FreeDayOfYearTooltip: ファイルのアップロード
-  FreeDays: 固定日での無料日
-  FreeEasterRelativeDayTooltip: 毎年MM-ddの無料日
+  FreeDateTooltip: 固定日の休日
+  FreeDayOfYearTooltip: 毎年（MM-dd）の休日
+  FreeDays: 無料の日
+  FreeEasterRelativeDayTooltip: 毎年、イースターに準じた休日
 health:
-  Health: 無料日
-  HealthDetails: 毎年イースターに連動した無料日
-  HealthyMessage: 健康状態
-  Problems: 問題はありません。エンジンは正常です。
-  ProblemsDetectedMessage: 問題
-  RunHealthChecks: '{0} の問題が検出されました。'
-  Severity: 健康状態チェックを実行
+  HealthDetails: 健康に関する詳細
+  HealthyMessage: 問題はありません。エンジンは正常です。
+  Problems: 問題
+  ProblemsDetectedMessage: '{0}件の問題が検出されました。'
+  RunHealthChecks: ヘルスチェックを実行する
+  Severity: 深刻度
 indexes:
   Cardinality: 基数
   Columns: 列
@@ -419,71 +422,77 @@ indexes:
   Pages: ページ
   Unique: ユニーク
 indices:
-  ClosedIndexHint: 深刻度
-  Index: ディスク容量が不足しているようです。検索エンジンのウォーターマーク設定を確認してください。
-  Indices: インデックス
-  OpenIndexHint: インデックス
-  Reindex: すべて正常です。インデックスは開かれています。
-  ReindexDialogInfo: 再インデックス
-  Size: この手順は検索エンジンの再インデックス化を実行し、時間がかかる場合があります！
-  Status: サイズ
-  StatusInfo: ステータス
-  Store: 'ステータス:'
+  ClosedIndexHint: ディスク容量が不足しているようです。検索エンジンのウォーターマーク設定をご確認ください。
+  Index: 索引
+  Indices: 指数
+  OpenIndexHint: すべて問題ありません、インデックスは開いています。
+  Reindex: 再インデックス
+  ReindexDialogInfo: この手順は検索エンジンの再インデックス化をトリガーし、時間がかかる場合があります！
+  Size: サイズ
+  Status: 状態
+  StatusInfo: '状態:'
+  Store: 店舗
 info:
-  DemoPortal: ストア
-  DemoPortalIntroduction: デモポータル
-  EngineMaintenanceInfo: デモポータルは、Axon Ivyプラットフォームをワークフローエンジンとして探索し、その強力な機能を体験するための最適な入り口を提供します。ユーザーは、複雑なビジネスプロセスをいかに簡単に自動化、効率化、最適化できるかを発見できます。タスク管理、システム統合、部門横断的なワークフローのオーケストレーションなど、どのようなニーズにも対応できるよう、直感的なツールと柔軟な環境が用意されています。
-  InstallYourApplications: '&lt;p&gt;したがって、Axon Ivy Engineは現在メンテナンスモードで動作しています。例えば、Axon Ivy Engineがシステムデータベースに接続できない場合やライセンスが期限切れの場合など、設定に問題がある場合は、&lt;b&gt;&lt;a href="setup.xhtml"&gt;セットアップウィザード&lt;/a&gt;&lt;/b&gt; にアクセスして問題を解決してください。Axon Ivy Engineが更新された場合、既存のインスタンスが完全に動作するように、&lt;b&gt;&lt;a href="migrate.xhtml"&gt;Migration
-    Wizard&lt;/a&gt;&lt;/b&gt;を実行する必要があります。このプロセスは、システムの機能性と整合性を維持するために不可欠です。&lt;/p&gt;'
-  MaintenanceMode: アプリケーションをエンジン コックピットにインストールしてください。
-  NEODesigner: メンテナンスモード
-  NEODesignerIntroduction: NEO Designer
-  NoActiveProjects: NEO Designerは、ビジュアルツールと事前構築されたコンポーネントを活用してアプリケーション開発を加速するローコードプラットフォームです。ビジネスユーザーと開発者間のシームレスな協業を可能にし、ビジネスタスクの自動化を簡素化することで、開発プロセスを効率化し複雑さを軽減します。効率性を向上させるために設計されたNEO Designerは、特定のビジネス要件に効果的に対応できるスケーラブルなアプリケーションの迅速な展開をサポートします。
-  NoApplications: このアプリにはアクティブなプロジェクトがありません。
-  Open: アプリケーションはありません
-  OpenLink: 開
-  ShutdownEngineConfirmationMessage: 開く 〉
-  ShutdownEngineMessage: 本当にAxon Ivy Engineをシャットダウンしますか？
+  DemoPortal: デモ ポータル
+  DemoPortalIntroduction: デモポータルは、Axon Ivyプラットフォームをワークフローエンジンとして活用するための最適な入り口を提供します。ユーザーは、複雑なビジネスプロセスをいかに簡単に自動化、効率化、最適化できるかを体験できます。タスク管理、システム統合、または部門横断的なワークフローのオーケストレーションなど、どのようなニーズにも対応できるよう、プラットフォームは直感的なツールと柔軟な環境を提供します。
+  EngineMaintenanceInfo: <p>したがって、Axon Ivy Engineは現在メンテナンスモードで動作しています。例えば、Axon Ivy Engineがシステムデータベースに接続できない場合やライセンスが期限切れになった場合など、設定に問題が発生した場合は、<b><a href="setup.xhtml">セットアップ ウィザード</a></b>にアクセスして問題を解決してください。Axon Ivy Engine が更新された場合、既存のインスタンスが正常に動作していることを確認するため、<b><a href="migrate.xhtml">移行ウィザード</a></b>
+    を起動する必要があります。このプロセスは、システムの機能性と整合性を維持するために不可欠です。</p>
+  InstallYourApplications: アプリケーションをエンジン コックピットにインストールしてください。
+  MaintenanceMode: メンテナンスモード
+  NEODesigner: NEO デザイナー
+  NEODesignerIntroduction: NEO Designerは、ビジュアルツールと事前構築されたコンポーネントを活用してアプリケーション開発を加速するローコードプラットフォームです。これにより、ビジネスユーザーと開発者間のシームレスな協業が可能になります。このプラットフォームは、ビジネスタスクの自動化を簡素化し、開発プロセスを効率化するとともに複雑さを軽減します。効率性を向上させるために設計されたNEO Designerは、特定のビジネスニーズに効果的に対応するためのスケーラブルなアプリケーションの迅速な展開をサポートします。
+  NoActiveProjects: このアプリには現在進行中のプロジェクトがありません。
+  NoApplications: 応募はありません
+  Open: 開く
+  OpenLink: 開く 〉
+  ShutdownEngineConfirmationMessage: 本当にAxon Ivy エンジンをシャットダウンしたいですか？
+  ShutdownEngineMessage: Axon Ivy エンジンが停止しています。ウィンドウを閉じることができます。
 information:
-  ApplicationHome: Axon Ivy Engine がシャットダウン中です。ウィンドウを閉じることができます。
-  ApplicationInformation: アプリケーション ホーム
-  FileDirectory: アプリケーション情報
-  WorkflowUI: ファイルディレクトリ
+  ApplicationHome: アプリケーション ホーム
+  ApplicationInformation: 申請情報
+  FileDirectory: ファイルディレクトリ
+  WorkflowUI: ワークフロー UI
 java:
-  Java: ワークフロー UI
-  JavaDetails: Java
-  Vendor: 製品
-  Version: ベンダー
+  Java: Java
+  JavaDetails: Javaの詳細
+  Vendor: ベンダー
+  Version: バージョン
 javaInfo:
-  JVMArgumentTableHeader: Java 詳細
-  JavaDetailDialogHeader: バージョン
+  JVMArgumentTableHeader: JVM 引数
+  JavaDetailDialogHeader: Java 詳細
 jdbcDriver:
   JDBCDriver: JDBC ドライバー
 licence:
-  ChooseLicence: JVM 引数
-  ChooseLicencePlaceholder: ライセンスを選択
-  ClusterNodes: .lic で終わるファイルを選択または削除してください
-  ConcurrentSessions: クラスターノード
-  ConfigureLicence: 同時セッション
-  EngineRunsInDemoMode: ライセンスの設定
-  EngineRunsInMaintenanceMode: ライセンスがインストールされていません。エンジンはデモモードで実行されます。
-  ExpiredLicenceMessage: エンジンはメンテナンスモードで実行されています。
-  ExpiredLicenceTouchYourSalesMessage: ライセンスが期限切れです。{0}
-  Expires: ライセンスが間もなく期限切れになります。販売担当までご連絡ください。
-  InvalidLicenceMessage: 有効期限切れ
-  LicenceEvents: ライセンス
-  LicenceType: ライセンスイベント
-  NamedUsers: ライセンスの種類
-  Never: 指定ユーザー
-  Owner: ' nunca'
-  SuccessfullyUploadedMessage: 所有者
-  Unlimited: ライセンスのアップロードに成功しました
-  UploadLicence: 無制限
-  UploadValidLicence: ' nunca'
+  ChooseLicence: ライセンスを選択してください
+  ChooseLicencePlaceholder: .lic で終わるファイルを選択または削除してください。
+  ClusterNodes: クラスターノード
+  ConcurrentSessions: 並行セッション
+  ConfigureLicence: ライセンスを設定する
+  EngineRunsInDemoMode: ライセンスがインストールされていません。エンジンはデモモードで動作しています。
+  EngineRunsInMaintenanceMode: エンジンはメンテナンスモードで動作しています。
+  ExpiredLicenceMessage: ライセンスが期限切れになりました。{0}
+  ExpiredLicenceTouchYourSalesMessage: ライセンスの有効期限が間もなく切れます。営業担当までご連絡ください。
+  Expires: 有効期限
+  InvalidLicenceMessage: 無効なライセンスがインストールされています。{0}
+  LicenceEvents: ライセンスイベント
+  LicenceType: ライセンスの種類
+  NamedUsers: 指定ユーザー
+  Never: 決して
+  Owner: 所有者
+  SuccessfullyUploadedMessage: ライセンスのアップロードに成功しました。
+  Unlimited: 無制限
+  UploadLicence: 決して
+  UploadValidLicence: 有効なライセンスをアップロードしてください。
 licenceEvents:
-  ConfirmAll: 有効なライセンスをアップロードしてください。
-  LicenceEventsDialogHeader: すべてを確認してください
-  SupportReportDialogContent: ライセンスイベント
+  ConfirmAll: すべてを確認してください
+  LicenceEventsDialogHeader: ライセンスイベント
+  SupportReportDialogContent: |-
+    <p>Axon Ivy エンジンを使用中に問題が発生した場合は、サポートチケットを開き、このZIPアーカイブをダウンロードしてチケットに添付してください。</p>
+    <p>このZIPアーカイブには以下の内容が含まれています：</p>
+    <ul>
+        <li>Axon Ivyエンジンサポート報告書</li>
+         <li>本日のログファイル</li>
+    </ul>
 liveStats:
   Bytes: バイト
   Calls: 通話
@@ -538,773 +547,841 @@ liveStats:
   Sent: ' 送信'
   SentMessagesMonitor: 送信したメッセージ
   Transactions: 取引
-  WebServiceCalls: ウェブサービス呼び出し
-  WebServiceExecutionTime: ウェブサービスの実行時間
+  WebServiceCalls: Webサービス呼び出し
+  WebServiceExecutionTime: Web サービスの実行時間
 login:
-  EngineCockpitLoginTitle: Web サービス実行時間
-  IvyYamlFile: エンジン コックピット - ログイン
-  LoginFooterCopyright: ivy.yaml
-  LoginFooterEngineCockpit: 著作権 © Axon Ivy
-  NoAdministratorsConfigured: エンジン コックピット
-  PasswordPlaceholder: '管理者が設定されていません。以下の情報を確認してください。 '
-  SignInButton: ユーザー名 / メールアドレス
-  UserNamePlaceholder: サインイン
+  EngineCockpitLoginTitle: エンジン コックピット - ログイン
+  IvyYamlFile: ivy.yaml
+  LoginFooterCopyright: 著作権 Ⓒ Axon Ivy
+  LoginFooterEngineCockpit: エンジン コックピット
+  NoAdministratorsConfigured: 管理者が設定されていません。設定を確認してください。
+  PasswordPlaceholder: ユーザー名 / メールアドレス
+  SignInButton: サインイン
+  UserNamePlaceholder: パスワード
 logs:
-  DownloadAllLogFiles: パスワード
-  DownloadLog: すべてのログファイルをダウンロード
-  NoLogMessage: ログをダウンロード
-  OpenLog: '指定した日付にログが見つかりませんでした: {0}'
+  DownloadAllLogFiles: すべてのログファイルをダウンロード
+  DownloadLog: ログをダウンロード
+  NoLogMessage: '指定された日付にはログが見つかりません: {0}'
+  OpenLog: ログを開く
 memberProperties:
-  Property: ログを開く
-  PropertyInExternalSecuritySystem: プロパティ
-  RemovePropertyMessage: プロパティは外部セキュリティシステムによって管理されています
-  SavePropertyErrorMessage: プロパティが正常に削除されました
-  SavePropertyMessage: プロパティ ''{0}'' は既にセキュリティシステムからインポートされています
+  Property: プロパティ
+  PropertyInExternalSecuritySystem: プロパティは外部のセキュリティシステムによって管理されています
+  RemovePropertyMessage: プロパティを正常に削除しました
+  SavePropertyErrorMessage: プロパティ「{0}」は既にセキュリティシステムからインポートされています
+  SavePropertyMessage: プロパティを正常に更新しました
 migrate:
-  BackupSystemDatabaseRemindMessage: プロパティが正常に更新されました
-  Checks: マイグレーションを開始する前に、システムデータベースとAxon Ivy Engineのインストールディレクトリのバックアップを必ず作成してください。
-  Done: チェック
-  EngineMigrationErrorMessage: 完了
-  EngineMigrationSuccessfulMessage: 移行中にエラーが発生しました。&lt;br&gt;&lt;pre style=\"white-space:pre-wrap;word-break:break-all;margin:0px;\"&gt;&lt;code&gt;{0}&lt;/code&gt;&lt;/pre&gt;
-  InPlaceMigration: Axon Ivy Engine の移行は正常に完了しました。Axon Ivy Engine を再起動してください。
-  InPlaceMigrationIntroduction: インプレイス移行
-  InvalidLicenceMessage: この移行はインプレイス移行です。したがって、新しいAxon Ivy Engineは古いAxon Ivy Engineとまったく同じ場所にインストールされます。コンテナ環境内の設定ファイル（例：&lt;code&gt;ivy.yaml&lt;/code&gt;）は読み取り専用モードで提供される場合があります。移行にはこれらの設定ファイルへの書き込みアクセスが必要のため、これらの変更を実行するために一時ディレクトリを使用するかどうかを定義できます。移行後、これらのファイルを Axon Ivy Engine に手動で追加する必要があります。
-  Licence: 'ライセンスが無効です。新しいライセンスをアップロードしないと、移行後にAxon Ivy Engineを起動できません。理由: {0}'
-  LoadLocation: ライセンス
-  Location: 読み込み場所
-  LocationValidationErrorMessage: 場所
-  Log: 場所の検証中にエラーが発生しました
-  MigrateOldEngine: ログ
-  MigrationTasks: 古いAxon Ivy Engineの移行
-  OldEngineLocation: 移行タスク
-  ReadingLicenceErrorMessage: 古いエンジンの場所
-  Running: 'ライセンスの読み込み中にエラーが発生しました: {0}'
-  StartMigration: 実行中{0}
-  Summary: 移行を開始
-  TemporaryDirectory: 概要
-  Upload: '一時ディレクトリ: '
-  ValidLicenceFoundMessage: アップロード
-  WriteConfigurationFilesToTemporaryDirectory: 有効なライセンスが見つかりました。
+  BackupSystemDatabaseRemindMessage: 移行を開始する前に、システムデータベースと Axon Ivy Engine のインストールディレクトリ全体のバックアップを必ず作成してください。
+  Checks: チェック
+  Done: 完了
+  EngineMigrationErrorMessage: 移行中にエラーが発生しました。<br><pre style="white-space:pre-wrap;word-break:break-all;margin:0px;"><code>{0}</code></pre>
+  EngineMigrationSuccessfulMessage: Axon Ivy Engine の移行が正常に完了しました。Axon Ivy Engine を再起動してください。
+  InPlaceMigration: インプレース移行
+  InPlaceMigrationIntroduction: この移行はインプレース移行です。したがって、新しい Axon Ivy Engine は古い Axon Ivy Engine とまったく同じ場所にインストールされます。<code>ivy.yaml</code> などのコンテナ環境における設定ファイルは読み取り専用モードで提供される場合があります。 移行ではこれらの設定ファイルへの書き込みアクセスが必要なため、一時ディレクトリを使用してこれらの変更を行うかどうかを指定できます。移行後、これらのファイルを手動で Axon Ivy Engine に追加する必要があります。
+  InvalidLicenceMessage: 'ライセンスが無効です。移行後に Axon Ivy Engine を起動できるよう、新しいライセンスをアップロードしてください。理由: {0}'
+  Licence: ライセンス
+  LoadLocation: ロケーションを読み込む
+  Location: ロケーション
+  LocationValidationErrorMessage: ロケーションの検証中にエラーが発生しました
+  Log: ログ
+  MigrateOldEngine: 古い Axon Ivy Engine を移行
+  MigrationTasks: 移行タスク
+  OldEngineLocation: 古いエンジンのロケーション
+  ReadingLicenceErrorMessage: 'ライセンス読み込み中にエラーが発生しました: {0}'
+  Running: 実行中{0}
+  StartMigration: 移行を開始
+  Summary: サマリー
+  TemporaryDirectory: '一時ディレクトリ: '
+  Upload: アップロード
+  ValidLicenceFoundMessage: 有効なライセンスが見つかりました。
+  WriteConfigurationFilesToTemporaryDirectory: 設定ファイルを一時ディレクトリに書き込む
 monitor:
-  Active: 設定ファイルを一時ディレクトリに書き込み
-  CPULoad: コア
-  Caches: オブジェクトがシステムデータベースに書き込まれたため、キャッシュから無効化された回数
-  Classes: キャッシュ
-  Committed: クラスヒストグラムをリフレッシュ
-  Cores: コミット済み
-  Deamons: CPU使用率
-  GCCount: ガベージコレクション
-  GarbageCollection: 総実行時間 [ms] (内部 + 外部)
-  HeapMemory: ヘルスチェックを実行
-  IO: 初期化
-  Init: ヒープメモリ
-  JVMMaxMemory: ジョブを即時実行するようにスケジュールすると、不要な毎日のタスクメールでユーザーを煩わせたり、パフォーマンスが低下するなどの負の影響が生じる可能性があります。
-  JVMMemoryUsage: JVM最大メモリ
-  JavaFlightRecorder: IO
-  Load: JVM メモリ使用量
-  Loaded: 負荷
-  Max: 読み込み済み
-  Memory: 最後の値
-  MemoryUsage: メモリ
-  Network: メモリ使用量
-  NonHeapMemory: ネットワーク
-  Of: 非ヒープメモリ
-  Peak: '{0} / {1}'
-  Process: ピーク
-  Read: プロセス
-  ReadWrite: 読み込み
-  Receiving: 読み取り / 書き込み
-  SendRecv: 送信
-  Sending: 受信
-  System: ビーンを停止します
-  Threads: 待機時間
-  Time: スレッド
-  TotalLoaded: 時間
-  TotalStarted: 合計ロード時間
-  Unloaded: トレース
-  Used: 未読み込み
-  Write: 使用
+  Active: アクティブ
+  CPULoad: CPU負荷
+  Caches: キャッシュ
+  Classes: クラス
+  Committed: コミット済み
+  Cores: コア
+  Deamons: デーモン
+  GCCount: '{0} {1} 回数 {2}'
+  GarbageCollection: ガーベジコレクション
+  HeapMemory: ヒープメモリ
+  IO: 入出力 (IO)
+  Init: 初期化
+  JVMMaxMemory: JVM最大メモリ
+  JVMMemoryUsage: JVMメモリ使用量
+  JavaFlightRecorder: Java Flight Recorder
+  Load: 負荷
+  Loaded: 読み込み済み
+  Max: 最大
+  Memory: メモリ
+  MemoryUsage: メモリ使用量
+  Network: ネットワーク
+  NonHeapMemory: 非ヒープメモリ
+  Of: '{0} / {1}'
+  Peak: ピーク
+  Process: プロセス
+  Read: 読み込み
+  ReadWrite: 読み書き
+  Receiving: 受信
+  SendRecv: 送信 / 受信
+  Sending: 送信
+  System: システム
+  Threads: スレッド
+  Time: 時間
+  TotalLoaded: 合計読み込み数
+  TotalStarted: 合計開始数
+  Unloaded: アンロード済み
+  Used: 使用済み
+  Write: 書き込み
   cache:
-    CacheTooltip: アクティブ
-    CountTooltip: 'キャッシュ制限の詳細:&lt;br/&gt; &lt;ul&gt;  &lt;li&gt;Max: キャッシュに保存される最大バイト数または文字数。&lt;/li&gt;  &lt;li&gt;TTL: 生存時間。オブジェクトが最初に読み込まれてからキャッシュに保持される最大時間。&lt;/li&gt;  &lt;li&gt;TTI: アイドル時間。オブジェクトが最後に読み込まれてからキャッシュに保持される最大時間。&lt;/li&gt; &lt;/ul&gt;'
-    LimitTooltip: 現在メモリにキャッシュされているオブジェクトの数
-    NameTooltip: キャッシュ内のオブジェクトの数（count 参照）は、定期的にこの値まで削減されます
-    ReadHits: キャッシュの名前
-    ReadHitsTooltip: 読み取りヒット
-    ReadMisses: オブジェクトがシステムデータベースではなくキャッシュから正常に読み込まれた回数
-    ReadMissesTooltip: 読み取りミス
-    WriteTooltip: 書き込み
-    Writes: キャッシュ内でオブジェクトが見つからず、代わりにシステムデータベースから読み込まれた回数
+    CacheTooltip: |-
+      キャッシュ制限の詳細:<br/>
+      <ul>
+       <li>合計: キャッシュされるバイト数または文字数の最大値。</li>
+       <li>TTL: 有効期間（有効期間）。オブジェクトが最初に読み込まれてからキャッシュに残る最大時間。</li>
+       <li>TTI: アイドル期間（アイドル期間）。オブジェクトが最後に読み込まれてからキャッシュに残る最大時間。</li>
+      </ul>
+    CountTooltip: 現在メモリにキャッシュされているオブジェクトの数
+    LimitTooltip: キャッシュ内のオブジェクト数（count参照）は、定期的にこの値まで減らされます
+    NameTooltip: キャッシュの名前
+    ReadHits: 読み込みヒット
+    ReadHitsTooltip: オブジェクトがシステムデータベースではなくキャッシュから正常に読み込まれた回数
+    ReadMisses: 読み込みミス
+    ReadMissesTooltip: オブジェクトがキャッシュ内に見つからず、代わりにシステムデータベースから読み込む必要があった回数
+    WriteTooltip: オブジェクトがシステムデータベースに書き込まれたため、キャッシュから無効化された回数
+    Writes: 書き込み
   classHistogram:
-    BytesTooltip: クラス
-    Clear: このクラスのインスタンスのためにJavaヒープに割り当てられたバイトの総数
-    Delta: クラスヒストグラムのクリア
-    DeltaMax: '&amp;#x394;'
-    DeltaMaxDetailTooltip: '&amp;#x394; 最大'
-    DeltaMaxTooltip: '&amp;#x394;: {0}&lt;br/&gt; Max: {1}'
-    DeltaMin: 前回のクリア以降、Java ヒーパに割り当てられたインスタンスの現在の数と最大数の差
-    DeltaMinDetailTooltip: '&amp;#x394; 最小'
-    DeltaTooltip: '&amp;#x394;: {0}&lt;br/&gt; 最小: {1}'
-    Dump: 前回のクリア以降、Javaヒープに割り当てられたインスタンスの現在の値と最小値の差
-    DumpHeapMemory: ヒープメモリのダンプ
-    DumpMemoryMessage1: ヒープメモリのダンプ
-    DumpMemoryMessage2: この操作は、ヒープメモリ全体をファイルにダンプします。
-    DumpMemoryMessage3: 生成されるファイルは、現在のヒープサイズによっては非常に大きくなる可能性があります。
-    EmptyHistogramMessage: エンジンが数秒間応答しなくなる可能性があります。
-    InstancesTooltip: リフレッシュボタンを押してクラスヒストグラムを再読み込みします。注意：この操作はフルガベージコレクションをトリガーし、エンジンのパフォーマンスに影響を与える可能性があります。
-    MemoryDump: このクラスに対してJavaヒープに割り当てられたインスタンス/オブジェクトの総数
-    Refresh: メモリダンプ
+    BytesTooltip: このクラスのインスタンスに割り当てられたJavaヒープ上のバイト総数
+    Clear: クラスヒストグラムをクリア
+    Delta: '&#x394;'
+    DeltaMax: '&#x394; 最大'
+    DeltaMaxDetailTooltip: |-
+      &#x394;: {0}<br/>
+      最大: {1}
+    DeltaMaxTooltip: 最後にクリアされてから現在までのJavaヒープ上のインスタンス数の最大値との差
+    DeltaMin: '&#x394; 最小'
+    DeltaMinDetailTooltip: |-
+      &#x394;: {0}<br/>
+      最小: {1}
+    DeltaTooltip: 最後にクリアされてから現在までのJavaヒープ上のインスタンス数の最小値との差
+    Dump: ヒープメモリダンプ
+    DumpHeapMemory: ヒープメモリをダンプ
+    DumpMemoryMessage1: ヒープメモリ全体をファイルにダンプします。
+    DumpMemoryMessage2: 生成されるファイルは現在のヒープサイズによって非常に大きくなる可能性があります。
+    DumpMemoryMessage3: エンジンが数秒間応答しなくなる場合があります。
+    EmptyHistogramMessage: 更新を押してクラスヒストグラムを読み込みます。これにより完全なガーベジコレクションが実行され、エンジンのパフォーマンスに影響する可能性があります。
+    InstancesTooltip: このクラスのJavaヒープに割り当てられたインスタンス／オブジェクトの総数
+    MemoryDump: メモリダンプ
+    Refresh: クラスヒストグラムを更新
   execution:
-    ClearStatistic: デーモン
-    ExecutionHelpText: 統計情報をクリア
-    ExecutionOrder: パフォーマンス統計の記録を開始すると、エンジンのパフォーマンスに悪影響を及ぼす可能性があります。
-    ExtAvg: 最初の実行順序
-    ExtAvgTooltip: 平均値
-    ExtExecutions: 外部実行時間の平均 [ms]
-    ExtExecutionsTooltip: 外部実行回数
-    ExtMax: 外部実行回数
-    ExtMaxTooltip: 外部最大実行回数
-    ExtMin: 外部実行時間の最大値 [ms]
-    ExtMinTooltip: 外部実行時間最小値
-    ExtTotal: 外部実行時間の最小値 [ms]
-    ExtTotalTooltip: Ext Total
-    IntAvg: 外部実行時間の合計 [ms]
-    IntAvgTooltip: Int Avg
-    IntExecutionTooltip: 内部実行回数
-    IntExecutions: エンジン内部実行時間の平均 [ms]
-    IntMax: エンジン内部実行回数
-    IntMaxTooltip: 整数最大値
-    IntMin: エンジン内部実行時間の最大値 [ms]
-    IntMinTooltip: Int Min
-    IntTotal: エンジン内部実行時間の最小値 [ms]
-    IntTotalTooltip: 整数 総数
-    LoggingActive: エンジン内部実行時間の合計 [ms]
-    LoggingActiveDetails: ログ記録が有効です！
-    OneSecond: プロセス要素のパフォーマンス統計ログ記録機能が有効です。統計データはログ記録機能によって{0}
-    PerformanceStatisticFileName: 1秒
-    PerformanceTooltip: パフォーマンス統計
-    ProcessElementId: パフォーマンス統計設定
-    ProcessElementName: プロセス要素ID (PID)
-    ProcessElementType: プロセス要素名
-    Seconds: プロセス要素の種類
-    TotalTooltip: 秒
+    ClearStatistic: 統計をクリア
+    ExecutionHelpText: パフォーマンス統計の記録を開始すると、エンジンのパフォーマンスに悪影響を与える可能性があります。
+    ExecutionOrder: 最初の実行順序
+    ExtAvg: 外部平均
+    ExtAvgTooltip: 外部実行時間の平均 [ms]
+    ExtExecutions: 外部実行回数
+    ExtExecutionsTooltip: 外部実行の回数
+    ExtMax: 外部最大
+    ExtMaxTooltip: 外部実行時間の最大値 [ms]
+    ExtMin: 外部最小
+    ExtMinTooltip: 外部実行時間の最小値 [ms]
+    ExtTotal: 外部合計
+    ExtTotalTooltip: 外部実行時間の合計 [ms]
+    IntAvg: 内部平均
+    IntAvgTooltip: エンジン内部実行時間の平均 [ms]
+    IntExecutionTooltip: エンジン内部実行の回数
+    IntExecutions: 内部実行回数
+    IntMax: 内部最大
+    IntMaxTooltip: エンジン内部実行時間の最大値 [ms]
+    IntMin: 内部最小
+    IntMinTooltip: エンジン内部実行時間の最小値 [ms]
+    IntTotal: 内部合計
+    IntTotalTooltip: エンジン内部実行時間の合計 [ms]
+    LoggingActive: ロギング有効中！
+    LoggingActiveDetails: プロセス要素のパフォーマンス統計ロガーが有効です。統計はロガーによって {0} ごとに自動的にクリアされます
+    OneSecond: 1秒
+    PerformanceStatisticFileName: パフォーマンス統計
+    PerformanceTooltip: パフォーマンス統計の設定
+    ProcessElementId: プロセス要素ID (PID)
+    ProcessElementName: プロセス要素名
+    ProcessElementType: プロセス要素タイプ
+    Seconds: 秒
+    TotalTooltip: 合計実行時間 [ms]（内部 + 外部）
   health:
-    AdditionalInformationConfiguration: '{0} {1} カウント {2}'
-    DisableCheck: 追加情報または設定
-    EnableCheck: チェックを無効にする
-    HealthChecks: チェックを有効にする
-    RefreshHealth: ヘルスチェック
-    RefreshHealthChecks: ヘルスチェックの更新
-    RunCheckNow: ヘルスチェックを再実行
-    RunHealthChecks: 今すぐチェックを実行
+    AdditionalInformationConfiguration: 追加情報または設定
+    DisableCheck: チェックを無効化
+    EnableCheck: チェックを有効化
+    HealthChecks: ヘルスチェック
+    RefreshHealth: ヘルスを更新
+    RefreshHealthChecks: ヘルスチェックを更新
+    RunCheckNow: 今すぐチェックを実行
+    RunHealthChecks: ヘルスチェックを実行
   jfr:
-    AddConfiguration: Java フライト レコーダー
+    AddConfiguration: 設定を追加
     Option:
       disk:
-        DefaultValue: 設定を追加
-        Description: 'FALSE'
-        Name: '記録されたデータを記録されたまま保存します。 ブール値の文字列表現で、「true」または「false」です。 例: "true" "false"'
+        DefaultValue: 'false'
+        Description: |-
+          記録データを記録と同時にディスクに保存します。
+
+          ブール値の文字列表現。"true" または "false"
+
+          例:
+          "true"
+          "false"
+        Name: ディスク
       dumpOnExit:
-        DefaultValue: ディスク
-        Description: 'FALSE'
-        Name: 'Java Virtual Machine (JVM) の終了時に記録データをディスクにダンプします。  ブール値の文字列表現 ("true" または "false")  例: "true" "false"'
+        DefaultValue: 'false'
+        Description: |-
+          Java仮想マシン (JVM) の終了時に記録データをディスクにダンプします。
+
+          ブール値の文字列表現。"true" または "false"
+
+          例:
+          "true"
+          "false"
+        Name: 終了時にダンプ
       duration:
-        DefaultValue: 終了時にダンプ
-        Description: '0'
-        Name: '記録の実行時間を設定します。  制限を設けず実行する場合は "0"、そうでない場合は正の Long の文字列表現に空白を付け、以下の単位のいずれかを付加します:  "ns" (ナノ秒) "us" (マイクロ秒) "ms" (ミリ秒) "s" (秒) "m" (分) "h" (時間) "d"(日)  例: "60 s", "10 m", "4 h", "0"'
+        DefaultValue: '0'
+        Description: |-
+          記録を実行する時間を設定します。
+
+          制限を設けない場合は "0"、それ以外は正のLong値の文字列表現の後に半角スペースと
+          以下の単位のいずれかを続けます:
+
+          "ns" (ナノ秒)
+          "us" (マイクロ秒)
+          "ms" (ミリ秒)
+          "s" (秒)
+          "m" (分)
+          "h" (時間)
+          "d" (日)
+
+          例:
+          "60 s",
+          "10 m",
+          "4 h",
+          "0"
+        Name: 実行時間
       maxAge:
-        DefaultValue: 期間
-        Description: '0'
-        Name: 'ディスクリポジトリにデータを保持する期間を指定します。最も古いデータが削除されるまでの時間です。disk=trueの場合にのみ機能し、そうでない場合はこのパラメーターは無視されます。  制限を課さない場合は「0」を指定します。それ以外の場合は、正のLong値の文字列表現に空白を挟んで、以下の単位のいずれかを付加します。  「ns」 (ナノ秒) 「us」 (マイクロ秒) 「ms」 (ミリ秒) 「s」 (秒) 「m」 (分) 「h」 (時間) 「d」(日) 例: "2 h" "24 h" "2 d" "0"'
+        DefaultValue: '0'
+        Description: |-
+          ディスクリポジトリにデータを保持する期間を指定します。この期間を過ぎると最も古い
+          データが削除される場合があります。disk=true の場合のみ有効で、それ以外は無視されます。
+
+          制限を設けない場合は "0"、それ以外は正のLong値の文字列表現の後に半角スペースと
+          以下の単位のいずれかを続けます:
+
+          "ns" (ナノ秒)
+          "us" (マイクロ秒)
+          "ms" (ミリ秒)
+          "s" (秒)
+          "m" (分)
+          "h" (時間)
+          "d" (日)
+
+          例:
+          "2 h"
+          "24 h"
+          "2 d"
+          "0"
+        Name: 最大保持期間
       maxSize:
-        DefaultValue: 最大経過時間
-        Description: '0'
-        Name: 'ディスクリポジトリに保存されるデータのサイズ（バイト単位）を指定します。disk=trueの場合にのみ有効で、そうでない場合はこのパラメーターは無視されます。  Long値の文字列表現で、正の値でなければなりません  例: "0" "100000000"'
-    RecordingMessage1: 最大サイズ
-    RecordingMessage2: フライト記録の開始は、エンジンのパフォーマンスに悪影響を与える可能性があります。
-    RecordingMessage3: すでに少なくとも1つの記録が実行中です。別の記録を開始しますか？
-    StartRecording: 既に少なくとも1つの記録が利用可能です。新しい記録を開始する前に削除することを検討してください。
+        DefaultValue: '0'
+        Description: |-
+          ディスクリポジトリに保持するデータのサイズ（バイト単位）を指定します。
+          disk=true の場合のみ有効で、それ以外は無視されます。
+
+          正のLong値の文字列表現でなければなりません。
+
+          例:
+          "0"
+          "100000000"
+        Name: 最大サイズ
+    RecordingMessage1: Flight記録の開始はエンジンのパフォーマンスに悪影響を与える可能性があります。
+    RecordingMessage2: すでに少なくとも1つの記録が実行中です。本当に別の記録を開始しますか？
+    RecordingMessage3: すでに少なくとも1つの記録が存在します。新しい記録を開始する前に削除することを検討してください。
+    StartRecording: 記録を開始
   job:
-    DurationTooltip: 記録を開始
-    Errors: 最小 / 平均 / 最大
-    ExecutionDuration: エラー
-    Executions: 実行時間
-    JobDetail: 実行回数
-    JobTitle: ジョブ詳細
-    LastError: ジョブ {0}
-    LastSuccessfulExecution: 最後のエラー
-    LastTimeTheJobFailed: 最後の成功した実行
-    NextExecution: ジョブが最後に失敗した時間
-    RefreshJobs: 次の実行
-    ScheduleExecuteJob: ジョブを更新
-    ScheduleJob: 今すぐジョブを実行するスケジュールを設定
-    ScheduleJobTooltip: ジョブ {0} をスケジュール
+    DurationTooltip: 最小 / 平均 / 最大
+    Errors: エラー
+    ExecutionDuration: 実行時間
+    Executions: 実行回数
+    JobDetail: ジョブ詳細
+    JobTitle: ジョブ {0}
+    LastError: 最後のエラー
+    LastSuccessfulExecution: 最後に成功した実行
+    LastTimeTheJobFailed: ジョブが最後に失敗した時刻
+    NextExecution: 次回の実行
+    RefreshJobs: ジョブを更新
+    ScheduleExecuteJob: 今すぐジョブを実行するようスケジュール
+    ScheduleJob: ジョブ {0} をスケジュール
+    ScheduleJobTooltip: ジョブを即時実行にスケジュールすると、不要な日次タスクメールでユーザーを煩わせたり、パフォーマンスを低下させるなどの副作用が発生する可能性があります。
   mbean:
-    EmptyMBeanMessage: 最大
-    LastValue: 属性を見るためにBeanを選択してください
+    EmptyMBeanMessage: 属性を表示するにはBeanを選択してください
+    LastValue: 最終値
   session:
-    Auth: 送信 / 受信
-    Cause: 認証
-    ContextPath: 原因
-    Creation: コンテキストパス
-    HTTPSessions: 作成
-    InvalidSessionMessage: HTTP セッション
-    KillSession: 作成が無効 / 最終アクセスが無効
-    LastAccessed: セッションの終了
-    LicensedSessions: 最終アクセス
-    LicensedUsers: ライセンス付きセッション
-    RefreshStatistic: ライセンスユーザー
-    ShowTemporarySessions: 統計情報を更新
-    ShowUnauthenticatedSessions: 一時セッションを表示
-    Temp: 未認証セッションを表示
-    TempTooltip: 一時
+    Auth: 認証
+    Cause: 原因
+    ContextPath: コンテキストパス
+    Creation: 作成
+    HTTPSessions: HTTPセッション
+    InvalidSessionMessage: 作成日時無効 / 最終アクセス日時無効
+    KillSession: セッションを終了
+    LastAccessed: 最終アクセス
+    LicensedSessions: ライセンス対象セッション
+    LicensedUsers: ライセンス対象ユーザー
+    RefreshStatistic: 統計を更新
+    ShowTemporarySessions: 一時セッションを表示
+    ShowUnauthenticatedSessions: 未認証セッションを表示
+    Temp: 一時
+    TempTooltip: 一時セッションは技術的理由でのみ作成され、非常に短い寿命（約1秒）を持ちます。一時セッションはライセンス対象の同時セッション数には含まれません。
   startEvent:
-    NextPoll: 一時セッションは技術的な理由のみで作成され、非常に短い有効期限（約1秒）を有します。一時セッションはライセンス対象の同時接続数にはカウントされません。
-    Poll: 次のポーリング
-    PollBeanTitle: ポーリング
-    RefreshStartEvents: ポーリング Bean {0}
-    RequestPath: リフレッシュ開始イベント
-    SchedulePollTooltip: リクエストパス
-    ScheduleToPollTheBeanNow: ビーンの投票をスケジュールすると、負の副作用が発生する可能性があります。
-    StartsTheBean: 今すぐポーリングをスケジュールする
-    StopsTheBean: ビーンを起動します
+    NextPoll: 次回ポーリング
+    Poll: ポーリング
+    PollBeanTitle: ポーリングBean {0}
+    RefreshStartEvents: 開始イベントを更新
+    RequestPath: リクエストパス
+    SchedulePollTooltip: Beanのポーリングをスケジュールすると、副作用が発生する可能性があります。
+    ScheduleToPollTheBeanNow: Beanを今すぐポーリングするようスケジュール
+    StartsTheBean: Beanを開始
+    StopsTheBean: Beanを停止
   thread:
-    Blocked: システム
-    CPUTime: ブロック
-    CPUTimeTooltip: CPU時間
-    Daemon: 総CPU時間 [ns]
-    DeadLockedMessage: デッドロック
-    Deadlocked: デーモン
-    LockOwner: ロックされた同期化オブジェクト
-    LockTooltip: ロック所有者
-    LockedMonitors: このスレッドはデッドロック状態です！スレッド {1} が所有する {0} をロックしようとして待機中です。
-    LockedSynchronizers: ロックされたモニター
-    Native: ロックを待機中またはロックを要求中
-    SaveThreadDump: ネイティブコード内
-    StackTrace: スレッドダンプの保存
-    ThreadDetail: スタックトレース
-    ThreadDumpFileName: スレッドの詳細
-    ThreadNewMessage: ThreadDump.txt
-    ThreadRunnableMessage: スレッドは新規に作成され、まだ実行されていません。
-    ThreadTerminatedMessage: スレッドは実行可能状態です。
-    ThreadTitle: スレッドは終了しました。
-    ThreadWaitOnLockMessage: スレッド {0} - {1}
-    ThreadWaitOnLockWithTimeoutMessage: スレッドはロック {0} で待機中です。
-    UserTime: スレッドはロック {0} でタイムアウトを待っています。
-    UserTimeTooltip: ユーザー時間
-    Waited: ユーザー CPU 時間 [ns]
+    Blocked: ブロック中
+    CPUTime: CPU時間
+    CPUTimeTooltip: 総CPU時間 [ns]
+    Daemon: デーモン
+    DeadLockedMessage: このスレッドはデッドロック状態です！ {1} スレッドが所有している {0} のロックを待機しています。
+    Deadlocked: デッドロック
+    LockOwner: ロック所有者
+    LockTooltip: ロックの待機中または取得中
+    LockedMonitors: ロックされたモニター
+    LockedSynchronizers: ロックされた同期オブジェクト
+    Native: ネイティブコード内
+    SaveThreadDump: スレッドダンプを保存
+    StackTrace: スタックトレース
+    ThreadDetail: スレッド詳細
+    ThreadDumpFileName: ThreadDump.txt
+    ThreadNewMessage: スレッドは新規で、まだ開始されていません。
+    ThreadRunnableMessage: スレッドは実行可能状態です。
+    ThreadTerminatedMessage: スレッドは終了しました。
+    ThreadTitle: スレッド {0} - {1}
+    ThreadWaitOnLockMessage: スレッドはロック {0} を待機しています。
+    ThreadWaitOnLockWithTimeoutMessage: スレッドはタイムアウト付きでロック {0} を待機しています。
+    UserTime: ユーザー時間
+    UserTimeTooltip: ユーザーCPU時間 [ns]
+    Waited: 待機時間
   traces:
-    ExecutionTime: 総開始
-    ExecutionTimeTooltip: 実行時間
-    ExportTraces: 実行時間 [ms]
-    StartTracesHelpText: トレースのエクスポート
-    Traces: 遅いリクエストの記録を開始すると、エンジンのパフォーマンスに悪影響を及ぼす可能性があります。
+    ExecutionTime: 実行時間
+    ExecutionTimeTooltip: 実行時間 [ms]
+    ExportTraces: トレースをエクスポート
+    StartTracesHelpText: 遅延リクエストの記録を開始すると、エンジンのパフォーマンスに悪影響を与える可能性があります。
+    Traces: トレース
 moveApplication:
-  ChangeSecuritySystemDialogContent: 書き込み
-  ChangeSecuritySystemDialogHeader: 'アプリケーションのセキュリティシステムを変更するには、ターゲットのセキュリティシステムが同じロールとユーザーを保持している必要があります。これにより、タスク、ケース、ビジネスデータなどの実行時データが再割り当て可能になります。したがって、まずターゲットのセキュリティシステムが準備完了かどうかを確認する必要があります。準備が整っていない場合は、ターゲットのセキュリティシステムを確認し、準備を整えてください:'
-  ChangeSecuritySystemWarningMessage: セキュリティシステムを変更する
-  MergeSecuritySystem: これは大量のデータを移動する重大な操作です。システムデータベースのバックアップを事前に作成することを強く推奨します。
-  Move: セキュリティシステムを統合
-  NoTargetSecuritysystemSelectedMessage: 移動
-  SourceSecuritySystem: ターゲットセキュリティシステムが選択されていません
-  TargetSecuritySystem: ソースセキュリティシステム
-  ValidSecuritysystemSelectedMessage: 検証
-  Validate: ターゲットセキュリティシステム
+  ChangeSecuritySystemDialogContent: アプリケーションのセキュリティシステムを変更するには、ターゲットのセキュリティシステムが同じロールとユーザーを保持している必要があります。これにより、タスク、ケース、ビジネスデータなど、すべての実行時データが再割り当て可能になります。したがって、まずターゲットのセキュリティシステムが準備完了かどうかを確認する必要があります。準備が整っていない場合は、ターゲットのセキュリティシステムを確認し、準備を整えることができます：
+  ChangeSecuritySystemDialogHeader: セキュリティシステムを変更する
+  ChangeSecuritySystemWarningMessage: これは大量のデータを移動する大規模な作業です。システムデータベースのバックアップを事前に作成することを強くおすすめします。
+  MergeSecuritySystem: 統合セキュリティシステム
+  Move: 移動
+  NoTargetSecuritysystemSelectedMessage: ターゲットセキュリティシステムが選択されていません。
+  SourceSecuritySystem: ソースセキュリティシステム
+  TargetSecuritySystem: ターゲットセキュリティシステム
+  ValidSecuritysystemSelectedMessage: アプリケーションはターゲットのセキュリティシステムに移動可能です。
+  Validate: 検証する
 newApplication:
-  AddNewApplicationDialogHeader: アプリケーションをターゲットセキュリティシステムに移動できます
-  AddNewApplicationDialogHeader1: 新しいアプリケーションを追加
+  AddNewApplicationDialogHeader: 新しいアプリケーションを追加する
 newRole:
-  NewChildRoleDialogHeader: 新しいアプリケーションを追加
+  NewChildRoleDialogHeader: '{0} に対して新しい子役割を追加します。'
 newSecuritySystem:
-  AddNewSecuritySystemDialogHeader: '{0} に対して新しい子ロールを追加'
+  AddNewSecuritySystemDialogHeader: 新しいセキュリティシステムを追加する
 newUser:
-  AddUserDialogHeader: 新しいセキュリティシステムを追加
+  AddUserDialogHeader: 新しいユーザーを追加する
   ConfirmPassword: 新しいユーザーを追加
-  EMailAddress: パスワードを確認
-  NotMatchPasswordMessage: メールアドレス
-  Password: パスワードが一致しません
+  EMailAddress: 電子メールアドレス
+  NotMatchPasswordMessage: パスワードが一致しません
+  Password: パスワード
 notification:
-  Payload: パスワード
-  ShowPayload: ペイロード
+  Payload: ペイロード
+  ShowPayload: ペイロードを表示
 notificationChannelsTable:
-  AllEvents: ペイロードを表示
-  Enabled: すべてのイベント
+  AllEvents: すべてのイベント
+  Enabled: 有効
 permissions:
-  AllPermissions: 有効
-  Grant: すべての権限
-  PermissionDenied: 許可
-  PermissionGranted: 権限が拒否されました
-  Permissions: 権限が許可されました
-  SomePermissionDenied: 権限
-  SomePermissionGranted: 一部の権限が拒否されました
+  AllPermissions: すべての権限
+  Grant: 付与
+  PermissionDenied: 権限が拒否されました
+  PermissionGranted: 権限が付与されました
+  Permissions: 権限
+  SomePermissionDenied: 一部の権限が拒否されました
+  SomePermissionGranted: 一部の権限が付与されました
 progressLoader:
-  Loading: 一部の権限が許可されました
+  Loading: 読み込み中...
 renameRole:
-  RenameRoleDialogHeader: 読み込み中
-  RenameRoleDialogWarningMessage: ロールの名前を変更
+  RenameRoleDialogHeader: ロール名を変更
+  RenameRoleDialogWarningMessage: これは重要かつ危険な操作です。特に動的でないロールの場合、このロールはプロセス内で古い名前で参照されている可能性があります。すべてのデプロイ済みプロジェクト（PMV）のすべてのプロセスにおいて、新しい名前に手動で置き換える必要があります。そうしないと将来的にプロセスが失敗します。
 restart:
-  Restart: これは、少なくとも非動的役割の場合、重要な危険な操作です。この役割は、古い名前で参照されているプロセスが存在する場合があります。すべての展開済みプロジェクト（PMV）内のすべてのプロセスにおけるすべての参照を、新しい名前に手動で変更する必要があります。そうしないと、将来的にプロセスが失敗する可能性があります。
-  RestartConfirmMessage: 再起動
-  RestartFirstWarningMessageFirstPart: '{0}を再起動しますか？'
-  RestartFirstWarningMessageSecondPart: すべての
-  RestartFirstWarningMessageThirdPart: ユーザー（現在 {0}）
-  RestartSecondWarningMessage: '{0}を使用中のユーザーは、現在の作業を失います。'
-  RestartThirdWarningMessage: ユーザーは一時的に{0}に接続できなくなります。
-  RestartWarningMessage: 再起動に失敗する可能性があります。その場合、オペレーティングシステムにアクセスして再起動する必要があります。
+  Restart: 再起動
+  RestartConfirmMessage: 本当に {0} を再起動しますか？
+  RestartFirstWarningMessageFirstPart: すべての
+  RestartFirstWarningMessageSecondPart: ユーザー（現在 {0}）
+  RestartFirstWarningMessageThirdPart: が {0} を使用中の場合、現在の作業は失われます。
+  RestartSecondWarningMessage: ユーザーは短時間 {0} に接続できなくなります。
+  RestartThirdWarningMessage: 再起動が失敗する可能性があり、その場合はOSにアクセスして再起動する必要があります。
+  RestartWarningMessage: '{0} の再起動は危険な操作です。'
 restClientConfiguration:
-  ResetConfiguration: '{0}の再起動は危険な操作です。'
-  ResetRestClientDialogHeader: 設定のリセット
-  ResetRestClientDialogMessage: Rest Client をリセット
-  RestClientConfigurations: この Rest Client をリセットしますか？
-  RestConfigurationResetMessage: Rest Client の設定
-  RestConfigurationSavedMessage: 設定のリセットを実行します
-  TestRestConnection: Rest 設定が保存されました
-  UUID: Rest接続のテスト
+  ResetConfiguration: 設定をリセットする
+  ResetRestClientDialogHeader: RESTクライアントのリセット
+  ResetRestClientDialogMessage: このRestクライアントをリセットしてもよろしいですか？
+  RestClientConfigurations: Restクライアントの設定
+  RestConfigurationResetMessage: リセット構成のリセット
+  RestConfigurationSavedMessage: 設定が保存されました
+  TestRestConnection: テスト レス 接続
+  UUID: 一意の識別子
 restClientDetail:
-  GuideText: UUID
-  NotFoundRestClient: Rest クライアントを編集するには、app.yaml ファイルを上書きしてください。例として、以下のスニペットをコピーして貼り付けてください。
-  Title: Restクライアント ''{0}'' が見つかりません
+  GuideText: Rest Client を編集するには、app.yaml ファイルを上書きしてください。例えば、以下のスニペットをコピーして貼り付けてください。
+  NotFoundRestClient: クライアント「{0}」 が見つかりません
+  Title: クライアント「{0}」
 restClients:
-  NoRestClientsFound: Restクライアント ''{0}''
+  NoRestClientsFound: 展開されたアプリで、No Restクライアントが見つかりませんでした。
 restHistory:
-  ProcessElement: デプロイされたアプリに Rest クライアントが見つかりません
-  RequestUrl: プロセス要素
+  ProcessElement: プロセス要素
+  RequestUrl: Request Url
 restServices:
-  BrowseRestAPIButtonTitle: リクエスト URL
-  ConfigureRestBackendButtonTitle: 利用可能な REST バックエンド サービスを表示
-  RESTServices: REST バックエンドを設定
+  BrowseRestAPIButtonTitle: 利用可能なRESTバックエンドサービスを確認する
+  ConfigureRestBackendButtonTitle: Rest バックエンドの設定
+  RESTServices: RESTサービス
 roleDetail:
-  DirectOpenTasks: REST サービス
-  InheritUsers: 直接タスクを開く
-  RunningTasks: ユーザーを継承
+  DirectOpenTasks: 直接開いているタスク
+  InheritUsers: ユーザーを継承する
+  RunningTasks: 実行中のタスク
 roleDetailInformation:
   AddNewChildRole: 実行中のタスク
   BrowseButtonTitle: 新しい子ロールを追加
   DeleteRole: 閲覧
-  DeleteRoleDialogConfirmMessage: このロールを削除
-  DeleteRoleDialogHeader: 本当に「{0}」という役割を削除しますか？
-  DeleteRoleDialogWarningMessage: ロールを削除
-  DisplayName: これは重要な危険な操作です。特に動的でない役割の場合には注意が必要です。この役割は、古い名前で参照されているプロセスが存在する場合があります。すべての展開済みプロジェクト（PMV）内のすべてのプロセスにおけるすべての参照を、新しい名前に手動で変更する必要があります。そうしないと、将来的にプロセスが失敗する可能性があります。
+  DeleteRoleDialogConfirmMessage: 「{0}」という役割を削除してもよろしいですか？
+  DeleteRoleDialogHeader: 役割を削除する
+  DeleteRoleDialogWarningMessage: これは、少なくとも非動的役割に関しては、重要なかつ危険な操作です。この役割は、プロセス内でその旧名で参照されている可能性があります。展開済みのすべてのプロジェクト（PMV）内のすべてのプロセスにおけるすべての参照を、まず手動で新しい名前に変更する必要があります。そうしないと、将来的にプロセスが失敗する可能性があります。
+  DisplayName: 表示名
   ExternalName: 表示名
   ParentRole: 外部名
   RenameRole: 親ロール
   RoleInformation: 役割の名前を変更
-  RoleInformationChangesSavedMessage: ロール情報
-  UpdateRoleParentButtonTitle: 役割情報の変更が保存されました
+  RoleInformationChangesSavedMessage: 役割情報の変更が保存されました
+  UpdateRoleParentButtonTitle: ロールの親を更新する
 roleDetailMembers:
-  Filter: 親ロールを更新
-  RoleMembers: 'フィルター:'
-  RoleMembersOfRole: ロールのメンバー
-  SearchRoleToAddPlaceholder: 検索
-  SearchRolesPlaceholder: このロールのメンバー
+  Filter: 'フィルター:'
+  RoleMembers: 役割メンバー
+  RoleMembersOfRole: 役割 役割のメンバー
+  SearchRoleToAddPlaceholder: 追加する役割を検索する
+  SearchRolesPlaceholder: 検索
 roleDetailUsers:
-  Filter: 追加するロールを検索
-  InheritedUser: 'フィルター:'
-  SearchUserToAddPlaceholder: 検索
-  SearchUsersPlaceholder: このユーザーはサブロールまたはロールのメンバーから継承されています
-  UsersOfRole: 追加するユーザーを検索
+  Filter: 'フィルター:'
+  InheritedUser: このユーザーはサブロールまたはロールメンバーから継承されています
+  SearchUserToAddPlaceholder: 追加するユーザーを検索
+  SearchUsersPlaceholder: 検索
+  UsersOfRole: ロールのユーザー
 roles:
-  ExternalRoleNameMessage: 役割のメンバー
-  SearchDummyPerformanceReason: '[外部: ''''{0}'''']'
-  ShowMoreRoleLeftMessage: パフォーマンスの理由により、最初の100件の役割のみが読み込まれます。特定の役割を探すには検索機能をご利用ください。
-  SynchronizationLog: 詳細を表示（{0}件残っています）
-  Synchronize: 同期ログ
+  ExternalRoleNameMessage: '[外部: ''''{0}'''']'
+  SearchDummyPerformanceReason: パフォーマンス上の理由から、最初の100件のロールのみが読み込まれます。特定のロールを見つけるには検索を使用してください。
+  ShowMoreRoleLeftMessage: さらに表示（残り {0}）
+  SynchronizationLog: 同期ログ
+  Synchronize: 同期
 searchEngine:
-  SearchEngineHealthGreenHint: 同期
-  SearchEngineHealthRedHint: すべて正常
-  SearchEngineHealthUnknownHint: 問題が発生しています。一部のデータが利用できないか、機能が正常に動作していない可能性があります。
-  SearchEngineHealthYellowHint: ヘルス状態が不明
-  SearchEngineServerProblem: すべて正常です。内部のIvy ESのような単一ノードクラスターで実行している場合、これは正常です。外部マルチノードクラスターでは、今後の問題の兆候を示す可能性があります。ESログを確認してください。
-  SearchEngineServerProblemMessage: 検索エンジンサーバーの問題
+  SearchEngineHealthGreenHint: すべて正常です
+  SearchEngineHealthRedHint: 注意が必要な問題があります。一部のデータが利用できないか、機能が正しく動作していない可能性があります。
+  SearchEngineHealthUnknownHint: ヘルス状態は不明です
+  SearchEngineHealthYellowHint: 単一ノードクラスター（内部 ivy ES など）で動作している場合はすべて正常です。外部のマルチノードクラスターでは、今後問題が発生する兆候の可能性があります。ES のログを確認してください。
+  SearchEngineServerProblem: 検索エンジンサーバーの問題
+  SearchEngineServerProblemMessage: '検索エンジンサーバーに接続できません:'
 searchEngineInformation:
-  ConfigureSearchEngineButtonTitle: '検索エンジンサーバーに接続できませんでした:'
-  DiskThresholdEnabled: 検索エンジンを設定してください
-  DiskThresholdEnabledInfo: ディスク閾値が有効になっています
-  FloodStage: この設定は、以下の設定が有効かどうかを決定します
-  FloodStageInfo: 洪水段階
-  FloodStageWarning: 検索エンジンは、利用可能なディスク容量がこの値未満の場合、インデックスを読み取り専用モードに切り替えます。この設定は、ノードがディスク容量不足になるのを防ぐための最終手段です。ディスク使用率がハイウォーターマークを下回ると、インデックスブロックは自動的に解放されます。
-  NotSupportESVersionMessage: 利用可能なディスク容量が洪水段階未満の場合、検索エンジンは新しいドキュメントのインデックス作成を停止し、現在のインデックスを読み取り専用モードに切り替えます
-  WatermarkHigh: この Elasticsearch バージョンはサポートされていません
-  WatermarkHighInfo: 高水位マーク
-  WatermarkLow: 検索エンジンは、利用可能なディスク容量がこの値未満のノードからシャードを移動させようとします。この設定は、以前に割り当てられたかどうかに関わらず、すべてのシャードの割り当てに影響します。
-  WatermarkLowInfo: ウォーターマーク（低）
+  ConfigureSearchEngineButtonTitle: 検索エンジンの設定
+  DiskThresholdEnabled: ディスク閾値が有効
+  DiskThresholdEnabledInfo: この設定値以下の項目が有効になるかどうかを定義します
+  FloodStage: フラッドステージ
+  FloodStageInfo: 空きディスク容量がこの値を下回ると、検索エンジンはインデックスを読み取り専用モードにします。この設定はノードがディスク容量不足になるのを防ぐための最終手段です。ディスク使用率が高水位マークを下回ると、インデックスブロックは自動的に解除されます。
+  FloodStageWarning: 空きディスク容量がフラッドステージを下回ると、検索エンジンは新しいドキュメントのインデックス作成を停止し、既存のインデックスを読み取り専用モードにします
+  NotSupportESVersionMessage: この Elastic Search のバージョンはサポートされていません
+  WatermarkHigh: 高水位マーク
+  WatermarkHighInfo: 空きディスク容量がこの値を下回るノードからシャードを移動しようとします。この設定は、以前に割り当てられたかどうかに関係なく、すべてのシャードの割り当てに影響します。
+  WatermarkLow: 低水位マーク
+  WatermarkLowInfo: 空きディスク容量がこの値を下回るノードにはシャードを割り当てません。この設定は新しく作成されたインデックスのプライマリシャードには影響しませんが、そのレプリカの割り当てを防ぎます。
 searchEngineTool:
-  Get: 検索エンジンは、この値未満のディスク空き容量を持つノードにシャードを割り当てません。この設定は、新規作成されたインデックスのプライマリシャードには影響しませんが、そのレプリカが割り当てられるのを防止します
-  RunSearchEngineQueryDialogHeader: 'GET:'
+  Get: 'GET:'
+  RunSearchEngineQueryDialogHeader: 検索エンジンクエリの実行
 security:
-  ChangeSecuritySystem: 検索エンジン クエリを実行
+  ChangeSecuritySystem: セキュリティシステムの変更
 securityDetail:
-  ProcessModels: セキュリティシステムを変更
+  ProcessModels: プロセスモデル
 securityReportDownloadDialog:
-  DownloadSecurityReportInfo: プロセスモデル
-  Generate: 以下のダウンロードには、Excel形式のセキュリティレポートが含まれています。Excelには、ユーザー、ロール、ユーザーロール、ロールメンバー、ユーザー権限、ロール権限に関する詳細情報が記載されています。ダウンロードには、ユーザーの数に応じて数分かかる場合があります。
-  SecurityReportGeneratedMessage: 生成
+  DownloadSecurityReportInfo: 次のダウンロードには、Excel 形式のセキュリティレポートが含まれています。この Excel には、ユーザー、ロール、ユーザーロール、ロールメンバー、ユーザー権限、およびロール権限に関する詳細情報が記載されています。ユーザー数によっては、ダウンロードに数分かかる場合があります。
+  Generate: 生成
+  SecurityReportGeneratedMessage: セキュリティレポートが生成されました
 securitySystemInfo:
-  CreateSecurityReport: セキュリティレポートが生成されました
-  DeleteSecuritySystemButtonTitle: セキュリティレポートを作成
-  DeleteSecuritySystemConfirmMessage: このセキュリティシステムを削除します
-  DeleteSecuritySystemDialogHeader: セキュリティシステム「{0}」を削除しますか？
-  DeleteSecuritySystemWarningMessage: セキュリティシステムを削除
-  DownloadSecurityReport: このセキュリティシステムに属するすべてのユーザーとロールも削除されます。
-  MergeSecuritySystems: セキュリティレポートをダウンロード
-  UsedByApplications: セキュリティシステムを統合
-  UsedByApplicationsTooltip: このセキュリティシステムを使用しているアプリケーション
+  CreateSecurityReport: セキュリティレポートの作成
+  DeleteSecuritySystemButtonTitle: このセキュリティシステムを削除
+  DeleteSecuritySystemConfirmMessage: セキュリティシステム「{0}」を削除してもよろしいですか？
+  DeleteSecuritySystemDialogHeader: セキュリティシステムの削除
+  DeleteSecuritySystemWarningMessage: このセキュリティシステムのすべてのユーザーとロールも削除されますのでご注意ください。
+  DownloadSecurityReport: セキュリティレポートのダウンロード
+  MergeSecuritySystems: セキュリティシステムの統合
+  UsedByApplications: 使用しているアプリケーション
+  UsedByApplicationsTooltip: このセキュリティシステムを使用しているすべてのアプリケーション
 securitySystemLanguage:
-  FormattingLanguage: このセキュリティシステムを使用しているすべてのアプリケーション。
-  Languages: フォーマット言語
-  SecuritySystemLanguagesSavedMessage: 言語
+  FormattingLanguage: フォーマット言語
+  Languages: 言語
+  SecuritySystemLanguagesSavedMessage: セキュリティシステムの言語が保存されました
 securitySystemMerge:
-  ApplyChangeDialogHeader: 保存されるセキュリティシステム言語
-  ApplyChangeDialogMessage: 変更を適用
-  CompareButton: このエントリを{0}しますか？
-  CompareButtonTitle: 比較
-  ComparisonReport: これはソースとターゲットのセキュリティシステムのみを比較します。変更は行われません。
-  ComparisonReportInfo: 比較レポート
-  CreateSolveHintMessage: ソースからターゲットのセキュリティシステムにアプリケーションを移動するには、ターゲットのセキュリティシステムにソースシステムと同じユーザーとロールが存在する必要があります。すべてのCREATE操作を実行することで、ターゲットのセキュリティシステムに欠落しているユーザーとロールが作成されます。UPDATE操作やDELETE操作を実行する必要はありませんが、これらの操作でターゲットセキュリティシステムをクリーンアップしたい場合は実行してください。ロールが既に存在する場合でも、実際には同じロールではない可能性があります。この場合、ターゲットセキュリティシステム内のロールとAxon
-    Ivyプロジェクト内のロールを両方手動でリネームする必要があります。その後、Axon Ivyプロジェクトを再展開する必要があります。
-  DeleteSolveHintMessage: これにより、ターゲットセキュリティシステムにエントリが作成されます {0}
-  ExceutionFailed: これは、ターゲットセキュリティシステム {0} からエントリを削除します
-  ExecuteAllCreateOperationsButton: 実行に失敗しました
-  ExecuteAllCreateOperationsButtonTitle: すべてのCREATE操作を実行します
-  ExecuteAllCreateOperationsConfirmDialogContent: ターゲットのセキュリティシステムで全てのCREATE操作を実行します
-  ExecuteAllCreateOperationsConfirmDialogHeader: ターゲットのセキュリティシステムに欠落しているすべてのエントリを作成します
-  ExecuteAllDeleteOperationsButton: すべてのCREATE操作を実行します
-  ExecuteAllDeleteOperationsButtonTitle: すべてのDELETE操作を実行します
-  ExecuteAllDeleteOperationsConfirmDialogContent: ターゲットのセキュリティシステムで全てのDELETE操作を実行します
-  ExecuteAllDeleteOperationsConfirmDialogHeader: この操作は、ソース セキュリティ システムに存在しないすべてのエントリをターゲット セキュリティ システムから削除します
-  ExecuteAllUpdateOperationsButton: すべてのDELETE操作を実行します
-  ExecuteAllUpdateOperationsButtonTitle: すべてのUPDATE操作を実行します
-  ExecuteAllUpdateOperationsConfirmDialogContent: ターゲットのセキュリティシステム内のすべてのUPDATE操作を実行します
-  ExecuteAllUpdateOperationsConfirmDialogHeader: この操作は、ソース セキュリティ システムと異なるすべてのエントリをターゲット セキュリティ システムで更新します
-  IssueTargetHeader: すべてのUPDATE操作を実行します
-  IssueWhatHeader: 対象
-  MergeSecuritySystems: 何
-  Security: セキュリティシステムの統合
-  SourceSecuritySystem: セキュリティ
-  TargetSecuritySystem: ソース セキュリティ システム
-  UpdateSolveHintMessage: ターゲット セキュリティシステム
+  ApplyChangeDialogHeader: 変更の適用
+  ApplyChangeDialogMessage: 本当にこのエントリを{0}しますか？
+  CompareButton: 比較
+  CompareButtonTitle: ソースとターゲットのセキュリティシステムを比較するだけで、変更は行いません。
+  ComparisonReport: 比較レポート
+  ComparisonReportInfo: アプリケーションをソースからターゲットのセキュリティシステムに移動するには、ソースと同じユーザーとロールがターゲットにも存在する必要があります。すべての CREATE 操作を実行すると、欠けているすべてのユーザーとロールがターゲットに作成されます。UPDATE 操作や DELETE 操作は必須ではありませんが、これらを使用してターゲットのセキュリティシステムを整理できます。ロールが既に存在していても、実際には同じロールではない場合があります。その場合、ターゲットのセキュリティシステムと Axon Ivy プロジェクトの両方で手動でロール名を変更する必要があります。その後、Axon
+    Ivy プロジェクトを再デプロイします。
+  CreateSolveHintMessage: このエントリをターゲットセキュリティシステム {0} に作成します
+  DeleteSolveHintMessage: このエントリをターゲットセキュリティシステム {0} から削除します
+  ExceutionFailed: 実行に失敗しました
+  ExecuteAllCreateOperationsButton: すべての CREATE 操作を実行
+  ExecuteAllCreateOperationsButtonTitle: ターゲットセキュリティシステムで、すべての CREATE 操作を実行します
+  ExecuteAllCreateOperationsConfirmDialogContent: 欠けているすべてのエントリをターゲットセキュリティシステムに作成します
+  ExecuteAllCreateOperationsConfirmDialogHeader: すべての CREATE 操作を実行
+  ExecuteAllDeleteOperationsButton: すべての DELETE 操作を実行
+  ExecuteAllDeleteOperationsButtonTitle: ターゲットセキュリティシステムで、すべての DELETE 操作を実行します
+  ExecuteAllDeleteOperationsConfirmDialogContent: ソースセキュリティシステムに存在しないすべてのエントリをターゲットセキュリティシステムから削除します
+  ExecuteAllDeleteOperationsConfirmDialogHeader: すべての DELETE 操作を実行
+  ExecuteAllUpdateOperationsButton: すべての UPDATE 操作を実行
+  ExecuteAllUpdateOperationsButtonTitle: ターゲットセキュリティシステムで、すべての UPDATE 操作を実行します
+  ExecuteAllUpdateOperationsConfirmDialogContent: ソースと異なるすべてのエントリをターゲットセキュリティシステムで更新します
+  ExecuteAllUpdateOperationsConfirmDialogHeader: すべての UPDATE 操作を実行
+  IssueTargetHeader: ターゲット
+  IssueWhatHeader: 内容
+  MergeSecuritySystems: セキュリティシステムの統合
+  Security: セキュリティ
+  SourceSecuritySystem: ソースセキュリティシステム
+  TargetSecuritySystem: ターゲットセキュリティシステム
+  UpdateSolveHintMessage: このエントリをターゲットセキュリティシステム {0} で更新します
 securitySystemProvider:
-  IdentityProvider: これにより、ターゲット セキュリティ システム {0} のエントリが更新されます
-  ImportUsersOnSchedule: アイデンティティプロバイダー
-  ProviderChangeWarningMessage: スケジュールに従ってユーザーをインポートします
-  ScheduleCronPlaceholder: アイデンティティプロバイダーを変更すると、このセキュリティシステムのすべての設定が失われます！
-  ScheduleTimePlaceholder: 0 0 0 *  ?
-  SynchronizationScheduleTime: '0'
-  SynchronizeUsersOnLogin: 同期スケジュール時間
-  SynchronizeUsersOnSchedule: ログイン時にユーザーを同期
-  UseCronExpressionConfiguration: スケジュールに従ってユーザーを同期
+  IdentityProvider: IDプロバイダー
+  ImportUsersOnSchedule: スケジュールでユーザーをインポート
+  ProviderChangeWarningMessage: IDプロバイダーを変更すると、このセキュリティシステムの現在のすべての設定が失われます！
+  ScheduleCronPlaceholder: 0 0 0 * * ?
+  ScheduleTimePlaceholder: 00:00
+  SynchronizationScheduleTime: 同期スケジュール時間
+  SynchronizeUsersOnLogin: ログイン時にユーザーを同期
+  SynchronizeUsersOnSchedule: スケジュールでユーザーを同期
+  UseCronExpressionConfiguration: Cron式設定を使用
 securitySystemWorkflowLanguage:
-  AddNewLanguage: cron式設定を使用する
-  AddWorkflowLanguageDialogHeader: 新しい言語を追加
-  AddWorkflowLanguageSystemDatabaseSpaceWarningMessage: ワークフロー言語を追加
-  AddWorkflowLanguageWarningMessage: この操作には時間がかかり、システムデータベースの容量が増加します。
-  DeleteLanguage: 新しいワークフロー言語を追加すると、デフォルト言語（{2}）のすべての既存タスク（{0}）とケース（{1}）の名前と説明が新しい言語にコピーされます。
-  DeleteWorkflowLanguageDialogHeader: この言語を削除する
-  DeleteWorkflowLanguageWarningMessage: ワークフロー言語を削除
-  MakeDefaultLanguage: ワークフロー言語を削除すると、その言語のすべての既存タスク（{0}）とケース（{1}）の名前と説明が削除されます！この操作には時間がかかります。
-  WorkflowLanguages: デフォルト言語に設定
+  AddNewLanguage: 新しい言語を追加
+  AddWorkflowLanguageDialogHeader: ワークフロー言語を追加
+  AddWorkflowLanguageSystemDatabaseSpaceWarningMessage: この操作には時間がかかり、システムデータベースの容量が増加します。
+  AddWorkflowLanguageWarningMessage: 新しいワークフロー言語を追加すると、デフォルト言語 ({2}) のすべての既存タスク ({0}) とケース ({1}) の名前と説明が新しい言語にコピーされます。
+  DeleteLanguage: この言語を削除
+  DeleteWorkflowLanguageDialogHeader: ワークフロー言語の削除
+  DeleteWorkflowLanguageWarningMessage: ワークフロー言語を削除すると、その言語のすべての既存タスク ({0}) とケース ({1}) の名前と説明が削除されます。この操作には時間がかかります。
+  MakeDefaultLanguage: デフォルト言語に設定
+  WorkflowLanguages: ワークフロー言語
 sendtestmail:
-  Email: ワークフロー言語
-  Log: メール
-  Message: ログ
-  SendTestMailDialogHeader: メッセージ
-  Subject: テストメールを送信
-  TestMailMessageDefault: 件名
-  TestMailSubjectDefault: これはテストメールです。
-  To: テストメール
+  Email: メール
+  Log: ログ
+  Message: メッセージ
+  SendTestMailDialogHeader: テストメール送信
+  Subject: 件名
+  TestMailMessageDefault: これはテストメールです。
+  TestMailSubjectDefault: テストメール
+  To: 宛先
 setup:
-  Administrators: 宛
-  ConfigurationIncompleteDetailFirstPart: 管理者
-  ConfigurationIncompleteDetailSecondPart: 'あなたの設定に警告があります。 '
-  ConfigurationIncompleteSummary: ' 設定に警告があります。'
-  EngineRestartDetail: 設定が不完全です
-  EngineRestartSummary: エンジンを再起動して設定プロセスを完了する必要があります！
-  FinishSetupWizard: エンジン再起動
-  Licence: セットアップウィザードを完了してください
-  Storage: ライセンス
-  SystemDatabase: ストレージ
-  WebServer: システムデータベース
+  Administrators: 管理者
+  ConfigurationIncompleteDetailFirstPart: '次の設定に警告があります: '
+  ConfigurationIncompleteDetailSecondPart: ' 設定。'
+  ConfigurationIncompleteSummary: 設定が未完了です
+  EngineRestartDetail: セットアップを完了するにはエンジンを再起動する必要があります！
+  EngineRestartSummary: エンジンの再起動
+  FinishSetupWizard: セットアップウィザードを完了
+  Licence: ライセンス
+  Storage: ストレージ
+  SystemDatabase: システムデータベース
+  WebServer: ウェブサーバー
 setupAdmins:
-  AddAdministratorButton: Webサーバー
-  AddAdministratorButtonTitle: 管理者追加
-  StepWarningMessage: 編集
+  AddAdministratorButton: 管理者を追加
+  AddAdministratorButtonTitle: 編集
+  StepWarningMessage: 少なくとも1人の管理者を設定してください！
 setupStorage:
-  AppDirectory: 少なくとも1つの管理者設定を行ってください！
-  DataDirectory: アプリディレクトリ
-  DirectoryChangesMessage: データディレクトリ
-  StepWarningMessage: ディレクトリの変更が正常に保存されました
+  AppDirectory: アプリディレクトリ
+  DataDirectory: データディレクトリ
+  DirectoryChangesMessage: ディレクトリの変更が正常に保存されました
+  StepWarningMessage: AppDirectoryを空にしないでください
 sidebar:
-  Cache: AppDirectoryは空にしてはいけません
-  ClassHistogram: キャッシュ
-  Dashboard: 設定ファイルエディター
-  Databases: ダッシュボード
-  Documents: データベース
-  Engine: ドキュメント
-  FlightRecorder: エンジン
-  Health: フライトレコーダー
-  IntermediateEvents: ヘルス
-  JVM: ジョブ
-  Java: 中間イベント
-  Jobs: Java
-  Licence: JVM
-  LiveStats: ライセンス
-  LiveStatsFoundFrom: ライブ統計
-  Logs: ライブ統計は次から取得されました
-  MBeans: ログ
-  Memory: MBeans
-  Monitor: メモリ
-  NotificationChannels: モニター
+  Cache: キャッシュ
+  ClassHistogram: クラスヒストグラム
+  Dashboard: ダッシュボード
+  Databases: データベース
+  Documents: ドキュメント
+  Engine: エンジン
+  FlightRecorder: フライトレコーダー
+  Health: ヘルス
+  IntermediateEvents: 中間イベント
+  JVM: JVM
+  Java: Java
+  Jobs: ジョブ
+  Licence: ライセンス
+  LiveStats: ライブ統計
+  LiveStatsFoundFrom: ライブ統計の取得元
+  Logs: ログ
+  MBeans: MBeans
+  Memory: メモリ
+  Monitor: モニター
   Notifications: 通知
   OS: OS
   Performance: パフォーマンス
   ProcessExecution: プロセス実行
-  RestClients: 役割
-  RestServices: セッション
-  Roles: 遅いリクエスト
-  SearchEngine: SSL
-  Services: 開始イベント
-  Sessions: システム
-  SlowRequests: システム設定
-  StartEvents: スレッド
-  SystemDatabase: ワークフロー
-  Threads: エンドポイント
-  TrafficGraph: 操作
-  WebServiceClients: サポートレポートのダウンロード
-  WebServiceProcesses: '&lt;p&gt;Axon Ivy Engineを使用中に問題が発生した場合は、サポートチケットを開き、このZIPアーカイブをダウンロードしてチケットに添付してください。&lt;/p&gt; &lt;p&gt;このZIPアーカイブには以下の内容が含まれています：&lt;/p&gt; &lt;ul&gt;     &lt;li&gt;Axon Ivy Engine サポートレポート&lt;/li&gt;      &lt;li&gt;本日のログファイル&lt;/li&gt; &lt;/ul&gt;'
-  Workflow: サポートレポート
+  Roles: ロール
+  Sessions: セッション
+  SlowRequests: 遅延リクエスト
+  StartEvents: 開始イベント
+  Threads: スレッド
+  TrafficGraph: トラフィックグラフ
+  Workflow: ワークフロー
 soapHistory:
-  Endpoint: システムDbの構成
-  Operation: ドライバー
+  Endpoint: エンドポイント
+  Operation: オペレーション
 sslConfig:
   KeyStoreCertificates: キーストア証明書
-  TrustStoreCertificates: 信頼ストア証明書
+  TrustStoreCertificates: トラストストア証明書
 sslKeyStore:
   KeyPassword: キーパスワード
-  KeyStoreConfigurations: キーストアの設定
-  KeyStoreConfigurationsSavedMessage: キーストアの設定が保存されました
+  KeyStoreConfigurations: キーストア設定
+  KeyStoreConfigurationsSavedMessage: キーストア設定を保存しました
   StorePassword: ストアパスワード
-  UseCustomKeyStore: カスタム キー ストアを使用する
+  UseCustomKeyStore: カスタムキーストアを使用
 sslTable:
-  AddCertificate: 証明書を追加する
-  Alias: 別名
+  AddCertificate: 証明書を追加
+  Alias: エイリアス
   ExpiryDate: 有効期限
-  Subject: 件名
+  Subject: サブジェクト
   ValidCertificate: 有効
 sslTrustStore:
-  EnableInsecureSSLAndHTTPSConnections: 不安全なSSLおよびHTTPS接続を有効にする
-  TrustStoreConfigurations: トラスト ストアの設定
-  TrustStoreConfigurationsSavedMessage: トラスト ストアの設定が保存されました
+  EnableInsecureSSLAndHTTPSConnections: 安全でないSSLおよびHTTPS接続を有効にする
+  TrustStoreConfigurations: トラストストア設定
+  TrustStoreConfigurationsSavedMessage: トラストストア設定を保存しました
 state:
-  ConfiguredState: HSQL メモリ DB が使用されています
+  ConfiguredState: 設定済み状態
 supportReport:
-  DownloadSupportReport: ライセンスがインストールされていません
-  SupportReportDialogContent: ドライバー
-  SupportReportDialogHeader: システムデータベース
+  DownloadSupportReport: サポートレポートのダウンロード
+  SupportReportDialogContent: |-
+    <p>Axon Ivy Engineを使用中に問題が発生した場合は、サポートチケットを開き、このZIPアーカイブをダウンロードしてチケットに添付してください。</p>
+    <p>このZIPアーカイブには以下の内容が含まれています：</p>
+    <ul>
+        <li>Axon Ivy エンジン サポートレポート</li>
+         <li>本日のログファイル</li>
+    </ul>
+  SupportReportDialogHeader: サポートレポート
 systemConfig:
-  ReloadSystemConfiguration: システム構成の再読み込み
-  ReloadSystemConfigurationMessage: システム構成の再設定
-  ShowConfigurationLog: 設定ログを表示する
-  ShowSecuritySystems: セキュリティシステムを表示する
+  ReloadSystemConfiguration: システム構成を再読み込み
+  ReloadSystemConfigurationMessage: システム構成を再読み込みしました
+  ShowSecuritySystems: セキュリティシステムを表示
 systemDatabase:
-  ConfigureSystemDb: URL
-  Driver: 追加のプロパティ
-  HSQLMemoryDbIsUsedMessage: 追加のプロパティ
-  NoLicenceInstalledSummary: プロパティの追加
-  NoSystemDatabaseConfiguredSummary: 接続を確認
-  SystemDatabase: 接続
-  URL: データベースへの接続を確認してください。
+  ConfigureSystemDb: システムDBを設定
+  Driver: ドライバー
+  HSQLMemoryDbIsUsedMessage: HSQLメモリDBが使用されています
+  NoLicenceInstalledSummary: ライセンスがインストールされていません
+  NoSystemDatabaseConfiguredSummary: ドライバー
+  SystemDatabase: システムデータベース
+  URL: URL
 systemDb:
-  AddAdditionalPropertyDialogHeader: 接続状態が不明です
-  AddProperty: システム データベースの構成に必要なパラメーターを入力してください
-  AdditionalProperties: データベースを作成
-  CheckConnection: システムデータベースを作成
-  Connect: データベースが正常に作成されました。接続を確認してください！
-  ConnectionInfoAdvise: データベース
-  ConnectionInfoLabel: このエンジンを生産環境で使用するには、永続的なデータベースを構成してください。
-  CreateDatabase: データベースが永続化されていません
-  CreateDatabaseDialogDetail: 削除
-  CreateDatabaseDialogHeader: ドライバー
-  CreateDatabaseSucessfulMessage: 'エラー: '
-  Database: システムデータベースの構成が正常に保存されました
-  DatabaseNotPersistentDetail: '&lt;b&gt;クラスターモード!&lt;/b&gt;&lt;br/&gt; 設定変更はローカルノードでのみ適用可能です!'
-  DatabaseNotPersistentSummary: ログアウト
-  DeleteButtonTitle: サーバーインデックス
-  Driver: 健康状態の詳細を表示 ...
-  Error: サポートレポート
+  AddAdditionalPropertyDialogHeader: 追加プロパティ
+  AddProperty: プロパティを追加
+  AdditionalProperties: 追加プロパティ
+  CheckConnection: 接続を確認
+  Connect: 接続
+  ConnectionInfoAdvise: データベースへの接続を確認してください。
+  ConnectionInfoLabel: 接続状態は不明です
+  CreateDatabase: データベースを作成
+  CreateDatabaseDialogDetail: システムデータベース構成に必要なパラメータを入力してください
+  CreateDatabaseDialogHeader: システムデータベースを作成
+  CreateDatabaseSucessfulMessage: データベースが正常に作成されました。接続を確認してください！
+  Database: データベース
+  DatabaseNotPersistentDetail: 本番環境でこのエンジンを使用するには永続データベースを設定してください。
+  DatabaseNotPersistentSummary: 永続データベースではありません
+  DeleteButtonTitle: 削除
+  Error: 'エラー: '
   NoConnection: 接続なし
-  SaveUnknownConnectionWarningMessage: 本当にこの設定を保存しますか？
-  SystemDatabaseConfigSavedSuccessfulMessage: テスト
+  SaveUnknownConnectionWarningMessage: 本当にこの構成を保存しますか？
+  SystemDatabaseConfigSavedSuccessfulMessage: システムデータベース構成が正常に保存されました
 systemDbInfo:
-  LoadDataDetailMessage: これには数分かかる場合があります。
-  LoadDataSummaryMessage: 収集システム データベース情報
+  LoadDataDetailMessage: これには数分かかる場合があります
+  LoadDataSummaryMessage: システムデータベース情報を収集中
 tables:
   RowCount: 行数
 template:
-  ClusterModeWarning: 信頼ストアに追加
-  Logout: '証明書が欠落しています:'
-  ServerIndex: '公開鍵:'
-  ShowHealthDetails: 'サブジェクト:'
-  SupportReport: '有効開始日:'
+  ClusterModeWarning: |-
+    <b>クラスターモード！</b><br/>
+    設定の変更はローカルノードでのみ適用できます！
+  Logout: ログアウト
+  ServerIndex: サーバーインデックス
+  ShowHealthDetails: 健康状態の詳細を表示 ...
+  SupportReport: サポートレポート
 tlsTester:
-  Tests: '有効期限:'
+  Tests: テスト
 tlsTesterMissingCertView:
-  AddCertificateToTruststoreSuccessMesage: 証明書が正常に追加されました。
-  AddToTruststore: ロールの親を更新
-  AddX509CertificateToTruststoreSuccessMesage: '{0} が正常に追加されました。'
-  MissingCert: これは、少なくとも動的でない役割の場合、重要な危険な操作です。役割の階層構造はAxon Ivyプロジェクトで定義されており、実行中のプロセスはこの階層構造に依存している可能性があります。
-  PublicKey: タスクを実行可能
-  Subject: 個人タスク
-  ValidFrom: 開始されたケース
-  ValidUntil: タスクを処理中
+  AddCertificateToTruststoreSuccessMesage: 証明書は正常に追加されました。
+  AddToTruststore: トラストストアに追加
+  AddX509CertificateToTruststoreSuccessMesage: '{0} が正常に追加されました'
+  MissingCert: '不足している証明書:'
+  PublicKey: '公開鍵:'
+  Subject: 'サブジェクト:'
+  ValidFrom: '有効期間開始:'
+  ValidUntil: '有効期間終了:'
 topBarItem:
   Help: ヘルプ
 triggers:
   Timing: タイミング
   Triggers: トリガー
 updateRoleParent:
-  UpdateRoleParentDialogHeader: 欠勤
-  UpdateRoleParentDialogWarningMessage: 終了
+  UpdateRoleParentDialogHeader: ロール親の更新
+  UpdateRoleParentDialogWarningMessage: これは重要かつ危険な操作です。少なくとも動的でないロールにおいては特に注意が必要です。ロール階層は Axon Ivy プロジェクト内で定義されており、実行中のプロセスがこの階層に依存している可能性があります。
 userDetail:
-  CanWorkOnTasks: 開始
-  PersonalTasks: ユーザーは現在欠勤中です
-  StartedCases: ユーザーは現在欠席していません
-  WorkingOnTasks: 勤務
+  CanWorkOnTasks: タスクを実行可能
+  PersonalTasks: 個人タスク
+  StartedCases: 開始したケース
+  WorkingOnTasks: 実行中のタスク
 userDetailAbsences:
-  Absences: ユーザーはこのロールのメンバーです
-  End: パスワードを確認
-  Start: このユーザーを削除
-  UserIsCurrentlyAbsent: ユーザーを削除
-  UserIsCurrentlyNotAbsent: このユーザーは無効化されています
-  Working: このユーザーを無効化
+  Absences: 欠勤
+  End: 終了
+  Start: 開始
+  UserIsCurrentlyAbsent: ユーザーは現在欠勤中です
+  UserIsCurrentlyNotAbsent: ユーザーは現在欠勤していません
+  Working: 勤務中
 userDetailInformation:
-  AddRoleFailedMessage: メールアドレス
-  ConfirmPassword: このユーザーを有効化
-  DeleteUser: 外部ID
-  DeleteUserDialogHeader: 外部名
-  DisableUser: セキュリティシステム ''{0}'' が見つかりません
-  DisabledUserWarningMessage: フォーマット言語
-  EMailAddress: ユーザー ''{0}'' が見つかりません
-  EnableUser: パスワード
-  ExternalID: 同期
-  ExternalName: このユーザーを削除する代わりに無効化することをおすすめします。ワークフローの履歴の一部が失われる可能性があります。
-  FormattingLanguage: ユーザー ''{0}'' には {1} 件の個人タスクがあります。このユーザーを削除すると、他のユーザーはこれらのタスクを処理できなくなります。削除する代わりにユーザーを無効化することをおすすめします。ワークフローの履歴の一部が失われる可能性があります。
-  NotFoundSecuritySystemMessage: このユーザーは外部セキュリティシステムで管理されています
-  NotFoundUserMessage: ユーザー情報
-  Password: ユーザー情報の変更は保存されます
-  Synch: デフォルトで
-  UserDeleteHintMessage: イベント
-  UserDeleteHintMessageWithPersonalTasks: 通知チャネル
-  UserInExternalSecuritySystemMessage: 通知チャネルの変更が保存されました
-  UserInformation: 通知チャネルがリセットされました
-  UserInformationChangesSavedMessage: 未購読
+  AddRoleFailedMessage: ユーザーはすでにこのロールのメンバーです
+  ConfirmPassword: パスワード確認
+  DeleteUser: このユーザーを削除
+  DeleteUserDialogHeader: ユーザー削除
+  DisableUser: このユーザーを無効化
+  DisabledUserWarningMessage: このユーザーは無効化されています
+  EMailAddress: Eメールアドレス
+  EnableUser: このユーザーを有効化
+  ExternalID: 外部ID
+  ExternalName: 外部名
+  FormattingLanguage: 表記言語
+  NotFoundSecuritySystemMessage: セキュリティシステム「{0}」が見つかりません
+  NotFoundUserMessage: ユーザー「{0}」が見つかりません
+  Password: パスワード
+  Synch: 同期
+  UserDeleteHintMessage: ユーザーを削除する代わりに無効化することをお勧めします。削除するとワークフロー履歴の一部が失われる可能性があります。
+  UserDeleteHintMessageWithPersonalTasks: ユーザー「{0}」には{1}件の個人タスクがあります。このユーザーを削除すると、他のユーザーはこれらのタスクを実行できません。削除する代わりに無効化することをお勧めします。削除するとワークフロー履歴の一部が失われる可能性があります。
+  UserInExternalSecuritySystemMessage: このユーザーは外部セキュリティシステムによって管理されています
+  UserInformation: ユーザー情報
+  UserInformationChangesSavedMessage: ユーザー情報の変更が保存されました
 userDetailNotifications:
-  ByDefault: デフォルトに戻す
-  Event: 購読中
-  NotSubscribed: 個人
-  NotificationChannels: 対象
-  NotificationChannelsChangesSavedMessage: 不在時
-  NotificationChannelsResetMessage: 永久
-  ResetToDefault: 代理
-  Subscribed: 種類
+  ByDefault: デフォルトで
+  Event: イベント
+  NotSubscribed: 未購読
+  NotificationChannels: 通知チャネル
+  NotificationChannelsChangesSavedMessage: 通知チャネルの変更が保存されました
+  NotificationChannelsResetMessage: 通知チャネルがリセットされました
+  ResetToDefault: デフォルトにリセット
+  Subscribed: 購読中
 userDetailSubstitutes:
-  For: ユーザーを追加
-  OnAbsence: 同期ログ
-  Permanent: 単一ユーザー同期
-  Personal: すべての役割
-  Substitutes: 役割は外部セキュリティシステムで管理されています
-  Type: パフォーマンスの理由により、最初の20つの役割のみが読み込まれます。特定の役割を探すには検索機能をご利用ください。
+  For: 対象
+  OnAbsence: 不在時
+  Permanent: 永続
+  Personal: 個人
+  Substitutes: 代理人
+  Type: 種類
 users:
-  AddUser: '[無効]'
-  SynchSingleUser: メール
-  SynchronizationLog: 無効なユーザー
+  AddUser: ユーザー追加
+  SynchSingleUser: 単一ユーザーを同期
+  SynchronizationLog: 同期ログ
 usersDetailRoles:
-  AllRoles: 有効なユーザー
-  RoleInExternalSecuritySystemMessage: '[外部]'
-  RoleSearchPerformanceReasonsMessage: 'フィルター:'
+  AllRoles: すべてのロール
+  RoleInExternalSecuritySystemMessage: ロールは外部セキュリティシステムによって管理されています
+  RoleSearchPerformanceReasonsMessage: パフォーマンス上の理由により、最初の20件のロールのみが読み込まれます。特定のロールを探すには検索を使用してください。
 usersTable:
-  Disabled: 最終ログイン
-  DisabledUsersFilter: ログイン中
-  Email: 手動で無効化されたユーザー
-  EnabledUsersFilter: 手動ユーザー
-  External: 無効なユーザーを表示
-  Filter: 手動ユーザーを表示
-  LastLogin: シングルユーザーを同期
-  LoggedIn: 動作中
-  ManualDisabledUsersFilter: '''''{0}'''' が正常に変更されました'
-  ManualUsersFilter: '有効:'
-  ShowDisabledUsers: xxxx
-  ShowManualUsers: xxxx
-  SynchSingleUser: xxxx
-  Working: xxxx
+  Disabled: '[無効]'
+  DisabledUsersFilter: 無効ユーザー
+  Email: メール
+  EnabledUsersFilter: 有効ユーザー
+  External: '[外部]'
+  Filter: 'フィルター:'
+  LastLogin: 最終ログイン
+  LoggedIn: ログイン中
+  ManualDisabledUsersFilter: 手動で無効化されたユーザー
+  ManualUsersFilter: 手動ユーザー
+  ShowDisabledUsers: 無効ユーザーを表示
+  ShowManualUsers: 手動ユーザーを表示
+  SynchSingleUser: 単一ユーザーを同期
+  Working: 作業中
 webServer:
   BaseUrl: ベースURL
-  BaseUrlHelpMessage: エンジンがリクエストなしで絶対URIを構築するために使用するベースURL（メールリンクなど）
-  BaseUrlProblemDetectedDetailMessage: 「Base Url」は、現在のブラウザのベースURLと異なるようです。正しく「Base Url」を設定する必要があるかもしれません。
+  BaseUrlHelpMessage: リクエストなしでエンジンが絶対URIを構築するために使用されるベースURL（メールリンクなど）
+  BaseUrlProblemDetectedDetailMessage: 「ベースURL」が現在のブラウザのベースURLと異なるようです。「ベースURL」を正しく設定する必要があります。
   BaseUrlProblemDetectedSummaryMessage: 問題が検出されました
   BaseUrlSavedMessage: ベースURLが保存されました
   BaseUrlSettings: ベースURL設定
-  ChangedConfigSuccessfulMessage: 「{0}」が正常に変更されました。
-  CheckDocumentLink: 詳細については、当社の<i class="si si-hyperlink-3"></i>ドキュメントをご確認ください。
+  ChangedConfigSuccessfulMessage: 「{0}」が正常に変更されました
+  CheckDocumentLink: 詳細については <i class="si si-hyperlink-3"></i> ドキュメントをご確認ください。
   Enabled: '有効:'
-  EvaluatedUrl: 評価対象のURL
-  EvaluatedUrlHelpMessage: 外部リンクの計算方法の例
+  EvaluatedUrl: 評価されたURL
+  EvaluatedUrlHelpMessage: 外部リンクがどのように計算されるかの例
   ExternalBaseUrl: 外部ベースURL
-  ExternalBaseUrlHelpMessage: エンジンが絶対URI（スタートリンク、メールリンクなど）を生成するために使用するベースURL。
-  ExternalBaseUrlProblemDetectedDetailMessage: 「外部ベースURL」は、現在のブラウザのベースURLと異なるようです。
+  ExternalBaseUrlHelpMessage: エンジンが絶対URIを構築するために使用する外部ベースURL（スタートリンク、メールリンクなど）
+  ExternalBaseUrlProblemDetectedDetailMessage: 「外部ベースURL」が現在のブラウザのベースURLと異なるようです
   ExternalBaseUrlProblemDetectedSummaryMessage: 問題が検出されました
-  HTTPConnector: HTTP コネクタ
-  HTTPSConnectorctor: HTTPS コネクタ
-  MissingSecurityHeadersDetailMessage: セキュリティヘッダーはレスポンスで認識されていませんが、リバースプロキシ経由で追加されている可能性があります（ブラウザのデベロッパーツールで確認できます）：
-  MissingSecurityHeadersSummaryMessage: セキュリティヘッダーが欠落していますか？
+  HTTPConnector: HTTPコネクタ
+  HTTPSConnectorctor: HTTPSコネクタ
+  MissingSecurityHeadersDetailMessage: セキュリティヘッダーがレスポンスに認識されません。ただし、リバースプロキシを介して追加されている可能性があります（ブラウザの開発者ツールで確認できます）。
+  MissingSecurityHeadersSummaryMessage: セキュリティヘッダーが不足していますか？
   Port: 'ポート:'
   RemoteAddress: リモートアドレス
-  RemoteAddressHelpMessage: リクエストが送信される元のアドレス形式（あなたのIPアドレスであるべきです）
-  RequestData: データのリクエスト
+  RemoteAddressHelpMessage: リクエスト元のアドレス（あなたのIPである必要があります）
+  RequestData: リクエストデータ
   RequestHeader: リクエストヘッダー
   ResponseHeader: レスポンスヘッダー
   ResponseHeaders: レスポンスヘッダー
-  ShowRequestHeaders: リクエストヘッダーを表示する
-  ShowResponseHeaders: レスポンスヘッダーを表示する
-  StepWarningMessage: 少なくともHTTPまたはHTTPSコネクタを有効にします。
-  WebServerConnectors: ウェブサーバー接続アダプター
+  ShowRequestHeaders: リクエストヘッダーを表示
+  ShowResponseHeaders: レスポンスヘッダーを表示
+  StepWarningMessage: HTTPまたはHTTPSコネクタの少なくとも1つを有効にしてください
+  WebServerConnectors: Webサーバーコネクタ
 webServiceConfiguration:
   ResetConfiguration: 設定をリセット
-  ResetWSConfirmDialogHeader: Web サービスをリセット
-  ResetWSConfirmDialogMessage: このWebサービスをリセットしますか？
-  WebServiceConfigurationResetMessage: Web サービス設定のリセット
-  WebServiceConfigurationSavedMessage: Web サービスの設定が保存されました
-  WebServiceConfigurations: Web サービス設定
+  ResetWSConfirmDialogHeader: Webサービスのリセット
+  ResetWSConfirmDialogMessage: このWebサービスをリセットしてもよろしいですか？
+  WebServiceConfigurationResetMessage: Webサービスの設定がリセットされました
+  WebServiceConfigurationSavedMessage: Webサービスの設定が保存されました
+  WebServiceConfigurations: Webサービス設定
   WsdlUrl: WSDL URL
 webServiceDetail:
-  GuideText: Web サービスを編集するには、app.yaml ファイルを上書きしてください。例として、以下のスニペットをコピーして貼り付けてください。
-  NotFoundWebService: Web サービス ''{0}'' が見つかりません
-  Title: Web サービス ''{0}''
-  WebService: Web サービス
+  GuideText: Webサービスを編集するには、app.yamlファイルを上書きしてください。以下のスニペットをコピー＆ペーストする例があります。
+  NotFoundWebService: Webサービス「{0}」が見つかりません
+  Title: Webサービス「{0}」
+  WebService: Webサービス
 webServiceEndpoints:
-  EditEndpointsConfigurationDialogHeader: エンドポイントの編集
+  EditEndpointsConfigurationDialogHeader: エンドポイントを編集
   EndPointSavedMessage: エンドポイントが保存されました
   Endpoints: エンドポイント
   Fallbacks: フォールバック
   NoEndpointInfoMessage: このWebサービスにはエンドポイントが定義されていません
-  TestConnectionAuthenticationMessage: 認証（HttpBasicのみサポート）に失敗しました
-  TestConnectionErrorMessage: 'URLが正しくないか、スクリプト実行可能なコンテキストを含んでいます（評価できません）エラーが発生しました: {0}'
-  TestConnectionNotFoundMessage: サービスが見つかりませんでした
-  TestConnectionSuccessMessage: Webサービスに正常に接続しました
-  TestWsEndpointButtonTitle: Webサービスエンドポイント接続のテスト
+  TestConnectionAuthenticationMessage: 認証（HttpBasicのみサポート）が成功しませんでした
+  TestConnectionErrorMessage: |-
+    URLが正しくないか、スクリプトコンテキストを含んでいるため評価できません
+    エラーが発生しました: {0}
+  TestConnectionNotFoundMessage: サービスが見つかりません
+  TestConnectionSuccessMessage: Webサービスへの接続に成功しました
+  TestWsEndpointButtonTitle: Webサービスエンドポイント接続をテスト
 webServiceProcesses:
-  NoWebServiceProcessesFound: デプロイされたアプリにWebサービスプロセスが見つかりませんでした
-  WebServiceWSDL: Web サービス WSDL
+  NoWebServiceProcessesFound: デプロイされたアプリにWebサービスプロセスが見つかりません
+  WebServiceWSDL: Webサービス WSDL
 webServices:
-  EndpointUrls: エンドポイント URL
-  NoWebServicesFound: デプロイされたアプリにWebサービスが見つかりませんでした
+  EndpointUrls: エンドポイントURL
+  NoWebServicesFound: デプロイされたアプリにWebサービスが見つかりません
 weekConfiguration:
-  DefinedWorkingTime: 定義された稼働時間
-  FreeDay: 無料
-  FromTo: 開始から
-  WeekConfiguration: 週の設定
-  WorkingDay: 勤務時間
+  DefinedWorkingTime: 定義された勤務時間
+  FreeDay: 休み
+  FromTo: 開始から終了まで
+  WeekConfiguration: 週間設定
+  WorkingDay: 勤務日
   WorkingTime: 勤務時間
 wizard:
-  Dark: 休日
+  Dark: ダーク
   Light: ライト
   Logout: ログアウト

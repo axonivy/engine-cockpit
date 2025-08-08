@@ -36,7 +36,7 @@
     </p:treeTable>
   </h:form>
 
-  <p:staticMessage severity="info" summary="Info" detail="No Enpoint defined for this webservice"
+  <p:staticMessage severity="info" summary="#{ivy.cm.co('/common/Info')}" detail="#{ivy.cm.co('/webServiceEndpoints/NoEndpointInfoMessage')}"
     rendered="#{webserviceDetailBean.webservice.portTypes.childCount == 0}" styleClass="mb-0 mt-1" />
 
   <p:dialog styleClass="config-edit" header="#{ivy.cm.co('/webServiceEndpoints/EditEndpointsConfigurationDialogHeader')} '#{webserviceDetailBean.activePortType.name}'"

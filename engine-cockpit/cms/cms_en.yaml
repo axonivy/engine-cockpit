@@ -255,6 +255,7 @@ common:
   Services: Services
   Sessions: Sessions
   Setup: Setup
+  ShowConfigurationLog: Show configuration log
   Size: Size
   Source: Source
   Start: Start
@@ -359,7 +360,6 @@ deployment:
   DeployToApp: Deploy to App
   FileFormat: File Format
   Options: Options
-  Version: Version
   VersionRange: Version Range
 directoryBrowser:
   DirectoryBrowserDialogHeader: Directory Browser
@@ -377,19 +377,14 @@ editor:
   UploadP12: Upload .p12
 email:
   ConfigureEmailServer: Configure Email Server
-  Email: Email
   MailAddress: Mail address
-  Port: Port
   SendTestMail: Send Test Mail
   Server: Server
-  User: User
 exception:
   AjaxExceptionDialogHeader: Error
   ViewExpiredExceptionDialogContent: The view or session has expired.
   ViewExpiredExceptionDialogHeader: View or Session Expired
 exceptionDetail:
-  Application: Application
-  Attributes: Attributes
   Element: 'Element:'
   Process: 'Process:'
   ProcessCallStack: Process call stack
@@ -891,7 +886,6 @@ moveApplication:
   Validate: Validate
 newApplication:
   AddNewApplicationDialogHeader: Add new application
-  AddNewApplicationDialogHeader1: Add new application
 newRole:
   NewChildRoleDialogHeader: Add new child role for {0}
 newSecuritySystem:
@@ -1183,7 +1177,6 @@ supportReport:
 systemConfig:
   ReloadSystemConfiguration: Reload system configuration
   ReloadSystemConfigurationMessage: System configuration reloaded
-  ShowConfigurationLog: Show configuration log
   ShowSecuritySystems: Show Security Systems
 systemDatabase:
   ConfigureSystemDb: Configure SystemDb

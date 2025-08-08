@@ -10,7 +10,7 @@
   <div class="card-header">
     <div class="card-title flex align-items-center">
       <i class="pr-3 si si-email-action-unread"></i>
-      <h6 class="m-0">#{ivy.cm.co('/email/Email')}</h6>
+      <h6 class="m-0">#{ivy.cm.co('/common/Email')}</h6>
       <p:commandButton id="openTestMailBtn" title="#{ivy.cm.co('/email/SendTestMail')}" icon="si si-send-email" type="button"
         styleClass="ml-auto ui-button-secondary rounded-button" onclick="PF('sendTestMailModal').show()" />
       <p:linkButton id="configureEmailBtn" title="#{ivy.cm.co('/email/ConfigureEmailServer')}" icon="si si-cog" type="button"
@@ -21,11 +21,11 @@
     styleClass="grey-label-panel">
     <label>#{ivy.cm.co('/email/Server')}</label>
     <h:outputText value="#{emailBean.host}" />
-    <label>#{ivy.cm.co('/email/Port')}</label>
+    <label>#{ivy.cm.co('/common/Port')}</label>
     <h:outputText value="#{emailBean.port}" />
     <label>#{ivy.cm.co('/email/MailAddress')}</label>
     <h:outputText value="#{emailBean.email}" />
-    <label>#{ivy.cm.co('/email/User')}</label>
+    <label>#{ivy.cm.co('/common/User')}</label>
     <h:outputText value="#{emailBean.user}" />
   </p:panelGrid>
 </div>
