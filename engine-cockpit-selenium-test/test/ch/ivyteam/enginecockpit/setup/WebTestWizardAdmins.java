@@ -31,31 +31,31 @@ class WebTestWizardAdmins {
   }
 
   @Test
-  void testAdminStep() {
-    Table table = new Table(By.id("admins:adminForm:adminTable"));
+  void adminStep() {
+    var table = new Table(By.id("admins:adminForm:adminTable"));
     WebTestAdmins.addAdmin("admin", "admin@ivyTeam.ch", "password", "password");
-    $(".ui-growl-title").shouldBe(text("'admin' added successfully"));
+    $(".ui-growl-title").shouldBe(text("'admin' added"));
     Selenide.refresh();
     table.firstColumnShouldBe(exactTexts("admin"));
-    $("#addAdminForm\\:adminWarnMessage").shouldBe(empty);
+    $(By.id("addAdminForm:adminWarnMessage")).shouldBe(empty);
     WebTestWizard.activeStepShouldBeOk();
     WebTestWizard.nextStep();
     $(WebTestWizard.ACTIVE_WIZARD_STEP).shouldBe(text("Web Server"));
   }
 
   @Test
-  void testAddEditDeleteAdmin() {
+  void addEditDeleteAdmin() {
     WebTestAdmins.testAddEditDelete();
   }
 
   @Test
-  void testAdminDialogInvalid() {
+  void adminDialogInvalid() {
     WebTestAdmins.testAddAdminInvalidValues();
     WebTestAdmins.testAddAdminInvalidPassword();
   }
 
   @Test
-  void testOwnAdminCannotBeDeleted() {
+  void ownAdminCannotBeDeleted() {
     WebTestAdmins.assertOwnAdminCannotBeDeleted();
   }
 }
