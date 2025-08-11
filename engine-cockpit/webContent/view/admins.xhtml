@@ -23,30 +23,22 @@
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-single-neutral-shield card-title-icon"></i>
           <h2 class="m-0">Administrators</h2>
-           
-        <h:form id="addAdminForm" styleClass="ml-auto">
-          <h:panelGroup id="syncPanel" styleClass="ml-auto">
-            <p:splitButton value="Synchronize"
-              icon="si si-button-refresh-arrows #{administratorBean.syncRunning ? 'si-is-spinning' : ''} spin-icon"
-              id="syncMoreBtn" rendered="#{administratorBean.hasIdentityProvider()}" immediate="true"
-              process="@this" actionListener="#{administratorBean.triggerSynch()}" update="@parent">
-              
-              <p:menuitem id="userSyncLog" value="Synchronization Log" icon="si si-common-file-text"
-                onclick="window.location.href='#{administratorBean.synchLogUri}'" />
-                
-              <p:menuitem id="newAdminBtnManual" actionListener="#{administratorBean.addAdmin()}" icon="si si-add"
-              title="Edit" update="admins:editAdminDialog" value="Add Administrator"
-              oncomplete="PF('editAdminDialog').show();" process="@this" />
+          <h:form id="addAdminForm" styleClass="ml-auto">
+            <p:splitButton value="Add"
+                icon="si si-add" title="Add Administrator"
+                id="newAdminBtn" oncomplete="PF('editAdminDialog').show();"
+                process="@this" actionListener="#{administratorBean.addAdmin()}" update="admins:editAdminDialog">
+             <p:menuitem id="configure" value="Configuration" icon="si si-cog"
+                  onclick="window.location.href='#{administratorBean.configurationUri}'" />
+             <p:menuitem id="synch" value="Synchronize" icon="si si-button-refresh-arrows #{administratorBean.syncRunning ? 'si-is-spinning' : ''} spin-icon"
+                  immediate="true" process="@this" actionListener="#{administratorBean.triggerSynch()}" update="@parent"
+                  rendered="#{administratorBean.hasIdentityProvider()}" />
+             <p:menuitem id="userSyncLog" value="Synchronization Log" icon="si si-common-file-text"
+                  rendered="#{administratorBean.hasIdentityProvider()}"
+                  onclick="window.location.href='#{administratorBean.synchLogUri}'" />
             </p:splitButton>
-
-            <p:poll widgetVar="logPoller" autoStart="#{administratorBean.syncRunning}" interval="2" update="@parent" />
-             
-            <p:commandButton id="newAdminBtn" actionListener="#{administratorBean.addAdmin()}" icon="si si-add"
-              title="Edit" update="admins:editAdminDialog" value="Add" rendered="#{!administratorBean.hasIdentityProvider()}"
-              oncomplete="PF('editAdminDialog').show();" process="@this" />
-          </h:panelGroup>
-        </h:form>
-          
+            <p:poll widgetVar="logPoller" autoStart="#{administratorBean.syncRunning}" interval="2" update="synch" />
+          </h:form>
         </div>
         <h:panelGroup id="adminMessages">
           <p:staticMessage rendered="#{!engineModeBean.demo and empty administratorBean.admins}"

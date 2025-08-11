@@ -113,4 +113,8 @@ public class AdministratorBean extends StepStatus {
   public String getSynchLogUri() {
     return LogView.uri().fileName("usersynch").toUri();
   }
+
+  public String getConfigurationUri() {
+    return "security-detail.xhtml?securitySystemName=system";
+  }
 }
