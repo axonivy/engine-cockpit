@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
-import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.job.cron.CronExpression;
 import ch.ivyteam.ivy.security.ISecurityManager;
@@ -57,7 +56,8 @@ public class SecurityProviderBean {
   }
 
   public void loadConfiguration() {
-    securitySystem = ManagerBean.instance().getSecuritySystems().stream()
+    securitySystem = ISecurityManager.instance().securityContexts().allWithSystem().stream()
+        .map(SecuritySystem::new)
         .filter(system -> Objects.equals(system.getSecuritySystemName(), name))
         .findAny()
         .orElseThrow();

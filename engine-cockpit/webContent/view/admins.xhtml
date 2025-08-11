@@ -24,9 +24,20 @@
           <i class="pr-3 si si-single-neutral-shield card-title-icon"></i>
           <h2 class="m-0">Administrators</h2>
           <h:form id="addAdminForm" styleClass="ml-auto">
-            <p:commandButton id="newAdminBtn" actionListener="#{administratorBean.addAdmin()}" icon="si si-add"
-              title="Edit" update="admins:editAdminDialog" value="Add"
-              oncomplete="PF('editAdminDialog').show();" process="@this" />
+            <p:splitButton value="Add"
+                icon="si si-add" title="Add Administrator"
+                id="newAdminBtn" oncomplete="PF('editAdminDialog').show();"
+                process="@this" actionListener="#{administratorBean.addAdmin()}" update="admins:editAdminDialog">
+             <p:menuitem id="configure" value="Configuration" icon="si si-cog"
+                  onclick="window.location.href='#{administratorBean.configurationUri}'" />
+             <p:menuitem id="synch" value="Synchronize" icon="si si-button-refresh-arrows #{administratorBean.syncRunning ? 'si-is-spinning' : ''} spin-icon"
+                  immediate="true" process="@this" actionListener="#{administratorBean.triggerSynch()}" update="@parent"
+                  rendered="#{administratorBean.hasIdentityProvider()}" />
+             <p:menuitem id="userSyncLog" value="Synchronization Log" icon="si si-common-file-text"
+                  rendered="#{administratorBean.hasIdentityProvider()}"
+                  onclick="window.location.href='#{administratorBean.synchLogUri}'" />
+            </p:splitButton>
+            <p:poll widgetVar="logPoller" autoStart="#{administratorBean.syncRunning}" interval="2" update="synch" />
           </h:form>
         </div>
         <h:panelGroup id="adminMessages">

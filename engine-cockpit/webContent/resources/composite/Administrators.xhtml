@@ -23,19 +23,27 @@
               <img src="https://www.gravatar.com/avatar/#{admin.gravatarHash}?d=404" onload="showGravatarImg(this);"/>
             </h:panelGroup>
           </h:outputText>
+          <h:outputText value="[external]" title="#{admin.externalId}" rendered="#{admin.external}" styleClass="ml-1 addition-row-info table-cell-autocut" />
+          <h:outputText value="[disabled]" rendered="#{!admin.enabled}" styleClass="ml-1 addition-row-info table-cell-autocut" />
         </h:panelGroup>
       </p:column>
+
+      <p:column headerText="Full Name" sortBy="#{admin.fullName}" filterBy="#{admin.fullName}">
+        <h:outputText value="#{admin.fullName}" />
+      </p:column>
+
       <p:column headerText="Email" sortBy="#{admin.email}" filterBy="#{admin.email}">
         <h:outputText value="#{admin.email}" />
       </p:column>
+
       <p:column styleClass="table-btn-2">
-        <p:commandButton id="editAdminBtn" actionListener="#{administratorBean.setAdmin(admin)}" icon="si si-pencil"
+        <p:commandButton id="editAdminBtn" disabled="#{admin.external}" actionListener="#{administratorBean.setAdmin(admin)}" icon="si si-pencil"
           title="Edit" update="admins:editAdminDialog" styleClass="ui-button-secondary rounded-button"
           oncomplete="PF('editAdminDialog').show();" process="@this" />
-        <p:commandButton id="deleteAdmin" actionListener="#{administratorBean.setAdmin(admin)}"
+        <p:commandButton id="deleteAdmin"  actionListener="#{administratorBean.setAdmin(admin)}"
           update="@form:deleteAdminDialog" icon="si si-bin-1" title="Delete"
           styleClass="ml-1 ui-button-danger rounded-button" process="@this"
-          disabled="#{admin.name eq loginBean.sessionUserName}" oncomplete="PF('deleteAdminDialog').show();" />
+          disabled="#{administratorBean.isDeleteButtonDisabled(admin)}" oncomplete="PF('deleteAdminDialog').show();" />
       </p:column>
     </p:dataTable>
 
@@ -45,11 +53,11 @@
       <p:commandButton value="Cancel" onclick="PF('deleteAdminDialog').hide();" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="deleteAdminYesBtn" value="Delete" immediate="true" styleClass="modal-input-button"
-        actionListener="#{administratorBean.removeAdmin}" update="#{cc.attrs.updateFields}" icon="si si-bin-1" />
+        actionListener="#{administratorBean.deleteAdmin}" update="#{cc.attrs.updateFields}" icon="si si-bin-1" />
     </p:confirmDialog>
   </h:form>
 
-  <p:dialog widgetVar="editAdminDialog" id="editAdminDialog" width="500" header="Add / Edit Administrator" modal="true"
+  <p:dialog widgetVar="editAdminDialog" id="editAdminDialog" width="500" header="#{empty administratorBean.admin.name ? 'Create Administrator' : 'Update Administrator'}" modal="true"
     closeOnEscape="true" focus="editAdminForm:name">
     <h:form id="editAdminForm" styleClass="custom-dialog-form">
       <p:panelGrid columns="2" layout="flex" columnClasses="col-4, col-8"
@@ -77,7 +85,7 @@
         <p:outputLabel for="password1" value="Password" />
         <h:panelGroup styleClass="md-inputfield">
           <p:password id="password1" validatorMessage="Password didn't match" feedback="true" inline="true"
-            match="password2" autocomplete="new-password" value="#{administratorBean.admin.password}" required="true"
+            match="password2" autocomplete="new-password" value="#{administratorBean.admin.password}" required="#{empty administratorBean.admin.name}"
             requiredMessage="Value is required" redisplay="true" />
           <p:message for="password1" id="passwordMessage">
             <p:autoUpdate />
@@ -87,16 +95,22 @@
         <p:outputLabel for="password2" value="Confirm Password" />
         <h:panelGroup styleClass="md-inputfield">
           <p:password id="password2" feedback="true" inline="true" value="#{administratorBean.admin.password}"
-            required="true" requiredMessage="Value is required" redisplay="true" />
+            required="#{empty administratorBean.admin.name}" requiredMessage="Value is required" redisplay="true" />
           <p:message for="password2" id="password2Message" />
         </h:panelGroup>
       </p:panelGrid>
+
       <div class="custom-dialog-footer">
         <p:commandButton id="cancelEditAdmin" onclick="PF('editAdminDialog').hide();" value="Cancel" type="button"
           styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
-        <p:commandButton id="saveAdmin" validateClient="true" update="#{cc.attrs.updateFields}"
-          actionListener="#{administratorBean.saveAdmin()}" value="Save" icon="si si-floppy-disk"
+          
+        <p:commandButton id="addAdmin" rendered="#{empty administratorBean.admin.name}" validateClient="true" update="#{cc.attrs.updateFields}"
+          actionListener="#{administratorBean.createAdmin()}" value="Create" icon="si si-floppy-disk"
           styleClass="modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />
+
+        <p:commandButton id="updateAdmin" rendered="#{not empty administratorBean.admin.name}" validateClient="true" update="#{cc.attrs.updateFields}"
+          actionListener="#{administratorBean.updateAdmin()}" value="Update" icon="si si-floppy-disk"
+          styleClass="modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />          
       </div>
     </h:form>
   </p:dialog>
