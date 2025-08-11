@@ -6,6 +6,7 @@ import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.URI;
@@ -14,6 +15,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -112,6 +114,8 @@ class WebTestSessions {
   private void openAnotherSession() {
     $(".layout-topbar-actions .help-link a").shouldBe(visible).click();
     Selenide.switchTo().window(1);
+    EngineCockpitUtil.assertCurrentUrlContains("engine-cockpit/monitor.html#sessions");
+    $$("h3").shouldHave(CollectionCondition.anyMatch("One title should be 'Sessions'", e -> Objects.equals(e.getText(), "Sessions")));
     openLogin();
     $("#loginForm\\:userName").shouldBe(visible, Duration.ofSeconds(10)).sendKeys(SESSION_USER);
     $("#loginForm\\:password").shouldBe(visible).sendKeys(SESSION_USER);
@@ -127,6 +131,6 @@ class WebTestSessions {
   }
 
   private EngineUrl rootUri() {
-    return EngineUrl.create().app("dev-workflow-ui").path("faces/login.xhtml");
+    return EngineUrl.create().app(EngineCockpitUtil.getAppName()).path("login");
   }
 }
