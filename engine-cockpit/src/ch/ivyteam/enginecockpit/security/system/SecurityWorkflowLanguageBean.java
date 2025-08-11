@@ -14,9 +14,9 @@ import javax.faces.bean.ViewScoped;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
-import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.language.LanguageManager;
 import ch.ivyteam.ivy.language.LanguageRepository;
+import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.IWorkflowManager;
 import ch.ivyteam.ivy.workflow.query.CaseQuery;
@@ -29,19 +29,9 @@ public class SecurityWorkflowLanguageBean {
   private String name;
 
   private SecuritySystem securitySystem;
-  private final ManagerBean managerBean;
 
   private LanguageRepository languages;
   private Locale editLanguage;
-
-  public SecurityWorkflowLanguageBean() {
-    managerBean = ManagerBean.instance();
-  }
-
-  public SecurityWorkflowLanguageBean(String secSystemName) {
-    this();
-    setSecuritySystemName(secSystemName);
-  }
 
   public String getSecuritySystemName() {
     return name;
@@ -55,7 +45,8 @@ public class SecurityWorkflowLanguageBean {
   }
 
   private void loadSecuritySystem() {
-    securitySystem = managerBean.getSecuritySystems().stream()
+    securitySystem = ISecurityManager.instance().securityContexts().allWithSystem().stream()
+        .map(SecuritySystem::new)
         .filter(system -> Objects.equals(system.getSecuritySystemName(), name))
         .findAny()
         .orElseThrow();

@@ -39,11 +39,15 @@
           </div>
           
           <div class="col-12 md:col-12 xl:col-6">
-            <ui:include src="../includes/components/security/securitysystem-language.xhtml" />
+            <h:panelGroup rendered="#{securityConfigBean.showLanguage}">
+              <ui:include src="../includes/components/security/securitysystem-language.xhtml" />
+            </h:panelGroup>
           </div>
 
           <div class="col-12 md:col-12 xl:col-6">
-            <ui:include src="../includes/components/security/securitysystem-workflow-language.xhtml" />
+            <h:panelGroup rendered="#{securityConfigBean.showWorkflowLanguage}">
+              <ui:include src="../includes/components/security/securitysystem-workflow-language.xhtml" />
+            </h:panelGroup>
           </div>
         </div>
       </div>
