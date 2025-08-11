@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -20,13 +21,12 @@ import ch.ivyteam.ivy.security.context.compare.Issue;
 import ch.ivyteam.ivy.security.context.compare.SecurityContextComparer;
 import ch.ivyteam.ivy.security.context.compare.Solver;
 import ch.ivyteam.ivy.security.context.compare.Solver.Type;
-import ch.ivyteam.util.collections.ConcurrentHashSet;
 
 @ManagedBean
 @ViewScoped
 public class SecuritySystemCompareBean {
 
-  private final Set<Issue> solved = new ConcurrentHashSet<>();
+  private final Set<Issue> solved = ConcurrentHashMap.newKeySet();
   private String sourceSecuritySystem;
   private String targetSecuritySystem;
   private List<Issue> result;
