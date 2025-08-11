@@ -7,7 +7,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import ch.ivyteam.enginecockpit.commons.Message;
+import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
+import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.administrator.AdministratorService;
 
 @ManagedBean
@@ -17,13 +19,15 @@ public class AdministratorBean extends StepStatus {
   private List<AdministratorDto> admins;
   private String filter;
   private AdministratorDto admin;
+  private final AdministratorService service;
 
   public AdministratorBean() {
+    service = AdministratorService.instance();
     load();
   }
 
   private void load() {
-    admins = AdministratorService.instance().all().stream()
+    admins = service.db().all().stream()
         .map(AdministratorDto::new)
         .collect(Collectors.toList());
   }
@@ -63,23 +67,50 @@ public class AdministratorBean extends StepStatus {
   }
 
   public void createAdmin() {
-    AdministratorService.instance().save(admin.toAdministrator());
+    service.config().save(admin.toAdministrator());
     load();
     Message.info().summary("'" + admin.getName() + "' added").show();
   }
-  
+
   public void updateAdmin() {
-    AdministratorService.instance().save(admin.toAdministrator());
+    service.config().save(admin.toAdministrator());
     Message.info().summary("'" + admin.getName() + "' updated").show();
   }
-  
+
   public void deleteAdmin() {
-    AdministratorService.instance().remove(admin.getName());
+    service.db().delete(admin.getName());
+    service.config().delete(admin.getName());
     load();
     Message.info().summary("'" + admin.getName() + "' deleted").show();
   }
-  
+
   public boolean hasAdmins() {
     return !admins.isEmpty();
+  }
+
+  public boolean isDeleteButtonDisabled(AdministratorDto dto) {
+    if (ISession.current().getSessionUserName().equalsIgnoreCase(dto.getName())) {
+      return true;
+    }
+    if (dto.isExternal()) {
+      return true;
+    }
+    return false;
+  }
+
+  public boolean hasIdentityProvider() {
+    return service.hasIdentityProvider();
+  }
+
+  public boolean isSyncRunning() {
+    return service.isSynchRunning();
+  }
+
+  public void triggerSynch() {
+    service.triggerSynch();
+  }
+
+  public String getSynchLogUri() {
+    return LogView.uri().fileName("usersynch").toUri();
   }
 }
