@@ -36,12 +36,6 @@
         <h:outputText value="#{admin.email}" />
       </p:column>
 
-      <p:column headerText="Last Login" sortBy="#{admin.lastLogin}">
-        <h:outputText value="#{admin.lastLogin}" styleClass="user-lastlogin">
-          <f:convertDateTime type="both" dateStyle="short" timeStyle="medium" />
-        </h:outputText>
-      </p:column>
-
       <p:column styleClass="table-btn-2">
         <p:commandButton id="editAdminBtn" disabled="#{admin.external}" actionListener="#{administratorBean.setAdmin(admin)}" icon="si si-pencil"
           title="Edit" update="admins:editAdminDialog" styleClass="ui-button-secondary rounded-button"
