@@ -23,6 +23,8 @@
               <img src="https://www.gravatar.com/avatar/#{admin.gravatarHash}?d=404" onload="showGravatarImg(this);"/>
             </h:panelGroup>
           </h:outputText>
+          <h:outputText value="[external]" title="#{admin.externalId}" rendered="#{admin.external}" styleClass="ml-1 addition-row-info table-cell-autocut" />
+          <h:outputText value="[disabled]" rendered="#{!admin.enabled}" styleClass="ml-1 addition-row-info table-cell-autocut" />
         </h:panelGroup>
       </p:column>
 
@@ -34,14 +36,20 @@
         <h:outputText value="#{admin.email}" />
       </p:column>
 
+      <p:column headerText="Last Login" sortBy="#{admin.lastLogin}">
+        <h:outputText value="#{admin.lastLogin}" styleClass="user-lastlogin">
+          <f:convertDateTime type="both" dateStyle="short" timeStyle="medium" />
+        </h:outputText>
+      </p:column>
+
       <p:column styleClass="table-btn-2">
-        <p:commandButton id="editAdminBtn" actionListener="#{administratorBean.setAdmin(admin)}" icon="si si-pencil"
+        <p:commandButton id="editAdminBtn" disabled="#{admin.external}" actionListener="#{administratorBean.setAdmin(admin)}" icon="si si-pencil"
           title="Edit" update="admins:editAdminDialog" styleClass="ui-button-secondary rounded-button"
           oncomplete="PF('editAdminDialog').show();" process="@this" />
-        <p:commandButton id="deleteAdmin" actionListener="#{administratorBean.setAdmin(admin)}"
+        <p:commandButton id="deleteAdmin"  actionListener="#{administratorBean.setAdmin(admin)}"
           update="@form:deleteAdminDialog" icon="si si-bin-1" title="Delete"
           styleClass="ml-1 ui-button-danger rounded-button" process="@this"
-          disabled="#{admin.name eq loginBean.sessionUserName}" oncomplete="PF('deleteAdminDialog').show();" />
+          disabled="#{administratorBean.isDeleteButtonDisabled(admin)}" oncomplete="PF('deleteAdminDialog').show();" />
       </p:column>
     </p:dataTable>
 
