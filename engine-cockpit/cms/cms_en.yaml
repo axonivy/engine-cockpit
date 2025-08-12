@@ -6,7 +6,6 @@ administrators:
   DeleteAdminDialogHeader: Delete {0}
   DeleteAdminDialogMessage: Are you sure you want to delete the administrator ''{0}''?
   EditAdminDialogHeader: Add / Edit Administrator
-  NotMatchPasswordMessage: Password didn't match
 admins:
   DefineAtLeastOneAdministratorMessage: You need to define at least one administrator!
 applicationDetail:
@@ -44,6 +43,16 @@ axonivy:
   Copyright: Copyright
   CopyrightValue: '&copy; 2001 - '
   InstallationDirectory: Installation Directory
+bean:
+  Bean: Bean
+  Class: Class
+  LastInitializationError: Last Initialization Error
+  LastStart: Last Start
+  LastStartError: Last Start Error
+  LastStopError: Last Stop Error
+  RequestPath: Request Path
+  StartsBean: Starts the bean
+  StopsBean: Stops the bean
 branding:
   ChooseOrDropFileWhichEndsWith: 'Choose or drop a file which ends with:'
   DefaultValue: 'Default Value: '
@@ -103,6 +112,7 @@ common:
   Add: Add
   Administrators: Administrators
   Algorithm: Algorithm
+  AllEvents: All Events
   Application: Application
   Applications: Applications
   Apply: Apply
@@ -113,6 +123,7 @@ common:
   AxonIvyEngine: Axon Ivy Engine
   Back: Back
   Branding: Branding
+  Browse: Browse
   BusinessCalendar: Business Calendar
   Bytes: Bytes
   Cancel: Cancel
@@ -151,9 +162,11 @@ common:
   Duration: Duration
   Edit: Edit
   Email: Email
+  Enabled: Enabled
   End: End
   EngineCockpit: Engine Cockpit
   Error: Error
+  Errors: Errors
   Event: Event
   ExecTime: Exec Time
   ExecTimeValueTitle: The time needed to execute the statement
@@ -205,6 +218,7 @@ common:
   None: None
   NotAvailable: n.a.
   NotFoundApplication: Application ''{0}'' not found
+  NotMatchPasswordMessage: Password didn't match
   NotificationChannels: Notification Channels
   OK: OK
   Object: Object
@@ -255,9 +269,11 @@ common:
   Services: Services
   Sessions: Sessions
   Setup: Setup
+  Severity: Severity
   ShowConfigurationLog: Show configuration log
   Size: Size
   Source: Source
+  StackTrace: Stack Trace
   Start: Start
   StartTime: Start Time
   StartTimestamp: Start Timestamp
@@ -298,6 +314,7 @@ common:
 configuration:
   ApplicationConfiguration: Application Configuration
   ConfigReset: '''''{0}'''' reset'
+  ConfigResetToDefault: '''''{0}'''' reset to default'
   ConfigSaved: '''''{0}'''' saved'
   EditConfigurationInfoMessage: If you change this property, you have to restart you engine
   Examples: Examples
@@ -364,6 +381,9 @@ deployment:
 directoryBrowser:
   DirectoryBrowserDialogHeader: Directory Browser
   NodePropertiesEmptyMessage: Select a node to see its attributes
+dynamicConfig:
+  ConnectionTestUrlDialogHeader: 'Connection Test - Url:'
+  TLSConnectionTestButton: TLS Connection Test
 editor:
   AutoMigratedToLatestVersionWarningMessage: These file contents were auto-migrated to the latest version.
   DownloadP12: Download .p12
@@ -380,6 +400,18 @@ email:
   MailAddress: Mail address
   SendTestMail: Send Test Mail
   Server: Server
+emailSettings:
+  DailySummaryOn: Daily summary on
+  Fri: Fri
+  Mon: Mon
+  Never: Never
+  NewTask: New Task
+  NotificationSend: Notification send
+  Sat: Sat
+  Sun: Sun
+  Thu: Thu
+  Tue: Tue
+  Wed: Wed
 exception:
   AjaxExceptionDialogHeader: Error
   ViewExpiredExceptionDialogContent: The view or session has expired.
@@ -400,6 +432,13 @@ fileUpload:
   ChooseFileButton: Choose file
   ChooseValidFileBeforeUpload: Choose a valid file before upload
   FileUploadDialogDefaultTitle: File Upload
+firings:
+  Duration: Duration
+  ExecutionDuration: Execution Duration
+  ExecutionDurationTooltip: min / avg / max
+  Executions: Executions
+  Reason: Reason
+  Timestamp: Timestamp
 freeDays:
   FreeDateTooltip: Free day at fixed date
   FreeDayOfYearTooltip: Free day (MM-dd) every year
@@ -411,7 +450,6 @@ health:
   Problems: Problems
   ProblemsDetectedMessage: '{0} problems detected.'
   RunHealthChecks: Run Health Checks
-  Severity: Severity
 indexes:
   Cardinality: Cardinality
   Columns: Columns
@@ -451,6 +489,13 @@ information:
   ApplicationInformation: Application information
   FileDirectory: File Directory
   WorkflowUI: Workflow UI
+infoTemplate:
+  Documentation: Documentation
+  InstallAxonIvyEngine: Install Axon Ivy Engine
+  MigrateAxonIvyEngine: Migrate Axon Ivy Engine
+  SetupEngine: Setup Engine
+  Shutdown: Shutdown
+  ShutdownAxonIvyEngine: Shutdown Axon Ivy Engine
 java:
   Java: Java
   JavaDetails: Java Details
@@ -498,6 +543,9 @@ liveStats:
   CallsMonitorErrorsTotalValue: Errors Total %5d
   CallsMonitorErrorsValue: Errors %5d
   CallsMonitorTotalValue: Total %5d
+  ChannelDeliveries: Channel Deliveries
+  ChannelLocks: Channel Locks
+  ChannelPushesTime: Channel Pushes Time
   ConnectionsMonitorMaxValue: Max %5d
   ConnectionsMonitorOpen: Open
   ConnectionsMonitorOpenValue: Open %5d
@@ -506,6 +554,12 @@ liveStats:
   DatabaseConnections: Database Connections
   DatabaseQueries: Database Queries
   DatabaseQueryExecutionTime: Database Query Execution Time
+  Deliveries: Deliveries
+  DeliveriesMonitorErrorsValue: Errors %5d
+  DeliveriesMonitorPushesValue: Pushes %5d
+  DeliveriesMonitorTotalDeliveresValue: Total Deliveres %5d
+  DeliveriesMonitorTotalErrorsValue: Total Errors %5d
+  DeliveriesMonitorTotalPushesValue: Total Pushes %5d
   ExecutionTimeMonitorAvg: Avg
   ExecutionTimeMonitorAvgValue: Avg %t
   ExecutionTimeMonitorMax: Max
@@ -514,6 +568,7 @@ liveStats:
   ExecutionTimeMonitorMinValue: Min %t
   ExecutionTimeMonitorTotalValue: Total %t
   ExecutionTimeYAxisLabel: Execution Time
+  Locks: Locks
   MessageMonitorErrorsTotalValue: Errors Total %5d
   MessageMonitorErrorsValue: Errors %5d
   MessageMonitorTotalValue: Total %t
@@ -530,6 +585,14 @@ liveStats:
   ProcessingTimeMonitorMinValue: Min %t
   ProcessingTimeMonitorTotal: Total %t
   ProcessingTimeMonitorTotalValue: ' Total %t'
+  Pushes: Pushes
+  PushesTimeMonitorAvg: Avg
+  PushesTimeMonitorAvgValue: Avg %t
+  PushesTimeMonitorMax: Max
+  PushesTimeMonitorMaxValue: Max %t
+  PushesTimeMonitorMin: Min
+  PushesTimeMonitorMinValue: Min %t
+  PushesTimeMonitorTotalValue: Total %t
   Queries: Queries
   QueriesMonitorErrors: Errors
   QueriesMonitorErrorsTotalValue: Errors Total %5d
@@ -894,14 +957,32 @@ newUser:
   AddUserDialogHeader: Add new user
   ConfirmPassword: Confirm Password
   EMailAddress: E-Mail Address
-  NotMatchPasswordMessage: Password didn't match
   Password: Password
 notification:
   Payload: Payload
   ShowPayload: Show payload
-notificationChannelsTable:
-  AllEvents: All Events
-  Enabled: Enabled
+notificationChannelDetail:
+  NotFoundChannel: Channel ''{0}'' not found
+  NotFoundSecurityContext: Could not find security context {0}
+  ResetChanges: Reset changes
+  SuccessfullySavedMessage: Successfully saved
+  UnlockChannel: Unlock channel (clear error state)
+notificationDeliveries:
+  Channel: Channel
+  Deleted: DELETED
+  Delivered: Delivered
+  ErrorInformation: Error Information
+  Errors: Errors
+  FailedDeliverAttemps: 'Failed deliver attemps so far:'
+  Hidden: Hidden
+  LastError: 'Last Error:'
+  NextRetryToDeliver: 'Next retry to deliver:'
+  Notification: Notification
+  Notifications: Notifications
+  Read: Read
+  Receiver: Receiver
+  ReevaluteDeliveries: Reevalute deliveries
+  RetryToDeliver: Retry to deliver
 permissions:
   AllPermissions: All Permissions
   Grant: Grant
@@ -910,6 +991,19 @@ permissions:
   Permissions: Permissions
   SomePermissionDenied: Some Permission denied
   SomePermissionGranted: Some Permission granted
+poll:
+  LastPollError: Last Poll Error
+  NextPoll: Next Poll
+  Poll: Poll
+  PollBean: Poll Bean
+  PollBeanWarningMessage: Scheduling to poll a bean can have negative side effects.
+  PollConfiguration: Poll Configuration
+  PollDuration: Poll Duration
+  PollDurationTooltip: min / avg / max
+  PollErrors: Poll Errors
+  Polls: Polls
+  ScheduleToPollBean: Schedule to poll the bean now
+  StopsBean: Stops the bean
 progressLoader:
   Loading: Loading...
 renameRole:
@@ -953,7 +1047,6 @@ roleDetail:
   RunningTasks: Running Tasks
 roleDetailInformation:
   AddNewChildRole: Add new child role
-  BrowseButtonTitle: Browse
   DeleteRole: Delete this role
   DeleteRoleDialogConfirmMessage: Are you sure you want to delete the role ''{0}''?
   DeleteRoleDialogHeader: Delete Role
@@ -1006,6 +1099,10 @@ searchEngineInformation:
 searchEngineTool:
   Get: 'GET:'
   RunSearchEngineQueryDialogHeader: Run Search Engine Query
+searchIndex:
+  DocumentDialogHeader: 'Document:'
+  JSON: JSON
+  ShowDocument: Show document
 security:
   ChangeSecuritySystem: Change Security System
 securityDetail:
@@ -1359,7 +1456,7 @@ webServiceEndpoints:
   EndPointSavedMessage: EndPoint saved
   Endpoints: Endpoints
   Fallbacks: Fallbacks
-  NoEndpointInfoMessage: No Enpoint defined for this webservice
+  NoEndpointInfoMessage: No Endpoint defined for this webservice
   TestConnectionAuthenticationMessage: Authentication (only HttpBasic supported) was not successful
   TestConnectionErrorMessage: |-
     The URL seems to be not correct or contains scripting context (can not be evaluated)

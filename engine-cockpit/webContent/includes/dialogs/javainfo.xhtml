@@ -6,7 +6,7 @@
 <p:dialog id="javaDetailDialog" header="#{ivy.cm.co('/javaInfo/JavaDetailDialogHeader')}" widgetVar="javaDetailDialog" modal="true" closeOnEscape="true"
   width="60%">
   <h:form id="javaInfoForm" style="max-height: 400px; overflow-y: auto;">
-    <p:dataTable id="javaJVMInfoTable" var="arg" value="#{javaBean.jvmArguments}">
+    <p:dataTable id="javaJVMInfoTable" var="arg" value="#{javaBean.jvmArguments}" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
       <p:column headerText="#{ivy.cm.co('/javaInfo/JVMArgumentTableHeader')}">
         <h:outputText value="#{arg}" styleClass="jvm-key" />
       </p:column>

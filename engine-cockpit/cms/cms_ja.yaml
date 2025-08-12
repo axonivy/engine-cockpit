@@ -6,7 +6,6 @@ administrators:
   DeleteAdminDialogHeader: '{0} を削除する'
   DeleteAdminDialogMessage: 本当に管理者「{0}」を削除しますか？
   EditAdminDialogHeader: 管理者を追加/編集する
-  NotMatchPasswordMessage: パスワードが一致しません
 admins:
   DefineAtLeastOneAdministratorMessage: 少なくとも1人の管理者をご指定ください！
 applicationDetail:
@@ -44,6 +43,16 @@ axonivy:
   Copyright: 著作権
   CopyrightValue: '&copy; 2001 - '
   InstallationDirectory: インストール ディレクトリ
+bean:
+  Bean: Bean
+  Class: Class
+  LastInitializationError: 最後の初期化エラー
+  LastStart: 最後の起動
+  LastStartError: 最後の起動エラー
+  LastStopError: 最終停止エラー
+  RequestPath: リクエストパス
+  StartsBean: Beanをスタートさせる
+  StopsBean: Beanを止める
 branding:
   ChooseOrDropFileWhichEndsWith: 次で終わるファイルを選択または削除してください：
   DefaultValue: 'デフォルト値:'
@@ -103,6 +112,7 @@ common:
   Add: 追加
   Administrators: 管理者
   Algorithm: アルゴリズム
+  AllEvents: すべてのイベント
   Application: アプリケーション
   Applications: アプリケーション
   Apply: 応募する
@@ -113,6 +123,7 @@ common:
   AxonIvyEngine: Axon Ivy エンジン
   Back: 戻る
   Branding: ブランディング
+  Browse: 閲覧する
   BusinessCalendar: ビジネスカレンダー
   Bytes: バイト
   Cancel: キャンセル
@@ -151,9 +162,11 @@ common:
   Duration: 期間
   Edit: 編集
   Email: メール
+  Enabled: 有効
   End: 終了
   EngineCockpit: エンジン コックピット
   Error: エラー
+  Errors: エラー
   Event: イベント
   ExecTime: 実行時間
   ExecTimeValueTitle: ステートメントの実行に要した時間
@@ -205,6 +218,7 @@ common:
   None: なし
   NotAvailable: n.a.
   NotFoundApplication: アプリケーション「{0}」が見つかりません。
+  NotMatchPasswordMessage: パスワードが一致しません
   NotificationChannels: 通知チャネル
   OK: OK
   Object: オブジェクト
@@ -255,9 +269,11 @@ common:
   Services: サービス
   Sessions: セッション
   Setup: 設定
+  Severity: 深刻度
   ShowConfigurationLog: 設定ログを表示する
   Size: サイズ
   Source: ソース
+  StackTrace: スタックトレース
   Start: 開始
   StartTime: 開始時間
   StartTimestamp: 開始時刻スタンプ
@@ -298,6 +314,7 @@ common:
 configuration:
   ApplicationConfiguration: アプリケーション設定
   ConfigReset: 「{0}」 リセット
+  ConfigResetToDefault: 「{0}」をデフォルト設定にリセットします。
   ConfigSaved: 「{0}」 保存されました
   EditConfigurationInfoMessage: このプロパティを変更すると、エンジンを再起動する必要があります
   Examples: 例
@@ -367,6 +384,9 @@ deployment:
 directoryBrowser:
   DirectoryBrowserDialogHeader: ディレクトリブラウザ
   NodePropertiesEmptyMessage: ノードを選択して、その属性を表示します。
+dynamicConfig:
+  ConnectionTestUrlDialogHeader: '接続テスト - URL:'
+  TLSConnectionTestButton: TLS接続テスト
 editor:
   AutoMigratedToLatestVersionWarningMessage: これらのファイルの内容は、最新のバージョンに自動移行されました。
   DownloadP12: ダウンロード .p12
@@ -383,6 +403,18 @@ email:
   MailAddress: メールアドレス
   SendTestMail: テストメールを送信する
   Server: サーバー
+emailSettings:
+  DailySummaryOn: 日次要約
+  Fri: 金
+  Mon: 月
+  Never: 未実施
+  NewTask: 新しいタスク
+  NotificationSend: 通知の送信
+  Sat: 土
+  Sun: 日
+  Thu: 木
+  Tue: 火
+  Wed: 水
 exception:
   AjaxExceptionDialogHeader: エラー
   ViewExpiredExceptionDialogContent: ビューまたはセッションが期限切れになりました。
@@ -403,6 +435,13 @@ fileUpload:
   ChooseFileButton: ファイルを選択してください
   ChooseValidFileBeforeUpload: アップロード前に有効なファイルを選択してください。
   FileUploadDialogDefaultTitle: ファイルのアップロード
+firings:
+  Duration: 期間
+  ExecutionDuration: 実行時間
+  ExecutionDurationTooltip: 最小値 / 平均値 / 最大値
+  Executions: 執行
+  Reason: 理由
+  Timestamp: タイムスタンプ
 freeDays:
   FreeDateTooltip: 固定日の休日
   FreeDayOfYearTooltip: 毎年（MM-dd）の休日
@@ -414,7 +453,6 @@ health:
   Problems: 問題
   ProblemsDetectedMessage: '{0}件の問題が検出されました。'
   RunHealthChecks: ヘルスチェックを実行する
-  Severity: 深刻度
 indexes:
   Cardinality: 基数
   Columns: 列
@@ -452,6 +490,13 @@ information:
   ApplicationInformation: 申請情報
   FileDirectory: ファイルディレクトリ
   WorkflowUI: ワークフロー UI
+infoTemplate:
+  Documentation: ドキュメント
+  InstallAxonIvyEngine: Axon Ivy エンジンをインストールする
+  MigrateAxonIvyEngine: Axon Ivy エンジンの移行
+  SetupEngine: セットアップエンジン
+  Shutdown: シャットダウン
+  ShutdownAxonIvyEngine: Axon Ivy エンジン停止
 java:
   Java: Java
   JavaDetails: Javaの詳細
@@ -497,8 +542,11 @@ liveStats:
   Bytes: バイト
   Calls: 通話
   CallsMonitorErrorsTotalValue: エラーの合計 %5d
-  CallsMonitorErrorsValue: エラー 総数 %5d
+  CallsMonitorErrorsValue: エラー %5d
   CallsMonitorTotalValue: エラー %5d
+  ChannelDeliveries: チャンネル配送
+  ChannelLocks: チャンネルロック
+  ChannelPushesTime: チャンネルが時間を推進する
   ConnectionsMonitorMaxValue: 合計 %5d
   ConnectionsMonitorOpen: 開く
   ConnectionsMonitorOpenValue: 開く %5d
@@ -507,6 +555,12 @@ liveStats:
   DatabaseConnections: データベース接続
   DatabaseQueries: データベースクエリ
   DatabaseQueryExecutionTime: データベースクエリの実行時間
+  Deliveries: 配送
+  DeliveriesMonitorErrorsValue: エラー %5d
+  DeliveriesMonitorPushesValue: プッシュ %5d
+  DeliveriesMonitorTotalDeliveresValue: 総配送数 %5d
+  DeliveriesMonitorTotalErrorsValue: 総エラー数 %5d
+  DeliveriesMonitorTotalPushesValue: 総プッシュ数 %5d
   ExecutionTimeMonitorAvg: 平均
   ExecutionTimeMonitorAvgValue: 平均 %t
   ExecutionTimeMonitorMax: 最大
@@ -515,6 +569,7 @@ liveStats:
   ExecutionTimeMonitorMinValue: 最小 %t
   ExecutionTimeMonitorTotalValue: 合計 %t
   ExecutionTimeYAxisLabel: 実行時間
+  Locks: 錠前
   MessageMonitorErrorsTotalValue: エラーの合計 %5d
   MessageMonitorErrorsValue: エラー %5d
   MessageMonitorTotalValue: 合計 %t
@@ -531,6 +586,14 @@ liveStats:
   ProcessingTimeMonitorMinValue: 最小 %t
   ProcessingTimeMonitorTotal: 合計 %t
   ProcessingTimeMonitorTotalValue: ' 合計 %t'
+  Pushes: 押し
+  PushesTimeMonitorAvg: 平均
+  PushesTimeMonitorAvgValue: 平均 %t
+  PushesTimeMonitorMax: 最大
+  PushesTimeMonitorMaxValue: 最大 %t
+  PushesTimeMonitorMin: 最小
+  PushesTimeMonitorMinValue: 最小 %t
+  PushesTimeMonitorTotalValue: 合計 %t
   Queries: クエリ
   QueriesMonitorErrors: エラー
   QueriesMonitorErrorsTotalValue: エラーの合計 %5d
@@ -898,14 +961,32 @@ newUser:
   AddUserDialogHeader: 新しいユーザーを追加する
   ConfirmPassword: 新しいユーザーを追加
   EMailAddress: 電子メールアドレス
-  NotMatchPasswordMessage: パスワードが一致しません
   Password: パスワード
 notification:
   Payload: ペイロード
   ShowPayload: ペイロードを表示
-notificationChannelsTable:
-  AllEvents: すべてのイベント
-  Enabled: 有効
+notificationChannelDetail:
+  NotFoundChannel: チャンネル「{0}」が見つかりません
+  NotFoundSecurityContext: セキュリティ コンテキスト {0} が見つかりませんでした。
+  ResetChanges: 変更を元に戻す
+  SuccessfullySavedMessage: 正常に保存されました
+  UnlockChannel: チャネルを解除（エラー状態をクリア）
+notificationDeliveries:
+  Channel: チャンネル
+  Deleted: 削除済み
+  Delivered: 納品済み
+  ErrorInformation: エラー情報
+  Errors: エラー
+  FailedDeliverAttemps: これまでの配送失敗回数：
+  Hidden: 隠された
+  LastError: '最後のエラー:'
+  NextRetryToDeliver: '次の再配信試行:'
+  Notification: 通知
+  Notifications: 通知
+  Read: 読む
+  Receiver: 受信機
+  ReevaluteDeliveries: 配送の見直し
+  RetryToDeliver: 再配達を試行する
 permissions:
   AllPermissions: すべての権限
   Grant: 付与
@@ -914,6 +995,19 @@ permissions:
   Permissions: 権限
   SomePermissionDenied: 一部の権限が拒否されました
   SomePermissionGranted: 一部の権限が付与されました
+poll:
+  LastPollError: 最後の投票エラー
+  NextPoll: 次の投票
+  Poll: 世論調査
+  PollBean: 投票 Bean
+  PollBeanWarningMessage: ビーンをポーリングするスケジュール設定には、負の副作用が生じる可能性があります。
+  PollConfiguration: アンケート設定
+  PollDuration: アンケート実施期間
+  PollDurationTooltip: 最小値 / 平均値 / 最大値
+  PollErrors: 世論調査の誤差
+  Polls: 世論調査
+  ScheduleToPollBean: 現在、Beanをポーリングするスケジュールを設定します
+  StopsBean: Beanを止める
 progressLoader:
   Loading: 読み込み中...
 renameRole:
@@ -956,7 +1050,6 @@ roleDetail:
   RunningTasks: 実行中のタスク
 roleDetailInformation:
   AddNewChildRole: 実行中のタスク
-  BrowseButtonTitle: 新しい子ロールを追加
   DeleteRole: 閲覧
   DeleteRoleDialogConfirmMessage: 「{0}」という役割を削除してもよろしいですか？
   DeleteRoleDialogHeader: 役割を削除する
@@ -1008,6 +1101,10 @@ searchEngineInformation:
 searchEngineTool:
   Get: 'GET:'
   RunSearchEngineQueryDialogHeader: 検索エンジンクエリの実行
+searchIndex:
+  DocumentDialogHeader: '文書:'
+  JSON: JSON
+  ShowDocument: 文書を表示する
 security:
   ChangeSecuritySystem: セキュリティシステムの変更
 securityDetail:
@@ -1360,7 +1457,7 @@ webServiceEndpoints:
   EndPointSavedMessage: エンドポイントが保存されました
   Endpoints: エンドポイント
   Fallbacks: フォールバック
-  NoEndpointInfoMessage: このWebサービスにはエンドポイントが定義されていません
+  NoEndpointInfoMessage: このWebサービスにはエンドポイントが定義されていません。
   TestConnectionAuthenticationMessage: 認証（HttpBasicのみサポート）が成功しませんでした
   TestConnectionErrorMessage: |-
     URLが正しくないか、スクリプトコンテキストを含んでいるため評価できません

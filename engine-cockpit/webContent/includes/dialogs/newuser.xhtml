@@ -23,7 +23,7 @@
 
       <p:outputLabel for="password1" value="#{ivy.cm.co('/newUser/Password')}" />
       <p:password id="password1" widgetVar="password1"
-        validatorMessage="#{ivy.cm.co('/newUser/NotMatchPasswordMessage')}"
+        validatorMessage="#{ivy.cm.co('/common/NotMatchPasswordMessage')}"
         match="password2" value="#{userBean.newUser.password}"
         feedback="true" inline="true"
         promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"

@@ -21,10 +21,10 @@
         <h:outputText value="#{channel.displayName}" styleClass="channel-name" />
       </a>
     </p:column>
-    <p:column headerText="#{ivy.cm.co('/notificationChannelsTable/Enabled')}" sortBy="#{channel.enabled}" style="text-align: center">
+    <p:column headerText="#{ivy.cm.co('/common/Enabled')}" sortBy="#{channel.enabled}" style="text-align: center">
       <i class="si table-icon si-#{channel.enabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
     </p:column>
-    <p:column headerText="#{ivy.cm.co('/notificationChannelsTable/AllEvents')}" sortBy="#{channel.allEventsEnabled}" style="text-align: center">
+    <p:column headerText="#{ivy.cm.co('/common/AllEvents')}" sortBy="#{channel.allEventsEnabled}" style="text-align: center">
       <i class="si table-icon si-#{channel.allEventsEnabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
     </p:column>
     <p:column headerText="#{ivy.cm.co('/common/State')}" sortBy="#{channel.stateText}" style="text-align: center">

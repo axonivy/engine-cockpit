@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.configuration;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ import ch.ivyteam.enginecockpit.configuration.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigView;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.vars.Variables;
 
 @ManagedBean
@@ -89,18 +91,19 @@ public class VariableBean implements ConfigView {
   @Override
   public void resetConfig() {
     variables().reset(activeVariable.getKey());
-    reloadAndUiMessage("reset to default");
+    String message = Ivy.cms().co("/configuration/ConfigResetToDefault", Arrays.asList(activeVariable.getKey()));
+    reloadAndUiMessage(message);
   }
 
   @Override
   public void saveConfig() {
     variables().set(activeVariable.getKey(), activeVariable.getValue());
-    reloadAndUiMessage("saved");
+    String message = Ivy.cms().co("/configuration/ConfigSaved", Arrays.asList(activeVariable.getKey()));
+    reloadAndUiMessage(message);
   }
 
   private void reloadAndUiMessage(String message) {
-    FacesContext.getCurrentInstance().addMessage("msgs",
-        new FacesMessage("'" + activeVariable.getKey() + "' " + message));
+    FacesContext.getCurrentInstance().addMessage("msgs", new FacesMessage(message));
     reloadVariables();
   }
 

@@ -12,9 +12,9 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Security</span></li>
+      <li><span>#{ivy.cm.co('/common/Security')}</span></li>
       <li>/</li>
-      <li><a href="securitysystem.xhtml">Security Systems</a></li>
+      <li><a href="securitysystem.xhtml">#{ivy.cm.co('/common/SecuritySystems')}</a></li>
       <li>/</li>      
       <li><a href="#{identityProviderBean.securitySystemLink}">#{identityProviderBean.securitySystemName}</a></li>
       <li>/</li>

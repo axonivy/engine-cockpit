@@ -41,7 +41,7 @@
             paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
             id="messagesTable" style="min-width: 950px;" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
             
-            <p:column width="5%" headerText="Severity" sortBy="#{msg.severity}">
+            <p:column width="5%" headerText="#{ivy.cm.co('/common/Severity')}" sortBy="#{msg.severity}">
               <h:panelGroup class="#{msg.severityClass}">
                 <i class="#{msg.severityIcon} table-icon"></i>
                 <h:outputLabel value="#{msg.severity}"/>

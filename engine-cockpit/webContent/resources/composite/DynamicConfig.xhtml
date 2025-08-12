@@ -23,7 +23,7 @@
               <i class="pr-3 si si-information-circle"></i>
               <h6 class="m-0">#{group.name}</h6>
 
-              <p:commandButton title="Save" icon="si si-floppy-disk"
+              <p:commandButton title="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk"
                 id="save"
                 styleClass="flex-shrink-0 ml-auto ml-1 ui-button-success rounded-button"
                 rendered="#{!group.keyValue}"
@@ -35,7 +35,7 @@
                 oncomplete="PF('propertyKeyValueModal').show();"
                 process="@this"
                 update="identityProvider:dynamicConfigKeyValueForm"
-                title="Add" icon="si si-add"
+                title="#{ivy.cm.co('/common/Add')}" icon="si si-add"
                 styleClass="flex-shrink-0 ml-auto rounded-button" />
 
             </div>
@@ -52,9 +52,9 @@
                   <p:inputText id="propertyString"
                     value="#{property.value}"
                     placeholder="#{property.defaultValue}" />
-                    
+
                   <p:commandButton id="testTlsConectionBtn"
-                    title="TLS Connection Test" icon="si si-phone-actions-call" 
+                    title="#{ivy.cm.co('/dynamicConfig/TLSConnectionTestButton')}" icon="si si-phone-actions-call" 
                     actionListener="#{tlsTesterBean.testConnection(property.value)}"
                     oncomplete="PF('connectionTestModel').show()"
                     update="identityProvider:connectionTestModel"
@@ -62,7 +62,7 @@
                     rendered="#{tlsTesterBean.isLdaps(property.value)}" />
 
                   <p:commandButton id="browseDirectory"
-                    icon="si si-network-browser" title="Browse"
+                    icon="si si-network-browser" title="#{ivy.cm.co('/common/Browse')}"
                     actionListener="#{identityProviderBean.browseProperty(property)}"
                     oncomplete="PF('directoryBrowserDialog').show();"
                     update="directoryBrowser:directoryBrowserForm directoryBrowser:chooseDirectoryName"
@@ -227,20 +227,20 @@
       </ui:repeat>
     </h:form>
 
-  <p:dialog header="Connection Test - Url: #{property.value}"
+  <p:dialog header="#{ivy.cm.co('/dynamicConfig/ConnectionTestUrlDialogHeader')} #{property.value}"
     id="connectionTestModel" width="70%" widgetVar="connectionTestModel"
     modal="true" responsive="false" closeOnEscape="true">
     <h:panelGroup id="resultTLS" styleClass="ui-fluid"
       rendered="#{tlsTesterBean.tlsTestRendered}">
       <jc:TlsTester url="#{property.value}"></jc:TlsTester>
       <p:commandButton id="close"
-        onclick="PF('connectionTestModel').hide();" value="Close"
+        onclick="PF('connectionTestModel').hide();" value="#{ivy.cm.co('/common/Close')}"
         type="button"
         styleClass="modal-input-button ui-button-secondary ui-button-flat" />
     </h:panelGroup>
   </p:dialog>
 
-  <p:dialog style="min-width: 300px;" header="Property"
+  <p:dialog style="min-width: 300px;" header="#{ivy.cm.co('/common/Property')}"
     id="propertyKeyValueModal" widgetVar="propertyKeyValueModal"
     modal="true" responsive="true" closeOnEscape="true">
     <h:form id="dynamicConfigKeyValueForm"
@@ -251,26 +251,23 @@
           value="#{dynamicConfigListDialogBean.property.keyValueKeyName}" />
         <h:panelGroup styleClass="md-inputfield">
           <p:inputText id="attributeNameInput"
-            requiredMessage="Value is required"
+            requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}"
             value="#{dynamicConfigListDialogBean.newKey}"
             disabled="#{not empty dynamicConfigListDialogBean.newKey}"
             required="true" />
           <p:message for="attributeNameInput" id="attributeNameMessage" />
         </h:panelGroup>
 
-
         <p:outputLabel for="attributeValueInput"
           value="#{dynamicConfigListDialogBean.property.keyValueValueName}" />
 
         <h:panelGroup styleClass="md-inputfield">
-
           <h:panelGroup styleClass="ui-inputgroup">
             <p:inputText id="attributeValueInput"
-              requiredMessage="Value is required" required="true"
+              requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}" required="true"
               value="#{dynamicConfigListDialogBean.newValue}" />
-
             <p:commandButton id="browseDirectory"
-              icon="si si-network-browser" title="Browse"
+              icon="si si-network-browser" title="#{ivy.cm.co('/common/Browse')}"
               actionListener="#{identityProviderBean.browseBeanProperty(dynamicConfigListDialogBean)}"
               oncomplete="PF('directoryBrowserDialog').show();"
               rendered="#{dynamicConfigListDialogBean.isDirectoryBrowser()}"
@@ -280,19 +277,18 @@
           <p:message for="attributeValueInput"
             id="attributeValueMessage" />
         </h:panelGroup>
-
       </p:panelGrid>
 
       <div class="custom-dialog-footer">
         <p:commandButton id="cancelPropertyKeyValue"
-          onclick="PF('propertyKeyValueModal').hide();" value="Cancel"
+          onclick="PF('propertyKeyValueModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
           type="button"
           styleClass="ui-button-secondary ui-button-flat modal-input-button"
           immediate="true" />
         <p:commandButton id="savePropertyKeyAttribute"
           validateClient="true" ajax="false"
           actionListener="#{dynamicConfigListDialogBean.saveProp}"
-          value="Save" icon="si si-floppy-disk"
+          value="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk"
           update="identityProvider:dynamicConfigForm"
           styleClass="modal-input-button" />
       </div>

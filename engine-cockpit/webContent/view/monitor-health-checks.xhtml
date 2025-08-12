@@ -50,7 +50,7 @@
                 <p:inputText id="globalFilter" onkeyup="PF('checkTable').filter()" value="#{healthBean.filter}" placeholder="#{ivy.cm.co('/common/Search')}"/>
               </div>
             </f:facet>
-             <p:column width="7%" headerText="#{ivy.cm.co('/health/Severity')}" filterBy="#{check.severity}" sortBy="#{check.severity}" sortOrder="desc">
+             <p:column width="7%" headerText="#{ivy.cm.co('/common/Severity')}" filterBy="#{check.severity}" sortBy="#{check.severity}" sortOrder="desc">
                <h:panelGroup class="#{check.severityClass}">
                  <i class="#{check.severityIcon} table-icon" />
                  <h:outputLabel value="#{check.severity}"/>

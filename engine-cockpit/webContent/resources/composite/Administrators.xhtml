@@ -77,7 +77,7 @@
         <p:outputLabel for="password1" value="#{ivy.cm.co('/common/Password')}" />
         <h:panelGroup styleClass="md-inputfield">
           <p:password id="password1"
-            validatorMessage="#{ivy.cm.co('/administrators/NotMatchPasswordMessage')}"
+            validatorMessage="#{ivy.cm.co('/common/NotMatchPasswordMessage')}"
             feedback="true" inline="true" match="password2"
             autocomplete="new-password"
             value="#{administratorBean.admin.password}" required="true"

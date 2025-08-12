@@ -74,7 +74,7 @@
   
       <p:outputLabel for="password1" value="#{ivy.cm.co('/userDetailInformation/Password')}" />
       <p:password id="password1"
-        validatorMessage="Password didn't match" feedback="true"
+        validatorMessage="#{ivy.cm.co('/common/NotMatchPasswordMessage')}" feedback="true"
         inline="true" match="password2"
         value="#{userDetailBean.user.password}"
         autocomplete="new-password" disabled="#{isManaged}"
