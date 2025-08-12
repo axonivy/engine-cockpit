@@ -103,6 +103,8 @@ class WebTestSSL {
     $(By.id("sslKeyTable:storeTable:certUpload_input")).sendKeys(createTempFile.toString());
     table.firstColumnShouldBe(texts("ivy", "ivy1"));
     table.clickButtonForEntry("ivy1", "delete");
+    $(By.id("sslKeyTable:storeTable:deleteCertDialog")).shouldBe(visible);
+    $(By.id("sslKeyTable:storeTable:deleteYesBtn")).shouldBe(visible).click();
     table.firstColumnShouldBe(texts("ivy"));
   }
 
@@ -181,6 +183,8 @@ class WebTestSSL {
     $(By.id("sslTrustTable:storeTable:certUpload_input")).sendKeys(createTempFile.toString());
     table.firstColumnShouldBe(texts("ivy1"));
     table.clickButtonForEntry("ivy1", "delete");
+    $(By.id("sslTrustTable:storeTable:deleteCertDialog")).shouldBe(visible);
+    $(By.id("sslTrustTable:storeTable:deleteYesBtn")).shouldBe(visible).click();
     table.firstColumnShouldBe(empty);
   }
 

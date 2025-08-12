@@ -10,6 +10,10 @@
 <cc:implementation>
   <div class="card">
     <h:form id="storeTable">
+      <p:growl id="sslDeleteCertificate"
+        for="sslDeleteCertificate">
+        <p:autoUpdate />
+      </p:growl>
       <div class="card-header">
         <div class="card-title flex align-items-center">
           <i class="pr-3 si si-information-circle"></i>
@@ -17,10 +21,9 @@
           <p:fileUpload id="certUpload" mode="simple"
             skinSimple="true" multiple="false" auto="true"
             listener="#{cc.attrs.bean.handleUploadCertificate}"
-            update="@form"
-            style="display: none;" />
-          <p:commandButton title="Add Certificate" icon="si si-upload-bottom"
-            type="button" id="Certbtn"
+            update="@form" style="display: none;" />
+          <p:commandButton title="Add Certificate"
+            icon="si si-upload-bottom" type="button" id="Certbtn"
             styleClass="flex-shrink-0 ml-auto ml-1 mr-1 rounded-button"
             onclick="document.getElementById(this.id.replace(':Certbtn',':certUpload_input')).click(); return false;">
           </p:commandButton>
@@ -28,7 +31,7 @@
       </div>
       <p:staticMessage
         rendered="#{not empty cc.attrs.bean.certificateLoadError}"
-        id="certificateLoadError" severity="warn" 
+        id="certificateLoadError" severity="warn"
         detail="#{cc.attrs.bean.certificateLoadError}" />
 
       <p:dataTable var="certificate"
@@ -64,10 +67,20 @@
             styleClass="ui-button-danger rounded-button"
             actionListener="#{cc.attrs.bean.deleteCertificate(certificate.alias)}"
             update="@form">
+            <p:confirm header="Delete #{certificate.alias}" 
+              message="Are you sure you want to delete the Certificate '#{certificate.alias}'?" />
           </p:commandButton>
         </p:column>
 
       </p:dataTable>
+
+      <p:confirmDialog id="deleteCertDialog" global="true" severity="alert" appendTo="@form">
+        <p:commandButton value="Cancel" type="button"
+          styleClass="ui-confirmdialog-no ui-button-secondary ui-button-flat modal-input-button" />
+        <p:commandButton id="deleteYesBtn" value="Delete" type="button"
+          styleClass="ui-confirmdialog-yes modal-input-button"
+          icon="si si-bin-1" />
+      </p:confirmDialog>
 
     </h:form>
   </div>

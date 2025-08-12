@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.services;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -72,6 +73,8 @@ class WebTestTlsTester {
       var table = new Table(By.id("sslTrustTable:storeTable:storeCertificates"));
       table.firstColumnShouldBe(texts("ivy1"));
       table.clickButtonForEntry("ivy1", "delete");
+      $(By.id("sslKeyTable:storeTable:deleteCertDialog")).shouldBe(visible);
+      $(By.id("sslKeyTable:storeTable:deleteYesBtn")).shouldBe(visible).click();
       Navigation.toRestClientDetail(RESTCLIENT_NAME);
       $(By.id("restClientConfigurationForm:url")).setValue("http://test-webservices.ivyteam.io:8090/api/v3");
       $(By.id("restClientConfigurationForm:saveRestConfig")).click();
