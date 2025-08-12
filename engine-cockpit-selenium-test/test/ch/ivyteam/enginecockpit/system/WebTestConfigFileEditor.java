@@ -116,6 +116,8 @@ class WebTestConfigFileEditor {
     var table = new Table(By.id("sslTrustTable:storeTable:storeCertificates"));
     table.firstColumnShouldBe(texts("ivy"));
     table.clickButtonForEntry("ivy", "delete");
+    $(By.id("sslKeyTable:storeTable:deleteCertDialog")).shouldBe(visible);
+    $(By.id("sslKeyTable:storeTable:deleteYesBtn")).shouldBe(visible).click();
   }
 
   private void uploadTruststore() throws IOException {
