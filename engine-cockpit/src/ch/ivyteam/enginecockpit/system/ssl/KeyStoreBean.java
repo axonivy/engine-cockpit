@@ -134,6 +134,7 @@ public class KeyStoreBean implements SslTableStore {
     store.setProvider(provider);
     store.setType(type);
     store.setAlgorithm(algorithm);
+    store.setUseCustomKeyStore(String.valueOf(useCustomKeyStore));
     getCertificats();
     Message.info()
         .clientId("sslKeystoreSaveSuccess")
