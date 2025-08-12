@@ -12,13 +12,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
 
+import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.KeyStoreConfig;
 
@@ -75,9 +74,7 @@ public class KeyStoreBean implements SslTableStore {
 
   @SuppressWarnings("hiding")
   public List<String> getProviders() {
-    List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders())
-        .map(Provider::getName)
-        .toList());
+    List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders()).map(Provider::getName).toList());
     providers.add("");
     return providers;
   }
@@ -138,8 +135,10 @@ public class KeyStoreBean implements SslTableStore {
     store.setType(type);
     store.setAlgorithm(algorithm);
     getCertificats();
-    FacesContext.getCurrentInstance().addMessage("sslKeystoreSaveSuccess",
-        new FacesMessage("Key Store configurations saved"));
+    Message.info()
+        .clientId("sslKeystoreSaveSuccess")
+        .summary("Key Store configurations saved")
+        .show();
   }
 
   @Override
@@ -160,10 +159,15 @@ public class KeyStoreBean implements SslTableStore {
   @Override
   public void deleteCertificate(String alias) throws KeyStoreException {
     getKeyStoreUtils().deleteCertificate(alias);
+    Message.info()
+        .clientId("sslDeleteCertificate")
+        .summary("Certificate " + "'" + alias + "'" + "deleted")
+        .show();
   }
 
   @Override
-  public Certificate handleUploadCertificate(FileUploadEvent event) throws CertificateException, KeyStoreException, IOException {
+  public Certificate handleUploadCertificate(FileUploadEvent event)
+      throws CertificateException, KeyStoreException, IOException {
     try (InputStream is = event.getFile().getInputStream()) {
       return getKeyStoreUtils().handleUploadCert(is);
     }
