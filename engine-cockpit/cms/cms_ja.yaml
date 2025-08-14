@@ -3,9 +3,11 @@ administrators:
   AdminModifiedMessage: 「{0}」が正常に更新されました。
   AdminRemovedMessage: 「{0}」が正常に削除されました。
   ConfirmPassword: パスワードを確認してください
+  CreateAdministratorDialogHeader: 管理者を作成する
   DeleteAdminDialogHeader: '{0} を削除する'
   DeleteAdminDialogMessage: 本当に管理者「{0}」を削除しますか？
   EditAdminDialogHeader: 管理者を追加/編集する
+  UpdateAdministratorDialogHeader: 更新管理者
 admins:
   DefineAtLeastOneAdministratorMessage: 少なくとも1人の管理者をご指定ください！
 applicationDetail:
@@ -143,6 +145,7 @@ common:
   Connections: 接続
   CopyToClipboard: クリップボードにコピー
   Count: カウント
+  Create: 作成する
   Created: 作成されました
   Creator: 作成者
   Databases: データベース
@@ -196,6 +199,7 @@ common:
   IsMaster: マスターですか？
   Key: キー
   Language: 言語
+  LastLogin: 最終ログイン
   Licence: ライセンス
   Limit: 制限
   Lock: ロック
@@ -283,6 +287,7 @@ common:
   StopTimestamp: 停止時刻スタンプ
   Strong: 強い
   Success: 成功
+  SynchronizationLog: 同期ログ
   Synchronize: 同期
   System: システム
   SystemConfiguration: システム構成
@@ -294,6 +299,7 @@ common:
   Timestamp: タイムスタンプ
   Total: 合計
   Type: タイプ
+  Update: 更新
   Upload: アップロード
   Url: URL
   User: ユーザー
@@ -615,6 +621,7 @@ liveStats:
 login:
   EngineCockpitLoginTitle: エンジン コックピット - ログイン
   IvyYamlFile: ivy.yaml
+  LogInWith: ログインするには
   LoginFooterCopyright: 著作権 Ⓒ Axon Ivy
   LoginFooterEngineCockpit: エンジン コックピット
   NoAdministratorsConfigured: 管理者が設定されていません。設定を確認してください。
@@ -1077,7 +1084,6 @@ roles:
   ExternalRoleNameMessage: '[外部: ''''{0}'''']'
   SearchDummyPerformanceReason: パフォーマンス上の理由から、最初の100件のロールのみが読み込まれます。特定のロールを見つけるには検索を使用してください。
   ShowMoreRoleLeftMessage: さらに表示（残り {0}）
-  SynchronizationLog: 同期ログ
   Synchronize: 同期
 searchEngine:
   SearchEngineHealthGreenHint: すべて正常です
@@ -1245,6 +1251,7 @@ sslConfig:
   KeyStoreCertificates: キーストア証明書
   TrustStoreCertificates: トラストストア証明書
 sslKeyStore:
+  DeletedCertificateMessage: 証明書「{0}」が削除されました。
   KeyPassword: キーパスワード
   KeyStoreConfigurations: キーストア設定
   KeyStoreConfigurationsSavedMessage: キーストア設定を保存しました
@@ -1257,6 +1264,7 @@ sslTable:
   Subject: サブジェクト
   ValidCertificate: 有効
 sslTrustStore:
+  DeleteCertificateMessage: 証明書「{0}」が削除されました。
   EnableInsecureSSLAndHTTPSConnections: 安全でないSSLおよびHTTPS接続を有効にする
   TrustStoreConfigurations: トラストストア設定
   TrustStoreConfigurationsSavedMessage: トラストストア設定を保存しました
@@ -1388,7 +1396,6 @@ userDetailSubstitutes:
 users:
   AddUser: ユーザー追加
   SynchSingleUser: 単一ユーザーを同期
-  SynchronizationLog: 同期ログ
 usersDetailRoles:
   AllRoles: すべてのロール
   RoleInExternalSecuritySystemMessage: ロールは外部セキュリティシステムによって管理されています

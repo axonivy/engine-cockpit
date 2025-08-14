@@ -34,8 +34,6 @@ import ch.ivyteam.enginecockpit.util.Table;
 @ExtendWith(ScreenShooterExtension.class)
 class WebTestIntermediateEvents {
 
-  private static final String INTERMEDIATE_EVENT_PATH = "/engine-cockpit-test-data$1/188B95440FE25CA6-f19";
-
   private static final By TABLE_ID = By.id("form:beanTable");
   private Table table;
 
@@ -54,13 +52,7 @@ class WebTestIntermediateEvents {
   @Test
   void filter() {
     table.rows().shouldHave(CollectionCondition.sizeGreaterThan(1));
-    $(By.id("form:beanTable:globalFilter")).sendKeys(EngineCockpitUtil.getAppName() + INTERMEDIATE_EVENT_PATH);
-    table.rows().shouldHave(CollectionCondition.size(1));
-
-    $(By.id("form:beanTable:globalFilter")).clear();
-    $(By.id("form:beanTable:globalFilter")).sendKeys("\n");
-    table.rows().shouldHave(CollectionCondition.sizeGreaterThan(1));
-    $(By.id("form:beanTable:globalFilter")).sendKeys(EngineCockpitUtil.getAppName() + INTERMEDIATE_EVENT_PATH);
+    table.search(EngineCockpitUtil.getAppName() + "/engine-cockpit-test-data$1/188B95440FE25CA6-f19");
     table.rows().shouldHave(CollectionCondition.size(1));
   }
 
@@ -115,7 +107,7 @@ class WebTestIntermediateEvents {
 
   private void navigateToDetails(String element) {
     element = EngineCockpitUtil.getAppName() + "/engine-cockpit-test-data$1/" + element;
-    $(By.id("form:beanTable:globalFilter")).sendKeys(element);
+    table.search(element);
     table.rows().shouldHave(CollectionCondition.size(1));
     table.tableEntry(1, 1).shouldBe(visible, enabled).find(By.tagName("a")).click();
     webdriver().shouldHave(urlContaining("monitorIntermediateEventDetails.xhtml"));

@@ -10,6 +10,10 @@
 <cc:implementation>
   <div class="card">
     <h:form id="storeTable">
+      <p:growl id="sslDeleteCertificate"
+        for="sslDeleteCertificate">
+        <p:autoUpdate />
+      </p:growl>
       <div class="card-header">
         <div class="card-title flex align-items-center">
           <i class="pr-3 si si-information-circle"></i>
@@ -26,12 +30,17 @@
           </p:commandButton>
         </div>
       </div>
+      <p:staticMessage
+        rendered="#{not empty cc.attrs.bean.certificateLoadError}"
+        id="certificateLoadError" severity="warn"
+        detail="#{cc.attrs.bean.certificateLoadError}" />
 
-      <p:dataTable var="certificate" value="#{cc.attrs.bean.certificats}" id="storeCertificates">
+      <p:dataTable var="certificate"
+        value="#{cc.attrs.bean.certificats}" id="storeCertificates">
         <p:column headerText="#{ivy.cm.co('/sslTable/Alias')}">
           <h:outputText value="#{certificate.alias}" id="alias" />
         </p:column>
-      
+
         <p:column headerText="#{ivy.cm.co('/sslTable/Subject')}">
           <h:outputText value="#{certificate.subject}" id="subject" />
         </p:column>
@@ -44,11 +53,14 @@
 
         <p:column headerText="#{ivy.cm.co('/sslTable/ExpiryDate')}">
           <h:panelGroup id="valid">
-            <i class="si table-icon si-#{certificate.isValid() ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
-            <h:outputText value="#{certificate.cert.notAfter}" id="expiryDate"
+            <i
+              class="si table-icon si-#{certificate.isValid() ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
+            <h:outputText value="#{certificate.cert.notAfter}"
+              id="expiryDate"
               styleClass="#{certificate.isValid() ? '' : 'state-inactive'}" />
           </h:panelGroup>
-          <p:tooltip for="valid" value="#{certificate.isValid() ? ivy.cm.co('/sslTable/ValidCertificate') : certificate.invalidityMessage}" />
+          <p:tooltip for="valid"
+            value="#{certificate.isValid() ? ivy.cm.co('/sslTable/ValidCertificate') : certificate.invalidityMessage}" />
         </p:column>
 
         <p:column styleClass="table-btn-1">
@@ -56,10 +68,20 @@
             styleClass="ui-button-danger rounded-button"
             actionListener="#{cc.attrs.bean.deleteCertificate(certificate.alias)}"
             update="@form">
+            <p:confirm header="Delete #{certificate.alias}" 
+              message="Are you sure you want to delete the Certificate '#{certificate.alias}'?" />
           </p:commandButton>
         </p:column>
 
       </p:dataTable>
+
+      <p:confirmDialog id="deleteCertDialog" global="true" severity="alert" appendTo="@form">
+        <p:commandButton value="Cancel" type="button"
+          styleClass="ui-confirmdialog-no ui-button-secondary ui-button-flat modal-input-button" />
+        <p:commandButton id="deleteYesBtn" value="Delete" type="button"
+          styleClass="ui-confirmdialog-yes modal-input-button"
+          icon="si si-bin-1" />
+      </p:confirmDialog>
 
     </h:form>
   </div>

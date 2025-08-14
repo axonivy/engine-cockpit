@@ -20,7 +20,8 @@
         <h6 class="m-0">#{ivy.cm.co('/sslTrustStore/TrustStoreConfigurations')}</h6>
         <p:commandButton title="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk" id="save"
           styleClass="flex-shrink-0 ml-auto ml-1 ui-button-success rounded-button"
-          actionListener="#{trustStoreBean.saveTrustStore}" />
+          actionListener="#{trustStoreBean.saveTrustStore}"
+          update="@form, sslTrustTable:storeTable" />
       </div>
     </div>
 

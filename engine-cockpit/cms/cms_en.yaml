@@ -3,9 +3,11 @@ administrators:
   AdminModifiedMessage: '''''{0}'''' modified successfully'
   AdminRemovedMessage: '''''{0}'''' removed successfully'
   ConfirmPassword: Confirm Password
+  CreateAdministratorDialogHeader: Create Administrator
   DeleteAdminDialogHeader: Delete {0}
   DeleteAdminDialogMessage: Are you sure you want to delete the administrator ''{0}''?
   EditAdminDialogHeader: Add / Edit Administrator
+  UpdateAdministratorDialogHeader: Update Administrator
 admins:
   DefineAtLeastOneAdministratorMessage: You need to define at least one administrator!
 applicationDetail:
@@ -143,6 +145,7 @@ common:
   Connections: Connections
   CopyToClipboard: Copy to clipboard
   Count: Count
+  Create: Create
   Created: Created
   Creator: Creator
   Databases: Databases
@@ -196,6 +199,7 @@ common:
   IsMaster: Is Master
   Key: Key
   Language: Language
+  LastLogin: Last Login
   Licence: Licence
   Limit: Limit
   Lock: Lock
@@ -283,6 +287,7 @@ common:
   StopTimestamp: Stop Timestamp
   Strong: Strong
   Success: Success
+  SynchronizationLog: Synchronization Log
   Synchronize: Synchronize
   System: System
   SystemConfiguration: System Configuration
@@ -294,6 +299,7 @@ common:
   Timestamp: Timestamp
   Total: Total
   Type: Type
+  Update: Update
   Upload: Upload
   Url: Url
   User: User
@@ -614,6 +620,7 @@ liveStats:
 login:
   EngineCockpitLoginTitle: Engine Cockpit - Login
   IvyYamlFile: ivy.yaml
+  LogInWith: Log in with
   LoginFooterCopyright: Copyright Ⓒ Axon Ivy
   LoginFooterEngineCockpit: Engine Cockpit
   NoAdministratorsConfigured: 'No administrators configured, check your '
@@ -1075,7 +1082,6 @@ roles:
   ExternalRoleNameMessage: '[External: ''''{0}'''']'
   SearchDummyPerformanceReason: For performance reasons only the first 100 roles are loaded. Use the search to find a specific role.
   ShowMoreRoleLeftMessage: Show more ({0} left)
-  SynchronizationLog: Synchronization Log
   Synchronize: Synchronize
 searchEngine:
   SearchEngineHealthGreenHint: Everything is ok
@@ -1244,6 +1250,7 @@ sslConfig:
   KeyStoreCertificates: Key Store Certificates
   TrustStoreCertificates: Trust Store Certificates
 sslKeyStore:
+  DeletedCertificateMessage: Certificate ''{0}'' deleted
   KeyPassword: KeyPassword
   KeyStoreConfigurations: Key Store configurations
   KeyStoreConfigurationsSavedMessage: Key Store configurations saved
@@ -1256,6 +1263,7 @@ sslTable:
   Subject: Subject
   ValidCertificate: Valid
 sslTrustStore:
+  DeleteCertificateMessage: Certificate ''{0}'' deleted
   EnableInsecureSSLAndHTTPSConnections: Enable insecure SSL and HTTPS connections
   TrustStoreConfigurations: Trust Store configurations
   TrustStoreConfigurationsSavedMessage: Trust Store configurations saved
@@ -1387,7 +1395,6 @@ userDetailSubstitutes:
 users:
   AddUser: Add User
   SynchSingleUser: Synch Single User
-  SynchronizationLog: Synchronization Log
 usersDetailRoles:
   AllRoles: All Roles
   RoleInExternalSecuritySystemMessage: Role is managed by the external security system

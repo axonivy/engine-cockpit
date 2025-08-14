@@ -1,6 +1,8 @@
-package ch.ivyteam.enginecockpit.system;
+package ch.ivyteam.enginecockpit.login;
 
 import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -9,18 +11,34 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.util.EmailUtil;
+import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISession;
+import ch.ivyteam.ivy.security.identity.core.auth.oauth2.OAuth2Url;
+import ch.ivyteam.ivy.security.identity.spi.auth.oauth2.OAuth2Authenticator;
+import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 
 @ManagedBean
 @SessionScoped
 public class LoginBean {
+
   private String userName;
   private String password;
   private String originalUrl;
+  private OAuthProvider oauthProvider;
+  
+  public LoginBean() {
+    var ctx = ISecurityContext.current();
+    var provider = ((ISecurityContextInternal) ctx).identityProvider();
+    if (provider.authenticator() instanceof OAuth2Authenticator) {
+      var initUri = OAuth2Url.initUri(ctx, provider);
+      oauthProvider = new OAuthProvider(provider.displayName(), loadResource(provider.logo()), initUri);
+    }
+  }
 
   public void checkLogin() {
     if (ISession.current().isSessionUserUnknown()) {
@@ -111,5 +129,17 @@ public class LoginBean {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+  
+  private String loadResource(URI uri) {
+    try {
+      return IOUtils.toString(uri, StandardCharsets.UTF_8);
+    } catch (IOException ex) {
+      throw new RuntimeException(ex);
+    }
+  }
+  
+  public OAuthProvider getOAuthProvider() {
+    return oauthProvider;
   }
 }

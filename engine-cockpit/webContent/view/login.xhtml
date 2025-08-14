@@ -34,7 +34,16 @@
 
         <p:commandButton update="@form" id="login" actionListener="#{loginBean.login}" value="#{ivy.cm.co('/login/SignInButton')}" icon="si si-login-3" ajax="false"/>
         <p:messages globalOnly="true" id="loginMessage" />
-
+        
+        <h:panelGroup rendered="#{loginBean.OAuthProvider != null}" styleClass="oauth-providers">
+          <h:outputLink value="#{loginBean.OAuthProvider.link}">
+            <h:outputText value="#{loginBean.OAuthProvider.image}" escape="false" />
+            <span style="position: relative; bottom: 5px;">
+              #{ivy.cm.co('/login/LogInWith')} <h:outputText value="#{loginBean.OAuthProvider.displayName}" />
+            </span>
+          </h:outputLink>
+        </h:panelGroup>
+        
         <h:panelGroup rendered="#{!engineModeBean.isMaintenance() and !administratorBean.hasAdmins()}">
           <p>
             #{ivy.cm.co('/login/NoAdministratorsConfigured')}<a href="#{advisorBean.getEngineGuideBaseUrl()}/configuration/files/ivy-yaml.html">#{ivy.cm.co('/login/IvyYamlFile')}</a>

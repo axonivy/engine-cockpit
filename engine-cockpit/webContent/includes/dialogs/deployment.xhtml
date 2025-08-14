@@ -24,11 +24,6 @@
     <p:selectOneMenu value="#{deployOptionsBean.state}" widgetVar="state" id="state">
       <f:selectItems value="#{deployOptionsBean.states}" />
     </p:selectOneMenu>
-
-    <p:outputLabel value="#{ivy.cm.co('/deployment/FileFormat')}" for="fileFormat" />
-    <p:selectOneMenu value="#{deployOptionsBean.fileFormat}" widgetVar="fileFormat" id="fileFormat">
-      <f:selectItems value="#{deployOptionsBean.fileFormats}" />
-    </p:selectOneMenu>
   </p:panelGrid>
   <p:commandButton id="showDeployOptionsBtn" value="#{ivy.cm.co('/deployment/Options')}" icon="si si-view-1"
     styleClass="ui-button-secondary ui-button-outlined modal-input-button" type="button" onclick="visualToggle()"
@@ -81,7 +76,6 @@
       form_data.append('deployTestUsers', PF('deployTestUsers').input.val());
       form_data.append('targetVersion', version);
       form_data.append('targetState', PF('state').input.val());
-      form_data.append('targetFileFormat', PF('fileFormat').input.val());
     }
   </script>
 </cc:FileUpload>

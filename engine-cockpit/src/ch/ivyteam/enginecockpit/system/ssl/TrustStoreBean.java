@@ -1,21 +1,24 @@
 package ch.ivyteam.enginecockpit.system.ssl;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.security.KeyStoreException;
 import java.security.Provider;
 import java.security.Security;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
 
+import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.TrustStoreConfig;
@@ -33,6 +36,8 @@ public class TrustStoreBean implements SslTableStore {
   private String algorithm;
   private String enableInsecureSSL;
   private final SslClientSettings sslClientSettings;
+
+  private String certificateLoadError;
 
   public TrustStoreBean() {
     this.sslClientSettings = SslClientSettings.instance();
@@ -122,41 +127,73 @@ public class TrustStoreBean implements SslTableStore {
     store.setType(type);
     store.setAlgorithm(algorithm);
     sslClientSettings.setEnableInsecureSSL(enableInsecureSSL);
-    FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
-        new FacesMessage(Ivy.cm().co("/sslTrustStore/TrustStoreConfigurationsSavedMessage")));
+    getCertificats();
+    Message.info()
+        .clientId("sslTruststoreSaveSuccess")
+        .summary(Ivy.cm().co("/sslTrustStore/TrustStoreConfigurationsSavedMessage"))
+        .show();
   }
 
   @Override
-  public void deleteCertificate(String alias) {
+  public void deleteCertificate(String alias) throws KeyStoreException {
     getKeyStoreUtils().deleteCertificate(alias);
+    Message.info()
+        .clientId("sslDeleteCertificate")
+        .summary(Ivy.cms().co("/sslTrustStore/DeleteCertificateMessage", Arrays.asList(alias)))
+        .show();
   }
 
   @Override
-  public Certificate handleUploadCertificate(FileUploadEvent event) throws Exception {
+  public Certificate handleUploadCertificate(FileUploadEvent event)
+      throws CertificateException, KeyStoreException, IOException {
     try (InputStream is = event.getFile().getInputStream()) {
       return getKeyStoreUtils().handleUploadCert(is);
     }
   }
 
-  public void addToStore(Certificate cert) {
-    getKeyStoreUtils().addNewCert(cert);
-    if ("X.509".equals(cert.getPublicKey().getFormat())) {
-      X509Certificate X509cert = (X509Certificate) cert;
-      FacesContext.getCurrentInstance().addMessage("addMissingCertSuccess",
-          new FacesMessage(Ivy.cms().co("/tlsTesterMissingCertView/AddX509CertificateToTruststoreSuccessMesage",
-              Arrays.asList(X509cert.getSubjectX500Principal()))));
-    } else {
-      FacesContext.getCurrentInstance().addMessage("addMissingCertSuccess",
-          new FacesMessage(Ivy.cm().co("/tlsTesterMissingCertView/AddCertificateToTruststoreSuccessMesage")));
+  public void addToStore(Certificate cert) throws KeyStoreException {
+      getKeyStoreUtils().addNewCert(cert);
+      if ("X.509".equals(cert.getPublicKey().getFormat())) {
+        X509Certificate X509cert = (X509Certificate) cert;
+        Message.info().clientId("addMissingCertSuccess")
+            .summary(Ivy.cms().co("/tlsTesterMissingCertView/AddX509CertificateToTruststoreSuccessMesage",
+                Arrays.asList(X509cert.getSubjectX500Principal())))
+            .show();
+      } else {
+        Message.info().clientId("addMissingCertSuccess")
+            .summary(Ivy.cm().co("/tlsTesterMissingCertView/AddCertificateToTruststoreSuccessMesage")).show();
+      }
+  }
+
+  public List<StoredCert> getCertificats() {
+    try {
+      setCertificateLoadError(null);
+      return getKeyStoreUtils().getStoredCerts();
+    } catch (KeyStoreException ex) {
+      if (ex.getCause() instanceof IOException) {
+        setCertificateLoadError(ex.getMessage());
+      } else {
+        setCertificateLoadError(ex.getCause().getMessage());
+      }
+      return List.of();
     }
   }
 
-  @Override
-  public List<StoredCert> getCertificats() {
-    return getKeyStoreUtils().getStoredCerts();
+  @PostConstruct
+  public void init() {
+    getCertificats();
   }
 
   private KeyStoreUtils getKeyStoreUtils() {
     return new KeyStoreUtils(file, type, provider, password);
   }
+
+  public String getCertificateLoadError() {
+    return certificateLoadError;
+  }
+
+  public void setCertificateLoadError(String certificateLoadError) {
+    this.certificateLoadError = certificateLoadError;
+  }
+
 }

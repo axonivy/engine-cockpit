@@ -10,7 +10,6 @@ import javax.ws.rs.core.UriBuilder;
 
 import ch.ivyteam.enginecockpit.util.EmailUtil;
 import ch.ivyteam.ivy.environment.Ivy;
-import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.IUserAbsence;
 import ch.ivyteam.ivy.security.IUserSubstitute;
@@ -65,16 +64,6 @@ public class User implements SecurityMember {
     this.isIvySecuritySystem = SecuritySystem.isIvySecuritySystem(user.getSecurityContext());
     this.substitutes = substitutesOf(user);
     this.absences = absencesOf(user);
-  }
-
-  public User(Administrator admin) {
-    setName(admin.getUsername());
-    setFullName(admin.getFullName());
-    setEmail(admin.getEmail());
-    setRealPassword(admin.getPassword());
-    setSecurityContext(ISecurityContext.SYSTEM);
-    this.isIvySecuritySystem = true;
-    this.gravatarHash = EmailUtil.gravatarHash(admin.getEmail());
   }
 
   @Override

@@ -26,7 +26,7 @@
               icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedSecuritySystem ? 'si-is-spinning' : ''} spin-icon"
               id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedSecuritySystem}" immediate="true"
               process="@this" actionListener="#{securityBean.triggerSyncForSelectedSecuritySystem}" update="@parent">
-              <p:menuitem id="userSyncLog" value="#{ivy.cm.co('/roles/SynchronizationLog')}" icon="si si-common-file-text"
+              <p:menuitem id="userSyncLog" value="#{ivy.cm.co('/common/SynchronizationLog')}" icon="si si-common-file-text"
                 onclick="window.location.href='#{securityBean.synchLogUri}'" />
             </p:splitButton>
             <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedSecuritySystem}" interval="2"

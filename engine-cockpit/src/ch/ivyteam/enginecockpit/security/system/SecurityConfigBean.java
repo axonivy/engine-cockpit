@@ -14,7 +14,6 @@ import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
-import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.security.SecurityContextRemovalCheck;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.language.LanguageConfigurator;
@@ -32,16 +31,6 @@ public class SecurityConfigBean {
   private Locale language;
   private Locale formattingLanguage;
   private SecuritySystem securitySystem;
-  private final ManagerBean managerBean;
-
-  public SecurityConfigBean() {
-    managerBean = ManagerBean.instance();
-  }
-
-  public SecurityConfigBean(String secSystemName) {
-    this();
-    setSecuritySystemName(secSystemName);
-  }
 
   public String getSecuritySystemName() {
     return name;
@@ -55,7 +44,8 @@ public class SecurityConfigBean {
   }
 
   private void loadSecuritySystem() {
-    securitySystem = managerBean.getSecuritySystems().stream()
+    securitySystem = ISecurityManager.instance().securityContexts().allWithSystem().stream()
+        .map(SecuritySystem::new)
         .filter(system -> Objects.equals(system.getSecuritySystemName(), name))
         .findAny()
         .orElseThrow();
@@ -129,5 +119,21 @@ public class SecurityConfigBean {
   public String deleteConfiguration() {
     ISecurityManager.instance().securityContexts().delete(name);
     return "securitysystem.xhtml?faces-redirect=true";
+  }
+
+  public boolean isShowDetails() {
+    return !isSystem();
+  }
+
+  public boolean isShowLanguage() {
+    return !isSystem();
+  }
+
+  public boolean isShowWorkflowLanguage() {
+    return !isSystem();
+  }
+
+  private boolean isSystem() {
+    return ISecurityContext.SYSTEM.equals(name);
   }
 }

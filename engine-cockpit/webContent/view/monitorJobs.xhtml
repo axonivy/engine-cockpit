@@ -48,7 +48,7 @@
             <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{job.name}" filterBy="#{job.name}">
               <p:commandLink oncomplete="PF('jobDialog').show();" title="#{ivy.cm.co('/monitor/job/JobDetail')}" action="#{jobBean.setSelected(job)}" update="jobDialog">
                 <i class="si si-task-list-approve table-icon"/>
-                <h:outputText value="#{job.name}"/>
+                <span><h:outputText value="#{job.name}"/></span>
               </p:commandLink>
             </p:column>
 

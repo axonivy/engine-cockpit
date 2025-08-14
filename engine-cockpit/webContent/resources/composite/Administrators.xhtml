@@ -23,19 +23,33 @@
               <img src="https://www.gravatar.com/avatar/#{admin.gravatarHash}?d=404" onload="showGravatarImg(this);"/>
             </h:panelGroup>
           </h:outputText>
+          <h:outputText value="[external]" title="#{admin.externalId}" rendered="#{admin.external}" styleClass="ml-1 addition-row-info table-cell-autocut" />
+          <h:outputText value="[disabled]" rendered="#{!admin.enabled}" styleClass="ml-1 addition-row-info table-cell-autocut" />
         </h:panelGroup>
       </p:column>
+
+      <p:column headerText="#{ivy.cm.co('/common/FullName')}" sortBy="#{admin.fullName}" filterBy="#{admin.fullName}">
+        <h:outputText value="#{admin.fullName}" />
+      </p:column>
+
       <p:column headerText="#{ivy.cm.co('/common/Email')}" sortBy="#{admin.email}" filterBy="#{admin.email}">
         <h:outputText value="#{admin.email}" />
       </p:column>
+
+      <p:column headerText="#{ivy.cm.co('/common/LastLogin')}" sortBy="#{admin.lastLogin}">
+        <h:outputText value="#{admin.lastLogin}" styleClass="user-lastlogin">
+          <f:convertDateTime type="both" dateStyle="short" timeStyle="medium" />
+        </h:outputText>
+      </p:column>
+
       <p:column styleClass="table-btn-2">
-        <p:commandButton id="editAdminBtn" actionListener="#{administratorBean.setAdmin(admin)}" icon="si si-pencil"
+        <p:commandButton id="editAdminBtn" disabled="#{admin.external}" actionListener="#{administratorBean.setAdmin(admin)}" icon="si si-pencil"
           title="#{ivy.cm.co('/common/Edit')}" update="admins:editAdminDialog" styleClass="ui-button-secondary rounded-button"
           oncomplete="PF('editAdminDialog').show();" process="@this" />
-        <p:commandButton id="deleteAdmin" actionListener="#{administratorBean.setAdmin(admin)}"
+        <p:commandButton id="deleteAdmin"  actionListener="#{administratorBean.setAdmin(admin)}"
           update="@form:deleteAdminDialog" icon="si si-bin-1" title="#{ivy.cm.co('/common/Delete')}"
           styleClass="ml-1 ui-button-danger rounded-button" process="@this"
-          disabled="#{admin.name eq loginBean.sessionUserName}" oncomplete="PF('deleteAdminDialog').show();" />
+          disabled="#{administratorBean.isDeleteButtonDisabled(admin)}" oncomplete="PF('deleteAdminDialog').show();" />
       </p:column>
     </p:dataTable>
 
@@ -45,11 +59,11 @@
       <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteAdminDialog').hide();" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="deleteAdminYesBtn" value="#{ivy.cm.co('/common/Delete')}" immediate="true" styleClass="modal-input-button"
-        actionListener="#{administratorBean.removeAdmin}" update="#{cc.attrs.updateFields}" icon="si si-bin-1" />
+        actionListener="#{administratorBean.deleteAdmin}" update="#{cc.attrs.updateFields}" icon="si si-bin-1" />
     </p:confirmDialog>
   </h:form>
 
-  <p:dialog widgetVar="editAdminDialog" id="editAdminDialog" width="500" header="#{ivy.cm.co('/administrators/EditAdminDialogHeader')}" modal="true"
+  <p:dialog widgetVar="editAdminDialog" id="editAdminDialog" width="500" header="#{empty administratorBean.admin.name ? ivy.cm.co('/administrators/CreateAdministratorDialogHeader') : ivy.cm.co('/administrators/UpdateAdministratorDialogHeader')}" modal="true"
     closeOnEscape="true" focus="editAdminForm:name">
     <h:form id="editAdminForm" styleClass="custom-dialog-form">
       <p:panelGrid columns="2" layout="flex" columnClasses="col-4, col-8"
@@ -76,11 +90,13 @@
 
         <p:outputLabel for="password1" value="#{ivy.cm.co('/common/Password')}" />
         <h:panelGroup styleClass="md-inputfield">
+
           <p:password id="password1"
             validatorMessage="#{ivy.cm.co('/common/NotMatchPasswordMessage')}"
             feedback="true" inline="true" match="password2"
             autocomplete="new-password"
-            value="#{administratorBean.admin.password}" required="true"
+            value="#{administratorBean.admin.password}"
+            required="#{empty administratorBean.admin.name}"
             requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}"
             redisplay="true"
             promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
@@ -95,7 +111,8 @@
         <p:outputLabel for="password2" value="#{ivy.cm.co('/administrators/ConfirmPassword')}" />
         <h:panelGroup styleClass="md-inputfield">
           <p:password id="password2" feedback="true" inline="true"
-            value="#{administratorBean.admin.password}" required="true"
+            value="#{administratorBean.admin.password}"
+            required="#{empty administratorBean.admin.name}"
             requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}"
             redisplay="true"
             promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
@@ -105,11 +122,17 @@
           <p:message for="password2" id="password2Message" />
         </h:panelGroup>
       </p:panelGrid>
+
       <div class="custom-dialog-footer">
         <p:commandButton id="cancelEditAdmin" onclick="PF('editAdminDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
           styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
-        <p:commandButton id="saveAdmin" validateClient="true" update="#{cc.attrs.updateFields}"
-          actionListener="#{administratorBean.saveAdmin()}" value="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk"
+
+        <p:commandButton id="addAdmin" rendered="#{empty administratorBean.admin.name}" validateClient="true" update="#{cc.attrs.updateFields}"
+          actionListener="#{administratorBean.createAdmin()}" value="#{ivy.cm.co('/common/Create')}" icon="si si-floppy-disk"
+          styleClass="modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />
+
+        <p:commandButton id="updateAdmin" rendered="#{not empty administratorBean.admin.name}" validateClient="true" update="#{cc.attrs.updateFields}"
+          actionListener="#{administratorBean.updateAdmin()}" value="#{ivy.cm.co('/common/Update')}" icon="si si-floppy-disk"
           styleClass="modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />
       </div>
     </h:form>

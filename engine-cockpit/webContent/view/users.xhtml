@@ -28,7 +28,7 @@
               process="@this" actionListener="#{securityBean.triggerSyncForSelectedSecuritySystem}" update="@parent">
               <p:menuitem id="synchUserBtn" value="#{ivy.cm.co('/users/SynchSingleUser')}" icon="si si-button-refresh-arrows"
                 onclick="PF('synchUserModal').show()" />
-              <p:menuitem id="userSyncLog" value="#{ivy.cm.co('/users/SynchronizationLog')}" icon="si si-common-file-text"
+              <p:menuitem id="userSyncLog" value="#{ivy.cm.co('/common/SynchronizationLog')}" icon="si si-common-file-text"
                 onclick="window.location.href='#{securityBean.synchLogUri}'" />
               <p:divider style="margin: 0;" />
               <p:menuitem id="syncNewUserBtn" value="#{ivy.cm.co('/users/AddUser')}" icon="si si-add" onclick="PF('newUserModal').show();" />

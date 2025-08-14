@@ -13,25 +13,28 @@
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-information-circle"></i>
         <h6 class="m-0">#{ivy.cm.co('/common/SecuritySystem')}</h6>
-        <p:commandButton id="downloadSecurityReport" title="#{ivy.cm.co('/securitySystemInfo/DownloadSecurityReport')}" icon="si si-office-file-xls-1"
-          styleClass="flex-shrink-0 ml-auto rounded-button" onclick="PF('securityReportDownloadModal').show();"/>
-        <p:linkButton outcome="securitysystem-merge.xhtml" id="compareSecuritySystemBtn" type="button" 
-                title="#{ivy.cm.co('/securitySystemInfo/MergeSecuritySystems')}" icon="si si-move-to-bottom" styleClass="flex-shrink-0 ml-1 rounded-button">
-          <f:param name="source" value="#{securityConfigBean.name}"/>
-        </p:linkButton>
 
-        <p:commandButton id="deleteSecuritySystem" type="button" onclick="PF('deleteSecuritySystemConfirmDialog').show()"
-              title="#{ivy.cm.co('/securitySystemInfo/DeleteSecuritySystemButtonTitle')}" icon="si si-bin-1" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
-        <p:confirmDialog id="deleteSecuritySystemConfirmDialog"
-          message="#{securityConfigBean.notToDeleteReason}"
-          header="#{ivy.cm.co('/securitySystemInfo/DeleteSecuritySystemDialogHeader')}" severity="alert" widgetVar="deleteSecuritySystemConfirmDialog">
-          <p:staticMessage severity="warn" rendered="#{securityConfigBean.deletable}" detail="#{ivy.cm.co('/securitySystemInfo/DeleteSecuritySystemWarningMessage')}" />
-          <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteSecuritySystemConfirmDialog').hide();" type="button"
-            styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-          <p:commandButton id="deleteSecuritySystemConfirmYesBtn" value="#{ivy.cm.co('/common/Delete')}" immediate="true"
-            action="#{securityConfigBean.deleteConfiguration}" icon="si si-bin-1" styleClass="modal-input-button"
-            disabled="#{!securityConfigBean.deletable}" />
-        </p:confirmDialog>
+        <h:panelGroup rendered="#{securityConfigBean.showDetails}">
+          <p:commandButton id="downloadSecurityReport" title="#{ivy.cm.co('/securitySystemInfo/DownloadSecurityReport')}" icon="si si-office-file-xls-1"
+            styleClass="flex-shrink-0 ml-auto rounded-button" onclick="PF('securityReportDownloadModal').show();"/>
+          <p:linkButton outcome="securitysystem-merge.xhtml" id="compareSecuritySystemBtn" type="button" 
+                  title="#{ivy.cm.co('/securitySystemInfo/MergeSecuritySystems')}" icon="si si-move-to-bottom" styleClass="flex-shrink-0 ml-1 rounded-button">
+            <f:param name="source" value="#{securityConfigBean.name}"/>
+          </p:linkButton>
+
+          <p:commandButton id="deleteSecuritySystem" type="button" onclick="PF('deleteSecuritySystemConfirmDialog').show()"
+                title="#{ivy.cm.co('/securitySystemInfo/DeleteSecuritySystemButtonTitle')}" icon="si si-bin-1" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
+          <p:confirmDialog id="deleteSecuritySystemConfirmDialog"
+            message="#{securityConfigBean.notToDeleteReason}"
+            header="#{ivy.cm.co('/securitySystemInfo/DeleteSecuritySystemDialogHeader')}" severity="alert" widgetVar="deleteSecuritySystemConfirmDialog">
+            <p:staticMessage severity="warn" rendered="#{securityConfigBean.deletable}" detail="#{ivy.cm.co('/securitySystemInfo/DeleteSecuritySystemWarningMessage')}" />
+            <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteSecuritySystemConfirmDialog').hide();" type="button"
+              styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+            <p:commandButton id="deleteSecuritySystemConfirmYesBtn" value="#{ivy.cm.co('/common/Delete')}" immediate="true"
+              action="#{securityConfigBean.deleteConfiguration}" icon="si si-bin-1" styleClass="modal-input-button"
+              disabled="#{!securityConfigBean.deletable}" />
+          </p:confirmDialog>
+        </h:panelGroup>
       </div>
     </div>
 
