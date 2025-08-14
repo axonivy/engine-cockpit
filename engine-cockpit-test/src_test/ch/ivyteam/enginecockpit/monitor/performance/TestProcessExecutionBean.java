@@ -15,10 +15,8 @@ import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.ivy.bpm.engine.restricted.IBpmEngineManager;
 import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IProcessElementExecutionStatistic;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.environment.IvyTest;
 
 @SuppressWarnings("restriction")
-@IvyTest(enableWebServer = false)
 class TestProcessExecutionBean {
 
   private static final double ONE_MILLION = 1_000_000.0f;

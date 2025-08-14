@@ -5,12 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import ch.ivyteam.ivy.environment.IvyTest;
 import ch.ivyteam.ivy.health.check.HealthChecker;
 import ch.ivyteam.ivy.health.check.HealthSeverity;
 import ch.ivyteam.ivy.manager.IManager;
 
-@IvyTest(enableWebServer = false)
 class TestHealthBean {
 
   HealthBean testee = new HealthBean();
