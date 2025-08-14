@@ -6,6 +6,10 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.percentage;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.value;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.util.function.DoubleSupplier;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -17,13 +21,13 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 @ManagedBean
 @ViewScoped
 public class OsBean {
-  private Monitor memoryMonitor = Monitor.build().name("Memory").icon("analytics-board-graph-line")
-          .yAxisLabel("Memory").toMonitor();
-  private Monitor cpuMonitor = Monitor.build().name("CPU Load").icon("computer-chip").yAxisLabel("Load")
-          .toMonitor();
-  private Monitor networkMonitor = Monitor.build().name("Network").icon("network-signal")
-          .yAxisLabel("Send / Resv").toMonitor();
-  private Monitor ioMonitor = Monitor.build().name("IO").icon("cd").yAxisLabel("Read / Write").toMonitor();
+  private final Monitor memoryMonitor = Monitor.build().name("Memory").icon("analytics-board-graph-line")
+      .yAxisLabel("Memory").toMonitor();
+  private final Monitor cpuMonitor = Monitor.build().name("CPU Load").icon("computer-chip").yAxisLabel("Load")
+      .toMonitor();
+  private final Monitor networkMonitor = Monitor.build().name("Network").icon("network-signal")
+      .yAxisLabel("Send / Resv").toMonitor();
+  private final Monitor ioMonitor = Monitor.build().name("IO").icon("cd").yAxisLabel("Read / Write").toMonitor();
 
   private long[] oldTicks;
   private double cpuLoad;
@@ -81,7 +85,7 @@ public class OsBean {
   }
 
   private ValueProvider cpuLoad() {
-    return percentage(value(() -> processorLoad(), Unit.PERCENTAGE));
+    return percentage(value((DoubleSupplier) this::processorLoad, Unit.PERCENTAGE));
   }
 
   private double processorLoad() {
@@ -122,7 +126,12 @@ public class OsBean {
   }
 
   private ValueProvider memoryJvmUsed() {
-    return difference(memoryJvmMax(), value(Runtime.getRuntime()::freeMemory, Unit.BYTES));
+    return value(this::jvmUsed, Unit.BYTES);
+  }
+
+  private long jvmUsed() {
+    MemoryMXBean memory = ManagementFactory.getMemoryMXBean();
+    return memory.getHeapMemoryUsage().getCommitted() + memory.getNonHeapMemoryUsage().getCommitted();
   }
 
   private ValueProvider memoryJvmMax() {
