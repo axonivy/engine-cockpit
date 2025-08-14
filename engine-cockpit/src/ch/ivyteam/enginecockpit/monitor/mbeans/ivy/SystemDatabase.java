@@ -20,9 +20,9 @@ public final class SystemDatabase extends AbstractDatabase {
   SystemDatabase() {
     super(
         DATABASE_PERSISTENCY_SERVICE,
-        Ivy.cms().co("/liveStats/Transactions"),
-        Monitor.build().name(Ivy.cms().co("/common/Connections")).icon("insert_link").toMonitor(),
-        Monitor.build().name(Ivy.cms().co("/liveStats/Transactions")).icon("dns").toMonitor(),
-        Monitor.build().name(Ivy.cms().co("/liveStats/ProcessingTime")).icon("timer").yAxisLabel(Ivy.cms().co("/common/Time")).toMonitor());
+        Ivy.cm().co("/liveStats/Transactions"),
+        Monitor.build().name(Ivy.cm().co("/common/Connections")).icon("insert_link").toMonitor(),
+        Monitor.build().name(Ivy.cm().co("/liveStats/Transactions")).icon("dns").toMonitor(),
+        Monitor.build().name(Ivy.cm().co("/liveStats/ProcessingTime")).icon("timer").yAxisLabel(Ivy.cm().co("/common/Time")).toMonitor());
   }
 }

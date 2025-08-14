@@ -22,8 +22,8 @@ public class SystemConfigBean {
   public SystemConfigBean() {
     configView = new ConfigViewImpl(List.of(
         ConfigViewImpl.defaultFilter(),
-        new ContentFilter<ConfigProperty>(Ivy.cms().co("/common/SecuritySystems"),
-            Ivy.cms().co("/systemConfig/ShowSecuritySystems"),
+        new ContentFilter<ConfigProperty>(Ivy.cm().co("/common/SecuritySystems"),
+            Ivy.cm().co("/systemConfig/ShowSecuritySystems"),
             p -> !Strings.CS.startsWith(p.getKey(), "SecuritySystems."), true)));
   }
 
