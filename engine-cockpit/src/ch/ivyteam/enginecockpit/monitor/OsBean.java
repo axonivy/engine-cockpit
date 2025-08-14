@@ -6,11 +6,11 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.percentage;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.value;
 import static ch.ivyteam.ivy.environment.Ivy.cm;
-import static ch.ivyteam.ivy.environment.Ivy.cms;
 import static java.lang.String.join;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
-import java.util.List;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
 import java.util.function.DoubleSupplier;
 
 import javax.faces.bean.ManagedBean;
@@ -62,8 +62,8 @@ public class OsBean {
   }
 
   private void setupMemoryMonitor() {
-    var memoryOf = cms().co("/monitor/Of", List.of("%4d", "%4d (%.1f)"));
-    var jvmOf = cms().co("/monitor/Of", List.of("JVM %4d", "%4d"));
+    var memoryOf = "%4d " + cm().co("/monitor/Of") + " %4d (%.1f)";
+    var jvmOf = "JVM %4d " + cm().co("/monitor/Of") + " %4d";
     memoryMonitor.addInfoValue(format(memoryOf, memoryUsed(), memoryMax(), memoryUsage()));
     memoryMonitor.addInfoValue(format(jvmOf, memoryJvmUsed(), memoryJvmMax()));
     memoryMonitor.addSeries(Series.build(memoryJvmMax(), cm().co("/monitor/JVMMaxMemory")).smoothLine().toSeries());
@@ -148,7 +148,13 @@ public class OsBean {
   }
 
   private ValueProvider memoryJvmUsed() {
-    return difference(memoryJvmMax(), value(Runtime.getRuntime()::freeMemory, Unit.BYTES));
+    return value(this::jvmUsed, Unit.BYTES);
+  }
+
+  private long jvmUsed() {
+    // return Runtime.getRuntime().totalMemory();
+    MemoryMXBean memory = ManagementFactory.getMemoryMXBean();
+    return memory.getHeapMemoryUsage().getCommitted() + memory.getNonHeapMemoryUsage().getCommitted();
   }
 
   private ValueProvider memoryJvmMax() {

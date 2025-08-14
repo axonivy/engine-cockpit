@@ -72,7 +72,7 @@ public class WebServerConnectorBean extends StepStatus {
   private void setConfig(String key, Object httpEnabled) {
     IConfiguration.instance().set(key, httpEnabled);
     FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO,
-        Ivy.cms().co("/webServer/ChangedConfigSuccessfulMessage", Arrays.asList(key)), ""));
+        key + Ivy.cm().co("/webServer/ChangedConfigSuccessfulMessage"), ""));
   }
 
   @Override

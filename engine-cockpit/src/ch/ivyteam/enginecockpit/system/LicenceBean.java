@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.system;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -149,10 +148,10 @@ public class LicenceBean extends StepStatus {
     var maintenanceMode =
         EngineMode.is(EngineMode.MAINTENANCE) ? Ivy.cm().co("/licence/EngineRunsInMaintenanceMode") : "";
     if (isExpired()) {
-      return Ivy.cms().co("/licence/EngineRunsInMaintenanceMode", Arrays.asList(maintenanceMode));
+      return Ivy.cm().co("/licence/ExpiredLicenceMessage") + maintenanceMode;
     }
     if (!isValid()) {
-      return Ivy.cms().co("/licence/InvalidLicenceMessage", Arrays.asList(maintenanceMode));
+      return Ivy.cm().co("/licence/InvalidLicenceMessage") + maintenanceMode;
     }
     return "";
   }

@@ -26,7 +26,7 @@ applications:
   DeploymentPossibleReason: |-
     システム構成 「{0}」 または 「{1}」 が無効になっています。<br/>
     有効にするか、デプロイメントにファイルシステムを使用してください。
-  DisableErrorMessage: アプリケーション「{0}」の状態を評価できません。
+  DisableErrorMessage: アプリケーションの状態を評価できません。
   ExecutionErrorMessageSummary: '{0} モジュールを実行できませんでした。'
   ExecutionSuccessMessageSummary: '{0} モジュールを正常に実行しました'
   ForceDeleteButtonTitle: 強制削除
@@ -521,11 +521,11 @@ licence:
   ConcurrentSessions: 並行セッション
   ConfigureLicence: ライセンスを設定する
   EngineRunsInDemoMode: ライセンスがインストールされていません。エンジンはデモモードで動作しています。
-  EngineRunsInMaintenanceMode: エンジンはメンテナンスモードで動作しています。
-  ExpiredLicenceMessage: ライセンスが期限切れになりました。{0}
+  EngineRunsInMaintenanceMode: 'エンジンはメンテナンスモードで動作しています。 '
+  ExpiredLicenceMessage: ライセンスが期限切れになりました。
   ExpiredLicenceTouchYourSalesMessage: ライセンスの有効期限が間もなく切れます。営業担当までご連絡ください。
   Expires: 有効期限
-  InvalidLicenceMessage: 無効なライセンスがインストールされています。{0}
+  InvalidLicenceMessage: '無効なライセンスがインストールされています。 '
   LicenceEvents: ライセンスイベント
   LicenceType: ライセンスの種類
   NamedUsers: 指定ユーザー
@@ -648,7 +648,6 @@ migrate:
   EngineMigrationSuccessfulMessage: Axon Ivy Engine の移行が正常に完了しました。Axon Ivy Engine を再起動してください。
   InPlaceMigration: インプレース移行
   InPlaceMigrationIntroduction: この移行はインプレース移行です。したがって、新しい Axon Ivy Engine は古い Axon Ivy Engine とまったく同じ場所にインストールされます。<code>ivy.yaml</code> などのコンテナ環境における設定ファイルは読み取り専用モードで提供される場合があります。 移行ではこれらの設定ファイルへの書き込みアクセスが必要なため、一時ディレクトリを使用してこれらの変更を行うかどうかを指定できます。移行後、これらのファイルを手動で Axon Ivy Engine に追加する必要があります。
-  InvalidLicenceMessage: 'ライセンスが無効です。移行後に Axon Ivy Engine を起動できるよう、新しいライセンスをアップロードしてください。理由: {0}'
   Licence: ライセンス
   LoadLocation: ロケーションを読み込む
   Location: ロケーション
@@ -657,8 +656,8 @@ migrate:
   MigrateOldEngine: 古い Axon Ivy Engine を移行
   MigrationTasks: 移行タスク
   OldEngineLocation: 古いエンジンのロケーション
-  ReadingLicenceErrorMessage: 'ライセンス読み込み中にエラーが発生しました: {0}'
-  Running: 実行中{0}
+  ReadingLicenceErrorMessage: 'ライセンス読み込み中にエラーが発生しました: '
+  Running: '実行中 '
   StartMigration: 移行を開始
   Summary: サマリー
   TemporaryDirectory: '一時ディレクトリ: '
@@ -688,7 +687,7 @@ monitor:
   MemoryUsage: メモリ使用量
   Network: ネットワーク
   NonHeapMemory: 非ヒープメモリ
-  Of: '{0} / {1}'
+  Of: /
   Peak: ピーク
   Process: プロセス
   Read: 読み込み
@@ -1419,7 +1418,7 @@ webServer:
   BaseUrlProblemDetectedSummaryMessage: 問題が検出されました
   BaseUrlSavedMessage: ベースURLが保存されました
   BaseUrlSettings: ベースURL設定
-  ChangedConfigSuccessfulMessage: 「{0}」が正常に変更されました
+  ChangedConfigSuccessfulMessage: が正常に変更されました
   CheckDocumentLink: 詳細については <i class="si si-hyperlink-3"></i> ドキュメントをご確認ください。
   Enabled: '有効:'
   EvaluatedUrl: 評価されたURL

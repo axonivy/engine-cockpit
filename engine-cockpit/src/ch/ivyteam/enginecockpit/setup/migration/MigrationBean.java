@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.setup.migration;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -109,7 +108,7 @@ public class MigrationBean {
   }
 
   public String getInvalidLicenceMessage() {
-    return Ivy.cms().co("/migrate/InvalidLicenceMessage", Arrays.asList(migrator.checkLicence().message()));
+    return migrator.checkLicence().message();
   }
 
   public String getLicence() {
@@ -120,7 +119,7 @@ public class MigrationBean {
     try {
       return lic.save().toAsciiOnlyString();
     } catch (IOException ex) {
-      return Ivy.cms().co("/migrate/ReadingLicenceErrorMessage", Arrays.asList(ex.getMessage()));
+      return Ivy.cm().co("/migrate/ReadingLicenceErrorMessage") + ex.getMessage();
     }
   }
 
@@ -135,8 +134,7 @@ public class MigrationBean {
   public String getStartMigrationButtonName() {
     return switch (running) {
       case START -> Ivy.cm().co("/common/Start");
-      case RUNNING -> Ivy.cms().co("/migrate/Running",
-          Arrays.asList(client.taskCountDone() + "/" + client.taskCountAll()));
+      case RUNNING -> Ivy.cm().co("/migrate/Running") + client.taskCountDone() + "/" + client.taskCountAll();
       case FINISHED -> Ivy.cm().co("/migrate/Done");
     };
   }
@@ -215,8 +213,9 @@ public class MigrationBean {
         finishedMessage = Ivy.cm().co("/migrate/EngineMigrationSuccessfulMessage");
         finishedSeverity = "info";
       } else {
-        finishedMessage = Ivy.cms().co("/migrate/EngineMigrationErrorMessage",
-            Arrays.asList(ExceptionUtils.getStackTrace(exception)));
+        finishedMessage = Ivy.cm().co("/migrate/EngineMigrationErrorMessage")
+            + "\n<pre style=\"white-space:pre-wrap;word-break:break-all;margin:0px;\"><code>"
+            + ExceptionUtils.getStackTrace(exception) + "</code></pre>";
         finishedSeverity = "error";
       }
     }

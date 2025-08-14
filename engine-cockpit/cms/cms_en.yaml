@@ -26,7 +26,7 @@ applications:
   DeploymentPossibleReason: |-
     The system configuration ''{0}'' or ''{1}'' is disabled.<br/>
     Please enable them or use the file system for the deployment.
-  DisableErrorMessage: Cannot evaluate the state of the application ''{0}''
+  DisableErrorMessage: 'Cannot evaluate the state of the application '
   ExecutionErrorMessageSummary: Could not {0} module
   ExecutionSuccessMessageSummary: Successfully {0} module
   ForceDeleteButtonTitle: Force Delete
@@ -520,11 +520,11 @@ licence:
   ConcurrentSessions: Concurrent sessions
   ConfigureLicence: Configure Licence
   EngineRunsInDemoMode: No licence installed. Your engine runs in demo mode.
-  EngineRunsInMaintenanceMode: Your engine runs in maintenance mode.
-  ExpiredLicenceMessage: Your licence has expired. {0}
+  EngineRunsInMaintenanceMode: 'Your engine runs in maintenance mode. '
+  ExpiredLicenceMessage: 'Your licence has expired. '
   ExpiredLicenceTouchYourSalesMessage: Your licence is about to expire. Please get in touch with your sales.
   Expires: Expires
-  InvalidLicenceMessage: Invalid licence installed. {0}
+  InvalidLicenceMessage: 'Invalid licence installed. '
   LicenceEvents: Licence Events
   LicenceType: Licence type
   NamedUsers: Named users
@@ -643,12 +643,11 @@ migrate:
   BackupSystemDatabaseRemindMessage: Before you start the Migration make sure you have a backup of your system database and the whole Axon Ivy Engine installation directory.
   Checks: Checks
   Done: Done
-  EngineMigrationErrorMessage: Error during migration.<br><pre style=\"white-space:pre-wrap;word-break:break-all;margin:0px;\"><code>{0}</code></pre>
+  EngineMigrationErrorMessage: Error during migration.
   EngineMigrationSuccessfulMessage: The Axon Ivy Engine migration was successful. Restart your Axon Ivy Engine now.
   InPlaceMigration: In-Place Migration
   InPlaceMigrationIntroduction: This migration is an in place migration. Therefore, the new Axon Ivy Engine will be installed in exactly the same place as the old Axon Ivy Engine. The configuration files in container environments, such as the <code>ivy.yaml</code>, may be provided in a read-only mode.
     As the migration needs to operate with write access onto these configuration files, you can define whether a temporary directory should be used to perform these changes. After the migration, you must manually add these files to the Axon Ivy Engine.
-  InvalidLicenceMessage: 'Licence is not valid. Please upload a new licence otherwise you can not start the Axon Ivy Engine after migration. Reason: {0}'
   Licence: Licence
   LoadLocation: Load Location
   Location: Location
@@ -657,8 +656,8 @@ migrate:
   MigrateOldEngine: Migrate old Axon Ivy Engine
   MigrationTasks: Migration Tasks
   OldEngineLocation: Location of old Engine
-  ReadingLicenceErrorMessage: 'Error during reading licence: {0}'
-  Running: Running{0}
+  ReadingLicenceErrorMessage: 'Error during reading licence: '
+  Running: 'Running '
   StartMigration: Start Migration
   Summary: Summary
   TemporaryDirectory: 'Temporary Directory: '
@@ -688,7 +687,7 @@ monitor:
   MemoryUsage: Memory usage
   Network: Network
   NonHeapMemory: Non Heap Memory
-  Of: '{0} of {1}'
+  Of: of
   Peak: Peak
   Process: Process
   Read: Read
@@ -1418,7 +1417,7 @@ webServer:
   BaseUrlProblemDetectedSummaryMessage: Problem detected
   BaseUrlSavedMessage: Base Url saved
   BaseUrlSettings: Base Url Settings
-  ChangedConfigSuccessfulMessage: '''''{0}'''' changed successfully'
+  ChangedConfigSuccessfulMessage: ' changed successfully'
   CheckDocumentLink: Check our <i class="si si-hyperlink-3"></i> documentation for more details.
   Enabled: 'Enabled:'
   EvaluatedUrl: Evaluated URL

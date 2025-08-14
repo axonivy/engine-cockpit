@@ -98,7 +98,7 @@ public class Application extends AbstractActivity {
     try {
       return !app.hasAnyActiveAndReleasedPmv();
     } catch (Exception ex) {
-      var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cms().co("/applications/DisableErrorMessage", Arrays.asList(app.getName())), ex.getMessage());
+      var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/applications/DisableErrorMessage") + app.getName(), ex.getMessage());
       FacesContext.getCurrentInstance().addMessage(null, message);
       return true;
     }
