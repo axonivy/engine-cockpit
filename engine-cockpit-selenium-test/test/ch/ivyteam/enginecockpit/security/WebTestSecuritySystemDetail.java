@@ -22,6 +22,7 @@ import org.openqa.selenium.Keys;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -74,13 +75,13 @@ public class WebTestSecuritySystemDetail {
   void language() {
     var language = PrimeUi.selectOne(By.id("securityLanguageForm:language"));
     language.selectItemByLabel("German (de)");
-    $(SAVE_LANGUAGE_BTN).click();
+    saveLanguage();
     language.selectedItemShould(value("de"));
 
     Selenide.refresh();
     language.selectedItemShould(value("de"));
     language.selectItemByLabel("English (en)");
-    $(SAVE_LANGUAGE_BTN).click();
+    saveLanguage();
 
     Selenide.refresh();
     language.selectedItemShould(value("en"));
@@ -90,13 +91,13 @@ public class WebTestSecuritySystemDetail {
   void formattingLanguage() {
     var language = PrimeUi.selectOne(By.id("securityLanguageForm:formattingLanguage"));
     language.selectItemByLabel("Aghem (agq)");
-    $(SAVE_LANGUAGE_BTN).click();
+    saveLanguage();
     language.selectedItemShould(value("agq"));
 
     Selenide.refresh();
     language.selectedItemShould(value("agq"));
     language.selectItemByLabel("English (en)");
-    $(SAVE_LANGUAGE_BTN).click();
+    saveLanguage();
 
     Selenide.refresh();
     language.selectedItemShould(value("en"));
@@ -295,6 +296,11 @@ public class WebTestSecuritySystemDetail {
     $(SYNC_TIME_MESSAGE).shouldNotBe(visible);
     $(SAVE_PROVIDER_SUCCESS_GROWL).shouldBe(visible);
     Selenide.executeJavaScript("arguments[0].click();", $(SAVE_PROVIDER_SUCCESS_GROWL + " .ui-growl-icon-close"));
+  }
+  
+  private void saveLanguage() {
+    $(SAVE_LANGUAGE_BTN).click();
+    $(By.id("securityLanguageForm:securityLanguageSaveSuccess_container")).find(".ui-growl-message").should(visible, Condition.text("Security System Languages saved"));
   }
 
   private SelectBooleanCheckbox checkbox(String selector) {
