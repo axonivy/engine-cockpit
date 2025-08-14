@@ -65,25 +65,25 @@ public class AdministratorBean extends StepStatus {
 
   @Override
   public String getStepWarningMessage() {
-    return "Please configure at least one admin!";
+    return Ivy.cm().co("/setupAdmins/StepWarningMessage");
   }
 
   public void createAdmin() {
     service.config().save(admin.toAdministrator());
     load();
-    Message.info().summary("'" + admin.getName() + "' added").show();
+    Message.info().summary(Ivy.cms().co("/administrators/AdminAddedMessage", Arrays.asList(admin.getName()))).show();
   }
 
   public void updateAdmin() {
     service.config().save(admin.toAdministrator());
-    Message.info().summary("'" + admin.getName() + "' updated").show();
+    Message.info().summary(Ivy.cms().co("/administrators/AdminUpdatedMessage", Arrays.asList(admin.getName()))).show();
   }
 
   public void deleteAdmin() {
     service.db().delete(admin.getName());
     service.config().delete(admin.getName());
     load();
-    Message.info().summary("'" + admin.getName() + "' deleted").show();
+    Message.info().summary(Ivy.cms().co("/administrators/AdminDeletedMessage", Arrays.asList(admin.getName()))).show();
   }
 
   public boolean hasAdmins() {

@@ -25,7 +25,7 @@
           <h2 class="m-0">#{ivy.cm.co('/common/Administrators')}</h2>
           <h:form id="addAdminForm" styleClass="ml-auto">
             <p:splitButton value="#{ivy.cm.co('/common/Add')}"
-                icon="si si-add" title="Add Administrator"
+                icon="si si-add" title="#{ivy.cm.co('/admins/AddAdministrator')}"
                 id="newAdminBtn" oncomplete="PF('editAdminDialog').show();"
                 process="@this" actionListener="#{administratorBean.addAdmin()}" update="admins:editAdminDialog">
              <p:menuitem id="configure" value="#{ivy.cm.co('/common/Configuration')}" icon="si si-cog"

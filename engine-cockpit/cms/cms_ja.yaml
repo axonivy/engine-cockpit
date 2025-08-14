@@ -1,7 +1,7 @@
 administrators:
   AdminAddedMessage: 「{0}」が正常に追加されました。
-  AdminModifiedMessage: 「{0}」が正常に更新されました。
-  AdminRemovedMessage: 「{0}」が正常に削除されました。
+  AdminDeletedMessage: 「{0}」が正常に削除されました。
+  AdminUpdatedMessage: 「{0}」が正常に更新されました。
   ConfirmPassword: パスワードを確認してください
   CreateAdministratorDialogHeader: 管理者を作成する
   DeleteAdminDialogHeader: '{0} を削除する'
@@ -9,6 +9,7 @@ administrators:
   EditAdminDialogHeader: 管理者を追加/編集する
   UpdateAdministratorDialogHeader: 更新管理者
 admins:
+  AddAdministrator: 管理者追加
   DefineAtLeastOneAdministratorMessage: 少なくとも1人の管理者をご指定ください！
 applicationDetail:
   ProcessModels: プロセスモデル

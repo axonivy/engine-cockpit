@@ -1,7 +1,7 @@
 administrators:
-  AdminAddedMessage: '''''{0}'''' added successfully'
-  AdminModifiedMessage: '''''{0}'''' modified successfully'
-  AdminRemovedMessage: '''''{0}'''' removed successfully'
+  AdminAddedMessage: '''''{0}'''' added'
+  AdminDeletedMessage: '''''{0}'''' deleted'
+  AdminUpdatedMessage: '''''{0}'''' updated'
   ConfirmPassword: Confirm Password
   CreateAdministratorDialogHeader: Create Administrator
   DeleteAdminDialogHeader: Delete {0}
@@ -9,6 +9,7 @@ administrators:
   EditAdminDialogHeader: Add / Edit Administrator
   UpdateAdministratorDialogHeader: Update Administrator
 admins:
+  AddAdministrator: Add Administrator
   DefineAtLeastOneAdministratorMessage: You need to define at least one administrator!
 applicationDetail:
   ProcessModels: Process Models
