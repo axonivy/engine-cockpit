@@ -6,6 +6,8 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.percentage;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.value;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
 import java.util.function.DoubleSupplier;
 
 import javax.faces.bean.ManagedBean;
@@ -125,7 +127,13 @@ public class OsBean {
   }
 
   private ValueProvider memoryJvmUsed() {
-    return difference(memoryJvmMax(), value(Runtime.getRuntime()::freeMemory, Unit.BYTES));
+    return value(this::jvmUsed, Unit.BYTES);
+  }
+
+  private long jvmUsed() {
+    // return Runtime.getRuntime().totalMemory();
+    MemoryMXBean memory = ManagementFactory.getMemoryMXBean();
+    return memory.getHeapMemoryUsage().getCommitted() + memory.getNonHeapMemoryUsage().getCommitted();
   }
 
   private ValueProvider memoryJvmMax() {
