@@ -5,9 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.primefaces.model.charts.line.LineChartDataSet;
 
-import ch.ivyteam.ivy.environment.IvyTest;
-
-@IvyTest(enableWebServer = false)
 public class TestJvmMonitorBean {
   @Test
   public void cpuMonitor() {
