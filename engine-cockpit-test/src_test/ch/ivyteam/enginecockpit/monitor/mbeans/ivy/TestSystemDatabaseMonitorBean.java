@@ -10,7 +10,10 @@ import com.axonivy.jmx.MAttribute;
 import com.axonivy.jmx.MBean;
 import com.axonivy.jmx.MBeans;
 
+import ch.ivyteam.ivy.environment.IvyTest;
+
 @SuppressWarnings("restriction")
+@IvyTest(enableWebServer = false)
 public class TestSystemDatabaseMonitorBean {
   @AfterEach
   public void afterEach() {
