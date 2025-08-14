@@ -82,6 +82,7 @@ class WebTestSSL {
     saveKeyStore();
     Selenide.refresh();
     $(By.id("sslKeyTable:storeTable:certificateLoadError")).shouldHave(text("Failed to load store invalidFile"));
+    useCustom.shouldBeChecked(true);
     propertyFile.shouldHave(exactValue("invalidFile"));
     propertyStorePassword.shouldNotHave(exactValue("invalidStorePassword"));
     propertyPassword.shouldHave(exactValue(""));
@@ -110,7 +111,6 @@ class WebTestSSL {
 
   void cleanUpCustomKeyStore() {
     var useCustom = PrimeUi.selectBooleanCheckbox(By.id(Key.USE_CUSTOM));
-    useCustom.setChecked();
 
     var file = $(By.id(Key.FILE));
     var storePassword = $(By.id(Key.STORE_PASSWORD));
