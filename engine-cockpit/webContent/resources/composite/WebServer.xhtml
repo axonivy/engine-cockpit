@@ -16,15 +16,15 @@
 <h:form id="webserverForm">
   <div class="grid">
     <div class="#{cc.attrs.responsiveClasses} p-2">
-      <p:fieldset id="httpFieldSet" legend="#{ivy.cms.co('/webServer/HTTPConnector')}" class="p-2">
+      <p:fieldset id="httpFieldSet" legend="#{ivy.cm.co('/webServer/HTTPConnector')}" class="p-2">
         <p:panelGrid columns="2" columnClasses="col-12 md:col-5 lg:col-5, col-12 md:col-7 lg:col-7" layout="flex" 
           styleClass="grey-label-panel ui-fluid">
-          <p:outputLabel for="httpEnabledCheckbox" value="#{ivy.cms.co('/webServer/Enabled')}" />
+          <p:outputLabel for="httpEnabledCheckbox" value="#{ivy.cm.co('/webServer/Enabled')}" />
           <p:selectBooleanCheckbox id="httpEnabledCheckbox" value="#{webServerConnectorBean.httpEnabled}">
             <p:ajax process="@this" update="#{cc.attrs.updateFields}" />
           </p:selectBooleanCheckbox>
 
-          <p:outputLabel for="httpPortInput" value="#{ivy.cms.co('/webServer/Port')}" />
+          <p:outputLabel for="httpPortInput" value="#{ivy.cm.co('/webServer/Port')}" />
           <p:inputNumber id="httpPortInput" value="#{webServerConnectorBean.httpPort}" minValue="-1" maxValue="1000000"
             thousandSeparator="" decimalPlaces="0">
             <p:ajax event="keyup" process="@this" />
@@ -33,15 +33,15 @@
       </p:fieldset>
     </div>
     <div class="#{cc.attrs.responsiveClasses} p-2">
-      <p:fieldset id="httpsFieldSet" legend="#{ivy.cms.co('/webServer/HTTPSConnectorctor')}" class="p-2">
+      <p:fieldset id="httpsFieldSet" legend="#{ivy.cm.co('/webServer/HTTPSConnectorctor')}" class="p-2">
         <p:panelGrid columns="2" columnClasses="col-12 md:col-5 lg:col-5, col-12 md:col-7 lg:col-7" layout="flex" 
           styleClass="grey-label-panel ui-fluid">
-          <p:outputLabel for="httpsEnabledCheckbox" value="#{ivy.cms.co('/webServer/Enabled')}" />
+          <p:outputLabel for="httpsEnabledCheckbox" value="#{ivy.cm.co('/webServer/Enabled')}" />
           <p:selectBooleanCheckbox id="httpsEnabledCheckbox" value="#{webServerConnectorBean.httpsEnabled}">
             <p:ajax process="@this" update="#{cc.attrs.updateFields}" />
           </p:selectBooleanCheckbox>
 
-          <p:outputLabel for="httpsPortInput" value="#{ivy.cms.co('/webServer/Port')}" />
+          <p:outputLabel for="httpsPortInput" value="#{ivy.cm.co('/webServer/Port')}" />
           <p:inputNumber id="httpsPortInput" value="#{webServerConnectorBean.httpsPort}" minValue="-1"
             maxValue="1000000" thousandSeparator="" decimalPlaces="0">
             <p:ajax event="keyup" process="@this" />

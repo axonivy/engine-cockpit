@@ -631,7 +631,7 @@ login:
 logs:
   DownloadAllLogFiles: Download all log files
   DownloadLog: Download log
-  NoLogMessage: 'No logs found on date: {0}'
+  NoLogMessage: 'No logs found on date:'
   OpenLog: Open log
 memberProperties:
   Property: Property
@@ -721,14 +721,10 @@ monitor:
     Clear: Clear Class Histogram
     Delta: '&#x394;'
     DeltaMax: '&#x394; Max'
-    DeltaMaxDetailTooltip: |-
-      &#x394;: {0}<br/>
-      Max: {1}
+    DeltaMaxDetailTooltip: 'Max:'
     DeltaMaxTooltip: Delta between the current and maximum instances allocated on the Java heap since the last clear
     DeltaMin: '&#x394; Min'
-    DeltaMinDetailTooltip: |-
-      &#x394;: {0}<br/>
-      Min: {1}
+    DeltaMinDetailTooltip: 'Min:'
     DeltaTooltip: Delta between the current and minimum instances allocated on the Java heap since the last clear
     Dump: Dump Heap Memory
     DumpHeapMemory: Dump Heap Memory
@@ -764,7 +760,7 @@ monitor:
     IntTotal: Int Total
     IntTotalTooltip: Total of engine internal execution time [ms]
     LoggingActive: Logging Active!
-    LoggingActiveDetails: The process element performance statistic logger is active. The statistic is automatically cleaned by the logger every {0}
+    LoggingActiveDetails: 'The process element performance statistic logger is active. The statistic is automatically cleaned by the logger every '
     OneSecond: 1 second
     PerformanceStatisticFileName: PerformanceStatistic
     PerformanceTooltip: Performance Statistic Configuration
@@ -874,14 +870,14 @@ monitor:
     ExecutionDuration: Execution Duration
     Executions: Executions
     JobDetail: Job Detail
-    JobTitle: Job {0}
+    JobTitle: Job
     LastError: Last Error
     LastSuccessfulExecution: Last successful execution
     LastTimeTheJobFailed: Last time the job failed
     NextExecution: Next execution
     RefreshJobs: Refresh jobs
     ScheduleExecuteJob: Schedule to execute the job now
-    ScheduleJob: Schedule Job {0}
+    ScheduleJob: Schedule Job
     ScheduleJobTooltip: Scheduling a job for immediate execution can have negative side effects like disturbing users with unnecessary daily task mails, or degraded performance.
   mbean:
     EmptyMBeanMessage: Select a bean to see its attributes
@@ -905,7 +901,7 @@ monitor:
   startEvent:
     NextPoll: Next poll
     Poll: Poll
-    PollBeanTitle: Poll Bean {0}
+    PollBeanTitle: Poll Bean
     RefreshStartEvents: Refresh Start Events
     RequestPath: Request Path
     SchedulePollTooltip: Scheduling to poll a bean can have negative side effects.
@@ -931,7 +927,7 @@ monitor:
     ThreadNewMessage: Thread is new and not yet started.
     ThreadRunnableMessage: Thread is runnable.
     ThreadTerminatedMessage: Thread is terminated.
-    ThreadTitle: Thread {0} - {1}
+    ThreadTitle: Thread
     ThreadWaitOnLockMessage: Thread is waiting on lock {0}.
     ThreadWaitOnLockWithTimeoutMessage: Thread is waiting with a timeout on lock {0}.
     UserTime: User Time

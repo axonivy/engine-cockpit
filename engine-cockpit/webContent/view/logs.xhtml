@@ -65,7 +65,7 @@
               <cc:LogView log="#{logBean.log}" id="logView" />
             </h:panelGroup>
             <h:outputText rendered="#{empty logBean.logs}">
-              <p:staticMessage id="noLogsMessage" severity="warn" detail="#{ivy.cms.co('/logs/NoLogMessage', logBean.date)}" />
+              <p:staticMessage id="noLogsMessage" severity="warn" detail="#{ivy.cm.co('/logs/NoLogMessage')} #{logBean.date}" />
             </h:outputText>
           </h:panelGroup>
         </div>

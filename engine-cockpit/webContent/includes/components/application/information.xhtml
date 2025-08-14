@@ -8,11 +8,11 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-information-circle"></i>
-        <h6 class="m-0">#{ivy.cms.co('/information/ApplicationInformation')}</h6>
-        <p:linkButton id="home" title="#{ivy.cms.co('/information/ApplicationHome')}" icon="si si-house-chimney-2"
+        <h6 class="m-0">#{ivy.cm.co('/information/ApplicationInformation')}</h6>
+        <p:linkButton id="home" title="#{ivy.cm.co('/information/ApplicationHome')}" icon="si si-house-chimney-2"
           href="#{applicationDetailBean.application.homeUrl}" disabled="#{applicationDetailBean.application.disabled}"
           styleClass="flex-shrink-0 ml-auto rounded-button"/>
-        <p:linkButton id="workflow" title="#{ivy.cms.co('/information/WorkflowUI')}" icon="si si-layout-bullets" 
+        <p:linkButton id="workflow" title="#{ivy.cm.co('/information/WorkflowUI')}" icon="si si-layout-bullets" 
           href="#{applicationDetailBean.application.devWorkflowUrl}" disabled="#{applicationDetailBean.application.disabled}"
           styleClass="flex-shrink-0 ml-1 rounded-button"/>
       </div>
@@ -20,9 +20,9 @@
     
     <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
       styleClass="grey-label-panel ui-fluid">
-      <label>#{ivy.cms.co('/common/Name')}</label>
+      <label>#{ivy.cm.co('/common/Name')}</label>
       <h:outputText value="#{applicationDetailBean.application.name}" />
-      <label>#{ivy.cms.co('/information/FileDirectory')}</label>
+      <label>#{ivy.cm.co('/information/FileDirectory')}</label>
       <h:outputText value="#{applicationDetailBean.application.fileDir}" />
     </p:panelGrid>
     <p:panelGrid columns="1" layout="flex">

@@ -94,7 +94,7 @@
             </div>
           </div>
         </h:form>
-        <p:dialog header="#{ivy.cms.co('/monitor/thread/ThreadTitle', [threadBean.selected.id, threadBean.selected.name])}" id="threadDialog"
+        <p:dialog header="#{ivy.cm.co('/monitor/thread/ThreadTitle')} #{threadBean.selected.id} - #{threadBean.selected.name}" id="threadDialog"
             widgetVar="threadDialog" responsive="true" closeOnEscape="true" minWidth="300" fitViewport="true" width="80%">
           <h:form id="thread" styleClass="custom-dialog-form">
             <p:panelGrid columns="2" layout="flex" columnClasses="col-2, col-10" styleClass="grey-label-panel ui-fluid">

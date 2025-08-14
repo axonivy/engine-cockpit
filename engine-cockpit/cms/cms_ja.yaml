@@ -632,7 +632,7 @@ login:
 logs:
   DownloadAllLogFiles: すべてのログファイルをダウンロード
   DownloadLog: ログをダウンロード
-  NoLogMessage: '指定された日付にはログが見つかりません: {0}'
+  NoLogMessage: '指定された日付にはログが見つかりません:'
   OpenLog: ログを開く
 memberProperties:
   Property: プロパティ
@@ -726,14 +726,10 @@ monitor:
     Clear: クラスヒストグラムをクリア
     Delta: '&#x394;'
     DeltaMax: '&#x394; 最大'
-    DeltaMaxDetailTooltip: |-
-      &#x394;: {0}<br/>
-      最大: {1}
+    DeltaMaxDetailTooltip: '最大:'
     DeltaMaxTooltip: 最後にクリアされてから現在までのJavaヒープ上のインスタンス数の最大値との差
     DeltaMin: '&#x394; 最小'
-    DeltaMinDetailTooltip: |-
-      &#x394;: {0}<br/>
-      最小: {1}
+    DeltaMinDetailTooltip: '最小:'
     DeltaTooltip: 最後にクリアされてから現在までのJavaヒープ上のインスタンス数の最小値との差
     Dump: ヒープメモリダンプ
     DumpHeapMemory: ヒープメモリをダンプ
@@ -769,7 +765,7 @@ monitor:
     IntTotal: 内部合計
     IntTotalTooltip: エンジン内部実行時間の合計 [ms]
     LoggingActive: ロギング有効中！
-    LoggingActiveDetails: プロセス要素のパフォーマンス統計ロガーが有効です。統計はロガーによって {0} ごとに自動的にクリアされます
+    LoggingActiveDetails: プロセス要素のパフォーマンス統計ロガーが有効です。統計はロガーによって  ごとに自動的にクリアされます
     OneSecond: 1秒
     PerformanceStatisticFileName: パフォーマンス統計
     PerformanceTooltip: パフォーマンス統計の設定
@@ -879,14 +875,14 @@ monitor:
     ExecutionDuration: 実行時間
     Executions: 実行回数
     JobDetail: ジョブ詳細
-    JobTitle: ジョブ {0}
+    JobTitle: ジョブ
     LastError: 最後のエラー
     LastSuccessfulExecution: 最後に成功した実行
     LastTimeTheJobFailed: ジョブが最後に失敗した時刻
     NextExecution: 次回の実行
     RefreshJobs: ジョブを更新
     ScheduleExecuteJob: 今すぐジョブを実行するようスケジュール
-    ScheduleJob: ジョブ {0} をスケジュール
+    ScheduleJob: スケジュールされたジョブ
     ScheduleJobTooltip: ジョブを即時実行にスケジュールすると、不要な日次タスクメールでユーザーを煩わせたり、パフォーマンスを低下させるなどの副作用が発生する可能性があります。
   mbean:
     EmptyMBeanMessage: 属性を表示するにはBeanを選択してください
@@ -910,7 +906,7 @@ monitor:
   startEvent:
     NextPoll: 次回ポーリング
     Poll: ポーリング
-    PollBeanTitle: ポーリングBean {0}
+    PollBeanTitle: ポーリングBean
     RefreshStartEvents: 開始イベントを更新
     RequestPath: リクエストパス
     SchedulePollTooltip: Beanのポーリングをスケジュールすると、副作用が発生する可能性があります。
@@ -936,7 +932,7 @@ monitor:
     ThreadNewMessage: スレッドは新規で、まだ開始されていません。
     ThreadRunnableMessage: スレッドは実行可能状態です。
     ThreadTerminatedMessage: スレッドは終了しました。
-    ThreadTitle: スレッド {0} - {1}
+    ThreadTitle: スレッド
     ThreadWaitOnLockMessage: スレッドはロック {0} を待機しています。
     ThreadWaitOnLockWithTimeoutMessage: スレッドはタイムアウト付きでロック {0} を待機しています。
     UserTime: ユーザー時間

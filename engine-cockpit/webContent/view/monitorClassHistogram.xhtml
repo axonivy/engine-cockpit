@@ -10,7 +10,7 @@
         <li>/</li>
         <li><span>#{ivy.cm.co('/sidebar/Java')}</span></li>
         <li>/</li>
-        <li><a href="monitorClassHistogram.xhtml">#{ivy.cms.co('/sidebar/ClassHistogram')}</a></li>
+        <li><a href="monitorClassHistogram.xhtml">#{ivy.cm.co('/sidebar/ClassHistogram')}</a></li>
       </ui:define>
 
       <ui:define name="topbar-items">
@@ -27,7 +27,7 @@
               <div class="card-header flex-wrap">
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-computer-chip-search"></i>
-                  <h2 class="m-0">#{ivy.cms.co('/sidebar/ClassHistogram')}</h2>
+                  <h2 class="m-0">#{ivy.cm.co('/sidebar/ClassHistogram')}</h2>
                   <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{classHistogramBean.refresh()}" title="#{ivy.cm.co('/monitor/classHistogram/Refresh')}"
                       update="@form" styleClass="flex-shrink-0 ml-auto rounded-button"/>
                   <p:commandButton id="clear" actionListener="#{classHistogramBean.clear}" update="@form" title="#{ivy.cm.co('/monitor/classHistogram/Clear')}"
@@ -78,7 +78,7 @@
                 </p:column>
                 <p:column sortBy="#{class.deltaToMinInstances}" width="10%">
                   <f:facet name="header">
-                    <h:outputText value="#{ivy.cms.co('/monitor/classHistogram/DeltaMin')}" title="#{ivy.cm.co('/monitor/classHistogram/DeltaTooltip')}" escape="false"/>
+                    <h:outputText value="#{ivy.cm.co('/monitor/classHistogram/DeltaMin')}" title="#{ivy.cm.co('/monitor/classHistogram/DeltaTooltip')}" escape="false"/>
                   </f:facet>
                   <div style="background: #{class.deltaMinBackground};">
                     <h:panelGroup id="deltaMin" styleClass="gradient-text">
@@ -92,7 +92,10 @@
                       </h:outputText>
                       <h:outputText value=")"/>
                     </h:panelGroup>
-                    <p:tooltip for="deltaMin" value="#{ivy.cms.co('/monitor/classHistogram/DeltaMinDetailTooltip', [class.deltaToMinInstances, class.minInstances])}" escape="false"/>
+                    <p:tooltip for="deltaMin">
+                      &#x394;: #{class.deltaToMinInstances}<br/>
+                      #{ivy.cm.co('/monitor/classHistogram/DeltaMinDetailTooltip')} #{class.minInstances}
+                    </p:tooltip>
                   </div>
                 </p:column>
                 <p:column sortBy="#{class.deltaToMaxInstances}" width="10%">
@@ -110,7 +113,10 @@
                      </h:outputText>
                     <h:outputText value=")"/>
                   </h:panelGroup>
-                  <p:tooltip for="deltaMax" value="#{ivy.cms.co('/monitor/classHistogram/DeltaMaxDetailTooltip', [class.deltaToMinInstances, class.minInstances])}" escape="false"/>
+                  <p:tooltip for="deltaMax">
+                    &#x394;: #{class.deltaToMaxInstances}<br/>
+                    #{ivy.cm.co('/monitor/classHistogram/DeltaMaxDetailTooltip')} #{class.maxInstances}
+                  </p:tooltip>
                 </p:column>
               </p:dataTable>
             </div>

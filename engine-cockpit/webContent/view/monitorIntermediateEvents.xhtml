@@ -89,7 +89,7 @@
           </p:dataTable>
         </h:form>
         
-        <p:dialog style="min-width: 300px;" header="#{ivy.cms.co('/monitor/startEvent/PollBeanTitle', intermediateEventBean.selected.name)}" id="pollBeanDialog"
+        <p:dialog style="min-width: 300px;" header="#{ivy.cm.co('/monitor/startEvent/PollBeanTitle')} #{intermediateEventBean.selected.name}" id="pollBeanDialog"
           widgetVar="pollBeanDialog" responsive="true" closeOnEscape="true">
           <h:form id="pollBean" styleClass="custom-dialog-form">
             <p:staticMessage severity="warn" detail="#{ivy.cm.co('/monitor/startEvent/SchedulePollTooltip')}"/>

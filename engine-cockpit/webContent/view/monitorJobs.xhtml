@@ -82,7 +82,7 @@
             </p:column>
           </p:dataTable>
         </h:form>
-        <p:dialog header="#{ivy.cms.co('/monitor/job/ScheduleJob', [jobBean.selected.name])}" id="scheduleJobDialog"
+        <p:dialog header="#{ivy.cm.co('/monitor/job/ScheduleJob')} #{jobBean.selected.name}" id="scheduleJobDialog"
             widgetVar="scheduleJobDialog" responsive="true" closeOnEscape="true" minWidth="300">
           <h:form id="scheduleJob" styleClass="custom-dialog-form">
             <p:staticMessage severity="warn" detail="#{ivy.cm.co('/monitor/job/ScheduleJobTooltip')}" />
@@ -95,7 +95,7 @@
         </p:dialog>
       </div>
        <p:dialog style="min-width: 300px; max-width: 80%;"
-           header="#{ivy.cms.co('/monitor/job/JobTitle', [jobBean.selected.name])}" id="jobDialog"
+           header="#{ivy.cm.co('/monitor/job/JobTitle')} #{jobBean.selected.name}" id="jobDialog"
            widgetVar="jobDialog" responsive="true" closeOnEscape="true">
         <h:form id="job" styleClass="custom-dialog-form">
           <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">

@@ -31,7 +31,7 @@
                 <h2 class="m-0">#{ivy.cm.co('/sidebar/TrafficGraph')}</h2>
                 <p:commandButton id="start" onclick="PF('startRecordingDialog').show();" title="#{ivy.cm.co('/monitor/jfr/StartRecording')}"
                     icon="si si-controls-play" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button" disabled="#{traceBean.notStartable}" />
-                <p:commandButton id="stop" actionListener="#{traceBean.stop}" update="@form" title="#{ivy.cms.co('/common/StopRecording')}"
+                <p:commandButton id="stop" actionListener="#{traceBean.stop}" update="@form" title="#{ivy.cm.co('/common/StopRecording')}"
                     icon="si si-controls-stop" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notStoppable}"/>
                 <p:commandButton id="clear" actionListener="#{trafficGraphBean.clear}" update="@form" title="#{ivy.cm.co('/monitor/execution/ClearStatistic')}"
                     icon="si si-bin-1" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{trafficGraphBean.notClearable}"/>
