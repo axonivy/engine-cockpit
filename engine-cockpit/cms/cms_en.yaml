@@ -40,7 +40,6 @@ applicationTabs:
   CreateApplication: Create Application
   NoConfiguredApplication: You don't have any applications configured.
 axonivy:
-  AxonIvy: Axon Ivy
   AxonIvyAG: Axon Ivy AG
   Build: Build
   Copyright: Copyright
@@ -679,7 +678,7 @@ monitor:
   Classes: Classes
   Committed: Committed
   Cores: Cores
-  Deamons: Deamons
+  Daemons: Daemons
   GCCount: ${label} ${formatT} Count ${formatD}
   GarbageCollection: Garbage Collection
   HeapMemory: Heap Memory
@@ -894,7 +893,7 @@ monitor:
     Cause: Cause
     ContextPath: Context Path
     Creation: Creation
-    HTTPSessions: HTTP Sessions
+    HTTPSessions: Http Sessions
     InvalidSessionMessage: Creation invalid / Last Accessed invalid
     KillSession: Kill session
     LastAccessed: Last accessed

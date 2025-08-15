@@ -5,6 +5,7 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.percentage;
 import static ch.ivyteam.ivy.environment.Ivy.cm;
 import static java.lang.String.join;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
 import java.lang.management.ManagementFactory;
@@ -39,23 +40,22 @@ public class JvmMonitorBean {
 
   private void setupCpuMonitor() {
     cpuMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/System"), "%.1f"), systemCpuLoad()));
-    cpuMonitor.addInfoValue(format(join(SPACE, cm().co("/common/AxonIvyData"), "%.1f"), processCpuLoad()));
+    cpuMonitor.addInfoValue(format(join(SPACE, cm().co("/common/AxonIvy"), "%.1f"), processCpuLoad()));
     cpuMonitor.addSeries(Series.build(systemCpuLoad(), cm().co("/monitor/System")).toSeries());
     cpuMonitor.addSeries(Series.build(processCpuLoad(), cm().co("/monitor/Process")).toSeries());
   }
 
   private void setupClassesMonitor() {
     classesMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/Loaded"), "%5d"), classesLoaded()));
-    classesMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/Unloaded"), "%5d"), classesUnloaded()));
+    classesMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/Unloaded"), EMPTY, "%5d"), classesUnloaded()));
     classesMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/TotalLoaded"), "%5d"), classesTotalLoaded()));
     classesMonitor.addSeries(Series.build(classesLoaded(), cm().co("/monitor/Loaded")).toSeries());
     classesMonitor.addSeries(Series.build(classesUnloaded(), cm().co("/monitor/Unloaded")).toSeries());
   }
 
   private void setupThreadsMonitor() {
-    
     threadsMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/Active"), "%5d") , threadsCount()));
-    threadsMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/Daemons"), "%5d"), threadsDeamonCount()));
+    threadsMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/Daemons"), EMPTY, "%5d"), threadsDeamonCount()));
     threadsMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/Peak"), "%5d"), threadsPeakCount()));
     threadsMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/TotalStarted"), "%5d"), threadsTotalStarted()));
     threadsMonitor.addSeries(Series.build(threadsCount(), cm().co("/monitor/Active")).toSeries());

@@ -40,7 +40,6 @@ applicationTabs:
   CreateApplication: アプリケーションの作成
   NoConfiguredApplication: アプリケーションが設定されていません。
 axonivy:
-  AxonIvy: Axon Ivy
   AxonIvyAG: Axon Ivy AG
   Build: 構築する
   Copyright: 著作権
@@ -679,7 +678,7 @@ monitor:
   Classes: クラス
   Committed: コミット済み
   Cores: コア
-  Deamons: デーモン
+  Daemons: デーモン
   GCCount: ${label} ${formatT} 回数 ${formatD}
   GarbageCollection: ガーベジコレクション
   HeapMemory: ヒープメモリ
