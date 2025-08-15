@@ -61,12 +61,12 @@
                     <i class="si si-multiple-#{role.member ? 'actions-add' : 'neutral-1'} table-icon"></i>
                     <h:outputText value="#{role.name}" />
                     <h:outputText value=" (#{role.displayName}) " styleClass="addition-row-info" />
-                    <h:outputText value="#{roleBean.getExternalRoleMessage(role.externalName)}" rendered="#{not empty role.externalName}"
+                    <h:outputText value="#{ivy.cm.content('/roles/ExternalRoleNameMessage').replace('role', role.externalName).get()}" rendered="#{not empty role.externalName}"
                       styleClass="addition-row-info" />
                   </a>
                 </p:treeNode>
                 <p:treeNode type="dummy" rendered="#{node.type == 'dummy'}">
-                  <p:commandButton value="#{roleBean.getShowMoreRoleLeftMessage(role.name)}" update="tree"
+                  <p:commandButton value="#{ivy.cm.content('/common/ShowMoreRoleLeftMessage').replace('role', role.name).get()}" update="tree"
                     actionListener="#{roleBean.increaseShowChildLimitAndReloadTree(1000)}" />
                 </p:treeNode>
                 <p:treeNode type="searchDummy" rendered="#{node.type == 'searchDummy'}">

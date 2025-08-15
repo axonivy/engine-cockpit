@@ -39,7 +39,8 @@
 
 <p:dialog style="min-width: 300px;" header="#{ivy.cm.co('/securitySystemWorkflowLanguage/AddWorkflowLanguageDialogHeader')}" id="addWorkflowLanguageModal" widgetVar="addWorkflowLanguageModal"
   modal="true" responsive="true" closeOnEscape="true">
-  <p:staticMessage severity="warn" detail="#{securityWorkflowLanguageBean.getAddWorkflowLanguageWarningMessage()}" />
+  <p:staticMessage severity="warn"
+    detail="#{ivy.cm.content('/securitySystemWorkflowLanguage/AddWorkflowLanguageWarningMessage').replace('tasks', securityWorkflowLanguageBean.tasks).replace('cases', securityWorkflowLanguageBean.cases).replace('language', securityWorkflowLanguageBean.default.displayName).get()}" />
   <p:staticMessage severity="warn" detail="#{ivy.cm.co('/securitySystemWorkflowLanguage/AddWorkflowLanguageSystemDatabaseSpaceWarningMessage')}" />
   <h:form id="addWorkflowLanguageForm" styleClass="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
@@ -59,7 +60,8 @@
 </p:dialog>
 
 <p:confirmDialog style="min-width: 300px;" header="#{ivy.cm.co('/securitySystemWorkflowLanguage/DeleteWorkflowLanguageDialogHeader')}" id="deleteWorkflowLanguageModal" widgetVar="deleteWorkflowLanguageModal"
-  responsive="true" closeOnEscape="true" message="#{securityWorkflowLanguageBean.getDeleteWorkflowLanguageWarningMessage()}" severity="warn">
+  responsive="true" closeOnEscape="true" severity="warn"
+  message="#{ivy.cm.content('/securitySystemWorkflowLanguage/DeleteWorkflowLanguageWarningMessage').replace('tasks', securityWorkflowLanguageBean.tasks).replace('cases', securityWorkflowLanguageBean.cases).get()}">
   <h:form id="deleteWorkflowLanguageForm">
     <p:commandButton id="cancelBtn" onclick="PF('deleteWorkflowLanguageModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
       styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />

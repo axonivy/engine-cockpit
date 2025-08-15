@@ -45,7 +45,7 @@
           </a>
         </p:treeNode>
         <p:treeNode type="dummy" rendered="#{node.type == 'dummy'}">
-          <p:commandButton value="#{roleBean.getShowMoreRoleLeftMessage(role.name)}" update="rolesTree"
+          <p:commandButton value="#{ivy.cm.content('/common/ShowMoreRoleLeftMessage').replace('role', role.name).get()}" update="rolesTree"
             actionListener="#{userDetailBean.increaseShowChildLimitAndReloadTree(1000)}" />
           </p:treeNode>
         <p:treeNode type="searchDummy" rendered="#{node.type == 'searchDummy'}">

@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.services;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,7 +77,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   public void onload() {
     app = IApplicationRepository.instance().findByName(appName).orElse(null);
     if (app == null) {
-      ResponseHelper.notFound(Ivy.cms().co("/common/NotFoundApplication", Arrays.asList(appName)));
+      ResponseHelper.notFound(Ivy.cm().content("/common/NotFoundApplication").replace("application", appName).get());
       return;
     }
 
@@ -94,7 +93,8 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   private void reloadExternalDb() {
     var db = databases.find(databaseName);
     if (db == null) {
-      ResponseHelper.notFound(Ivy.cms().co("/databaseDetail/NotFoundDatabase", Arrays.asList(databaseName)));
+      ResponseHelper
+          .notFound(Ivy.cm().content("/databaseDetail/NotFoundDatabase").replace("database", databaseName).get());
       return;
     }
 
@@ -152,7 +152,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
 
   @Override
   public String getTitle() {
-    return Ivy.cms().co("/databaseDetail/Title", Arrays.asList(databaseName));
+    return Ivy.cm().content("/databaseDetail/Title").replace("database", databaseName).get();
   }
 
   @Override

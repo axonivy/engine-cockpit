@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.configuration;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -91,14 +90,15 @@ public class VariableBean implements ConfigView {
   @Override
   public void resetConfig() {
     variables().reset(activeVariable.getKey());
-    String message = Ivy.cms().co("/configuration/ConfigResetToDefault", Arrays.asList(activeVariable.getKey()));
+    String message =
+        Ivy.cm().content("/configuration/ConfigResetToDefault").replace("config", activeVariable.getKey()).get();
     reloadAndUiMessage(message);
   }
 
   @Override
   public void saveConfig() {
     variables().set(activeVariable.getKey(), activeVariable.getValue());
-    String message = Ivy.cms().co("/configuration/ConfigSaved", Arrays.asList(activeVariable.getKey()));
+    String message = Ivy.cm().content("/configuration/ConfigSaved").replace("config", activeVariable.getKey()).get();
     reloadAndUiMessage(message);
   }
 

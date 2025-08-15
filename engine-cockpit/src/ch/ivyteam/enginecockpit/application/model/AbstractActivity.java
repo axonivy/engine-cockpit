@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.application.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -116,7 +115,7 @@ public abstract class AbstractActivity {
   }
 
   public String getDeleteHint() {
-    return Ivy.cms().co("/applications/DeleteHintMessage", Arrays.asList(getActivityType()));
+    return Ivy.cm().content("/applications/DeleteHintMessage").replace("activityType", getActivityType()).get();
   }
 
   public void activate() {
@@ -151,13 +150,13 @@ public abstract class AbstractActivity {
       reloadBean(reloadOnlyStats);
       Message.info()
           .clientId("applicationMessage")
-          .summary(Ivy.cms().co("/applications/ExecutionSuccessMessageSummary", Arrays.asList(action)))
+          .summary(Ivy.cm().content("/applications/ExecutionSuccessMessageSummary").replace("action", action).get())
           .detail(getActivityType() + " " + getName())
           .show();
     } catch (IllegalStateException ex) {
       Message.error()
           .clientId("applicationMessage")
-          .summary(Ivy.cms().co("/applications/ExecutionErrorMessageSummary", Arrays.asList(action)))
+          .summary(Ivy.cm().content("/applications/ExecutionErrorMessageSummary").replace("action", action).get())
           .detail(ex.getMessage())
           .exception(ex)
           .show();

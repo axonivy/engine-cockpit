@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.configuration.model;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -149,14 +148,14 @@ public class ConfigViewImpl implements TableFilter, ConfigView {
     if (filteredConfigs != null) {
       filteredConfigs.remove(activeConfig);
     }
-    String resetMessage = Ivy.cms().co("/configuration/ConfigReset", Arrays.asList(activeConfig.getKey()));
+    String resetMessage = Ivy.cm().content("/configuration/ConfigReset").replace("config", activeConfig.getKey()).get();
     reloadAndUiMessage(resetMessage);
   }
 
   @Override
   public void saveConfig() {
     configuration.set(activeConfig.getKey(), activeConfig.getValue());
-    String savedMessage = Ivy.cms().co("/configuration/ConfigSaved", Arrays.asList(activeConfig.getKey()));
+    String savedMessage = Ivy.cm().content("/configuration/ConfigSaved").replace("config", activeConfig.getKey()).get();
     reloadAndUiMessage(savedMessage);
   }
 

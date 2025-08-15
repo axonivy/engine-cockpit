@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.monitor.health;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,7 +75,9 @@ public class HealthBean {
     if (msgs.size() == 1) {
       return msgs.get(0).message();
     }
-    return Ivy.cms().co("/health/ProblemsDetectedMessage", Arrays.asList(checker.messages().size()));
+
+    return Ivy.cm().content("/health/ProblemsDetectedMessage")
+        .replace("number", String.valueOf(checker.messages().size())).get();
   }
 
   public List<Message> getMessages() {

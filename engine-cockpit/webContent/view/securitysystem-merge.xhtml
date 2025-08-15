@@ -118,7 +118,7 @@
                   rendered="#{issue.isSolveable()}" styleClass="#{securitySystemCompareBean.styleClassForButton(issue)}" disabled="#{securitySystemCompareBean.isSolved(issue)}"
                   update="report" actionListener="#{securitySystemCompareBean.solve(issue)}">
                   <p:confirm header="#{ivy.cm.co('/securitySystemMerge/ApplyChangeDialogHeader')}"
-                  message="#{securitySystemCompareBean.getIssueChangedDialogMessage(issue)}" 
+                  message="#{ivy.cm.content('/securitySystemMerge/ApplyChangeDialogMessage').replace('solverType', issue.solver().type()).get()}" 
                   icon="ui-icon-alert" />
                 </p:commandButton>
               </p:column>

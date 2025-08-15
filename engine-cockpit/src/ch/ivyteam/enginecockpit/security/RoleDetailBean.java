@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -432,13 +431,5 @@ public class RoleDetailBean {
         .map(IRole::getName)
         .filter(name -> !roleName.equals(name))
         .collect(Collectors.toList());
-  }
-
-  public String getDeleteRoleDialogConfirmMessage(String roleName) {
-    return Ivy.cms().co("/roleDetailInformation/DeleteRoleDialogConfirmMessage", Arrays.asList(roleName));
-  }
-
-  public String getAddNewChildRoleDialogHeader(String roleName) {
-    return Ivy.cms().co("/newRole/NewChildRoleDialogHeader", Arrays.asList(roleName));
   }
 }

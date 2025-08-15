@@ -54,8 +54,8 @@
     </p:dataTable>
 
     <p:confirmDialog id="deleteAdminDialog"
-      message="#{administratorBean.getDeleteAdminDialogMessage()}"
-      header="#{administratorBean.getDeleteAdminDialogHeader()}" severity="alert" widgetVar="deleteAdminDialog">
+      message="#{ivy.cm.content('/administrators/DeleteAdminDialogMessage').replace('name', administratorBean.admin.name).get()}"
+      header="#{ivy.cm.content('/administrators/DeleteAdminDialogHeader').replace('name', administratorBean.admin.name).get()}" severity="alert" widgetVar="deleteAdminDialog">
       <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteAdminDialog').hide();" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="deleteAdminYesBtn" value="#{ivy.cm.co('/common/Delete')}" immediate="true" styleClass="modal-input-button"

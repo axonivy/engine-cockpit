@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.application.model;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -98,7 +97,9 @@ public class Application extends AbstractActivity {
     try {
       return !app.hasAnyActiveAndReleasedPmv();
     } catch (Exception ex) {
-      var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/applications/DisableErrorMessage") + app.getName(), ex.getMessage());
+      var message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+          Ivy.cm().content("/applications/DisableErrorMessage").replace("application", app.getName()).get(),
+          ex.getMessage());
       FacesContext.getCurrentInstance().addMessage(null, message);
       return true;
     }
@@ -161,8 +162,8 @@ public class Application extends AbstractActivity {
   public String getDeleteHint() {
     var message = new StringBuilder();
     if (runningCasesCount > 0) {
-      message.append(Ivy.cms().co("/applications/DeleteRunningCasesHintMessage",
-          Arrays.asList(getActivityType(), runningCasesCount)));
+      message.append(Ivy.cm().content("/applications/DeleteRunningCasesHintMessage")
+          .replace("activityType", getActivityType()).replace("runningCases", String.valueOf(runningCasesCount)).get());
     }
     message.append(super.getDeleteHint());
     return message.toString();

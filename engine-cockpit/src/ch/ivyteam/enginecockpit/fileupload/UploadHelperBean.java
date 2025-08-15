@@ -1,7 +1,5 @@
 package ch.ivyteam.enginecockpit.fileupload;
 
-import java.util.Arrays;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -20,8 +18,8 @@ public class UploadHelperBean {
   }
 
   public String getDeploymentPossibleReason() {
-    return Ivy.cms().co("/applications/DeploymentPossibleReason",
-        Arrays.asList(REST_SERVLET_ENABLED, REST_DEPLOYMENT_ENABLED));
+    return Ivy.cm().content("/applications/DeploymentPossibleReason").replace("restServlet", REST_SERVLET_ENABLED)
+        .replace("restDeployment", REST_DEPLOYMENT_ENABLED).get();
   }
 
   private static boolean isRestEnabled() {

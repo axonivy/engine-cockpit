@@ -18,7 +18,7 @@
           onclick="PF('deleteRoleConfirmDialog').show()" title="#{ivy.cm.co('/roleDetailInformation/DeleteRole')}" icon="si si-bin-1"
           styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
         <p:confirmDialog id="deleteRoleConfirmDialog"
-          message="#{roleDetailBean.getDeleteRoleDialogConfirmMessage(roleDetailBean.name)}" header="#{ivy.cm.co('/roleDetailInformation/DeleteRoleDialogHeader')}" severity="alert"
+          message="#{ivy.cm.content('/roleDetailInformation/DeleteRoleDialogConfirmMessage').replace('role', roleDetailBean.name).get()}" header="#{ivy.cm.co('/roleDetailInformation/DeleteRoleDialogHeader')}" severity="alert"
           widgetVar="deleteRoleConfirmDialog">
           <p:staticMessage severity="warn" detail="#{ivy.cm.co('/roleDetailInformation/DeleteRoleDialogWarningMessage')}" />
           <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteRoleConfirmDialog').hide();" type="button"

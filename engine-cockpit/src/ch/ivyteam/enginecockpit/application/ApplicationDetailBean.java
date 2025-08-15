@@ -60,7 +60,7 @@ public class ApplicationDetailBean {
         .findAny()
         .orElse(null);
     if (app == null) {
-      ResponseHelper.notFound(Ivy.cms().co("/common/NotFoundApplication", Arrays.asList(appName)));
+      ResponseHelper.notFound(Ivy.cm().content("/common/NotFoundApplication").replace("application", appName).get());
       return;
     }
 
@@ -95,7 +95,8 @@ public class ApplicationDetailBean {
     app.reloadConfig();
     Message.info()
         .clientId("applicationMessage")
-        .summary(Ivy.cms().co("/configuration/ReloadApplicationConfigurationMessage", Arrays.asList(app.getName())))
+        .summary(Ivy.cm().content("/configuration/ReloadApplicationConfigurationMessage")
+            .replace("application", app.getName()).get())
         .show();
   }
 

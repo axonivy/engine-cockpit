@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security.system;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +14,6 @@ import javax.faces.bean.ViewScoped;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.language.LanguageManager;
 import ch.ivyteam.ivy.language.LanguageRepository;
 import ch.ivyteam.ivy.security.ISecurityManager;
@@ -73,17 +71,6 @@ public class SecurityWorkflowLanguageBean {
     Set<Locale> addable = new HashSet<>(languages.allContent());
     addable.removeAll(languages.allWorkflow());
     return addable;
-  }
-
-  public String getAddWorkflowLanguageWarningMessage() {
-    String defaultLanguageDisplayName = getDefault() != null ? getDefault().getDisplayName() : "";
-    return Ivy.cms().co("/securitySystemWorkflowLanguage/AddWorkflowLanguageWarningMessage",
-        Arrays.asList(getTasks(), getCases(), defaultLanguageDisplayName));
-  }
-
-  public String getDeleteWorkflowLanguageWarningMessage() {
-    return Ivy.cms().co("/securitySystemWorkflowLanguage/DeleteWorkflowLanguageWarningMessage",
-        Arrays.asList(getTasks(), getCases()));
   }
 
   public boolean isDefault(Locale language) {

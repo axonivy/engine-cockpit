@@ -9,13 +9,13 @@
     <p:dialog id="restartDialog" header="#{ivy.cm.co('/restart/Restart')} #{advisorBean.applicationName}" widgetVar="restartDialog"
         modal="true" closeOnEscape="true" style="max-width: calc(100% - 300px); min-width: 300px;">
       <h:form id="restart" styleClass="custom-dialog-form">
-        <p:staticMessage severity="error" detail="#{advisorBean.getRestartWarningMessage()}"/>
+        <p:staticMessage severity="error" detail="#{ivy.cm.content('/restart/RestartWarningMessage').replace('application', advisorBean.applicationName).get()}"/>
         <ul>
-          <li>#{ivy.cm.co('/restart/RestartFirstWarningMessageFirstPart')} <p:link outcome="monitor-sessions" value="#{advisorBean.getRestartWarningLink(restartBean.workingUsers)}"/> #{advisorBean.getRestartFirstWarningMessageThirdPart()}</li>
-          <li>#{advisorBean.getRestartSecondWarningMessage()}</li>
+          <li>#{ivy.cm.co('/restart/RestartFirstWarningMessageFirstPart')} <p:link outcome="monitor-sessions" value="#{ivy.cm.content('/restart/RestartFirstWarningMessageSecondPart').replace('workingUsers', restartBean.workingUsers).get()}"/> #{ivy.cm.content('/restart/RestartFirstWarningMessageThirdPart').replace('application', advisorBean.applicationName).get()}</li>
+          <li>#{ivy.cm.content('/restart/RestartSecondWarningMessage').replace('application', advisorBean.applicationName).get()}</li>
           <li>#{ivy.cm.co('/restart/RestartThirdWarningMessage')}</li>
         </ul>
-        <p:staticMessage severity="warn" detail="#{advisorBean.getRestartConfirmMessage()}" />
+        <p:staticMessage severity="warn" detail="#{ivy.cm.content('/restart/RestartConfirmMessage').replace('application', advisorBean.applicationName).get()}" />
         <div class="custom-dialog-footer">
           <p:commandButton id="cancel" type="button" onclick="PF('restartDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
           <p:commandButton id="restart" value="#{ivy.cm.co('/common/Restart')}" onclick="var button=this; buttonAddSpinner(button);" oncomplete="redirectToHomeAfterRestart()" icon="si si-power-button"

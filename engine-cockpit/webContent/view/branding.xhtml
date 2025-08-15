@@ -59,7 +59,7 @@
         </p:dialog>
 
         <p:confirmDialog id="resetBrandingConfirmDialog" header="#{ivy.cm.co('/branding/ResetBrandingResourceDialogHeader')}" severity="alert" appendTo="@(body)"
-          widgetVar="resetBrandingConfirmDialog" message="#{brandingBean.getResetBrandingResourceConfirmMessage(brandingBean.currentRes)}">
+          widgetVar="resetBrandingConfirmDialog" message="#{ivy.cm.content('/branding/ResetBrandingResourceConfirmMessage').replace('resource', brandingBean.currentRes).get()}">
           <h:form id="resetForm">
             <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('resetBrandingConfirmDialog').hide();" type="button"
               styleClass="ui-button-secondary ui-button-flat modal-input-button" />
@@ -128,7 +128,7 @@
         </h:form>
 
         <p:confirmDialog id="resetColorConfirmDialog" header="#{ivy.cm.co('/branding/ResetColorDialogHeader')}" severity="alert" appendTo="@(body)"
-          widgetVar="resetColorConfirmDialog" message="#{brandingBean.getResetCSSColorConfirmMessage(brandingBean.selectedCssColor.color)}">
+          widgetVar="resetColorConfirmDialog" message="#{ivy.cm.content('/branding/ResetCSSColorConfirmMessage').replace('cssColor', brandingBean.selectedCssColor.color).get()}">
           <h:form id="resetColorForm">
             <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('resetColorConfirmDialog').hide();" type="button"
               styleClass="ui-button-secondary ui-button-flat modal-input-button" />
@@ -138,7 +138,7 @@
         </p:confirmDialog>
 
         <h:panelGroup id="fileUpload">
-          <p:dialog style="margin-left: 120px; min-width: 550px; max-width: 700px;" header="#{brandingBean.getUploadResourceDialogHeader(managerBean.selectedApplicationName)}"
+          <p:dialog style="margin-left: 120px; min-width: 550px; max-width: 700px;" header="#{ivy.cm.content('/branding/UploadResourceDialogHeader').replace('application', managerBean.selectedApplicationName).get()}"
             id="fileUploadModal" resizable="false" widgetVar="fileUploadModal" modal="true" responsive="true"
             closeOnEscape="true">
             <h:form enctype="multipart/form-data" id="fileUploadForm">
@@ -161,7 +161,7 @@
         </h:panelGroup>
       </div>
 
-      <cc:DownloadDialog id="downloadDialog" bean="#{brandingBean}" title="#{brandingBean.getDownloadBrandingResourcesDialogHeader(managerBean.selectedApplicationName)}" />
+      <cc:DownloadDialog id="downloadDialog" bean="#{brandingBean}" title="#{ivy.cm.content('/branding/DownloadBrandingResourcesDialogHeader').replace('application', managerBean.selectedApplicationName).get()}" />
     </ui:define>
 
   </ui:composition>

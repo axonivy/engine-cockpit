@@ -29,7 +29,6 @@ import ch.ivyteam.enginecockpit.monitor.trace.BackgroundMeterUtil;
 import ch.ivyteam.ivy.environment.Ivy;
 
 import static ch.ivyteam.ivy.environment.Ivy.cm;
-import static ch.ivyteam.ivy.environment.Ivy.cms;
 
 @ManagedBean
 @SessionScoped
@@ -198,13 +197,15 @@ public class ThreadBean {
 
     public String getStateTitle() {
       if (isDeadLocked()) {
-        return cms().co("/monitor/thread/DeadLockedMessage", List.of(getLockName(), getLockOwner()));
+        return Ivy.cm().content("/monitor/thread/DeadLockedMessage").replace("lock", getLockName())
+            .replace("lockOwner", getLockOwner()).get();
       }
       return switch (state) {
         case RUNNABLE -> cm().co("/monitor/thread/ThreadRunnableMessage");
-        case BLOCKED -> cms().co("/monitor/thread/DeadLockedMessage", List.of(getLockName(), getLockOwner()));
-        case WAITING -> cms().co("/monitor/thread/ThreadWaitOnLockMessage", List.of(getLockName()));
-        case TIMED_WAITING -> cms().co("/monitor/thread/ThreadWaitOnLockWithTimeoutMessage", List.of(getLockName()));
+        case BLOCKED -> Ivy.cm().content("/monitor/thread/DeadLockedMessage").replace("lock", getLockName())
+            .replace("lockOwner", getLockOwner()).get();
+        case WAITING -> Ivy.cm().content("/monitor/thread/ThreadWaitOnLockMessage").replace("lock", getLockName()).get();
+        case TIMED_WAITING -> Ivy.cm().content("/monitor/thread/ThreadWaitOnLockWithTimeoutMessage").replace("lock", getLockName()).get();
         case NEW -> cm().co("/monitor/thread/ThreadNewMessage");
         case TERMINATED -> cm().co("/monitor/thread/ThreadTerminatedMessage");
       };

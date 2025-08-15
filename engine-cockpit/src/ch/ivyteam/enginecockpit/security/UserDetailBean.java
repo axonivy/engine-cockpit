@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.security;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -69,15 +68,15 @@ public class UserDetailBean {
   public void onload() {
     securityContext = ISecurityContextRepository.instance().get(securitySystemName);
     if (securityContext == null) {
-      ResponseHelper.notFound(
-          Ivy.cms().co("/userDetailInformation/NotFoundSecuritySystemMessage", Arrays.asList(securitySystemName)));
+      ResponseHelper.notFound(Ivy.cm().content("/userDetailInformation/NotFoundSecuritySystemMessage")
+          .replace("securitySystem", securitySystemName).get());
       return;
     }
 
     var iUser = securityContext.users().find(userName);
     if (iUser == null) {
       ResponseHelper
-          .notFound(Ivy.cms().co("/userDetailInformation/NotFoundUserMessage", Arrays.asList(securitySystemName)));
+          .notFound(Ivy.cm().content("/userDetailInformation/NotFoundUserMessage").replace("user", userName).get());
       return;
     }
 
@@ -187,8 +186,8 @@ public class UserDetailBean {
 
   public String userDeleteHint() {
     if (personalTasks != 0) {
-      return Ivy.cms().co("/userDetailInformation/UserDeleteHintMessageWithPersonalTasks",
-          Arrays.asList(userName, getPersonalTasks()));
+      return Ivy.cm().content("/userDetailInformation/UserDeleteHintMessageWithPersonalTasks").replace("user", userName)
+          .replace("tasks", getPersonalTasks()).get();
     }
     return Ivy.cm().co("/userDetailInformation/UserDeleteHintMessage");
   }

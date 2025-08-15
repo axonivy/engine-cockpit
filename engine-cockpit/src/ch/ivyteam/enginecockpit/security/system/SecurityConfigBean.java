@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.security.system;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -91,7 +90,7 @@ public class SecurityConfigBean {
   public String getNotToDeleteReason() {
     var result = new SecurityContextRemovalCheck(securitySystem.getSecurityContext()).run();
     if (result.removable()) {
-      return Ivy.cms().co("/securitySystemInfo/DeleteSecuritySystemConfirmMessage", Arrays.asList(name));
+      return Ivy.cm().content("/securitySystemInfo/DeleteSecuritySystemConfirmMessage").replace("name", name).get();
     }
     return result.reason();
   }

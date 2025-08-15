@@ -63,7 +63,7 @@
             <b id="currentFile">#{editorBean.activeConfigFile.path}</b>
             
             <p:staticMessage rendered="#{!editorBean.activeConfigFile.originalFile}"
-               summary="#{editorBean.readOnlyOriginalFileWarningMessage}" 
+               summary="#{ivy.cm.content('/editor/ReadOnlyOriginalFileWarningMessage').replace('path', editorBean.activeConfigFile.originalPath).get()}" 
                severity="warn" />
           </h:panelGroup>
         </h:panelGroup>

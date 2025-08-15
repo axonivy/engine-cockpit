@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.services.rest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -74,14 +73,15 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   public void onload() {
     app = IApplicationRepository.instance().findByName(appName).orElse(null);
     if (app == null) {
-      ResponseHelper.notFound(Ivy.cms().co("/common/NotFoundApplication", Arrays.asList(appName)));
+      ResponseHelper.notFound(Ivy.cm().content("/common/NotFoundApplication").replace("application", appName).get());
       return;
     }
 
     restClients = RestClients.of(app);
     var client = findRestClient();
     if (client == null) {
-      ResponseHelper.notFound(Ivy.cms().co("/common/NotFoundApplication", Arrays.asList(restClientName)));
+      ResponseHelper.notFound(
+          Ivy.cm().content("/restClientDetail/NotFoundRestClient").replace("restClient", restClientName).get());
       return;
     }
 
@@ -148,7 +148,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   @Override
   public String getTitle() {
-    return Ivy.cms().co("/restClientDetail/Title", Arrays.asList(restClientName));
+    return Ivy.cm().content("/restClientDetail/Title").replace("restClient", restClientName).get();
   }
 
   @Override

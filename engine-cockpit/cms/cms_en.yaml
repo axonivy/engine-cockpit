@@ -1,11 +1,11 @@
 administrators:
-  AdminAddedMessage: '''''{0}'''' added'
-  AdminDeletedMessage: '''''{0}'''' deleted'
-  AdminUpdatedMessage: '''''{0}'''' updated'
+  AdminAddedMessage: '''${name}'' added'
+  AdminDeletedMessage: '''${name}'' deleted'
+  AdminUpdatedMessage: '''${name}'' updated'
   ConfirmPassword: Confirm Password
   CreateAdministratorDialogHeader: Create Administrator
-  DeleteAdminDialogHeader: Delete {0}
-  DeleteAdminDialogMessage: Are you sure you want to delete the administrator ''{0}''?
+  DeleteAdminDialogHeader: Delete ${name}
+  DeleteAdminDialogMessage: Are you sure you want to delete the administrator '${name}'?
   EditAdminDialogHeader: Add / Edit Administrator
   UpdateAdministratorDialogHeader: Update Administrator
 admins:
@@ -20,15 +20,15 @@ applications:
   Convert: Convert
   ConvertButtonTitle: Converts the project to the latest version
   DeactivateButtonTitle: Deactivate
-  DeleteHintMessage: Are you sure you want to delete this {0} ?
-  DeleteRunningCasesHintMessage: '{0} has {1} running cases. They will also be deleted.'
+  DeleteHintMessage: Are you sure you want to delete this ${activityType} ?
+  DeleteRunningCasesHintMessage: ${activityType} has ${runningCases} running cases. They will also be deleted.
   DeploymentButtonTitle: Deployment
   DeploymentPossibleReason: |-
-    The system configuration ''{0}'' or ''{1}'' is disabled.<br/>
+    The system configuration '${restServlet}' or '${restDeployment}' is disabled.<br/>
     Please enable them or use the file system for the deployment.
-  DisableErrorMessage: 'Cannot evaluate the state of the application '
-  ExecutionErrorMessageSummary: Could not {0} module
-  ExecutionSuccessMessageSummary: Successfully {0} module
+  DisableErrorMessage: Cannot evaluate the state of the application ${application}
+  ExecutionErrorMessageSummary: Could not ${action} module
+  ExecutionSuccessMessageSummary: Successfully ${action} module
   ForceDeleteButtonTitle: Force Delete
   LastChangeDate: 'Last change date:'
   LibraryVersion: 'Library version:'
@@ -59,7 +59,7 @@ bean:
 branding:
   ChooseOrDropFileWhichEndsWith: 'Choose or drop a file which ends with:'
   DefaultValue: 'Default Value: '
-  DownloadBrandingResourcesDialogHeader: Download Branding resources of ''{0}''
+  DownloadBrandingResourcesDialogHeader: Download Branding resources of '${application}'
   EditColorDialogHeader: Edit color
   EditCustomCSSDialogHeader: Edit custom.css
   FaviconHelperMessage: The logo fot the browser tab (square format recommended)
@@ -67,18 +67,19 @@ branding:
   LogoLightHelperMessage: Same as the main logo, but e.g. in our case with white writing
   LogoMailHelperMessage: The logo with is taken by the default Axon Ivy Engine email notifications
   LogoSmallHelperMessage: The logo in small (square format recommended), used by e.g. error, login pages
-  ResetBrandingResourceConfirmMessage: Are you sure you want to reset the Branding resource ''{0}''?
+  ResetBrandingResourceConfirmMessage: Are you sure you want to reset the Branding resource '${resource}'?
   ResetBrandingResourceDialogHeader: Reset Branding Resource
-  ResetCSSColorConfirmMessage: Are you sure you want to reset the CSS Color ''{0}''?
+  ResetCSSColorConfirmMessage: Are you sure you want to reset the CSS Color '${cssColor}'?
   ResetColorDialogHeader: Reset Color
-  ResetResourceSuccessfulMessage: Successfully reset ''{0}''
-  ResetResourceUnsuccessfulMessage: Couldn't reset ''{0}''
-  UpdateColorSuccessfulMessage: Successfully update color ''{0}''
-  UpdateColorUnsuccessfulMessage: Couldn't update ''{0}''
+  ResetResourceSuccessfulMessage: Successfully reset '${resource}'
+  ResetResourceUnsuccessfulMessage: Couldn't reset '${resource}'
+  UnknownColor: unknown color
+  UpdateColorSuccessfulMessage: Successfully update color '${color}'
+  UpdateColorUnsuccessfulMessage: Couldn't update '${color}'
   UpdateCustomCSSSuccessfulMessage: Successfully saved 'custom.css'
   UpdateCustomCSSUnsuccessfulMessage: Couldn't save 'custom.css'
-  UploadFileSuccessfulMessage: Successfully uploaded {0}
-  UploadResourceDialogHeader: Upload resources to ''{0}''
+  UploadFileSuccessfulMessage: Successfully uploaded ${resource}
+  UploadResourceDialogHeader: Upload resources to '${application}'
   Value: 'Value: '
 breadcrumbInfos:
   SelectedApplication: Selected Application
@@ -222,7 +223,7 @@ common:
   NoValue: No value
   None: None
   NotAvailable: n.a.
-  NotFoundApplication: Application ''{0}'' not found
+  NotFoundApplication: Application '${application }' not found
   NotMatchPasswordMessage: Password didn't match
   NotificationChannels: Notification Channels
   OK: OK
@@ -276,6 +277,7 @@ common:
   Setup: Setup
   Severity: Severity
   ShowConfigurationLog: Show configuration log
+  ShowMoreRoleLeftMessage: Show more (${role} left)
   Size: Size
   Source: Source
   StackTrace: Stack Trace
@@ -320,16 +322,16 @@ common:
   'Yes': 'Yes'
 configuration:
   ApplicationConfiguration: Application Configuration
-  ConfigReset: '''''{0}'''' reset'
-  ConfigResetToDefault: '''''{0}'''' reset to default'
-  ConfigSaved: '''''{0}'''' saved'
+  ConfigReset: '''${config}'' reset'
+  ConfigResetToDefault: '''${config}'' reset to default'
+  ConfigSaved: '''${config}'' saved'
   EditConfigurationInfoMessage: If you change this property, you have to restart you engine
   Examples: Examples
   Filter: 'Filter:'
   GoEditVariableValueLink: Go and edit the Variable value
   ReloadApplicationConfiguration: Reload application configuration
-  ReloadApplicationConfigurationMessage: Configuration of application ''{0}'' reloaded
-  ResetConfigConfirmDialogMessage: Are you sure you want to reset the {0} ''{1}''?
+  ReloadApplicationConfigurationMessage: Configuration of application '${application}' reloaded
+  ResetConfigConfirmDialogMessage: Are you sure you want to reset the ${title} '${config}'?
   ShowDatabasesMessage: Show Databases
   ShowOnlyDefinedValuesMessage: Show only defined values
   ShowRestClientsMessage: Show Rest Clients
@@ -363,8 +365,8 @@ databaseConnections:
   LastUsed: Last Used
 databaseDetail:
   GuideText: To edit your Database overwrite your app.yaml file. For example copy and paste the snippet below.
-  NotFoundDatabase: Database ''{0}'' not found
-  Title: Database ''{0}''
+  NotFoundDatabase: Database '${database}' not found
+  Title: Database '${database}'
 databaseHistory:
   CopyToClipboardButtonTitle: Copy to clipboard
   ProcessElementHeader: Process Element
@@ -394,12 +396,12 @@ dynamicConfig:
 editor:
   AutoMigratedToLatestVersionWarningMessage: These file contents were auto-migrated to the latest version.
   DownloadP12: Download .p12
-  NotFoundConfigFile: Config File ''{0}'' not found
+  NotFoundConfigFile: Config File '${file}' not found
   ReadOnlyFileWarningMessage: This file is read-only!
-  ReadOnlyOriginalFileWarningMessage: The original file {0} is read-only. The file was copied during startup to a writeable directory. Changes need to be applied in the original file manually, so that the changes will survive a restart.
-  UploadFileErrorDetailMessage: '''''{0}'''' could not be uploaded because of wrong file extension.'
+  ReadOnlyOriginalFileWarningMessage: The original file ${path} is read-only. The file was copied during startup to a writeable directory. Changes need to be applied in the original file manually, so that the changes will survive a restart.
+  UploadFileErrorDetailMessage: '''${file}'' could not be uploaded because of wrong file extension.'
   UploadFileErrorSummaryMessage: Invalid extension
-  UploadFileSuccessDetailMessage: '''{0}'' uploaded successfully and stored as {1}.'
+  UploadFileSuccessDetailMessage: '''${file}'' uploaded successfully and stored as ${activeFile}.'
   UploadFileSuccessSummaryMessage: File Uploaded
   UploadP12: Upload .p12
 email:
@@ -455,7 +457,7 @@ health:
   HealthDetails: Health Details
   HealthyMessage: No problems detected. Engine is healthy.
   Problems: Problems
-  ProblemsDetectedMessage: '{0} problems detected.'
+  ProblemsDetectedMessage: ${number} problems detected.
   RunHealthChecks: Run Health Checks
 indexes:
   Cardinality: Cardinality
@@ -637,7 +639,7 @@ memberProperties:
   Property: Property
   PropertyInExternalSecuritySystem: Property is managed by the external security system
   RemovePropertyMessage: Successfully removed property
-  SavePropertyErrorMessage: The property ''{0}'' has already been imported from your Security System
+  SavePropertyErrorMessage: The property '${property}' has already been imported from your Security System
   SavePropertyMessage: Successfully updated property
 migrate:
   BackupSystemDatabaseRemindMessage: Before you start the Migration make sure you have a backup of your system database and the whole Axon Ivy Engine installation directory.
@@ -672,7 +674,7 @@ monitor:
   Committed: Committed
   Cores: Cores
   Deamons: Deamons
-  GCCount: '{0} {1} Count {2}'
+  GCCount: ${label} ${formatT} Count ${formatD}
   GarbageCollection: Garbage Collection
   HeapMemory: Heap Memory
   IO: IO
@@ -912,7 +914,7 @@ monitor:
     CPUTime: CPU Time
     CPUTimeTooltip: Total CPU Time [ns]
     Daemon: Daemon
-    DeadLockedMessage: This thread is deadlocked! It is waiting to lock {0} which is owned by thread {1}.
+    DeadLockedMessage: This thread is deadlocked! It is waiting to lock ${lock} which is owned by thread ${lockOwner}.
     Deadlocked: Deadlocked
     LockOwner: Lock Owner
     LockTooltip: Waiting on or for Lock
@@ -927,8 +929,8 @@ monitor:
     ThreadRunnableMessage: Thread is runnable.
     ThreadTerminatedMessage: Thread is terminated.
     ThreadTitle: Thread
-    ThreadWaitOnLockMessage: Thread is waiting on lock {0}.
-    ThreadWaitOnLockWithTimeoutMessage: Thread is waiting with a timeout on lock {0}.
+    ThreadWaitOnLockMessage: Thread is waiting on lock ${lock}.
+    ThreadWaitOnLockWithTimeoutMessage: Thread is waiting with a timeout on lock ${lock}.
     UserTime: User Time
     UserTimeTooltip: User CPU Time [ns]
     Waited: Waited
@@ -953,7 +955,7 @@ moveApplication:
 newApplication:
   AddNewApplicationDialogHeader: Add new application
 newRole:
-  NewChildRoleDialogHeader: Add new child role for {0}
+  NewChildRoleDialogHeader: Add new child role for ${role}
 newSecuritySystem:
   AddNewSecuritySystemDialogHeader: Add new security system
 newUser:
@@ -965,8 +967,8 @@ notification:
   Payload: Payload
   ShowPayload: Show payload
 notificationChannelDetail:
-  NotFoundChannel: Channel ''{0}'' not found
-  NotFoundSecurityContext: Could not find security context {0}
+  NotFoundChannel: Channel '${channelId}' not found
+  NotFoundSecurityContext: Could not find security context ${system}
   ResetChanges: Reset changes
   SuccessfullySavedMessage: Successfully saved
   UnlockChannel: Unlock channel (clear error state)
@@ -1015,13 +1017,13 @@ renameRole:
     will fail in the future.
 restart:
   Restart: Restart
-  RestartConfirmMessage: Are you sure you want to restart the {0}?
+  RestartConfirmMessage: Are you sure you want to restart the ${application}?
   RestartFirstWarningMessageFirstPart: All
-  RestartFirstWarningMessageSecondPart: users (currently {0})
-  RestartFirstWarningMessageThirdPart: working with {0} will lose their current work.
-  RestartSecondWarningMessage: Users will not be able to connect to {0} for a short time.
+  RestartFirstWarningMessageSecondPart: users (currently ${workingUsers})
+  RestartFirstWarningMessageThirdPart: working with ${application} will lose their current work.
+  RestartSecondWarningMessage: Users will not be able to connect to ${application} for a short time.
   RestartThirdWarningMessage: Restarting may fail and then you need access to the operating system to start it again.
-  RestartWarningMessage: Restarting {0} is a dangerous operation.
+  RestartWarningMessage: Restarting ${application} is a dangerous operation.
 restClientConfiguration:
   ResetConfiguration: Reset configuration
   ResetRestClientDialogHeader: Reset Rest Client
@@ -1033,8 +1035,8 @@ restClientConfiguration:
   UUID: UUID
 restClientDetail:
   GuideText: To edit your Rest Client overwrite your app.yaml file. For example copy and paste the snippet below.
-  NotFoundRestClient: Rest client ''{0}'' not found
-  Title: Rest Client ''{0}''
+  NotFoundRestClient: Rest client '${restClient}' not found
+  Title: Rest Client '${restClient}'
 restClients:
   NoRestClientsFound: No rest clients found on deployed apps
 restHistory:
@@ -1051,7 +1053,7 @@ roleDetail:
 roleDetailInformation:
   AddNewChildRole: Add new child role
   DeleteRole: Delete this role
-  DeleteRoleDialogConfirmMessage: Are you sure you want to delete the role ''{0}''?
+  DeleteRoleDialogConfirmMessage: Are you sure you want to delete the role '${role}'?
   DeleteRoleDialogHeader: Delete Role
   DeleteRoleDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes
     will fail in the future.
@@ -1075,9 +1077,8 @@ roleDetailUsers:
   SearchUsersPlaceholder: Search
   UsersOfRole: Users Of Role
 roles:
-  ExternalRoleNameMessage: '[External: ''''{0}'''']'
+  ExternalRoleNameMessage: '[External: ''${role}'']'
   SearchDummyPerformanceReason: For performance reasons only the first 100 roles are loaded. Use the search to find a specific role.
-  ShowMoreRoleLeftMessage: Show more ({0} left)
   Synchronize: Synchronize
 searchEngine:
   SearchEngineHealthGreenHint: Everything is ok
@@ -1116,7 +1117,7 @@ securityReportDownloadDialog:
 securitySystemInfo:
   CreateSecurityReport: Create Security Report
   DeleteSecuritySystemButtonTitle: Delete this security system
-  DeleteSecuritySystemConfirmMessage: Are you sure you want to delete the security system ''{0}''?
+  DeleteSecuritySystemConfirmMessage: Are you sure you want to delete the security system '${name}'?
   DeleteSecuritySystemDialogHeader: Delete Security System
   DeleteSecuritySystemWarningMessage: Note that all users and roles of this security system will be deleted as well.
   DownloadSecurityReport: Download Security Report
@@ -1129,15 +1130,15 @@ securitySystemLanguage:
   SecuritySystemLanguagesSavedMessage: Security System Languages saved
 securitySystemMerge:
   ApplyChangeDialogHeader: Apply change
-  ApplyChangeDialogMessage: Do you really want to {0} this entry?
+  ApplyChangeDialogMessage: Do you really want to ${solverType} this entry?
   CompareButton: Compare
   CompareButtonTitle: This will only compare the source with the target security system. This will NOT make any changes.
   ComparisonReport: Comparison Report
   ComparisonReportInfo: To move an application from source to target security system the same users and roles must exist in the target security system as in the source system. By executing all CREATE operations, all missing users and roles will be created in the target security system. There is no need
     to execute the UPDATE operations or DELETE operations, but you may want to cleanup the target security system with these operations. It could be that the role already exists, but this one is not actually the same role. If this is the case, the role must be manually renamed in the target security system
     as well as the role in the Axon Ivy Project. Then the Axon Ivy Project must be redeployed.
-  CreateSolveHintMessage: This will create the entry in the target security system {0}
-  DeleteSolveHintMessage: This will delete the entry in the target security system {0}
+  CreateSolveHintMessage: This will create the entry in the target security system ${securitySystem}
+  DeleteSolveHintMessage: This will delete the entry in the target security system ${securitySystem}
   ExceutionFailed: Exceution failed
   ExecuteAllCreateOperationsButton: Execute all CREATE operations
   ExecuteAllCreateOperationsButtonTitle: This will run all CREATE operations in the target security system
@@ -1157,7 +1158,7 @@ securitySystemMerge:
   Security: Security
   SourceSecuritySystem: Source Security System
   TargetSecuritySystem: Target Security System
-  UpdateSolveHintMessage: This will update the entry in the target security system {0}
+  UpdateSolveHintMessage: This will update the entry in the target security system ${securitySystem}
 securitySystemProvider:
   IdentityProvider: Identity Provider
   ImportUsersOnSchedule: Import users on schedule
@@ -1172,10 +1173,10 @@ securitySystemWorkflowLanguage:
   AddNewLanguage: Add a new language
   AddWorkflowLanguageDialogHeader: Add Workflow Language
   AddWorkflowLanguageSystemDatabaseSpaceWarningMessage: This operation will takes some time and the space of your system database will grow.
-  AddWorkflowLanguageWarningMessage: If you add a new workflow language the name and description of all existing tasks ({0}) and cases ({1}) of the default language ({2}) are copied to the new language.
+  AddWorkflowLanguageWarningMessage: If you add a new workflow language the name and description of all existing tasks (${tasks}) and cases (${cases}) of the default language (${language}) are copied to the new language.
   DeleteLanguage: Delete this language
   DeleteWorkflowLanguageDialogHeader: Delete Workflow Language
-  DeleteWorkflowLanguageWarningMessage: If you delete a workflow language the name and description of all existing tasks ({0}) and cases ({1}) of the language will be deleted! This operation will takes some time.
+  DeleteWorkflowLanguageWarningMessage: If you delete a workflow language the name and description of all existing tasks (${tasks}) and cases (${cases}) of the language will be deleted! This operation will takes some time.
   MakeDefaultLanguage: Make this the default language
   WorkflowLanguages: Workflow Languages
 sendtestmail:
@@ -1246,7 +1247,7 @@ sslConfig:
   KeyStoreCertificates: Key Store Certificates
   TrustStoreCertificates: Trust Store Certificates
 sslKeyStore:
-  DeletedCertificateMessage: Certificate ''{0}'' deleted
+  DeletedCertificateMessage: Certificate '${certificate}' deleted
   KeyPassword: KeyPassword
   KeyStoreConfigurations: Key Store configurations
   KeyStoreConfigurationsSavedMessage: Key Store configurations saved
@@ -1259,7 +1260,7 @@ sslTable:
   Subject: Subject
   ValidCertificate: Valid
 sslTrustStore:
-  DeleteCertificateMessage: Certificate ''{0}'' deleted
+  DeleteCertificateMessage: Certificate '${certificate}' deleted
   EnableInsecureSSLAndHTTPSConnections: Enable insecure SSL and HTTPS connections
   TrustStoreConfigurations: Trust Store configurations
   TrustStoreConfigurationsSavedMessage: Trust Store configurations saved
@@ -1325,7 +1326,7 @@ tlsTester:
 tlsTesterMissingCertView:
   AddCertificateToTruststoreSuccessMesage: The certificate was successfully added.
   AddToTruststore: Add To Truststore
-  AddX509CertificateToTruststoreSuccessMesage: '{0} was successfully added'
+  AddX509CertificateToTruststoreSuccessMesage: ${certificate} was successfully added
   MissingCert: 'Missing Cert:'
   PublicKey: 'PublicKey:'
   Subject: 'Subject:'
@@ -1363,12 +1364,12 @@ userDetailInformation:
   ExternalID: External ID
   ExternalName: External Name
   FormattingLanguage: Formatting language
-  NotFoundSecuritySystemMessage: Security System ''{0}'' not found
-  NotFoundUserMessage: User ''{0}'' not found
+  NotFoundSecuritySystemMessage: Security System '${securitySystem}' not found
+  NotFoundUserMessage: User '${user}' not found
   Password: Password
   Synch: Synch
   UserDeleteHintMessage: You may want to disable this user instead of deleting it, you could lose part of the workflow history.
-  UserDeleteHintMessageWithPersonalTasks: The user ''{0}'' has {1} personal tasks. If you delete this user, no other user can work on these tasks. You may want to disable this user instead of deleting it, you could lose part of the workflow history.
+  UserDeleteHintMessageWithPersonalTasks: The user '${user}' has ${tasks} personal tasks. If you delete this user, no other user can work on these tasks. You may want to disable this user instead of deleting it, you could lose part of the workflow history.
   UserInExternalSecuritySystemMessage: This user is managed by the external security system
   UserInformation: User information
   UserInformationChangesSavedMessage: User information changes saved
@@ -1451,8 +1452,8 @@ webServiceConfiguration:
   WsdlUrl: Wsdl Url
 webServiceDetail:
   GuideText: To edit your Web Service overwrite your app.yaml file. For example copy and paste the snippet below.
-  NotFoundWebService: Web service ''{0}'' not found
-  Title: Web Service ''{0}''
+  NotFoundWebService: Web service '${webserviceId}' not found
+  Title: Web Service '${webservice}'
   WebService: Web Service
 webServiceEndpoints:
   EditEndpointsConfigurationDialogHeader: Edit endpoint
@@ -1463,7 +1464,7 @@ webServiceEndpoints:
   TestConnectionAuthenticationMessage: Authentication (only HttpBasic supported) was not successful
   TestConnectionErrorMessage: |-
     The URL seems to be not correct or contains scripting context (can not be evaluated)
-    An error occurred: {0}
+    An error occurred: ${exception}
   TestConnectionNotFoundMessage: Service not found
   TestConnectionSuccessMessage: Successfully reached web service
   TestWsEndpointButtonTitle: Test Web Service Endpoint Connection

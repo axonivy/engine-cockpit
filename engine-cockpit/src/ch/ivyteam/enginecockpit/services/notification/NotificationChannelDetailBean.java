@@ -1,7 +1,5 @@
 package ch.ivyteam.enginecockpit.services.notification;
 
-import java.util.Arrays;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -49,8 +47,8 @@ public class NotificationChannelDetailBean {
   public void onload() {
     var securityContext = ISecurityContextRepository.instance().get(system);
     if (securityContext == null) {
-      ResponseHelper
-          .notFound(Ivy.cms().co("/notificationChannelDetail/NotFoundSecurityContext", Arrays.asList(system)));
+      ResponseHelper.notFound(
+          Ivy.cm().content("/notificationChannelDetail/NotFoundSecurityContext").replace("system", system).get());
       return;
     }
 
@@ -60,7 +58,8 @@ public class NotificationChannelDetailBean {
         .orElse(null);
 
     if (notificationChannel == null) {
-      ResponseHelper.notFound(Ivy.cms().co("/notificationChannelDetail/NotFoundChannel", Arrays.asList(channelId)));
+      ResponseHelper.notFound(
+          Ivy.cm().content("/notificationChannelDetail/NotFoundChannel").replace("channelId", channelId).get());
       return;
     }
 

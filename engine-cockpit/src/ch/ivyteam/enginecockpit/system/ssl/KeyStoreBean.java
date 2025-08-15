@@ -163,7 +163,7 @@ public class KeyStoreBean implements SslTableStore {
     getKeyStoreUtils().deleteCertificate(alias);
     Message.info()
         .clientId("sslDeleteCertificate")
-        .summary(Ivy.cms().co("/sslKeyStore/DeletedCertificateMessage", Arrays.asList(alias)))
+        .summary(Ivy.cm().content("/sslKeyStore/DeletedCertificateMessage").replace("certificate", alias).get())
         .show();
   }
 

@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +81,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   public void onload() {
     app = IApplicationRepository.instance().findByName(appName).orElse(null);
     if (app == null) {
-      ResponseHelper.notFound(Ivy.cms().co("/common/NotFoundApplication", Arrays.asList(appName)));
+      ResponseHelper.notFound(Ivy.cm().content("/common/NotFoundApplication").replace("application", appName).get());
       return;
     }
     webServiceClients = WebServiceClients.of(app);
@@ -116,7 +115,8 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private void loadWebService() {
     var ws = webServiceClients.find(webserviceId);
     if (ws == null) {
-      ResponseHelper.notFound(Ivy.cms().co("/webServiceDetail/NotFoundWebService", Arrays.asList(webserviceId)));
+      ResponseHelper.notFound(
+          Ivy.cm().content("/webServiceDetail/NotFoundWebService").replace("webserviceId", webserviceId).get());
       return;
     }
     webservice = new Webservice(ws);
@@ -147,7 +147,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   @Override
   public String getTitle() {
-    return Ivy.cms().co("/webServiceDetail/Title", Arrays.asList(webservice.getName()));
+    return Ivy.cm().content("/webServiceDetail/Title").replace("webservice", webservice.getName()).get();
   }
 
   @Override
@@ -204,8 +204,9 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
             Ivy.cm().co("/webServiceEndpoints/TestConnectionSuccessMessage"));
       }
     } catch (ProcessingException ex) {
-      return new ConnectionTestResult("", 0, TestResult.ERROR, Ivy.cms()
-          .co("/webServiceEndpoints/TestConnectionErrorMessage", Arrays.asList(ExceptionUtils.getStackTrace(ex))));
+      return new ConnectionTestResult("", 0, TestResult.ERROR,
+          Ivy.cm().content("/webServiceEndpoints/TestConnectionErrorMessage")
+              .replace("exception", ExceptionUtils.getStackTrace(ex)).get());
     }
   }
 

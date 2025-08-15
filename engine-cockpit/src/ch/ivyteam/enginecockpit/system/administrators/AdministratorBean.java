@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.system.administrators;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,19 +70,22 @@ public class AdministratorBean extends StepStatus {
   public void createAdmin() {
     service.config().save(admin.toAdministrator());
     load();
-    Message.info().summary(Ivy.cms().co("/administrators/AdminAddedMessage", Arrays.asList(admin.getName()))).show();
+    Message.info().summary(Ivy.cm().content("/administrators/AdminAddedMessage").replace("name", admin.getName()).get())
+        .show();
   }
 
   public void updateAdmin() {
     service.config().save(admin.toAdministrator());
-    Message.info().summary(Ivy.cms().co("/administrators/AdminUpdatedMessage", Arrays.asList(admin.getName()))).show();
+    Message.info()
+        .summary(Ivy.cm().content("/administrators/AdminUpdatedMessage").replace("name", admin.getName()).get()).show();
   }
 
   public void deleteAdmin() {
     service.db().delete(admin.getName());
     service.config().delete(admin.getName());
     load();
-    Message.info().summary(Ivy.cms().co("/administrators/AdminDeletedMessage", Arrays.asList(admin.getName()))).show();
+    Message.info()
+        .summary(Ivy.cm().content("/administrators/AdminDeletedMessage").replace("name", admin.getName()).get()).show();
   }
 
   public boolean hasAdmins() {
@@ -118,15 +120,5 @@ public class AdministratorBean extends StepStatus {
 
   public String getConfigurationUri() {
     return "security-detail.xhtml?securitySystemName=system";
-  }
-
-  public String getDeleteAdminDialogHeader() {
-    return Ivy.cms().co("/administrators/DeleteAdminDialogHeader",
-        Arrays.asList(admin != null ? admin.getName() : ""));
-  }
-
-  public String getDeleteAdminDialogMessage() {
-    return Ivy.cms().co("/administrators/DeleteAdminDialogMessage",
-        Arrays.asList(admin != null ? admin.getName() : ""));
   }
 }

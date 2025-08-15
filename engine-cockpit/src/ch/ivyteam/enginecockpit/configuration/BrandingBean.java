@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +76,8 @@ public class BrandingBean implements AllResourcesDownload {
       var app = IApplicationRepository.instance().findByName(managerBean.getSelectedApplicationName()).orElse(null);
       try (var in = uploadFile.getInputStream()) {
         var newResourceName = new BrandingIO(app).setImage(getCurrentRes(), extension, in);
-        message = new FacesMessage(FacesMessage.SEVERITY_INFO, Ivy.cm().co("/common/Success"), Ivy.cms().co("/branding/UploadFileSuccessfulMessage", Arrays.asList(newResourceName)));
+        message = new FacesMessage(FacesMessage.SEVERITY_INFO, Ivy.cm().co("/common/Success"),
+            Ivy.cm().content("/branding/UploadFileSuccessfulMessage").replace("resource", newResourceName).get());
       }
     } catch (Exception ex) {
       message = new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"), ex.getMessage());
@@ -124,7 +124,7 @@ public class BrandingBean implements AllResourcesDownload {
   public void setSelectedCssColor(String selectedCssColor) {
     this.selectedCssColor = cssColors.stream()
         .filter(c -> c.getColor().equals(selectedCssColor))
-        .findFirst().orElse(new CssColorDTO("unknown color", "", ""));
+        .findFirst().orElse(new CssColorDTO(Ivy.cm().co("/branding/UnknownColor"), "", ""));
   }
 
   public CssColorDTO getSelectedCssColor() {
@@ -153,13 +153,14 @@ public class BrandingBean implements AllResourcesDownload {
 
   public void setColor(String value) {
     var message = new FacesMessage(
-        Ivy.cms().co("/branding/UpdateColorSuccessfulMessage", Arrays.asList(selectedCssColor.getColor())), "");
+        Ivy.cm().content("/branding/UpdateColorSuccessfulMessage").replace("color", selectedCssColor.getColor()).get(),
+        "");
     try {
       brandingIO.writeCssColor(selectedCssColor.getColor(), value);
     } catch (Exception ex) {
-      message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-          Ivy.cms().co("/branding/UpdateColorUnsuccessfulMessage", Arrays.asList(selectedCssColor.getColor())),
-          ex.getMessage());
+      message =
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().content("/branding/UpdateColorUnsuccessfulMessage")
+              .replace("color", selectedCssColor.getColor()).get(), ex.getMessage());
     }
     FacesContext.getCurrentInstance().addMessage(null, message);
     reloadCustomCssContent();
@@ -178,12 +179,13 @@ public class BrandingBean implements AllResourcesDownload {
 
   public void resetRes() {
     var message = new FacesMessage(
-        Ivy.cms().co("/branding/ResetResourceSuccessfulMessage", Arrays.asList(currentResourceName)), "");
+        Ivy.cm().content("/branding/ResetResourceSuccessfulMessage").replace("resource", currentResourceName).get(),
+        "");
     try {
       brandingIO.resetResource(currentResourceName);
     } catch (Exception ex) {
       message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-          Ivy.cms().co("/branding/ResetResourceUnsuccessfulMessage", Arrays.asList(currentResourceName)),
+          Ivy.cm().content("/branding/ResetResourceUnsuccessfulMessage").replace("resource", currentResourceName).get(),
           ex.getMessage());
     }
     FacesContext.getCurrentInstance().addMessage(null, message);
@@ -250,21 +252,5 @@ public class BrandingBean implements AllResourcesDownload {
     return ALLOWED_EXTENSIONS.stream()
         .map(Object::toString)
         .collect(Collectors.joining(", "));
-  }
-
-  public String getDownloadBrandingResourcesDialogHeader(String applicationName) {
-    return Ivy.cms().co("/branding/DownloadBrandingResourcesDialogHeader", Arrays.asList(applicationName));
-  }
-
-  public String getUploadResourceDialogHeader(String applicationName) {
-    return Ivy.cms().co("/branding/UploadResourceDialogHeader", Arrays.asList(applicationName));
-  }
-
-  public String getResetBrandingResourceConfirmMessage(String resourceName) {
-    return Ivy.cms().co("/branding/ResetBrandingResourceConfirmMessage", Arrays.asList(resourceName));
-  }
-
-  public String getResetCSSColorConfirmMessage(String cssColor) {
-    return Ivy.cms().co("/branding/ResetCSSColorConfirmMessage", Arrays.asList(cssColor));
   }
 }

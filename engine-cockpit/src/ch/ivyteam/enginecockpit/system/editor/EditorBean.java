@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -49,7 +48,7 @@ public class EditorBean {
         .findFirst()
         .orElse(null);
     if (activeConfigFile == null) {
-      ResponseHelper.notFound(Ivy.cms().co("/editor/UploadFileErrorDetailMessage", Arrays.asList(selectedFile)));
+      ResponseHelper.notFound(Ivy.cm().content("/editor/NotFoundConfigFile").replace("file", selectedFile).get());
       return;
     }
     PrimeFaces.current().executeScript("handleAutocompleteSelection()");
@@ -110,14 +109,15 @@ public class EditorBean {
       if (!activeConfigFile.getFileName().endsWith(extension)) {
         Message.error()
             .summary(Ivy.cm().co("/editor/UploadFileErrorSummaryMessage"))
-            .detail(Ivy.cms().co("/editor/UploadFileErrorDetailMessage", Arrays.asList(originalFileName)))
+            .detail(Ivy.cm().content("/editor/UploadFileErrorDetailMessage").replace("file", originalFileName).get())
             .show();
         return;
       }
       activeConfigFile.setBinary(is);
       Message.info()
           .summary(Ivy.cm().co("/editor/UploadFileSuccessSummaryMessage"))
-          .detail(Ivy.cms().co("/editor/UploadFileSuccessDetailMessage", Arrays.asList(originalFileName, getName())))
+          .detail(Ivy.cm().content("/editor/UploadFileSuccessDetailMessage").replace("file", originalFileName)
+              .replace("activeFile", getName()).get())
           .show();
     } catch (Exception ex) {
       throw new RuntimeException("Failed to load inputstream", ex);
@@ -126,10 +126,5 @@ public class EditorBean {
 
   public boolean canSave() {
     return !activeConfigFile.isReadOnly();
-  }
-
-  public String getReadOnlyOriginalFileWarningMessage() {
-    return Ivy.cms().co("/editor/ReadOnlyOriginalFileWarningMessage",
-        Arrays.asList(activeConfigFile.getOriginalPath()));
   }
 }

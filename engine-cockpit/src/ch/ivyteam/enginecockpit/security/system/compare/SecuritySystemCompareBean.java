@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security.system.compare;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -100,14 +99,13 @@ public class SecuritySystemCompareBean {
 
   public String solveHint(Issue issue) {
     return switch (issue.solver().type()) {
-      case CREATE -> Ivy.cms().co("/securitySystemMerge/CreateSolveHintMessage", Arrays.asList(targetSecuritySystem));
-      case UPDATE -> Ivy.cms().co("/securitySystemMerge/UpdateSolveHintMessage", Arrays.asList(targetSecuritySystem));
-      case DELETE -> Ivy.cms().co("/securitySystemMerge/DeleteSolveHintMessage", Arrays.asList(targetSecuritySystem));
+      case CREATE -> Ivy.cm().content("/securitySystemMerge/CreateSolveHintMessage")
+          .replace("securitySystem", targetSecuritySystem).get();
+      case UPDATE -> Ivy.cm().content("/securitySystemMerge/UpdateSolveHintMessage")
+          .replace("securitySystem", targetSecuritySystem).get();
+      case DELETE -> Ivy.cm().content("/securitySystemMerge/DeleteSolveHintMessage")
+          .replace("securitySystem", targetSecuritySystem).get();
     };
-  }
-
-  public String getIssueChangedDialogMessage(Issue issue) {
-    return Ivy.cms().co("/securitySystemMerge/ApplyChangeDialogMessage", Arrays.asList(issue.solver().type()));
   }
 
   public void solveCreateIssues() {

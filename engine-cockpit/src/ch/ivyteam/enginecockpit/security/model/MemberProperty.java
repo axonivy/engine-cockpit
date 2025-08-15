@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.security.model;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -125,7 +124,8 @@ public class MemberProperty {
       if (user.isPropertyBacked(super.property.getKey())) {
         FacesContext.getCurrentInstance().addMessage("propertiesMessage",
             new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"),
-                Ivy.cms().co("/memberProperties/SavePropertyErrorMessage", Arrays.asList(super.property.getKey()))));
+                Ivy.cm().content("/memberProperties/SavePropertyErrorMessage")
+                    .replace("property", super.property.getKey()).get()));
         return;
       }
       user.setProperty(super.property.getKey(), super.property.getValue());

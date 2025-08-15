@@ -3,7 +3,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog id="newChildRoleDialog" style="min-width: 300px;" header="#{roleDetailBean.getAddNewChildRoleDialogHeader(roleDetailBean.name)}"
+<p:dialog id="newChildRoleDialog" style="min-width: 300px;" header="#{ivy.cm.content('/newRole/NewChildRoleDialogHeader').replace('role', roleDetailBean.name).get()}"
   widgetVar="newChildRoleModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="newChildRoleForm" styleClass="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">

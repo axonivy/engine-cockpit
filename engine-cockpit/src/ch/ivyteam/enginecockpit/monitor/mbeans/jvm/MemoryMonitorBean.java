@@ -5,12 +5,10 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.composite;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.delta;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 import static ch.ivyteam.ivy.environment.Ivy.cm;
-import static ch.ivyteam.ivy.environment.Ivy.cms;
 import static java.lang.String.join;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
 import java.lang.management.ManagementFactory;
-import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -72,7 +70,8 @@ public class MemoryMonitorBean {
           .queryNames(new ObjectName("java.lang:type=GarbageCollector,name=*"), null);
       for (ObjectName garbageCollector : garbageCollectors) {
         String label = garbageCollector.getKeyProperty("name");
-        var gcCountLabel = cms().co("/monitor/GCCount", List.of(label, "%t/%t", "%5d"));
+        var gcCountLabel = cm().content("/monitor/GCCount").replace("label", label).replace("formatT", "%t/%t")
+            .replace("formatD", "%5d").get();
         gcMonitor.addInfoValue(format(gcCountLabel, deltaGcCollectionTime(garbageCollector),
             gcCollectionTime(garbageCollector), gcCollections(garbageCollector)));
         gcMonitor.addSeries(Series.build(deltaGcCollectionTime(garbageCollector), label).toSeries());
