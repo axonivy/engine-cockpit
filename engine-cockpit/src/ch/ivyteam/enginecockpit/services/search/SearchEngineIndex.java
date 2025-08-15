@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.services.search;
 import javax.ws.rs.core.UriBuilder;
 
 import ch.ivyteam.enginecockpit.services.model.SearchEngine.SearchEngineHealth;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.searchengine.client.IndexName;
 import ch.ivyteam.ivy.searchengine.index.IndexInfo;
 
@@ -69,8 +70,8 @@ public class SearchEngineIndex {
   }
 
   public enum IndexStatus {
-    OPEN("open", "pi pi-lock-open state-active", "Everything is okay, the index is open."),
-    CLOSED("closed", "pi pi-lock-closed state-inactive", "It seems like your machine is out of disk space. Please check your search engine watermark settings."),
+    OPEN("open", "pi pi-lock-open state-active", Ivy.cm().co("/indices/OpenIndexHint")),
+    CLOSED("closed", "pi pi-lock-closed state-inactive",  Ivy.cm().co("/indices/ClosedIndexHint")),
     UNKNOWN("unknown", "si si-question-circle", "");
 
     private final String state;

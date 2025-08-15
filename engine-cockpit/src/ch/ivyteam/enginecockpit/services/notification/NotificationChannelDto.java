@@ -5,7 +5,6 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.UriBuilder;
@@ -13,6 +12,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.apache.commons.io.IOUtils;
 
 import ch.ivyteam.enginecockpit.util.DurationFormat;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.notification.channel.Event;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 import ch.ivyteam.ivy.notification.channel.NotificationChannelSystemConfig;
@@ -165,11 +165,11 @@ public class NotificationChannelDto {
     }
 
     public String getDisplayName() {
-      return event.displayName(Locale.ENGLISH);
+      return event.displayName(Ivy.session().getContentLocale());
     }
 
     public String getDescription() {
-      return event.description(Locale.ENGLISH);
+      return event.description(Ivy.session().getContentLocale());
     }
 
     public boolean isEnabled() {

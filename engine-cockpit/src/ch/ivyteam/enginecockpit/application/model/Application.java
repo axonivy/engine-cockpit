@@ -13,6 +13,7 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
 import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
@@ -96,7 +97,9 @@ public class Application extends AbstractActivity {
     try {
       return !app.hasAnyActiveAndReleasedPmv();
     } catch (Exception ex) {
-      var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cannot evaluate the state of the application '" + app.getName() + "'", ex.getMessage());
+      var message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+          Ivy.cm().content("/applications/DisableErrorMessage").replace("application", app.getName()).get(),
+          ex.getMessage());
       FacesContext.getCurrentInstance().addMessage(null, message);
       return true;
     }
@@ -159,8 +162,8 @@ public class Application extends AbstractActivity {
   public String getDeleteHint() {
     var message = new StringBuilder();
     if (runningCasesCount > 0) {
-      message.append(getActivityType()).append(" has ").append(runningCasesCount).append(" running cases. ");
-      message.append("They will also be deleted. ");
+      message.append(Ivy.cm().content("/applications/DeleteRunningCasesHintMessage")
+          .replace("activityType", getActivityType()).replace("runningCases", String.valueOf(runningCasesCount)).get());
     }
     message.append(super.getDeleteHint());
     return message.toString();
@@ -205,7 +208,7 @@ public class Application extends AbstractActivity {
 
   @Override
   public String getWarningMessageForNoReleasedPmv() {
-    return "At least one process model has no released process model version";
+    return Ivy.cm().co("/applications/ApplicationWarningMessageForNoReleasedPmv");
   }
 
   @Override

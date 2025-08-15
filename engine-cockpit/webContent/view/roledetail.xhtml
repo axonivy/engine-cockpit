@@ -16,9 +16,9 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Security</span></li>
+      <li><span>#{ivy.cm.co('/common/Security')}</span></li>
       <li>/</li>
-      <li><a href="roles.xhtml">Role</a></li>
+      <li><a href="roles.xhtml">#{ivy.cm.co('/common/Role')}</a></li>
       <li>/</li>
       <li><a href="#{roleDetailBean.role.getViewUrl()}">#{roleDetailBean.name}</a></li>
       <cc:BreadcrumbInfos appContext="false"/>
@@ -35,13 +35,13 @@
           <div class="col-12">
             <div class="grid">
               <cc:OverviewBox box="white" count="#{roleDetailBean.userCount}" icon="si si-single-neutral-actions"
-                title="Users" />
+                title="#{ivy.cm.co('/common/Users')}" />
               <cc:OverviewBox box="blue" count="#{roleDetailBean.userInheritCount}" icon="si si-multiple-neutral-1"
-                title="Inherit users" />
+                title="#{ivy.cm.co('/roleDetail/InheritUsers')}" />
               <cc:OverviewBox box="gray" count="#{roleDetailBean.runningTaskCount}" icon="si si-briefcase"
-                title="Running Tasks" />
+                title="#{ivy.cm.co('/roleDetail/RunningTasks')}" />
               <cc:OverviewBox box="darkgray" count="#{roleDetailBean.directTaskCount}" icon="si si-task-list-approve"
-                title="Direct open tasks" />
+                title="#{ivy.cm.co('/roleDetail/DirectOpenTasks')}" />
             </div>
           </div>
 

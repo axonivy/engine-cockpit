@@ -11,52 +11,56 @@
 <cc:implementation>
   <p:commandButton id="editPropertyBtn"
     actionListener="#{cc.attrs.bean.setProperty(property.name)}"
-    icon="si si-pencil" title="Edit"
+    icon="si si-pencil" title="#{ivy.cm.co('/common/Edit')}"
     update="propertyModal" rendered="#{!cc.attrs.isNewProperty}"
     styleClass="flex-shrink-0 ml-1 ui-button-secondary rounded-button"
     oncomplete="PF('propertyModal').show();" process="@this" />
   <p:commandButton id="deletePropertyBtn" disabled="#{property.default}"
     actionListener="#{cc.attrs.bean.removeProperty(property.name)}"
-    update="#{cc.attrs.formName}" icon="si si-bin-1" title="Delete"
+    update="#{cc.attrs.formName}" icon="si si-bin-1" title="#{ivy.cm.co('/common/Delete')}"
     rendered="#{!cc.attrs.isNewProperty}" process="@this"
     styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
   <p:commandButton id="newServicePropertyBtn" 
     oncomplete="PF('propertyModal').show();" process="@this"
     actionListener="#{cc.attrs.bean.setProperty(null)}" update="propertyModal" 
-    title="Add" icon="si si-add" rendered="#{cc.attrs.isNewProperty}"
+    title="#{ivy.cm.co('/common/Add')}" icon="si si-add" rendered="#{cc.attrs.isNewProperty}"
     styleClass="flex-shrink-0 ml-auto rounded-button" />
 
-  <p:dialog header="Property" style="text-align: left;" id="propertyModal" widgetVar="propertyModal" modal="true"
+  <p:dialog header="#{ivy.cm.co('/common/Property')}" style="text-align: left;" id="propertyModal" widgetVar="propertyModal" modal="true"
     responsive="true" closeOnEscape="true">
   <h:form id="propertyForm" styleClass="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9"
       styleClass="grey-label-panel ui-fluid">
-      <p:outputLabel for="nameInput" value="Name" />
+      <p:outputLabel for="nameInput" value="#{ivy.cm.co('/common/Name')}" />
       <h:panelGroup styleClass="md-inputfield" rendered="#{empty cc.attrs.bean.property.name}">
-        <p:inputText id="nameInput" requiredMessage="Value is required"
+        <p:inputText id="nameInput" requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}"
           value="#{cc.attrs.bean.property.name}" required="true" />
         <p:message for="nameInput" id="nameMessage" />
       </h:panelGroup>
       <h:outputText id="propertyName" rendered="#{not empty cc.attrs.bean.property.name}"
         value="#{cc.attrs.bean.property.name}" />
-      <p:outputLabel rendered="#{cc.attrs.bean.sensitive}" for="sensitiveValueInput" value="Value" />
+      <p:outputLabel rendered="#{cc.attrs.bean.sensitive}" for="sensitiveValueInput" value="#{ivy.cm.co('/common/Value')}" />
       <h:panelGroup rendered="#{cc.attrs.bean.sensitive}" styleClass="md-inputfield">
-        <p:password id="sensitiveValueInput"
-          value="#{cc.attrs.bean.property.value}"/>
-      </h:panelGroup>
+          <p:password id="sensitiveValueInput"
+            value="#{cc.attrs.bean.property.value}"
+            promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+            goodLabel="#{ivy.cm.co('/common/Good')}"
+            weakLabel="#{ivy.cm.co('/common/Weak')}"
+            strongLabel="#{ivy.cm.co('/common/Strong')}" />
+        </h:panelGroup>
 
-      <p:outputLabel rendered="#{!cc.attrs.bean.sensitive}" for="valueInput" value="Value" />
+      <p:outputLabel rendered="#{!cc.attrs.bean.sensitive}" for="valueInput" value="#{ivy.cm.co('/common/Value')}" />
       <h:panelGroup rendered="#{!cc.attrs.bean.sensitive}" styleClass="md-inputfield">
         <p:inputText id="valueInput" value="#{cc.attrs.bean.property.value}" />
       </h:panelGroup>
-      
+
     </p:panelGrid>
     <div class="custom-dialog-footer">
-      <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
+      <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
       <p:commandButton id="saveProperty" validateClient="true" 
         onsuccess="PF('propertyModal').hide()" action="#{cc.attrs.bean.saveProperty(cc.attrs.isNewProperty)}" 
-        value="Save" icon="si si-floppy-disk" update="#{cc.attrs.formName}"
+        value="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk" update="#{cc.attrs.formName}"
         styleClass="modal-input-button" process="@form" />
     </div>
   </h:form>

@@ -9,6 +9,7 @@ import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IActivity;
+import ch.ivyteam.ivy.environment.Ivy;
 
 public abstract class AbstractActivity {
   private String name;
@@ -114,7 +115,7 @@ public abstract class AbstractActivity {
   }
 
   public String getDeleteHint() {
-    return "Are you sure you want to delete this " + getActivityType() + "?";
+    return Ivy.cm().content("/applications/DeleteHintMessage").replace("activityType", getActivityType()).get();
   }
 
   public void activate() {
@@ -149,13 +150,13 @@ public abstract class AbstractActivity {
       reloadBean(reloadOnlyStats);
       Message.info()
           .clientId("applicationMessage")
-          .summary("Successfully " + action + " module")
+          .summary(Ivy.cm().content("/applications/ExecutionSuccessMessageSummary").replace("action", action).get())
           .detail(getActivityType() + " " + getName())
           .show();
     } catch (IllegalStateException ex) {
       Message.error()
           .clientId("applicationMessage")
-          .summary("Could not " + action + " module")
+          .summary(Ivy.cm().content("/applications/ExecutionErrorMessageSummary").replace("action", action).get())
           .detail(ex.getMessage())
           .exception(ex)
           .show();

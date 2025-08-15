@@ -28,6 +28,10 @@
       <directory>webContent/includes</directory>
       <outputDirectory>./META-INF/includes</outputDirectory>
     </fileSet>
+    <fileSet>
+      <directory>cms</directory>
+      <outputDirectory>./META-INF/ivy/cms</outputDirectory>
+    </fileSet>
   </fileSets>
   <files>
     <file>

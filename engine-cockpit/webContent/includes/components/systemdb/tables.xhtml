@@ -6,36 +6,36 @@
     <div class="card">
       <div class="flex align-items-center mb-3">
         <i class="pr-3 si si-layers-grid-settings"/>
-        <h6 id="tables" class="m-0">Tables</h6>
+        <h6 id="tables" class="m-0">#{ivy.cm.co('/common/Tables')}</h6>
       </div>
       <h:form>
         <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-          var="table" value="#{systemDatabaseInfoBean.tables}" widgetVar="systemDbTablesTable"
+          var="table" value="#{systemDatabaseInfoBean.tables}" widgetVar="systemDbTablesTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}"
           lazy="false" styleClass="userTable ui-fluid" id="systemDbTablesTable" filteredValue="#{systemDatabaseInfoBean.filteredTables}">
           <f:facet name="header">
             <div class="ui-input-icon-left filter-container">
               <i class="pi pi-search"/>
-              <p:inputText id="globalFilter" onkeyup="PF('systemDbTablesTable').filter()" placeholder="Search" value="#{systemDatabaseInfoBean.filterTable}" />
+              <p:inputText id="globalFilter" onkeyup="PF('systemDbTablesTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{systemDatabaseInfoBean.filterTable}" />
             </div>
           </f:facet>
-          <p:column headerText="Name" sortBy="#{table.name}" filterBy="#{table.name}">
+          <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{table.name}" filterBy="#{table.name}">
             <h:outputText value="#{table.name}" />
           </p:column>
-          <p:column style="width: 120px;" headerText="Row count" sortBy="#{table.rows}" filterBy="#{table.rows}">
+          <p:column style="width: 120px;" headerText="#{ivy.cm.co('/tables/RowCount')}" sortBy="#{table.rows}" filterBy="#{table.rows}">
             <div style="#{systemDatabaseInfoBean.backgroundRow(table.rows)}">
                 <h:outputText styleClass="gradient-text" value="#{table.rows}" />
             </div>
           </p:column>
-          <p:column style="width: 120px;" headerText="Disk size" sortBy="#{table.diskSize}" filterBy="#{systemDatabaseInfoBean.formatByteValue(table.diskSize)}">
+          <p:column style="width: 120px;" headerText="#{ivy.cm.co('/common/DiskSize')}" sortBy="#{table.diskSize}" filterBy="#{systemDatabaseInfoBean.formatByteValue(table.diskSize)}">
             <div style="#{systemDatabaseInfoBean.backgroundTableDiskSize(table.diskSize)}">
               <h:outputText styleClass="gradient-text" value="#{systemDatabaseInfoBean.formatByteValue(table.diskSize)}"/>
             </div>
           </p:column>
-          <p:column style="width: 120px;" headerText="Fragmentation" sortBy="#{table.fragmentation}" filterBy="#{table.fragmentation}">
+          <p:column style="width: 120px;" headerText="#{ivy.cm.co('/common/Fragmentation')}" sortBy="#{table.fragmentation}" filterBy="#{table.fragmentation}">
             <div style="#{systemDatabaseInfoBean.backgroundFragmentation(table.fragmentation)}">
               <h:outputText styleClass="gradient-text" value="#{table.fragmentation}" rendered="#{not systemDatabaseInfoBean.isNaN(table.fragmentation)}"/>
             </div>
-            <h:outputText value="n.a." rendered="#{systemDatabaseInfoBean.isNaN(table.fragmentation)}"/>
+            <h:outputText value="#{ivy.cm.co('/common/NotAvailable')}" rendered="#{systemDatabaseInfoBean.isNaN(table.fragmentation)}"/>
           </p:column>
         </p:dataTable>
       </h:form>

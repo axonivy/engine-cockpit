@@ -9,7 +9,7 @@
 </cc:interface>
 
 <cc:implementation>
-  <p:dialog id="directoryBrowserDialog" header="Directory Browser" widgetVar="directoryBrowserDialog" modal="true" closeOnEscape="true"
+  <p:dialog id="directoryBrowserDialog" header="#{ivy.cm.co('/directoryBrowser/DirectoryBrowserDialogHeader')}" widgetVar="directoryBrowserDialog" modal="true" closeOnEscape="true"
     width="70%" height="400">
     <h:form id="directoryBrowserForm" styleClass="directory-browser">
       <p:messages id="directoryBrowserMessage" for="directoryBrowserMessage" showDetail="true">
@@ -25,12 +25,12 @@
           </p:treeNode>
         </p:tree>
         <p:dataTable id="nodeAttrTable" var="attr" value="#{cc.attrs.directoryBrowser.selectedNodeProperties}"
-          scrollable="true" emptyMessage="Select a node to see its attributes"
+          scrollable="true" emptyMessage="#{ivy.cm.co('/directoryBrowser/NodePropertiesEmptyMessage')}"
           rendered="#{cc.attrs.directoryBrowser.tree != null}" styleClass="col-6">
-          <p:column headerText="Name">
+          <p:column headerText="#{ivy.cm.co('/common/Name')}">
             <h:outputText value="#{attr.name()}" styleClass="node-attr-name" />
           </p:column>
-          <p:column headerText="Value"
+          <p:column headerText="#{ivy.cm.co('/common/Value')}"
             style="min-width: #{empty cc.attrs.directoryBrowser.selectedNodeProperties ? '100px' : '1000px'}; white-space: pre-wrap; word-break: break-word;">
             <h:outputText value="#{attr.value()}" />
           </p:column>
@@ -38,9 +38,9 @@
       </div>
     </h:form>
     <f:facet name="footer">
-      <p:commandButton id="cancelDirectoryBrowser" onclick="PF('directoryBrowserDialog').hide();" value="Cancel" type="button"
+      <p:commandButton id="cancelDirectoryBrowser" onclick="PF('directoryBrowserDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-      <p:commandButton id="chooseDirectoryName" actionListener="#{cc.attrs.returnListener}" value="Choose"
+      <p:commandButton id="chooseDirectoryName" actionListener="#{cc.attrs.returnListener}" value="#{ivy.cm.co('/common/Choose')}"
         icon="si si-check-1" styleClass="modal-input-button" update="#{cc.attrs.updateFields}"
         onclick="PF('directoryBrowserDialog').hide();" disabled="#{cc.attrs.directoryBrowser.tree.childCount == 0}"/>
     </f:facet>

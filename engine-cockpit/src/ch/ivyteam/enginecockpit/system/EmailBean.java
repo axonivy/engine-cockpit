@@ -9,6 +9,7 @@ import javax.faces.view.ViewScoped;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.mail.MailClient;
 import ch.ivyteam.ivy.mail.MailClientConfigProvider;
 import ch.ivyteam.ivy.mail.MailMessage;
@@ -39,8 +40,8 @@ public class EmailBean {
     port = config.port();
     email = config.from();
     user = config.user();
-    subject = "Test Mail";
-    message = "This is a test mail.";
+    subject = Ivy.cm().co("/sendtestmail/TestMailSubjectDefault");
+    message = Ivy.cm().co("/sendtestmail/TestMailMessageDefault");
   }
 
   public String getHost() {
@@ -118,9 +119,9 @@ public class EmailBean {
       return "";
     }
     if (exception == null) {
-      return "Success";
+      return Ivy.cm().co("/common/Success");
     }
-    return "Failure";
+    return Ivy.cm().co("/common/Failure");
   }
 
   public boolean isSuccess() {

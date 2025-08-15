@@ -12,39 +12,39 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-cog"></i>
-        <h6 class="m-0">Bean</h6>
-        <p:commandButton id="start" title="Starts the bean" icon="si si-controls-play"
+        <h6 class="m-0">#{ivy.cm.co('/bean/Bean')}</h6>
+        <p:commandButton id="start" title="#{ivy.cm.co('/bean/StartsBean')}" icon="si si-controls-play"
             action="#{cc.attrs.event.start()}" update="@form" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button" disabled="#{cc.attrs.event.running}"/>
-        <p:commandButton id="stop" title="Stops the bean" icon="si si-controls-stop"
+        <p:commandButton id="stop" title="#{ivy.cm.co('/bean/StopsBean')}" icon="si si-controls-stop"
             action="#{cc.attrs.event.stop()}" update="@form" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{!cc.attrs.event.running}"/>
       </div>
     </div>
-    
+
     <p:panelGrid columns="2" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9" layout="flex"
       styleClass="grey-label-panel ui-fluid">
-      <p:outputLabel for="class" value="Class" />
+      <p:outputLabel for="class" value="#{ivy.cm.co('/bean/Class')}" />
       <h:outputText id="class" value="#{cc.attrs.event.beanClass}"/>
-      <p:outputLabel for="name" value="Name" />
+      <p:outputLabel for="name" value="#{ivy.cm.co('/common/Name')}" />
       <h:outputText id="name" value="#{cc.attrs.event.beanName}"/>
-      <p:outputLabel for="description" value="Description" />
+      <p:outputLabel for="description" value="#{ivy.cm.co('/common/Description')}" />
       <h:outputText id="description" value="#{cc.attrs.event.beanDescription}"/>
-      <p:outputLabel for="requestPath" value="Request Path" />
+      <p:outputLabel for="requestPath" value="#{ivy.cm.co('/bean/RequestPath')}" />
       <h:outputText id="requestPath" value="#{cc.attrs.event.fullRequestPath}"/>
-      <p:outputLabel for="serviceState" value="State" />
+      <p:outputLabel for="serviceState" value="#{ivy.cm.co('/common/State')}" />
       <h:outputText id="serviceState" value="#{cc.attrs.event.serviceState}"/>
-      <p:outputLabel for="configuration" value="Configuration" />
+      <p:outputLabel for="configuration" value="#{ivy.cm.co('/common/Configuration')}" />
       <p:outputPanel id="configuration" styleClass="code">#{cc.attrs.event.beanConfiguration}</p:outputPanel>
 
-      <p:outputLabel for="lastStart" value="Last Start" />
+      <p:outputLabel for="lastStart" value="#{ivy.cm.co('/bean/LastStart')}" />
       <h:outputText id="lastStart" value="#{cc.attrs.event.lastStartTimestamp}"/>
 
-      <p:outputLabel for="lastStartError" value="Last Start Error" />
+      <p:outputLabel for="lastStartError" value="#{ivy.cm.co('/bean/LastStartError')}" />
       <er:Error id="lastStartError" error="#{cc.attrs.event.lastStartError}"/>
 
-      <p:outputLabel for="lastInitError" value="Last Initialization Error" />
+      <p:outputLabel for="lastInitError" value="#{ivy.cm.co('/bean/LastInitializationError')}" />
       <er:Error id="lastInitError" error="#{cc.attrs.event.lastInitializationError}"/>
 
-      <p:outputLabel for="lastStopError" value="Last Stop Error" />
+      <p:outputLabel for="lastStopError" value="#{ivy.cm.co('/bean/LastStopError')}" />
       <er:Error id="lastStopError" error="#{cc.attrs.event.lastStopError}"/>
     </p:panelGrid>
   </h:form>

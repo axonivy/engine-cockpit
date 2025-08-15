@@ -6,11 +6,11 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Monitor</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
       <li>/</li>
-      <li><span>Java</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Java')}</span></li>
       <li>/</li>
-      <li><a href="monitorJvm.xhtml">JVM</a></li>
+      <li><a href="monitorJvm.xhtml">#{ivy.cm.co('/sidebar/JVM')}</a></li>
     </ui:define>
 
      <ui:define name="topbar-items">

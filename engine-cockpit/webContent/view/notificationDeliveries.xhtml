@@ -11,9 +11,9 @@
     </f:metadata>
 
     <ui:define name="breadcrumb">
-      <li><span>Services</span></li>
+      <li><span>#{ivy.cm.co('/common/Services')}</span></li>
       <li>/</li>
-      <li><a href="notifications.xhtml">Notifications</a></li>
+      <li><a href="notifications.xhtml">#{ivy.cm.co('/notificationDeliveries/Notifications')}</a></li>
       <li>/</li>
       <li><a href="#{notificationBean.notification.viewUrl}">#{notificationBean.notification.id}</a></li>
     </ui:define>
@@ -27,81 +27,81 @@
 
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-advertising-megaphone-2 card-title-icon"></i>
-          <h2 class="m-0">Notification #{notificationBean.notification.id}</h2>
-          <p:commandButton id="reusher" actionListener="#{notificationBean.notification.reusher}" title="Reevalute deliveries"
+          <h2 class="m-0">#{ivy.cm.co('/notificationDeliveries/Notification')} #{notificationBean.notification.id}</h2>
+          <p:commandButton id="reusher" actionListener="#{notificationBean.notification.reusher}" title="#{ivy.cm.co('/notificationDeliveries/ReevaluteDeliveries')}"
             icon="si si-multiple-actions-add" styleClass="flex-shrink-0 ml-auto rounded-button" update="tableForm"/>
-          <p:commandButton id="retry" actionListener="#{notificationBean.notification.retry}" title="Retry to deliver"
+          <p:commandButton id="retry" actionListener="#{notificationBean.notification.retry}" title="#{ivy.cm.co('/notificationDeliveries/RetryToDeliver')}"
             icon="si si-send-email" styleClass="flex-shrink-0 ml-1 rounded-button" update="tableForm"/>
         </div>
 
         <h:form id="tableForm" onkeypress="if (event.keyCode == 13) return false;">
           <p:dataTable id="deliveryTable" paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" var="delivery"
-            widgetVar="deliveryTable" value="#{notificationBean.dataModel}" lazy="true">
+            widgetVar="deliveryTable" value="#{notificationBean.dataModel}" lazy="true" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
             <f:facet name="header">
               <div class="flex">
                 <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
                   <i class="pi pi-search"/>
-                  <p:inputText id="globalFilter" onkeyup="PF('deliveryTable').filter()" placeholder="Search" value="#{notificationBean.dataModel.filter}" />
+                  <p:inputText id="globalFilter" onkeyup="PF('deliveryTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{notificationBean.dataModel.filter}" />
                 </span>
               </div>
             </f:facet>
 
-            <p:column headerText="ID">
+            <p:column headerText="#{ivy.cm.co('/common/ID')}">
               <h:outputText value="#{delivery.id}" />
             </p:column>
             
-            <p:column headerText="Channel" sortBy="#{delivery.channel}">
+            <p:column headerText="#{ivy.cm.co('/notificationDeliveries/Channel')}" sortBy="#{delivery.channel}">
               <p:link href="#{delivery.channelUri}" rendered="#{delivery.channelUri != null}">
                 <h:outputText value="#{delivery.channelIcon}" class="notification-channel-table-icon" escape="false" /> <!-- contains no user input, contains icon -->
                 <h:outputText value="#{delivery.channel}" />
               </p:link>
             </p:column>
 
-            <p:column headerText="Receiver">
+            <p:column headerText="#{ivy.cm.co('/notificationDeliveries/Receiver')}">
               <p:link href="#{delivery.receiverUri}" rendered="#{delivery.receiverUri != null}">
                 <i class="#{delivery.receiverIcon} table-icon"/>
                 <h:outputText value="#{delivery.receiver}" />
               </p:link>
-              <h:outputText value="DELETED" rendered="#{delivery.receiverUri == null}"/>
+              <h:outputText value="#{ivy.cm.co('/notificationDeliveries/Deleted')}" rendered="#{delivery.receiverUri == null}"/>
             </p:column>
 
-            <p:column headerText="State">
+            <p:column headerText="#{ivy.cm.co('/common/State')}">
               <h:outputText id="deliveryState" value="#{delivery.deliveryState}" />
             </p:column>
             
-            <p:column headerText="Delivered" sortBy="#{delivery.deliveredAt}" sortOrder="desc">
+            <p:column headerText="#{ivy.cm.co('/notificationDeliveries/Delivered')}" sortBy="#{delivery.deliveredAt}" sortOrder="desc">
               <h:outputText value="#{delivery.deliveredAt}">
                 <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
               </h:outputText>
             </p:column>
 
-            <p:column headerText="Read" sortBy="#{delivery.readAt}">
+            <p:column headerText="#{ivy.cm.co('/notificationDeliveries/Read')}" sortBy="#{delivery.readAt}">
               <h:outputText value="#{delivery.readAt}">
                 <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
               </h:outputText>
             </p:column>
 
-            <p:column headerText="Hidden">
+            <p:column headerText="#{ivy.cm.co('/notificationDeliveries/Hidden')}">
               <h:outputText value="#{delivery.hidden}" />
             </p:column>
 
-            <p:column headerText="Errors">
+            <p:column headerText="#{ivy.cm.co('/notificationDeliveries/Errors')}">
               <p:outputPanel id="error" rendered="#{delivery.numberOfErrors gt 0}">
                 <h:panelGroup>
                   <i class="si si-delete-1 table-icon state-inactive"></i>
                   <h:outputText value="#{delivery.numberOfErrors}" />
-                </h:panelGroup>        
+                </h:panelGroup>
                 <h:panelGroup rendered="#{not empty delivery.nextRetryAt}">
                   <i class="si si-synchronize-arrow-clock table-icon"></i>
                   <h:outputText value="#{delivery.nextRetryIn}" />
                 </h:panelGroup>
               </p:outputPanel>
               <p:tooltip id="errorDetails" for="error">
-                <h5 class="flex align-items-center"><i class="si si-computer-chip-search"></i><h:outputText value="&#160;"/>Error Information</h5>
+                <h5 class="flex align-items-center"><i class="si si-computer-chip-search"></i><h:outputText value="&#160;"/>#{ivy.cm.co('/notificationDeliveries/ErrorInformation')}</h5>
                 <p:panelGrid layout="grid" columns="2" columnClasses="ui-g-3, ui-g-9">
-                  <p:outputLabel value="Failed deliver attemps so far:"/>
+                  <p:outputLabel value="#{ivy.cm.co('/notificationDeliveries/FailedDeliverAttemps')}"/>
                   <h:outputText value="#{delivery.numberOfErrors}" />
-                  <p:outputLabel value="Next retry to deliver:"/>
+                  <p:outputLabel value="#{ivy.cm.co('/notificationDeliveries/NextRetryToDeliver')}"/>
                   <h:panelGroup>
                     <h:outputText value="#{delivery.nextRetryIn}"/>
                     <h:outputText value="&#160;("/>
@@ -110,14 +110,14 @@
                     </h:outputText>
                     <h:outputText value=")"/>
                   </h:panelGroup>
-                  <p:outputLabel value="Last Error:"/>
+                  <p:outputLabel value="#{ivy.cm.co('/notificationDeliveries/LastError')}"/>
                   <h:outputText value="#{delivery.error}"/>
                 </p:panelGrid>
               </p:tooltip>
             </p:column>
-            
+
             <p:column styleClass="table-btn-1">
-              <p:commandButton id="retry" title="Retry to deliver" icon="si si-send-email" rendered="#{delivery.numberOfErrors gt 0}"
+              <p:commandButton id="retry" title="#{ivy.cm.co('/notificationDeliveries/RetryToDeliver')}" icon="si si-send-email" rendered="#{delivery.numberOfErrors gt 0}"
                 actionListener="#{delivery.retry}" ajax="true" update="@form" styleClass="rounded-button"/>
             </p:column>
 

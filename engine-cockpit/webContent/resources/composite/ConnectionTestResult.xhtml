@@ -12,9 +12,11 @@
   <cc:attribute name="saveHint" default="false" />
 </cc:interface>
 <cc:implementation>
-  <p:dialog header="Connection Test - Url: #{cc.attrs.url}" id="connectionTestModel" width="70%"
+  <p:dialog header="#{ivy.cm.co('/connectionTestResult/ConnectionTestDialogHeader')} #{cc.attrs.url}" id="connectionTestModel" width="70%"
     widgetVar="connectionTestModel" modal="true" responsive="false" closeOnEscape="true" >
-    <p:staticMessage rendered="#{cc.attrs.saveHint}" severity="info" summary="Info" detail="Make sure that you saved your changes before you test the connection." />
+    <p:staticMessage rendered="#{cc.attrs.saveHint}" severity="info"
+      summary="#{ivy.cm.co('/common/Info')}"
+      detail="#{ivy.cm.co('/connectionTestResult/ConnectionTestDialogHintMessage')}" />
     <h:form id="connTestForm" styleClass="custom-dialog-form">
       <h:panelGroup style="height:150px" id="missingCertView" rendered="#{cc.attrs.bean.hasMissingCerts(cc.attrs.url)}">
         <jc:TlsTesterMissingCertView id="missing" bean="#{tlsTesterBean}" cert="#{cc.attrs.bean.missingCert}" />
@@ -31,13 +33,13 @@
       </div>
       <div class="custom-dialog-footer">
         <p:commandButton id="closeConTesterDialog" onclick="PF('connectionTestModel').hide(); #{cc.attrs.reset};" 
-           value="Close" type="button" update="connTestForm"
+           value="#{ivy.cm.co('/common/Close')}" type="button" update="connTestForm"
            styleClass="modal-input-button ui-button-secondary ui-button-flat"/>
-        <p:commandButton id="testTlsConectionBtn" title="TLS Connection Test" rendered="#{tlsTesterBean.isHttps(cc.attrs.url) || tlsTesterBean.isJdbc(cc.attrs.url)}"
-           icon="si si-arrow-right" value="TLS Test"
+        <p:commandButton id="testTlsConectionBtn" title="#{ivy.cm.co('/connectionTestResult/TLSTestButtonTitle')}" rendered="#{tlsTesterBean.isHttps(cc.attrs.url) || tlsTesterBean.isJdbc(cc.attrs.url)}"
+           icon="si si-arrow-right" value="#{ivy.cm.co('/connectionTestResult/TLSTestButton')}"
            update="@form" styleClass="modal-input-button"
            actionListener="#{tlsTesterBean.testConnection(cc.attrs.url)}" />
-        <p:commandButton id="testConnectionBtn" title="Test Connection" update="@form" value="Test Connection"
+        <p:commandButton id="testConnectionBtn" title="#{ivy.cm.co('/connectionTestResult/TestConnection')}" update="@form" value="#{ivy.cm.co('/connectionTestResult/TestConnection')}"
            icon="si si-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod};"
            immediate="true" process="@this" async="true" onclick="buttonAddSpinner(this);" action="#{tlsTesterBean.setTlsTestRendered(false)}"/>
       </div>

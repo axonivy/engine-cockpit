@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import ch.ivyteam.enginecockpit.security.model.NotificationChannelDataModel.NotificationEventDto;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.notification.channel.Event;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 import ch.ivyteam.ivy.notification.channel.NotificationSubscription;
@@ -66,15 +67,16 @@ public class NotificationChannelDto {
 
     if (subscribedByUser || (useDefault && subscription.isSubscribedByDefault())) {
       icon.append("check-circle-1 state-active");
-      iconTitle.append("Subscribed");
+      iconTitle.append(Ivy.cm().co("/userDetailNotifications/Subscribed"));
     } else {
       icon.append("remove-circle state-inactive");
-      iconTitle.append("Not subscribed");
+      iconTitle.append(Ivy.cm().co("/userDetailNotifications/NotSubscribed"));
     }
 
     if (useDefault) {
       icon.append(" light");
-      iconTitle.append(" by default");
+      iconTitle.append(" ");
+      iconTitle.append(Ivy.cm().co("/userDetailNotifications/ByDefault"));
     }
 
     subscription.setIcon(icon.toString());

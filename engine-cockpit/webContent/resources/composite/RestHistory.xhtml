@@ -11,29 +11,29 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-optimization-timer"></i>
-        <h6 class="m-0">Execution History (last 200)</h6>
+        <h6 class="m-0">#{ivy.cm.co('/common/ExecutionHistory')}</h6>
       </div>
     </div>
 
-      <p:dataTable value="#{cc.attrs.bean.executionHistory}" var="exec"
+      <p:dataTable value="#{cc.attrs.bean.executionHistory}" var="exec" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}"
         id="execHistoryTable" paginator="true" rows="5" tableStyle="width:100%; table-layout:auto;"
         paginatorPosition="bottom" paginatorAlwaysVisible="false">
-        
-        <p:column headerText="Timestamp" width="10em" sortBy="#{exec.timestamp()}">
+
+        <p:column headerText="#{ivy.cm.co('/common/Timestamp')}" width="10em" sortBy="#{exec.timestamp()}">
           <h:outputText value="#{exec.prettyTime}" title="#{exec.formattedTime}"/>
         </p:column>
 
-        <p:column headerText="Exec Time"
+        <p:column headerText="#{ivy.cm.co('/common/ExecTime')}"
           sortBy="#{exec.execTime()}">
-          <h:outputText value="#{exec.execTime()} ms" title="The time needed to execute the statement" />
+          <h:outputText value="#{exec.execTime()} ms" title="#{ivy.cm.co('/common/ExecTimeValueTitle')}" />
         </p:column>
 
-        <p:column headerText="Request Url" style="word-wrap: anywhere;"
+        <p:column headerText="#{ivy.cm.co('/restHistory/RequestUrl')}" style="word-wrap: anywhere;"
           sortBy="#{exec.requestUrl()}">
           <h:outputText value="#{exec.requestUrl()} #{exec.requestMethod()}"/>
         </p:column>
-       
-        <p:column headerText="Process Element" width="12em" sortBy="#{exec.processElementId()}">
+
+        <p:column headerText="#{ivy.cm.co('/restHistory/ProcessElement')}" width="12em" sortBy="#{exec.processElementId()}">
           <h:outputText value="#{exec.processElementId()}" />
         </p:column>
       </p:dataTable>

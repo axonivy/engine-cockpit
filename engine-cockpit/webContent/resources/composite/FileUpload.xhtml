@@ -3,8 +3,9 @@
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
-  <cc:attribute name="title" default="File Upload" />
+  <cc:attribute name="title" default="#{ivy.cm.co('/fileUpload/FileUploadDialogDefaultTitle')}" />
   <cc:attribute name="apiUrl" />
+  <cc:attribute name="acceptFilesPlaceholder" default="#{ivy.cm.co('/fileUpload/AcceptFilesPlaceholder')}" />
   <cc:attribute name="acceptFiles" />
 </cc:interface>
 <cc:implementation>
@@ -15,32 +16,33 @@
       <div class="file-upload ui-fluid">
         <input type="file" id="fileInput" class="deploy-file" required="required" accept="#{cc.attrs.acceptFiles}" />
         <p:panelGrid columns="2" columnClasses="col-4, col-8" layout="flex">
-          <p:commandButton id="chooseFileBtn" type="button" icon="si si-add" value="Choose file"
+          <p:commandButton id="chooseFileBtn" type="button" icon="si si-add" value="#{ivy.cm.co('/fileUpload/ChooseFileButton')}"
             onclick="$('#fileInput').trigger('click')" style="width: 100%;" />
           <div id="drop_zone" class="drop-zone">
             <span id="selectedFileOutput" class="file-upload-file" />
           </div>
         </p:panelGrid>
-        <p:staticMessage id="uploadError" severity="error" summary="Error" detail="Choose a valid file before upload" style="display: none;" />
+        <p:staticMessage id="uploadError" severity="error" summary="#{ivy.cm.co('/common/Error')}" detail="#{ivy.cm.co('/fileUpload/ChooseValidFileBeforeUpload')}" style="display: none;" />
         <cc:insertChildren />
       </div>
-      <p:commandButton id="uploadBtn" validateClient="true" type="button" value="Upload" icon="si si-upload-bottom"
+      <p:commandButton id="uploadBtn" validateClient="true" type="button" value="#{ivy.cm.co('/common/Upload')}" icon="si si-upload-bottom"
         styleClass="modal-input-button" onclick="upload();" />
-      <p:commandButton id="cancelDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="Cancel" type="button"
+      <p:commandButton id="cancelDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
     </form>
     <div id="fileUploadResponse" style="display:none;">
       <div style="font-weight: bold;" id="uploadStatus"></div>
       <pre id="uploadLog"></pre>
       <div class="flex flex-row-reverse">
-        <p:commandButton id="closeDeploymentBtn" onclick="closeFileUpload();" value="Close" type="button"
+        <p:commandButton id="closeDeploymentBtn" onclick="closeFileUpload();" value="#{ivy.cm.co('/common/Close')}" type="button"
           icon="si si-remove-circle" styleClass="modal-input-button" />
-        <p:commandButton id="backBtn" type="button" value="Back" icon="si si-navigation-left-circle-1"
+        <p:commandButton id="backBtn" type="button" value="#{ivy.cm.co('/common/Back')}" icon="si si-navigation-left-circle-1"
           styleClass="ui-button-secondary ui-button-flat modal-input-button" onclick="back();" />
       </div>
     </div>
     <script>
       var accepts = "#{cc.attrs.acceptFiles}".split(",").map(Function.prototype.call, String.prototype.trim);
+      var acceptFilesPlaceholder = "#{cc.attrs.acceptFilesPlaceholder}";
       var uploadUrl = "#{advisorBean.apiBaseUrl}/#{cc.attrs.apiUrl}"
       var compositeId = "#{cc.attrs.id}";
       var headers = { 

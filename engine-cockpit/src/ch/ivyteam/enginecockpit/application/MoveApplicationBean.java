@@ -8,6 +8,7 @@ import javax.faces.bean.ViewScoped;
 
 import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.ivy.application.internal.app.move.ApplicationMover;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
@@ -36,13 +37,13 @@ public class MoveApplicationBean {
   public void validate() {
     if (targetSecuritySystem == null || targetSecuritySystem.isEmpty()) {
       state = ValidationState.INVALID;
-      validationMessage = "No target security system selected";
+      validationMessage = Ivy.cm().co("/moveApplication/NoTargetSecuritysystemSelectedMessage");
       return;
     }
     var result = mover().validate();
     if (result.ok()) {
       state = ValidationState.VALID;
-      validationMessage = "Application can be moved to target security system";
+      validationMessage = Ivy.cm().co("/moveApplication/ValidSecuritysystemSelectedMessage");
     } else {
       state = ValidationState.INVALID;
       validationMessage = result.errors().stream().collect(Collectors.joining(", "));

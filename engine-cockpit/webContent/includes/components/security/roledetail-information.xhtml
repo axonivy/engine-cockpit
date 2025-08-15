@@ -11,55 +11,55 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-information-circle"></i>
-        <h6 class="m-0">Role information</h6>
+        <h6 class="m-0">#{ivy.cm.co('/roleDetailInformation/RoleInformation')}</h6>
         <p:commandButton id="createNewChildRole" type="button" onclick="PF('newChildRoleModal').show()"
-          title="Add new child role" icon="si si-add" styleClass="flex-shrink-0 ml-auto rounded-button" />
+          title="#{ivy.cm.co('/roleDetailInformation/AddNewChildRole')}" icon="si si-add" styleClass="flex-shrink-0 ml-auto rounded-button" />
         <p:commandButton id="deleteRole" rendered="#{roleDetailBean.canDeleteRole()}" type="button"
-          onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role" icon="si si-bin-1"
+          onclick="PF('deleteRoleConfirmDialog').show()" title="#{ivy.cm.co('/roleDetailInformation/DeleteRole')}" icon="si si-bin-1"
           styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
         <p:confirmDialog id="deleteRoleConfirmDialog"
-          message="Are you sure you want to delete the role '#{roleDetailBean.name}'?" header="Delete Role" severity="alert"
+          message="#{ivy.cm.content('/roleDetailInformation/DeleteRoleDialogConfirmMessage').replace('role', roleDetailBean.name).get()}" header="#{ivy.cm.co('/roleDetailInformation/DeleteRoleDialogHeader')}" severity="alert"
           widgetVar="deleteRoleConfirmDialog">
-          <p:staticMessage severity="warn" detail="This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes will fail in the future." />
-          <p:commandButton value="Cancel" onclick="PF('deleteRoleConfirmDialog').hide();" type="button"
+          <p:staticMessage severity="warn" detail="#{ivy.cm.co('/roleDetailInformation/DeleteRoleDialogWarningMessage')}" />
+          <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteRoleConfirmDialog').hide();" type="button"
             styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-          <p:commandButton id="deleteRoleConfirmDialogYesBtn" value="Delete" immediate="true"
+          <p:commandButton id="deleteRoleConfirmDialogYesBtn" value="#{ivy.cm.co('/common/Delete')}" immediate="true"
             action="#{roleDetailBean.deleteRole}" styleClass="modal-input-button" icon="si si-bin-1" />
         </p:confirmDialog>
-        <p:commandButton id="saveRoleInformation" actionListener="#{roleDetailBean.saveRoleInfos}" title="Save changes"
+        <p:commandButton id="saveRoleInformation" actionListener="#{roleDetailBean.saveRoleInfos}" title="#{ivy.cm.co('/common/SaveChanges')}"
           icon="si si-floppy-disk" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button" update="usersOfRoleForm" />
       </div>
     </div>
-    
+
     <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
       styleClass="grey-label-panel ui-fluid">
  
-      <p:outputLabel for="name" value="Name" />
+      <p:outputLabel for="name" value="#{ivy.cm.co('/common/Name')}" />
       <h:panelGroup layout="block" styleClass="ui-inputgroup">
         <p:inputText id="name" disabled="true" value="#{roleDetailBean.role.name}" />
-        <p:commandButton id="renameRole" icon="si si-pencil" title="Rename Role"
+        <p:commandButton id="renameRole" icon="si si-pencil" title="#{ivy.cm.co('/roleDetailInformation/RenameRole')}"
           onclick="PF('renameRoleModal').show()"
           disabled="#{!roleDetailBean.canRenameRole()}" />
       </h:panelGroup>
  
-      <p:outputLabel for="displayName" value="Display Name" />
+      <p:outputLabel for="displayName" value="#{ivy.cm.co('/roleDetailInformation/DisplayName')}" />
       <p:inputText id="displayName" value="#{roleDetailBean.role.displayName}" />
   
-      <p:outputLabel for="description" value="Description" />
+      <p:outputLabel for="description" value="#{ivy.cm.co('/common/Description')}" />
       <p:inputText id="description" value="#{roleDetailBean.role.description}" />
   
-      <p:outputLabel for="parentRole" value="Parent Role" />
+      <p:outputLabel for="parentRole" value="#{ivy.cm.co('/roleDetailInformation/ParentRole')}" />
       <h:panelGroup layout="block" styleClass="ui-inputgroup">
         <p:inputText id="parentRole" disabled="true" value="#{roleDetailBean.role.parentRoleName}" />
-        <p:commandButton id="updateRoleParent" icon="si si-pencil" title="Update Role Parent"
+        <p:commandButton id="updateRoleParent" icon="si si-pencil" title="#{ivy.cm.co('/roleDetailInformation/UpdateRoleParentButtonTitle')}"
           onclick="PF('updateRoleParentModal').show()"
           disabled="#{!roleDetailBean.canUpdateRoleParent()}" />
       </h:panelGroup>
 
-      <p:outputLabel for="externalSecurityName" value="External Name" />
+      <p:outputLabel for="externalSecurityName" value="#{ivy.cm.co('/roleDetailInformation/ExternalName')}" />
       <h:panelGroup layout="block" styleClass="ui-inputgroup">
         <p:inputText id="externalSecurityName" value="#{roleDetailBean.role.externalName}" />
-        <p:commandButton id="browseExternalName" icon="si si-network-browser" title="Browse"
+        <p:commandButton id="browseExternalName" icon="si si-network-browser" title="#{ivy.cm.co('/common/Browse')}"
           actionListener="#{roleDetailBean.browseDirectory}" update="directoryBrowser:directoryBrowserDialog"
           oncomplete="PF('directoryBrowserDialog').show();"
           disabled="#{roleDetailBean.directoryBrowserDisabled}" />

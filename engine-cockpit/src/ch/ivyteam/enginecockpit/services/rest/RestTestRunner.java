@@ -16,6 +16,7 @@ import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.restricted.di.ApplicationContext;
 import ch.ivyteam.ivy.application.restricted.di.ProcessModelVersionContext;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.security.di.SecurityContextContext;
 
@@ -41,7 +42,13 @@ public class RestTestRunner {
   @SuppressWarnings("restriction")
   private ConnectionTestResult testInAppContext() {
     var clientPmv = findClientPmv();
-    return new ProcessModelVersionContext(clientPmv.get()).getInContext(this::testInPmvContext);
+    String invalidUrlMsg = Ivy.cm().co("/connectionTestResult/InvalidRestClientUrlMessage");
+    String successMsg = Ivy.cm().co("/connectionTestResult/ConnectToRestServiceSuccessMessage");
+    String notUnderstandRequestMsg = Ivy.cm().co("/connectionTestResult/ConnectToRestServiceSuccessMessage");
+    String authMsg = Ivy.cm().co("/connectionTestResult/ConnectionTestRestClientAuthenticationMessage");
+    String failMsg = Ivy.cm().co("/connectionTestResult/ConnectToRestServiceFailMessage");
+    return new ProcessModelVersionContext(clientPmv.get())
+        .getInContext(() -> testInPmvContext(invalidUrlMsg, successMsg, notUnderstandRequestMsg, authMsg, failMsg));
   }
 
   @SuppressWarnings("restriction")
@@ -53,16 +60,16 @@ public class RestTestRunner {
         .findAny();
   }
 
-  private ConnectionTestResult testInPmvContext() {
+  private ConnectionTestResult testInPmvContext(String invalidUrlMsg, String successMsg, String notUnderstandRequestMsg,
+      String authMsg, String failMsg) {
     try {
       var client = createClient();
       try (var response = client.request().head()) {
         StatusType status = response.getStatusInfo();
-        return toTestResult(status);
+        return toTestResult(status, successMsg, notUnderstandRequestMsg, authMsg, failMsg);
       }
     } catch (ProcessingException ex) {
-      return new ConnectionTestResult("", 0, TestResult.ERROR, "Invalid Url (may contains script context)\n"
-          + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
+      return new ConnectionTestResult("", 0, TestResult.ERROR, invalidUrlMsg + ExceptionUtils.getStackTrace(ex));
     }
   }
 
@@ -73,18 +80,19 @@ public class RestTestRunner {
         .create();
   }
 
-  static ConnectionTestResult toTestResult(StatusType status) {
+  static ConnectionTestResult toTestResult(StatusType status, String successMsg, String notUnderstandRequestMsg,
+      String authMsg, String failMsg) {
     var code = status.getStatusCode();
     Family family = status.getFamily();
     if (Family.SUCCESSFUL.equals(family) || Family.REDIRECTION.equals(family)) {
-      return new ConnectionTestResult("HEAD", code, TestResult.SUCCESS, "Successfully sent test request to REST service");
+      return new ConnectionTestResult("HEAD", code, TestResult.SUCCESS, successMsg);
     }
     if (code == 400) {
-      return new ConnectionTestResult("HEAD", code, TestResult.WARNING, "REST service does not understand test request");
+      return new ConnectionTestResult("HEAD", code, TestResult.WARNING, notUnderstandRequestMsg);
     } else if (code == 401) {
-      return new ConnectionTestResult("HEAD", code, TestResult.WARNING, "Authentication was not successful");
+      return new ConnectionTestResult("HEAD", code, TestResult.WARNING, authMsg);
     }
-    return new ConnectionTestResult("HEAD", code, TestResult.ERROR, "Could not connect to REST service");
+    return new ConnectionTestResult("HEAD", code, TestResult.ERROR, failMsg);
   }
 
 }

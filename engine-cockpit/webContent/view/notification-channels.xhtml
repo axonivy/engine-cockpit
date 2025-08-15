@@ -10,9 +10,9 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Services</span></li>
+      <li><span>#{ivy.cm.co('/common/Services')}</span></li>
       <li>/</li>
-      <li><a href="notification-channels.xhtml">Notification Channels</a></li>
+      <li><a href="notification-channels.xhtml">#{ivy.cm.co('/common/NotificationChannels')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -24,7 +24,7 @@
         <p:growl id="msgs" showDetail="true" />
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-advertising-megaphone-2 card-title-icon"></i>
-          <h2 class="m-0">Notification Channels</h2>
+          <h2 class="m-0">#{ivy.cm.co('/common/NotificationChannels')}</h2>
         </div>
         <cc:SecuritySystemTabs tabChange="#{notificationChannelsBean.onload}" id="securitySystems">
           <ui:include src="../includes/components/services/notification-channels-table.xhtml" />

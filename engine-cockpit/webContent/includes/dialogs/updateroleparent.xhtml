@@ -3,26 +3,26 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog id="updateRoleParentDialog" style="min-width: 300px;" header="Update Role Parent #{roleDetailBean.name}"
+<p:dialog id="updateRoleParentDialog" style="min-width: 300px;" header="#{ivy.cm.co('/updateRoleParent/UpdateRoleParentDialogHeader')} #{roleDetailBean.name}"
   widgetVar="updateRoleParentModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="updateRoleParentForm" styleClass="custom-dialog-form">
 
-    <p:staticMessage severity="warn" detail="This is a critical and dangerous operation, at least for non-dynamic roles. The role hierarchy is defined in your Axon Ivy Project and your running process may depend on this hierachy." />
-  
+    <p:staticMessage severity="warn" detail="#{ivy.cm.co('/updateRoleParent/UpdateRoleParentDialogWarningMessage')}" />
+
     <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
-      <p:outputLabel for="updateRoleParentNameInput" value="Name" />
-      <h:panelGroup styleClass="md-inputfield">          
-        <p:selectOneMenu id="updateRoleParentNameInput" value="#{roleDetailBean.newParentRoleName}"  filter="true" filterMatchMode="startsWith">
+      <p:outputLabel for="updateRoleParentNameInput" value="#{ivy.cm.co('/common/Name')}" />
+      <h:panelGroup styleClass="md-inputfield">
+        <p:selectOneMenu id="updateRoleParentNameInput" value="#{roleDetailBean.newParentRoleName}" filter="true" filterMatchMode="startsWith">
           <f:selectItems value="#{roleDetailBean.roles}" var="role" itemLabel="#{role}" itemValue="#{role}" />
-        </p:selectOneMenu>          
+        </p:selectOneMenu>
         <p:message for="updateRoleParentNameInput" id="newRoleNameMessage" />
       </h:panelGroup>
     </p:panelGrid>
     <div class="custom-dialog-footer">
-      <p:commandButton id="cancelupdateRoleParent" onclick="PF('updateRoleParentModal').hide();" value="Cancel" type="button"
+      <p:commandButton id="cancelupdateRoleParent" onclick="PF('updateRoleParentModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="updateRoleParent" validateClient="true" action="#{roleDetailBean.updateRoleParent}" ajax="false"
-        update="@form" value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" />
+        update="@form" value="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk" styleClass="modal-input-button" />
     </div>
   </h:form>
 </p:dialog>

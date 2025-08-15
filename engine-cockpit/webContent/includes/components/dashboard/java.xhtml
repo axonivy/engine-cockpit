@@ -7,18 +7,18 @@
   <div class="card-header">
     <div class="card-title flex align-items-center">
       <i class="pr-3 si si-information-circle"></i>
-      <h6 class="m-0" style="margin: 0; padding-left: 0">Java</h6>
-      <p:commandButton id="tasksButtonJavaDetail" onclick="PF('javaDetailDialog').show();" title="Java Details" type="button"
+      <h6 class="m-0" style="margin: 0; padding-left: 0">#{ivy.cm.co('/java/Java')}</h6>
+      <p:commandButton id="tasksButtonJavaDetail" onclick="PF('javaDetailDialog').show();" title="#{ivy.cm.co('/java/JavaDetails')}" type="button"
         icon="si si-information-circle" styleClass="flex-shrink-0 ml-auto ui-button-secondary rounded-button" />
     </div>
   </div>
   <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8"
     styleClass="grey-label-panel">
-    <label>Product</label>
+    <label>#{ivy.cm.co('/common/Product')}</label>
     <h:outputText value="#{javaBean.name}" />
-    <label>Version</label>
+    <label>#{ivy.cm.co('/java/Version')}</label>
     <h:outputText value="#{javaBean.version}" />
-    <label>Vendor</label>
+    <label>#{ivy.cm.co('/java/Vendor')}</label>
     <h:outputText value="#{javaBean.vendor}" />
   </p:panelGrid>
 </div>

@@ -6,9 +6,9 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Services</span></li>
+      <li><span>#{ivy.cm.co('/common/Services')}</span></li>
       <li>/</li>
-      <li><a href="searchengine.xhtml">Search Engine</a></li>
+      <li><a href="searchengine.xhtml">#{ivy.cm.co('/common/SearchEngine')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -17,8 +17,8 @@
 
     <ui:define name="content">
       <p:staticMessage rendered="#{searchEngineBean.hasFailure()}"
-         summary="Search Engine server problem" severity="warn"
-         detail="Could not connect to Search Engine server: #{searchEngineBean.failure}" />
+         summary="#{ivy.cm.co('/searchEngine/SearchEngineServerProblem')}" severity="warn"
+         detail="#{ivy.cm.co('/searchEngine/SearchEngineServerProblemMessage')} #{searchEngineBean.failure}" />
       <h:panelGroup rendered="#{!searchEngineBean.hasFailure()}">
         <div class="layout-dashboard">
           <div class="grid">

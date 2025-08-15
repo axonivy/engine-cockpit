@@ -11,29 +11,29 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-multiple-neutral-1"></i>
-        <h6 class="m-0">Role members</h6>
+        <h6 class="m-0">#{ivy.cm.co('/roleDetailMembers/RoleMembers')}</h6>
       </div>
     </div>
-    
+
     <div class="flex ui-fluid">
       <p:autoComplete id="addMemberDropDown" value="#{roleDetailBean.roleMemberName}" dropdown="true" forceSelection="true"
         completeMethod="#{roleDetailBean.searchMember}" style="width: 100%;" styleClass="card-autocomplete-search"
-        placeholder="Search role to add" />
+        placeholder="#{ivy.cm.co('/roleDetailMembers/SearchRoleToAddPlaceholder')}" />
       <p:commandButton id="addMemberToRoleBtn" update="membersOfRoleForm" actionListener="#{roleDetailBean.addMember}"
-        icon="si si-add" title="Add" 
+        icon="si si-add" title="#{ivy.cm.co('/common/Add')}" 
         styleClass="ml-1 flex-shrink-0 rounded-button" />
     </div>
     <p:dataTable id="roleMemberTable" value="#{roleDetailBean.membersOfRole}" widgetVar="membersOfRoleTable" var="member"
       filteredValue="#{roleDetailBean.filteredMembers}" lazy="false" paginator="true" rows="10" paginatorPosition="bottom"
-      paginatorAlwaysVisible="false" styleClass="mt-2">
+      paginatorAlwaysVisible="false" styleClass="mt-2" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
       <f:facet name="header">
         <div class="ui-input-icon-left filter-container">
           <i class="pi pi-search"/>
-          <p:inputText onkeyup="PF('membersOfRoleTable').filter()" placeholder="Search" id="globalFilter" value="#{roleDetailBean.membersFitler}" />
+          <p:inputText onkeyup="PF('membersOfRoleTable').filter()" placeholder="#{ivy.cm.co('/roleDetailMembers/SearchRolesPlaceholder')}" id="globalFilter" value="#{roleDetailBean.membersFitler}" />
         </div>
       </f:facet>
-      
-      <p:column styleClass="member-row" headerText="Role Members Of Role" sortBy="#{member.name}"
+
+      <p:column styleClass="member-row" headerText="#{ivy.cm.co('/roleDetailMembers/RoleMembersOfRole')}" sortBy="#{member.name}"
         filterBy="#{member.name}">
         <a href="#{member.getViewUrl()}">
           <h:outputText styleClass="member-name" value="#{member.name}">
@@ -44,7 +44,7 @@
       </p:column>
       <p:column styleClass="table-btn-1">
         <p:commandButton id="removeMemberFromRoleBtn" update="membersOfRoleForm"
-          actionListener="#{roleDetailBean.removeMember(member.name)}" icon="si si-subtract" title="Remove"
+          actionListener="#{roleDetailBean.removeMember(member.name)}" icon="si si-subtract" title="#{ivy.cm.co('/common/Remove')}"
           styleClass="ui-button-secondary rounded-button" />
       </p:column>
     </p:dataTable>

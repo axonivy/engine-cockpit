@@ -14,33 +14,33 @@
 <cc:implementation>
   <p:commandButton id="editFeatureBtn"
     actionListener="#{cc.attrs.bean.setFeature(feature.clazz)}"
-    icon="si si-pencil" title="Edit" disabled="#{feature.default}"
+    icon="si si-pencil" title="#{ivy.cm.co('/common/Edit')}" disabled="#{feature.default}"
     update="@form" rendered="#{!cc.attrs.isNewFeature}"
     oncomplete="PF('featureModal').show();" process="@this" 
     styleClass="flex-shrink-0 ml-1 ui-button-secondary rounded-button" />
 
   <p:commandButton id="deleteFeatureBtn" disabled="#{feature.default}"
     actionListener="#{cc.attrs.bean.removeFeature(feature.clazz)}"
-    update="#{cc.attrs.formName}" icon="si si-bin-1" title="Delete"
+    update="#{cc.attrs.formName}" icon="si si-bin-1" title="#{ivy.cm.co('/common/Delete')}"
     rendered="#{!cc.attrs.isNewFeature}" process="@this"
     styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
 
   <p:commandButton id="newServiceFeatureBtn"
     oncomplete="PF('featureModal').show();" process="@this"
     actionListener="#{cc.attrs.bean.setFeature(null)}"
-    update="featureModal" title="Add" icon="si si-add"
+    update="featureModal" title="#{ivy.cm.co('/common/Add')}" icon="si si-add"
     rendered="#{cc.attrs.isNewFeature}"
     styleClass="flex-shrink-0 ml-auto rounded-button" />
 
-  <p:dialog header="Feature" style="text-align: left;" id="featureModal"
+  <p:dialog header="#{ivy.cm.co('/common/Feature')}" style="text-align: left;" id="featureModal"
     widgetVar="featureModal" modal="true" responsive="true"
     closeOnEscape="true" width="40em">
     <h:form id="featureForm" styleClass="custom-dialog-form">
       <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9"
         styleClass="grey-label-panel ui-fluid">
-        <p:outputLabel for="nameInput" value="Name" />
+        <p:outputLabel for="nameInput" value="#{ivy.cm.co('/common/Name')}" />
         <h:panelGroup styleClass="md-inputfield">
-          <p:inputText id="nameInput" requiredMessage="Value is required"
+          <p:inputText id="nameInput" requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}"
             value="#{cc.attrs.bean.feature.clazz}" required="true" />
           <p:message for="nameInput" id="nameMessage" />
         </h:panelGroup>
@@ -48,13 +48,13 @@
 
       <div class="custom-dialog-footer">
         <p:commandButton id="cancelFeature"
-          onclick="PF('featureModal').hide();" value="Cancel" type="button"
+          onclick="PF('featureModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
           styleClass="ui-button-secondary ui-button-flat modal-input-button"
           immediate="true" />
 
         <p:commandButton id="saveFeature" validateClient="true"
           onsuccess="PF('featureModal').hide()"
-          action="#{cc.attrs.bean.saveFeature(cc.attrs.isNewFeature)}" value="Save"
+          action="#{cc.attrs.bean.saveFeature(cc.attrs.isNewFeature)}" value="#{ivy.cm.co('/common/Save')}"
           icon="si si-floppy-disk" update="#{cc.attrs.formName}"
           styleClass="modal-input-button" process="@form" />
       </div>

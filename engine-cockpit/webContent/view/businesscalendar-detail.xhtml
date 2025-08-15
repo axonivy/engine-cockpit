@@ -11,16 +11,16 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Configuration</span></li>
+      <li><span>#{ivy.cm.co('/common/Configuration')}</span></li>
       <li>/</li>
-      <li><a href="businesscalendar.xhtml">Business Calendar</a></li>
+      <li><a href="businesscalendar.xhtml">#{ivy.cm.co('/common/BusinessCalendar')}</a></li>
       <li>/</li>
       <li><a href="businesscalendar-detail.xhtml?calendarName=#{businessCalendarBean.activeCalendar.name}">#{businessCalendarBean.activeCalendar.name}</a>
       </li>
     </ui:define>
 
     <ui:define name="topbar-items">
-      <cc:TopBarItem styleClass="editor-link" href="editor.xhtml?file=app-#{managerBean.selectedApplicationName}.yaml" icon="si-pencil" title="Edit app yaml file" external="false" />
+      <cc:TopBarItem styleClass="editor-link" href="editor.xhtml?file=app-#{managerBean.selectedApplicationName}.yaml" icon="si-pencil" title="#{ivy.cm.co('/businessCalendarDetail/EditAppYamlFile')}" external="false" />
       <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}configuration.html#business-calendar" />
     </ui:define>
 

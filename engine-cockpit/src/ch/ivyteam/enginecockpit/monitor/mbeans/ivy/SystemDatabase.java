@@ -4,6 +4,7 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
+import ch.ivyteam.ivy.environment.Ivy;
 
 public final class SystemDatabase extends AbstractDatabase {
   private static final ObjectName DATABASE_PERSISTENCY_SERVICE;
@@ -19,9 +20,9 @@ public final class SystemDatabase extends AbstractDatabase {
   SystemDatabase() {
     super(
         DATABASE_PERSISTENCY_SERVICE,
-        "Transactions",
-        Monitor.build().name("Connections").icon("insert_link").toMonitor(),
-        Monitor.build().name("Transactions").icon("dns").toMonitor(),
-        Monitor.build().name("Processing Time").icon("timer").yAxisLabel("Time").toMonitor());
+        Ivy.cm().co("/liveStats/Transactions"),
+        Monitor.build().name(Ivy.cm().co("/common/Connections")).icon("insert_link").toMonitor(),
+        Monitor.build().name(Ivy.cm().co("/liveStats/Transactions")).icon("dns").toMonitor(),
+        Monitor.build().name(Ivy.cm().co("/liveStats/ProcessingTime")).icon("timer").yAxisLabel(Ivy.cm().co("/common/Time")).toMonitor());
   }
 }

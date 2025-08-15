@@ -6,9 +6,9 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Services</span></li>
+      <li><span>#{ivy.cm.co('/common/Services')}</span></li>
       <li>/</li>
-      <li><a href="restclients.xhtml">Rest Clients</a></li>
+      <li><a href="restclients.xhtml">#{ivy.cm.co('/common/RestClients')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -20,22 +20,22 @@
         <p:growl id="msgs" />
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-network-share card-title-icon"></i>
-          <h2 class="m-0">Rest Clients</h2>
+          <h2 class="m-0">#{ivy.cm.co('/common/RestClients')}</h2>
         </div>
         <cc:ApplicationTabs tabChange="#{restClientsBean.reloadRestClients}" id="tabs">
           <h:form id="form">
             <p:dataTable paginator="true" rows="20" paginatorPosition="bottom"
-              paginatorAlwaysVisible="false" emptyMessage="No rest clients found on deployed apps" styleClass="ui-fluid"
+              paginatorAlwaysVisible="false" emptyMessage="#{ivy.cm.co('/restClients/NoRestClientsFound')}" styleClass="ui-fluid"
               var="restclient" value="#{restClientsBean.restClients}" widgetVar="restClientsTable_#{app.id}"
               filteredValue="#{restClientsBean.filteredRestClients}" lazy="false" id="restClientsTable">
               <f:facet name="header">
                 <div class="ui-input-icon-left filter-container">
                   <i class="pi pi-search"/>
-                  <p:inputText id="globalFilter" onkeyup="PF('restClientsTable_#{app.id}').filter()" placeholder="Search" value="#{restClientsBean.filter}" />
+                  <p:inputText id="globalFilter" onkeyup="PF('restClientsTable_#{app.id}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{restClientsBean.filter}" />
                 </div>
               </f:facet>
-              
-              <p:column headerText="Name" sortBy="#{restclient.name}" filterBy="#{restclient.name}"
+
+              <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{restclient.name}" filterBy="#{restclient.name}"
                 styleClass="restclient-name-column">
                 <a href="#{restclient.getViewUrl(app.name)}">
                   <h:outputText value="#{restclient.name}" styleClass="restclient-name">
@@ -43,7 +43,7 @@
                   </h:outputText>
                 </a>
               </p:column>
-              <p:column headerText="Url" sortBy="#{restclient.url}" filterBy="#{restclient.url}">
+              <p:column headerText="#{ivy.cm.co('/common/Url')}" sortBy="#{restclient.url}" filterBy="#{restclient.url}">
                 <h:outputText value="#{restclient.url}" styleClass="restclient-url" />
               </p:column>
             </p:dataTable>

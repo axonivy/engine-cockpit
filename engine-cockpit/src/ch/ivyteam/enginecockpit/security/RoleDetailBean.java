@@ -20,6 +20,7 @@ import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.model.User;
 import ch.ivyteam.enginecockpit.security.model.UserDataModel;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -235,7 +236,7 @@ public class RoleDetailBean {
     iRole.setDescription(role.getDescription());
     iRole.setDisplayName(role.getDisplayName());
     iRole.setExternalName(role.getExternalName());
-    var msg = new FacesMessage("Role information changes saved");
+    var msg = new FacesMessage(Ivy.cm().co("/roleDetailInformation/RoleInformationChangesSavedMessage"));
     FacesContext.getCurrentInstance().addMessage("informationSaveSuccess", msg);
   }
 

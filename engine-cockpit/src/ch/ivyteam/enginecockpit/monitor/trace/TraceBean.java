@@ -17,6 +17,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.util.ComponentUtils;
 
 import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.trace.SpanUri;
 import ch.ivyteam.ivy.trace.Trace;
 import ch.ivyteam.ivy.trace.TraceSpan;
@@ -116,7 +117,7 @@ public class TraceBean {
         return ComponentUtils.getValueToRender(FacesContext.getCurrentInstance(), child);
       }
     }
-    return "No value";
+    return Ivy.cm().co("/common/NoValue");
   }
 
   private static final class MaxBuilder {

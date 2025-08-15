@@ -18,6 +18,7 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.event.FileUploadEvent;
 
 import ch.ivyteam.enginecockpit.commons.Message;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.KeyStoreConfig;
 
@@ -138,7 +139,7 @@ public class KeyStoreBean implements SslTableStore {
     getCertificats();
     Message.info()
         .clientId("sslKeystoreSaveSuccess")
-        .summary("Key Store configurations saved")
+        .summary(Ivy.cm().co("/sslKeyStore/KeyStoreConfigurationsSavedMessage"))
         .show();
   }
 
@@ -162,7 +163,7 @@ public class KeyStoreBean implements SslTableStore {
     getKeyStoreUtils().deleteCertificate(alias);
     Message.info()
         .clientId("sslDeleteCertificate")
-        .summary("Certificate " + "'" + alias + "'" + "deleted")
+        .summary(Ivy.cm().content("/sslKeyStore/DeletedCertificateMessage").replace("certificate", alias).get())
         .show();
   }
 

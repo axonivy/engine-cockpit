@@ -16,9 +16,9 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Security</span></li>
+      <li><span>#{ivy.cm.co('/common/Security')}</span></li>
       <li>/</li>
-      <li><a href="users.xhtml">Users</a></li>
+      <li><a href="users.xhtml">#{ivy.cm.co('/common/Users')}</a></li>
       <li>/</li>
       <li><a href="#{userDetailBean.user.getViewUrl()}">#{userDetailBean.name}</a></li>
       <cc:BreadcrumbInfos appContext="false" />
@@ -34,12 +34,12 @@
           <div class="col-12">
             <div class="grid">
               <cc:OverviewBox box="white" count="#{userDetailBean.startedCases}" icon="si si-plane-take-off"
-                title="Started cases" />
-              <cc:OverviewBox box="blue" count="#{userDetailBean.workingOn}" icon="si si-briefcase" title="Working on tasks" />
+                title="#{ivy.cm.co('/userDetail/StartedCases')}" />
+              <cc:OverviewBox box="blue" count="#{userDetailBean.workingOn}" icon="si si-briefcase" title="#{ivy.cm.co('/userDetail/WorkingOnTasks')}" />
               <cc:OverviewBox box="gray" count="#{userDetailBean.personalTasks}" icon="si si-task-list-edit"
-                title="Personal tasks" />
+                title="#{ivy.cm.co('/userDetail/PersonalTasks')}" />
               <cc:OverviewBox box="darkgray" count="#{userDetailBean.canWorkOn}" icon="si si-task-list-approve"
-                title="Can work on tasks" />
+                title="#{ivy.cm.co('/userDetail/CanWorkOnTasks')}" />
             </div>
           </div>
 

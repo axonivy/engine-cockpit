@@ -6,28 +6,28 @@
     <div class="card">
       <div class="flex align-items-center mb-3">
         <i class="pr-3 si si-recycling-hand-trash"/>
-        <h6 id="triggers" class="m-0">Triggers</h6>
+        <h6 id="triggers" class="m-0">#{ivy.cm.co('/triggers/Triggers')}</h6>
       </div>
       <h:form>
         <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-          var="trigger" value="#{systemDatabaseInfoBean.triggers}" widgetVar="systemDbTriggersTable"
+          var="trigger" value="#{systemDatabaseInfoBean.triggers}" widgetVar="systemDbTriggersTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}"
           lazy="false" styleClass="userTable ui-fluid" id="systemDbTriggersTable" filteredValue="#{systemDatabaseInfoBean.filteredTriggers}">
           <f:facet name="header">
             <div class="ui-input-icon-left filter-container">
               <i class="pi pi-search"/>
-              <p:inputText id="globalFilter" onkeyup="PF('systemDbTriggersTable').filter()" placeholder="Search" value="#{systemDatabaseInfoBean.filterTrigger}" />
+              <p:inputText id="globalFilter" onkeyup="PF('systemDbTriggersTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{systemDatabaseInfoBean.filterTrigger}" />
             </div>
           </f:facet>
-          <p:column headerText="Name" sortBy="#{trigger.name}" filterBy="#{trigger.name}">
+          <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{trigger.name}" filterBy="#{trigger.name}">
             <h:outputText value="#{trigger.name}" />
           </p:column>
-          <p:column headerText="Table name" sortBy="#{trigger.table}" filterBy="#{trigger.table}">
+          <p:column headerText="#{ivy.cm.co('/common/TableName')}" sortBy="#{trigger.table}" filterBy="#{trigger.table}">
             <h:outputText value="#{trigger.table}" />
           </p:column>
-          <p:column headerText="Event" sortBy="#{trigger.event}" filterBy="#{trigger.event}">
+          <p:column headerText="#{ivy.cm.co('/common/Event')}" sortBy="#{trigger.event}" filterBy="#{trigger.event}">
             <h:outputText value="#{trigger.event}" />
           </p:column>
-          <p:column headerText="Timing" sortBy="#{trigger.timing}" filterBy="#{trigger.timing}">
+          <p:column headerText="#{ivy.cm.co('/triggers/Timing')}" sortBy="#{trigger.timing}" filterBy="#{trigger.timing}">
             <h:outputText value="#{trigger.timing}" />
           </p:column>
         </p:dataTable>

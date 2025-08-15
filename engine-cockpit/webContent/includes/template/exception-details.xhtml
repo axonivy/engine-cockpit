@@ -3,7 +3,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <ui:fragment rendered="#{!errorPage.showDetails}">
-  <h:outputText value="An unexpected error has occured:" />
+  <h:outputText value="#{ivy.cm.co('/exceptionDetail/UnexpectedErrorOccured')}" />
 </ui:fragment>
 
 <h1 class="bg-warning">
@@ -24,13 +24,13 @@
     </span>
   </h3>
   <ui:fragment rendered="#{!errorPage.error.attributeNames.isEmpty()}">
-    <h4 class="list-group-item-heading">Attributes</h4>
+    <h4 class="list-group-item-heading">#{ivy.cm.co('/common/Attributes')}</h4>
     <div class="table-responsive">
       <table class="table table-bordered table-striped" style="font-size: 1.0em">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Value</th>
+            <th>#{ivy.cm.co('/common/Name')}</th>
+            <th>#{ivy.cm.co('/common/Value')}</th>
           </tr>
         </thead>
         <tbody>
@@ -48,17 +48,17 @@
       </table>
     </div>
   </ui:fragment>
-  <h4 class="list-group-item-heading">Thrown by</h4>
+  <h4 class="list-group-item-heading">#{ivy.cm.co('/exceptionDetail/ThrownBy')}</h4>
   <p style="margin-bottom: 0;">
-    Process:
+    #{ivy.cm.co('/exceptionDetail/Process')}
     <h:outputText value="#{errorPage.path}" />
-    <br /> Element:
+    <br /> #{ivy.cm.co('/exceptionDetail/Element')}
     <h:outputText value="#{errorPage.error.processElement}" />
   </p>
   <br />
 
   <ui:fragment rendered="#{!errorPage.error.processCallStack.isEmpty()}">
-    <h4 class="list-group-item-heading">Process call stack</h4>
+    <h4 class="list-group-item-heading">#{ivy.cm.co('/exceptionDetail/ProcessCallStack')}</h4>
     <!-- Don't move me: I'm a PRE!!! -->
     <pre>
       <code>
@@ -68,7 +68,7 @@
     <br />
   </ui:fragment>
   <ui:fragment rendered="#{!errorPage.causedBy.isEmpty()}">
-    <h4 class="list-group-item-heading">Technical cause</h4>
+    <h4 class="list-group-item-heading">#{ivy.cm.co('/exceptionDetail/TechnicalCause')}</h4>
     <ui:repeat value="#{errorPage.causedBy}" var="causedBy">
       <pre>
         <code>#{causedBy.class.simpleName}: #{causedBy.message.trim()}</code>
@@ -77,25 +77,25 @@
     <br />
   </ui:fragment>
 
-  <h4 class="list-group-item-heading">Request Uri</h4>
+  <h4 class="list-group-item-heading">#{ivy.cm.co('/exceptionDetail/RequestUri')}</h4>
   <p>#{errorPage.getRequestUri()}</p>
   <br />
-  <h4 class="list-group-item-heading">Servlet</h4>
+  <h4 class="list-group-item-heading">#{ivy.cm.co('/exceptionDetail/Servlet')}</h4>
   <p>#{errorPage.getServletName()}</p>
   <br />
 
-  <h4 class="list-group-item-heading">Application</h4>
+  <h4 class="list-group-item-heading">#{ivy.cm.co('/common/Application')}</h4>
   <p>#{errorPage.applicationName}</p>
   <br />
 
   <ui:fragment rendered="#{!errorPage.threadLocalValues.isEmpty()}">
-    <h4 class="list-group-item-heading">Thread local values</h4>
+    <h4 class="list-group-item-heading">#{ivy.cm.co('/exceptionDetail/ThreadLocalValues')}</h4>
     <div class="table-responsive">
       <table class="table table-bordered table-striped" style="font-size: 0.9em">
         <thead>
           <tr>
-            <th>Key</th>
-            <th>Value</th>
+            <th>#{ivy.cm.co('/common/Key')}</th>
+            <th>#{ivy.cm.co('/common/Value')}</th>
           </tr>
         </thead>
         <tbody>
@@ -115,7 +115,7 @@
   </ui:fragment>
   <br />
 
-  <h4 class="list-group-item-heading">Stack-Trace</h4>
+  <h4 class="list-group-item-heading">#{ivy.cm.co('/exceptionDetail/StackTrace')}</h4>
   <pre>
     <code>#{errorPage.getStackTrace()}</code>
   </pre>

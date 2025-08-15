@@ -12,13 +12,13 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-cog"></i>
-        <h6 class="m-0">Features and properties</h6>
+        <h6 class="m-0">#{ivy.cm.co('/common/FeaturesAndProperties')}</h6>
       </div>
     </div>
     
     <p:dataTable value="#{restClientDetailBean.restClient.features}" var="feature"
       id="restClientFeaturesTable" styleClass="mb-3">
-      <p:column headerText="Features">
+      <p:column headerText="#{ivy.cm.co('/common/Features')}">
         <h:outputText value="#{feature.clazz}" styleClass="restclient-feature" />
       </p:column>
       <p:column styleClass="table-btn-2">
@@ -34,10 +34,10 @@
     </p:dataTable>
     
     <p:dataTable value="#{restClientDetailBean.restClient.properties}" var="property" id="restClientPropertiesTable">
-      <p:column headerText="Property">
+      <p:column headerText="#{ivy.cm.co('/common/Property')}">
         <h:outputText value="#{property.name}" styleClass="restclient-property-name" />
       </p:column>
-      <p:column headerText="Value">
+      <p:column headerText="#{ivy.cm.co('/common/Value')}">
         <h:outputText value="#{property.sensitive ? '*****' : property.value}" styleClass="restclient-property-value" />
       </p:column>
       <p:column styleClass="table-btn-2">

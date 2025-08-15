@@ -11,31 +11,31 @@
 
     <cc:insertChildren />
 
-    <p:outputLabel value="Notification send" for="checkboxNotification" />
+    <p:outputLabel value="#{ivy.cm.co('/emailSettings/NotificationSend')}" for="checkboxNotification" />
     <p:panelGrid id="checkboxNotification" columns="2" layout="flex"
       styleClass="ui-selectmanycheckbox email-checkbox-style">
       <p:selectBooleanCheckbox rendered="#{cc.attrs.emailSettings.notificationCheckboxRender}" id="neverCheckbox"
-        value="#{cc.attrs.emailSettings.notificationDisabled}" itemLabel="Never"
+        value="#{cc.attrs.emailSettings.notificationDisabled}" itemLabel="#{ivy.cm.co('/emailSettings/Never')}"
         disabled="#{cc.attrs.emailSettings.notificationCheckboxDisabled}">
         <p:ajax update="@form" />
       </p:selectBooleanCheckbox>
       <p:selectBooleanCheckbox id="taskCheckbox" value="#{cc.attrs.emailSettings.sendOnNewWorkTasks}"
-        disabled="#{cc.attrs.emailSettings.taskCheckboxDisabled}" itemLabel="New Task">
+        disabled="#{cc.attrs.emailSettings.taskCheckboxDisabled}" itemLabel="#{ivy.cm.co('/emailSettings/NewTask')}">
         <p:ajax update="@form" />
       </p:selectBooleanCheckbox>
     </p:panelGrid>
 
-    <p:outputLabel value="Daily summary on" for="radioDailyNotification" />
+    <p:outputLabel value="#{ivy.cm.co('/emailSettings/DailySummaryOn')}" for="radioDailyNotification" />
     <p:selectManyCheckbox id="radioDailyNotification" value="#{cc.attrs.emailSettings.sendDailyTasks}"
       disabled="#{cc.attrs.emailSettings.dailyCheckboxGroupDisabled}" widgetVar="radioDailyNotification"
       layout="responsive" styleClass="float-select-many-checkbox" columns="7">
-      <f:selectItem itemLabel="Mon" itemValue="MONDAY" />
-      <f:selectItem itemLabel="Tue" itemValue="TUESDAY" />
-      <f:selectItem itemLabel="Wed" itemValue="WEDNESDAY" />
-      <f:selectItem itemLabel="Thu" itemValue="THURSDAY" />
-      <f:selectItem itemLabel="Fri" itemValue="FRIDAY" />
-      <f:selectItem itemLabel="Sat" itemValue="SATURDAY" />
-      <f:selectItem itemLabel="Sun" itemValue="SUNDAY" />
+      <f:selectItem itemLabel="#{ivy.cm.co('/emailSettings/Mon')}" itemValue="MONDAY" />
+      <f:selectItem itemLabel="#{ivy.cm.co('/emailSettings/Tue')}" itemValue="TUESDAY" />
+      <f:selectItem itemLabel="#{ivy.cm.co('/emailSettings/Wed')}" itemValue="WEDNESDAY" />
+      <f:selectItem itemLabel="#{ivy.cm.co('/emailSettings/Thu')}" itemValue="THURSDAY" />
+      <f:selectItem itemLabel="#{ivy.cm.co('/emailSettings/Fri')}" itemValue="FRIDAY" />
+      <f:selectItem itemLabel="#{ivy.cm.co('/emailSettings/Sat')}" itemValue="SATURDAY" />
+      <f:selectItem itemLabel="#{ivy.cm.co('/emailSettings/Sun')}" itemValue="SUNDAY" />
       <p:ajax update="@form" />
     </p:selectManyCheckbox>
     

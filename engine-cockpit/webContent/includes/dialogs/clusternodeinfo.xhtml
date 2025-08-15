@@ -3,67 +3,67 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog id="clusterNodeDialog" header="Cluster Node Detail" widgetVar="clusterNodeDialog" modal="true"
+<p:dialog id="clusterNodeDialog" header="#{ivy.cm.co('/clusterNodeInfo/ClusterNodeDetail')}" widgetVar="clusterNodeDialog" modal="true"
   closeOnEscape="true" width="400px">
   <h:form id="clusterNodeForm" style="max-height: 400px;">
     <p:panelGrid columns="2" columnClasses="col-4, col-8" layout="flex" styleClass="grey-label-panel">
-      <label>Name</label>
+      <label>#{ivy.cm.co('/common/Name')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.name}" />
 
-      <label>Host</label>
+      <label>#{ivy.cm.co('/common/Host')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.hostName}" />
 
-      <label>IP Address</label>
+      <label>#{ivy.cm.co('/clusterNodeInfo/IPAddress')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.ipAddress}" />
 
-      <label>IP Port</label>
+      <label>#{ivy.cm.co('/clusterNodeInfo/IPPort')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.ipPort}" />
 
-      <label>Jvm Route</label>
+      <label>#{ivy.cm.co('/clusterNodeInfo/JvmRoute')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.jvmRouteName}" />
 
-      <label>State</label>
+      <label>#{ivy.cm.co('/common/State')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.state}"
         styleClass="#{clusterBean.activeClusterNode.stateClass}" />
 
-      <label>Communication</label>
+      <label>#{ivy.cm.co('/common/Communication')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.communicationState}"
         styleClass="#{clusterBean.activeClusterNode.communicationStateClass}" />
 
-      <label>Is Master</label>
+      <label>#{ivy.cm.co('/common/IsMaster')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.master}" />
 
-      <label>Is Local</label>
+      <label>#{ivy.cm.co('/common/IsLocal')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.local}" />
 
-      <label>Is Licensed</label>
+      <label>#{ivy.cm.co('/clusterNodeInfo/IsLicensed')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.licensed}" />
 
-      <label>Start Timestamp</label>
+      <label>#{ivy.cm.co('/common/StartTimestamp')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.startTimestamp}" />
 
-      <label>Stop Timestamp</label>
+      <label>#{ivy.cm.co('/common/StopTimestamp')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.stopTimestamp}" />
 
-      <label>Fail Timestamp</label>
+      <label>#{ivy.cm.co('/common/FailTimestamp')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.failTimestamp}" />
 
-      <label>Axon Ivy Version</label>
+      <label>#{ivy.cm.co('/clusterNodeInfo/AxonIvyVersion')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.ivyVersion}" />
 
-      <label>Operating System Name</label>
+      <label>#{ivy.cm.co('/clusterNodeInfo/OperatingSystemName')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.operatingSystemName}" />
 
-      <label>Operating System Version</label>
+      <label>#{ivy.cm.co('/clusterNodeInfo/OperatingSystemVersion')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.operatingSystemVersion}" />
 
-      <label>Operating System Architecture</label>
+      <label>#{ivy.cm.co('/clusterNodeInfo/OperatingSystemArchitecture')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.operatingSystemArchitecture}" />
 
-      <label>Java Version</label>
+      <label>#{ivy.cm.co('/clusterNodeInfo/JavaVersion')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.javaVersion}" />
 
-      <label>Java Virtual Machine Name</label>
+      <label>#{ivy.cm.co('/clusterNodeInfo/JavaVirtualMachineName')}</label>
       <h:outputText value="#{clusterBean.activeClusterNode.javaVirtualMachineName}" />
     </p:panelGrid>
   </h:form>

@@ -7,30 +7,30 @@
   <div class="card-header">
     <div class="card-title flex align-items-center">
       <i class="pr-3 si si-cog"></i>
-      <h6 class="m-0">Week configuration</h6>
+      <h6 class="m-0">#{ivy.cm.co('/weekConfiguration/WeekConfiguration')}</h6>
     </div>
   </div>
 
   <div class="flex flex-wrap">
     <ui:repeat var="day" value="#{businessCalendarBean.activeCalendar.week}">
       <div class="mr-2 mb-2 business-calendar-box">
-        <div class="#{day.free ? 'free' : ''} p-3" title="#{day.free ? 'free' : 'work'}">#{day.dayName}</div>
+        <div class="#{day.free ? 'free' : ''} p-3" title="#{day.free ? ivy.cm.co('/weekConfiguration/FreeDay') : ivy.cm.co('/weekConfiguration/WorkingDay')}">#{day.dayName}</div>
       </div>
     </ui:repeat>
   </div>
 
   <p:dataTable id="workingTimeTable" var="workingTime" value="#{businessCalendarBean.activeCalendar.workingTimes}">
-    <p:column headerText="Working time">
+    <p:column headerText="#{ivy.cm.co('/weekConfiguration/WorkingTime')}">
       <h:outputText value="#{workingTime.desc}" />
     </p:column>
 
-    <p:column headerText="From to">
+    <p:column headerText="#{ivy.cm.co('/weekConfiguration/FromTo')}">
       <h:outputText value="#{workingTime.value}" title="#{workingTime.tooltip}">
         <i class="si si-#{workingTime.icon} table-icon"></i>
       </h:outputText>
     </p:column>
 
-    <p:column headerText="Defined by">
+    <p:column headerText="#{ivy.cm.co('/common/DefinedBy')}">
       <a href="businesscalendar-detail.xhtml?calendarName=#{workingTime.calendarName}">
         <h:outputText value="#{workingTime.calendarName}">
           <i class="si si-calendar table-icon"></i>

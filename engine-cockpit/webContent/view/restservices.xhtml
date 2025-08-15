@@ -6,9 +6,9 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Services</span></li>
+      <li><span>#{ivy.cm.co('/common/Services')}</span></li>
       <li>/</li>
-      <li><a href="restservices.xhtml">REST Services</a></li>
+      <li><a href="restservices.xhtml">#{ivy.cm.co('/restServices/RESTServices')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -23,12 +23,12 @@
               <div class="card-header">
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-network-share"></i>
-                  <h2 class="m-0">Rest Services</h2>
-                  <p:linkButton id="browseRestAPI" title="Browse available REST Backend Services"
+                  <h2 class="m-0">#{ivy.cm.co('/common/RestServices')}</h2>
+                  <p:linkButton id="browseRestAPI" title="#{ivy.cm.co('/restServices/BrowseRestAPIButtonTitle')}"
                     icon="si si-network-browser" type="button"
                     href="#{advisorBean.apiBrowserUrl}/index.html?urls.primaryName=#{managerBean.selectedApplicationName}"
                     target="_blank" rel="noopener noreferrer" styleClass="ml-auto rounded-button" />
-                  <p:linkButton id="configRestBackend" title="Configure Rest Backend" icon="si si-cog" type="button"
+                  <p:linkButton id="configRestBackend" title="#{ivy.cm.co('/restServices/ConfigureRestBackendButtonTitle')}" icon="si si-cog" type="button"
                     styleClass="ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=REST.Servlet" />
                 </div>
               </div>

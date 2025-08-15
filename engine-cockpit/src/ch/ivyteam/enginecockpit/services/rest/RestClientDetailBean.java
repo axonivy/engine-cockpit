@@ -24,6 +24,7 @@ import ch.ivyteam.enginecockpit.services.model.RestClientDto;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.RestClient.Builder;
 import ch.ivyteam.ivy.rest.client.RestClients;
@@ -72,14 +73,15 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   public void onload() {
     app = IApplicationRepository.instance().findByName(appName).orElse(null);
     if (app == null) {
-      ResponseHelper.notFound("Application '" + appName + "' not found");
+      ResponseHelper.notFound(Ivy.cm().content("/common/NotFoundApplication").replace("application", appName).get());
       return;
     }
 
     restClients = RestClients.of(app);
     var client = findRestClient();
     if (client == null) {
-      ResponseHelper.notFound("Rest client '" + restClientName + "' not found");
+      ResponseHelper.notFound(
+          Ivy.cm().content("/restClientDetail/NotFoundRestClient").replace("restClient", restClientName).get());
       return;
     }
 
@@ -146,12 +148,12 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   @Override
   public String getTitle() {
-    return "Rest Client '" + restClientName + "'";
+    return Ivy.cm().content("/restClientDetail/Title").replace("restClient", restClientName).get();
   }
 
   @Override
   public String getGuideText() {
-    return "To edit your Rest Client overwrite your app.yaml file. For example copy and paste the snippet below.";
+    return Ivy.cm().co("/restClientDetail/GuideText");
   }
 
   @SuppressWarnings("deprecation")
@@ -186,7 +188,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     connectionTest.stop();
     var uiClient = new UiStateClient(findRestClient()).setUiState(restClient).toClient();
     restClients.set(uiClient);
-    var msg = new FacesMessage("Rest configuration saved", "");
+    var msg = new FacesMessage(Ivy.cm().co("/restClientConfiguration/RestConfigurationSavedMessage"), "");
     FacesContext.getCurrentInstance().addMessage("restConfigMsg", msg);
     loadRestClient();
   }
@@ -194,7 +196,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   public void resetConfig() {
     connectionTest.stop();
     restClients.remove(restClientName);
-    var msg = new FacesMessage("Rest configuration reset", "");
+    var msg = new FacesMessage(Ivy.cm().co("/restClientConfiguration/RestConfigurationResetMessage"), "");
     FacesContext.getCurrentInstance().addMessage("restConfigMsg", msg);
     loadRestClient();
   }

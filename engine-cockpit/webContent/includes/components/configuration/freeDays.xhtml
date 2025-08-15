@@ -7,22 +7,22 @@
   <div class="card-header">
     <div class="card-title flex align-items-center">
       <i class="pr-3 si si-calendar-date"></i>
-      <h6 class="m-0">Free days</h6>
+      <h6 class="m-0">#{ivy.cm.co('/freeDays/FreeDays')}</h6>
     </div>
   </div>
 
-  <p:dataTable id="freeDaysTable" var="day" value="#{businessCalendarBean.activeCalendar.freeDays}">
-    <p:column headerText="Name">
+  <p:dataTable id="freeDaysTable" var="day" value="#{businessCalendarBean.activeCalendar.freeDays}" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+    <p:column headerText="#{ivy.cm.co('/common/Name')}">
       <h:outputText value="#{day.desc}" />
     </p:column>
 
-    <p:column headerText="Date">
+    <p:column headerText="#{ivy.cm.co('/common/Date')}">
       <h:outputText value="#{day.value}" title="#{day.tooltip}">
         <i class="si si-#{day.icon} table-icon"></i>
       </h:outputText>
     </p:column>
 
-    <p:column headerText="Defined by">
+    <p:column headerText="#{ivy.cm.co('/common/DefinedBy')}">
       <a href="businesscalendar-detail.xhtml?calendarName=#{day.calendarName}">
         <h:outputText value="#{day.calendarName}">
           <i class="si si-calendar table-icon"></i>

@@ -6,9 +6,9 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>System</span></li>
+      <li><span>#{ivy.cm.co('/common/System')}</span></li>
       <li>/</li>
-      <li><a href="systemdb.xhtml">System Database</a></li>
+      <li><a href="systemdb.xhtml">#{ivy.cm.co('/common/SystemDatabase')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -22,14 +22,14 @@
       <div class="card">
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-database-settings card-title-icon"></i>
-          <h2 class="m-0">System Database</h2>
-          <p:linkButton outcome="systemdb-info" icon="si si-layout-dashboard" value="Info"
+          <h2 class="m-0">#{ivy.cm.co('/common/SystemDatabase')}</h2>
+          <p:linkButton outcome="systemdb-info" icon="si si-layout-dashboard" value="#{ivy.cm.co('/common/Info')}"
               styleClass="ml-auto ui-button-secondary" id="infoDb"/>
           <h:panelGroup id="sysDbSaveButtons" styleClass="ml-1">
-            <p:commandButton actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save"
+            <p:commandButton actionListener="#{systemDatabaseBean.saveConfiguration}" value="#{ivy.cm.co('/common/Save')}"
               icon="si si-floppy-disk" style="width: auto; float: right;" id="saveSystemDbConfig"
               rendered="#{systemDatabaseBean.connectionInfo.successful}" />
-            <p:commandButton type="button" onclick="PF('saveUnknownConnectionModel').show()" value="Save"
+            <p:commandButton type="button" onclick="PF('saveUnknownConnectionModel').show()" value="#{ivy.cm.co('/common/Save')}"
               icon="si si-floppy-disk" style="width: auto; float: right;" id="saveUnknownSystemDbConfig"
               rendered="#{!systemDatabaseBean.connectionInfo.successful}" />
           </h:panelGroup>
@@ -37,17 +37,17 @@
         <cc:SystemDb id="systemDb" updateFields="systemDb:systemDbForm:connectionPanel,sysDbSaveButtons" />
       </div>
 
-      <p:dialog style="min-width: 300px;" header="No Connection" id="saveUnknownConnectionModel"
+      <p:dialog style="min-width: 300px;" header="#{ivy.cm.co('/systemDb/NoConnection')}" id="saveUnknownConnectionModel"
         widgetVar="saveUnknownConnectionModel" modal="true" responsive="true" closeOnEscape="true"
         styleClass="dashboard-card">
         <h:form id="saveUnknownConnectionForm" styleClass="custom-dialog-form">
-          <p:staticMessage severity="warn" summary="No Connection"
-            detail="Do really you want to save this configuration?" />
+          <p:staticMessage severity="warn" summary="#{ivy.cm.co('/systemDb/NoConnection')}"
+            detail="#{ivy.cm.co('/systemDb/SaveUnknownConnectionWarningMessage')}" />
           <div class="custom-dialog-footer">
             <p:commandButton id="cancelSaveUnknownConnection" onclick="PF('saveUnknownConnectionModel').hide();"
-              value="Cancel" type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+              value="#{ivy.cm.co('/common/Cancel')}" type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
             <p:commandButton id="saveUnknownConneciton" actionListener="#{systemDatabaseBean.saveConfiguration}"
-              value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" widgetVar="saveUnknownConneciton"
+              value="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk" styleClass="modal-input-button" widgetVar="saveUnknownConneciton"
               oncomplete="PF('saveUnknownConnectionModel').hide();" />
           </div>
         </h:form>

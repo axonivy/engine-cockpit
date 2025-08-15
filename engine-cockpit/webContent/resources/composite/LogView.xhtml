@@ -9,20 +9,20 @@
   <p:panel id="logPanel" widgetVar="#{cc.attrs.log.fileName}">
     <f:facet name="header">
       <span onclick="PF('#{cc.attrs.log.fileName}').toggle()" style="cursor: pointer;" class="inline-flex">
-        <i class="si si-common-file-text table-icon panel-title-icon"></i>
+        <i class="si si-common-file-text table-icon panel-title-icon"/>
         <h:outputText value="#{cc.attrs.log.fileName} (#{cc.attrs.log.size})" styleClass="ml-1" />
       </span>
     </f:facet>
     <f:facet name="actions">
       <h:form id="fileForm">
-        <p:commandLink id="showLog" ajax="false" title="Open log" 
+        <p:commandLink id="showLog" ajax="false" title="#{ivy.cm.co('/logs/OpenLog')}"
           styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
-          <i class="si si-expand-6"></i>
+          <i class="si si-expand-6"/>
           <p:fileDownload contentDisposition="inline" value="#{cc.attrs.log.file}" />
         </p:commandLink>
-        <p:commandLink id="downloadLog" ajax="false" title="Download log" 
+        <p:commandLink id="downloadLog" ajax="false" title="#{ivy.cm.co('/logs/DownloadLog')}" 
           styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
-          <i class="si si-download-bottom"></i>
+          <i class="si si-download-bottom"/>
           <p:fileDownload value="#{cc.attrs.log.file}" />
         </p:commandLink>
       </h:form>
