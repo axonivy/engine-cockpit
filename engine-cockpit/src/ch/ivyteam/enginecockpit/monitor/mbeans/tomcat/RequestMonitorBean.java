@@ -106,7 +106,7 @@ public class RequestMonitorBean {
 
   private void setupConnectionsMonitor(ObjectName protocolHandler, String label) {
     connectionsMonitor.addInfoValue(format(label + " %5d", openConnections(protocolHandler)));
-    connectionsMonitor.addInfoValue(format(label + " " + Ivy.cm().co("/liveStats/ProcessingTimeMonitorTotalValue"),
+    connectionsMonitor.addInfoValue(format(label + " " + Ivy.cm().co("/liveStats/ConnectionsMonitorMaxValue"),
         maxConnections(protocolHandler)));
     connectionsMonitor.addSeries(Series.build(openConnections(protocolHandler), label).toSeries());
   }

@@ -570,6 +570,7 @@ liveStats:
   DeliveriesMonitorTotalDeliveresValue: 総配送数 %5d
   DeliveriesMonitorTotalErrorsValue: 総エラー数 %5d
   DeliveriesMonitorTotalPushesValue: 総プッシュ数 %5d
+  Executed: 執行された
   ExecutionTimeMonitorAvg: 平均
   ExecutionTimeMonitorAvgValue: 平均 %t
   ExecutionTimeMonitorMax: 最大
@@ -578,10 +579,15 @@ liveStats:
   ExecutionTimeMonitorMinValue: 最小 %t
   ExecutionTimeMonitorTotalValue: 合計 %t
   ExecutionTimeYAxisLabel: 実行時間
+  ExecutionsMonitorErrorsTotalValue: エラーの合計 %5d
+  ExecutionsMonitorErrorsValue: エラー %5d
+  ExecutionsMonitorTotalValue: 合計 %5d
+  JobExecutionTime: ジョブ実行時間
+  JobsExecuted: 実行されたジョブ
   Locks: 錠前
   MessageMonitorErrorsTotalValue: エラーの合計 %5d
   MessageMonitorErrorsValue: エラー %5d
-  MessageMonitorTotalValue: 合計 %t
+  MessageMonitorTotalValue: 合計 %5d
   MessagesMonitorReceived: 受領
   MessagesMonitorSent: 送信
   MonitorErrors: コール

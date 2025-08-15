@@ -569,6 +569,7 @@ liveStats:
   DeliveriesMonitorTotalDeliveresValue: Total Deliveres %5d
   DeliveriesMonitorTotalErrorsValue: Total Errors %5d
   DeliveriesMonitorTotalPushesValue: Total Pushes %5d
+  Executed: Executed
   ExecutionTimeMonitorAvg: Avg
   ExecutionTimeMonitorAvgValue: Avg %t
   ExecutionTimeMonitorMax: Max
@@ -577,10 +578,15 @@ liveStats:
   ExecutionTimeMonitorMinValue: Min %t
   ExecutionTimeMonitorTotalValue: Total %t
   ExecutionTimeYAxisLabel: Execution Time
+  ExecutionsMonitorErrorsTotalValue: Errors Total %5d
+  ExecutionsMonitorErrorsValue: Errors %5d
+  ExecutionsMonitorTotalValue: Total %5d
+  JobExecutionTime: Job Execution Time
+  JobsExecuted: Jobs Executed
   Locks: Locks
   MessageMonitorErrorsTotalValue: Errors Total %5d
   MessageMonitorErrorsValue: Errors %5d
-  MessageMonitorTotalValue: Total %t
+  MessageMonitorTotalValue: Total %5d
   MessagesMonitorReceived: Received
   MessagesMonitorSent: Sent
   MonitorErrors: Errors
