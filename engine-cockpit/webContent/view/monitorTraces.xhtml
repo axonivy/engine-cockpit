@@ -52,10 +52,10 @@
               <f:facet name="header">
                 <div class="ui-input-icon-left filter-container" style="width: 100%;">
                   <i class="pi pi-search"/>
-                  <p:inputText id="globalFilter" onkeyup="PF('traceTable').filter()" placeholder="#{ivy.cm.co('/common/Search')}" value="#{traceBean.filter}" />
+                  <p:inputText id="globalFilter" onkeyup="PF('traceTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{traceBean.filter}" />
                 </div>
               </f:facet>
-              
+
               <!-- hidden id column to be included in xlsx export -->
               <p:column headerText="#{ivy.cm.co('/common/ID')}" style="display:none">
                 <h:outputText value="#{trace.id}" />
@@ -71,7 +71,7 @@
                 <f:facet name="header">
                   <h:outputText value="#{ivy.cm.co('/monitor/traces/ExecutionTime')}" title="#{ivy.cm.co('/monitor/traces/ExecutionTimeTooltip')}"/>
                 </f:facet>
-                
+
                 <div style="background: #{trace.executionTimeBackground};">
                   <h:outputText styleClass="gradient-text" value="#{trace.executionTime}" title="#{trace.executionTime}">
                     <f:convertNumber maxFractionDigits="2"/>

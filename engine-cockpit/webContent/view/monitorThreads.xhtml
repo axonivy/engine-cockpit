@@ -46,7 +46,7 @@
                 <f:facet name="header">
                   <div class="ui-input-icon-left filter-container">
                     <i class="pi pi-search"/>
-                    <p:inputText id="globalFilter" onkeyup="PF('threadTable').filter()" value="#{threadBean.filter}" placeholder="#{ivy.cm.co('/common/Search')}"/>
+                    <p:inputText id="globalFilter" onkeyup="PF('threadTable').filter()" value="#{threadBean.filter}" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}"/>
                   </div>
                 </f:facet>
                 <p:column headerText="#{ivy.cm.co('/common/ID')}" sortBy="#{thread.id}" filterBy="#{thread.id}" width="5%">

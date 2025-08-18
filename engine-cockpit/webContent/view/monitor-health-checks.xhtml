@@ -47,7 +47,7 @@
             <f:facet name="header">
               <div class="ui-input-icon-left filter-container">
                 <i class="pi pi-search"/>
-                <p:inputText id="globalFilter" onkeyup="PF('checkTable').filter()" value="#{healthBean.filter}" placeholder="#{ivy.cm.co('/common/Search')}"/>
+                <p:inputText id="globalFilter" onkeyup="PF('checkTable').filter()" value="#{healthBean.filter}" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}"/>
               </div>
             </f:facet>
              <p:column width="7%" headerText="#{ivy.cm.co('/common/Severity')}" filterBy="#{check.severity}" sortBy="#{check.severity}" sortOrder="desc">

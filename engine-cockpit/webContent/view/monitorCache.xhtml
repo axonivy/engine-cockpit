@@ -36,10 +36,10 @@
             <f:facet name="header">
               <div class="ui-input-icon-left filter-container">
                 <i class="pi pi-search"/>
-                <p:inputText id="globalFilter" onkeyup="PF('cacheTable').filter()" placeholder="#{ivy.cm.co('/common/Search')}" value="#{cacheBean.filter}" />
+                <p:inputText id="globalFilter" onkeyup="PF('cacheTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{cacheBean.filter}" />
               </div>
             </f:facet>
-            
+
             <p:column sortBy="#{cache.name}" sortOrder="asc" filterBy="#{cache.name}">
               <f:facet name="header">
                 <h:outputText value="#{ivy.cm.co('/common/Name')}" title="#{ivy.cm.co('/monitor/cache/NameTooltip')}"/>

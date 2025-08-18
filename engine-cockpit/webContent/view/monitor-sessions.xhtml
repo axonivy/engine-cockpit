@@ -41,7 +41,7 @@
                 <div class="flex">
                   <div class="ui-input-icon-left filter-container" style="width: 100%;">
                     <i class="pi pi-search"/>
-                    <p:inputText id="globalFilter" value="#{sessionBean.dataModel.filter}" onkeyup="PF('sessionTable').filter()" placeholder="#{ivy.cm.co('/common/Search')}" onkeypress="if (event.keyCode === 13) { return false; } else { return true; }" />
+                    <p:inputText id="globalFilter" value="#{sessionBean.dataModel.filter}" onkeyup="PF('sessionTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" onkeypress="if (event.keyCode === 13) { return false; } else { return true; }" />
                   </div>
 
                   <p:commandButton id="filterBtn" title="#{ivy.cm.co('/common/Filter')}" type="button" icon="si si-filter-1"
