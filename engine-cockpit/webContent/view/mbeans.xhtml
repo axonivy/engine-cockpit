@@ -29,7 +29,7 @@
                 </div>
               </div>
               <p:tree value="#{mBeansBean.root}" var="node" selectionMode="single"
-                style="border: none; max-height: 350px; overflow: auto; padding: 0;" id="mBeans">
+                style="border: none; max-height: 300px; overflow: auto; padding: 0;" id="mBeans">
                 <p:ajax event="select" update="attributes" listener="#{mBeansBean.onSelectNode}" />
                 <p:treeNode type="folder" icon="si si-folder-empty">
                   <h:outputText value="#{node.displayName}" />
@@ -50,7 +50,7 @@
                 </div>
               </div>
               <p:dataTable id="attributes" var="mAttr" value="#{mBeansBean.attributes}" rowIndexVar="rowIndex"
-                style="max-height: 350px; overflow: auto" emptyMessage="Select a bean to see its attributes">
+                style="max-height: 300px; overflow: auto" emptyMessage="Select a bean to see its attributes">
                 <p:column headerText="Name">
                   <h:outputText id="name" value="#{mAttr.name}" />
                   <p:tooltip for="attributes:#{rowIndex}:name" value="#{mAttr.tooltip}" />
@@ -60,26 +60,33 @@
                   <h:outputText value="#{mAttr.value}" />
                 </p:column>
                 <p:column styleClass="table-btn-1">
-                  <p:commandButton id="addTrace" rendered="#{mAttr.isTraceable}" update="chart" immediate="true"
-                    actionListener="#{mBeansBean.addTrace(mAttr)}" icon="si si-analytics-graph" styleClass="rounded-button" />
+                  <p:commandButton id="addTrace" rendered="#{mAttr.isTraceable}" update="poll chart traces" immediate="true"
+                    actionListener="#{mBeansBean.addTrace(mAttr)}" icon="si si-analytics-graph" styleClass="rounded-button" title="Add trace to chart"/>
                 </p:column>
               </p:dataTable>
             </div>
           </div>
-          <div class="col-12">
-            <h:panelGroup layout="block" id="chart" styleClass="card">
+          <div class="col-12 md:col-12 xl:col-6">
+            <div class="card">
               <div class="card-header">
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-analytics-bars"></i>
                   <h6 class="m-0">Chart</h6>
                 </div>
               </div>
-              <p:lineChart id="diagram" model="#{mBeansBean.tracesMonitor.model}"
-                style="height:300px;" />
-              <p:poll update="chart" interval="1" autoStart="#{mBeansBean.tracesMonitor.running}" />
-  
+              <p:lineChart id="chart" model="#{mBeansBean.tracesMonitor.model}"/>
+            </div>
+          </div>
+          <div class="col-12 md:col-12 xl:col-6">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-analytics-bars"></i>
+                  <h6 class="m-0">Traces</h6>
+                </div>
+              </div>
               <p:dataTable id="traces" var="trace" value="#{mBeansBean.traces}" rowIndexVar="rowIndex"
-                style="max-height: 200px; overflow: auto">
+                 style="max-height: 300px; overflow: auto">
                 <p:column headerText="Attribute">
                   <h:outputText id="attribute" value="#{trace.attributeName}" />
                 </p:column>
@@ -94,14 +101,16 @@
                   <h:outputText id="lastValue" value="#{trace.lastValue}" />
                 </p:column>
                 <p:column styleClass="table-btn-1">
-                  <p:commandButton id="removeTrace" update="chart" immediate="true"
-                    actionListener="#{mBeansBean.removeTrace(trace)}" icon="si si-remove" styleClass="ui-button-danger rounded-button" />
+                  <p:commandButton id="removeTrace" update="chart traces" immediate="true"
+                    actionListener="#{mBeansBean.removeTrace(trace)}" icon="si si-remove" styleClass="ui-button-danger rounded-button"
+                    title="Remove trace" />
                 </p:column>
               </p:dataTable>
-            </h:panelGroup>
+            </div>
           </div>
         </div>
       </div>
+      <p:poll id="poll" update="chart traces attributes" interval="1" autoStart="#{mBeansBean.tracesMonitor.running}" />
     </ui:define>
   </ui:composition>
 </h:body>
