@@ -34,7 +34,7 @@
               </div>
               <p:dataTable var="recording" value="#{jfrBean.recordings}"
                 widgetVar="recordingsTable" styleClass="ui-fluid"
-                id="recordingsTable" style="min-width: 950px;" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+                id="recordingsTable" style="min-width: 950px;" emptyMessage="#{ivy.cm.co('/monitor/jfr/NoRecordingsFound')}">
                 <p:column headerText="#{ivy.cm.co('/common/ID')}" sortBy="#{recording.id}" width="5%">
                   <span><h:outputText value="#{recording.id}"/></span>
                 </p:column>

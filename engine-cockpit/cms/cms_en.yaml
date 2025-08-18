@@ -786,6 +786,7 @@ monitor:
     RunHealthChecks: Run Health Checks
   jfr:
     AddConfiguration: Add configuration
+    NoRecordingsFound: No recordings found
     Option:
       disk:
         DefaultValue: 'false'

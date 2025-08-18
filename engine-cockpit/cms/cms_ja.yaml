@@ -791,6 +791,7 @@ monitor:
     RunHealthChecks: ヘルスチェックを実行
   jfr:
     AddConfiguration: 設定を追加
+    NoRecordingsFound: 記録が見つかりませんでした
     Option:
       disk:
         DefaultValue: 'false'
