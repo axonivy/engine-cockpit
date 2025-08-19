@@ -66,9 +66,9 @@
 
               <p:column headerText="#{ivy.cm.co('/common/User')}" sortBy="#{ses.user}">
                 <h:outputLink value="#{ses.userLink}" rendered="#{!ses.isUserInternal()}">
-                  <h:outputText value="#{ses.user}"/>
+                  <h:outputText value="#{ses.user}" styleClass=""/>
                 </h:outputLink>
-                <h:outputText value="#{ses.user}" rendered="#{ses.isUserInternal()}"/>
+                <h:outputText value="#{ses.user}" rendered="#{ses.isUserInternal()}" styleClass=""/>
               </p:column>
 
               <p:column headerText="#{ivy.cm.co('/common/Created')}" sortBy="#{ses.createdAt}">
