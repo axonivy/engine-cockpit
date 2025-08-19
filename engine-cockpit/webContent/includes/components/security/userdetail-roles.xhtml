@@ -32,7 +32,7 @@
     <p:treeTable id="rolesTree" value="#{userDetailBean.roles.tree}" var="role" nodeVar="node" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
       <p:ajax event="expand" listener="#{userDetailBean.roles.nodeExpand}" />
       <p:ajax event="collapse" listener="#{userDetailBean.roles.nodeCollapse}" />
-      <p:column headerText="#{ivy.cm.co('/usersDetailRoles/AllRoles')}" sortBy="#{role.name}">
+      <p:column headerText="#{ivy.cm.co('/userDetailRoles/AllRoles')}" sortBy="#{role.name}">
         <p:treeNode type="role" rendered="#{node.type == 'role'}">
           <a href="#{role.getViewUrl()}">
             <h:outputText value="#{role.name}" styleClass="role-name">
@@ -40,7 +40,7 @@
             </h:outputText>
             <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
             <h:panelGroup rendered="#{userDetailBean.isRoleManaged(role)}">
-              <i class="si si-button-refresh-arrows table-icon" title="#{ivy.cm.co('/usersDetailRoles/RoleInExternalSecuritySystemMessage')}"></i>
+              <i class="si si-button-refresh-arrows table-icon" title="#{ivy.cm.co('/userDetailRoles/RoleInExternalSecuritySystemMessage')}"></i>
             </h:panelGroup>
           </a>
         </p:treeNode>
@@ -50,7 +50,7 @@
           </p:treeNode>
         <p:treeNode type="searchDummy" rendered="#{node.type == 'searchDummy'}">
           <h:outputText value="#{role.name}"
-            title="#{ivy.cm.co('/usersDetailRoles/RoleSearchPerformanceReasonsMessage')}">
+            title="#{ivy.cm.co('/userDetailRoles/RoleSearchPerformanceReasonsMessage')}">
             <i class="si si-navigation-menu-horizontal table-icon"></i>
           </h:outputText>
         </p:treeNode>
@@ -59,7 +59,7 @@
       <p:column styleClass="table-btn-1">
         <h:panelGroup rendered="#{node.type == 'role'}">
           <h:outputText rendered="#{userDetailBean.isUserMemberOfButNotDirect(role)}">
-            <i class="si si-check-circle table-icon light" title="Inherited" />
+            <i class="si si-check-circle table-icon light" title="#{ivy.cm.co('/userDetailRoles/Inherited')}" />
           </h:outputText>
           <h:outputText rendered="#{userDetailBean.isUserDirectMemberOf(role)}">
             <i class="si si-check-circle table-icon" />

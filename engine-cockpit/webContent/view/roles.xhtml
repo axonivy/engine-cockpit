@@ -57,7 +57,7 @@
               <p:column>
                 <p:treeNode type="role" rendered="#{node.type == 'role'}">
                   <a href="#{role.getViewUrl()}" class="role-name"
-                    title="#{role.member ? 'Member' : 'Role'}">
+                    title="#{role.member ? ivy.cm.co('/roles/Member') : ivy.cm.co('/roles/Role')}">
                     <i class="si si-multiple-#{role.member ? 'actions-add' : 'neutral-1'} table-icon"></i>
                     <h:outputText value="#{role.name}" />
                     <h:outputText value=" (#{role.displayName}) " styleClass="addition-row-info" />

@@ -324,6 +324,7 @@ configuration:
   ConfigReset: '''${config}'' reset'
   ConfigResetToDefault: '''${config}'' reset to default'
   ConfigSaved: '''${config}'' saved'
+  ConfigurationDialogDefaultTitle: configuration
   EditConfigurationInfoMessage: If you change this property, you have to restart you engine
   Examples: Examples
   Filter: 'Filter:'
@@ -420,6 +421,8 @@ emailSettings:
   Thu: Thu
   Tue: Tue
   Wed: Wed
+error:
+  ShowFullError: Show full error
 exception:
   AjaxExceptionDialogHeader: Error
   ViewExpiredExceptionDialogContent: The view or session has expired.
@@ -949,6 +952,16 @@ monitor:
     ExportTraces: Export traces
     StartTracesHelpText: Start the recording of the slow requests can have a negative impact on the performance of the engine.
     Traces: Traces
+monitorTraceDetail:
+  AttributesTableEmptyMesssage: Select a span to see its attributes
+  ExecutionTimeMsTitle: Execution time [ms]
+  ExportSpan: Export span
+  Monitor: Monitor
+  Performance: Performance
+  RequestNoLongerAvailableMesssage: Request no longer available
+  RequestWasRemoveWarningMesssage: The request was remove from the slowest requests because other requests were even slower!
+  SlowRequestDetail: Slow Request Detail
+  SlowRequests: Slow Requests
 moveApplication:
   ChangeSecuritySystemDialogContent: 'To change the security system of an application, the target security system must have the same roles and users so that all runtime data like tasks, cases, business data and more can be re-assigned. Therefore, you first need to validate if the target security system
     is ready. If this is not the case, you can check and prepare the target security system:'
@@ -1087,6 +1100,8 @@ roleDetailUsers:
   UsersOfRole: Users Of Role
 roles:
   ExternalRoleNameMessage: '[External: ''${role}'']'
+  Member: Member
+  Role: Role
   SearchDummyPerformanceReason: For performance reasons only the first 100 roles are loaded. Use the search to find a specific role.
   Synchronize: Synchronize
 searchEngine:
@@ -1265,6 +1280,8 @@ sslKeyStore:
 sslTable:
   AddCertificate: Add Certificate
   Alias: Alias
+  DeleteCertificateConfirmHeader: Delete ${certificate}
+  DeleteCertificateConfirmMessage: Are you sure you want to delete the Certificate '${certificate}'?
   ExpiryDate: Expiry date
   Subject: Subject
   ValidCertificate: Valid
@@ -1391,6 +1408,11 @@ userDetailNotifications:
   NotificationChannelsResetMessage: Notification Channels reset
   ResetToDefault: Reset to default
   Subscribed: Subscribed
+userDetailRoles:
+  AllRoles: All Roles
+  Inherited: Inherited
+  RoleInExternalSecuritySystemMessage: Role is managed by the external security system
+  RoleSearchPerformanceReasonsMessage: For performance reasons only the first 20 roles are loaded. Use the search to find a specific role.
 userDetailSubstitutes:
   For: For
   OnAbsence: On absence
@@ -1401,10 +1423,6 @@ userDetailSubstitutes:
 users:
   AddUser: Add User
   SynchSingleUser: Synch Single User
-usersDetailRoles:
-  AllRoles: All Roles
-  RoleInExternalSecuritySystemMessage: Role is managed by the external security system
-  RoleSearchPerformanceReasonsMessage: For performance reasons only the first 20 roles are loaded. Use the search to find a specific role.
 usersTable:
   Disabled: '[disabled]'
   DisabledUsersFilter: disabled users
@@ -1420,6 +1438,13 @@ usersTable:
   ShowManualUsers: Show manual users
   SynchSingleUser: Synch Single User
   Working: Working
+userSynch:
+  Synch: Synch
+  SynchronizeSingleUserDialogHeader: Synchronize Single User
+  UserName: User Name
+  UserNameRequiredMessage: User Name is required
+variables:
+  VariableConfigurationDialogTitle: variable
 webServer:
   BaseUrl: Base Url
   BaseUrlHelpMessage: Base Url used by the engine to build absolute URI's without a request (email links, ...)

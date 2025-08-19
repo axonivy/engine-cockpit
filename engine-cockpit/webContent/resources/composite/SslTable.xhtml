@@ -68,17 +68,17 @@
             styleClass="ui-button-danger rounded-button"
             actionListener="#{cc.attrs.bean.deleteCertificate(certificate.alias)}"
             update="@form">
-            <p:confirm header="Delete #{certificate.alias}" 
-              message="Are you sure you want to delete the Certificate '#{certificate.alias}'?" />
+            <p:confirm header="#{ivy.cm.content('/sslTable/DeleteCertificateConfirmHeader').replace('certificate', certificate.alias).get()}" 
+              message="#{ivy.cm.content('/sslTable/DeleteCertificateConfirmMessage').replace('certificate', certificate.alias).get()}" />
           </p:commandButton>
         </p:column>
 
       </p:dataTable>
 
       <p:confirmDialog id="deleteCertDialog" global="true" severity="alert" appendTo="@form">
-        <p:commandButton value="Cancel" type="button"
+        <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" type="button"
           styleClass="ui-confirmdialog-no ui-button-secondary ui-button-flat modal-input-button" />
-        <p:commandButton id="deleteYesBtn" value="Delete" type="button"
+        <p:commandButton id="deleteYesBtn" value="#{ivy.cm.co('/common/Delete')}" type="button"
           styleClass="ui-confirmdialog-yes modal-input-button"
           icon="si si-bin-1" />
       </p:confirmDialog>

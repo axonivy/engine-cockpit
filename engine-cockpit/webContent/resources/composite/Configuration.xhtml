@@ -5,7 +5,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions">
 <cc:interface>
   <cc:attribute name="bean" />
-  <cc:attribute name="dialogTitle" default="configuration" />
+  <cc:attribute name="dialogTitle" default="#{ivy.cm.co('/configuration/ConfigurationDialogDefaultTitle')}" />
   <cc:attribute name="showContentFilter" default="true" />
 </cc:interface>
 <cc:implementation>

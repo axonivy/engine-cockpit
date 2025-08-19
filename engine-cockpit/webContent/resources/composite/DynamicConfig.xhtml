@@ -192,13 +192,13 @@
                   <p:column styleClass="table-btn-2">
                     <p:commandButton id="editPropertyBtn"
                       actionListener="#{dynamicConfigListDialogBean.setProperty(property.getKeyValueProperty(), keyValue.key, keyValue.value)}"
-                      icon="si si-pencil" title="Edit"
+                      icon="si si-pencil" title="#{ivy.cm.co('/common/Edit')}"
                       styleClass="ui-button-secondary rounded-button"
                       oncomplete="PF('propertyKeyValueModal').show();"
                       process="@this"
                       update="identityProvider:dynamicConfigKeyValueForm" />
                     <p:commandButton id="deleteKeyValueBtn"
-                      type="button" icon="si si-bin-1" title="Delete"
+                      type="button" icon="si si-bin-1" title="#{ivy.cm.co('/common/Delete')}"
                       styleClass="ml-1 ui-button-danger rounded-button">
                       <p:ajax
                         listener="#{property.getKeyValueProperty().removeKeyValue(keyValue.key)}"

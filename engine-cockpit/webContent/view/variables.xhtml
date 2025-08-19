@@ -30,7 +30,7 @@
           <h2 class="m-0">#{ivy.cm.co('/common/Variables')}</h2>
         </div>
         <cc:ApplicationTabs tabChange="#{variableBean.reloadVariables}" id="apps">
-          <cc:Configuration bean="#{variableBean}" dialogTitle="variable" id="config" showContentFilter="false" />
+          <cc:Configuration bean="#{variableBean}" dialogTitle="#{ivy.cm.co('/variables/VariableConfigurationDialogTitle')}" id="config" showContentFilter="false" />
         </cc:ApplicationTabs>
       </div>
     </ui:define>

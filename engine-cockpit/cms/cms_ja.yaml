@@ -324,6 +324,7 @@ configuration:
   ConfigReset: 「${config}」 リセット
   ConfigResetToDefault: 「${config}」をデフォルト設定にリセットします。
   ConfigSaved: 「${config}」 保存されました
+  ConfigurationDialogDefaultTitle: 構成
   EditConfigurationInfoMessage: このプロパティを変更すると、エンジンを再起動する必要があります
   Examples: 例
   Filter: 'フィルター:'
@@ -423,6 +424,8 @@ emailSettings:
   Thu: 木
   Tue: 火
   Wed: 水
+error:
+  ShowFullError: エラーをすべて表示する
 exception:
   AjaxExceptionDialogHeader: エラー
   ViewExpiredExceptionDialogContent: ビューまたはセッションが期限切れになりました。
@@ -954,6 +957,16 @@ monitor:
     ExportTraces: トレースをエクスポート
     StartTracesHelpText: 遅延リクエストの記録を開始すると、エンジンのパフォーマンスに悪影響を与える可能性があります。
     Traces: トレース
+monitorTraceDetail:
+  AttributesTableEmptyMesssage: スパンを選択して、その属性を表示します。
+  ExecutionTimeMsTitle: 実行時間 [ミリ秒]
+  ExportSpan: エクスポート スパン
+  Monitor: モニター
+  Performance: パフォーマンス
+  RequestNoLongerAvailableMesssage: リクエストは現在利用できません。
+  RequestWasRemoveWarningMesssage: そのリクエストは、他のリクエストがさらに遅かったため、最も遅いリクエストから削除されました！
+  SlowRequestDetail: 遅延リクエストの詳細
+  SlowRequests: 遅延リクエスト
 moveApplication:
   ChangeSecuritySystemDialogContent: アプリケーションのセキュリティシステムを変更するには、ターゲットのセキュリティシステムが同じロールとユーザーを保持している必要があります。これにより、タスク、ケース、ビジネスデータなど、すべての実行時データが再割り当て可能になります。したがって、まずターゲットのセキュリティシステムが準備完了かどうかを確認する必要があります。準備が整っていない場合は、ターゲットのセキュリティシステムを確認し、準備を整えることができます：
   ChangeSecuritySystemDialogHeader: セキュリティシステムを変更する
@@ -1089,6 +1102,8 @@ roleDetailUsers:
   UsersOfRole: ロールのユーザー
 roles:
   ExternalRoleNameMessage: '[外部: 「${role}」]'
+  Member: 会員
+  Role: 役割
   SearchDummyPerformanceReason: パフォーマンス上の理由から、最初の100件のロールのみが読み込まれます。特定のロールを見つけるには検索を使用してください。
   Synchronize: 同期
 searchEngine:
@@ -1266,6 +1281,8 @@ sslKeyStore:
 sslTable:
   AddCertificate: 証明書を追加
   Alias: エイリアス
+  DeleteCertificateConfirmHeader: ${certificate} を削除します。
+  DeleteCertificateConfirmMessage: 証明書「${certificate}」を削除してもよろしいですか？
   ExpiryDate: 有効期限
   Subject: サブジェクト
   ValidCertificate: 有効
@@ -1392,6 +1409,11 @@ userDetailNotifications:
   NotificationChannelsResetMessage: 通知チャネルがリセットされました
   ResetToDefault: デフォルトにリセット
   Subscribed: 購読中
+userDetailRoles:
+  AllRoles: すべてのロール
+  Inherited: 相続された
+  RoleInExternalSecuritySystemMessage: ロールは外部セキュリティシステムによって管理されています
+  RoleSearchPerformanceReasonsMessage: パフォーマンス上の理由により、最初の20件のロールのみが読み込まれます。特定のロールを探すには検索を使用してください。
 userDetailSubstitutes:
   For: 対象
   OnAbsence: 不在時
@@ -1402,10 +1424,6 @@ userDetailSubstitutes:
 users:
   AddUser: ユーザー追加
   SynchSingleUser: 単一ユーザーを同期
-usersDetailRoles:
-  AllRoles: すべてのロール
-  RoleInExternalSecuritySystemMessage: ロールは外部セキュリティシステムによって管理されています
-  RoleSearchPerformanceReasonsMessage: パフォーマンス上の理由により、最初の20件のロールのみが読み込まれます。特定のロールを探すには検索を使用してください。
 usersTable:
   Disabled: '[無効]'
   DisabledUsersFilter: 無効ユーザー
@@ -1421,6 +1439,13 @@ usersTable:
   ShowManualUsers: 手動ユーザーを表示
   SynchSingleUser: 単一ユーザーを同期
   Working: 作業中
+userSynch:
+  Synch: 同期
+  SynchronizeSingleUserDialogHeader: シングルユーザーを同期する
+  UserName: ユーザー名
+  UserNameRequiredMessage: ユーザー名が必要です
+variables:
+  VariableConfigurationDialogTitle: 変数
 webServer:
   BaseUrl: ベースURL
   BaseUrlHelpMessage: リクエストなしでエンジンが絶対URIを構築するために使用されるベースURL（メールリンクなど）
