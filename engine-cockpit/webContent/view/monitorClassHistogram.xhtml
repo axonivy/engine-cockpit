@@ -78,11 +78,11 @@
                 </p:column>
                 <p:column sortBy="#{class.deltaToMinInstances}" width="10%">
                   <f:facet name="header">
-                    <h:outputText value="#{ivy.cm.co('/monitor/classHistogram/DeltaMin')}" title="#{ivy.cm.co('/monitor/classHistogram/DeltaTooltip')}" escape="false"/>
+                    <h:outputText value="&#x394; #{ivy.cm.co('/monitor/classHistogram/DeltaMin')}" title="#{ivy.cm.co('/monitor/classHistogram/DeltaTooltip')}" />
                   </f:facet>
                   <div style="background: #{class.deltaMinBackground};">
                     <h:panelGroup id="deltaMin" styleClass="gradient-text">
-                      <h:outputText value="#{ivy.cm.co('/monitor/classHistogram/Delta')} " escape="false"/>
+                      <h:outputText value="&#x394; " />
                       <h:outputText value="#{class.deltaToMinInstances}">
                         <f:convertNumber/>
                       </h:outputText>
@@ -100,10 +100,10 @@
                 </p:column>
                 <p:column sortBy="#{class.deltaToMaxInstances}" width="10%">
                   <f:facet name="header">
-                    <h:outputText value="#{ivy.cm.co('/monitor/classHistogram/DeltaMax')}" title="#{ivy.cm.co('/monitor/classHistogram/DeltaMaxTooltip')}" escape="false"/>
+                    <h:outputText value="&#x394; #{ivy.cm.co('/monitor/classHistogram/DeltaMax')}" title="#{ivy.cm.co('/monitor/classHistogram/DeltaMaxTooltip')}" />
                   </f:facet>
                   <h:panelGroup id="deltaMax" styleClass="gradient-text">
-                    <h:outputText value="#{ivy.cm.co('/monitor/classHistogram/Delta')} "/>
+                    <h:outputText value="&#x394; "/>
                     <h:outputText value="#{class.deltaToMaxInstances}">
                       <f:convertNumber/>
                     </h:outputText>

@@ -59,9 +59,9 @@ public class EngineInfo {
 
   public String getShutdownMessage() {
     if (isShutingDown) {
-      return Ivy.cm().co("/Dialogs/ch/ivyteam/enginecockpit/info/ShutdownEngineMessage");
+      return Ivy.cm().co("/info/ShutdownEngineMessage");
     }
-    return Ivy.cm().co("/Dialogs/ch/ivyteam/enginecockpit/info/ShutdownEngineConfirmationMessage");
+    return Ivy.cm().co("/info/ShutdownEngineConfirmationMessage");
   }
 
   public void shutdown() {

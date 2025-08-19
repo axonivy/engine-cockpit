@@ -44,7 +44,7 @@
               <f:facet name="header">
                 <h:outputText value="#{ivy.cm.co('/common/Name')}" title="#{ivy.cm.co('/monitor/cache/NameTooltip')}"/>
               </f:facet>
-              <h:outputText value="#{cache.name}"/>
+              <span><h:outputText value="#{cache.name}" /></span>
             </p:column>
             <p:column style="width: 65px;" sortBy="#{cache.count}">
               <f:facet name="header">
@@ -89,7 +89,14 @@
             <p:column style="width: 112px;" sortBy="#{cache.info}">
               <f:facet name="header">
                 <h:outputText id="info" value="#{ivy.cm.co('/common/Info')}"/>
-                <p:tooltip for="info" value="#{ivy.cm.co('/monitor/cache/CacheTooltip')}" escape="false" />
+                <p:tooltip for="info">
+                  #{ivy.cm.co('/monitor/cache/MoreCacheLimitsTooltip')}<br/>
+                  <ul>
+                    <li>#{ivy.cm.co('/monitor/cache/CacheMaxTooltip')}</li>
+                    <li>#{ivy.cm.co('/monitor/cache/CacheTTLTooltip')}</li> 
+                    <li>#{ivy.cm.co('/monitor/cache/CacheTTITooltip')}</li>
+                  </ul>
+                </p:tooltip>
               </f:facet>
               <h:outputText value="#{cache.info}" title="#{cache.info}"/>
             </p:column>

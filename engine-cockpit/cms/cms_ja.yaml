@@ -43,7 +43,6 @@ axonivy:
   AxonIvyAG: Axon Ivy AG
   Build: 構築する
   Copyright: 著作権
-  CopyrightValue: '&copy; 2001 - '
   InstallationDirectory: インストール ディレクトリ
 bean:
   Bean: Bean
@@ -60,7 +59,7 @@ branding:
   DefaultValue: 'デフォルト値:'
   DownloadBrandingResourcesDialogHeader: 「${application}」のブランディングリソースをダウンロードする
   EditColorDialogHeader: 色を編集する
-  EditCustomCSSDialogHeader: custom.cssを編集する
+  EditCustomCSSDialogHeader: ${customCssFile}を編集する
   FaviconHelperMessage: ブラウザのタブ用のロゴ（正方形形式が推奨されます）
   LogoHelperMessage: メインのロゴ画像
   LogoLightHelperMessage: メインのロゴと同じですが、例えば当社の場合、白文字で表示されています。
@@ -75,8 +74,8 @@ branding:
   UnknownColor: 不明な色
   UpdateColorSuccessfulMessage: 色「${color}」を正常に更新しました。
   UpdateColorUnsuccessfulMessage: 「${color}」を更新できませんでした。
-  UpdateCustomCSSSuccessfulMessage: 「custom.css」を正常に保存しました。
-  UpdateCustomCSSUnsuccessfulMessage: 「custom.css」を保存できませんでした。
+  UpdateCustomCSSSuccessfulMessage: 「${customCssFile}」を正常に保存しました。
+  UpdateCustomCSSUnsuccessfulMessage: 「${customCssFile}」を保存できませんでした。
   UploadFileSuccessfulMessage: ${resource}を正常にアップロードしました。
   UploadResourceDialogHeader: リソースを「${application}」にアップロードしてください。
   Value: '価値: '
@@ -94,8 +93,8 @@ cluster:
   ClusterNodeState: ノードはライセンスを取得していません。常にエラーコード503「サービス利用不可」を返します。
   Context: 文脈
   Node: ノード
-  Nodes: ' ノード'
-  Sessions: ' セッション'
+  Nodes: ノード
+  Sessions: セッション
 clusterNodeInfo:
   AxonIvyVersion: Axon Ivy バージョン
   ClusterNodeDetail: クラスター ノードの詳細
@@ -108,7 +107,6 @@ clusterNodeInfo:
   OperatingSystemArchitecture: オペレーティングシステムアーキテクチャ
   OperatingSystemName: オペレーティングシステム名
   OperatingSystemVersion: オペレーティングシステム バージョン
-  Sessions: ' セッション'
 common:
   Activate: 有効化
   Activity: 活動
@@ -222,7 +220,7 @@ common:
   NoValue: 値がありません
   None: なし
   NotAvailable: n.a.
-  NotFoundApplication: アプリケーション「${application }」が見つかりません。
+  NotFoundApplication: アプリケーション「${application}」が見つかりません。
   NotMatchPasswordMessage: パスワードが一致しません
   NotificationChannels: 通知チャネル
   OK: OK
@@ -340,7 +338,7 @@ configuration:
   ViewFile: ファイルを表示する
 connectionTestResult:
   ConnectToDatabaseFailMessage: 'エラーが発生しました: %s'
-  ConnectToDatabaseSuccessMessage: 'データベースへの接続に成功しました: %s %s を JDBC バージョン %s で接続しました。'
+  ConnectToDatabaseSuccessMessage: 'データベースへの接続に成功しました: %s (%s) を使用し、JDBC バージョン %s で接続しました。'
   ConnectToRestServiceFailMessage: RESTサービスに接続できませんでした。
   ConnectToRestServiceSuccessMessage: RESTサービスへのテストリクエストを正常に送信しました。
   ConnectionTestDialogHeader: '接続テスト - URL:'
@@ -380,10 +378,8 @@ databaseHistory:
 databases:
   NoDatabasesFound: 展開されたアプリにデータベースが見つかりませんでした。
 deletionWarning:
-  DeletionWarningMessage: |-
-    削除は危険であり、エンジンを不良状態に陥らせる可能性があります。
-    <br />
-    ケースやデータが失われる可能性があります。注意して作業を進めてください。
+  FirstDeletionWarningMessage: 削除は危険であり、エンジンを不良状態に陥らせる可能性があります。
+  SecondDeletionWarningMessage: ケースやデータが失われる可能性があります。注意して作業を進めてください。
 deployment:
   DeployTestUsers: テストユーザーを展開する
   DeployToApp: アプリにデプロイする
@@ -484,16 +480,18 @@ indices:
 info:
   DemoPortal: デモ ポータル
   DemoPortalIntroduction: デモポータルは、Axon Ivyプラットフォームをワークフローエンジンとして活用するための最適な入り口を提供します。ユーザーは、複雑なビジネスプロセスをいかに簡単に自動化、効率化、最適化できるかを体験できます。タスク管理、システム統合、または部門横断的なワークフローのオーケストレーションなど、どのようなニーズにも対応できるよう、プラットフォームは直感的なツールと柔軟な環境を提供します。
-  EngineMaintenanceInfo: <p>したがって、Axon Ivy Engineは現在メンテナンスモードで動作しています。例えば、Axon Ivy Engineがシステムデータベースに接続できない場合やライセンスが期限切れになった場合など、設定に問題が発生した場合は、<b><a href="setup.xhtml">セットアップ ウィザード</a></b>にアクセスして問題を解決してください。Axon Ivy Engine が更新された場合、既存のインスタンスが正常に動作していることを確認するため、<b><a href="migrate.xhtml">移行ウィザード</a></b>
-    を起動する必要があります。このプロセスは、システムの機能性と整合性を維持するために不可欠です。</p>
+  EngineMaintenanceReasonFirstPart: したがって、Axon Ivy Engineは現在メンテナンスモードで動作しています。例えば、Axon Ivy Engineがシステムデータベースに接続できない場合やライセンスが期限切れになった場合など、設定に問題が発生した場合は、以下の手順に従ってください。
+  EngineMaintenanceReasonSecondPart: 修正する必要があります。Axon Ivy Engineが更新された場合、必ず再起動する必要があります。
+  EngineMaintenanceReasonThirdPart: 既存のインスタンスが完全に正常に動作していることを確認するためです。このプロセスは、システムの機能性と整合性を維持するために不可欠です。
   InstallYourApplications: アプリケーションをエンジン コックピットにインストールしてください。
   MaintenanceMode: メンテナンスモード
+  MigrationWizard: 移行ウィザード
   NEODesigner: NEO デザイナー
   NEODesignerIntroduction: NEO Designerは、ビジュアルツールと事前構築されたコンポーネントを活用してアプリケーション開発を加速するローコードプラットフォームです。これにより、ビジネスユーザーと開発者間のシームレスな協業が可能になります。このプラットフォームは、ビジネスタスクの自動化を簡素化し、開発プロセスを効率化するとともに複雑さを軽減します。効率性を向上させるために設計されたNEO Designerは、特定のビジネスニーズに効果的に対応するためのスケーラブルなアプリケーションの迅速な展開をサポートします。
   NoActiveProjects: このアプリには現在進行中のプロジェクトがありません。
   NoApplications: 応募はありません
   Open: 開く
-  OpenLink: 開く 〉
+  SetupWizard: セットアップ ウィザード
   ShutdownEngineConfirmationMessage: 本当にAxon Ivy エンジンをシャットダウンしたいですか？
   ShutdownEngineMessage: Axon Ivy エンジンが停止しています。ウィンドウを閉じることができます。
 information:
@@ -525,7 +523,7 @@ licence:
   ConcurrentSessions: 並行セッション
   ConfigureLicence: ライセンスを設定する
   EngineRunsInDemoMode: ライセンスがインストールされていません。エンジンはデモモードで動作しています。
-  EngineRunsInMaintenanceMode: 'エンジンはメンテナンスモードで動作しています。 '
+  EngineRunsInMaintenanceMode: エンジンはメンテナンスモードで動作しています。
   ExpiredLicenceMessage: ライセンスが期限切れになりました。
   ExpiredLicenceTouchYourSalesMessage: ライセンスの有効期限が間もなく切れます。営業担当までご連絡ください。
   Expires: 有効期限
@@ -542,13 +540,6 @@ licence:
 licenceEvents:
   ConfirmAll: すべてを確認してください
   LicenceEventsDialogHeader: ライセンスイベント
-  SupportReportDialogContent: |-
-    <p>Axon Ivy エンジンを使用中に問題が発生した場合は、サポートチケットを開き、このZIPアーカイブをダウンロードしてチケットに添付してください。</p>
-    <p>このZIPアーカイブには以下の内容が含まれています：</p>
-    <ul>
-        <li>Axon Ivyエンジンサポート報告書</li>
-         <li>本日のログファイル</li>
-    </ul>
 liveStats:
   Bytes: バイト
   Calls: 通話
@@ -635,7 +626,8 @@ login:
   LogInWith: ログインするには
   LoginFooterCopyright: 著作権 Ⓒ Axon Ivy
   LoginFooterEngineCockpit: エンジン コックピット
-  NoAdministratorsConfigured: 管理者が設定されていません。設定を確認してください。
+  NoAdministratorsConfiguredFirstPart: 管理者が設定されていません。
+  NoAdministratorsConfiguredSecondPart: 管理者が設定されていません。設定を確認してください。
   PasswordPlaceholder: ユーザー名 / メールアドレス
   SignInButton: サインイン
   UserNamePlaceholder: パスワード
@@ -667,7 +659,7 @@ migrate:
   MigrationTasks: 移行タスク
   OldEngineLocation: 古いエンジンのロケーション
   ReadingLicenceErrorMessage: 'ライセンス読み込み中にエラーが発生しました: '
-  Running: '実行中 '
+  Running: 実行中
   StartMigration: 移行を開始
   Summary: サマリー
   TemporaryDirectory: '一時ディレクトリ: '
@@ -714,15 +706,12 @@ monitor:
   Used: 使用済み
   Write: 書き込み
   cache:
-    CacheTooltip: |-
-      キャッシュ制限の詳細:<br/>
-      <ul>
-       <li>合計: キャッシュされるバイト数または文字数の最大値。</li>
-       <li>TTL: 有効期間（有効期間）。オブジェクトが最初に読み込まれてからキャッシュに残る最大時間。</li>
-       <li>TTI: アイドル期間（アイドル期間）。オブジェクトが最後に読み込まれてからキャッシュに残る最大時間。</li>
-      </ul>
+    CacheMaxTooltip: ' 合計: キャッシュされるバイト数または文字数の最大値。'
+    CacheTTITooltip: 'TTI: アイドル期間（アイドル期間）。オブジェクトが最後に読み込まれてからキャッシュに残る最大時間。'
+    CacheTTLTooltip: 'TTL: 有効期間（有効期間）。オブジェクトが最初に読み込まれてからキャッシュに残る最大時間。'
     CountTooltip: 現在メモリにキャッシュされているオブジェクトの数
     LimitTooltip: キャッシュ内のオブジェクト数（count参照）は、定期的にこの値まで減らされます
+    MoreCacheLimitsTooltip: 'キャッシュ制限の詳細:'
     NameTooltip: キャッシュの名前
     ReadHits: 読み込みヒット
     ReadHitsTooltip: オブジェクトがシステムデータベースではなくキャッシュから正常に読み込まれた回数
@@ -733,11 +722,10 @@ monitor:
   classHistogram:
     BytesTooltip: このクラスのインスタンスに割り当てられたJavaヒープ上のバイト総数
     Clear: クラスヒストグラムをクリア
-    Delta: '&#x394;'
-    DeltaMax: '&#x394; 最大'
+    DeltaMax: 最大
     DeltaMaxDetailTooltip: '最大:'
     DeltaMaxTooltip: 最後にクリアされてから現在までのJavaヒープ上のインスタンス数の最大値との差
-    DeltaMin: '&#x394; 最小'
+    DeltaMin: 最小
     DeltaMinDetailTooltip: '最小:'
     DeltaTooltip: 最後にクリアされてから現在までのJavaヒープ上のインスタンス数の最小値との差
     Dump: ヒープメモリダンプ
@@ -747,7 +735,7 @@ monitor:
     DumpMemoryMessage3: エンジンが数秒間応答しなくなる場合があります。
     EmptyHistogramMessage: 更新を押してクラスヒストグラムを読み込みます。これにより完全なガーベジコレクションが実行され、エンジンのパフォーマンスに影響する可能性があります。
     InstancesTooltip: このクラスのJavaヒープに割り当てられたインスタンス／オブジェクトの総数
-    MemoryDump: メモリダンプ
+    MemoryDump: ${appName} メモリダンプ
     Refresh: クラスヒストグラムを更新
   execution:
     ClearStatistic: 統計をクリア
@@ -774,7 +762,7 @@ monitor:
     IntTotal: 内部合計
     IntTotalTooltip: エンジン内部実行時間の合計 [ms]
     LoggingActive: ロギング有効中！
-    LoggingActiveDetails: プロセス要素のパフォーマンス統計ロガーが有効です。統計はロガーによって  ごとに自動的にクリアされます
+    LoggingActiveDetails: プロセス要素のパフォーマンス統計ログ記録機能が有効です。統計データは、ログ記録機能によって${loggingInterval}ごとに自動的に削除されます！
     OneSecond: 1秒
     PerformanceStatisticFileName: パフォーマンス統計
     PerformanceTooltip: パフォーマンス統計の設定
@@ -797,7 +785,6 @@ monitor:
     NoRecordingsFound: 記録が見つかりませんでした
     Option:
       disk:
-        DefaultValue: 'false'
         Description: |-
           記録データを記録と同時にディスクに保存します。
 
@@ -808,7 +795,6 @@ monitor:
           "false"
         Name: ディスク
       dumpOnExit:
-        DefaultValue: 'false'
         Description: |-
           Java仮想マシン (JVM) の終了時に記録データをディスクにダンプします。
 
@@ -819,7 +805,6 @@ monitor:
           "false"
         Name: 終了時にダンプ
       duration:
-        DefaultValue: '0'
         Description: |-
           記録を実行する時間を設定します。
 
@@ -841,7 +826,6 @@ monitor:
           "0"
         Name: 実行時間
       maxAge:
-        DefaultValue: '0'
         Description: |-
           ディスクリポジトリにデータを保持する期間を指定します。この期間を過ぎると最も古い
           データが削除される場合があります。disk=true の場合のみ有効で、それ以外は無視されます。
@@ -864,7 +848,6 @@ monitor:
           "0"
         Name: 最大保持期間
       maxSize:
-        DefaultValue: '0'
         Description: |-
           ディスクリポジトリに保持するデータのサイズ（バイト単位）を指定します。
           disk=true の場合のみ有効で、それ以外は無視されます。
@@ -941,7 +924,6 @@ monitor:
     SaveThreadDump: スレッドダンプを保存
     StackTrace: スタックトレース
     ThreadDetail: スレッド詳細
-    ThreadDumpFileName: ThreadDump.txt
     ThreadNewMessage: スレッドは新規で、まだ開始されていません。
     ThreadRunnableMessage: スレッドは実行可能状態です。
     ThreadTerminatedMessage: スレッドは終了しました。
@@ -1188,8 +1170,6 @@ securitySystemProvider:
   IdentityProvider: IDプロバイダー
   ImportUsersOnSchedule: スケジュールでユーザーをインポート
   ProviderChangeWarningMessage: IDプロバイダーを変更すると、このセキュリティシステムの現在のすべての設定が失われます！
-  ScheduleCronPlaceholder: 0 0 0 * * ?
-  ScheduleTimePlaceholder: 00:00
   SynchronizationScheduleTime: 同期スケジュール時間
   SynchronizeUsersOnLogin: ログイン時にユーザーを同期
   SynchronizeUsersOnSchedule: スケジュールでユーザーを同期
@@ -1215,8 +1195,7 @@ sendtestmail:
   To: 宛先
 setup:
   Administrators: 管理者
-  ConfigurationIncompleteDetailFirstPart: '次の設定に警告があります: '
-  ConfigurationIncompleteDetailSecondPart: ' 設定。'
+  ConfigurationIncompleteDetail: '警告が表示されています:'
   ConfigurationIncompleteSummary: 設定が未完了です
   EngineRestartDetail: セットアップを完了するにはエンジンを再起動する必要があります！
   EngineRestartSummary: エンジンの再起動
@@ -1294,15 +1273,12 @@ sslTrustStore:
 state:
   ConfiguredState: 設定済み状態
 supportReport:
+  AxonIvyEngineSupportReportContent: Axon Ivy エンジン サポートレポート
   DownloadSupportReport: サポートレポートのダウンロード
-  SupportReportDialogContent: |-
-    <p>Axon Ivy Engineを使用中に問題が発生した場合は、サポートチケットを開き、このZIPアーカイブをダウンロードしてチケットに添付してください。</p>
-    <p>このZIPアーカイブには以下の内容が含まれています：</p>
-    <ul>
-        <li>Axon Ivy エンジン サポートレポート</li>
-         <li>本日のログファイル</li>
-    </ul>
+  OpenSupportTicketContent: Axon Ivy Engineを使用中に問題が発生した場合は、サポートチケットを開き、このZIPアーカイブをダウンロードしてチケットに添付してください。
   SupportReportDialogHeader: サポートレポート
+  TodayLogFilesContent: 本日のログファイル
+  ZipArchiveContainsContent: このZIPアーカイブには以下の内容が含まれています：
 systemConfig:
   ReloadSystemConfiguration: システム構成を再読み込み
   ReloadSystemConfigurationMessage: システム構成を再読み込みしました
@@ -1341,9 +1317,8 @@ systemDbInfo:
 tables:
   RowCount: 行数
 template:
-  ClusterModeWarning: |-
-    <b>クラスターモード！</b><br/>
-    設定の変更はローカルノードでのみ適用できます！
+  ClusterMode: クラスターモード！
+  ClusterModeWarning: 設定の変更はローカルノードでのみ適用できます！
   Logout: ログアウト
   ServerIndex: サーバーインデックス
   ShowHealthDetails: 健康状態の詳細を表示 ...
@@ -1453,8 +1428,9 @@ webServer:
   BaseUrlProblemDetectedSummaryMessage: 問題が検出されました
   BaseUrlSavedMessage: ベースURLが保存されました
   BaseUrlSettings: ベースURL設定
-  ChangedConfigSuccessfulMessage: が正常に変更されました
-  CheckDocumentLink: 詳細については <i class="si si-hyperlink-3"></i> ドキュメントをご確認ください。
+  ChangedConfigSuccessfulMessage: ${key} が正常に変更されました。
+  CheckDocumentLink: 詳細については、当社のドキュメントをご確認ください：
+  Documentation: 文書化
   Enabled: '有効:'
   EvaluatedUrl: 評価されたURL
   EvaluatedUrlHelpMessage: 外部リンクがどのように計算されるかの例
@@ -1464,7 +1440,7 @@ webServer:
   ExternalBaseUrlProblemDetectedSummaryMessage: 問題が検出されました
   HTTPConnector: HTTPコネクタ
   HTTPSConnectorctor: HTTPSコネクタ
-  MissingSecurityHeadersDetailMessage: セキュリティヘッダーがレスポンスに認識されません。ただし、リバースプロキシを介して追加されている可能性があります（ブラウザの開発者ツールで確認できます）。
+  MissingSecurityHeadersDetailMessage: セキュリティヘッダーはレスポンスで認識されていませんが、リバースプロキシ経由で追加されている可能性があります（ブラウザのデベロッパーツールで確認できます）：${missingSecurityHeaders}。
   MissingSecurityHeadersSummaryMessage: セキュリティヘッダーが不足していますか？
   Port: 'ポート:'
   RemoteAddress: リモートアドレス

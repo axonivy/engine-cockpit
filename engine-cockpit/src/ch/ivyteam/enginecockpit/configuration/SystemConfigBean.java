@@ -22,7 +22,7 @@ public class SystemConfigBean {
   public SystemConfigBean() {
     configView = new ConfigViewImpl(List.of(
         ConfigViewImpl.defaultFilter(),
-        new ContentFilter<ConfigProperty>(Ivy.cm().co("/common/SecuritySystems"),
+        new ContentFilter<ConfigProperty>("Security Systems",
             Ivy.cm().co("/systemConfig/ShowSecuritySystems"),
             p -> !Strings.CS.startsWith(p.getKey(), "SecuritySystems."), true)));
   }

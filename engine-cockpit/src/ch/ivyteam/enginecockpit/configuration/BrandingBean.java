@@ -167,11 +167,15 @@ public class BrandingBean implements AllResourcesDownload {
   }
 
   public void saveCustomCss() {
-    var message = new FacesMessage(Ivy.cm().co("/branding/UpdateCustomCSSSuccessfulMessage"), "");
+    var message = new FacesMessage(
+        Ivy.cm().content("/branding/UpdateCustomCSSSuccessfulMessage").replace("customCssFile", "custom.css").get(),
+        "");
     try {
       brandingIO.writeCustomCss(customCssContent);
     } catch (Exception ex) {
-      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/branding/UpdateCustomCSSUnsuccessfulMessage"), ex.getMessage());
+      message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+          Ivy.cm().content("/branding/UpdateCustomCSSUnsuccessfulMessage").replace("customCssFile", "custom.css").get(),
+          ex.getMessage());
     }
     FacesContext.getCurrentInstance().addMessage(null, message);
     reloadCustomCssContent();

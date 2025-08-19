@@ -144,10 +144,8 @@
               <h:panelGroup id="missingSecurityHeadersInfo" layout="block" rendered="#{not empty webServerBean.missingSecurityHeaders}" styleClass="ui-message ui-staticmessage ui-message-info">
                 <span class="ui-message-info-icon"></span>
                 <span class="ui-message-info-summary">#{ivy.cm.co('/webServer/MissingSecurityHeadersSummaryMessage')}</span>
-                <span class="ui-message-info-detail">#{ivy.cm.co('/webServer/MissingSecurityHeadersDetailMessage')} #{webServerBean.missingSecurityHeaders}.
-                  <a href="#{advisorBean.engineGuideBaseUrl}/security/http-headers.html#http-headers">
-                    <h:outputText escape="false" value="#{ivy.cm.co('/webServer/CheckDocumentLink')}" />
-                  </a>
+                <span class="ui-message-info-detail">#{ivy.cm.content('/webServer/MissingSecurityHeadersDetailMessage').replace('missingSecurityHeaders', webServerBean.missingSecurityHeaders).get()}
+                  #{ivy.cm.co('/webServer/CheckDocumentLink')} <a href="#{advisorBean.engineGuideBaseUrl}/security/http-headers.html#http-headers"><i class="si si-hyperlink-3" />#{ivy.cm.co('/webServer/Documentation')}</a>
                 </span>
               </h:panelGroup>
 

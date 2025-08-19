@@ -35,7 +35,7 @@
           <ui:include src="../includes/components/configuration/branding-colors.xhtml" />
         </cc:ApplicationTabs>
 
-        <p:dialog styleClass="branding-custom-css" header="#{ivy.cm.co('/branding/EditCustomCSSDialogHeader')}" id="editCustomCssModal" appendTo="@(body)"
+        <p:dialog styleClass="branding-custom-css" header="#{ivy.cm.content('/branding/EditCustomCSSDialogHeader').replace('customCssFile', 'custom.css').get()}" id="editCustomCssModal" appendTo="@(body)"
           widgetVar="editCustomCssModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
           <h:form id="editCustomCssForm" styleClass="custom-dialog-form">
             <pe:codeMirror id="editCustomCssValue" value="#{brandingBean.customCssContent}"

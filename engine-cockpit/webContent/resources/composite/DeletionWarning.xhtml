@@ -6,7 +6,11 @@
 </cc:interface>
 <cc:implementation>
   <div style="color: var(--error-color); font-weight: bold;">
-    <h:outputText escape="false" value="#{ivy.cm.co('/deletionWarning/DeletionWarningMessage')}" />
+    <h:outputText
+      value="#{ivy.cm.co('/deletionWarning/FirstDeletionWarningMessage')}" />
+    <br />
+    <h:outputText
+      value="#{ivy.cm.co('/deletionWarning/SecondDeletionWarningMessage')}" />
   </div>
   <br />
   <br />

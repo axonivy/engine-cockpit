@@ -64,9 +64,9 @@
                   <div id="configErrorMessage" class="ui-message ui-staticmessage ui-message-warn ui-widget ui-corner-all">
                     <span class="ui-message-warn-icon"></span>
                     <span class="ui-message-warn-summary">#{ivy.cm.co('/setup/ConfigurationIncompleteSummary')}</span>
-                    <span class="ui-message-warn-detail">#{ivy.cm.co('/setup/ConfigurationIncompleteDetailFirstPart')}
+                    <span class="ui-message-warn-detail">#{ivy.cm.co('/setup/ConfigurationIncompleteDetail')} 
                       <p:commandLink actionListener="#{wizardBean.gotoFirstWarningStep()}" 
-                        update="wizardStepPage" value="#{wizardBean.firstStepWithWarning.name}" immediate="true" />#{ivy.cm.co('/setup/ConfigurationIncompleteDetailSecondPart')}
+                        update="wizardStepPage" value="#{wizardBean.firstStepWithWarning.name}" immediate="true" />
                     </span>
                   </div>
                 </h:panelGroup>

@@ -24,8 +24,11 @@
                   <p>
                     <b>#{engineInfo.maintenanceReason}</b>
                   </p>
-                  <h:outputText escape="false"
-                    value="#{ivy.cm.co('/info/EngineMaintenanceInfo')}" />
+                  <p>
+                    #{ivy.cm.co('/info/EngineMaintenanceReasonFirstPart')} 
+                    <b><a href="setup.xhtml">#{ivy.cm.co('/info/SetupWizard')}</a></b> #{ivy.cm.co('/info/EngineMaintenanceReasonSecondPart')} 
+                    <b><a href="migrate.xhtml">#{ivy.cm.co('/info/MigrationWizard')}</a></b> #{ivy.cm.co('/info/EngineMaintenanceReasonThirdPart')}
+                  </p>
                 </div>
               </div>
             </div>
@@ -48,7 +51,7 @@
                   <p>#{ivy.cm.co('/info/DemoPortalIntroduction')}</p>
                 </div>
                 <div class="card-item-open">
-                  <p:link href="#{engineInfo.demoPortalUrl}" styleClass="card-item-open-link">#{ivy.cm.co('/info/OpenLink')}</p:link>
+                  <p:link href="#{engineInfo.demoPortalUrl}" styleClass="card-item-open-link">#{ivy.cm.co('/info/Open')} 〉</p:link>
                 </div>
               </div>
             </div>
@@ -67,7 +70,7 @@
                   <p>#{ivy.cm.co('/info/NEODesignerIntroduction')}</p>
                 </div>
                 <div class="card-item-open">
-                  <p:link href="/neo" styleClass="card-item-open-link">#{ivy.cm.co('/info/OpenLink')}</p:link>
+                  <p:link href="/neo" styleClass="card-item-open-link">#{ivy.cm.co('/info/Open')} 〉</p:link>
                 </div>
               </div>
             </div>

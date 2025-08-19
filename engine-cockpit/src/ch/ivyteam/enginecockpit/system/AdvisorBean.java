@@ -9,7 +9,6 @@ import javax.faces.bean.SessionScoped;
 
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.Advisor;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
 @ManagedBean
@@ -30,7 +29,7 @@ public class AdvisorBean {
   }
 
   public String getCopyright() {
-    return Ivy.cm().co("/axonivy/CopyrightValue") + Calendar.getInstance().get(Calendar.YEAR);
+    return "&copy; 2001 - " + Calendar.getInstance().get(Calendar.YEAR);
   }
 
   public String getApiBrowserUrl() {

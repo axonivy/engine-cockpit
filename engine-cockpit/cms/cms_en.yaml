@@ -20,7 +20,7 @@ applications:
   Convert: Convert
   ConvertButtonTitle: Converts the project to the latest version
   DeactivateButtonTitle: Deactivate
-  DeleteHintMessage: Are you sure you want to delete this ${activityType} ?
+  DeleteHintMessage: Are you sure you want to delete this ${activityType}?
   DeleteRunningCasesHintMessage: ${activityType} has ${runningCases} running cases. They will also be deleted.
   DeploymentButtonTitle: Deployment
   DeploymentPossibleReason: |-
@@ -43,7 +43,6 @@ axonivy:
   AxonIvyAG: Axon Ivy AG
   Build: Build
   Copyright: Copyright
-  CopyrightValue: '&copy; 2001 - '
   InstallationDirectory: Installation Directory
 bean:
   Bean: Bean
@@ -60,7 +59,7 @@ branding:
   DefaultValue: 'Default Value: '
   DownloadBrandingResourcesDialogHeader: Download Branding resources of '${application}'
   EditColorDialogHeader: Edit color
-  EditCustomCSSDialogHeader: Edit custom.css
+  EditCustomCSSDialogHeader: Edit ${customCssFile}
   FaviconHelperMessage: The logo fot the browser tab (square format recommended)
   LogoHelperMessage: The main logo image
   LogoLightHelperMessage: Same as the main logo, but e.g. in our case with white writing
@@ -75,8 +74,8 @@ branding:
   UnknownColor: unknown color
   UpdateColorSuccessfulMessage: Successfully update color '${color}'
   UpdateColorUnsuccessfulMessage: Couldn't update '${color}'
-  UpdateCustomCSSSuccessfulMessage: Successfully saved 'custom.css'
-  UpdateCustomCSSUnsuccessfulMessage: Couldn't save 'custom.css'
+  UpdateCustomCSSSuccessfulMessage: Successfully saved '${customCssFile}'
+  UpdateCustomCSSUnsuccessfulMessage: Couldn't save '${customCssFile}'
   UploadFileSuccessfulMessage: Successfully uploaded ${resource}
   UploadResourceDialogHeader: Upload resources to '${application}'
   Value: 'Value: '
@@ -94,8 +93,8 @@ cluster:
   ClusterNodeState: Node is not licensed. It will always response with error code 503 Service Unavailable.
   Context: Context
   Node: Node
-  Nodes: ' Nodes'
-  Sessions: ' Sessions'
+  Nodes: Nodes
+  Sessions: Sessions
 clusterNodeInfo:
   AxonIvyVersion: Axon Ivy Version
   ClusterNodeDetail: Cluster Node Detail
@@ -108,7 +107,6 @@ clusterNodeInfo:
   OperatingSystemArchitecture: Operating System Architecture
   OperatingSystemName: Operating System Name
   OperatingSystemVersion: Operating System Version
-  Sessions: ' Sessions'
 common:
   Activate: Activate
   Activity: Activity
@@ -222,7 +220,7 @@ common:
   NoValue: No value
   None: None
   NotAvailable: n.a.
-  NotFoundApplication: Application '${application }' not found
+  NotFoundApplication: Application '${application}' not found
   NotMatchPasswordMessage: Password didn't match
   NotificationChannels: Notification Channels
   OK: OK
@@ -340,7 +338,7 @@ configuration:
   ViewFile: View File
 connectionTestResult:
   ConnectToDatabaseFailMessage: 'An error occurred: %s'
-  ConnectToDatabaseSuccessMessage: 'Successfully connected to database: %s %s with JDBC Version %s'
+  ConnectToDatabaseSuccessMessage: 'Successfully connected to database: %s (%s) with JDBC Version %s'
   ConnectToRestServiceFailMessage: Could not connect to REST service
   ConnectToRestServiceSuccessMessage: Successfully sent test request to REST service
   ConnectionTestDialogHeader: 'Connection Test - Url:'
@@ -377,10 +375,8 @@ databaseHistory:
 databases:
   NoDatabasesFound: No Databases found on deployed apps
 deletionWarning:
-  DeletionWarningMessage: |-
-    Deletion is dangerous and might leave the engine in a bad state.
-    <br />
-    You may lose cases and data. Proceed with caution.
+  FirstDeletionWarningMessage: Deletion is dangerous and might leave the engine in a bad state.
+  SecondDeletionWarningMessage: You may lose cases and data. Proceed with caution.
 deployment:
   DeployTestUsers: Deploy Test Users
   DeployToApp: Deploy to App
@@ -482,17 +478,19 @@ info:
   DemoPortal: Demo Portal
   DemoPortalIntroduction: The demo portal offers the perfect entry point to explore and experience the powerful features of the Axon Ivy platform as a workflow engine. It allows users to discover how easily complex business processes can be automated, streamlined, and optimized. Whether you're looking
     to manage tasks, integrate systems, or orchestrate workflows across departments, the platform provides intuitive tools and a flexible environment to meet your business needs.
-  EngineMaintenanceInfo: <p>Therefore the Axon Ivy Engine is currently operating in maintenance mode. If your setup is broken for example because the Axon Ivy Engine can not connect to the system database or the licence has been expired, then go <b><a href="setup.xhtml">Setup Wizard</a></b> to fix it.
-    If the Axon Ivy Engine has undergone an update, it is essential to initiate the <b><a href="migrate.xhtml">Migration Wizard</a></b> to ensure that the existing instance is fully operational. This process is crucial for maintaining the functionality and integrity of the system.</p>
+  EngineMaintenanceReasonFirstPart: Therefore the Axon Ivy Engine is currently operating in maintenance mode. If your setup is broken for example because the Axon Ivy Engine can not connect to the system database or the licence has been expired, then go
+  EngineMaintenanceReasonSecondPart: to fix it. If the Axon Ivy Engine has undergone an update, it is essential to initiate the
+  EngineMaintenanceReasonThirdPart: to ensure that the existing instance is fully operational. This process is crucial for maintaining the functionality and integrity of the system.
   InstallYourApplications: Install your application in the Engine Cockpit.
   MaintenanceMode: Maintenance Mode
+  MigrationWizard: Migration Wizard
   NEODesigner: NEO Designer
   NEODesignerIntroduction: NEO Designer is a low-code platform that accelerates application development by using visual tools and pre-built components, enabling seamless collaboration between business users and developers. This platform simplifies the automation of business tasks, streamlining the development
     process and reducing complexity. Designed to enhance efficiency, NEO Designer supports the rapid deployment of scalable applications, tailored to meet specific business needs effectively.
   NoActiveProjects: This app has no active projects.
   NoApplications: No applications
   Open: Open
-  OpenLink: Open 〉
+  SetupWizard: Setup Wizard
   ShutdownEngineConfirmationMessage: Do you really want to shutdown the Axon Ivy Engine?
   ShutdownEngineMessage: The Axon Ivy Engine is shutting down. You can close the window.
 information:
@@ -524,11 +522,11 @@ licence:
   ConcurrentSessions: Concurrent sessions
   ConfigureLicence: Configure Licence
   EngineRunsInDemoMode: No licence installed. Your engine runs in demo mode.
-  EngineRunsInMaintenanceMode: 'Your engine runs in maintenance mode. '
-  ExpiredLicenceMessage: 'Your licence has expired. '
+  EngineRunsInMaintenanceMode: Your engine runs in maintenance mode.
+  ExpiredLicenceMessage: Your licence has expired.
   ExpiredLicenceTouchYourSalesMessage: Your licence is about to expire. Please get in touch with your sales.
   Expires: Expires
-  InvalidLicenceMessage: 'Invalid licence installed. '
+  InvalidLicenceMessage: Invalid licence installed.
   LicenceEvents: Licence Events
   LicenceType: Licence type
   NamedUsers: Named users
@@ -541,13 +539,6 @@ licence:
 licenceEvents:
   ConfirmAll: Confirm all
   LicenceEventsDialogHeader: Licence Events
-  SupportReportDialogContent: |-
-    <p>If you spot a problem while using the Axon Ivy Engine please open a support ticket, download this zip archive and attach it to the ticket.</p>
-    <p>This zip archive contains:</p>
-    <ul>
-        <li>Axon Ivy Engine Support Report</li>
-         <li>Today's log files</li>
-    </ul>
 liveStats:
   Bytes: Bytes
   Calls: Calls
@@ -634,7 +625,8 @@ login:
   LogInWith: Log in with
   LoginFooterCopyright: Copyright Ⓒ Axon Ivy
   LoginFooterEngineCockpit: Engine Cockpit
-  NoAdministratorsConfigured: 'No administrators configured, check your '
+  NoAdministratorsConfiguredFirstPart: 'No administrators configured, check your '
+  NoAdministratorsConfiguredSecondPart: 'No administrators configured, check your '
   PasswordPlaceholder: Username / Email
   SignInButton: Sign In
   UserNamePlaceholder: Password
@@ -667,7 +659,7 @@ migrate:
   MigrationTasks: Migration Tasks
   OldEngineLocation: Location of old Engine
   ReadingLicenceErrorMessage: 'Error during reading licence: '
-  Running: 'Running '
+  Running: Running
   StartMigration: Start Migration
   Summary: Summary
   TemporaryDirectory: 'Temporary Directory: '
@@ -714,10 +706,12 @@ monitor:
   Used: Used
   Write: Write
   cache:
-    CacheTooltip: "More cache limits:<br/>\n<ul>\n <li>Max: Maximum number of bytes or characters that are cached.</li>\n <li>TTL: Time to live. The maximum time an object will stay in the cache after it was first read.</li> \n<li>TTI: Time to idle. The maximum time an object will stay in the cache after\
-      \ it was last read.</li>\n</ul>"
+    CacheMaxTooltip: 'Max: Maximum number of bytes or characters that are cached.'
+    CacheTTITooltip: 'TTI: Time to idle. The maximum time an object will stay in the cache after it was last read.'
+    CacheTTLTooltip: 'TTL: Time to live. The maximum time an object will stay in the cache after it was first read.'
     CountTooltip: The number of objects that are currently cached in memory
     LimitTooltip: The number of objects in the cache (see count) is periodically reduced to this value
+    MoreCacheLimitsTooltip: 'More cache limits:'
     NameTooltip: The name of the cache
     ReadHits: Read Hits
     ReadHitsTooltip: How many times an object was successfully read from the cache instead of the system database
@@ -728,11 +722,10 @@ monitor:
   classHistogram:
     BytesTooltip: Total number of bytes allocated on the Java heap for instances of this class
     Clear: Clear Class Histogram
-    Delta: '&#x394;'
-    DeltaMax: '&#x394; Max'
+    DeltaMax: Max
     DeltaMaxDetailTooltip: 'Max:'
     DeltaMaxTooltip: Delta between the current and maximum instances allocated on the Java heap since the last clear
-    DeltaMin: '&#x394; Min'
+    DeltaMin: Min
     DeltaMinDetailTooltip: 'Min:'
     DeltaTooltip: Delta between the current and minimum instances allocated on the Java heap since the last clear
     Dump: Dump Heap Memory
@@ -742,7 +735,7 @@ monitor:
     DumpMemoryMessage3: The engine may not be response for a few seconds.
     EmptyHistogramMessage: Press refresh to load class histogram. Note that this triggers a full garbage collection and can influence the performance of the engine
     InstancesTooltip: Total number of instances/objects allocated on the Java heap for this class
-    MemoryDump: Memory Dump
+    MemoryDump: ${appName} Memory Dump
     Refresh: Refresh Class Histogram
   execution:
     ClearStatistic: Clear statistic
@@ -769,7 +762,7 @@ monitor:
     IntTotal: Int Total
     IntTotalTooltip: Total of engine internal execution time [ms]
     LoggingActive: Logging Active!
-    LoggingActiveDetails: 'The process element performance statistic logger is active. The statistic is automatically cleaned by the logger every '
+    LoggingActiveDetails: The process element performance statistic logger is active. The statistic is automatically cleaned by the logger every ${loggingInterval}!
     OneSecond: 1 second
     PerformanceStatisticFileName: PerformanceStatistic
     PerformanceTooltip: Performance Statistic Configuration
@@ -792,7 +785,6 @@ monitor:
     NoRecordingsFound: No recordings found
     Option:
       disk:
-        DefaultValue: 'false'
         Description: |-
           Stores recorded data as it is recorded.
 
@@ -803,7 +795,6 @@ monitor:
           "false"
         Name: Disk
       dumpOnExit:
-        DefaultValue: 'false'
         Description: |-
           Dumps recording data to disk on Java Virtual Machine (JVM) exit.
 
@@ -814,7 +805,6 @@ monitor:
           "false"
         Name: Dump on exit
       duration:
-        DefaultValue: '0'
         Description: |-
           Sets how long the recording should be running.
 
@@ -836,7 +826,6 @@ monitor:
           "0"
         Name: Duration
       maxAge:
-        DefaultValue: '0'
         Description: |-
           Specify the length of time that the data is kept in the disk repository until the oldest
           data may be deleted. Only works if disk=true, otherwise this parameter is ignored.
@@ -859,7 +848,6 @@ monitor:
           "0"
         Name: Max age
       maxSize:
-        DefaultValue: '0'
         Description: |-
           Specifies the size, measured in bytes, at which data is kept in disk repository.
           Only works if disk=true, otherwise this parameter is ignored.
@@ -936,7 +924,6 @@ monitor:
     SaveThreadDump: Save Thread Dump
     StackTrace: Stack Trace
     ThreadDetail: Thread Detail
-    ThreadDumpFileName: ThreadDump.txt
     ThreadNewMessage: Thread is new and not yet started.
     ThreadRunnableMessage: Thread is runnable.
     ThreadTerminatedMessage: Thread is terminated.
@@ -1187,8 +1174,6 @@ securitySystemProvider:
   IdentityProvider: Identity Provider
   ImportUsersOnSchedule: Import users on schedule
   ProviderChangeWarningMessage: If you change the identity provider, you will lose ALL current settings of this security system!
-  ScheduleCronPlaceholder: 0 0 0 * * ?
-  ScheduleTimePlaceholder: 00:00
   SynchronizationScheduleTime: Synchronization schedule time
   SynchronizeUsersOnLogin: Synchronize users on login
   SynchronizeUsersOnSchedule: Synchronize users on schedule
@@ -1214,8 +1199,7 @@ sendtestmail:
   To: To
 setup:
   Administrators: Administrators
-  ConfigurationIncompleteDetailFirstPart: 'You have warnings in your '
-  ConfigurationIncompleteDetailSecondPart: ' configuration.'
+  ConfigurationIncompleteDetail: 'You have warnings in:'
   ConfigurationIncompleteSummary: Configuration incomplete
   EngineRestartDetail: Your engine needs to be restarted to finish the setup process!
   EngineRestartSummary: Engine restart
@@ -1293,15 +1277,12 @@ sslTrustStore:
 state:
   ConfiguredState: Configured state
 supportReport:
+  AxonIvyEngineSupportReportContent: Axon Ivy Engine Support Report
   DownloadSupportReport: Download Support Report
-  SupportReportDialogContent: |-
-    <p>If you spot a problem while using the Axon Ivy Engine please open a support ticket, download this zip archive and attach it to the ticket.</p>
-    <p>This zip archive contains:</p>
-    <ul>
-        <li>Axon Ivy Engine Support Report</li>
-         <li>Today's log files</li>
-    </ul>
+  OpenSupportTicketContent: If you spot a problem while using the Axon Ivy Engine please open a support ticket, download this zip archive and attach it to the ticket.
   SupportReportDialogHeader: Support Report
+  TodayLogFilesContent: Today's log files
+  ZipArchiveContainsContent: 'This zip archive contains:'
 systemConfig:
   ReloadSystemConfiguration: Reload system configuration
   ReloadSystemConfigurationMessage: System configuration reloaded
@@ -1340,9 +1321,8 @@ systemDbInfo:
 tables:
   RowCount: Row count
 template:
-  ClusterModeWarning: |-
-    <b>Cluster Mode!</b><br/>
-    Configuration changes may only be applied on local node!
+  ClusterMode: Cluster Mode!
+  ClusterModeWarning: Configuration changes may only be applied on local node!
   Logout: Logout
   ServerIndex: Server Index
   ShowHealthDetails: Show health details ...
@@ -1452,8 +1432,9 @@ webServer:
   BaseUrlProblemDetectedSummaryMessage: Problem detected
   BaseUrlSavedMessage: Base Url saved
   BaseUrlSettings: Base Url Settings
-  ChangedConfigSuccessfulMessage: ' changed successfully'
-  CheckDocumentLink: Check our <i class="si si-hyperlink-3"></i> documentation for more details.
+  ChangedConfigSuccessfulMessage: ${key} changed successfully
+  CheckDocumentLink: 'Check our documentation for more details:'
+  Documentation: documentation
   Enabled: 'Enabled:'
   EvaluatedUrl: Evaluated URL
   EvaluatedUrlHelpMessage: Example how an external link is calculated
@@ -1463,7 +1444,7 @@ webServer:
   ExternalBaseUrlProblemDetectedSummaryMessage: Problem detected
   HTTPConnector: HTTP Connector
   HTTPSConnectorctor: HTTPS Connector
-  MissingSecurityHeadersDetailMessage: 'Security Headers are not recognized in the response, but maybe they are added via a reverse proxy (You can check that via the Browser DevTools):'
+  MissingSecurityHeadersDetailMessage: 'Security Headers are not recognized in the response, but maybe they are added via a reverse proxy (You can check that via the Browser DevTools): ${missingSecurityHeaders}.'
   MissingSecurityHeadersSummaryMessage: Missing Security Headers?
   Port: 'Port:'
   RemoteAddress: Remote Address

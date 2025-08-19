@@ -148,10 +148,10 @@ public class LicenceBean extends StepStatus {
     var maintenanceMode =
         EngineMode.is(EngineMode.MAINTENANCE) ? Ivy.cm().co("/licence/EngineRunsInMaintenanceMode") : "";
     if (isExpired()) {
-      return Ivy.cm().co("/licence/ExpiredLicenceMessage") + maintenanceMode;
+      return Ivy.cm().co("/licence/ExpiredLicenceMessage") + StringUtils.SPACE + maintenanceMode;
     }
     if (!isValid()) {
-      return Ivy.cm().co("/licence/InvalidLicenceMessage") + maintenanceMode;
+      return Ivy.cm().co("/licence/InvalidLicenceMessage") + StringUtils.SPACE + maintenanceMode;
     }
     return "";
   }

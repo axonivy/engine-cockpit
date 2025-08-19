@@ -73,7 +73,8 @@ public class ClassHistogramBean {
 
   public StreamedContent dumpMemory() throws InstanceNotFoundException, ReflectionException, MBeanException, IOException {
     var dumpDir = Files.createTempDirectory("memoryDump");
-    var dumpName = String.join(" ", Advisor.getAdvisor().getApplicationName(), Ivy.cm().co("/monitor/classHistogram/MemoryDump"));
+    var dumpName = Ivy.cm().content("/monitor/classHistogram/MemoryDump")
+        .replace("appName", Advisor.getAdvisor().getApplicationName()).get();
     var dumpFile = dumpDir.resolve(dumpName + ".hprof");
     ManagementFactory.getPlatformMBeanServer().invoke(HOT_SPOT_DIAGNOSTIC,
         "dumpHeap", new Object[] {dumpFile.toAbsolutePath().toString(), true}, new String[] {String.class.getName(), boolean.class.getName()});

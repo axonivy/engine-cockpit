@@ -24,7 +24,7 @@
           <p:tab id="nodesTab">
             <f:facet name="title">
               <i class="si si-monitor table-icon" />
-              <h:outputText value="#{ivy.cm.co('/cluster/Nodes')}" />
+              <h:outputText value=" #{ivy.cm.co('/cluster/Nodes')}" />
             </f:facet>
             <h:form id="nodesForm">
               <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
@@ -83,7 +83,7 @@
           <p:tab id="sessionsTab">
             <f:facet name="title">
               <i class="si si-analytics-graph-line" />
-              <h:outputText value="#{ivy.cm.co('/cluster/Sessions')}" />
+              <h:outputText value=" #{ivy.cm.co('/cluster/Sessions')}" />
             </f:facet>
             <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
               var="ses" value="#{clusterBean.sessions}" widgetVar="sessionsTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}"

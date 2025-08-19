@@ -7,8 +7,12 @@
   modal="true" responsive="true" closeOnEscape="true">
   <h:form id="reportForm" styleClass="custom-dialog-form">
     <div>
-    <h:outputText escape="false" value="#{ivy.cm.co('/supportReport/SupportReportDialogContent')}" />
-
+      <p>#{ivy.cm.co('/supportReport/OpenSupportTicketContent')}</p>
+      <p>#{ivy.cm.co('/supportReport/ZipArchiveContainsContent')}</p>
+      <ul>
+        <li>#{ivy.cm.co('/supportReport/AxonIvyEngineSupportReportContent')}</li>
+        <li>#{ivy.cm.co('/supportReport/TodayLogFilesContent')}</li>
+      </ul>
     </div>
     <div class="custom-dialog-footer">
       <p:commandButton id="cancel" onclick="PF('supportReportModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button" />

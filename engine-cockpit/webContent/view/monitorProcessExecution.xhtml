@@ -46,7 +46,7 @@
               </div>
               <p:staticMessage id="loggingWarning" rendered="#{processExecutionBean.loggingActive}" severity="warn" summary="#{ivy.cm.co('/monitor/execution/LoggingActive')}"
                 styleClass="mt-3"
-                detail="#{ivy.cm.co('/monitor/execution/LoggingActiveDetails')} #{processExecutionBean.loggingInterval}!"/>
+                detail="#{ivy.cm.content('/monitor/execution/LoggingActiveDetails').replace('loggingInterval', processExecutionBean.loggingInterval).get()}"/>
             </div>
     
             <p:dataTable var="processElement" value="#{processExecutionBean.processElements}"
