@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.primefaces.util.ComponentUtils;
 
+import ch.ivyteam.enginecockpit.util.CmsUtil;
 import ch.ivyteam.ivy.bpm.engine.restricted.IBpmEngineManager;
 import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IExecutionStatistic;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
@@ -105,10 +106,10 @@ public final class ProcessExecutionBean {
   public String getLoggingInterval() {
     var seconds = IConfiguration.instance().getOrDefault("ProcessEngine.FiringStatistic.Interval", long.class);
     if (seconds == 1) {
-      return Ivy.cm().co("/monitor/execution/OneSecond");
+      return CmsUtil.coWithDefault("/monitor/execution/OneSecond", "1 second");
     }
     if (seconds < 60) {
-      return seconds + " " + Ivy.cm().co("/monitor/execution/Seconds");
+      return seconds + " " + CmsUtil.coWithDefault("/monitor/execution/Seconds", "seconds");
     }
     Instant now = Instant.now();
     var then = now.plus(Duration.ofSeconds(seconds));
