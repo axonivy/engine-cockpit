@@ -62,7 +62,7 @@ public class ClusterMonitorBean {
 
     sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaMinExecutionTime(), Ivy.cm().co("/liveStats/Min")).toSeries());
     sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaAvgExecutionTime(), Ivy.cm().co("/liveStats/Avg")).toSeries());
-    sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaMaxExecutionTime(), Ivy.cm().co("/liveStats/Min")).toSeries());
+    sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaMaxExecutionTime(), Ivy.cm().co("/liveStats/Max")).toSeries());
 
     receiveMessagesMonitor.addInfoValue(format("%5d", receivedMessages.deltaExecutions()));
     receiveMessagesMonitor.addInfoValue(format(Ivy.cm().co("/common/Total") + " %5d", receivedMessages.executions()));

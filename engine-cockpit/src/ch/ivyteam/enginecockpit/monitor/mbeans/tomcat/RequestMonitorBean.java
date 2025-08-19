@@ -100,7 +100,7 @@ public class RequestMonitorBean {
   private void setupProcessTimeMonitor(ObjectName requestProcessor, String label) {
     processingTimeMonitor.addInfoValue(format(label + " %t", deltaProcessingTime(requestProcessor)));
     processingTimeMonitor.addInfoValue(
-        format(label + Ivy.cm().co("/common/Total") + " %t", processingTime(requestProcessor)));
+        format(label + " " + Ivy.cm().co("/common/Total") + " %t", processingTime(requestProcessor)));
     processingTimeMonitor.addSeries(Series.build(deltaProcessingTime(requestProcessor), label).toSeries());
   }
 
