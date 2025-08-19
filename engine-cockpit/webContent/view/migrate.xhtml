@@ -87,7 +87,7 @@
             </h:panelGroup>
  
             <h:panelGroup rendered="#{!migrationBean.validLicence}">
-              <p:staticMessage severity="warn" detail="#{migrationBean.invalidLicenceMessage}" />
+              <p:staticMessage severity="warn" detail="#{ivy.cm.content('/migrate/InvalidLicenceWarningMessage').replace('message', migrationBean.invalidLicenceMessage).get()}" />
             </h:panelGroup>
 
             <f:facet name="header">
@@ -108,8 +108,7 @@
         <h:form id="migrationInPlaceForm">
           <p:panel id="migrationInPlace" rendered="#{migrationBean.inPlace}">
             <h:panelGroup id="migrationInPlaceInfo" layout="block">
-              <h:outputText escape="false"
-                value="#{ivy.cm.co('/migrate/InPlaceMigrationIntroduction')}" />
+              #{ivy.cm.co('/migrate/InPlaceMigrationIntroduction')}
             </h:panelGroup>
 
             <h:panelGroup id="migrationInWriteToTmp" layout="block" style="margin-top:10px;">

@@ -606,8 +606,9 @@ migrate:
   EngineMigrationErrorMessage: Error during migration.
   EngineMigrationSuccessfulMessage: The Axon Ivy Engine migration was successful. Restart your Axon Ivy Engine now.
   InPlaceMigration: In-Place Migration
-  InPlaceMigrationIntroduction: This migration is an in place migration. Therefore, the new Axon Ivy Engine will be installed in exactly the same place as the old Axon Ivy Engine. The configuration files in container environments, such as the <code>ivy.yaml</code>, may be provided in a read-only mode.
-    As the migration needs to operate with write access onto these configuration files, you can define whether a temporary directory should be used to perform these changes. After the migration, you must manually add these files to the Axon Ivy Engine.
+  InPlaceMigrationIntroduction: This migration is an in place migration. Therefore, the new Axon Ivy Engine will be installed in exactly the same place as the old Axon Ivy Engine. The configuration files in container environments, such as the ivy.yaml, may be provided in a read-only mode. As the migration
+    needs to operate with write access onto these configuration files, you can define whether a temporary directory should be used to perform these changes. After the migration, you must manually add these files to the Axon Ivy Engine.
+  InvalidLicenceWarningMessage: 'Licence is not valid. Please upload a new licence otherwise you can not start the Axon Ivy Engine after migration. Reason: ${message}'
   Licence: Licence
   LoadLocation: Load Location
   Location: Location

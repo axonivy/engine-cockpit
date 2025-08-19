@@ -11,7 +11,6 @@ import javax.management.ObjectName;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
-import ch.ivyteam.enginecockpit.util.CmsUtil;
 import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
@@ -49,34 +48,34 @@ public class ClusterMonitorBean {
         "receiveErrors");
 
     sendMessagesMonitor.addInfoValue(format("%5d", sendMessages.deltaExecutions()));
-    sendMessagesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/Total", "Total") + " %5d", sendMessages.executions()));
-    sendMessagesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/Errors", "Errors") + " %5d", sendMessages.deltaErrors()));
-    sendMessagesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/ErrorsTotal", "Errors Total") + " %5d", sendMessages.errors()));
+    sendMessagesMonitor.addInfoValue(format(Ivy.cm().co("/common/Total") + " %5d", sendMessages.executions()));
+    sendMessagesMonitor.addInfoValue(format(Ivy.cm().co("/common/Errors") + " %5d", sendMessages.deltaErrors()));
+    sendMessagesMonitor.addInfoValue(format(Ivy.cm().co("/common/ErrorsTotal") + " %5d", sendMessages.errors()));
 
-    sendMessagesMonitor.addSeries(Series.build(sendMessages.deltaExecutions(), CmsUtil.coWithDefault("/liveStats/Sent", "Sent")).toSeries());
-    sendMessagesMonitor.addSeries(Series.build(sendMessages.deltaErrors(), CmsUtil.coWithDefault("/common/Errors", "Errors")).toSeries());
+    sendMessagesMonitor.addSeries(Series.build(sendMessages.deltaExecutions(), Ivy.cm().co("/liveStats/Sent")).toSeries());
+    sendMessagesMonitor.addSeries(Series.build(sendMessages.deltaErrors(), Ivy.cm().co("/common/Errors")).toSeries());
 
-    sendProcessingTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Min", "Min") + " %t", sendMessages.deltaMinExecutionTime()));
-    sendProcessingTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Avg", "Avg") + " %t", sendMessages.deltaAvgExecutionTime()));
-    sendProcessingTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Max", "Max") + " %t", sendMessages.deltaMaxExecutionTime()));
-    sendProcessingTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/Total", "Total") + " %t", sendMessages.executionTime()));
+    sendProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/Min") + " %t", sendMessages.deltaMinExecutionTime()));
+    sendProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/Avg") + " %t", sendMessages.deltaAvgExecutionTime()));
+    sendProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/Max") + " %t", sendMessages.deltaMaxExecutionTime()));
+    sendProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/common/Total") + " %t", sendMessages.executionTime()));
 
-    sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaMinExecutionTime(), CmsUtil.coWithDefault("/liveStats/Min", "Min")).toSeries());
-    sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaAvgExecutionTime(), CmsUtil.coWithDefault("/liveStats/Avg", "Avg")).toSeries());
-    sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaMaxExecutionTime(), CmsUtil.coWithDefault("/liveStats/Min", "Max")).toSeries());
+    sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaMinExecutionTime(), Ivy.cm().co("/liveStats/Min")).toSeries());
+    sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaAvgExecutionTime(), Ivy.cm().co("/liveStats/Avg")).toSeries());
+    sendProcessingTimeMonitor.addSeries(Series.build(sendMessages.deltaMaxExecutionTime(), Ivy.cm().co("/liveStats/Min")).toSeries());
 
     receiveMessagesMonitor.addInfoValue(format("%5d", receivedMessages.deltaExecutions()));
-    receiveMessagesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/Total", "Total") + " %5d", receivedMessages.executions()));
-    receiveMessagesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/Errors", "Errors") + " %5d", receivedMessages.deltaErrors()));
-    receiveMessagesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/ErrorsTotal", "Errors Total") + " %5d", receivedMessages.errors()));
+    receiveMessagesMonitor.addInfoValue(format(Ivy.cm().co("/common/Total") + " %5d", receivedMessages.executions()));
+    receiveMessagesMonitor.addInfoValue(format(Ivy.cm().co("/common/Errors") + " %5d", receivedMessages.deltaErrors()));
+    receiveMessagesMonitor.addInfoValue(format(Ivy.cm().co("/common/ErrorsTotal") + " %5d", receivedMessages.errors()));
 
-    receiveMessagesMonitor.addSeries(Series.build(receivedMessages.deltaExecutions(), CmsUtil.coWithDefault("/liveStats/Received", "Received")).toSeries());
-    receiveMessagesMonitor.addSeries(Series.build(receivedMessages.deltaErrors(), CmsUtil.coWithDefault("/common/Errors", "Errors")).toSeries());
+    receiveMessagesMonitor.addSeries(Series.build(receivedMessages.deltaExecutions(), Ivy.cm().co("/liveStats/Received")).toSeries());
+    receiveMessagesMonitor.addSeries(Series.build(receivedMessages.deltaErrors(), Ivy.cm().co("/common/Errors")).toSeries());
 
-    receiveProcessingTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Min", "Min") + " %t", receivedMessages.deltaMinExecutionTime()));
-    receiveProcessingTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Avg", "Avg") + " %t", receivedMessages.deltaAvgExecutionTime()));
-    receiveProcessingTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Max", "Max") + " %t", receivedMessages.deltaMaxExecutionTime()));
-    receiveProcessingTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/Total", "Total") + " %t", receivedMessages.executionTime()));
+    receiveProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/Min") + " %t", receivedMessages.deltaMinExecutionTime()));
+    receiveProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/Avg") + " %t", receivedMessages.deltaAvgExecutionTime()));
+    receiveProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/Max") + " %t", receivedMessages.deltaMaxExecutionTime()));
+    receiveProcessingTimeMonitor.addInfoValue(format(Ivy.cm().co("/common/Total") + " %t", receivedMessages.executionTime()));
 
     receiveProcessingTimeMonitor
         .addSeries(Series.build(receivedMessages.deltaMinExecutionTime(), Ivy.cm().co("/liveStats/Min")).toSeries());
