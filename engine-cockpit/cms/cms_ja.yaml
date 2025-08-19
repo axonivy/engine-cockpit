@@ -892,8 +892,11 @@ monitor:
     ScheduleJob: スケジュールされたジョブ
     ScheduleJobTooltip: ジョブを即時実行にスケジュールすると、不要な日次タスクメールでユーザーを煩わせたり、パフォーマンスを低下させるなどの副作用が発生する可能性があります。
   mbean:
+    AddTraceToChart: チャートにトレースを追加する
     EmptyMBeanMessage: 属性を表示するにはBeanを選択してください
     LastValue: 最終値
+    RemoveTrace: 痕跡を削除する
+    Traces: 痕跡
   session:
     Auth: 認証
     Cause: 原因

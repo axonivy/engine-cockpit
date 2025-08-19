@@ -887,8 +887,11 @@ monitor:
     ScheduleJob: Schedule Job
     ScheduleJobTooltip: Scheduling a job for immediate execution can have negative side effects like disturbing users with unnecessary daily task mails, or degraded performance.
   mbean:
+    AddTraceToChart: Add trace to chart
     EmptyMBeanMessage: Select a bean to see its attributes
     LastValue: Last Value
+    RemoveTrace: Remove trace
+    Traces: Traces
   session:
     Auth: Auth
     Cause: Cause
