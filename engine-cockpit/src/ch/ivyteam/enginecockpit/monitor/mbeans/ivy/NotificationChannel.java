@@ -12,6 +12,7 @@ import javax.management.ReflectionException;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
+import ch.ivyteam.enginecockpit.util.CmsUtil;
 import ch.ivyteam.ivy.environment.Ivy;
 
 final class NotificationChannel {
@@ -48,29 +49,29 @@ final class NotificationChannel {
 
     var deliveries = new ExecutionCounter(channel.getCanonicalName(), "deliveries");
     deliveriesMonitor.addInfoValue(format("%5d", deliveries.deltaExecutions()));
-    deliveriesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/DeliveriesMonitorTotalDeliveresValue"), deliveries.executions()));
+    deliveriesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/TotalDeliveres", "Total Deliveres") + " %5d", deliveries.executions()));
     deliveriesMonitor.addSeries(Series.build(deliveries.deltaExecutions(), Ivy.cm().co("/liveStats/Deliveries")).toSeries());
     var isPush = isPush(channel);
     if (isPush) {
       var errors = new ExecutionCounter(channel.getCanonicalName(), "errors");
       var locks = new ExecutionCounter(channel.getCanonicalName(), "locks");
       var pushes = new ExecutionCounter(channel.getCanonicalName(), "pushes");
-      deliveriesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/DeliveriesMonitorErrorsValue"), errors.deltaExecutions()));
-      deliveriesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/DeliveriesMonitorTotalErrorsValue"), errors.executions()));
-      deliveriesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/DeliveriesMonitorPushesValue"), pushes.deltaExecutions()));
-      deliveriesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/DeliveriesMonitorTotalPushesValue"), pushes.executions()));
+      deliveriesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/Errors", "Errors") + " %5d", errors.deltaExecutions()));
+      deliveriesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/TotalErrors", "Total Errors") + " %5d", errors.executions()));
+      deliveriesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Pushes", "Pushes") + " %5d", pushes.deltaExecutions()));
+      deliveriesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/TotalPushes", "Total Pushes") + " %5d", pushes.executions()));
       deliveriesMonitor.addSeries(Series.build(errors.deltaExecutions(), Ivy.cm().co("/common/Errors")).toSeries());
       deliveriesMonitor.addSeries(Series.build(pushes.deltaExecutions(), Ivy.cm().co("/liveStats/Pushes")).toSeries());
       locksMonitor.addInfoValue(format("%5d", locks.executions()));
       locksMonitor.addSeries(Series.build(locks.executions(), Ivy.cm().co("/liveStats/Locks")).toSeries());
 
-      pushesTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/PushesTimeMonitorMinValue"), pushes.deltaMinExecutionTime()));
-      pushesTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/PushesTimeMonitorAvgValue"), pushes.deltaAvgExecutionTime()));
-      pushesTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/PushesTimeMonitorMaxValue"), pushes.deltaMaxExecutionTime()));
-      pushesTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/PushesTimeMonitorTotalValue"), pushes.executionTime()));
-      pushesTimeMonitor.addSeries(Series.build(pushes.deltaMinExecutionTime(), Ivy.cm().co("/liveStats/PushesTimeMonitorMin")).toSeries());
-      pushesTimeMonitor.addSeries(Series.build(pushes.deltaAvgExecutionTime(), Ivy.cm().co("/liveStats/PushesTimeMonitorAvg")).toSeries());
-      pushesTimeMonitor.addSeries(Series.build(pushes.deltaMaxExecutionTime(), Ivy.cm().co("/liveStats/PushesTimeMonitorMax")).toSeries());
+      pushesTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Min", "Min") + " %t", pushes.deltaMinExecutionTime()));
+      pushesTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Avg", "Avg") + " %t", pushes.deltaAvgExecutionTime()));
+      pushesTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Max", "Max") + " %t", pushes.deltaMaxExecutionTime()));
+      pushesTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/Total", "Total") + " %t", pushes.executionTime()));
+      pushesTimeMonitor.addSeries(Series.build(pushes.deltaMinExecutionTime(), CmsUtil.coWithDefault("/liveStats/Min", "Min")).toSeries());
+      pushesTimeMonitor.addSeries(Series.build(pushes.deltaAvgExecutionTime(), CmsUtil.coWithDefault("/liveStats/Avg", "Avg")).toSeries());
+      pushesTimeMonitor.addSeries(Series.build(pushes.deltaMaxExecutionTime(), CmsUtil.coWithDefault("/liveStats/Max", "Max")).toSeries());
     }
   }
 

@@ -12,6 +12,7 @@ import org.apache.commons.lang3.Strings;
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
+import ch.ivyteam.enginecockpit.util.CmsUtil;
 import ch.ivyteam.ivy.environment.Ivy;
 
 class RestClient {
@@ -59,27 +60,27 @@ class RestClient {
     var openConnections = attribute(restClient, "openConnections", Unit.ONE);
     var maxConnections = attribute(restClient, "maxConnections", Unit.ONE);
 
-    connectionsMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ConnectionsMonitorUsedValue"), usedConnections));
-    connectionsMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ConnectionsMonitorOpenValue"), openConnections));
-    connectionsMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ConnectionsMonitorMaxValue"), maxConnections));
-    connectionsMonitor.addSeries(Series.build(openConnections, Ivy.cm().co("/liveStats/ConnectionsMonitorOpen")).toSeries());
-    connectionsMonitor.addSeries(Series.build(usedConnections, Ivy.cm().co("/liveStats/ConnectionsMonitorUsed")).toSeries());
+    connectionsMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Used", "Used") + " %5d", usedConnections));
+    connectionsMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Open", "Open") + " %5d", openConnections));
+    connectionsMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Max", "Max") + " %5d", maxConnections));
+    connectionsMonitor.addSeries(Series.build(openConnections, CmsUtil.coWithDefault("/liveStats/Open", "Open")).toSeries());
+    connectionsMonitor.addSeries(Series.build(usedConnections, CmsUtil.coWithDefault("/liveStats/Used", "Used")).toSeries());
 
     var calls = new ExecutionCounter(restClient.getCanonicalName(), "calls");
     callsMonitor.addInfoValue(format("%5d", calls.deltaExecutions()));
-    callsMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/CallsMonitorTotalValue"), calls.executions()));
-    callsMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/CallsMonitorErrorsValue"), calls.deltaErrors()));
-    callsMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/CallsMonitorErrorsTotalValue"), calls.errors()));
+    callsMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/Total", "Total") + " %5d", calls.executions()));
+    callsMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/Errors", "Errors") + " %5d", calls.deltaErrors()));
+    callsMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/ErrorsTotal", "Errors Total") + " %5d", calls.errors()));
     callsMonitor.addSeries(Series.build(calls.deltaExecutions(), Ivy.cm().co("/liveStats/Calls")).toSeries());
-    callsMonitor.addSeries(Series.build(calls.deltaErrors(), Ivy.cm().co("/liveStats/MonitorErrors")).toSeries());
+    callsMonitor.addSeries(Series.build(calls.deltaErrors(), Ivy.cm().co("/common/Errors")).toSeries());
 
-    executionTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ExecutionTimeMonitorMinValue"), calls.deltaMinExecutionTime()));
-    executionTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ExecutionTimeMonitorAvgValue"), calls.deltaAvgExecutionTime()));
-    executionTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ExecutionTimeMonitorMaxValue"), calls.deltaMaxExecutionTime()));
-    executionTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/ExecutionTimeMonitorTotalValue"), calls.executionTime()));
-    executionTimeMonitor.addSeries(Series.build(calls.deltaMinExecutionTime(), Ivy.cm().co("/liveStats/ExecutionTimeMonitorMin")).toSeries());
-    executionTimeMonitor.addSeries(Series.build(calls.deltaAvgExecutionTime(), Ivy.cm().co("/liveStats/ExecutionTimeMonitorAvg")).toSeries());
-    executionTimeMonitor.addSeries(Series.build(calls.deltaMaxExecutionTime(), Ivy.cm().co("/liveStats/ExecutionTimeMonitorMax")).toSeries());
+    executionTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Min", "Min") + " %t", calls.deltaMinExecutionTime()));
+    executionTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Avg", "Avg") + " %t", calls.deltaAvgExecutionTime()));
+    executionTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Max", "Max") + " %t", calls.deltaMaxExecutionTime()));
+    executionTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/Total", "Total") + " %t", calls.executionTime()));
+    executionTimeMonitor.addSeries(Series.build(calls.deltaMinExecutionTime(), CmsUtil.coWithDefault("/liveStats/Min", "Min")).toSeries());
+    executionTimeMonitor.addSeries(Series.build(calls.deltaAvgExecutionTime(), CmsUtil.coWithDefault("/liveStats/Avg", "Avg")).toSeries());
+    executionTimeMonitor.addSeries(Series.build(calls.deltaMaxExecutionTime(), CmsUtil.coWithDefault("/liveStats/Max", "Max")).toSeries());
   }
 
   public String id() {

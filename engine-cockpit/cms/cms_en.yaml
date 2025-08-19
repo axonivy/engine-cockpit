@@ -23,9 +23,7 @@ applications:
   DeleteHintMessage: Are you sure you want to delete this ${activityType}?
   DeleteRunningCasesHintMessage: ${activityType} has ${runningCases} running cases. They will also be deleted.
   DeploymentButtonTitle: Deployment
-  DeploymentPossibleReason: |-
-    The system configuration '${restServlet}' or '${restDeployment}' is disabled.<br/>
-    Please enable them or use the file system for the deployment.
+  DeploymentPossibleReason: The system configuration '${restServlet}' or '${restDeployment}' is disabled.
   DisableErrorMessage: Cannot evaluate the state of the application ${application}
   ExecutionErrorMessageSummary: Could not ${action} module
   ExecutionSuccessMessageSummary: Successfully ${action} module
@@ -155,6 +153,7 @@ common:
   Delete: Delete
   DeleteRecording: Delete recording
   Deployment: Deployment
+  DeploymentHint: Please enable them or use the file system for the deployment.
   Description: Description
   Disable: Disable
   DiskSize: Disk Size
@@ -169,6 +168,7 @@ common:
   EngineCockpit: Engine Cockpit
   Error: Error
   Errors: Errors
+  ErrorsTotal: Errors Total
   Event: Event
   ExecTime: Exec Time
   ExecTimeValueTitle: The time needed to execute the statement
@@ -540,83 +540,42 @@ licenceEvents:
   ConfirmAll: Confirm all
   LicenceEventsDialogHeader: Licence Events
 liveStats:
+  Avg: Avg
   Bytes: Bytes
   Calls: Calls
-  CallsMonitorErrorsTotalValue: Errors Total %5d
-  CallsMonitorErrorsValue: Errors %5d
-  CallsMonitorTotalValue: Total %5d
   ChannelDeliveries: Channel Deliveries
   ChannelLocks: Channel Locks
   ChannelPushesTime: Channel Pushes Time
-  ConnectionsMonitorMaxValue: Max %5d
-  ConnectionsMonitorOpen: Open
-  ConnectionsMonitorOpenValue: Open %5d
-  ConnectionsMonitorUsed: Used
-  ConnectionsMonitorUsedValue: Used %5d
   DatabaseConnections: Database Connections
   DatabaseQueries: Database Queries
   DatabaseQueryExecutionTime: Database Query Execution Time
   Deliveries: Deliveries
-  DeliveriesMonitorErrorsValue: Errors %5d
-  DeliveriesMonitorPushesValue: Pushes %5d
-  DeliveriesMonitorTotalDeliveresValue: Total Deliveres %5d
-  DeliveriesMonitorTotalErrorsValue: Total Errors %5d
-  DeliveriesMonitorTotalPushesValue: Total Pushes %5d
   Executed: Executed
-  ExecutionTimeMonitorAvg: Avg
-  ExecutionTimeMonitorAvgValue: Avg %t
-  ExecutionTimeMonitorMax: Max
-  ExecutionTimeMonitorMaxValue: Max %t
-  ExecutionTimeMonitorMin: Min
-  ExecutionTimeMonitorMinValue: Min %t
-  ExecutionTimeMonitorTotalValue: Total %t
   ExecutionTimeYAxisLabel: Execution Time
-  ExecutionsMonitorErrorsTotalValue: Errors Total %5d
-  ExecutionsMonitorErrorsValue: Errors %5d
-  ExecutionsMonitorTotalValue: Total %5d
   JobExecutionTime: Job Execution Time
   JobsExecuted: Jobs Executed
   Locks: Locks
-  MessageMonitorErrorsTotalValue: Errors Total %5d
-  MessageMonitorErrorsValue: Errors %5d
-  MessageMonitorTotalValue: Total %5d
-  MessagesMonitorReceived: Received
-  MessagesMonitorSent: Sent
-  MonitorErrors: Errors
-  MonitorErrorsTotalValue: ' Total %5d'
+  Max: Max
+  Min: Min
+  Open: Open
   ProcessingTime: Processing Time
-  ProcessingTimeMonitorAvg: Avg
-  ProcessingTimeMonitorAvgValue: Avg %t
-  ProcessingTimeMonitorMax: Max
-  ProcessingTimeMonitorMaxValue: Max %t
-  ProcessingTimeMonitorMin: Min
-  ProcessingTimeMonitorMinValue: Min %t
-  ProcessingTimeMonitorTotal: Total %t
-  ProcessingTimeMonitorTotalValue: ' Total %t'
   Pushes: Pushes
-  PushesTimeMonitorAvg: Avg
-  PushesTimeMonitorAvgValue: Avg %t
-  PushesTimeMonitorMax: Max
-  PushesTimeMonitorMaxValue: Max %t
-  PushesTimeMonitorMin: Min
-  PushesTimeMonitorMinValue: Min %t
-  PushesTimeMonitorTotalValue: Total %t
   Queries: Queries
-  QueriesMonitorErrors: Errors
-  QueriesMonitorErrorsTotalValue: Errors Total %5d
-  QueriesMonitorErrorsValue: Errors %5d
-  QueriesMonitorTotalValue: Total %5d
   ReceiveProcessingTimeMonitor: Receive Processing Time
-  Received: ' Received'
+  Received: Received
   ReceivedMessagesMonitor: Received Messages
   Requests: Requests
   RestClientCalls: REST Client Calls
   RestClientConnections: REST Client Connections
   RestClientExecutionTime: REST Client Execution Time
   SendProcessingTimeMonitor: Send Processing Time
-  Sent: ' Sent'
+  Sent: Sent
   SentMessagesMonitor: Sent Messages
+  TotalDeliveres: Total Deliveres
+  TotalErrors: Total Errors
+  TotalPushes: Total Pushes
   Transactions: Transactions
+  Used: Used
   WebServiceCalls: Web Service Calls
   WebServiceExecutionTime: Web Service Execution Time
 login:
@@ -625,8 +584,7 @@ login:
   LogInWith: Log in with
   LoginFooterCopyright: Copyright Ⓒ Axon Ivy
   LoginFooterEngineCockpit: Engine Cockpit
-  NoAdministratorsConfiguredFirstPart: 'No administrators configured, check your '
-  NoAdministratorsConfiguredSecondPart: 'No administrators configured, check your '
+  NoAdministratorsConfigured: No administrators configured, check out the documentation.
   PasswordPlaceholder: Username / Email
   SignInButton: Sign In
   UserNamePlaceholder: Password

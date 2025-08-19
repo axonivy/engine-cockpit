@@ -9,6 +9,7 @@ import javax.management.ObjectName;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
+import ch.ivyteam.enginecockpit.util.CmsUtil;
 import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
@@ -36,31 +37,31 @@ public class JobMonitorBean {
 
     executionsMonitor.addInfoValue(format("%5d", jobExecutions.deltaExecutions()));
     executionsMonitor
-        .addInfoValue(format(Ivy.cm().co("/liveStats/ExecutionsMonitorTotalValue"), jobExecutions.executions()));
+        .addInfoValue(format(CmsUtil.coWithDefault("/common/Total", "Total") + " %5d", jobExecutions.executions()));
     executionsMonitor
-        .addInfoValue(format(Ivy.cm().co("/liveStats/ExecutionsMonitorErrorsValue"), jobExecutions.deltaErrors()));
+        .addInfoValue(format(CmsUtil.coWithDefault("/common/Errors", "Errors") + " %5d", jobExecutions.deltaErrors()));
     executionsMonitor
-        .addInfoValue(format(Ivy.cm().co("/liveStats/ExecutionsMonitorErrorsTotalValue"), jobExecutions.errors()));
+        .addInfoValue(format(CmsUtil.coWithDefault("/common/ErrorsTotal", "Errors Total") + " %5d", jobExecutions.errors()));
 
     executionsMonitor
         .addSeries(Series.build(jobExecutions.deltaExecutions(), Ivy.cm().co("/liveStats/Executed")).toSeries());
     executionsMonitor.addSeries(Series.build(jobExecutions.deltaErrors(), Ivy.cm().co("/common/Errors")).toSeries());
 
     executionTimeMonitor.addInfoValue(
-        format(Ivy.cm().co("/liveStats/ExecutionTimeMonitorMinValue"), jobExecutions.deltaMinExecutionTime()));
+        format(CmsUtil.coWithDefault("/liveStats/Min", "Min") + " %t", jobExecutions.deltaMinExecutionTime()));
     executionTimeMonitor.addInfoValue(
-        format(Ivy.cm().co("/liveStats/ExecutionTimeMonitorAvgValue"), jobExecutions.deltaAvgExecutionTime()));
+        format(CmsUtil.coWithDefault("/liveStats/Avg", "Avg") + " %t", jobExecutions.deltaAvgExecutionTime()));
     executionTimeMonitor.addInfoValue(
-        format(Ivy.cm().co("/liveStats/ExecutionTimeMonitorMaxValue"), jobExecutions.deltaMaxExecutionTime()));
+        format(CmsUtil.coWithDefault("/liveStats/Max", "Max") + " %t", jobExecutions.deltaMaxExecutionTime()));
     executionTimeMonitor
-        .addInfoValue(format(Ivy.cm().co("/liveStats/ExecutionTimeMonitorTotalValue"), jobExecutions.executionTime()));
+        .addInfoValue(format(CmsUtil.coWithDefault("/common/Total", "Total") + " %t", jobExecutions.executionTime()));
 
     executionTimeMonitor.addSeries(Series
-        .build(jobExecutions.deltaMinExecutionTime(), Ivy.cm().co("/liveStats/ExecutionTimeMonitorMin")).toSeries());
+        .build(jobExecutions.deltaMinExecutionTime(), CmsUtil.coWithDefault("/liveStats/Min", "Min")).toSeries());
     executionTimeMonitor.addSeries(Series
-        .build(jobExecutions.deltaAvgExecutionTime(), Ivy.cm().co("/liveStats/ExecutionTimeMonitorAvg")).toSeries());
+        .build(jobExecutions.deltaAvgExecutionTime(), CmsUtil.coWithDefault("/liveStats/Avg", "Avg")).toSeries());
     executionTimeMonitor.addSeries(Series
-        .build(jobExecutions.deltaMaxExecutionTime(), Ivy.cm().co("/liveStats/ExecutionTimeMonitorMax")).toSeries());
+        .build(jobExecutions.deltaMaxExecutionTime(), CmsUtil.coWithDefault("/liveStats/Max", "Max")).toSeries());
   }
 
   public Monitor getExecutionsMonitor() {

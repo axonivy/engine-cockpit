@@ -12,8 +12,7 @@
       </div>
       <div class="flex align-items-center"
         title="#{userDetailBean.user.working ? ivy.cm.co('/userDetailAbsences/UserIsCurrentlyNotAbsent') : ivy.cm.co('/userDetailAbsences/UserIsCurrentlyAbsent')}">
-        <h:outputLabel for="working"
-          value="#{ivy.cm.co('/userDetailAbsences/Working')}" />
+        <h:outputLabel for="working" value="#{ivy.cm.co('/userDetailAbsences/Working')}" />
         <i id="working"
           class="pl-3 si si-#{userDetailBean.user.working ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
       </div>

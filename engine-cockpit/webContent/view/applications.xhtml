@@ -86,7 +86,10 @@
                   <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}"
                     oncomplete="PF('fileUploadModal').show()" />
                 </p:commandButton>
-                <p:tooltip for="deployBtnHint" rendered="#{!uploadHelperBean.deploymentPossible}" value="#{uploadHelperBean.deploymentPossibleReason}" escape="false" /> <!-- contains no user input -->
+                <p:tooltip for="deployBtnHint" rendered="#{!uploadHelperBean.deploymentPossible}" >
+                  #{uploadHelperBean.deploymentPossibleReason}<br/>
+                  #{ivy.cm.co('/common/DeploymentHint')}
+                </p:tooltip>
               </h:panelGroup>
               <p:commandButton id="convertButton"
                 icon="si si-button-refresh-arrows" 

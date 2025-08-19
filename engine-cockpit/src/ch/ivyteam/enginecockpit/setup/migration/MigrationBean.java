@@ -1,7 +1,5 @@
 package ch.ivyteam.enginecockpit.setup.migration;
 
-import static org.apache.commons.lang3.StringUtils.SPACE;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -136,7 +134,7 @@ public class MigrationBean {
   public String getStartMigrationButtonName() {
     return switch (running) {
       case START -> Ivy.cm().co("/common/Start");
-      case RUNNING -> Ivy.cm().co("/migrate/Running") + SPACE + client.taskCountDone() + "/" + client.taskCountAll();
+      case RUNNING -> Ivy.cm().co("/migrate/Running") + " " + client.taskCountDone() + "/" + client.taskCountAll();
       case FINISHED -> Ivy.cm().co("/migrate/Done");
     };
   }

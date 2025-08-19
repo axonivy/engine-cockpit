@@ -20,6 +20,7 @@ import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
+import ch.ivyteam.enginecockpit.util.CmsUtil;
 import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
@@ -28,7 +29,7 @@ public class RequestMonitorBean {
   private final Monitor requestsMonitor =
       Monitor.build().name(Ivy.cm().co("/liveStats/Requests")).icon("network-signal").toMonitor();
   private final Monitor errorsMonitor =
-      Monitor.build().name(Ivy.cm().co("/liveStats/MonitorErrors")).icon("global-warming-globe-fire").toMonitor();
+      Monitor.build().name(Ivy.cm().co("/common/Errors")).icon("global-warming-globe-fire").toMonitor();
   private final Monitor bytesMonitor = Monitor.build().name(Ivy.cm().co("/liveStats/Bytes")).icon("cd")
       .yAxisLabel(Ivy.cm().co("/liveStats/Bytes")).toMonitor();
   private final Monitor processingTimeMonitor = Monitor.build().name(Ivy.cm().co("/liveStats/ProcessingTime"))
@@ -75,19 +76,19 @@ public class RequestMonitorBean {
 
   private void setupRequestsMonitor(ObjectName requestProcessor, String label) {
     requestsMonitor.addInfoValue(format(label + " %5d", deltaRequestCount(requestProcessor)));
-    requestsMonitor.addInfoValue(format(label + Ivy.cm().co("/liveStats/MonitorErrorsTotalValue"), requestCount(requestProcessor)));
+    requestsMonitor.addInfoValue(format(label + " " + CmsUtil.coWithDefault("/common/Total", "Total") + " %5d", requestCount(requestProcessor)));
     requestsMonitor.addSeries(Series.build(deltaRequestCount(requestProcessor), label).toSeries());
   }
 
   private void setupErrorsMonitor(ObjectName requestProcessor, String label) {
     errorsMonitor.addInfoValue(format(label + " %5d", deltaErrorCount(requestProcessor)));
-    errorsMonitor.addInfoValue(format(label + Ivy.cm().co("/liveStats/MonitorErrorsTotalValue"), errorCount(requestProcessor)));
+    errorsMonitor.addInfoValue(format(label + " " + CmsUtil.coWithDefault("/common/Total", "Total") + " %5d", errorCount(requestProcessor)));
     errorsMonitor.addSeries(Series.build(deltaErrorCount(requestProcessor), label).toSeries());
   }
 
   private void setupBytesMonitor(ObjectName requestProcessor, String label) {
-    String sentLabel = label + Ivy.cm().co("/liveStats/Sent");
-    String receivedLabel = label + Ivy.cm().co("/liveStats/Received");
+    String sentLabel = label + " " + Ivy.cm().co("/liveStats/Sent");
+    String receivedLabel = label + " " + Ivy.cm().co("/liveStats/Received");
     bytesMonitor
         .addInfoValue(format(sentLabel + " %5d/%5d", deltaBytesSent(requestProcessor), bytesSent(requestProcessor)));
     bytesMonitor.addInfoValue(
@@ -100,13 +101,13 @@ public class RequestMonitorBean {
   private void setupProcessTimeMonitor(ObjectName requestProcessor, String label) {
     processingTimeMonitor.addInfoValue(format(label + " %t", deltaProcessingTime(requestProcessor)));
     processingTimeMonitor.addInfoValue(
-        format(label + Ivy.cm().co("/liveStats/ProcessingTimeMonitorTotalValue"), processingTime(requestProcessor)));
+        format(label + CmsUtil.coWithDefault("/common/Total", "Total") + " %t", processingTime(requestProcessor)));
     processingTimeMonitor.addSeries(Series.build(deltaProcessingTime(requestProcessor), label).toSeries());
   }
 
   private void setupConnectionsMonitor(ObjectName protocolHandler, String label) {
     connectionsMonitor.addInfoValue(format(label + " %5d", openConnections(protocolHandler)));
-    connectionsMonitor.addInfoValue(format(label + " " + Ivy.cm().co("/liveStats/ConnectionsMonitorMaxValue"),
+    connectionsMonitor.addInfoValue(format(label + " " + CmsUtil.coWithDefault("/liveStats/Max", "Max") + " %5d",
         maxConnections(protocolHandler)));
     connectionsMonitor.addSeries(Series.build(openConnections(protocolHandler), label).toSeries());
   }

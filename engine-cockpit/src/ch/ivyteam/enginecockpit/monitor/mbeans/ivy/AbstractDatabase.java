@@ -47,27 +47,27 @@ abstract class AbstractDatabase {
     var maxConnections = attribute(canonicalName, "maxConnections", Unit.ONE);
     var transactions = new ExecutionCounter(canonicalName, "transactions");
 
-    connectionsMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/ConnectionsMonitorUsedValue", "Used %5d"), usedConnections));
-    connectionsMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/ConnectionsMonitorOpenValue", "Open %5d"), openConnections));
-    connectionsMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/ConnectionsMonitorMaxValue", "Max %5d"), maxConnections));
-    connectionsMonitor.addSeries(Series.build(openConnections, CmsUtil.coWithDefault("/liveStats/ConnectionsMonitorOpen", "Open")).toSeries());
-    connectionsMonitor.addSeries(Series.build(usedConnections, CmsUtil.coWithDefault("/liveStats/ConnectionsMonitorUsed", "Used")).toSeries());
+    connectionsMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Used", "Used") + " %5d", usedConnections));
+    connectionsMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Open", "Open") + " %5d", openConnections));
+    connectionsMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Max", "Max") + " %5d", maxConnections));
+    connectionsMonitor.addSeries(Series.build(openConnections, CmsUtil.coWithDefault("/liveStats/Open", "Open")).toSeries());
+    connectionsMonitor.addSeries(Series.build(usedConnections, CmsUtil.coWithDefault("/liveStats/Used", "Used")).toSeries());
 
     queriesMonitor.addInfoValue(format("%5d", transactions.deltaExecutions()));
-    queriesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/QueriesMonitorTotalValue", "Total %5d"), transactions.executions()));
-    queriesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/QueriesMonitorErrorsValue", "Errors %5d"), transactions.deltaErrors()));
-    queriesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/QueriesMonitorErrorsTotalValue", "Errors Total %5d"), transactions.errors()));
+    queriesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/Total", "Total") + " %5d", transactions.executions()));
+    queriesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/Errors", "Errors") + " %5d", transactions.deltaErrors()));
+    queriesMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/ErrorsTotal", "Errors Total") + " %5d", transactions.errors()));
 
     queriesMonitor.addSeries(Series.build(transactions.deltaExecutions(), queries).toSeries());
-    queriesMonitor.addSeries(Series.build(transactions.deltaErrors(), CmsUtil.coWithDefault("/liveStats/QueriesMonitorErrors", "Errors")).toSeries());
+    queriesMonitor.addSeries(Series.build(transactions.deltaErrors(), CmsUtil.coWithDefault("/common/Errors", "Errors")).toSeries());
 
-    executionTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/ExecutionTimeMonitorMinValue", "Min %t"), transactions.deltaMinExecutionTime()));
-    executionTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/ExecutionTimeMonitorAvgValue", "Avg %t"), transactions.deltaAvgExecutionTime()));
-    executionTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/ExecutionTimeMonitorMaxValue", "Max %t"), transactions.deltaMaxExecutionTime()));
-    executionTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/ExecutionTimeMonitorTotalValue", "Total %t"), transactions.executionTime()));
-    executionTimeMonitor.addSeries(Series.build(transactions.deltaMinExecutionTime(), CmsUtil.coWithDefault("/liveStats/ExecutionTimeMonitorMin", "Min")).toSeries());
-    executionTimeMonitor.addSeries(Series.build(transactions.deltaAvgExecutionTime(), CmsUtil.coWithDefault("/liveStats/ExecutionTimeMonitorAvg", "Avg")).toSeries());
-    executionTimeMonitor.addSeries(Series.build(transactions.deltaMaxExecutionTime(), CmsUtil.coWithDefault("/liveStats/ExecutionTimeMonitorMax", "Max")).toSeries());
+    executionTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Min", "Min") + " %t", transactions.deltaMinExecutionTime()));
+    executionTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Avg", "Avg") + " %t", transactions.deltaAvgExecutionTime()));
+    executionTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/liveStats/Max", "Max") + " %t", transactions.deltaMaxExecutionTime()));
+    executionTimeMonitor.addInfoValue(format(CmsUtil.coWithDefault("/common/Total", "Total") + " %t", transactions.executionTime()));
+    executionTimeMonitor.addSeries(Series.build(transactions.deltaMinExecutionTime(), CmsUtil.coWithDefault("/liveStats/Min", "Min")).toSeries());
+    executionTimeMonitor.addSeries(Series.build(transactions.deltaAvgExecutionTime(), CmsUtil.coWithDefault("/liveStats/Avg", "Avg")).toSeries());
+    executionTimeMonitor.addSeries(Series.build(transactions.deltaMaxExecutionTime(), CmsUtil.coWithDefault("/liveStats/Max", "Max")).toSeries());
   }
 
   public String name() {

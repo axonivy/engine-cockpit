@@ -23,9 +23,7 @@ applications:
   DeleteHintMessage: この ${activityType} を削除してよろしいですか？
   DeleteRunningCasesHintMessage: ${activityType}には${runningCases}のアクティブなケースがあります。これらも削除されます。
   DeploymentButtonTitle: デプロイ
-  DeploymentPossibleReason: |-
-    システム構成 「${restServlet}」 または 「${restDeployment}」 が無効になっています。<br/>
-    有効にするか、デプロイメントにファイルシステムを使用してください。
+  DeploymentPossibleReason: システム構成 「${restServlet}」 または 「${restDeployment}」 が無効になっています。
   DisableErrorMessage: アプリケーション ${application} の状態を評価できません。
   ExecutionErrorMessageSummary: ${action} モジュールを実行できませんでした。
   ExecutionSuccessMessageSummary: ${action} モジュールを正常に実行しました
@@ -155,6 +153,7 @@ common:
   Delete: 削除
   DeleteRecording: 録画を削除する
   Deployment: 展開
+  DeploymentHint: 有効にするか、デプロイメントにファイルシステムを使用してください。
   Description: 説明
   Disable: 無効化
   DiskSize: ディスク容量
@@ -169,6 +168,7 @@ common:
   EngineCockpit: エンジン コックピット
   Error: エラー
   Errors: エラー
+  ErrorsTotal: エラーの合計
   Event: イベント
   ExecTime: 実行時間
   ExecTimeValueTitle: ステートメントの実行に要した時間
@@ -541,83 +541,42 @@ licenceEvents:
   ConfirmAll: すべてを確認してください
   LicenceEventsDialogHeader: ライセンスイベント
 liveStats:
+  Avg: 平均
   Bytes: バイト
   Calls: 通話
-  CallsMonitorErrorsTotalValue: エラーの合計 %5d
-  CallsMonitorErrorsValue: エラー %5d
-  CallsMonitorTotalValue: エラー %5d
   ChannelDeliveries: チャンネル配送
   ChannelLocks: チャンネルロック
   ChannelPushesTime: チャンネルが時間を推進する
-  ConnectionsMonitorMaxValue: 合計 %5d
-  ConnectionsMonitorOpen: 開く
-  ConnectionsMonitorOpenValue: 開く %5d
-  ConnectionsMonitorUsed: 使用済み
-  ConnectionsMonitorUsedValue: 使用済み %5d
   DatabaseConnections: データベース接続
   DatabaseQueries: データベースクエリ
   DatabaseQueryExecutionTime: データベースクエリの実行時間
   Deliveries: 配送
-  DeliveriesMonitorErrorsValue: エラー %5d
-  DeliveriesMonitorPushesValue: プッシュ %5d
-  DeliveriesMonitorTotalDeliveresValue: 総配送数 %5d
-  DeliveriesMonitorTotalErrorsValue: 総エラー数 %5d
-  DeliveriesMonitorTotalPushesValue: 総プッシュ数 %5d
   Executed: 執行された
-  ExecutionTimeMonitorAvg: 平均
-  ExecutionTimeMonitorAvgValue: 平均 %t
-  ExecutionTimeMonitorMax: 最大
-  ExecutionTimeMonitorMaxValue: 最大 %t
-  ExecutionTimeMonitorMin: 最小
-  ExecutionTimeMonitorMinValue: 最小 %t
-  ExecutionTimeMonitorTotalValue: 合計 %t
   ExecutionTimeYAxisLabel: 実行時間
-  ExecutionsMonitorErrorsTotalValue: エラーの合計 %5d
-  ExecutionsMonitorErrorsValue: エラー %5d
-  ExecutionsMonitorTotalValue: 合計 %5d
   JobExecutionTime: ジョブ実行時間
   JobsExecuted: 実行されたジョブ
   Locks: 錠前
-  MessageMonitorErrorsTotalValue: エラーの合計 %5d
-  MessageMonitorErrorsValue: エラー %5d
-  MessageMonitorTotalValue: 合計 %5d
-  MessagesMonitorReceived: 受領
-  MessagesMonitorSent: 送信
-  MonitorErrors: コール
-  MonitorErrorsTotalValue: ' 合計 %5d'
+  Max: 合計
+  Min: 最小
+  Open: 開く
   ProcessingTime: 処理時間
-  ProcessingTimeMonitorAvg: 平均
-  ProcessingTimeMonitorAvgValue: 平均 %t
-  ProcessingTimeMonitorMax: 最大
-  ProcessingTimeMonitorMaxValue: 最大 %t
-  ProcessingTimeMonitorMin: 最小
-  ProcessingTimeMonitorMinValue: 最小 %t
-  ProcessingTimeMonitorTotal: 合計 %t
-  ProcessingTimeMonitorTotalValue: ' 合計 %t'
   Pushes: 押し
-  PushesTimeMonitorAvg: 平均
-  PushesTimeMonitorAvgValue: 平均 %t
-  PushesTimeMonitorMax: 最大
-  PushesTimeMonitorMaxValue: 最大 %t
-  PushesTimeMonitorMin: 最小
-  PushesTimeMonitorMinValue: 最小 %t
-  PushesTimeMonitorTotalValue: 合計 %t
   Queries: クエリ
-  QueriesMonitorErrors: エラー
-  QueriesMonitorErrorsTotalValue: エラーの合計 %5d
-  QueriesMonitorErrorsValue: エラー %5d
-  QueriesMonitorTotalValue: 合計 %5d
   ReceiveProcessingTimeMonitor: 受領処理時間
-  Received: ' 受領'
+  Received: 受領
   ReceivedMessagesMonitor: 受信メッセージ
   Requests: リクエスト
   RestClientCalls: RESTクライアントの呼び出し
   RestClientConnections: RESTクライアント接続
   RestClientExecutionTime: RESTクライアントの実行時間
   SendProcessingTimeMonitor: 送信処理時間
-  Sent: ' 送信'
+  Sent: 送信
   SentMessagesMonitor: 送信したメッセージ
+  TotalDeliveres: 総配送数
+  TotalErrors: 総エラー数
+  TotalPushes: 総プッシュ数
   Transactions: 取引
+  Used: 使用済み
   WebServiceCalls: Webサービス呼び出し
   WebServiceExecutionTime: Web サービスの実行時間
 login:
@@ -626,8 +585,7 @@ login:
   LogInWith: ログインするには
   LoginFooterCopyright: 著作権 Ⓒ Axon Ivy
   LoginFooterEngineCockpit: エンジン コックピット
-  NoAdministratorsConfiguredFirstPart: 管理者が設定されていません。
-  NoAdministratorsConfiguredSecondPart: 管理者が設定されていません。設定を確認してください。
+  NoAdministratorsConfigured: 管理者が設定されていません。ドキュメントをご確認ください。
   PasswordPlaceholder: ユーザー名 / メールアドレス
   SignInButton: サインイン
   UserNamePlaceholder: パスワード

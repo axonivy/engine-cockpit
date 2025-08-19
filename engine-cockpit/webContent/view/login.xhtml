@@ -46,8 +46,7 @@
         
         <h:panelGroup rendered="#{!engineModeBean.isMaintenance() and !administratorBean.hasAdmins()}">
           <p>
-            #{ivy.cm.co('/login/NoAdministratorsConfiguredFirstPart')}<a href="#{advisorBean.getEngineGuideBaseUrl()}/configuration/files/ivy-yaml.html">#{ivy.cm.co('/login/IvyYamlFile')}</a>
-            #{ivy.cm.co('/login/NoAdministratorsConfiguredSecondPart')}
+            #{ivy.cm.co('/login/NoAdministratorsConfigured')} <a href="#{advisorBean.getEngineGuideBaseUrl()}/configuration/files/ivy-yaml.html">#{ivy.cm.co('/login/IvyYamlFile')}</a>
           </p>
         </h:panelGroup>
       </div>
