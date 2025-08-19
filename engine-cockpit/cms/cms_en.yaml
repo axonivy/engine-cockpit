@@ -848,6 +848,7 @@ monitor:
     ContextPath: Context Path
     Creation: Creation
     HTTPSessions: Http Sessions
+    Id: Id
     InvalidSessionMessage: Creation invalid / Last Accessed invalid
     KillSession: Kill session
     LastAccessed: Last accessed

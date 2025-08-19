@@ -848,6 +848,7 @@ monitor:
     ContextPath: コンテキストパス
     Creation: 作成
     HTTPSessions: HTTPセッション
+    Id: ID
     InvalidSessionMessage: 作成日時無効 / 最終アクセス日時無効
     KillSession: セッションを終了
     LastAccessed: 最終アクセス
