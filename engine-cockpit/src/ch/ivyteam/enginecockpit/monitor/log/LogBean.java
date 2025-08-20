@@ -21,6 +21,7 @@ import org.primefaces.model.StreamedContent;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.log.provider.LogFileRepository;
 import ch.ivyteam.ivy.log.provider.LogFileZipper;
 
@@ -156,7 +157,8 @@ public class LogBean implements AllResourcesDownload {
       }
       return zipFile.toFile();
     } catch (IOException ex) {
-      var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not zip logs", ex.getMessage());
+      var msg =
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/logs/CouldNotZipLogsMessage"), ex.getMessage());
       FacesContext.getCurrentInstance().addMessage("msgs", msg);
     }
     return null;

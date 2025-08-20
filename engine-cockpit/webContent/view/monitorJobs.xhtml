@@ -10,7 +10,7 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
+      <li><span>#{ivy.cm.co('/common/Monitor')}</span></li>
       <li>/</li>
       <li><span>#{ivy.cm.co('/sidebar/Engine')}</span></li>
       <li>/</li>
@@ -121,7 +121,7 @@
             <p:outputLabel for="lastErrorTime" value="#{ivy.cm.co('/monitor/job/LastTimeTheJobFailed')}" />
             <h:outputText id="lastErrorTime" value="#{jobBean.selected.lastErrorTime}"/>
             <h:panelGroup>
-              <p:outputLabel for="lastError" value="#{ivy.cm.co('/monitor/job/LastError')}"/>
+              <p:outputLabel for="lastError" value="#{ivy.cm.co('/common/LastError')}"/>
               <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="#{ivy.cm.co('/common/CopyToClipboard')}" onclick="var button=this; copyToClipboard($('#job\\:lastError').text(), button)"
                   styleClass="ui-button-flat rounded-button"/>
             </h:panelGroup>

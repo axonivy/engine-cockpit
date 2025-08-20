@@ -18,11 +18,11 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Monitor</span></li>
+      <li><span>#{ivy.cm.co('/common/Monitor')}</span></li>
       <li>/</li>
-      <li><span>Workflow</span></li>
+      <li><span>#{ivy.cm.co('/common/Workflow')}</span></li>
       <li>/</li>
-      <li><a href="monitorIntermediateEvents.xhtml">Intermediate Events</a></li>
+      <li><a href="monitorIntermediateEvents.xhtml">#{ivy.cm.co('/common/IntermediateEvents')}</a></li>
       <li>/</li>
       <li><a href="monitorIntermediateEventDetails.xhtml?#{intermediateEventBeanDetails.queryParameters}">#{intermediateEventDetailBean.event.beanName}</a></li>
     </ui:define>

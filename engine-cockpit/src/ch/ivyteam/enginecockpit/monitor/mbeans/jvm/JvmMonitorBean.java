@@ -28,7 +28,7 @@ public class JvmMonitorBean {
   private final Monitor classesMonitor = Monitor.build().name(cm().co("/monitor/Classes"))
       .icon("coffee-cup")
       .toMonitor();
-  private final Monitor threadsMonitor = Monitor.build().name(cm().co("/monitor/Threads"))
+  private final Monitor threadsMonitor = Monitor.build().name(cm().co("/common/Threads"))
       .icon("analytics-graph")
       .toMonitor();
 

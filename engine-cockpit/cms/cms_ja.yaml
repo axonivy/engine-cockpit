@@ -138,6 +138,7 @@ common:
   Communication: コミュニケーション
   ConfigFileEditor: 設定ファイル エディター
   Configuration: 設定
+  ConfiguredState: 設定済み状態
   Confirm: 確認する
   Connections: 接続
   CopyToClipboard: クリップボードにコピー
@@ -194,10 +195,12 @@ common:
   ID: ID
   Info: 情報
   Instances: インスタンス
+  IntermediateEvents: 中間イベント
   IsLocal: ローカルですか？
   IsMaster: マスターですか？
   Key: キー
   Language: 言語
+  LastError: 最後のエラー
   LastLogin: 最終ログイン
   Licence: ライセンス
   Limit: 制限
@@ -209,6 +212,7 @@ common:
   Modified: 変更
   Modifier: 変更者
   Module: モジュール
+  Monitor: モニター
   More: さらに
   MoreOptions: さらに多くのオプション
   Name: 名前
@@ -279,6 +283,7 @@ common:
   Source: ソース
   StackTrace: スタックトレース
   Start: 開始
+  StartEvents: 開始イベント
   StartTime: 開始時間
   StartTimestamp: 開始時刻スタンプ
   State: 状態
@@ -295,6 +300,7 @@ common:
   TableName: テーブル名
   Tables: テーブル
   Template: テンプレート
+  Threads: スレッド
   Time: 時間
   Timestamp: タイムスタンプ
   Total: 合計
@@ -315,6 +321,7 @@ common:
   WebServer: Webサーバー
   WebServiceClients: Webサービスクライアント
   WebServiceProcesses: Web サービス プロセス
+  Workflow: ワークフロー
   Write: 書く
   'Yes': はい
 configuration:
@@ -422,6 +429,8 @@ emailSettings:
   Wed: 水
 error:
   ShowFullError: エラーをすべて表示する
+evenBeanThreads:
+  Id: ID
 exception:
   AjaxExceptionDialogHeader: エラー
   ViewExpiredExceptionDialogContent: ビューまたはセッションが期限切れになりました。
@@ -590,6 +599,7 @@ login:
   SignInButton: サインイン
   UserNamePlaceholder: パスワード
 logs:
+  CouldNotZipLogsMessage: ログを圧縮できませんでした
   DownloadAllLogFiles: すべてのログファイルをダウンロード
   DownloadLog: ログをダウンロード
   NoLogMessage: '指定された日付にはログが見つかりません:'
@@ -657,7 +667,6 @@ monitor:
   SendRecv: 送信 / 受信
   Sending: 送信
   System: システム
-  Threads: スレッド
   Time: 時間
   TotalLoaded: 合計読み込み数
   TotalStarted: 合計開始数
@@ -828,7 +837,6 @@ monitor:
     Executions: 実行回数
     JobDetail: ジョブ詳細
     JobTitle: ジョブ
-    LastError: 最後のエラー
     LastSuccessfulExecution: 最後に成功した実行
     LastTimeTheJobFailed: ジョブが最後に失敗した時刻
     NextExecution: 次回の実行
@@ -899,11 +907,12 @@ monitor:
     ExportTraces: トレースをエクスポート
     StartTracesHelpText: 遅延リクエストの記録を開始すると、エンジンのパフォーマンスに悪影響を与える可能性があります。
     Traces: トレース
+monitorStartEventDetails:
+  ProcessModels: プロセスモデル
 monitorTraceDetail:
   AttributesTableEmptyMesssage: スパンを選択して、その属性を表示します。
   ExecutionTimeMsTitle: 実行時間 [ミリ秒]
   ExportSpan: エクスポート スパン
-  Monitor: モニター
   Performance: パフォーマンス
   RequestNoLongerAvailableMesssage: リクエストは現在利用できません。
   RequestWasRemoveWarningMesssage: そのリクエストは、他のリクエストがさらに遅かったため、最も遅いリクエストから削除されました！
@@ -964,6 +973,28 @@ permissions:
   Permissions: 権限
   SomePermissionDenied: 一部の権限が拒否されました
   SomePermissionGranted: 一部の権限が付与されました
+pmvDetail:
+  ActivityState: 活動状態
+  AllDirectIndirectRequiredLibrariesAvailableMessage: システムには、必要なすべての直接的および間接的なライブラリが用意されています。
+  AllPMVsDependingOnPMV: このPMVに依存するすべてのPMV
+  AllPMVsRequiredByPMV: このPMVで要求されるすべてのPMV
+  DependentPMVTableEmptyMessage: PMV「${name}」 には依存する PMV がありません。
+  Id: ID
+  LastDeployed: 最後に展開された
+  NoProjectFoundForSpecificationMessage: この仕様に該当するプロジェクトは見つかりませんでした。
+  NotAllDirectIndirectRequiredLibrariesAvailableMessage: システムには、すべての直接的および間接的な必須ライブラリが利用可能ではありません。
+  PMV: PMV
+  PMVInformation: PMV情報
+  PMVResolvedForSpecificationMessage: 「${name}」 はこの仕様で解決されました。
+  Project: プロジェクト
+  ProjectVersion: プロジェクトバージョン
+  ReleaseState: リリース状態
+  RequriedPMVTableEmptyMessage: PMV「${name}」 には必須の PMV がありません。
+  Resolved: 解決済み
+  ResolvedPMV: 解決済み PMV
+  SpecifiedRequiredProjects: 指定された必須プロジェクト
+  SpecifiedRequiredProjectsMessage: 一部の必須プロジェクトは指定されています！
+  SpecifiedTableEmptyMessage: PMV「${name}」 には指定された必須プロジェクトがありません。
 poll:
   LastPollError: 最後の投票エラー
   NextPoll: 次の投票
@@ -1182,7 +1213,6 @@ sidebar:
   Engine: エンジン
   FlightRecorder: フライトレコーダー
   Health: ヘルス
-  IntermediateEvents: 中間イベント
   JVM: JVM
   Java: Java
   Jobs: ジョブ
@@ -1192,7 +1222,6 @@ sidebar:
   Logs: ログ
   MBeans: MBeans
   Memory: メモリ
-  Monitor: モニター
   Notifications: 通知
   OS: OS
   Performance: パフォーマンス
@@ -1200,10 +1229,7 @@ sidebar:
   Roles: ロール
   Sessions: セッション
   SlowRequests: 遅延リクエスト
-  StartEvents: 開始イベント
-  Threads: スレッド
   TrafficGraph: トラフィックグラフ
-  Workflow: ワークフロー
 soapHistory:
   Endpoint: エンドポイント
   Operation: オペレーション
@@ -1230,8 +1256,6 @@ sslTrustStore:
   EnableInsecureSSLAndHTTPSConnections: 安全でないSSLおよびHTTPS接続を有効にする
   TrustStoreConfigurations: トラストストア設定
   TrustStoreConfigurationsSavedMessage: トラストストア設定を保存しました
-state:
-  ConfiguredState: 設定済み状態
 supportReport:
   AxonIvyEngineSupportReportContent: Axon Ivy エンジン サポートレポート
   DownloadSupportReport: サポートレポートのダウンロード
