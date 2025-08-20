@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <meta name="mobile-web-app-capable" content="yes" />
   </f:facet>
-  <title>Engine Cockpit - Login</title>
+  <title>#{ivy.cm.co('/login/EngineCockpitLoginTitle')}</title>
   <link rel="shortcut icon" href="#{resource['resources/images/favicon.png']}" />
 </h:head>
 
@@ -21,30 +21,38 @@
         <div class="logo">
           <p:graphicImage name="resources/images/logo_small.svg" />
         </div>
-        
+
         <p:focus for="userName" />
-        <p:inputText id="userName" autocomplete="off" value="#{loginBean.userName}" required="true" placeholder="Username / Email" />
-        <p:password id="password" autocomplete="off" value="#{loginBean.password}" required="true" placeholder="Password" />
-        
-        <p:commandButton update="@form" id="login" actionListener="#{loginBean.login}" value="Sign In" icon="si si-login-3" ajax="false"/>
+        <p:inputText id="userName" autocomplete="off" value="#{loginBean.userName}" required="true" placeholder="#{ivy.cm.co('/login/UserNamePlaceholder')}" />
+        <p:password id="password" autocomplete="off"
+          value="#{loginBean.password}" required="true"
+          placeholder="#{ivy.cm.co('/login/PasswordPlaceholder')}"
+          promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+          goodLabel="#{ivy.cm.co('/common/Good')}"
+          weakLabel="#{ivy.cm.co('/common/Weak')}"
+          strongLabel="#{ivy.cm.co('/common/Strong')}" />
+
+        <p:commandButton update="@form" id="login" actionListener="#{loginBean.login}" value="#{ivy.cm.co('/login/SignInButton')}" icon="si si-login-3" ajax="false"/>
         <p:messages globalOnly="true" id="loginMessage" />
         
         <h:panelGroup rendered="#{loginBean.OAuthProvider != null}" styleClass="oauth-providers">
           <h:outputLink value="#{loginBean.OAuthProvider.link}">
             <h:outputText value="#{loginBean.OAuthProvider.image}" escape="false" />
             <span style="position: relative; bottom: 5px;">
-              Log in with <h:outputText value="#{loginBean.OAuthProvider.displayName}" />
+              #{ivy.cm.co('/login/LogInWith')} <h:outputText value="#{loginBean.OAuthProvider.displayName}" />
             </span>
           </h:outputLink>
         </h:panelGroup>
         
         <h:panelGroup rendered="#{!engineModeBean.isMaintenance() and !administratorBean.hasAdmins()}">
-          <p>No administrators configured, check your <a href="#{advisorBean.getEngineGuideBaseUrl()}/configuration/files/ivy-yaml.html">ivy.yaml</a></p>
+          <p>
+            #{ivy.cm.co('/login/NoAdministratorsConfigured')} <a href="#{advisorBean.getEngineGuideBaseUrl()}/configuration/files/ivy-yaml.html">#{ivy.cm.co('/login/IvyYamlFile')}</a>
+          </p>
         </h:panelGroup>
       </div>
       <div class="login-footer">
-        <h4>Engine Cockpit</h4>
-        <h6>Copyright Ⓒ Axon Ivy</h6>
+        <h4>#{ivy.cm.co('/login/LoginFooterEngineCockpit')}</h4>
+        <h6>#{ivy.cm.co('/login/LoginFooterCopyright')}</h6>
       </div>
     </div>
   </h:form>

@@ -3,7 +3,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog id="licenceEventsDialog" header="Licence Events" widgetVar="licenceEventsDialog" modal="true"
+<p:dialog id="licenceEventsDialog" header="#{ivy.cm.co('/licenceEvents/LicenceEventsDialogHeader')}" widgetVar="licenceEventsDialog" modal="true"
   closeOnEscape="true" width="50%">
   <h:form id="licenceEventForm" styleClass="custom-dialog-form">
     <div class="licence-messages timeline">
@@ -15,17 +15,17 @@
               <h:outputText styleClass="text-sm name" value="#{event.timestamp}" style="color: var(--text-color-secondary);" />
               <h:outputText styleClass="message" value="#{event.message}" />
             </div>
-            <p:commandButton icon="si si-check-1" title="Confirm" styleClass="flex-shrink-0 ml-auto ui-button-secondary rounded-button ui-button-outlined"
+            <p:commandButton icon="si si-check-1" title="#{ivy.cm.co('/common/Confirm')}" styleClass="flex-shrink-0 ml-auto ui-button-secondary rounded-button ui-button-outlined"
               id="confirmEventBtn" actionListener="#{licenceBean.confirmLicenceEvent(event)}" update="@form" />
           </li>
         </ui:repeat>
       </ul>
     </div>
     <div class="custom-dialog-footer">
-      <p:commandButton id="closeLicenceEventsDialog" onclick="PF('licenceEventsDialog').hide();" value="Close"
+      <p:commandButton id="closeLicenceEventsDialog" onclick="PF('licenceEventsDialog').hide();" value="#{ivy.cm.co('/common/Close')}"
         type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="confirmAllLicenceEvents" ajax="false" 
-        actionListener="#{licenceBean.confirmAllLicenceEvents()}" value="Confirm all" icon="si si-check-double-1"
+        actionListener="#{licenceBean.confirmAllLicenceEvents()}" value="#{ivy.cm.co('/licenceEvents/ConfirmAll')}" icon="si si-check-double-1"
         styleClass="modal-input-button" />
     </div>
   </h:form>

@@ -3,19 +3,19 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog id="javaDetailDialog" header="Java Detail" widgetVar="javaDetailDialog" modal="true" closeOnEscape="true"
+<p:dialog id="javaDetailDialog" header="#{ivy.cm.co('/javaInfo/JavaDetailDialogHeader')}" widgetVar="javaDetailDialog" modal="true" closeOnEscape="true"
   width="60%">
   <h:form id="javaInfoForm" style="max-height: 400px; overflow-y: auto;">
-    <p:dataTable id="javaJVMInfoTable" var="arg" value="#{javaBean.jvmArguments}">
-      <p:column headerText="JVM Argument">
+    <p:dataTable id="javaJVMInfoTable" var="arg" value="#{javaBean.jvmArguments}" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+      <p:column headerText="#{ivy.cm.co('/javaInfo/JVMArgumentTableHeader')}">
         <h:outputText value="#{arg}" styleClass="jvm-key" />
       </p:column>
     </p:dataTable>
     <p:dataTable id="javaPropertiesInfoTable" var="property" value="#{javaBean.properties}" style="margin-top: 10px;">
-      <p:column headerText="Name">
+      <p:column headerText="#{ivy.cm.co('/common/Name')}">
         <h:outputText value="#{property.key}" styleClass="javaprop-key" />
       </p:column>
-      <p:column headerText="Value">
+      <p:column headerText="#{ivy.cm.co('/common/Value')}">
         <h:outputText value="#{property.value}" />
       </p:column>
     </p:dataTable>

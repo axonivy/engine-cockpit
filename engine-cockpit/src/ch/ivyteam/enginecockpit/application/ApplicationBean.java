@@ -22,6 +22,7 @@ import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.app.NewApplication;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityManager;
 
 @ManagedBean
@@ -133,7 +134,7 @@ public class ApplicationBean extends TreeView<AbstractActivity> {
       managerBean.reloadApplications();
     } catch (RuntimeException ex) {
       FacesContext.getCurrentInstance().addMessage("applicationMessage",
-          new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"), ex.getMessage()));
     }
   }
 

@@ -17,6 +17,7 @@ import org.primefaces.model.StreamedContent;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFileRepository;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
@@ -47,7 +48,7 @@ public class EditorBean {
         .findFirst()
         .orElse(null);
     if (activeConfigFile == null) {
-      ResponseHelper.notFound("Config File '" + selectedFile + "' not found");
+      ResponseHelper.notFound(Ivy.cm().content("/editor/NotFoundConfigFile").replace("file", selectedFile).get());
       return;
     }
     PrimeFaces.current().executeScript("handleAutocompleteSelection()");
@@ -107,15 +108,16 @@ public class EditorBean {
       String extension = originalFileName.substring(originalFileName.lastIndexOf('.') + 1);
       if (!activeConfigFile.getFileName().endsWith(extension)) {
         Message.error()
-            .summary("Invalid extension")
-            .detail("'" + originalFileName + "' could not be uploaded because of wrong file extension.")
+            .summary(Ivy.cm().co("/editor/UploadFileErrorSummaryMessage"))
+            .detail(Ivy.cm().content("/editor/UploadFileErrorDetailMessage").replace("file", originalFileName).get())
             .show();
         return;
       }
       activeConfigFile.setBinary(is);
       Message.info()
-          .summary("File Uploaded")
-          .detail("'" + originalFileName + "' uploaded successfully and stored as " + getName() + ".")
+          .summary(Ivy.cm().co("/editor/UploadFileSuccessSummaryMessage"))
+          .detail(Ivy.cm().content("/editor/UploadFileSuccessDetailMessage").replace("file", originalFileName)
+              .replace("activeFile", getName()).get())
           .show();
     } catch (Exception ex) {
       throw new RuntimeException("Failed to load inputstream", ex);

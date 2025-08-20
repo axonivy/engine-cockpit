@@ -6,11 +6,11 @@
   <h:body>
     <ui:composition template="../includes/template/template.xhtml">
       <ui:define name="breadcrumb">
-        <li><span>Monitor</span></li>
+        <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
         <li>/</li>
-        <li><span>Java</span></li>
+        <li><span>#{ivy.cm.co('/sidebar/Java')}</span></li>
         <li>/</li>
-        <li><a href="monitorJfr.xhtml">Java Flight Recorder</a></li>
+        <li><a href="monitorJfr.xhtml">#{ivy.cm.co('/monitor/JavaFlightRecorder')}</a></li>
       </ui:define>
   
       <ui:define name="topbar-items">
@@ -27,42 +27,42 @@
               <div class="card-header flex-wrap">
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-plane-take-off"></i>
-                  <h2 class="m-0">Java Flight Recorder</h2>
-                  <p:commandButton id="start" title="Start recording" onclick="PF('startRecordingDialog').show();" icon="si si-controls-play" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button"/>
-                  <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{jfrBean.refresh()}" update="@form startRecordingDialog" title="Refresh" styleClass="flex-shrink-0 ml-1 rounded-button"/>
+                  <h2 class="m-0">#{ivy.cm.co('/monitor/JavaFlightRecorder')}</h2>
+                  <p:commandButton id="start" title="#{ivy.cm.co('/monitor/jfr/StartRecording')}" onclick="PF('startRecordingDialog').show();" icon="si si-controls-play" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button"/>
+                  <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{jfrBean.refresh()}" update="@form startRecordingDialog" title="#{ivy.cm.co('/common/Refresh')}" styleClass="flex-shrink-0 ml-1 rounded-button"/>
                 </div>
               </div>
               <p:dataTable var="recording" value="#{jfrBean.recordings}"
                 widgetVar="recordingsTable" styleClass="ui-fluid"
-                id="recordingsTable" style="min-width: 950px;" emptyMessage="No recordings found">
-                <p:column headerText="Id" sortBy="#{recording.id}" width="5%">
+                id="recordingsTable" style="min-width: 950px;" emptyMessage="#{ivy.cm.co('/monitor/jfr/NoRecordingsFound')}">
+                <p:column headerText="#{ivy.cm.co('/common/ID')}" sortBy="#{recording.id}" width="5%">
                   <span><h:outputText value="#{recording.id}"/></span>
                 </p:column>
-                <p:column headerText="Name" sortBy="#{recording.name}" width="20%">
+                <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{recording.name}" width="20%">
                   <h:outputText value="#{recording.name}"/>
                 </p:column>
-                <p:column headerText="State" sortBy="#{recording.state}" width="10%">
+                <p:column headerText="#{ivy.cm.co('/common/State')}" sortBy="#{recording.state}" width="10%">
                   <h:outputText value="#{recording.state}"/>
                 </p:column>
-                <p:column headerText="Size" sortBy="#{recording.size}" width="10%">
+                <p:column headerText="#{ivy.cm.co('/common/Size')}" sortBy="#{recording.size}" width="10%">
                   <h:outputText value="#{recording.size}"/>
                 </p:column>
-                <p:column headerText="Duration" sortBy="#{recording.duration}" width="10%">
+                <p:column headerText="#{ivy.cm.co('/common/Duration')}" sortBy="#{recording.duration}" width="10%">
                   <h:outputText value="#{recording.duration}"/>
                 </p:column>
-                <p:column headerText="Start Time" sortBy="#{recording.startTime}" width="15%">
+                <p:column headerText="#{ivy.cm.co('/common/StartTime')}" sortBy="#{recording.startTime}" width="15%">
                   <h:outputText value="#{recording.startTime}"/>
                 </p:column>
-                <p:column headerText="Stop Time" sortBy="#{recording.stopTime}" width="15%">
+                <p:column headerText="#{ivy.cm.co('/common/StopTime')}" sortBy="#{recording.stopTime}" width="15%">
                   <h:outputText value="#{recording.stopTime}"/>
                 </p:column>
                 <p:column styleClass="table-btn-3">
-                  <p:commandButton id="stop" action="#{jfrBean.stopRecording(recording)}" update="@form startRecordingDialog" title="Stop recording"
+                  <p:commandButton id="stop" action="#{jfrBean.stopRecording(recording)}" update="@form startRecordingDialog" title="#{ivy.cm.co('/common/StopRecording')}"
                     icon="si si-controls-stop" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{not recording.canStop}"/>
-                  <p:commandButton id="download" icon="pi pi-arrow-down" ajax="false" title="Download recording" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button" disabled="#{not recording.canDownload}">
+                  <p:commandButton id="download" icon="pi pi-arrow-down" ajax="false" title="#{ivy.cm.co('/common/DownloadRecording')}" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button" disabled="#{not recording.canDownload}">
                     <p:fileDownload value="#{jfrBean.downloadRecording(recording)}"/>
                   </p:commandButton>
-                  <p:commandButton id="close" action="#{jfrBean.closeRecording(recording)}" update="@form startRecordingDialog" title="Delete recording" disabled="#{not recording.canClose}"
+                  <p:commandButton id="close" action="#{jfrBean.closeRecording(recording)}" update="@form startRecordingDialog" title="#{ivy.cm.co('/common/DeleteRecording')}" disabled="#{not recording.canClose}"
                     icon="si si-bin-1" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button"/>
                 </p:column>
               </p:dataTable>
@@ -70,23 +70,23 @@
           </div>
         </h:form>
         
-        <p:dialog style="min-width: 600px;" header="Start Recording" id="startRecordingDialog"
-            widgetVar="startRecordingDialog" responsive="true" closeOnEscape="true">
+        <p:dialog header="#{ivy.cm.co('/monitor/jfr/StartRecording')}" id="startRecordingDialog"
+            widgetVar="startRecordingDialog" responsive="true" closeOnEscape="true" minWidth="600">
           <h:form id="startRecording" styleClass="custom-dialog-form">
-            <p:staticMessage severity="warn" detail="Start of a Fligh recording can have a negative impact on the performance of the engine."/>
-            <p:staticMessage severity="warn" rendered="#{jfrBean.hasRunningRecordings}" detail="There is already at least one recording running. Sure you want to start another one?"/>
-            <p:staticMessage severity="warn" rendered="#{jfrBean.hasNotRunningRecordings}" detail="There is already at least one recording available. Consider deleting it before starting another one."/>
+            <p:staticMessage severity="warn" detail="#{ivy.cm.co('/monitor/jfr/RecordingMessage1')}"/>
+            <p:staticMessage severity="warn" rendered="#{jfrBean.hasRunningRecordings}" detail="#{ivy.cm.co('/monitor/jfr/RecordingMessage2')}"/>
+            <p:staticMessage severity="warn" rendered="#{jfrBean.hasNotRunningRecordings}" detail="#{ivy.cm.co('/monitor/jfr/RecordingMessage3')}"/>
             <p:panelGrid columns="3" layout="flex" columnClasses="col-12 md:col-4 lg:col-2, col-12 md:col-5 lg:col-9, col-12 md:col-1 lg:col-1" styleClass="grey-label-panel ui-fluid">
-              <p:outputLabel for="configuration" value="Configuration"/>
+              <p:outputLabel for="configuration" value="#{ivy.cm.co('/common/Configuration')}"/>
               <p:selectOneMenu id="configuration" value="#{jfrBean.configuration}">
                 <f:selectItems value="#{jfrBean.configurations}" var="config" itemLabel="#{config.label}" itemValue="#{config.name}" itemDescription="#{config.description}"/>
               </p:selectOneMenu>
-              <p:commandButton id="add" title="Add configuration" onclick="PF('uploadConfig').show();return false;" icon="si si-add" styleClass="ml-1 rounded-button"/>
-              <p:outputLabel for="name" value="Name"/>
+              <p:commandButton id="add" title="#{ivy.cm.co('/monitor/jfr/AddConfiguration')}" onclick="PF('uploadConfig').show();return false;" icon="si si-add" styleClass="ml-1 rounded-button"/>
+              <p:outputLabel for="name" value="#{ivy.cm.co('/common/Name')}"/>
               <p:inputText id="name" value="#{jfrBean.name}"/>
             </p:panelGrid>
             <p:fileUpload id="uploadConfig" widgetVar="uploadConfig" listener="#{jfrBean.addConfiguration}" style="display: none;" update="startRecording" auto="true"/>
-            <p:panel id="more" toggleable="true" collapsed="true" header="More Options ..." toggleTitle="More Options" style="width: 600px;">
+            <p:panel id="more" toggleable="true" collapsed="true" header="#{ivy.cm.co('/common/MoreOptions')} ..." toggleTitle="#{ivy.cm.co('/common/MoreOptions')}" style="width: 600px;">
               <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-4 lg:col-2, col-12 md:col-6 lg:col-10" styleClass="grey-label-panel ui-fluid">
                 <c:forEach items="#{jfrBean.options}" var="option">
                   <p:outputPanel>
@@ -96,10 +96,10 @@
                   <p:inputText id="#{option.name}" value="#{option.value}"/>
                 </c:forEach>
               </p:panelGrid>
-            </p:panel>            
+            </p:panel>
             <div class="custom-dialog-footer">
-              <p:commandButton id="cancel" type="button" onclick="PF('startRecordingDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
-              <p:commandButton id="start" onclick="PF('startRecordingDialog').hide();" value="Start" icon="si si-controls-play"
+              <p:commandButton id="cancel" type="button" onclick="PF('startRecordingDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+              <p:commandButton id="start" onclick="PF('startRecordingDialog').hide();" value="#{ivy.cm.co('/common/Start')}" icon="si si-controls-play"
                 styleClass="modal-input-button" actionListener="#{jfrBean.startRecording}" update="form"/>
             </div>
           </h:form>

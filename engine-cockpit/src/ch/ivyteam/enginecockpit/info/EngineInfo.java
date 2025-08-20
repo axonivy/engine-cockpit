@@ -15,6 +15,7 @@ import org.primefaces.PrimeFaces;
 import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.context.EngineCockpitUrlPath;
@@ -58,9 +59,9 @@ public class EngineInfo {
 
   public String getShutdownMessage() {
     if (isShutingDown) {
-      return "The Axon Ivy Engine is shutting down. You can close the window.";
+      return Ivy.cm().co("/info/ShutdownEngineMessage");
     }
-    return "Do you really want to shutdown the Axon Ivy Engine?";
+    return Ivy.cm().co("/info/ShutdownEngineConfirmationMessage");
   }
 
   public void shutdown() {

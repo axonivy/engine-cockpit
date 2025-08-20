@@ -14,13 +14,13 @@
     </ui:define>
 
     <ui:define name="breadcrumb">
-      <li><span>System</span></li>
+      <li><span>#{ivy.cm.co('/common/System')}</span></li>
       <li>/</li>
-      <li><a href="systemconfig.xhtml">System Configuration</a></li>
+      <li><a href="systemconfig.xhtml">#{ivy.cm.co('/common/SystemConfiguration')}</a></li>
     </ui:define>
-    
+
     <ui:define name="topbar-items">
-      <cc:TopBarItem styleClass="log-link" href="#{managerBean.configLogUrl}" icon="si-common-file-text" title="Show configuration log" external="false" />
+      <cc:TopBarItem styleClass="log-link" href="#{managerBean.configLogUrl}" icon="si-common-file-text" title="#{ivy.cm.co('/common/ShowConfigurationLog')}" external="false" />
       <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}system.html#system-configuration" />
     </ui:define>
 
@@ -28,8 +28,8 @@
       <div class="card">
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-cog card-title-icon"></i>
-          <h2 class="m-0">System Configuration</h2>
-          <p:commandButton id="reloadConfig" title="Reload system configuration" icon="si si-button-refresh-arrows" 
+          <h2 class="m-0">#{ivy.cm.co('/common/SystemConfiguration')}</h2>
+          <p:commandButton id="reloadConfig" title="#{ivy.cm.co('/systemConfig/ReloadSystemConfiguration')}" icon="si si-button-refresh-arrows" 
             actionListener="#{systemConfigBean.reloadConfig()}"
             styleClass="flex-shrink-0 ml-auto rounded-button"/>
         </div>

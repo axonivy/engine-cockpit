@@ -7,6 +7,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import ch.ivyteam.ivy.environment.Ivy;
+
 @ManagedBean
 @SessionScoped
 public class WizardBean {
@@ -73,11 +75,11 @@ public class WizardBean {
   }
 
   public enum Steps {
-    LICENCE(0, "Licence"),
-    ADMINS(1, "Administrators"),
-    WEBSERVER(2, "Web Server"),
-    STORAGE(3, "Storage"),
-    SYSTEMDB(4, "System Database");
+    LICENCE(0, Ivy.cm().co("/setup/Licence")),
+    ADMINS(1, Ivy.cm().co("/setup/Administrators")),
+    WEBSERVER(2, Ivy.cm().co("/setup/WebServer")),
+    STORAGE(3, Ivy.cm().co("/setup/Storage")),
+    SYSTEMDB(4, Ivy.cm().co("/setup/SystemDatabase"));
 
     private final int value;
     private final String name;

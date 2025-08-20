@@ -19,6 +19,7 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.event.FileUploadEvent;
 
 import ch.ivyteam.enginecockpit.commons.Message;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.TrustStoreConfig;
 
@@ -129,7 +130,7 @@ public class TrustStoreBean implements SslTableStore {
     getCertificats();
     Message.info()
         .clientId("sslTruststoreSaveSuccess")
-        .summary("Trust Store configurations saved")
+        .summary(Ivy.cm().co("/sslTrustStore/TrustStoreConfigurationsSavedMessage"))
         .show();
   }
 
@@ -138,7 +139,7 @@ public class TrustStoreBean implements SslTableStore {
     getKeyStoreUtils().deleteCertificate(alias);
     Message.info()
         .clientId("sslDeleteCertificate")
-        .summary("Certificate " + "'" + alias + "'" + "deleted")
+        .summary(Ivy.cm().content("/sslTrustStore/DeleteCertificateMessage").replace("certificate", alias).get())
         .show();
   }
 
@@ -148,23 +149,20 @@ public class TrustStoreBean implements SslTableStore {
     try (InputStream is = event.getFile().getInputStream()) {
       return getKeyStoreUtils().handleUploadCert(is);
     }
-
   }
 
   public void addToStore(Certificate cert) throws KeyStoreException {
       getKeyStoreUtils().addNewCert(cert);
-    if ("X.509".equals(cert.getPublicKey().getFormat())) {
-      X509Certificate X509cert = (X509Certificate) cert;
-      Message.info()
-          .clientId("addMissingCertSuccess")
-          .summary(X509cert.getSubjectX500Principal() + " was successfully added")
-          .show();
-    } else {
-      Message.info()
-          .clientId("addMissingCertSuccess")
-          .summary("The certificate was successfully added.")
-          .show();
-    }
+      if ("X.509".equals(cert.getPublicKey().getFormat())) {
+        X509Certificate X509cert = (X509Certificate) cert;
+        Message.info().clientId("addMissingCertSuccess")
+            .summary(Ivy.cm().content("/tlsTesterMissingCertView/AddX509CertificateToTruststoreSuccessMesage")
+                .replace("certificate", String.valueOf(X509cert.getSubjectX500Principal())).get())
+            .show();
+      } else {
+        Message.info().clientId("addMissingCertSuccess")
+            .summary(Ivy.cm().co("/tlsTesterMissingCertView/AddCertificateToTruststoreSuccessMesage")).show();
+      }
   }
 
   public List<StoredCert> getCertificats() {

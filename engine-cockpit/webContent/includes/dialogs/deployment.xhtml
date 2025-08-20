@@ -3,29 +3,29 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
 
-<cc:FileUpload title="Deploy to App '#{appName}'" apiUrl="#{url}" acceptFiles=".iar, .zip" id="deploymentModal">
+<cc:FileUpload title="#{ivy.cm.co('/deployment/DeployToApp')} '#{appName}'" apiUrl="#{url}" acceptFiles=".iar, .zip" id="deploymentModal">
   <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="col-4, col-8" layout="flex"
     styleClass="grey-label-panel" style="min-width: 400px; display: none;">
-    <p:outputLabel value="Deploy Test Users" for="deployTestUsers" />
+    <p:outputLabel value="#{ivy.cm.co('/deployment/DeployTestUsers')}" for="deployTestUsers" />
     <p:selectOneMenu value="#{deployOptionsBean.deployTestUsers}" widgetVar="deployTestUsers" id="deployTestUsers">
       <f:selectItems value="#{deployOptionsBean.deployTestUsersValues}" />
     </p:selectOneMenu>
 
-    <p:outputLabel value="Version" for="version" />
+    <p:outputLabel value="#{ivy.cm.co('/common/Version')}" for="version" />
     <p:selectOneMenu value="#{deployOptionsBean.version}" widgetVar="version" id="version"
       onchange="versionSelectChange()">
       <f:selectItems value="#{deployOptionsBean.versions}" />
     </p:selectOneMenu>
 
-    <p:outputLabel value="Version Range" for="versionRange" id="versionRangeLabel" styleClass="version-range-label" />
+    <p:outputLabel value="#{ivy.cm.co('/deployment/VersionRange')}" for="versionRange" id="versionRangeLabel" styleClass="version-range-label" />
     <p:inputText placeholder="e.g. 2.5 or (2.0,3.0]" id="versionRange" styleClass="version-range" />
 
-    <p:outputLabel value="State" for="state" />
+    <p:outputLabel value="#{ivy.cm.co('/common/State')}" for="state" />
     <p:selectOneMenu value="#{deployOptionsBean.state}" widgetVar="state" id="state">
       <f:selectItems value="#{deployOptionsBean.states}" />
     </p:selectOneMenu>
   </p:panelGrid>
-  <p:commandButton id="showDeployOptionsBtn" value="Options" icon="si si-view-1"
+  <p:commandButton id="showDeployOptionsBtn" value="#{ivy.cm.co('/deployment/Options')}" icon="si si-view-1"
     styleClass="ui-button-secondary ui-button-outlined modal-input-button" type="button" onclick="visualToggle()"
     style="float: left; width: 25%; margin: 0;" />
   <p:linkButton href="#{advisorBean.engineGuideBaseUrl}/deployment/prepare/deployment-options/index.html" target="_blank" rel="noopener noreferrer" 

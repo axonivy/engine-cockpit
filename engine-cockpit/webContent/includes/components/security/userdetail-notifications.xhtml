@@ -11,33 +11,33 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-advertising-megaphone-2"></i>
-        <h6 class="m-0">Notification Channels</h6>
+        <h6 class="m-0">#{ivy.cm.co('/userDetailNotifications/NotificationChannels')}</h6>
       </div>
-      <p:commandButton id="reset" actionListener="#{userDetailBean.notificationChannels.reset}" title="Reset to default"
+      <p:commandButton id="reset" actionListener="#{userDetailBean.notificationChannels.reset}" title="#{ivy.cm.co('/userDetailNotifications/ResetToDefault')}"
         icon="si si-undo" styleClass="flex-shrink-0 ml-auto ui-button-danger rounded-button" update="notificationsForm" />
-      <p:commandButton id="save" actionListener="#{userDetailBean.notificationChannels.save}" title="Save changes"
+      <p:commandButton id="save" actionListener="#{userDetailBean.notificationChannels.save}" title="#{ivy.cm.co('/common/SaveChanges')}"
         icon="si si-floppy-disk" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button" />
     </div>
-    
+
     <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
       var="event" value="#{userDetailBean.notificationChannels.events}" id="notificationChannelsTable"
       lazy="false" styleClass="ui-fluid" rowIndexVar="rowIndex">
-      
-      <p:column headerText="Event" sortBy="#{event.displayName}">
+
+      <p:column headerText="#{ivy.cm.co('/userDetailNotifications/Event')}" sortBy="#{event.displayName}">
         <h:panelGroup id="event">
           <h:outputText value="#{event.displayName}" styleClass="event-kind" />
           <i class="si si-question-circle"></i>
         </h:panelGroup>
         <p:tooltip for="notificationsForm:notificationChannelsTable:#{rowIndex}:event" value="#{event.description}" position="top" styleClass="pre-tooltip" />
       </p:column>
-      
+
       <p:columns id="channels" var="channel" value="#{userDetailBean.notificationChannels.channels}" style="text-align: center">
         <f:facet name="header">
           <h:outputText value="#{channel.channel.displayName()}">
             <i class="#{channel.channel.displayIcon()} table-icon" />
           </h:outputText>
         </f:facet>
-        
+
         <c:set var="subscription" value="#{channel.getSubscription(event)}"/>
         <i class="si table-icon si-#{subscription.icon} subscription-icon" title="#{subscription.title}"
           style="padding-right: 10px; vertical-align: top" />
@@ -45,7 +45,7 @@
           <p:ajax event="change" update="notificationsForm" listener="#{channel.setSubscriptionIconAndTitle(event)}" />
         </p:triStateCheckbox>
       </p:columns>
-      
+
     </p:dataTable>
   </h:form>
 </div>

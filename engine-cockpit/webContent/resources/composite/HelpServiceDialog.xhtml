@@ -22,7 +22,7 @@
         <a href="#{cc.attrs.service.helpUrl}" target="_blank" rel="noopener noreferrer">
           <i class="si si-xl si-question-circle"></i>
         </a>
-        <p:commandButton id="closeHelpServices" onclick="PF('helpServicesModal').hide();" value="Close" type="button"
+        <p:commandButton id="closeHelpServices" onclick="PF('helpServicesModal').hide();" value="#{ivy.cm.co('/common/Close')}" type="button"
           icon="si si-close" styleClass="ui-button-secondary modal-input-button" />
       </div>
     </h:form>

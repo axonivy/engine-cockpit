@@ -9,11 +9,11 @@
   <h:body>
     <ui:composition template="../includes/template/template.xhtml">
       <ui:define name="breadcrumb">
-        <li><span>Monitor</span></li>
+        <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
         <li>/</li>
-        <li><span>Java</span></li>
+        <li><span>#{ivy.cm.co('/sidebar/Java')}</span></li>
         <li>/</li>
-        <li><a href="monitorThreads.xhtml">Threads</a></li>
+        <li><a href="monitorThreads.xhtml">#{ivy.cm.co('/sidebar/Threads')}</a></li>
       </ui:define>
   
       <ui:define name="topbar-items">
@@ -30,10 +30,10 @@
             <div class="card">
               <div class="card-header flex-wrap">
                 <div class="card-title flex align-items-center">
-                  <i class="pr-3 si si-synchronize-arrow-clock"></i>
-                  <h2 class="m-0">Threads</h2>
-                  <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{threadBean.refresh()}" title="Refresh" styleClass="flex-shrink-0 ml-auto rounded-button" update="threadTable"/>
-                  <p:commandButton id="dump" icon="pi pi-arrow-down" ajax="false" title="Save Thread Dump" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button">
+                  <i class="pr-3 si si-synchronize-arrow-clock" />
+                  <h2 class="m-0">#{ivy.cm.co('/sidebar/Threads')}</h2>
+                  <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{threadBean.refresh()}" title="#{ivy.cm.co('/common/Refresh')}" styleClass="flex-shrink-0 ml-auto rounded-button" update="threadTable"/>
+                  <p:commandButton id="dump" icon="pi pi-arrow-down" ajax="false" title="#{ivy.cm.co('/monitor/thread/SaveThreadDump')}" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button">
                     <p:fileDownload value="#{threadBean.dump()}"/>
                   </p:commandButton>
                 </div>
@@ -41,23 +41,24 @@
               <p:dataTable var="thread" value="#{threadBean.threads}"
                 widgetVar="threadTable" styleClass="ui-fluid"
                 filteredValue="#{threadBean.filteredThreads}" globalFilterFunction="#{threadBean.filter}" globalFilter="#{threadBean.filter}"
-                id="threadTable" style="min-width: 950px;">
+                id="threadTable" style="min-width: 950px;"
+                emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
                 <f:facet name="header">
                   <div class="ui-input-icon-left filter-container">
                     <i class="pi pi-search"/>
-                    <p:inputText id="globalFilter" onkeyup="PF('threadTable').filter()" value="#{threadBean.filter}" placeholder="Search"/>
+                    <p:inputText id="globalFilter" onkeyup="PF('threadTable').filter()" value="#{threadBean.filter}" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}"/>
                   </div>
                 </f:facet>
-                <p:column headerText="Id" sortBy="#{thread.id}" filterBy="#{thread.id}" width="5%">
-                  <p:commandLink oncomplete="PF('threadDialog').show();" title="Thread Detail" action="#{threadBean.setSelected(thread)}" update="threadDialog">
-                    <i class="pr-3 si si-synchronize-arrow-clock"></i>
+                <p:column headerText="#{ivy.cm.co('/common/ID')}" sortBy="#{thread.id}" filterBy="#{thread.id}" width="5%">
+                  <p:commandLink oncomplete="PF('threadDialog').show();" title="#{ivy.cm.co('/monitor/thread/ThreadDetail')}" action="#{threadBean.setSelected(thread)}" update="threadDialog">
+                    <i class="pr-3 si si-synchronize-arrow-clock" />
                     <h:outputText value="#{thread.id}"/>
                   </p:commandLink>
                 </p:column>
-                <p:column headerText="Name" sortBy="#{thread.name}" filterBy="#{thread.name}" width="40%">
+                <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{thread.name}" filterBy="#{thread.name}" width="40%">
                   <h:outputText value="#{thread.name}"/>
                 </p:column>
-                <p:column headerText="State" sortBy="#{thread.state}" width="10%">
+                <p:column headerText="#{ivy.cm.co('/common/State')}" sortBy="#{thread.state}" width="10%">
                   <h:panelGroup id="state">
                     <h:outputText value="#{thread.state}" class="#{thread.stateColorClass}"/>
                     <p:tooltip for="state" value="#{thread.stateTitle}" position="right"/>
@@ -66,12 +67,12 @@
                     </h:panelGroup>
                   </h:panelGroup>
                 </p:column>
-                <p:column headerText="Priority" sortBy="#{thread.priority}" width="5%">
+                <p:column headerText="#{ivy.cm.co('/common/Priority')}" sortBy="#{thread.priority}" width="5%">
                   <h:outputText value="#{thread.priority}"/>
                 </p:column>
-                <p:column headerText="CPU Time" sortBy="#{thread.cpuTime}" width="20%">
+                <p:column headerText="#{ivy.cm.co('/monitor/thread/CPUTime')}" sortBy="#{thread.cpuTime}" width="20%">
                   <f:facet name="header">
-                    <h:outputText value="CPU Time" title="Total CPU Time [ns]"/>
+                    <h:outputText value="#{ivy.cm.co('/monitor/thread/CPUTime')}" title="#{ivy.cm.co('/monitor/thread/CPUTimeTooltip')}"/>
                   </f:facet>
                   <div style="background: #{thread.cpuTimeBackground};">
                     <h:outputText styleClass="gradient-text" value="#{thread.cpuTime}" title="#{thread.cpuTime}">
@@ -81,7 +82,7 @@
                 </p:column>
                 <p:column sortBy="#{thread.userTime}" width="20%">
                   <f:facet name="header">
-                    <h:outputText value="User Time" title="User CPU Time [ns]"/>
+                    <h:outputText value="#{ivy.cm.co('/monitor/thread/UserTime')}" title="#{ivy.cm.co('/monitor/thread/UserTimeTooltip')}"/>
                   </f:facet>
                   <div style="background: #{thread.userTimeBackground};">
                     <h:outputText styleClass="gradient-text" value="#{thread.userTime}" title="#{thread.userTime}">
@@ -93,17 +94,17 @@
             </div>
           </div>
         </h:form>
-        <p:dialog style="min-width: 300px; max-width: 80%;" header="Thread #{threadBean.selected.id} - #{threadBean.selected.name}" id="threadDialog"
-            widgetVar="threadDialog" responsive="true" closeOnEscape="true">
+        <p:dialog header="#{ivy.cm.co('/monitor/thread/ThreadTitle')} #{threadBean.selected.id} - #{threadBean.selected.name}" id="threadDialog"
+            widgetVar="threadDialog" responsive="true" closeOnEscape="true" minWidth="300" fitViewport="true" width="80%">
           <h:form id="thread" styleClass="custom-dialog-form">
             <p:panelGrid columns="2" layout="flex" columnClasses="col-2, col-10" styleClass="grey-label-panel ui-fluid">
-              <p:outputLabel for="daemon" value="Daemon" />
+              <p:outputLabel for="daemon" value="#{ivy.cm.co('/monitor/thread/Daemon')}" />
               <h:outputText id="daemon" value="#{threadBean.selected.info.daemon}"/>
-              <p:outputLabel for="native" value="In Native Code" />
+              <p:outputLabel for="native" value="#{ivy.cm.co('/monitor/thread/Native')}" />
               <h:outputText id="native" value="#{threadBean.selected.info.inNative}"/>
-              <p:outputLabel for="deadlocked" value="Deadlocked" />
+              <p:outputLabel for="deadlocked" value="#{ivy.cm.co('/monitor/thread/Deadlocked')}" />
               <h:outputText id="deadlocked" value="#{threadBean.selected.deadLocked}"/>
-              <p:outputLabel for="blocked" value="Blocked" />
+              <p:outputLabel for="blocked" value="#{ivy.cm.co('/monitor/thread/Blocked')}" />
               <h:panelGroup id="blocked">
                 <h:outputText value="#{threadBean.selected.info.blockedCount}">
                   <f:convertNumber/>
@@ -114,7 +115,7 @@
                 </h:outputText>
                 <h:outputText value=" ns)"/>
               </h:panelGroup>
-              <p:outputLabel for="waited" value="Waited" />
+              <p:outputLabel for="waited" value="#{ivy.cm.co('/monitor/thread/Waited')}" />
               <h:panelGroup id="waited">
                 <h:outputText value="#{threadBean.selected.info.waitedCount}">
                   <f:convertNumber/>
@@ -125,23 +126,24 @@
                 </h:outputText>
                 <h:outputText value=" ns)"/>
               </h:panelGroup>
-              <p:outputLabel for="lock" value="Waiting on or for Lock"/>
+              <p:outputLabel for="lock" value="#{ivy.cm.co('/monitor/thread/LockTooltip')}"/>
               <p:outputPanel id="lock" styleClass="code">#{threadBean.selected.lockName}</p:outputPanel>
-              <p:outputLabel for="lockOwner" value="Lock Owner"/>
+              <p:outputLabel for="lockOwner" value="#{ivy.cm.co('/monitor/thread/LockOwner')}"/>
               <p:outputPanel id="lockOwner" styleClass="code">#{threadBean.selected.lockOwner}</p:outputPanel>
-              <p:outputLabel for="lockedSynchronizers" value="Locked Synchronizers"/>
+              <p:outputLabel for="lockedSynchronizers" value="#{ivy.cm.co('/monitor/thread/LockedSynchronizers')}"/>
               <p:outputPanel id="lockedSynchronizers" styleClass="code">#{threadBean.selected.lockedSynchronizers}</p:outputPanel>
-              <p:outputLabel for="lockedMonitors" value="Locked Monitors"/>
+              <p:outputLabel for="lockedMonitors" value="#{ivy.cm.co('/monitor/thread/LockedMonitors')}"/>
               <p:outputPanel id="lockedMonitors" styleClass="code">#{threadBean.selected.lockedMonitors}</p:outputPanel>
               <h:panelGroup>
-                <p:outputLabel for="stackTrace" value="Stack Trace"/>
-                <p:commandButton id="copyStack" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="var button=this; copyToClipboard($('#thread\\:stackTrace').text(), button)"
-                    styleClass="ui-button-flat rounded-button"/>
+                <p:outputLabel for="stackTrace" value="#{ivy.cm.co('/monitor/thread/StackTrace')}"/>
+                <p:commandButton id="copyStack" icon="si si-copy-paste" type="button" title="#{ivy.cm.co('/common/CopyToClipboard')}"
+                  onclick="var button=this; copyToClipboard($('#thread\\:stackTrace').text(), button)"
+                  styleClass="ui-button-flat rounded-button"/>
               </h:panelGroup>
-              <p:outputPanel id="stackTrace" styleClass="code">#{threadBean.selected.stackTrace}</p:outputPanel>  
+              <p:outputPanel id="stackTrace" styleClass="code">#{threadBean.selected.stackTrace}</p:outputPanel>
             </p:panelGrid>
             <div class="custom-dialog-footer">
-              <p:commandButton id="close" type="button" onclick="PF('threadDialog').hide();" value="Close" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+              <p:commandButton id="close" type="button" onclick="PF('threadDialog').hide();" value="#{ivy.cm.co('/common/Close')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
             </div>
           </h:form>
         </p:dialog>

@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import ch.ivyteam.enginecockpit.util.DurationFormat;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.health.check.HealthCheck;
 import ch.ivyteam.ivy.health.check.HealthChecker;
 import ch.ivyteam.ivy.health.check.HealthMessage;
@@ -68,13 +69,15 @@ public class HealthBean {
 
   public String getMessage() {
     if (checker.severity() == HealthSeverity.HEALTHY) {
-      return "No problems detected. Engine is healthy.";
+      return Ivy.cm().co("/health/HealthyMessage");
     }
     var msgs = checker.messages();
     if (msgs.size() == 1) {
       return msgs.get(0).message();
     }
-    return checker.messages().size() + " problems detected.";
+
+    return Ivy.cm().content("/health/ProblemsDetectedMessage")
+        .replace("number", String.valueOf(checker.messages().size())).get();
   }
 
   public List<Message> getMessages() {

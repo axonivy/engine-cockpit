@@ -16,13 +16,13 @@
     </ui:define>
 
     <ui:define name="breadcrumb">
-      <li><a href="applications.xhtml">Applications</a></li>
+      <li><a href="applications.xhtml">#{ivy.cm.co('/common/Applications')}</a></li>
       <li>/</li>
       <li><a href="application-detail.xhtml?appName=#{applicationDetailBean.appName}">#{applicationDetailBean.appName}</a></li>
     </ui:define>
     
     <ui:define name="topbar-items">
-      <cc:TopBarItem styleClass="config-link" href="#{managerBean.configLogUrl}" icon="si-common-file-text" title="Show configuration log" external="false" />
+      <cc:TopBarItem styleClass="config-link" href="#{managerBean.configLogUrl}" icon="si-common-file-text" title="#{ivy.cm.co('/common/ShowConfigurationLog')}" external="false" />
       <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}applications.html#application-detail" />
     </ui:define>
 
@@ -32,13 +32,13 @@
           <div class="col-12">
             <div class="grid">
               <cc:OverviewBox box="white" count="#{applicationDetailBean.sessionCount}" icon="si si-style-two-pin-user"
-                title="Sessions" link="users.xhtml" />
+                title="#{ivy.cm.co('/common/Sessions')}" link="users.xhtml" />
               <cc:OverviewBox box="blue" count="#{applicationDetailBean.usersCount}" icon="si si-single-neutral-actions"
-                title="Users" link="users.xhtml" />
+                title="#{ivy.cm.co('/common/Users')}" link="users.xhtml" />
               <cc:OverviewBox box="gray" count="#{applicationDetailBean.casesCount}" icon="si si-layout-bullets"
-                title="Running Cases" link="#" />
+                title="#{ivy.cm.co('/common/RunningCases')}" link="#" />
               <cc:OverviewBox box="darkgray" count="#{applicationDetailBean.pmCount}" icon="si si-module-three-2"
-                title="Process Models" link="#" />
+                title="#{ivy.cm.co('/applicationDetail/ProcessModels')}" link="#" />
             </div>
           </div>
           

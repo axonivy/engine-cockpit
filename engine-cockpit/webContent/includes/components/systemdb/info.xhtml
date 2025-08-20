@@ -7,18 +7,18 @@
       <div class="card-header">
         <div class="card-title flex align-items-center">
           <i class="pr-3 si si-information-circle"></i>
-          <h6 id="overview" class="m-0">System Database</h6>
+          <h6 id="overview" class="m-0">#{ivy.cm.co('/common/SystemDatabase')}</h6>
         </div>
       </div>
       <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
         styleClass="grey-label-panel ui-fluid">
-        <label>Product</label>
+        <label>#{ivy.cm.co('/common/Product')}</label>
         <h:outputText value="#{systemDatabaseInfoBean.systemDbDatabaseProduct}" />
-        <label>Version</label>
+        <label>#{ivy.cm.co('/common/Version')}</label>
         <h:outputText value="#{systemDatabaseInfoBean.systemDbDatabaseVersion}" />
-        <label>Disk Size</label>  
+        <label>#{ivy.cm.co('/common/DiskSize')}</label>  
         <h:outputText value="#{systemDatabaseInfoBean.formatByteValue(systemDatabaseInfoBean.systemDbDiskSize)}"/>
-        <label>Warnings</label>  
+        <label>#{ivy.cm.co('/common/Warnings')}</label>  
         <ui:repeat value="#{systemDatabaseInfoBean.errorMessages}" var="item">
           <div>
             <h:outputText value="#{item}" styleClass="system-db-warning" />

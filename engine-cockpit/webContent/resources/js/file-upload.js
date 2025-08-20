@@ -35,7 +35,7 @@ function handleFile(file) {
       upload();
     }
   } else {
-    $('#selectedFileOutput').text("Choose or drop a file which ends with: " + accepts);
+    $('#selectedFileOutput').text(acceptFilesPlaceholder + accepts);
     this.file = null;
   }
 }

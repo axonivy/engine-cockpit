@@ -1,0 +1,1462 @@
+administrators:
+  AdminAddedMessage: '''${name}'' added'
+  AdminDeletedMessage: '''${name}'' deleted'
+  AdminUpdatedMessage: '''${name}'' updated'
+  ConfirmPassword: Confirm Password
+  CreateAdministratorDialogHeader: Create Administrator
+  DeleteAdminDialogHeader: Delete ${name}
+  DeleteAdminDialogMessage: Are you sure you want to delete the administrator '${name}'?
+  EditAdminDialogHeader: Add / Edit Administrator
+  UpdateAdministratorDialogHeader: Update Administrator
+admins:
+  AddAdministrator: Add Administrator
+  DefineAtLeastOneAdministratorMessage: You need to define at least one administrator!
+applicationDetail:
+  ProcessModels: Process Models
+applications:
+  AppPmPmvHeader: App / PM / PMV
+  ApplicationConvertToLatestVersionMessage: All Axon Ivy Projects in state RELEASED and DEPRECATED will be converted to the latest version.
+  ApplicationWarningMessageForNoReleasedPmv: At least one process model has no released process model version
+  Convert: Convert
+  ConvertButtonTitle: Converts the project to the latest version
+  DeactivateButtonTitle: Deactivate
+  DeleteHintMessage: Are you sure you want to delete this ${activityType}?
+  DeleteRunningCasesHintMessage: ${activityType} has ${runningCases} running cases. They will also be deleted.
+  DeploymentButtonTitle: Deployment
+  DeploymentPossibleReason: The system configuration '${restServlet}' or '${restDeployment}' is disabled.
+  DisableErrorMessage: Cannot evaluate the state of the application ${application}
+  ExecutionErrorMessageSummary: Could not ${action} module
+  ExecutionSuccessMessageSummary: Successfully ${action} module
+  ForceDeleteButtonTitle: Force Delete
+  LastChangeDate: 'Last change date:'
+  LibraryVersion: 'Library version:'
+  PmvConvertToLatestVersionMessage: The Axon Ivy Project will be converted to the latest version.
+  ReleaseButtonTitle: Release
+  RunningCasesHeader: Running Cases
+  WarningMessageForNoReleasedPmv: No released process model version
+applicationTabs:
+  CreateApplication: Create Application
+  NoConfiguredApplication: You don't have any applications configured.
+axonivy:
+  AxonIvyAG: Axon Ivy AG
+  Build: Build
+  Copyright: Copyright
+  InstallationDirectory: Installation Directory
+bean:
+  Bean: Bean
+  Class: Class
+  LastInitializationError: Last Initialization Error
+  LastStart: Last Start
+  LastStartError: Last Start Error
+  LastStopError: Last Stop Error
+  RequestPath: Request Path
+  StartsBean: Starts the bean
+  StopsBean: Stops the bean
+branding:
+  ChooseOrDropFileWhichEndsWith: 'Choose or drop a file which ends with:'
+  DefaultValue: 'Default Value: '
+  DownloadBrandingResourcesDialogHeader: Download Branding resources of '${application}'
+  EditColorDialogHeader: Edit color
+  EditCustomCSSDialogHeader: Edit ${customCssFile}
+  FaviconHelperMessage: The logo fot the browser tab (square format recommended)
+  LogoHelperMessage: The main logo image
+  LogoLightHelperMessage: Same as the main logo, but e.g. in our case with white writing
+  LogoMailHelperMessage: The logo with is taken by the default Axon Ivy Engine email notifications
+  LogoSmallHelperMessage: The logo in small (square format recommended), used by e.g. error, login pages
+  ResetBrandingResourceConfirmMessage: Are you sure you want to reset the Branding resource '${resource}'?
+  ResetBrandingResourceDialogHeader: Reset Branding Resource
+  ResetCSSColorConfirmMessage: Are you sure you want to reset the CSS Color '${cssColor}'?
+  ResetColorDialogHeader: Reset Color
+  ResetResourceSuccessfulMessage: Successfully reset '${resource}'
+  ResetResourceUnsuccessfulMessage: Couldn't reset '${resource}'
+  UnknownColor: unknown color
+  UpdateColorSuccessfulMessage: Successfully update color '${color}'
+  UpdateColorUnsuccessfulMessage: Couldn't update '${color}'
+  UpdateCustomCSSSuccessfulMessage: Successfully saved '${customCssFile}'
+  UpdateCustomCSSUnsuccessfulMessage: Couldn't save '${customCssFile}'
+  UploadFileSuccessfulMessage: Successfully uploaded ${resource}
+  UploadResourceDialogHeader: Upload resources to '${application}'
+  Value: 'Value: '
+breadcrumbInfos:
+  SelectedApplication: Selected Application
+  SelectedSecuritySystem: Selected Security System
+businessCalendarDetail:
+  EditAppYamlFile: Edit app yaml file
+channelState:
+  ErrorInformation: Error Information
+  FailedDeliverAttempsSoFar: 'Failed deliver attemps so far:'
+  LastError: 'Last Error:'
+  NextRetryToDeliver: 'Next retry to deliver:'
+cluster:
+  ClusterNodeState: Node is not licensed. It will always response with error code 503 Service Unavailable.
+  Context: Context
+  Node: Node
+  Nodes: Nodes
+  Sessions: Sessions
+clusterNodeInfo:
+  AxonIvyVersion: Axon Ivy Version
+  ClusterNodeDetail: Cluster Node Detail
+  IPAddress: IP Address
+  IPPort: IP Port
+  IsLicensed: Is Licensed
+  JavaVersion: Java Version
+  JavaVirtualMachineName: Java Virtual Machine Name
+  JvmRoute: Jvm Route
+  OperatingSystemArchitecture: Operating System Architecture
+  OperatingSystemName: Operating System Name
+  OperatingSystemVersion: Operating System Version
+common:
+  Activate: Activate
+  Activity: Activity
+  Add: Add
+  Administrators: Administrators
+  Algorithm: Algorithm
+  AllEvents: All Events
+  Application: Application
+  Applications: Applications
+  Apply: Apply
+  Attribute: Attribute
+  Attributes: Attributes
+  AuthenticationType: Authentication Type
+  AxonIvy: Axon Ivy
+  AxonIvyEngine: Axon Ivy Engine
+  Back: Back
+  Branding: Branding
+  Browse: Browse
+  BusinessCalendar: Business Calendar
+  Bytes: Bytes
+  Cancel: Cancel
+  Chart: Chart
+  Check: Check
+  Choose: Choose
+  Clear: Clear
+  Close: Close
+  Cluster: Cluster
+  Cockpit: Cockpit
+  CollapseAll: Collapse all
+  Color: Color
+  Communication: Communication
+  ConfigFileEditor: Config File Editor
+  Configuration: Configuration
+  Confirm: Confirm
+  Connections: Connections
+  CopyToClipboard: Copy to clipboard
+  Count: Count
+  Create: Create
+  Created: Created
+  Creator: Creator
+  Databases: Databases
+  Date: Date
+  Deactivate: Deactivate
+  Default: Default
+  DefinedBy: Defined by
+  Delete: Delete
+  DeleteRecording: Delete recording
+  Deployment: Deployment
+  DeploymentHint: Please enable them or use the file system for the deployment.
+  Description: Description
+  Disable: Disable
+  DiskSize: Disk Size
+  Download: Download
+  DownloadRecording: Download recording
+  Driver: Driver
+  Duration: Duration
+  Edit: Edit
+  Email: Email
+  Enabled: Enabled
+  End: End
+  EngineCockpit: Engine Cockpit
+  Error: Error
+  Errors: Errors
+  ErrorsTotal: Errors Total
+  Event: Event
+  ExecTime: Exec Time
+  ExecTimeValueTitle: The time needed to execute the statement
+  ExecutionHistory: Execution History (last 200)
+  ExecutionTime: Execution Time
+  ExpandAll: Expand all
+  FailTimestamp: Fail Timestamp
+  Failed: Failed
+  Failure: Failure
+  Feature: Feature
+  Features: Features
+  FeaturesAndProperties: Features and properties
+  File: File
+  Filter: Filter
+  Finish: Finish
+  Finished: Finished
+  Fragmentation: Fragmentation
+  FullName: Full Name
+  Good: Good
+  Health: Health
+  Help: Help
+  Host: Host
+  ID: ID
+  Info: Info
+  Instances: Instances
+  IsLocal: Is Local
+  IsMaster: Is Master
+  Key: Key
+  Language: Language
+  LastLogin: Last Login
+  Licence: Licence
+  Limit: Limit
+  Lock: Lock
+  Login: Login
+  Message: Message
+  Migration: Migration
+  MimeType: Mime Type
+  Modified: Modified
+  Modifier: Modifier
+  Module: Module
+  More: More
+  MoreOptions: More Options
+  Name: Name
+  Next: Next
+  'No': 'No'
+  NoData: No Data
+  NoDataAvailable: No data available
+  NoRecordsFound: No records found.
+  NoValue: No value
+  None: None
+  NotAvailable: n.a.
+  NotFoundApplication: Application '${application}' not found
+  NotMatchPasswordMessage: Password didn't match
+  NotificationChannels: Notification Channels
+  OK: OK
+  Object: Object
+  Order: Order
+  PM: PM
+  PMV: PMV
+  Password: Password
+  Path: Path
+  PleaseEnterPassword: Please enter a password
+  Port: Port
+  Previous: Previous
+  Priority: Priority
+  Process: Process
+  ProcessModel: Process Model
+  ProcessModelVersion: Process Model Version
+  ProcessName: Process Name
+  Product: Product
+  Properties: Properties
+  Property: Property
+  Provider: Provider
+  Read: Read
+  Receive: Receive
+  Receiver: Receiver
+  Refresh: Refresh
+  Remove: Remove
+  RequiredMessage: Value is required
+  Reset: Reset
+  RestClients: Rest Clients
+  RestServices: Rest Services
+  Restart: Restart
+  Role: Role
+  Roles: Roles
+  Run: Run
+  RunSearchEngineQuery: Run Search Engine Query
+  RunningCases: Running Cases
+  SSL: SSL
+  Save: Save
+  SaveAndCreate: Save and create
+  SaveChanges: Save changes
+  Schedule: Schedule
+  Search: Search
+  SearchEngine: Search Engine
+  SearchPlaceholder: Search
+  Security: Security
+  SecuritySystem: Security System
+  SecuritySystems: Security Systems
+  Send: Send
+  Services: Services
+  Sessions: Sessions
+  Setup: Setup
+  Severity: Severity
+  ShowConfigurationLog: Show configuration log
+  ShowMoreRoleLeftMessage: Show more (${role} left)
+  Size: Size
+  Source: Source
+  StackTrace: Stack Trace
+  Start: Start
+  StartTime: Start Time
+  StartTimestamp: Start Timestamp
+  State: State
+  StopRecording: Stop recording
+  StopTime: Stop Time
+  StopTimestamp: Stop Timestamp
+  Strong: Strong
+  Success: Success
+  SynchronizationLog: Synchronization Log
+  Synchronize: Synchronize
+  System: System
+  SystemConfiguration: System Configuration
+  SystemDatabase: System Database
+  TableName: Table name
+  Tables: Tables
+  Template: Template
+  Time: Time
+  Timestamp: Timestamp
+  Total: Total
+  Type: Type
+  Update: Update
+  Upload: Upload
+  Url: Url
+  User: User
+  Username: Username
+  Users: Users
+  Value: Value
+  Variable: Variable
+  Variables: Variables
+  Version: Version
+  Warning: Warning
+  Warnings: Warnings
+  Weak: Weak
+  WebServer: Web Server
+  WebServiceClients: Web Service Clients
+  WebServiceProcesses: Web Service Processes
+  Write: Write
+  'Yes': 'Yes'
+configuration:
+  ApplicationConfiguration: Application Configuration
+  ConfigReset: '''${config}'' reset'
+  ConfigResetToDefault: '''${config}'' reset to default'
+  ConfigSaved: '''${config}'' saved'
+  ConfigurationDialogDefaultTitle: configuration
+  EditConfigurationInfoMessage: If you change this property, you have to restart you engine
+  Examples: Examples
+  Filter: 'Filter:'
+  GoEditVariableValueLink: Go and edit the Variable value
+  ReloadApplicationConfiguration: Reload application configuration
+  ReloadApplicationConfigurationMessage: Configuration of application '${application}' reloaded
+  ResetConfigConfirmDialogMessage: Are you sure you want to reset the ${title} '${config}'?
+  ShowDatabasesMessage: Show Databases
+  ShowOnlyDefinedValuesMessage: Show only defined values
+  ShowRestClientsMessage: Show Rest Clients
+  ShowVariablesMessage: Show Variables
+  ShowWebServiceClientsMessage: Show Web Service Clients
+  ViewFile: View File
+connectionTestResult:
+  ConnectToDatabaseFailMessage: 'An error occurred: %s'
+  ConnectToDatabaseSuccessMessage: 'Successfully connected to database: %s (%s) with JDBC Version %s'
+  ConnectToRestServiceFailMessage: Could not connect to REST service
+  ConnectToRestServiceSuccessMessage: Successfully sent test request to REST service
+  ConnectionTestDialogHeader: 'Connection Test - Url:'
+  ConnectionTestDialogHintMessage: Make sure that you saved your changes before you test the connection.
+  ConnectionTestRestClientAuthenticationMessage: Authentication was not successful
+  ConnectionTestRestClientNotUnderstandRequestMessage: REST service does not understand test request
+  InvalidRestClientUrlMessage: "Invalid Url (may contains script context)\nAn error occurred: "
+  TLSTestButton: TLS Test
+  TLSTestButtonTitle: TLS Connection Test
+  TestConnection: Test Connection
+databaseConfiguration:
+  DatabaseConfigurations: Database configurations
+  MaxConnections: Max Connections
+  ResetConfiguration: Reset configuration
+  ResetDatabaseConfigurationMessage: Database configuration reset
+  ResetDatabaseConfirmDialogHeader: Reset Database
+  ResetDatabaseConfirmDialogMessage: Are you sure you want to reset this Database?
+  SaveDatabaseConfigurationMessage: Database configuration saved
+  TestDatabaseConnection: Test Database Connection
+databaseConnections:
+  InUse: In Use
+  LastUsed: Last Used
+databaseDetail:
+  GuideText: To edit your Database overwrite your app.yaml file. For example copy and paste the snippet below.
+  NotFoundDatabase: Database '${database}' not found
+  Title: Database '${database}'
+databaseHistory:
+  CopyToClipboardButtonTitle: Copy to clipboard
+  ProcessElementHeader: Process Element
+  ResultTimeHeader: Result Time
+  ResultTimeValueTitle: The time needed to read the results of the statement
+  RowsAffectedHeader: Rows Affected
+  SQLHeader: SQL
+databases:
+  NoDatabasesFound: No Databases found on deployed apps
+deletionWarning:
+  FirstDeletionWarningMessage: Deletion is dangerous and might leave the engine in a bad state.
+  SecondDeletionWarningMessage: You may lose cases and data. Proceed with caution.
+deployment:
+  DeployTestUsers: Deploy Test Users
+  DeployToApp: Deploy to App
+  FileFormat: File Format
+  Options: Options
+  VersionRange: Version Range
+directoryBrowser:
+  DirectoryBrowserDialogHeader: Directory Browser
+  NodePropertiesEmptyMessage: Select a node to see its attributes
+dynamicConfig:
+  ConnectionTestUrlDialogHeader: 'Connection Test - Url:'
+  TLSConnectionTestButton: TLS Connection Test
+editor:
+  AutoMigratedToLatestVersionWarningMessage: These file contents were auto-migrated to the latest version.
+  DownloadP12: Download .p12
+  NotFoundConfigFile: Config File '${file}' not found
+  ReadOnlyFileWarningMessage: This file is read-only!
+  ReadOnlyOriginalFileWarningMessage: The original file ${path} is read-only. The file was copied during startup to a writeable directory. Changes need to be applied in the original file manually, so that the changes will survive a restart.
+  UploadFileErrorDetailMessage: '''${file}'' could not be uploaded because of wrong file extension.'
+  UploadFileErrorSummaryMessage: Invalid extension
+  UploadFileSuccessDetailMessage: '''${file}'' uploaded successfully and stored as ${activeFile}.'
+  UploadFileSuccessSummaryMessage: File Uploaded
+  UploadP12: Upload .p12
+email:
+  ConfigureEmailServer: Configure Email Server
+  MailAddress: Mail address
+  SendTestMail: Send Test Mail
+  Server: Server
+emailSettings:
+  DailySummaryOn: Daily summary on
+  Fri: Fri
+  Mon: Mon
+  Never: Never
+  NewTask: New Task
+  NotificationSend: Notification send
+  Sat: Sat
+  Sun: Sun
+  Thu: Thu
+  Tue: Tue
+  Wed: Wed
+error:
+  ShowFullError: Show full error
+exception:
+  AjaxExceptionDialogHeader: Error
+  ViewExpiredExceptionDialogContent: The view or session has expired.
+  ViewExpiredExceptionDialogHeader: View or Session Expired
+exceptionDetail:
+  Element: 'Element:'
+  Process: 'Process:'
+  ProcessCallStack: Process call stack
+  RequestUri: Request Uri
+  Servlet: Servlet
+  StackTrace: Stack-Trace
+  TechnicalCause: Technical cause
+  ThreadLocalValues: Thread local values
+  ThrownBy: Thrown by
+  UnexpectedErrorOccured: 'An unexpected error has occured:'
+fileUpload:
+  AcceptFilesPlaceholder: 'Choose or drop a file which ends with: '
+  ChooseFileButton: Choose file
+  ChooseValidFileBeforeUpload: Choose a valid file before upload
+  FileUploadDialogDefaultTitle: File Upload
+firings:
+  Duration: Duration
+  ExecutionDuration: Execution Duration
+  ExecutionDurationTooltip: min / avg / max
+  Executions: Executions
+  Reason: Reason
+  Timestamp: Timestamp
+freeDays:
+  FreeDateTooltip: Free day at fixed date
+  FreeDayOfYearTooltip: Free day (MM-dd) every year
+  FreeDays: Free days
+  FreeEasterRelativeDayTooltip: Free day relative to easter every year
+health:
+  HealthDetails: Health Details
+  HealthyMessage: No problems detected. Engine is healthy.
+  Problems: Problems
+  ProblemsDetectedMessage: ${number} problems detected.
+  RunHealthChecks: Run Health Checks
+indexes:
+  Cardinality: Cardinality
+  Columns: Columns
+  Indexes: Indexes
+  Pages: Pages
+  Unique: Unique
+indices:
+  ClosedIndexHint: It seems like your machine is out of disk space. Please check your search engine watermark settings.
+  Index: Index
+  Indices: Indices
+  OpenIndexHint: Everything is okay, the index is open.
+  Reindex: Reindex
+  ReindexDialogInfo: This step triggers the reindexation of the search engine and can take a while!
+  Size: Size
+  Status: Status
+  StatusInfo: 'Status:'
+  Store: Store
+info:
+  DemoPortal: Demo Portal
+  DemoPortalIntroduction: The demo portal offers the perfect entry point to explore and experience the powerful features of the Axon Ivy platform as a workflow engine. It allows users to discover how easily complex business processes can be automated, streamlined, and optimized. Whether you're looking
+    to manage tasks, integrate systems, or orchestrate workflows across departments, the platform provides intuitive tools and a flexible environment to meet your business needs.
+  EngineMaintenanceReasonFirstPart: Therefore the Axon Ivy Engine is currently operating in maintenance mode. If your setup is broken for example because the Axon Ivy Engine can not connect to the system database or the licence has been expired, then go
+  EngineMaintenanceReasonSecondPart: to fix it. If the Axon Ivy Engine has undergone an update, it is essential to initiate the
+  EngineMaintenanceReasonThirdPart: to ensure that the existing instance is fully operational. This process is crucial for maintaining the functionality and integrity of the system.
+  InstallYourApplications: Install your application in the Engine Cockpit.
+  MaintenanceMode: Maintenance Mode
+  MigrationWizard: Migration Wizard
+  NEODesigner: NEO Designer
+  NEODesignerIntroduction: NEO Designer is a low-code platform that accelerates application development by using visual tools and pre-built components, enabling seamless collaboration between business users and developers. This platform simplifies the automation of business tasks, streamlining the development
+    process and reducing complexity. Designed to enhance efficiency, NEO Designer supports the rapid deployment of scalable applications, tailored to meet specific business needs effectively.
+  NoActiveProjects: This app has no active projects.
+  NoApplications: No applications
+  Open: Open
+  SetupWizard: Setup Wizard
+  ShutdownEngineConfirmationMessage: Do you really want to shutdown the Axon Ivy Engine?
+  ShutdownEngineMessage: The Axon Ivy Engine is shutting down. You can close the window.
+information:
+  ApplicationHome: Application Home
+  ApplicationInformation: Application information
+  FileDirectory: File Directory
+  WorkflowUI: Workflow UI
+infoTemplate:
+  Documentation: Documentation
+  InstallAxonIvyEngine: Install Axon Ivy Engine
+  MigrateAxonIvyEngine: Migrate Axon Ivy Engine
+  SetupEngine: Setup Engine
+  Shutdown: Shutdown
+  ShutdownAxonIvyEngine: Shutdown Axon Ivy Engine
+java:
+  Java: Java
+  JavaDetails: Java Details
+  Vendor: Vendor
+  Version: Version
+javaInfo:
+  JVMArgumentTableHeader: JVM Argument
+  JavaDetailDialogHeader: Java Detail
+jdbcDriver:
+  JDBCDriver: JDBC Driver
+licence:
+  ChooseLicence: Choose licence
+  ChooseLicencePlaceholder: 'Choose or drop a file which ends with: .lic'
+  ClusterNodes: Cluster nodes
+  ConcurrentSessions: Concurrent sessions
+  ConfigureLicence: Configure Licence
+  EngineRunsInDemoMode: No licence installed. Your engine runs in demo mode.
+  EngineRunsInMaintenanceMode: Your engine runs in maintenance mode.
+  ExpiredLicenceMessage: Your licence has expired.
+  ExpiredLicenceTouchYourSalesMessage: Your licence is about to expire. Please get in touch with your sales.
+  Expires: Expires
+  InvalidLicenceMessage: Invalid licence installed.
+  LicenceEvents: Licence Events
+  LicenceType: Licence type
+  NamedUsers: Named users
+  Never: Never
+  Owner: Owner
+  SuccessfullyUploadedMessage: Successfully uploaded licence
+  Unlimited: Unlimited
+  UploadLicence: Never
+  UploadValidLicence: Please upload a valid licence.
+licenceEvents:
+  ConfirmAll: Confirm all
+  LicenceEventsDialogHeader: Licence Events
+liveStats:
+  Avg: Avg
+  Bytes: Bytes
+  Calls: Calls
+  ChannelDeliveries: Channel Deliveries
+  ChannelLocks: Channel Locks
+  ChannelPushesTime: Channel Pushes Time
+  DatabaseConnections: Database Connections
+  DatabaseQueries: Database Queries
+  DatabaseQueryExecutionTime: Database Query Execution Time
+  Deliveries: Deliveries
+  Executed: Executed
+  ExecutionTimeYAxisLabel: Execution Time
+  JobExecutionTime: Job Execution Time
+  JobsExecuted: Jobs Executed
+  Locks: Locks
+  Max: Max
+  Min: Min
+  Open: Open
+  ProcessingTime: Processing Time
+  Pushes: Pushes
+  Queries: Queries
+  ReceiveProcessingTimeMonitor: Receive Processing Time
+  Received: Received
+  ReceivedMessagesMonitor: Received Messages
+  Requests: Requests
+  RestClientCalls: REST Client Calls
+  RestClientConnections: REST Client Connections
+  RestClientExecutionTime: REST Client Execution Time
+  SendProcessingTimeMonitor: Send Processing Time
+  Sent: Sent
+  SentMessagesMonitor: Sent Messages
+  TotalDeliveres: Total Deliveres
+  TotalErrors: Total Errors
+  TotalPushes: Total Pushes
+  Transactions: Transactions
+  Used: Used
+  WebServiceCalls: Web Service Calls
+  WebServiceExecutionTime: Web Service Execution Time
+login:
+  EngineCockpitLoginTitle: Engine Cockpit - Login
+  IvyYamlFile: ivy.yaml
+  LogInWith: Log in with
+  LoginFooterCopyright: Copyright Ⓒ Axon Ivy
+  LoginFooterEngineCockpit: Engine Cockpit
+  NoAdministratorsConfigured: No administrators configured, check out the documentation.
+  PasswordPlaceholder: Username / Email
+  SignInButton: Sign In
+  UserNamePlaceholder: Password
+logs:
+  DownloadAllLogFiles: Download all log files
+  DownloadLog: Download log
+  NoLogMessage: 'No logs found on date:'
+  OpenLog: Open log
+memberProperties:
+  Property: Property
+  PropertyInExternalSecuritySystem: Property is managed by the external security system
+  RemovePropertyMessage: Successfully removed property
+  SavePropertyErrorMessage: The property '${property}' has already been imported from your Security System
+  SavePropertyMessage: Successfully updated property
+migrate:
+  BackupSystemDatabaseRemindMessage: Before you start the Migration make sure you have a backup of your system database and the whole Axon Ivy Engine installation directory.
+  Checks: Checks
+  Done: Done
+  EngineMigrationErrorMessage: Error during migration. ${exception}
+  EngineMigrationSuccessfulMessage: The Axon Ivy Engine migration was successful. Restart your Axon Ivy Engine now.
+  InPlaceMigration: In-Place Migration
+  InPlaceMigrationIntroduction: This migration is an in place migration. Therefore, the new Axon Ivy Engine will be installed in exactly the same place as the old Axon Ivy Engine. The configuration files in container environments, such as the ivy.yaml, may be provided in a read-only mode. As the migration
+    needs to operate with write access onto these configuration files, you can define whether a temporary directory should be used to perform these changes. After the migration, you must manually add these files to the Axon Ivy Engine.
+  InvalidLicenceWarningMessage: 'Licence is not valid. Please upload a new licence otherwise you can not start the Axon Ivy Engine after migration. Reason: ${message}'
+  Licence: Licence
+  LoadLocation: Load Location
+  Location: Location
+  LocationValidationErrorMessage: Error during validation of the location
+  Log: Log
+  MigrateOldEngine: Migrate old Axon Ivy Engine
+  MigrationTasks: Migration Tasks
+  OldEngineLocation: Location of old Engine
+  ReadingLicenceErrorMessage: 'Error during reading licence: '
+  Running: Running
+  StartMigration: Start Migration
+  Summary: Summary
+  TemporaryDirectory: 'Temporary Directory: '
+  Upload: Upload
+  ValidLicenceFoundMessage: Valid licence found.
+  WriteConfigurationFilesToTemporaryDirectory: Write configuration files to temporary directory
+monitor:
+  Active: Active
+  CPULoad: CPU Load
+  Caches: Caches
+  Classes: Classes
+  Committed: Committed
+  Cores: Cores
+  Daemons: Daemons
+  GCCount: ${label} ${formatT} Count ${formatD}
+  GarbageCollection: Garbage Collection
+  HeapMemory: Heap Memory
+  IO: IO
+  Init: Init
+  JVMMaxMemory: Jvm max memory
+  JVMMemoryUsage: Jvm memory usage
+  JavaFlightRecorder: Java Flight Recorder
+  Load: Load
+  Loaded: Loaded
+  Max: Max
+  Memory: Memory
+  MemoryUsage: Memory usage
+  Network: Network
+  NonHeapMemory: Non Heap Memory
+  Of: of
+  Peak: Peak
+  Process: Process
+  Read: Read
+  ReadWrite: Read / Write
+  Receiving: Receiving
+  SendRecv: Send / Recv
+  Sending: Sending
+  System: System
+  Threads: Threads
+  Time: Time
+  TotalLoaded: Total Loaded
+  TotalStarted: Total Started
+  Unloaded: Unloaded
+  Used: Used
+  Write: Write
+  cache:
+    CacheMaxTooltip: 'Max: Maximum number of bytes or characters that are cached.'
+    CacheTTITooltip: 'TTI: Time to idle. The maximum time an object will stay in the cache after it was last read.'
+    CacheTTLTooltip: 'TTL: Time to live. The maximum time an object will stay in the cache after it was first read.'
+    CountTooltip: The number of objects that are currently cached in memory
+    LimitTooltip: The number of objects in the cache (see count) is periodically reduced to this value
+    MoreCacheLimitsTooltip: 'More cache limits:'
+    NameTooltip: The name of the cache
+    ReadHits: Read Hits
+    ReadHitsTooltip: How many times an object was successfully read from the cache instead of the system database
+    ReadMisses: Read Misses
+    ReadMissesTooltip: How many times an object was not found in the cache and instead had to be read from the system database
+    WriteTooltip: How many times an object was invalidated from the cache because it was written to the system database
+    Writes: Writes
+  classHistogram:
+    BytesTooltip: Total number of bytes allocated on the Java heap for instances of this class
+    Clear: Clear Class Histogram
+    DeltaMax: Max
+    DeltaMaxDetailTooltip: 'Max:'
+    DeltaMaxTooltip: Delta between the current and maximum instances allocated on the Java heap since the last clear
+    DeltaMin: Min
+    DeltaMinDetailTooltip: 'Min:'
+    DeltaTooltip: Delta between the current and minimum instances allocated on the Java heap since the last clear
+    Dump: Dump Heap Memory
+    DumpHeapMemory: Dump Heap Memory
+    DumpMemoryMessage1: This will dump the whole heap memory to a file.
+    DumpMemoryMessage2: The resulting file can be huge (depending on the current heap size).
+    DumpMemoryMessage3: The engine may not be response for a few seconds.
+    EmptyHistogramMessage: Press refresh to load class histogram. Note that this triggers a full garbage collection and can influence the performance of the engine
+    InstancesTooltip: Total number of instances/objects allocated on the Java heap for this class
+    MemoryDump: ${appName} Memory Dump
+    Refresh: Refresh Class Histogram
+  execution:
+    ClearStatistic: Clear statistic
+    ExecutionHelpText: Start the recording of the performance statistics can have a negative impact on the performance of the engine.
+    ExecutionOrder: Order of first execution
+    ExtAvg: Ext Avg
+    ExtAvgTooltip: Average of external execution time [ms]
+    ExtExecutions: Ext Executions
+    ExtExecutionsTooltip: Number of external executions
+    ExtMax: Ext Max
+    ExtMaxTooltip: Maximum of external execution time [ms]
+    ExtMin: Ext Min
+    ExtMinTooltip: Minimum of external execution time [ms]
+    ExtTotal: Ext Total
+    ExtTotalTooltip: Total of external execution time [ms]
+    IntAvg: Int Avg
+    IntAvgTooltip: Average of engine internal execution time [ms]
+    IntExecutionTooltip: Number of engine internal executions
+    IntExecutions: Int Executions
+    IntMax: Int Max
+    IntMaxTooltip: Maximum of engine internal execution time [ms]
+    IntMin: Int Min
+    IntMinTooltip: Minimum of engine internal execution time [ms]
+    IntTotal: Int Total
+    IntTotalTooltip: Total of engine internal execution time [ms]
+    LoggingActive: Logging Active!
+    LoggingActiveDetails: The process element performance statistic logger is active. The statistic is automatically cleaned by the logger every ${loggingInterval}!
+    OneSecond: 1 second
+    PerformanceStatisticFileName: PerformanceStatistic
+    PerformanceTooltip: Performance Statistic Configuration
+    ProcessElementId: Process Element Id (PID)
+    ProcessElementName: Process Element Name
+    ProcessElementType: Process Element Type
+    Seconds: seconds
+    TotalTooltip: Total execution time [ms] (internal + external)
+  health:
+    AdditionalInformationConfiguration: Additional information or configuration
+    DisableCheck: Disable the check
+    EnableCheck: Enable the check
+    HealthChecks: Health Checks
+    RefreshHealth: Refresh Health
+    RefreshHealthChecks: Refresh Health Checks
+    RunCheckNow: Run check now
+    RunHealthChecks: Run Health Checks
+  jfr:
+    AddConfiguration: Add configuration
+    NoRecordingsFound: No recordings found
+    Option:
+      disk:
+        Description: |-
+          Stores recorded data as it is recorded.
+
+          String representation of a Boolean value, "true" or "false"
+
+          Examples:
+          "true"
+          "false"
+        Name: Disk
+      dumpOnExit:
+        Description: |-
+          Dumps recording data to disk on Java Virtual Machine (JVM) exit.
+
+          String representation of a Boolean value, "true" or "false"
+
+          Examples:
+          "true"
+          "false"
+        Name: Dump on exit
+      duration:
+        Description: |-
+          Sets how long the recording should be running.
+
+          "0" if no limit should be imposed, otherwise a string representation of a positive Long
+          followed by an empty space and one of the following units:
+
+          "ns" (nanoseconds)
+          "us" (microseconds)
+          "ms" (milliseconds)
+          "s" (seconds)
+          "m" (minutes)
+          "h" (hours)
+          "d" (days)
+
+          Examples:
+          "60 s",
+          "10 m",
+          "4 h",
+          "0"
+        Name: Duration
+      maxAge:
+        Description: |-
+          Specify the length of time that the data is kept in the disk repository until the oldest
+          data may be deleted. Only works if disk=true, otherwise this parameter is ignored.
+
+          "0" if no limit is imposed, otherwise a string representation of a positive Long value
+          followed by an empty space and one of the following units,
+
+          "ns" (nanoseconds)
+          "us" (microseconds)
+          "ms" (milliseconds)
+          "s" (seconds)
+          "m" (minutes)
+          "h" (hours)
+          "d" (days)
+
+          Examples:
+          "2 h"
+          "24 h"
+          "2 d"
+          "0"
+        Name: Max age
+      maxSize:
+        Description: |-
+          Specifies the size, measured in bytes, at which data is kept in disk repository.
+          Only works if disk=true, otherwise this parameter is ignored.
+
+          String representation of a Long value, must be positive
+
+          Examples:
+          "0"
+          "100000000"
+        Name: Max size
+    RecordingMessage1: Start of a Fligh recording can have a negative impact on the performance of the engine.
+    RecordingMessage2: There is already at least one recording running. Sure you want to start another one?
+    RecordingMessage3: There is already at least one recording available. Consider deleting it before starting another one.
+    StartRecording: Start recording
+  job:
+    DurationTooltip: min / avg / max
+    Errors: Errors
+    ExecutionDuration: Execution Duration
+    Executions: Executions
+    JobDetail: Job Detail
+    JobTitle: Job
+    LastError: Last Error
+    LastSuccessfulExecution: Last successful execution
+    LastTimeTheJobFailed: Last time the job failed
+    NextExecution: Next Execution
+    RefreshJobs: Refresh jobs
+    ScheduleExecuteJob: Schedule to execute the job now
+    ScheduleJob: Schedule Job
+    ScheduleJobTooltip: Scheduling a job for immediate execution can have negative side effects like disturbing users with unnecessary daily task mails, or degraded performance.
+  mbean:
+    AddTraceToChart: Add trace to chart
+    EmptyMBeanMessage: Select a bean to see its attributes
+    LastValue: Last Value
+    RemoveTrace: Remove trace
+    Traces: Traces
+  session:
+    Auth: Auth
+    Cause: Cause
+    ContextPath: Context Path
+    Creation: Creation
+    HTTPSessions: Http Sessions
+    Id: Id
+    InvalidSessionMessage: Creation invalid / Last Accessed invalid
+    KillSession: Kill session
+    LastAccessed: Last accessed
+    LicensedSessions: Licensed Sessions
+    LicensedUsers: Licensed Users
+    RefreshStatistic: Refresh statistic
+    ShowTemporarySessions: Show temporary sessions
+    ShowUnauthenticatedSessions: Show unauthenticated sessions
+    Temp: Temp
+    TempTooltip: A temporary session is only created for technical reasons and shoud have a very short lifetime (approx. 1s). Temporary sessions do not count for licensed concurrent sessions.
+  startEvent:
+    NextPoll: Next poll
+    Poll: Poll
+    PollBeanTitle: Poll Bean
+    RefreshStartEvents: Refresh Start Events
+    RequestPath: Request Path
+    SchedulePollTooltip: Scheduling to poll a bean can have negative side effects.
+    ScheduleToPollTheBeanNow: Schedule to poll the bean now
+    StartsTheBean: Starts the bean
+    StopsTheBean: Stops the bean
+  thread:
+    Blocked: Blocked
+    CPUTime: CPU Time
+    CPUTimeTooltip: Total CPU Time [ns]
+    Daemon: Daemon
+    DeadLockedMessage: This thread is deadlocked! It is waiting to lock ${lock} which is owned by thread ${lockOwner}.
+    Deadlocked: Deadlocked
+    LockOwner: Lock Owner
+    LockTooltip: Waiting on or for Lock
+    LockedMonitors: Locked Monitors
+    LockedSynchronizers: Locked Synchronizers
+    Native: In Native Code
+    SaveThreadDump: Save Thread Dump
+    StackTrace: Stack Trace
+    ThreadDetail: Thread Detail
+    ThreadNewMessage: Thread is new and not yet started.
+    ThreadRunnableMessage: Thread is runnable.
+    ThreadTerminatedMessage: Thread is terminated.
+    ThreadTitle: Thread
+    ThreadWaitOnLockMessage: Thread is waiting on lock ${lock}.
+    ThreadWaitOnLockWithTimeoutMessage: Thread is waiting with a timeout on lock ${lock}.
+    UserTime: User Time
+    UserTimeTooltip: User CPU Time [ns]
+    Waited: Waited
+  traces:
+    ExecutionTime: Execution Time
+    ExecutionTimeTooltip: Execution time [ms]
+    ExportTraces: Export traces
+    StartTracesHelpText: Start the recording of the slow requests can have a negative impact on the performance of the engine.
+    Traces: Traces
+monitorTraceDetail:
+  AttributesTableEmptyMesssage: Select a span to see its attributes
+  ExecutionTimeMsTitle: Execution time [ms]
+  ExportSpan: Export span
+  Monitor: Monitor
+  Performance: Performance
+  RequestNoLongerAvailableMesssage: Request no longer available
+  RequestWasRemoveWarningMesssage: The request was remove from the slowest requests because other requests were even slower!
+  SlowRequestDetail: Slow Request Detail
+  SlowRequests: Slow Requests
+moveApplication:
+  ChangeSecuritySystemDialogContent: 'To change the security system of an application, the target security system must have the same roles and users so that all runtime data like tasks, cases, business data and more can be re-assigned. Therefore, you first need to validate if the target security system
+    is ready. If this is not the case, you can check and prepare the target security system:'
+  ChangeSecuritySystemDialogHeader: Change security system
+  ChangeSecuritySystemWarningMessage: This is a heavy operation that moves a lot of data. We highly recommend to making a backup of your system database first.
+  MergeSecuritySystem: Merge Security System
+  Move: Move
+  NoTargetSecuritysystemSelectedMessage: No target security system selected
+  SourceSecuritySystem: Source Security System
+  TargetSecuritySystem: Target Security System
+  ValidSecuritysystemSelectedMessage: Application can be moved to target security system
+  Validate: Validate
+newApplication:
+  AddNewApplicationDialogHeader: Add new application
+newRole:
+  NewChildRoleDialogHeader: Add new child role for ${role}
+newSecuritySystem:
+  AddNewSecuritySystemDialogHeader: Add new security system
+newUser:
+  AddUserDialogHeader: Add new user
+  ConfirmPassword: Confirm Password
+  EMailAddress: E-Mail Address
+  Password: Password
+notification:
+  Payload: Payload
+  ShowPayload: Show payload
+notificationChannelDetail:
+  NotFoundChannel: Channel '${channelId}' not found
+  NotFoundSecurityContext: Could not find security context ${system}
+  ResetChanges: Reset changes
+  SuccessfullySavedMessage: Successfully saved
+  UnlockChannel: Unlock channel (clear error state)
+notificationDeliveries:
+  Channel: Channel
+  Deleted: DELETED
+  Delivered: Delivered
+  ErrorInformation: Error Information
+  Errors: Errors
+  FailedDeliverAttemps: 'Failed deliver attemps so far:'
+  Hidden: Hidden
+  LastError: 'Last Error:'
+  NextRetryToDeliver: 'Next retry to deliver:'
+  Notification: Notification
+  Notifications: Notifications
+  Read: Read
+  Receiver: Receiver
+  ReevaluteDeliveries: Reevalute deliveries
+  RetryToDeliver: Retry to deliver
+permissions:
+  AllPermissions: All Permissions
+  Grant: Grant
+  PermissionDenied: Permission denied
+  PermissionGranted: Permission granted
+  Permissions: Permissions
+  SomePermissionDenied: Some Permission denied
+  SomePermissionGranted: Some Permission granted
+poll:
+  LastPollError: Last Poll Error
+  NextPoll: Next Poll
+  Poll: Poll
+  PollBean: Poll Bean
+  PollBeanWarningMessage: Scheduling to poll a bean can have negative side effects.
+  PollConfiguration: Poll Configuration
+  PollDuration: Poll Duration
+  PollDurationTooltip: min / avg / max
+  PollErrors: Poll Errors
+  Polls: Polls
+  ScheduleToPollBean: Schedule to poll the bean now
+  StopsBean: Stops the bean
+progressLoader:
+  Loading: Loading...
+renameRole:
+  RenameRoleDialogHeader: Rename Role
+  RenameRoleDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes
+    will fail in the future.
+restart:
+  Restart: Restart
+  RestartConfirmMessage: Are you sure you want to restart the ${application}?
+  RestartFirstWarningMessageFirstPart: All
+  RestartFirstWarningMessageSecondPart: users (currently ${workingUsers})
+  RestartFirstWarningMessageThirdPart: working with ${application} will lose their current work.
+  RestartSecondWarningMessage: Users will not be able to connect to ${application} for a short time.
+  RestartThirdWarningMessage: Restarting may fail and then you need access to the operating system to start it again.
+  RestartWarningMessage: Restarting ${application} is a dangerous operation.
+restClientConfiguration:
+  ResetConfiguration: Reset configuration
+  ResetRestClientDialogHeader: Reset Rest Client
+  ResetRestClientDialogMessage: Are you sure you want to reset this Rest Client?
+  RestClientConfigurations: Rest Client configurations
+  RestConfigurationResetMessage: Rest configuration reset
+  RestConfigurationSavedMessage: Rest configuration saved
+  TestRestConnection: Test Rest Connection
+  UUID: UUID
+restClientDetail:
+  GuideText: To edit your Rest Client overwrite your app.yaml file. For example copy and paste the snippet below.
+  NotFoundRestClient: Rest client '${restClient}' not found
+  Title: Rest Client '${restClient}'
+restClients:
+  NoRestClientsFound: No rest clients found on deployed apps
+restHistory:
+  ProcessElement: Process Element
+  RequestUrl: Request Url
+restServices:
+  BrowseRestAPIButtonTitle: Browse available REST Backend Services
+  ConfigureRestBackendButtonTitle: Configure Rest Backend
+  RESTServices: REST Services
+roleDetail:
+  DirectOpenTasks: Direct open tasks
+  InheritUsers: Inherit users
+  RunningTasks: Running Tasks
+roleDetailInformation:
+  AddNewChildRole: Add new child role
+  DeleteRole: Delete this role
+  DeleteRoleDialogConfirmMessage: Are you sure you want to delete the role '${role}'?
+  DeleteRoleDialogHeader: Delete Role
+  DeleteRoleDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes
+    will fail in the future.
+  DisplayName: Display Name
+  ExternalName: External Name
+  ParentRole: Parent Role
+  RenameRole: Rename Role
+  RoleInformation: Role information
+  RoleInformationChangesSavedMessage: Role information changes saved
+  UpdateRoleParentButtonTitle: Update Role Parent
+roleDetailMembers:
+  Filter: 'Filter:'
+  RoleMembers: Role members
+  RoleMembersOfRole: Role Members Of Role
+  SearchRoleToAddPlaceholder: Search role to add
+  SearchRolesPlaceholder: Search
+roleDetailUsers:
+  Filter: 'Filter:'
+  InheritedUser: This user is inherited by a sub role or a role member
+  SearchUserToAddPlaceholder: Search user to add
+  SearchUsersPlaceholder: Search
+  UsersOfRole: Users Of Role
+roles:
+  ExternalRoleNameMessage: '[External: ''${role}'']'
+  Member: Member
+  Role: Role
+  SearchDummyPerformanceReason: For performance reasons only the first 100 roles are loaded. Use the search to find a specific role.
+  Synchronize: Synchronize
+searchEngine:
+  SearchEngineHealthGreenHint: Everything is ok
+  SearchEngineHealthRedHint: There is a problem which needs your attention. Some data may be unavailable or functions are not working correctly.
+  SearchEngineHealthUnknownHint: Health state unknown
+  SearchEngineHealthYellowHint: Everything is ok, if you run on a single node cluster, like the internal ivy ES, this is normal. On an external multi node cluster this can indicate some upcoming issues. Please check the ES logs.
+  SearchEngineServerProblem: Search Engine server problem
+  SearchEngineServerProblemMessage: 'Could not connect to Search Engine server:'
+searchEngineInformation:
+  ConfigureSearchEngineButtonTitle: Configure Search Engine
+  DiskThresholdEnabled: Disk threshold enabled
+  DiskThresholdEnabledInfo: This defines if the settings underneath have an effect or not
+  FloodStage: Flood stage
+  FloodStageInfo: Search Engine will put indices in read-only mode if available disk space is less than this value. This setting is a last resort to prevent nodes from running out of disk space. The index block is automatically released when the disk utilization falls below the high watermark.
+  FloodStageWarning: If your available disk space is below the flood stage, the search engine will stop indexing new documents and put current indices in read-only mode
+  NotSupportESVersionMessage: This elastic search version is not supported
+  WatermarkHigh: Watermark high
+  WatermarkHighInfo: Search Engine will attempt to relocate shards away from a node whose available disk space is less than this value. This setting affects the allocation of all shards, whether previously allocated or not.
+  WatermarkLow: Watermark low
+  WatermarkLowInfo: Search Engine will not allocate shards to nodes that have less diskpace available than this value. This setting has no effect on the primary shards of newly-created indices but will prevent their replicas from being allocated.
+searchEngineTool:
+  Get: 'GET:'
+  RunSearchEngineQueryDialogHeader: Run Search Engine Query
+searchIndex:
+  DocumentDialogHeader: 'Document:'
+  JSON: JSON
+  ShowDocument: Show document
+security:
+  ChangeSecuritySystem: Change Security System
+securityDetail:
+  ProcessModels: Process Models
+securityReportDownloadDialog:
+  DownloadSecurityReportInfo: The following download contains a security report in form of a excel. In the excel are detailed information about users, roles, user roles, role members, user permissions and role permissions. The download may take a few minutes depending on the amount of users.
+  Generate: Generate
+  SecurityReportGeneratedMessage: Security Report Generated
+securitySystemInfo:
+  CreateSecurityReport: Create Security Report
+  DeleteSecuritySystemButtonTitle: Delete this security system
+  DeleteSecuritySystemConfirmMessage: Are you sure you want to delete the security system '${name}'?
+  DeleteSecuritySystemDialogHeader: Delete Security System
+  DeleteSecuritySystemWarningMessage: Note that all users and roles of this security system will be deleted as well.
+  DownloadSecurityReport: Download Security Report
+  MergeSecuritySystems: Merge Security Systems
+  UsedByApplications: Used by applications
+  UsedByApplicationsTooltip: Every application, which using this security system.
+securitySystemLanguage:
+  FormattingLanguage: Formatting language
+  Languages: Languages
+  SecuritySystemLanguagesSavedMessage: Security System Languages saved
+securitySystemMerge:
+  ApplyChangeDialogHeader: Apply change
+  ApplyChangeDialogMessage: Do you really want to ${solverType} this entry?
+  CompareButton: Compare
+  CompareButtonTitle: This will only compare the source with the target security system. This will NOT make any changes.
+  ComparisonReport: Comparison Report
+  ComparisonReportInfo: To move an application from source to target security system the same users and roles must exist in the target security system as in the source system. By executing all CREATE operations, all missing users and roles will be created in the target security system. There is no need
+    to execute the UPDATE operations or DELETE operations, but you may want to cleanup the target security system with these operations. It could be that the role already exists, but this one is not actually the same role. If this is the case, the role must be manually renamed in the target security system
+    as well as the role in the Axon Ivy Project. Then the Axon Ivy Project must be redeployed.
+  CreateSolveHintMessage: This will create the entry in the target security system ${securitySystem}
+  DeleteSolveHintMessage: This will delete the entry in the target security system ${securitySystem}
+  ExceutionFailed: Exceution failed
+  ExecuteAllCreateOperationsButton: Execute all CREATE operations
+  ExecuteAllCreateOperationsButtonTitle: This will run all CREATE operations in the target security system
+  ExecuteAllCreateOperationsConfirmDialogContent: This will create all missing entries in the target security system
+  ExecuteAllCreateOperationsConfirmDialogHeader: Execute all CREATE operations
+  ExecuteAllDeleteOperationsButton: Execute all DELETE operations
+  ExecuteAllDeleteOperationsButtonTitle: This will run all DELETE operations in the target security system
+  ExecuteAllDeleteOperationsConfirmDialogContent: This will delete all entries in the target security system which are missing in the source security system
+  ExecuteAllDeleteOperationsConfirmDialogHeader: Execute all DELETE operations
+  ExecuteAllUpdateOperationsButton: Execute all UPDATE operations
+  ExecuteAllUpdateOperationsButtonTitle: This will run all UPDATE operations in the target security system
+  ExecuteAllUpdateOperationsConfirmDialogContent: This will update all entries in the target security system which are different from the source security system
+  ExecuteAllUpdateOperationsConfirmDialogHeader: Execute all UPDATE operations
+  IssueTargetHeader: Target
+  IssueWhatHeader: What
+  MergeSecuritySystems: Merge Security Systems
+  Security: Security
+  SourceSecuritySystem: Source Security System
+  TargetSecuritySystem: Target Security System
+  UpdateSolveHintMessage: This will update the entry in the target security system ${securitySystem}
+securitySystemProvider:
+  IdentityProvider: Identity Provider
+  ImportUsersOnSchedule: Import users on schedule
+  ProviderChangeWarningMessage: If you change the identity provider, you will lose ALL current settings of this security system!
+  SynchronizationScheduleTime: Synchronization schedule time
+  SynchronizeUsersOnLogin: Synchronize users on login
+  SynchronizeUsersOnSchedule: Synchronize users on schedule
+  UseCronExpressionConfiguration: Use cron expression configuration
+securitySystemWorkflowLanguage:
+  AddNewLanguage: Add a new language
+  AddWorkflowLanguageDialogHeader: Add Workflow Language
+  AddWorkflowLanguageSystemDatabaseSpaceWarningMessage: This operation will takes some time and the space of your system database will grow.
+  AddWorkflowLanguageWarningMessage: If you add a new workflow language the name and description of all existing tasks (${tasks}) and cases (${cases}) of the default language (${language}) are copied to the new language.
+  DeleteLanguage: Delete this language
+  DeleteWorkflowLanguageDialogHeader: Delete Workflow Language
+  DeleteWorkflowLanguageWarningMessage: If you delete a workflow language the name and description of all existing tasks (${tasks}) and cases (${cases}) of the language will be deleted! This operation will takes some time.
+  MakeDefaultLanguage: Make this the default language
+  WorkflowLanguages: Workflow Languages
+sendtestmail:
+  Email: Email
+  Log: Log
+  Message: Message
+  SendTestMailDialogHeader: Send Test Mail
+  Subject: Subject
+  TestMailMessageDefault: This is a test mail.
+  TestMailSubjectDefault: Test Mail
+  To: To
+setup:
+  Administrators: Administrators
+  ConfigurationIncompleteDetail: 'You have warnings in:'
+  ConfigurationIncompleteSummary: Configuration incomplete
+  EngineRestartDetail: Your engine needs to be restarted to finish the setup process!
+  EngineRestartSummary: Engine restart
+  FinishSetupWizard: Finish Setup Wizard
+  Licence: Licence
+  Storage: Storage
+  SystemDatabase: System Database
+  WebServer: Web Server
+setupAdmins:
+  AddAdministratorButton: Add Administrator
+  AddAdministratorButtonTitle: Edit
+  StepWarningMessage: Please configure at least one admin!
+setupStorage:
+  AppDirectory: App Directory
+  DataDirectory: Data Directory
+  DirectoryChangesMessage: Directory changes saved successfully
+  StepWarningMessage: AppDirectory shouldn't be empty
+sidebar:
+  Cache: Cache
+  ClassHistogram: Class Histogram
+  Dashboard: Dashboard
+  Databases: Databases
+  Documents: Documents
+  Engine: Engine
+  FlightRecorder: Flight Recorder
+  Health: Health
+  IntermediateEvents: Intermediate Events
+  JVM: JVM
+  Java: Java
+  Jobs: Jobs
+  Licence: Licence
+  LiveStats: Live Stats
+  LiveStatsFoundFrom: Live stats found from
+  Logs: Logs
+  MBeans: MBeans
+  Memory: Memory
+  Monitor: Monitor
+  Notifications: Notifications
+  OS: OS
+  Performance: Performance
+  ProcessExecution: Process Execution
+  Roles: Roles
+  Sessions: Sessions
+  SlowRequests: Slow Requests
+  StartEvents: Start Events
+  Threads: Threads
+  TrafficGraph: Traffic Graph
+  Workflow: Workflow
+soapHistory:
+  Endpoint: Endpoint
+  Operation: Operation
+sslConfig:
+  KeyStoreCertificates: Key Store Certificates
+  TrustStoreCertificates: Trust Store Certificates
+sslKeyStore:
+  DeletedCertificateMessage: Certificate '${certificate}' deleted
+  KeyPassword: KeyPassword
+  KeyStoreConfigurations: Key Store configurations
+  KeyStoreConfigurationsSavedMessage: Key Store configurations saved
+  StorePassword: StorePassword
+  UseCustomKeyStore: Use custom key store
+sslTable:
+  AddCertificate: Add Certificate
+  Alias: Alias
+  DeleteCertificateConfirmHeader: Delete ${certificate}
+  DeleteCertificateConfirmMessage: Are you sure you want to delete the Certificate '${certificate}'?
+  ExpiryDate: Expiry date
+  Subject: Subject
+  ValidCertificate: Valid
+sslTrustStore:
+  DeleteCertificateMessage: Certificate '${certificate}' deleted
+  EnableInsecureSSLAndHTTPSConnections: Enable insecure SSL and HTTPS connections
+  TrustStoreConfigurations: Trust Store configurations
+  TrustStoreConfigurationsSavedMessage: Trust Store configurations saved
+state:
+  ConfiguredState: Configured state
+supportReport:
+  AxonIvyEngineSupportReportContent: Axon Ivy Engine Support Report
+  DownloadSupportReport: Download Support Report
+  OpenSupportTicketContent: If you spot a problem while using the Axon Ivy Engine please open a support ticket, download this zip archive and attach it to the ticket.
+  SupportReportDialogHeader: Support Report
+  TodayLogFilesContent: Today's log files
+  ZipArchiveContainsContent: 'This zip archive contains:'
+systemConfig:
+  ReloadSystemConfiguration: Reload system configuration
+  ReloadSystemConfigurationMessage: System configuration reloaded
+  ShowSecuritySystems: Show Security Systems
+systemDatabase:
+  ConfigureSystemDb: Configure SystemDb
+  Driver: Driver
+  HSQLMemoryDbIsUsedMessage: HSQL Memory Db is used
+  NoLicenceInstalledSummary: No licence installed
+  NoSystemDatabaseConfiguredSummary: Driver
+  SystemDatabase: System Database
+  URL: URL
+systemDb:
+  AddAdditionalPropertyDialogHeader: Additional property
+  AddProperty: Add Property
+  AdditionalProperties: Additional Properties
+  CheckConnection: Check Connection
+  Connect: Connect
+  ConnectionInfoAdvise: Please check the connection to the Database.
+  ConnectionInfoLabel: Connection state unknown
+  CreateDatabase: Create Database
+  CreateDatabaseDialogDetail: Enter the required parameters for your System Database configuration
+  CreateDatabaseDialogHeader: Create System Database
+  CreateDatabaseSucessfulMessage: The database was created successfully. Please check the connection!
+  Database: Database
+  DatabaseNotPersistentDetail: Please configure a persistent database to use this engine in a productive environment.
+  DatabaseNotPersistentSummary: Database not persistent
+  DeleteButtonTitle: Delete
+  Error: 'Error: '
+  NoConnection: No Connection
+  SaveUnknownConnectionWarningMessage: Do really you want to save this configuration?
+  SystemDatabaseConfigSavedSuccessfulMessage: System Database config saved successfully
+systemDbInfo:
+  LoadDataDetailMessage: This may take several minutes
+  LoadDataSummaryMessage: Gathering System Database information
+tables:
+  RowCount: Row count
+template:
+  ClusterMode: Cluster Mode!
+  ClusterModeWarning: Configuration changes may only be applied on local node!
+  Logout: Logout
+  ServerIndex: Server Index
+  ShowHealthDetails: Show health details ...
+  SupportReport: Support Report
+tlsTester:
+  Tests: Tests
+tlsTesterMissingCertView:
+  AddCertificateToTruststoreSuccessMesage: The certificate was successfully added.
+  AddToTruststore: Add To Truststore
+  AddX509CertificateToTruststoreSuccessMesage: ${certificate} was successfully added
+  MissingCert: 'Missing Cert:'
+  PublicKey: 'PublicKey:'
+  Subject: 'Subject:'
+  ValidFrom: 'valid from:'
+  ValidUntil: 'valid until:'
+topBarItem:
+  Help: Help
+triggers:
+  Timing: Timing
+  Triggers: Triggers
+updateRoleParent:
+  UpdateRoleParentDialogHeader: Update Role Parent
+  UpdateRoleParentDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. The role hierarchy is defined in your Axon Ivy Project and your running process may depend on this hierachy.
+userDetail:
+  CanWorkOnTasks: Can work on tasks
+  PersonalTasks: Personal tasks
+  StartedCases: Started cases
+  WorkingOnTasks: Working on tasks
+userDetailAbsences:
+  Absences: Absences
+  End: End
+  Start: Start
+  UserIsCurrentlyAbsent: User is currently absent
+  UserIsCurrentlyNotAbsent: User is currently not absent
+  Working: Working
+userDetailInformation:
+  AddRoleFailedMessage: User already member of this role
+  ConfirmPassword: Confirm Password
+  DeleteUser: Delete this user
+  DeleteUserDialogHeader: Delete User
+  DisableUser: Disable this user
+  DisabledUserWarningMessage: This user is disabled
+  EMailAddress: E-Mail Address
+  EnableUser: Enable this user
+  ExternalID: External ID
+  ExternalName: External Name
+  FormattingLanguage: Formatting language
+  NotFoundSecuritySystemMessage: Security System '${securitySystem}' not found
+  NotFoundUserMessage: User '${user}' not found
+  Password: Password
+  Synch: Synch
+  UserDeleteHintMessage: You may want to disable this user instead of deleting it, you could lose part of the workflow history.
+  UserDeleteHintMessageWithPersonalTasks: The user '${user}' has ${tasks} personal tasks. If you delete this user, no other user can work on these tasks. You may want to disable this user instead of deleting it, you could lose part of the workflow history.
+  UserInExternalSecuritySystemMessage: This user is managed by the external security system
+  UserInformation: User information
+  UserInformationChangesSavedMessage: User information changes saved
+userDetailNotifications:
+  ByDefault: by default
+  Event: Event
+  NotSubscribed: Not subscribed
+  NotificationChannels: Notification Channels
+  NotificationChannelsChangesSavedMessage: Notification Channels changes saved
+  NotificationChannelsResetMessage: Notification Channels reset
+  ResetToDefault: Reset to default
+  Subscribed: Subscribed
+userDetailRoles:
+  AllRoles: All Roles
+  Inherited: Inherited
+  RoleInExternalSecuritySystemMessage: Role is managed by the external security system
+  RoleSearchPerformanceReasonsMessage: For performance reasons only the first 20 roles are loaded. Use the search to find a specific role.
+userDetailSubstitutes:
+  For: For
+  OnAbsence: On absence
+  Permanent: Permanent
+  Personal: Personal
+  Substitutes: Substitutes
+  Type: Type
+users:
+  AddUser: Add User
+  SynchSingleUser: Synch Single User
+usersTable:
+  Disabled: '[disabled]'
+  DisabledUsersFilter: disabled users
+  Email: Email
+  EnabledUsersFilter: enabled users
+  External: '[external]'
+  Filter: 'Filter:'
+  LastLogin: Last Login
+  LoggedIn: Logged in
+  ManualDisabledUsersFilter: manual disabled users
+  ManualUsersFilter: manual users
+  ShowDisabledUsers: Show disabled users
+  ShowManualUsers: Show manual users
+  SynchSingleUser: Synch Single User
+  Working: Working
+userSynch:
+  Synch: Synch
+  SynchronizeSingleUserDialogHeader: Synchronize Single User
+  UserName: User Name
+  UserNameRequiredMessage: User Name is required
+variables:
+  VariableConfigurationDialogTitle: variable
+webServer:
+  BaseUrl: Base Url
+  BaseUrlHelpMessage: Base Url used by the engine to build absolute URI's without a request (email links, ...)
+  BaseUrlProblemDetectedDetailMessage: '''Base Url'' seems to be different form your current browser base Url. You may need to configure your ''Base Url'' correctly'
+  BaseUrlProblemDetectedSummaryMessage: Problem detected
+  BaseUrlSavedMessage: Base Url saved
+  BaseUrlSettings: Base Url Settings
+  ChangedConfigSuccessfulMessage: ${key} changed successfully
+  CheckDocumentLink: 'Check our documentation for more details:'
+  Documentation: documentation
+  Enabled: 'Enabled:'
+  EvaluatedUrl: Evaluated URL
+  EvaluatedUrlHelpMessage: Example how an external link is calculated
+  ExternalBaseUrl: External Base URL
+  ExternalBaseUrlHelpMessage: Base-URL used by the engine to build absolute URI's (start links, email links, ...)
+  ExternalBaseUrlProblemDetectedDetailMessage: '''External Base Url'' seems to be different form your current browser base Url'
+  ExternalBaseUrlProblemDetectedSummaryMessage: Problem detected
+  HTTPConnector: HTTP Connector
+  HTTPSConnectorctor: HTTPS Connector
+  MissingSecurityHeadersDetailMessage: 'Security Headers are not recognized in the response, but maybe they are added via a reverse proxy (You can check that via the Browser DevTools): ${missingSecurityHeaders}.'
+  MissingSecurityHeadersSummaryMessage: Missing Security Headers?
+  Port: 'Port:'
+  RemoteAddress: Remote Address
+  RemoteAddressHelpMessage: The address form where the request comes from (should be your IP)
+  RequestData: Request Data
+  RequestHeader: Request Header
+  ResponseHeader: Response Header
+  ResponseHeaders: Response Headers
+  ShowRequestHeaders: Show Request Headers
+  ShowResponseHeaders: Show Response Headers
+  StepWarningMessage: Enable at least the HTTP or HTTPS Connector
+  WebServerConnectors: Web Server Connectors
+webServiceConfiguration:
+  ResetConfiguration: Reset configuration
+  ResetWSConfirmDialogHeader: Reset Web Service
+  ResetWSConfirmDialogMessage: Are you sure you want to reset this Web Service?
+  WebServiceConfigurationResetMessage: Web Service configuration reset
+  WebServiceConfigurationSavedMessage: Web Service configuration saved
+  WebServiceConfigurations: Web Service configurations
+  WsdlUrl: Wsdl Url
+webServiceDetail:
+  GuideText: To edit your Web Service overwrite your app.yaml file. For example copy and paste the snippet below.
+  NotFoundWebService: Web service '${webserviceId}' not found
+  Title: Web Service '${webservice}'
+  WebService: Web Service
+webServiceEndpoints:
+  EditEndpointsConfigurationDialogHeader: Edit endpoint
+  EndPointSavedMessage: EndPoint saved
+  Endpoints: Endpoints
+  Fallbacks: Fallbacks
+  NoEndpointInfoMessage: No Endpoint defined for this webservice
+  TestConnectionAuthenticationMessage: Authentication (only HttpBasic supported) was not successful
+  TestConnectionErrorMessage: |-
+    The URL seems to be not correct or contains scripting context (can not be evaluated)
+    An error occurred: ${exception}
+  TestConnectionNotFoundMessage: Service not found
+  TestConnectionSuccessMessage: Successfully reached web service
+  TestWsEndpointButtonTitle: Test Web Service Endpoint Connection
+webServiceProcesses:
+  NoWebServiceProcessesFound: No web service processes found on deployed apps
+  WebServiceWSDL: Web Service WSDL
+webServices:
+  EndpointUrls: Endpoint Urls
+  NoWebServicesFound: No webservices found on deployed apps
+weekConfiguration:
+  DefinedWorkingTime: Defined working time
+  FreeDay: free
+  FromTo: From to
+  WeekConfiguration: Week configuration
+  WorkingDay: work
+  WorkingTime: Working time
+wizard:
+  Dark: Dark
+  Light: Light
+  Logout: Logout

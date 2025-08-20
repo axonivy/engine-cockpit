@@ -3,23 +3,22 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog style="min-width: 400px;" header="Support Report" id="supportReportModal" widgetVar="supportReportModal"
+<p:dialog style="min-width: 400px;" header="#{ivy.cm.co('/supportReport/SupportReportDialogHeader')}" id="supportReportModal" widgetVar="supportReportModal"
   modal="true" responsive="true" closeOnEscape="true">
   <h:form id="reportForm" styleClass="custom-dialog-form">
     <div>
-      <p>If you spot a problem while using the Axon Ivy Engine please open a support ticket, download this zip archive and
-        attach it to the ticket.</p>
-      <p>This zip archive contains:</p>
+      <p>#{ivy.cm.co('/supportReport/OpenSupportTicketContent')}</p>
+      <p>#{ivy.cm.co('/supportReport/ZipArchiveContainsContent')}</p>
       <ul>
-        <li>Axon Ivy Engine Support Report</li>
-        <li>Today's log files</li>
+        <li>#{ivy.cm.co('/supportReport/AxonIvyEngineSupportReportContent')}</li>
+        <li>#{ivy.cm.co('/supportReport/TodayLogFilesContent')}</li>
       </ul>
     </div>
     <div class="custom-dialog-footer">
-      <p:commandButton id="cancel" onclick="PF('supportReportModal').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-      <p:commandButton id="download" ajax="false" value="Download"
+      <p:commandButton id="cancel" onclick="PF('supportReportModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+      <p:commandButton id="download" ajax="false" value="#{ivy.cm.co('/common/Download')}"
         onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'si-download-bottom');}"
-        title="Download Support Report" icon="si si-download-bottom" styleClass="modal-input-button"
+        title="#{ivy.cm.co('/supportReport/DownloadSupportReport')}" icon="si si-download-bottom" styleClass="modal-input-button"
         style="width: 150px;">
         <p:fileDownload value="#{supportBean.supportReport}" />
       </p:commandButton>

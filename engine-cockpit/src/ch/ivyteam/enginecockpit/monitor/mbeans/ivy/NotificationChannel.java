@@ -12,25 +12,26 @@ import javax.management.ReflectionException;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
+import ch.ivyteam.ivy.environment.Ivy;
 
 final class NotificationChannel {
   public static final NotificationChannel NO_DATA = new NotificationChannel(null, null);
 
   private final Monitor deliveriesMonitor = Monitor.build()
-      .name("Deliveries")
-      .title("Channel Deliveries")
+      .name(Ivy.cm().co("/liveStats/Deliveries"))
+      .title(Ivy.cm().co("/liveStats/ChannelDeliveries"))
       .icon("insert_link")
       .toMonitor();
 
   private final Monitor pushesTimeMonitor = Monitor.build()
-      .name("Pushes")
-      .title("Channel Pushes Time")
+      .name(Ivy.cm().co("/liveStats/Pushes"))
+      .title(Ivy.cm().co("/liveStats/ChannelPushesTime"))
       .icon("timer")
       .toMonitor();
 
   private final Monitor locksMonitor = Monitor.build()
-      .name("Locks")
-      .title("Channel Locks")
+      .name(Ivy.cm().co("/liveStats/Locks"))
+      .title(Ivy.cm().co("/liveStats/ChannelLocks"))
       .icon("timer")
       .toMonitor();
 
@@ -38,8 +39,8 @@ final class NotificationChannel {
 
   NotificationChannel(ObjectName channel, String label) {
     if (channel == null) {
-      deliveriesMonitor.addInfoValue(format("No data available"));
-      locksMonitor.addInfoValue(format("No data available"));
+      deliveriesMonitor.addInfoValue(format(Ivy.cm().co("/common/NoDataAvailable")));
+      locksMonitor.addInfoValue(format(Ivy.cm().co("/common/NoDataAvailable")));
       return;
     }
 
@@ -47,29 +48,29 @@ final class NotificationChannel {
 
     var deliveries = new ExecutionCounter(channel.getCanonicalName(), "deliveries");
     deliveriesMonitor.addInfoValue(format("%5d", deliveries.deltaExecutions()));
-    deliveriesMonitor.addInfoValue(format("Total Deliveres %5d", deliveries.executions()));
-    deliveriesMonitor.addSeries(Series.build(deliveries.deltaExecutions(), "Deliveres").toSeries());
+    deliveriesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/TotalDeliveres") + " %5d", deliveries.executions()));
+    deliveriesMonitor.addSeries(Series.build(deliveries.deltaExecutions(), Ivy.cm().co("/liveStats/Deliveries")).toSeries());
     var isPush = isPush(channel);
     if (isPush) {
       var errors = new ExecutionCounter(channel.getCanonicalName(), "errors");
       var locks = new ExecutionCounter(channel.getCanonicalName(), "locks");
       var pushes = new ExecutionCounter(channel.getCanonicalName(), "pushes");
-      deliveriesMonitor.addInfoValue(format("Errors %5d", errors.deltaExecutions()));
-      deliveriesMonitor.addInfoValue(format("Total Errors %5d", errors.executions()));
-      deliveriesMonitor.addInfoValue(format("Pushes %5d", pushes.deltaExecutions()));
-      deliveriesMonitor.addInfoValue(format("Total Pushes %5d", pushes.executions()));
-      deliveriesMonitor.addSeries(Series.build(errors.deltaExecutions(), "Errors").toSeries());
-      deliveriesMonitor.addSeries(Series.build(pushes.deltaExecutions(), "Pushes").toSeries());
+      deliveriesMonitor.addInfoValue(format(Ivy.cm().co("/common/Errors") + " %5d", errors.deltaExecutions()));
+      deliveriesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/TotalErrors") + " %5d", errors.executions()));
+      deliveriesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/Pushes") + " %5d", pushes.deltaExecutions()));
+      deliveriesMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/TotalPushes") + " %5d", pushes.executions()));
+      deliveriesMonitor.addSeries(Series.build(errors.deltaExecutions(), Ivy.cm().co("/common/Errors")).toSeries());
+      deliveriesMonitor.addSeries(Series.build(pushes.deltaExecutions(), Ivy.cm().co("/liveStats/Pushes")).toSeries());
       locksMonitor.addInfoValue(format("%5d", locks.executions()));
-      locksMonitor.addSeries(Series.build(locks.executions(), "Locks").toSeries());
+      locksMonitor.addSeries(Series.build(locks.executions(), Ivy.cm().co("/liveStats/Locks")).toSeries());
 
-      pushesTimeMonitor.addInfoValue(format("Min %t", pushes.deltaMinExecutionTime()));
-      pushesTimeMonitor.addInfoValue(format("Avg %t", pushes.deltaAvgExecutionTime()));
-      pushesTimeMonitor.addInfoValue(format("Max %t", pushes.deltaMaxExecutionTime()));
-      pushesTimeMonitor.addInfoValue(format("Total %t", pushes.executionTime()));
-      pushesTimeMonitor.addSeries(Series.build(pushes.deltaMinExecutionTime(), "Min").toSeries());
-      pushesTimeMonitor.addSeries(Series.build(pushes.deltaAvgExecutionTime(), "Avg").toSeries());
-      pushesTimeMonitor.addSeries(Series.build(pushes.deltaMaxExecutionTime(), "Max").toSeries());
+      pushesTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/Min") + " %t", pushes.deltaMinExecutionTime()));
+      pushesTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/Avg") + " %t", pushes.deltaAvgExecutionTime()));
+      pushesTimeMonitor.addInfoValue(format(Ivy.cm().co("/liveStats/Max") + " %t", pushes.deltaMaxExecutionTime()));
+      pushesTimeMonitor.addInfoValue(format(Ivy.cm().co("/common/Total") + " %t", pushes.executionTime()));
+      pushesTimeMonitor.addSeries(Series.build(pushes.deltaMinExecutionTime(), Ivy.cm().co("/liveStats/Min")).toSeries());
+      pushesTimeMonitor.addSeries(Series.build(pushes.deltaAvgExecutionTime(), Ivy.cm().co("/liveStats/Avg")).toSeries());
+      pushesTimeMonitor.addSeries(Series.build(pushes.deltaMaxExecutionTime(), Ivy.cm().co("/liveStats/Max")).toSeries());
     }
   }
 

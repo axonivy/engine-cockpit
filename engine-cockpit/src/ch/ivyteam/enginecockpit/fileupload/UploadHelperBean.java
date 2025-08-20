@@ -4,6 +4,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -17,9 +18,8 @@ public class UploadHelperBean {
   }
 
   public String getDeploymentPossibleReason() {
-    return "The system configuration '" + REST_SERVLET_ENABLED + "' or '"
-        + REST_DEPLOYMENT_ENABLED + "' is disabled.<br/>"
-        + "Please enable them or use the file system for the deployment.";
+    return Ivy.cm().content("/applications/DeploymentPossibleReason").replace("restServlet", REST_SERVLET_ENABLED)
+        .replace("restDeployment", REST_DEPLOYMENT_ENABLED).get();
   }
 
   private static boolean isRestEnabled() {

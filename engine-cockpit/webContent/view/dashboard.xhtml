@@ -14,13 +14,13 @@
         <div class="grid">
           <div class="col-12">
             <div class="grid">
-              <cc:OverviewBox box="white" count="#{managerBean.sessionCount}" icon="si si-style-two-pin-user" title="Sessions"
+              <cc:OverviewBox box="white" count="#{managerBean.sessionCount}" icon="si si-style-two-pin-user" title="#{ivy.cm.co('/common/Sessions')}"
                 link="monitor-sessions.xhtml" />
-              <cc:OverviewBox box="blue" count="#{managerBean.usersCount}" icon="si si-single-neutral-actions" title="Users"
+              <cc:OverviewBox box="blue" count="#{managerBean.usersCount}" icon="si si-single-neutral-actions" title="#{ivy.cm.co('/common/Users')}"
                 link="users.xhtml" />
               <cc:OverviewBox box="gray" count="#{managerBean.runningCasesCount}" icon="si si-layout-bullets"
-                title="Running Cases" link="applications.xhtml" />
-              <cc:OverviewBox box="darkgray" count="#{managerBean.applicationCount}" icon="si si-module" title="Applications"
+                title="#{ivy.cm.co('/common/RunningCases')}" link="applications.xhtml" />
+              <cc:OverviewBox box="darkgray" count="#{managerBean.applicationCount}" icon="si si-module" title="#{ivy.cm.co('/common/Applications')}"
                 link="applications.xhtml" />
             </div>
           </div>

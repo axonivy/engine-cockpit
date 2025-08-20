@@ -7,18 +7,18 @@
       <div class="card-header">
         <div class="card-title flex align-items-center">
           <i class="pr-3 si si-charger"></i>
-          <h6 id="jdbc-driver" class="m-0">JDBC Driver</h6>
+          <h6 id="jdbc-driver" class="m-0">#{ivy.cm.co('/jdbcDriver/JDBCDriver')}</h6>
         </div>
       </div>
       <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
         styleClass="grey-label-panel ui-fluid">
-        <label>Name</label>
+        <label>#{ivy.cm.co('/common/Name')}</label>
         <h:outputText value="#{systemDatabaseInfoBean.systemDbDriverName}" />
-        <label>Version</label>
+        <label>#{ivy.cm.co('/common/Version')}</label>
         <h:outputText value="#{systemDatabaseInfoBean.systemDbDriverVersion}" />
-        <label>URL</label>
+        <label>#{ivy.cm.co('/common/Url')}</label>
         <h:outputText value="#{systemDatabaseInfoBean.systemDbUrl}" />
-        <label>User</label>
+        <label>#{ivy.cm.co('/common/User')}</label>
         <h:outputText value="#{systemDatabaseInfoBean.systemDbUser}" />
       </p:panelGrid>
     </div>

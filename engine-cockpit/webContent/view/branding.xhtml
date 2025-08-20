@@ -10,9 +10,9 @@
     </ui:define>
 
     <ui:define name="breadcrumb">
-      <li><span>Configuration</span></li>
+      <li><span>#{ivy.cm.co('/common/Configuration')}</span></li>
       <li>/</li>
-      <li><a href="branding.xhtml">Branding</a></li>
+      <li><a href="branding.xhtml">#{ivy.cm.co('/common/Branding')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -24,18 +24,18 @@
         <p:growl id="msgs" showDetail="true" />
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-buildings-1 card-title-icon"></i>
-          <h2 class="m-0">Branding</h2>
+          <h2 class="m-0">#{ivy.cm.co('/common/Branding')}</h2>
           <p:commandButton styleClass="ml-auto" id="downloadAllResources" icon="si si-download-bottom"
-            value="Download" onclick="PF('downloadModal').show();" type="button" />
+            value="#{ivy.cm.co('/common/Download')}" onclick="PF('downloadModal').show();" type="button" />
         </div>
-        
+
         <cc:ApplicationTabs tabChange="#{brandingBean.reloadResources}" id="apps" update="downloadDialog:downloadModal">
           <ui:include src="../includes/components/configuration/branding-resources.xhtml" />
           <br/>
           <ui:include src="../includes/components/configuration/branding-colors.xhtml" />
         </cc:ApplicationTabs>
-        
-        <p:dialog styleClass="branding-custom-css" header="Edit custom.css" id="editCustomCssModal" appendTo="@(body)"
+
+        <p:dialog styleClass="branding-custom-css" header="#{ivy.cm.content('/branding/EditCustomCSSDialogHeader').replace('customCssFile', 'custom.css').get()}" id="editCustomCssModal" appendTo="@(body)"
           widgetVar="editCustomCssModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
           <h:form id="editCustomCssForm" styleClass="custom-dialog-form">
             <pe:codeMirror id="editCustomCssValue" value="#{brandingBean.customCssContent}"
@@ -49,37 +49,37 @@
               </a>
               <div>
                 <p:commandButton id="saveCustomCss" process="editCustomCssForm:editCustomCssValue" partialSubmit="true"
-                  onsuccess="PF('editCustomCssModal').hide();" actionListener="#{brandingBean.saveCustomCss}" value="Save"
+                  onsuccess="PF('editCustomCssModal').hide();" actionListener="#{brandingBean.saveCustomCss}" value="#{ivy.cm.co('/common/Save')}"
                   icon="si si-floppy-disk" styleClass="modal-input-button" update="msgs" />
-                <p:commandButton id="cancelCustomCss" onclick="PF('editCustomCssModal').hide();" value="Cancel"
+                <p:commandButton id="cancelCustomCss" onclick="PF('editCustomCssModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
                   type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
               </div>
             </div>
           </h:form>
         </p:dialog>
-        
-        <p:confirmDialog id="resetBrandingConfirmDialog" header="Reset Branding Resource" severity="alert" appendTo="@(body)"
-          widgetVar="resetBrandingConfirmDialog" message="Are you sure you want to reset the Branding resource '#{brandingBean.currentRes}'">
+
+        <p:confirmDialog id="resetBrandingConfirmDialog" header="#{ivy.cm.co('/branding/ResetBrandingResourceDialogHeader')}" severity="alert" appendTo="@(body)"
+          widgetVar="resetBrandingConfirmDialog" message="#{ivy.cm.content('/branding/ResetBrandingResourceConfirmMessage').replace('resource', brandingBean.currentRes).get()}">
           <h:form id="resetForm">
-            <p:commandButton value="Cancel" onclick="PF('resetBrandingConfirmDialog').hide();" type="button"
+            <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('resetBrandingConfirmDialog').hide();" type="button"
               styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-            <p:commandButton id="resetBrandingConfirmYesBtn" value="Reset" immediate="true" ajax="false"
+            <p:commandButton id="resetBrandingConfirmYesBtn" value="#{ivy.cm.co('/common/Reset')}" immediate="true" ajax="false"
               actionListener="#{brandingBean.resetRes}" icon="si si-undo" styleClass="modal-input-button" />
           </h:form>
         </p:confirmDialog>
-        
+
         <h:form id="cssColorPickerForm">
-          <p:dialog header="Edit color #{brandingBean.selectedCssColor.color}" id="editCssColorModal"
+          <p:dialog header="#{ivy.cm.co('/branding/EditColorDialogHeader')} #{brandingBean.selectedCssColor.color}" id="editCssColorModal"
             widgetVar="editCssColorModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
             <div class="grid align-items-center ui-fluid">
               <div class="col-3">
-                <p:outputLabel for="defaultColor" value="Default Value: "/>
+                <p:outputLabel for="defaultColor" value="#{ivy.cm.co('/branding/DefaultValue')}"/>
               </div>
               <div class="col-9">
                 <p:inputText id="defaultColor" value="#{brandingBean.selectedCssColor.defaultValue}" disabled="true" />
               </div>
               <div class="col-3">
-                <p:outputLabel for="cssColorPickerInput" value="Value: "/>
+                <p:outputLabel for="cssColorPickerInput" value="#{ivy.cm.co('/branding/Value')}"/>
               </div>
               <div class="col-1">
                 <p:inputText id="cssColorPickerBtn" type="color" styleClass="color-picker-btn" />
@@ -88,7 +88,7 @@
                 <p:inputText id="cssColorPickerInput" value="#{brandingBean.selectedCssColor.value}" />
               </div>
             </div>
-            
+
             <script>
               var input = '#cssColorPickerForm\\:cssColorPickerInput';
               var btn = '#cssColorPickerForm\\:cssColorPickerBtn';
@@ -116,29 +116,29 @@
               }
               updateColor();
             </script>
-          
+
             <f:facet name="footer">
-              <p:commandButton id="cancelCssColor" onclick="PF('editCssColorModal').hide();" value="Cancel"
+              <p:commandButton id="cancelCssColor" onclick="PF('editCssColorModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
                 type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-              <p:commandButton id="saveCssColor" icon="si si-floppy-disk" value="Save" 
+              <p:commandButton id="saveCssColor" icon="si si-floppy-disk" value="#{ivy.cm.co('/common/Save')}" 
                 actionListener="#{brandingBean.saveColor}" 
                 styleClass="modal-input-button" ajax="false" />
             </f:facet>
           </p:dialog>
         </h:form>
-        
-        <p:confirmDialog id="resetColorConfirmDialog" header="Reset Color" severity="alert" appendTo="@(body)"
-          widgetVar="resetColorConfirmDialog" message="Are you sure you want to reset the CSS Color '#{brandingBean.selectedCssColor.color}'">
+
+        <p:confirmDialog id="resetColorConfirmDialog" header="#{ivy.cm.co('/branding/ResetColorDialogHeader')}" severity="alert" appendTo="@(body)"
+          widgetVar="resetColorConfirmDialog" message="#{ivy.cm.content('/branding/ResetCSSColorConfirmMessage').replace('cssColor', brandingBean.selectedCssColor.color).get()}">
           <h:form id="resetColorForm">
-            <p:commandButton value="Cancel" onclick="PF('resetColorConfirmDialog').hide();" type="button"
+            <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('resetColorConfirmDialog').hide();" type="button"
               styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-            <p:commandButton id="resetColorConfirmYesBtn" value="Reset" immediate="true" ajax="false"
+            <p:commandButton id="resetColorConfirmYesBtn" value="#{ivy.cm.co('/common/Reset')}" immediate="true" ajax="false"
               actionListener="#{brandingBean.resetColor}" icon="si si-undo" styleClass="modal-input-button" />
           </h:form>
         </p:confirmDialog>
-        
+
         <h:panelGroup id="fileUpload">
-          <p:dialog style="margin-left: 120px; min-width: 550px; max-width: 700px;" header="Upload resources to '#{managerBean.selectedApplicationName}'"
+          <p:dialog style="margin-left: 120px; min-width: 550px; max-width: 700px;" header="#{ivy.cm.content('/branding/UploadResourceDialogHeader').replace('application', managerBean.selectedApplicationName).get()}"
             id="fileUploadModal" resizable="false" widgetVar="fileUploadModal" modal="true" responsive="true"
             closeOnEscape="true">
             <h:form enctype="multipart/form-data" id="fileUploadForm">
@@ -146,22 +146,22 @@
                 <p:messages id="uploadMessages" showDetail="true">
                   <p:autoUpdate/>
                 </p:messages>
-                <p:commandButton id="chooseFileBtn" value="Choose" onclick="PF('uploadDnd').show();return false;"
+                <p:commandButton id="chooseFileBtn" value="#{ivy.cm.co('/common/Choose')}" onclick="PF('uploadDnd').show();return false;"
                   icon="si si-add" styleClass="mb-2"/>
                 <p:inputTextarea id="dropZone" styleClass="drop-zone" readonly="true"
                   style="width: 100%; line-height: 100px; text-align: center; margin-bottom: 20px;"
-                  value="Choose or drop a file which ends with: #{brandingBean.allowedExtensionsString}" rows="1" />
+                  value="#{ivy.cm.co('/branding/ChooseOrDropFileWhichEndsWith')} #{brandingBean.allowedExtensionsString}" rows="1" />
                 <p:fileUpload id="brandingUpload" widgetVar="uploadDnd" value="#{brandingBean.file}" listener="#{brandingBean.upload}"
                   styleClass="branding-upload" dropZone="dropZone" style="display: none" update="uploadMessages"/>
-                <p:commandButton id="closeDialogBtn" onclick="PF('fileUploadModal').hide();" value="Close" type="button"
+                <p:commandButton id="closeDialogBtn" onclick="PF('fileUploadModal').hide();" value="#{ivy.cm.co('/common/Close')}" type="button"
                   styleClass="ui-button-secondary ui-button-flat modal-input-button" />
               </div>
             </h:form>
           </p:dialog>
         </h:panelGroup>
       </div>
-      
-      <cc:DownloadDialog id="downloadDialog" bean="#{brandingBean}" title="Download Branding resources of '#{managerBean.selectedApplicationName}'" />
+
+      <cc:DownloadDialog id="downloadDialog" bean="#{brandingBean}" title="#{ivy.cm.content('/branding/DownloadBrandingResourcesDialogHeader').replace('application', managerBean.selectedApplicationName).get()}" />
     </ui:define>
 
   </ui:composition>

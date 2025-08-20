@@ -12,9 +12,9 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Services</span></li>
+      <li><span>#{ivy.cm.co('/common/Services')}</span></li>
       <li>/</li>
-      <li><a href="databases.xhtml">Databases</a></li>
+      <li><a href="databases.xhtml">#{ivy.cm.co('/common/Databases')}</a></li>
       <li>/</li>
       <li><a href="#{databaseDetailBean.viewUrl}">#{databaseDetailBean.name}</a></li>
       <cc:BreadcrumbInfos />

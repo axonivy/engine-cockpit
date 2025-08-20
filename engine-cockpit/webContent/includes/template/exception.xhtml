@@ -10,20 +10,20 @@
       onexception="PF('viewExpiredExceptionDialog').show();" />
 
     <!-- Error Dialog shown if a view or session has expired -->
-    <p:dialog id="viewExpiredExceptionDialog" header="View or Session Expired" widgetVar="viewExpiredExceptionDialog"
+    <p:dialog id="viewExpiredExceptionDialog" header="#{ivy.cm.co('/exception/ViewExpiredExceptionDialogHeader')}" widgetVar="viewExpiredExceptionDialog"
       height="150px" modal="true">
       <h1>
-        <h:outputText value="The view or session has expired." />
+        <h:outputText value="#{ivy.cm.co('/exception/ViewExpiredExceptionDialogContent')}" />
       </h1>
       <br />
-      <p:button href="login.xhtml" value="Login" icon="si si-login-3" />
+      <p:button href="login.xhtml" value="#{ivy.cm.co('/common/Login')}" icon="si si-login-3" />
     </p:dialog>
 
     <!--  Exception Handler for any other Exception -->
     <p:ajaxExceptionHandler update="ajaxExceptionDialog" onexception="PF('ajaxExceptionDialog').show();" />
 
     <!-- Error Dialog to show Exceptions -->
-    <p:dialog id="ajaxExceptionDialog" header="Error" widgetVar="ajaxExceptionDialog" modal="true" closeOnEscape="true"
+    <p:dialog id="ajaxExceptionDialog" header="#{ivy.cm.co('/exception/AjaxExceptionDialogHeader')}" widgetVar="ajaxExceptionDialog" modal="true" closeOnEscape="true"
       height="400px" style="max-width: calc(100% - 300px); min-width: 300px;">
       <ui:include src="exception-details.xhtml" />
     </p:dialog>

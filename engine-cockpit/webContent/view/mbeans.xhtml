@@ -6,11 +6,11 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Monitor</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
       <li>/</li>
-      <li><span>Java</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Java')}</span></li>
       <li>/</li>
-      <li><a href="mbeans.xhtml">MBeans</a></li>
+      <li><a href="mbeans.xhtml">#{ivy.cm.co('/sidebar/MBeans')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -25,7 +25,7 @@
               <div class="card-header">
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-coffee-cup"></i>
-                  <h6 class="m-0">MBeans</h6>
+                  <h6 class="m-0">#{ivy.cm.co('/sidebar/MBeans')}</h6>
                 </div>
               </div>
               <p:tree value="#{mBeansBean.root}" var="node" selectionMode="single"
@@ -46,22 +46,22 @@
               <div class="card-header">
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-cog"></i>
-                  <h6 class="m-0">Attributes</h6>
+                  <h6 class="m-0">#{ivy.cm.co('/common/Attributes')}</h6>
                 </div>
               </div>
               <p:dataTable id="attributes" var="mAttr" value="#{mBeansBean.attributes}" rowIndexVar="rowIndex"
-                style="max-height: 300px; overflow: auto" emptyMessage="Select a bean to see its attributes">
-                <p:column headerText="Name">
+                style="max-height: 300px; overflow: auto" emptyMessage="#{ivy.cm.co('/monitor/mbean/EmptyMBeanMessage')}">
+                <p:column headerText="#{ivy.cm.co('/common/Name')}">
                   <h:outputText id="name" value="#{mAttr.name}" />
                   <p:tooltip for="attributes:#{rowIndex}:name" value="#{mAttr.tooltip}" />
                 </p:column>
   
-                <p:column headerText="Value">
+                <p:column headerText="#{ivy.cm.co('/common/Value')}">
                   <h:outputText value="#{mAttr.value}" />
                 </p:column>
                 <p:column styleClass="table-btn-1">
                   <p:commandButton id="addTrace" rendered="#{mAttr.isTraceable}" update="poll chart traces" immediate="true"
-                    actionListener="#{mBeansBean.addTrace(mAttr)}" icon="si si-analytics-graph" styleClass="rounded-button" title="Add trace to chart"/>
+                    actionListener="#{mBeansBean.addTrace(mAttr)}" icon="si si-analytics-graph" styleClass="rounded-button" title="#{ivy.cm.co('/monitor/mbean/AddTraceToChart')}"/>
                 </p:column>
               </p:dataTable>
             </div>
@@ -71,7 +71,7 @@
               <div class="card-header">
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-analytics-bars"></i>
-                  <h6 class="m-0">Chart</h6>
+                  <h6 class="m-0">#{ivy.cm.co('/common/Chart')}</h6>
                 </div>
               </div>
               <p:lineChart id="chart" model="#{mBeansBean.tracesMonitor.model}"/>
@@ -82,28 +82,29 @@
               <div class="card-header">
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-analytics-bars"></i>
-                  <h6 class="m-0">Traces</h6>
+                  <h6 class="m-0">#{ivy.cm.co('/monitor/mbean/Traces')}</h6>
                 </div>
               </div>
               <p:dataTable id="traces" var="trace" value="#{mBeansBean.traces}" rowIndexVar="rowIndex"
-                 style="max-height: 300px; overflow: auto">
-                <p:column headerText="Attribute">
+                style="max-height: 300px; overflow: auto"
+                emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+                <p:column headerText="#{ivy.cm.co('/common/Attribute')}">
                   <h:outputText id="attribute" value="#{trace.attributeName}" />
                 </p:column>
-                <p:column headerText="Object">
+                <p:column headerText="#{ivy.cm.co('/common/Object')}">
                   <h:outputText value="#{trace.objectName}" />
                 </p:column>
-                <p:column headerText="Description">
+                <p:column headerText="#{ivy.cm.co('/common/Description')}">
                   <h:outputText value="#{trace.description}" />
                 </p:column>
   
-                <p:column headerText="Last Value">
+                <p:column headerText="#{ivy.cm.co('/monitor/mbean/LastValue')}">
                   <h:outputText id="lastValue" value="#{trace.lastValue}" />
                 </p:column>
                 <p:column styleClass="table-btn-1">
                   <p:commandButton id="removeTrace" update="chart traces" immediate="true"
                     actionListener="#{mBeansBean.removeTrace(trace)}" icon="si si-remove" styleClass="ui-button-danger rounded-button"
-                    title="Remove trace" />
+                    title="#{ivy.cm.co('/monitor/mbean/RemoveTrace')}" />
                 </p:column>
               </p:dataTable>
             </div>

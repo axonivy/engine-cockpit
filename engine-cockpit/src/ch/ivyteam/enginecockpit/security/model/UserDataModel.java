@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 import javax.faces.model.SelectItem;
@@ -16,6 +15,7 @@ import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 
 import ch.ivyteam.enginecockpit.commons.TableFilter;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.jsf.primefaces.sort.SortMetaConverter;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.query.UserQuery;
@@ -54,9 +54,9 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter {
 
   public void loadContentFilters(boolean isIvySecSystem) {
     contentFilters = new ArrayList<>();
-    contentFilters.add(new SelectItem(DISABLED_FILTER, "Show disabled users"));
+    contentFilters.add(new SelectItem(DISABLED_FILTER, Ivy.cm().co("/usersTable/ShowDisabledUsers")));
     if (!isIvySecSystem) {
-      contentFilters.add(new SelectItem(MANUAL_FILTER, "Show manual users"));
+      contentFilters.add(new SelectItem(MANUAL_FILTER, Ivy.cm().co("/usersTable/ShowManualUsers")));
     }
   }
 
@@ -84,18 +84,17 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter {
 
   @Override
   public String getContentFilterText() {
-    var joiner = new StringJoiner(" ");
-    if (showManualUsers) {
-      joiner.add(MANUAL_FILTER);
+    String filterText;
+    if (showManualUsers && showDisabledUsers) {
+      filterText = Ivy.cm().co("/usersTable/ManualDisabledUsersFilter");
+    } else if (showManualUsers) {
+      filterText = Ivy.cm().co("/usersTable/ManualUsersFilter");
+    } else if (showDisabledUsers) {
+      filterText = Ivy.cm().co("/usersTable/DisabledUsersFilter");
+    } else {
+      filterText = Ivy.cm().co("/usersTable/EnabledUsersFilter");
     }
-    if (showDisabledUsers) {
-      joiner.add(DISABLED_FILTER);
-    }
-    var filterText = joiner.toString();
-    if (filterText.isBlank()) {
-      filterText = "enabled";
-    }
-    return filterText + " users";
+    return filterText;
   }
 
   @Override

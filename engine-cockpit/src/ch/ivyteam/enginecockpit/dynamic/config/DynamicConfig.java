@@ -14,6 +14,7 @@ import ch.ivyteam.ivy.configuration.configurator.Configurator;
 import ch.ivyteam.ivy.configuration.configurator.ConfiguratorMetadataProvider;
 import ch.ivyteam.ivy.configuration.meta.Metadata;
 import ch.ivyteam.ivy.configuration.restricted.ConfigKey;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @SuppressWarnings("restriction")
 public class DynamicConfig {
@@ -52,7 +53,7 @@ public class DynamicConfig {
   public static void message() {
     Message.info()
         .clientId("dynamicConfigFormSaveSuccess")
-        .summary("Successfully saved")
+        .summary(Ivy.cm().co("/notificationChannelDetail/SuccessfullySavedMessage"))
         .show();
   }
 

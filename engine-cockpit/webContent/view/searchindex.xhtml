@@ -10,9 +10,9 @@
     </f:metadata>
 
     <ui:define name="breadcrumb">
-      <li><span>Services</span></li>
+      <li><span>#{ivy.cm.co('/common/Services')}</span></li>
       <li>/</li>
-      <li><a href="searchengine.xhtml">Search Engine</a></li>
+      <li><a href="searchengine.xhtml">#{ivy.cm.co('/common/SearchEngine')}</a></li>
       <li>/</li>
       <li><a href="#{searchIndexBean.searchIndex.viewUrl}">#{searchIndexBean.searchIndex.name}</a></li>
     </ui:define>
@@ -34,23 +34,23 @@
         <h:form id="tableForm">
           <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" var="doc"
             widgetVar="docTable" value="#{searchIndexBean.dataModel}" lazy="true" styleClass="docTable"
-            globalFilter="#{searchIndexBean.filter}" id="docTable">
+            globalFilter="#{searchIndexBean.filter}" id="docTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
             <f:facet name="header">
               <div class="flex align-items-center justify-content-between">
                 <p:inputText id="globalFilter" value="#{searchIndexBean.filter}" onkeyup="PF('docTable').filter()" style="width:100%;" />
               </div>
             </f:facet>
 
-            <p:column headerText="ID" style="width:250px;">
+            <p:column headerText="#{ivy.cm.co('/common/ID')}" style="width:250px;">
               <h:outputText value="#{doc.id}" />
             </p:column>
 
-            <p:column headerText="JSON">
+            <p:column headerText="#{ivy.cm.co('/searchIndex/JSON')}">
               <h:outputText value="#{doc.jsonShort}" title="#{doc.json}" />
             </p:column>
 
             <p:column styleClass="table-btn-1">
-              <p:commandButton id="showDocument" title="Show document" icon="si si-office-file-doc-1"
+              <p:commandButton id="showDocument" title="#{ivy.cm.co('/searchIndex/ShowDocument')}" icon="si si-office-file-doc-1"
                 actionListener="#{searchDocBean.setDoc(doc)}" update="searchDocModal" styleClass="rounded-button"
                 oncomplete="PF('searchDocModal').show()" />
             </p:column>
@@ -58,7 +58,7 @@
         </h:form>
       </div>
 
-      <p:dialog header="Document: #{searchDocBean.doc.id}" id="searchDocModal" width="50%" modal="true"
+      <p:dialog header="#{ivy.cm.co('/searchIndex/DocumentDialogHeader')} #{searchDocBean.doc.id}" id="searchDocModal" width="50%" modal="true"
         onShow="hljs.highlightBlock(document.querySelector('pre code.json'))" widgetVar="searchDocModal"
         responsive="true" closeOnEscape="true">
         <pre>

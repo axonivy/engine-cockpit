@@ -15,24 +15,30 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-cog"></i>
-        <h6 class="m-0">Properties</h6>
+        <h6 class="m-0">#{ivy.cm.co('/common/Properties')}</h6>
       </div>
     </div>
-    
-    <p:dataTable value="#{databaseDetailBean.database.properties}" var="property" id="databasePropertiesTable">
-      <p:column headerText="Property">
-        <h:outputText value="#{property.name}" styleClass="database-property-key" />
+
+    <p:dataTable value="#{databaseDetailBean.database.properties}"
+      var="property" id="databasePropertiesTable"
+      emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+      <p:column headerText="#{ivy.cm.co('/common/Property')}">
+        <h:outputText value="#{property.name}"
+          styleClass="database-property-key" />
       </p:column>
-      <p:column headerText="Value">
-        <h:outputText value="#{property.value}" styleClass="database-property-value" />
+      <p:column headerText="#{ivy.cm.co('/common/Value')}">
+        <h:outputText value="#{property.value}"
+          styleClass="database-property-value" />
       </p:column>
       <p:column styleClass="table-btn-2">
         <f:facet name="header">
-          <cc:PropertyEditor id="newPropertyEditor" bean="#{databaseDetailBean}" 
-            isNewProperty="true" formName="databasePropertiesForm" />
+          <cc:PropertyEditor id="newPropertyEditor"
+            bean="#{databaseDetailBean}" isNewProperty="true"
+            formName="databasePropertiesForm" />
         </f:facet>
-        <cc:PropertyEditor id="editPropertyEditor" bean="#{databaseDetailBean}" 
-          isNewProperty="false" formName="databasePropertiesForm" />
+        <cc:PropertyEditor id="editPropertyEditor"
+          bean="#{databaseDetailBean}" isNewProperty="false"
+          formName="databasePropertiesForm" />
       </p:column>
     </p:dataTable>
   </h:form>

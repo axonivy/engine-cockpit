@@ -2,15 +2,15 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
-<p:dialog style="min-width: 300px; max-width: 80%;" header="Error #{errorBean.selected.message}" id="errorDialog"
+<p:dialog style="min-width: 300px; max-width: 80%;" header="#{ivy.cm.co('/common/Error')} #{errorBean.selected.message}" id="errorDialog"
     widgetVar="errorDialog" responsive="true" closeOnEscape="true">
   <h:form id="error" styleClass="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
-      <p:outputLabel for="message" value="Message" />
+      <p:outputLabel for="message" value="#{ivy.cm.co('/common/Message')}" />
       <h:outputText id="message" value="#{errorBean.selected.message}"/>
       <h:panelGroup>
-        <p:outputLabel for="stackTrace" value="Stack Trace"/>
-        <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="var button=this; copyToClipboard($('#error\\:stackTrace').text(), button)"
+        <p:outputLabel for="stackTrace" value="#{ivy.cm.co('/common/StackTrace')}"/>
+        <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="#{ivy.cm.co('/common/CopyToClipboard')}" onclick="var button=this; copyToClipboard($('#error\\:stackTrace').text(), button)"
             styleClass="ui-button-flat rounded-button"/>
       </h:panelGroup>
       <p:outputPanel id="stackTrace" styleClass="code">
@@ -18,7 +18,7 @@
       </p:outputPanel>  
     </p:panelGrid>
     <div class="custom-dialog-footer">
-      <p:commandButton id="close" type="button" onclick="PF('errorDialog').hide();" value="Close" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+      <p:commandButton id="close" type="button" onclick="PF('errorDialog').hide();" value="#{ivy.cm.co('/common/Close')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
     </div>
   </h:form>
 </p:dialog>

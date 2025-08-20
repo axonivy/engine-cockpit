@@ -11,12 +11,12 @@
   <p:dialog style="min-width: 400px;" header="#{cc.attrs.title}" id="downloadModal" widgetVar="downloadModal"
     modal="true" responsive="true" closeOnEscape="true">
     <h:form id="downloadForm">
-      <p:commandButton id="downloadBtn" ajax="false" value="Download"
+      <p:commandButton id="downloadBtn" ajax="false" value="#{ivy.cm.co('/common/Download')}"
         onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'si-download-bottom');}"
         title="#{cc.attrs.title}" icon="si si-download-bottom" styleClass="modal-input-button" style="width: 150px;">
         <p:fileDownload value="#{cc.attrs.bean.allResourcesDownload}" />
       </p:commandButton>
-      <p:commandButton id="cancel" onclick="PF('downloadModal').hide();" value="Cancel" type="button"
+      <p:commandButton id="cancel" onclick="PF('downloadModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
     </h:form>
   </p:dialog>

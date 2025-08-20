@@ -11,11 +11,11 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Monitor</span></li>
+      <li><span>#{ivy.cm.co('/monitorTraceDetail/Monitor')}</span></li>
       <li>/</li>
-      <li><span>Performance</span></li>
+      <li><span>#{ivy.cm.co('/monitorTraceDetail/Performance')}</span></li>
       <li>/</li>
-      <li><a href="monitorTraces.xhtml">Slow Requests</a></li>
+      <li><a href="monitorTraces.xhtml">#{ivy.cm.co('/monitorTraceDetail/SlowRequests')}</a></li>
       <li>/</li>
       <li><a href="monitorTraceDetail.xhtml?traceId=#{spanBean.traceId}">#{spanBean.traceId}</a></li>
     </ui:define>
@@ -33,8 +33,8 @@
                 <div class="card-header flex-wrap">
                   <div class="card-title flex align-items-center">
                     <i class="pr-3 si si-monitor-heart-beat-search"></i>
-                    <h6 class="m-0">Slow Request Detail</h6>
-                    <p:commandButton id="export" title="Export span"
+                    <h6 class="m-0">#{ivy.cm.co('/monitorTraceDetail/SlowRequestDetail')}</h6>
+                    <p:commandButton id="export" title="#{ivy.cm.co('/monitorTraceDetail/ExportSpan')}"
                       ajax="false" icon="si si-office-file-xls-1"
                       styleClass="flex-shrink-0 ml-auto ui-button-secondary rounded-button"
                       disabled="#{!spanBean.traceAvailable}">
@@ -47,22 +47,23 @@
                       rendered="#{!spanBean.traceAvailable}" 
                       severity="WARN" 
                       styleClass="mt-3"
-                      summary="Request no longer available" 
-                      detail="The request was remove from the slowest requests because other requests were even slower!"/>
+                      summary="#{ivy.cm.co('/monitorTraceDetail/RequestNoLongerAvailableMesssage')}" 
+                      detail="#{ivy.cm.co('/monitorTraceDetail/RequestWasRemoveWarningMesssage')}"/>
                 </div>
               </h:form>
-              <p:treeTable id="spansTree" value="#{spanBean.tree}" var="span" selectionMode="single" style="border: none; max-height: 500px; overflow: auto; padding: 0;" rendered="#{spanBean.traceAvailable}">
+              <p:treeTable id="spansTree" value="#{spanBean.tree}" var="span" selectionMode="single" style="border: none; max-height: 500px; overflow: auto; padding: 0;" rendered="#{spanBean.traceAvailable}"
+                emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
                 <p:ajax event="expand" listener="#{spanBean.nodeExpand}" />
                 <p:ajax event="collapse" listener="#{spanBean.nodeCollapse}" />
                 <p:ajax event="select" listener="#{spanBean.nodeSelect}" update="attributesTable" />
-                <p:column headerText="Name" exportFunction="#{spanBean.exportName(span)}">
+                <p:column headerText="#{ivy.cm.co('/common/Name')}" exportFunction="#{spanBean.exportName(span)}">
                   <h:outputText value="#{span.name}" title="#{span.attributesInfo}">
                     <i class="si si-time-clock-circle #{span.statusClass} table-icon" title="#{span.statusTooltip}"></i>
                   </h:outputText>
                 </p:column>
                 <p:column style="width: 130px;" exportFunction="#{traceBean.export}">
                   <f:facet name="header">
-                    <h:outputText value="Execution Time" title="Execution time [ms]"/>
+                    <h:outputText value="#{ivy.cm.co('/common/ExecutionTime')}" title="#{ivy.cm.co('/monitorTraceDetail/ExecutionTimeMsTitle')}"/>
                   </f:facet>
                   <div style="background: #{span.executionTimeBackground};">
                     <h:outputText styleClass="gradient-text" value="#{span.executionTime}" title="#{span.executionTime}">
@@ -70,13 +71,13 @@
                     </h:outputText>
                   </div>
                 </p:column>
-                <p:column style="width: 130px;" headerText="Start">
+                <p:column style="width: 130px;" headerText="#{ivy.cm.co('/common/Start')}">
                   <h:outputText value="#{span.start}" />
                 </p:column>
-                <p:column style="width: 130px;" headerText="End">
+                <p:column style="width: 130px;" headerText="#{ivy.cm.co('/common/End')}">
                   <h:outputText value="#{span.end}" />
                 </p:column>
-                <p:column headerText="Attributes" sortBy="#{span.attributes}">
+                <p:column headerText="#{ivy.cm.co('/common/Attributes')}" sortBy="#{span.attributes}">
                   <h:outputText value="#{span.attributes}" title="#{span.attributesInfo}" />
                 </p:column>
               </p:treeTable>
@@ -87,14 +88,14 @@
               <div class="card-header flex-wrap">
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-cog"></i>
-                  <h6 class="m-0">Attributes</h6>
+                  <h6 class="m-0">#{ivy.cm.co('/common/Attributes')}</h6>
                 </div>
               </div>
-              <p:dataTable id="attributesTable" var="attr" value="#{spanBean.attributes}" rowIndexVar="rowIndex" emptyMessage="Select a span to see its attributes">
-                <p:column headerText="Name" style="width: 40%;vertical-align:top;" sortBy="#{attr.name}" sortOrder="ASC">
+              <p:dataTable id="attributesTable" var="attr" value="#{spanBean.attributes}" rowIndexVar="rowIndex" emptyMessage="#{ivy.cm.co('/monitorTraceDetail/AttributesTableEmptyMesssage')}">
+                <p:column headerText="#{ivy.cm.co('/common/Name')}" style="width: 40%;vertical-align:top;" sortBy="#{attr.name}" sortOrder="ASC">
                   <h:outputText id="name" value="#{attr.name}" />
                 </p:column>
-                <p:column headerText="Value"  sortBy="#{attr.value}">
+                <p:column headerText="#{ivy.cm.co('/common/Value')}" sortBy="#{attr.value}">
                   <h:outputText value="#{attr.value}"/>
                 </p:column>
               </p:dataTable>

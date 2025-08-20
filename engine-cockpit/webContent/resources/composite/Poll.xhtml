@@ -12,42 +12,42 @@
       <div class="card-header">
         <div class="card-title flex align-items-center">
           <i class="pr-3 si si-time-clock-circle"></i>
-          <h6 class="m-0">Poll</h6>
-          <p:commandButton id="pollBtn" oncomplete="PF('pollBeanDialog').show();" title="Schedule to poll the bean now" icon="si si-synchronize-arrow-clock"
+          <h6 class="m-0">#{ivy.cm.co('/poll/Poll')}</h6>
+          <p:commandButton id="pollBtn" oncomplete="PF('pollBeanDialog').show();" title="#{ivy.cm.co('/poll/ScheduleToPollBean')}" icon="si si-synchronize-arrow-clock"
               update="polls" styleClass="flex-shrink-0 ml-auto rounded-button" />
         </div>
       </div>
       
       <p:panelGrid columns="2" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9" layout="flex"
         styleClass="grey-label-panel ui-fluid">
-        <p:outputLabel for="polls" value="Polls" />
+        <p:outputLabel for="polls" value="#{ivy.cm.co('/poll/Polls')}" />
         <h:outputText id="polls" value="#{cc.attrs.event.polls}" title="#{cc.attrs.event.polls}">
           <f:convertNumber/>
         </h:outputText>
-        <p:outputLabel for="pollDuration" value="Poll Duration" />
+        <p:outputLabel for="pollDuration" value="#{ivy.cm.co('/poll/PollDuration')}" />
         <h:panelGroup>
           <h:outputText id="pollDuration" value="#{cc.attrs.event.minPollTime} / #{cc.attrs.event.avgPollTime} / #{cc.attrs.event.maxPollTime}"/>
-          <p:tooltip for="pollDuration" value="min / avg / max"/>
+          <p:tooltip for="pollDuration" value="#{ivy.cm.co('/poll/PollDurationTooltip')}"/>
         </h:panelGroup>
-        <p:outputLabel for="pollErrors" value="Poll Errors" />
+        <p:outputLabel for="pollErrors" value="#{ivy.cm.co('/poll/PollErrors')}" />
         <h:outputText id="pollErrors" value="#{cc.attrs.event.pollErrors}" title="#{cc.attrs.event.pollErrors}">
           <f:convertNumber/>
         </h:outputText>
-        <p:outputLabel for="lastPollError" value="Last Poll Error" />
+        <p:outputLabel for="lastPollError" value="#{ivy.cm.co('/poll/LastPollError')}" />
         <er:Error id="lastPollError" error="#{cc.attrs.event.lastPollError}"/>
-        <p:outputLabel for="pollConfiguration" value="Poll Configuration" />
+        <p:outputLabel for="pollConfiguration" value="#{ivy.cm.co('/poll/PollConfiguration')}" />
         <h:outputText id="pollConfiguration" value="#{cc.attrs.event.humanReadablePollConfiguration} (#{cc.attrs.event.pollConfiguration})"/>
-        <p:outputLabel for="nextPoll" value="Next Poll" />
+        <p:outputLabel for="nextPoll" value="#{ivy.cm.co('/poll/NextPoll')}" />
         <h:outputText id="nextPoll" value="#{cc.attrs.event.timeUntilNextPollFormated} (#{cc.attrs.event.nextPollTime})"/>
       </p:panelGrid>
     </h:form>
-    <p:dialog style="min-width: 300px;" header="Poll Bean #{cc.attrs.event.name}" id="pollBeanDialog"
+    <p:dialog style="min-width: 300px;" header="#{ivy.cm.co('/poll/PollBean')} #{cc.attrs.event.name}" id="pollBeanDialog"
         widgetVar="pollBeanDialog" responsive="true" closeOnEscape="true">
       <h:form id="pollBean" styleClass="custom-dialog-form">
-        <p:staticMessage severity="warn" detail="Scheduling to poll a bean can have negative side effects."/>
+        <p:staticMessage severity="warn" detail="#{ivy.cm.co('/poll/PollBeanWarningMessage')}"/>
         <div class="custom-dialog-footer">
-          <p:commandButton id="cancel" type="button" onclick="PF('pollBeanDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
-          <p:commandButton id="pollBtn" onclick="PF('pollBeanDialog').hide();" value="Poll" icon="si si-controls-play"
+          <p:commandButton id="cancel" type="button" onclick="PF('pollBeanDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+          <p:commandButton id="pollBtn" onclick="PF('pollBeanDialog').hide();" value="#{ivy.cm.co('/poll/Poll')}" icon="si si-controls-play"
               styleClass="modal-input-button" actionListener="#{cc.attrs.event.poll()}" update="polls:eventPoll"/>
         </div>
       </h:form>

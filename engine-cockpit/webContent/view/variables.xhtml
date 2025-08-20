@@ -10,13 +10,13 @@
     </ui:define>
 
     <ui:define name="breadcrumb">
-      <li><span>Configuration</span></li>
+      <li><span>#{ivy.cm.co('/common/Configuration')}</span></li>
       <li>/</li>
-      <li><a href="variables.xhtml">Variables</a></li>
+      <li><a href="variables.xhtml">#{ivy.cm.co('/common/Variables')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
-      <cc:TopBarItem styleClass="log-link" href="#{managerBean.configLogUrl}" icon="si-common-file-text" title="Show configuration log" external="false" />
+      <cc:TopBarItem styleClass="log-link" href="#{managerBean.configLogUrl}" icon="si-common-file-text" title="#{ivy.cm.co('/common/ShowConfigurationLog')}" external="false" />
       <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}configuration.html#global-variables" />
     </ui:define>
 
@@ -27,10 +27,10 @@
         </p:growl>
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-archive-folder card-title-icon"></i>
-          <h2 class="m-0">Variables</h2>
+          <h2 class="m-0">#{ivy.cm.co('/common/Variables')}</h2>
         </div>
         <cc:ApplicationTabs tabChange="#{variableBean.reloadVariables}" id="apps">
-          <cc:Configuration bean="#{variableBean}" dialogTitle="variable" id="config" showContentFilter="false" />
+          <cc:Configuration bean="#{variableBean}" dialogTitle="#{ivy.cm.co('/variables/VariableConfigurationDialogTitle')}" id="config" showContentFilter="false" />
         </cc:ApplicationTabs>
       </div>
     </ui:define>

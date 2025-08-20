@@ -7,10 +7,10 @@
 <cc:implementation>
   <div style="color: var(--error-color); font-weight: bold;">
     <h:outputText
-      value="Deletion is dangerous and might leave the engine in a bad state." />
+      value="#{ivy.cm.co('/deletionWarning/FirstDeletionWarningMessage')}" />
     <br />
     <h:outputText
-      value="You may lose cases and data. Proceed with caution." />
+      value="#{ivy.cm.co('/deletionWarning/SecondDeletionWarningMessage')}" />
   </div>
   <br />
   <br />

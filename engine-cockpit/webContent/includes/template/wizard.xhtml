@@ -12,7 +12,7 @@
     <meta name="mobile-web-app-capable" content="yes" />
   </f:facet>
   <title>
-    <ui:insert name="title">Axon Ivy Engine</ui:insert>
+    <ui:insert name="title">#{ivy.cm.co('/common/AxonIvyEngine')}</ui:insert>
   </title>
 
   <link rel="shortcut icon" href="#{resource['resources/images/favicon.png']}" />
@@ -37,9 +37,9 @@
             <p:graphicImage name="resources/images/#{ivyFreyaTheme.logo}.svg" />
           </a>
         </div>
-        
+
         <ui:include src="wizard-sidebar.xhtml" />
-        
+
         <div class="layout-topbar-right">
           <ul class="layout-topbar-actions">
             <li class="topbar-item user-profile">
@@ -59,7 +59,7 @@
                   <p:commandLink id="themeSwitcher" onclick="PrimeFaces.FreyaConfigurator.changeLayout('ivy', '#{ivyFreyaTheme.mode == 'light' ? 'dark' : 'light'}');"
                     style="text-decoration: none;">
                     <i class="topbar-icon pi pi-#{ivyFreyaTheme.mode == 'light' ? 'moon' : 'sun'}"/>
-                    <span>#{ivyFreyaTheme.mode == 'light' ? 'Dark' : 'Light'}</span>
+                    <span>#{ivyFreyaTheme.mode == 'light' ? ivy.cm.co('/wizard/Dark') : ivy.cm.co('/wizard/Light')}</span>
                     <p:ajax onstart="PrimeFaces.FreyaConfigurator.beforeResourceChange();" listener="#{ivyFreyaTheme.toggleTheme}" update="themeSwitcher" />
                   </p:commandLink>
                 </li>
@@ -67,13 +67,13 @@
                   <p:link type="button" href="#{advisorBean.engineGuideBaseUrl}/reference/setup-wizard.html" 
                     target="_blank" rel="noopener noreferrer">
                     <i class="si si-lg si-question-circle"></i>
-                    <span>Help</span>
+                    <span>#{ivy.cm.co('/common/Help')}</span>
                   </p:link>
                 </li>
                 <li>
                   <p:commandLink id="sessionLogoutBtn" actionListener="#{loginBean.logout}">
                     <i class="si si-lg si-logout-1"></i>
-                    <span>Logout</span>
+                    <span>#{ivy.cm.co('/wizard/Logout')}</span>
                   </p:commandLink>
                 </li>
               </ul>

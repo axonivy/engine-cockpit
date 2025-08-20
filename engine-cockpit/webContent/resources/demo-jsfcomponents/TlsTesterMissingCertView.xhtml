@@ -11,13 +11,13 @@
 </cc:interface>
 
 <cc:implementation>
-<p:dataTable value="#{cc.attrs.cert}" styleClass="noHeader" var="cert"
+<p:dataTable value="#{cc.attrs.cert}" styleClass="noHeader" var="cert" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}"
   rowKey="#{cert}" id="missingCert" lazy="false" scrollable="true" scrollWidth="100%" scrollHeight="100%">
   <p:column width="1em">
-    <h6>Missing Cert:</h6>
+    <h6>#{ivy.cm.co('/tlsTesterMissingCertView/MissingCert')}</h6>
     <p:rowToggler/>
     <h:outputText id="subject" value="#{cc.attrs.cert.subjectX500Principal}"></h:outputText>
-    <p:commandButton id="add" value="Add To Truststore" icon="si si-add"
+    <p:commandButton id="add" value="#{ivy.cm.co('/tlsTesterMissingCertView/AddToTruststore')}" icon="si si-add"
       styleClass="modal-input-button" 
       actionListener="#{trustStoreBean.addToStore(cc.attrs.cert)}"
       action="#{cc.attrs.bean.clearMissingCert()}"
@@ -25,12 +25,12 @@
   </p:column>
   <p:rowExpansion>
     <p:dataTable var="infos" styleClass="noHeader" value="#{cc.attrs.cert}"
-      id="taskTable" rowKey="#{infos}">
+      id="taskTable" rowKey="#{infos}" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
       <p:column style="border:0px;" width="1em">
-        <p:outputLabel id="subject" value="Subject: #{cc.attrs.cert.subjectX500Principal}" /> <br></br>
-        <p:outputLabel id="notBefore" value="valid from: #{cc.attrs.cert.notBefore}" /> <br></br>
-        <p:outputLabel id="notAfter" value="valid until: #{cc.attrs.cert.notAfter}" /> <br></br>
-        <p:outputLabel id="publicKey" value="PublicKey: #{cc.attrs.cert.getPublicKey().getFormat()}" />
+        <p:outputLabel id="subject" value="#{ivy.cm.co('/tlsTesterMissingCertView/Subject')} #{cc.attrs.cert.subjectX500Principal}" /> <br></br>
+        <p:outputLabel id="notBefore" value="#{ivy.cm.co('/tlsTesterMissingCertView/ValidFrom')} #{cc.attrs.cert.notBefore}" /> <br></br>
+        <p:outputLabel id="notAfter" value="#{ivy.cm.co('/tlsTesterMissingCertView/ValidUntil')} #{cc.attrs.cert.notAfter}" /> <br></br>
+        <p:outputLabel id="publicKey" value="#{ivy.cm.co('/tlsTesterMissingCertView/PublicKey')} #{cc.attrs.cert.getPublicKey().getFormat()}" />
       </p:column>
     </p:dataTable>
   </p:rowExpansion>

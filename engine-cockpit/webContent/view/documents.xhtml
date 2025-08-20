@@ -10,11 +10,11 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Monitor</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
       <li>/</li>
-      <li><span>Workflow</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Workflow')}</span></li>
       <li>/</li>
-      <li><a href="documents.xhtml">Documents</a></li>
+      <li><a href="documents.xhtml">#{ivy.cm.co('/sidebar/Documents')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -25,57 +25,57 @@
       <div class="card">
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-office-file-doc-1 card-title-icon"></i>
-          <h2 class="m-0">Documents</h2>
+          <h2 class="m-0">#{ivy.cm.co('/sidebar/Documents')}</h2>
         </div>
         <cc:SecuritySystemTabs tabChange="#{blobsBean.onload}" id="tabs">
           <h:form id="form" onkeypress="if (event.keyCode == 13) return false;">
             <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
               var="blob" value="#{blobsBean.dataModel}" lazy="true" widgetVar="blobsTable"
-              id="blobsTable">
+              id="blobsTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
               <f:facet name="header">
                 <div class="flex">
                   <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
                     <i class="pi pi-search"/>
-                    <p:inputText id="globalFilter" onkeyup="PF('blobsTable').filter()" placeholder="Search" value="#{blobsBean.dataModel.filter}" />
+                    <p:inputText id="globalFilter" onkeyup="PF('blobsTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{blobsBean.dataModel.filter}" />
                   </span>
                 </div>
               </f:facet>
 
-              <p:column headerText="ID">
+              <p:column headerText="#{ivy.cm.co('/common/ID')}">
                 <h:outputText value="#{blob.id}" />
               </p:column>
 
-              <p:column headerText="Path" width="300px" sortBy="#{blob.path}">
+              <p:column headerText="#{ivy.cm.co('/common/Path')}" width="300px" sortBy="#{blob.path}">
                 <h:outputText id="path" value="#{blob.path}" />
               </p:column>
               
-              <p:column headerText="Size" sortBy="#{blob.size}">
+              <p:column headerText="#{ivy.cm.co('/common/Size')}" sortBy="#{blob.size}">
                 <h:outputText value="#{blob.size}" />
               </p:column>
 
-              <p:column headerText="Mime Type">
+              <p:column headerText="#{ivy.cm.co('/common/MimeType')}">
                 <h:outputText value="#{blob.mimeType}" />
               </p:column>
 
-              <p:column headerText="Created" sortBy="#{blob.createdAt}" sortOrder="desc">
+              <p:column headerText="#{ivy.cm.co('/common/Created')}" sortBy="#{blob.createdAt}" sortOrder="desc">
                 <h:outputText value="#{blob.createdAt}">
                   <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
                 </h:outputText>
               </p:column>
               
-              <p:column headerText="Creator">
+              <p:column headerText="#{ivy.cm.co('/common/Creator')}">
                 <h:outputLink value="#{blob.creatorLink}" rendered="#{!blob.creatorDeleted}">
                   <h:outputText value="#{blob.creator}"/>
                 </h:outputLink>
               </p:column>
 
-              <p:column headerText="Modified" sortBy="#{blob.modifiedAt}">
+              <p:column headerText="#{ivy.cm.co('/common/Modified')}" sortBy="#{blob.modifiedAt}">
                 <h:outputText value="#{blob.modifiedAt}">
                   <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
                 </h:outputText>
               </p:column>
               
-              <p:column headerText="Modifier">
+              <p:column headerText="#{ivy.cm.co('/common/Modifier')}">
                 <h:outputLink value="#{blob.modifierLink}" rendered="#{!blob.modifierDeleted}">
                   <h:outputText value="#{blob.modifier}"/>
                 </h:outputLink>

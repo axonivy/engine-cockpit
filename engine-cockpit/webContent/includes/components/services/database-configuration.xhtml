@@ -12,46 +12,51 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-information-circle"></i>
-        <h6 class="m-0">Database configurations</h6>
-        <p:commandButton id="testDatabaseBtn" title="Test Database Connection" update="connResult:connectionTestModel"
+        <h6 class="m-0">#{ivy.cm.co('/databaseConfiguration/DatabaseConfigurations')}</h6>
+        <p:commandButton id="testDatabaseBtn" title="#{ivy.cm.co('/databaseConfiguration/TestDatabaseConnection')}" update="connResult:connectionTestModel"
           oncomplete="PF('connectionTestModel').show()" icon="si si-phone-actions-call"
           actionListener="#{tlsTesterBean.setTlsTestRendered(false)}"
           styleClass="flex-shrink-0 ml-auto ui-button-secondary rounded-button" />
         <p:commandButton id="resetConfig" type="button" onclick="PF('resetDbConfirmDialog').show()"
-          title="Reset configuration" icon="si si-undo" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
-        <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure you want to reset this Database?"
-          header="Reset Database" severity="alert" widgetVar="resetDbConfirmDialog">
-          <p:commandButton value="Cancel" onclick="PF('resetDbConfirmDialog').hide();" type="button"
+          title="#{ivy.cm.co('/databaseConfiguration/ResetConfiguration')}" icon="si si-undo" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
+        <p:confirmDialog id="resetDbConfirmDialog" message="#{ivy.cm.co('/databaseConfiguration/ResetDatabaseConfirmDialogMessage')}"
+          header="#{ivy.cm.co('/databaseConfiguration/ResetDatabaseConfirmDialogHeader')}" severity="alert" widgetVar="resetDbConfirmDialog">
+          <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('resetDbConfirmDialog').hide();" type="button"
             styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-          <p:commandButton id="resetDbConfirmYesBtn" value="Reset"
+          <p:commandButton id="resetDbConfirmYesBtn" value="#{ivy.cm.co('/common/Reset')}"
             actionListener="#{databaseDetailBean.resetDbConfig}" icon="si si-undo" update="@form"
             styleClass="modal-input-button" />
         </p:confirmDialog>
         <p:commandButton id="saveDatabaseConfig" actionListener="#{databaseDetailBean.saveDbConfig}"
-          title="Save changes" icon="si si-floppy-disk" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button"
+          title="#{ivy.cm.co('/common/SaveChanges')}" icon="si si-floppy-disk" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button"
           update="@form, connResult:connectionTestModel" />
       </div>
     </div>
-    
+
     <p:panelGrid columns="2" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9" layout="flex"
       styleClass="grey-label-panel ui-fluid">
-      <label>Name</label>
+      <label>#{ivy.cm.co('/common/Name')}</label>
       <h:outputText id="name" value="#{databaseDetailBean.name}" />
   
-      <p:outputLabel for="url" value="Url" />
+      <p:outputLabel for="url" value="#{ivy.cm.co('/common/Url')}" />
       <p:inputText id="url" value="#{databaseDetailBean.database.url}" />
   
-      <p:outputLabel for="driver" value="Driver" />
+      <p:outputLabel for="driver" value="#{ivy.cm.co('/common/Driver')}" />
       <p:autoComplete id="driver" dropdown="true" value="#{databaseDetailBean.database.driver}"
         completeMethod="#{databaseDetailBean.completeDriver}" />
   
-      <p:outputLabel for="userName" value="Username" />
+      <p:outputLabel for="userName" value="#{ivy.cm.co('/common/Username')}" />
       <p:inputText id="userName" value="#{databaseDetailBean.database.userName}" />
   
-      <p:outputLabel for="password" value="Password" />
-      <p:password id="password" value="#{databaseDetailBean.database.password}" />
-  
-      <p:outputLabel for="maxConnections" value="Max Connections" />
+      <p:outputLabel for="password" value="#{ivy.cm.co('/common/Password')}" />
+      <p:password id="password"
+        value="#{databaseDetailBean.database.password}"
+        promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+        goodLabel="#{ivy.cm.co('/common/Good')}"
+        weakLabel="#{ivy.cm.co('/common/Weak')}"
+        strongLabel="#{ivy.cm.co('/common/Strong')}" />
+
+      <p:outputLabel for="maxConnections" value="#{ivy.cm.co('/databaseConfiguration/MaxConnections')}" />
       <p:inputNumber id="maxConnections" value="#{databaseDetailBean.database.maxConnections}"
         decimalPlaces="0" />
     </p:panelGrid>

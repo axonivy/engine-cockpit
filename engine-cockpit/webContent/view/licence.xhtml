@@ -6,9 +6,9 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>System</span></li>
+      <li><span>#{ivy.cm.co('/common/System')}</span></li>
       <li>/</li>
-      <li><a href="licence.xhtml">Licence</a></li>
+      <li><a href="licence.xhtml">#{ivy.cm.co('/common/Licence')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -22,7 +22,7 @@
       <div class="card">
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-real-estate-action-house-key card-title-icon"></i>
-          <h2 class="m-0">Licence</h2>
+          <h2 class="m-0">#{ivy.cm.co('/common/Licence')}</h2>
         </div>
         <cc:Licence id="licence"
           updateFields="licence:fileUploadForm:licenceOverview, licence:licWarnMessage" />

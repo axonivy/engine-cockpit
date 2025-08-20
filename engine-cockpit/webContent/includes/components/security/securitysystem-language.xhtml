@@ -11,21 +11,21 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-conversation-chat-2"></i>
-        <h6 class="m-0">Languages</h6>
-        <p:commandButton title="Save" icon="si si-floppy-disk" id="saveLanguageConfigBtn"
+        <h6 class="m-0">#{ivy.cm.co('/securitySystemLanguage/Languages')}</h6>
+        <p:commandButton title="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk" id="saveLanguageConfigBtn"
               styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button" actionListener="#{securityConfigBean.saveLanguages}"/>
       </div>
     </div>
-    
+
     <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
       styleClass="grey-label-panel ui-fluid">
 
-      <p:outputLabel for="language" value="Language" />
+      <p:outputLabel for="language" value="#{ivy.cm.co('/common/Language')}" />
       <p:selectOneMenu id="language" value="#{securityConfigBean.language}" editable="true" converter="localeConverter">
         <f:selectItems value="#{languageBean.getContentLanguages(securityConfigBean.securityContext)}" var="locale" itemLabel="#{languageBean.toDisplayName(locale)}" />
       </p:selectOneMenu>
       
-      <p:outputLabel for="formattingLanguage" value="Formatting language" />
+      <p:outputLabel for="formattingLanguage" value="#{ivy.cm.co('/securitySystemLanguage/FormattingLanguage')}" />
       <p:selectOneMenu id="formattingLanguage" value="#{securityConfigBean.formattingLanguage}" editable="true" filter="true" filterMatchMode="contains" converter="localeConverter">
         <f:selectItems value="#{languageBean.getFormattingLanguages(securityConfigBean.securityContext)}" var="locale" itemLabel="#{languageBean.toDisplayName(locale)}" />
       </p:selectOneMenu>

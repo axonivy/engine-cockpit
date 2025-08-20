@@ -5,18 +5,18 @@
 
 <h:form id="colorForm" styleClass="ui-fluid">
   <p:dataTable var="color" value="#{brandingBean.cssColors}" rowStyleClass="#{color.default ? 'default-value' : ''}"
-    filteredValue="#{brandingBean.filteredCssColors}" widgetVar="colorsTable" id="colorsTable">
+    filteredValue="#{brandingBean.filteredCssColors}" widgetVar="colorsTable" id="colorsTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
     <f:facet name="header">
       <div class="ui-input-icon-left filter-container">
         <i class="pi pi-search"/>
-        <p:inputText id="globalFilter" onkeyup="PF('colorsTable').filter()" placeholder="Search" value="#{brandingBean.filter}" />
+        <p:inputText id="globalFilter" onkeyup="PF('colorsTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{brandingBean.filter}" />
       </div>
     </f:facet>
-    
-    <p:column headerText="Color" sortBy="#{color.color}" filterBy="#{color.color}">
+
+    <p:column headerText="#{ivy.cm.co('/common/Color')}" sortBy="#{color.color}" filterBy="#{color.color}">
       <h:outputText value="#{color.color}" styleClass="color-name" />
     </p:column>
-    <p:column headerText="Value">
+    <p:column headerText="#{ivy.cm.co('/common/Value')}">
       <h:panelGroup class="color-preview" style="background-color: #{color.value};" />
       <h:outputText value="#{color.value}" />
     </p:column>

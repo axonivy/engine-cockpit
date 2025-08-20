@@ -12,16 +12,16 @@
     <p:panelGrid columns="2" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9" layout="flex" 
       styleClass="grey-label-panel ui-fluid">
       <h:panelGroup>
-        <label for="appDir">App Directory</label>
+        <label for="appDir">#{ivy.cm.co('/setupStorage/AppDirectory')}</label>
         <h:panelGroup id="appDirHelp" styleClass="label-help-icon">
           <i class="si si-question-circle"></i>
           <p:tooltip for="@parent" value="#{storageBean.appDirHelp}" escape="false" position="right" /> <!-- contains no user input, contains html -->
         </h:panelGroup>
       </h:panelGroup>
       <p:inputText id="appDir" value="#{storageBean.appDir}" />
-      
+
       <h:panelGroup>
-        <label for="dataDir">Data Directory</label>
+        <label for="dataDir">#{ivy.cm.co('/setupStorage/DataDirectory')}</label>
         <h:panelGroup id="dataDirHelp" styleClass="label-help-icon">
           <i class="si si-question-circle"></i>
           <p:tooltip for="@parent" value="#{storageBean.dataDirHelp}" escape="false" position="right" /> <!-- contains no user input, contains html -->
@@ -29,11 +29,11 @@
       </h:panelGroup>
       <p:inputText id="dataDir" value="#{storageBean.dataDir}" />
     </p:panelGrid>
-    
+
     <h:panelGroup styleClass="storage-ctrls flex justify-content-end" layout="block">
-      <p:commandButton value="Reset" id="reset" actionListener="#{storageBean.reset()}" update="@form, storageWarnMessage" 
+      <p:commandButton value="#{ivy.cm.co('/common/Reset')}" id="reset" actionListener="#{storageBean.reset()}" update="@form, storageWarnMessage" 
         styleClass="ui-button-secondary ui-button-flat storage-reset-link" />
-      <p:commandButton value="Save" id="save" actionListener="#{storageBean.save()}" update="@form, storageWarnMessage" icon="si si-floppy-disk" 
+      <p:commandButton value="#{ivy.cm.co('/common/Save')}" id="save" actionListener="#{storageBean.save()}" update="@form, storageWarnMessage" icon="si si-floppy-disk" 
         styleClass="storage-save-btn" />
     </h:panelGroup>
   </h:form>

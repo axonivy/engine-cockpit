@@ -3,11 +3,11 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog header="Run Search Engine Query" id="searchEngineQueryToolModal" width="50%"
+<p:dialog header="#{ivy.cm.co('/searchEngineTool/RunSearchEngineQueryDialogHeader')}" id="searchEngineQueryToolModal" width="50%"
   widgetVar="searchEngineQueryToolModal" modal="true" responsive="true" closeOnEscape="true">
-  <h:form id="searchEngineQueryToolForm"  styleClass="querytool custom-dialog-form" >
+  <h:form id="searchEngineQueryToolForm" styleClass="querytool custom-dialog-form" >
     <div class="ui-fluid flex align-items-center">
-      <h:outputText styleClass="querytool-url" value="GET: #{searchEngineBean.queryUrl}/" />
+      <h:outputText styleClass="querytool-url" value="#{ivy.cm.co('/searchEngineTool/Get')} #{searchEngineBean.queryUrl}/" />
       <span class="ml-2 querytool-query">
         <p:autoComplete id="query" dropdown="true" value="#{searchEngineBean.query}"
           completeMethod="#{searchEngineBean.queryProposals}" />
@@ -17,10 +17,10 @@
       <pre style="overflow: auto; max-height: 500px;"><h:outputText value="#{searchEngineBean.queryResult}" /></pre>
     </div>
     <div class="custom-dialog-footer">
-      <p:commandButton id="cancelSearchEngineQueryBtn" onclick="PF('searchEngineQueryToolModal').hide();" value="Cancel"
+      <p:commandButton id="cancelSearchEngineQueryBtn" onclick="PF('searchEngineQueryToolModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
         type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="runSearchEngineQueryBtn" validateClient="true" update="@form"
-        actionListener="#{searchEngineBean.runQuery}" value="Run" icon="si si-send-email"
+        actionListener="#{searchEngineBean.runQuery}" value="#{ivy.cm.co('/common/Run')}" icon="si si-send-email"
         styleClass="modal-input-button" />
     </div>
   </h:form>

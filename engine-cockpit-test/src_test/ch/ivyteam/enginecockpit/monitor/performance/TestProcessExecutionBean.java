@@ -29,6 +29,7 @@ class TestProcessExecutionBean {
       @Override
       protected void configure() {
         super.configure();
+
         bind(IBpmEngineManager.class).to(TstBpmEngineManager.class);
       }
     });

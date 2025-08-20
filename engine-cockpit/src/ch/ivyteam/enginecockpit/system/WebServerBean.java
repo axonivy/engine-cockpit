@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.request.EngineUriResolver;
 
 @ManagedBean
@@ -87,7 +88,7 @@ public class WebServerBean {
 
   public void saveBaseUrl() {
     EngineUriResolver.instance().baseUrl(baseUrl);
-    var msg = new FacesMessage("Base Url saved");
+    var msg = new FacesMessage(Ivy.cm().co("/webServer/BaseUrlSavedMessage"));
     FacesContext.getCurrentInstance().addMessage("baseUrlSaveGrowl", msg);
   }
 

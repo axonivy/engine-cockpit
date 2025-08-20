@@ -26,6 +26,9 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.monitor.trace.BackgroundMeterUtil;
+import ch.ivyteam.ivy.environment.Ivy;
+
+import static ch.ivyteam.ivy.environment.Ivy.cm;
 
 @ManagedBean
 @SessionScoped
@@ -194,17 +197,17 @@ public class ThreadBean {
 
     public String getStateTitle() {
       if (isDeadLocked()) {
-        return "This thread is deadlocked! It is waiting to lock " + getLockName()
-            + " which is owned by thread " + getLockOwner() + ".";
+        return Ivy.cm().content("/monitor/thread/DeadLockedMessage").replace("lock", getLockName())
+            .replace("lockOwner", getLockOwner()).get();
       }
       return switch (state) {
-        case RUNNABLE -> "Thread is runnable.";
-        case BLOCKED -> "Thread is blocked. It waits to lock " + getLockName() + " which is owned by thread "
-            + getLockOwner() + ".";
-        case WAITING -> "Thread is waiting on lock " + getLockName() + ".";
-        case TIMED_WAITING -> "Thread is waiting with a timeout on lock " + getLockName() + ".";
-        case NEW -> "Thread is new and not yet started";
-        case TERMINATED -> "Thread has terminated";
+        case RUNNABLE -> cm().co("/monitor/thread/ThreadRunnableMessage");
+        case BLOCKED -> Ivy.cm().content("/monitor/thread/DeadLockedMessage").replace("lock", getLockName())
+            .replace("lockOwner", getLockOwner()).get();
+        case WAITING -> Ivy.cm().content("/monitor/thread/ThreadWaitOnLockMessage").replace("lock", getLockName()).get();
+        case TIMED_WAITING -> Ivy.cm().content("/monitor/thread/ThreadWaitOnLockWithTimeoutMessage").replace("lock", getLockName()).get();
+        case NEW -> cm().co("/monitor/thread/ThreadNewMessage");
+        case TERMINATED -> cm().co("/monitor/thread/ThreadTerminatedMessage");
       };
     }
 
@@ -239,7 +242,7 @@ public class ThreadBean {
     public String getLockedSynchronizers() {
       var lockedSynchronizers = info.getLockedSynchronizers();
       if (lockedSynchronizers == null || lockedSynchronizers.length == 0) {
-        return "None";
+        return cm().co("/common/None");
       }
       return Stream.of(lockedSynchronizers).map(LockInfo::toString).collect(Collectors.joining(",\n"));
     }
@@ -247,7 +250,7 @@ public class ThreadBean {
     public String getLockedMonitors() {
       var lockedMonitors = info.getLockedMonitors();
       if (lockedMonitors == null || lockedMonitors.length == 0) {
-        return "None";
+        return cm().co("/common/None");
       }
       return Stream.of(lockedMonitors).map(this::toMonitorString).collect(Collectors.joining(",\n"));
     }
@@ -261,7 +264,7 @@ public class ThreadBean {
     public String getLockName() {
       var lockName = info.getLockName();
       if (StringUtils.isBlank(lockName)) {
-        return "None";
+        return cm().co("/common/None");
       }
       return lockName;
     }
@@ -269,7 +272,7 @@ public class ThreadBean {
     public String getLockOwner() {
       var lockOwnerName = info.getLockOwnerName();
       if (StringUtils.isBlank(lockOwnerName)) {
-        return "None";
+        return cm().co("/common/None");
       }
       return info.getLockOwnerId() + " - " + lockOwnerName;
     }
@@ -277,7 +280,7 @@ public class ThreadBean {
     public String getStackTrace() {
       var lockedMonitors = info.getStackTrace();
       if (lockedMonitors == null || lockedMonitors.length == 0) {
-        return "None";
+        return cm().co("/common/None");
       }
       return Stream.of(lockedMonitors).map(StackTraceElement::toString).collect(Collectors.joining("\n"));
     }

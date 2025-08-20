@@ -5,17 +5,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import ch.ivyteam.enginecockpit.monitor.health.HealthBean.Check;
+import ch.ivyteam.ivy.environment.IvyTest;
 import ch.ivyteam.ivy.health.check.HealthChecker;
 import ch.ivyteam.ivy.health.check.HealthSeverity;
-import ch.ivyteam.ivy.manager.IManager;
+import ch.ivyteam.ivy.health.check.impl.HealthCheckImpl;
 
+@IvyTest(enableWebServer = false)
 class TestHealthBean {
 
   HealthBean testee = new HealthBean();
 
+  @SuppressWarnings("restriction")
   @AfterEach
   void after() {
-    ((IManager) HealthChecker.instance()).stop();
+    HealthChecker.instance().checks().stream().map(HealthCheckImpl.class::cast).forEach(HealthCheckImpl::stop);
   }
 
   @Test
@@ -69,8 +73,7 @@ class TestHealthBean {
     assertThat(testee.getMessage()).isEqualTo("No problems detected. Engine is healthy.");
     assertThat(testee.getMessages()).isEmpty();
 
-    ((IManager) HealthChecker.instance()).start();
-    testee.refresh();
+    runCheck();
 
     assertThat(testee.getMessageCount()).isEqualTo(1);
     assertThat(testee.getMessage()).isEqualTo("Release Candidate");
@@ -79,8 +82,7 @@ class TestHealthBean {
 
   @Test
   void message() {
-    ((IManager) HealthChecker.instance()).start();
-    testee.refresh();
+    runCheck();
 
     var msg = testee.getMessages().get(0);
     assertThat(msg.getMessage()).isEqualTo("Release Candidate");
@@ -98,21 +100,19 @@ class TestHealthBean {
     assertThat(testee.getSeverityIcon()).isEqualTo("si si-check-1");
     assertThat(testee.getSeverityName()).isEqualTo("HEALTHY");
 
-    ((IManager) HealthChecker.instance()).start();
-    testee.refresh();
+    runCheck();
 
     assertThat(testee.getSeverityClass()).isEqualTo("health-high");
     assertThat(testee.getSeverityIcon()).isEqualTo("si si-alert-circle");
     assertThat(testee.getSeverityName()).isEqualTo("HIGH");
   }
 
-  @Test
-  void checkNow() {
-    assertThat(testee.getMessageCount()).isEqualTo(0);
+  private Check getCheck() {
+    return testee.getChecks().stream().filter(c -> "Release Candidate".equals(c.getName())).findAny().orElseThrow();
+  }
 
-    ((IManager) HealthChecker.instance()).start();
-    testee.checkNow();
-
-    assertThat(testee.getMessageCount()).isEqualTo(1);
+  private void runCheck() {
+    getCheck().checkNow();
+    testee.refresh();
   }
 }

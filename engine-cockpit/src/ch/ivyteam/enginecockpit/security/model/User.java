@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.core.UriBuilder;
 
 import ch.ivyteam.enginecockpit.util.EmailUtil;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.IUserAbsence;
 import ch.ivyteam.ivy.security.IUserSubstitute;
@@ -311,16 +312,17 @@ public class User implements SecurityMember {
       String memberTitle;
       if (substitutionRole == null) {
         memberIcon = "single-neutral-actions";
-        memberTitle = "Personal";
+        memberTitle = Ivy.cm().co("/userDetailSubstitutes/Personal");
       } else {
         role = substitutionRole.getName();
         memberIcon = "multiple-neutral-1";
-        memberTitle = "Role";
+        memberTitle = Ivy.cm().co("/common/Role");
       }
 
       boolean onAbsence = SubstitutionType.ON_ABSENCE.equals(substitute.getSubstitutionType());
       String typeIcon = onAbsence ? "time-clock-circle" : "pin";
-      String typeTitle = onAbsence ? "On absence" : "Permanent";
+      String typeTitle =
+          onAbsence ? Ivy.cm().co("/userDetailSubstitutes/OnAbsence") : Ivy.cm().co("/userDetailSubstitutes/Permanent");
 
       String securityContext = substituteMember.getSecurityContext().getName();
 

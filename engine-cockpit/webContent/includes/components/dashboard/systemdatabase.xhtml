@@ -7,25 +7,25 @@
   <div class="card-header">
     <div class="card-title flex align-items-center">
       <i class="pr-3 si si-database-settings"></i>
-      <h6 class="m-0">System Database</h6>
-      <p:linkButton id="helpSystemDbBtn" title="Help" icon="si si-question-circle" type="button"
+      <h6 class="m-0">#{ivy.cm.co('/systemDatabase/SystemDatabase')}</h6>
+      <p:linkButton id="helpSystemDbBtn" title="#{ivy.cm.co('/common/Help')}" icon="si si-question-circle" type="button"
         href="#{advisorBean.engineGuideBaseUrl}/configuration/system-database/index.html"
         target="_blank" rel="noopener noreferrer" styleClass="ml-auto ui-button-secondary rounded-button" />
-      <p:linkButton id="configureSystemDbBtn" title="Configure SystemDb" icon="si si-cog" type="button"
+      <p:linkButton id="configureSystemDbBtn" title="#{ivy.cm.co('/systemDatabase/ConfigureSystemDb')}" icon="si si-cog" type="button"
         styleClass="ml-1 ui-button-secondary rounded-button" href="systemdb.xhtml" />
     </div>
   </div>
   <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8"
     styleClass="grey-label-panel">
-    <label>URL</label>
+    <label>#{ivy.cm.co('/systemDatabase/URL')}</label>
     <h:outputText value="#{systemDatabaseBean.url}" />
-    <label>Driver</label>
+    <label>#{ivy.cm.co('/systemDatabase/Driver')}</label>
     <h:outputText value="#{systemDatabaseBean.driver}" />
   </p:panelGrid>
   
   <p:panelGrid rendered="#{engineModeBean.demo}" columns="1" layout="flex">
-    <p:staticMessage severity="info" summary="No licence installed" detail="HSQL Memory Db is used" rendered="#{!licenceBean.installed}" />
-    <p:staticMessage severity="warn" summary="No system database configured yet" detail="HSQL Memory Db is used" rendered="#{licenceBean.installed}" />
+    <p:staticMessage severity="info" summary="#{ivy.cm.co('/systemDatabase/NoLicenceInstalledSummary')}" detail="#{ivy.cm.co('/systemDatabase/HSQLMemoryDbIsUsedMessage')}" rendered="#{!licenceBean.installed}" />
+    <p:staticMessage severity="warn" summary="#{ivy.cm.co('/systemDatabase/NoSystemDatabaseConfiguredSummary')}" detail="#{ivy.cm.co('/systemDatabase/HSQLMemoryDbIsUsedMessage')}" rendered="#{licenceBean.installed}" />
   </p:panelGrid>
   <p:staticMessage rendered="#{systemDatabaseBean.hasProblem}" severity="warn"
     detail="#{systemDatabaseBean.problemMessage}" />

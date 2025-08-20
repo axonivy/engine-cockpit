@@ -10,11 +10,11 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Monitor</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
       <li>/</li>
-      <li><span>Workflow</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Workflow')}</span></li>
       <li>/</li>
-      <li><a href="monitorIntermediateEvents.xhtml">Intermediate Events</a></li>
+      <li><a href="monitorIntermediateEvents.xhtml">#{ivy.cm.co('/sidebar/IntermediateEvents')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -25,8 +25,8 @@
       <div class="card">
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-navigation-right-circle-1 card-title-icon"></i>
-          <h2 class="m-0">Intermediate Events</h2>
-          <p:commandButton id="refresh" actionListener="#{intermediateEventBean.refresh}" update="form" title="Refresh Start Events"
+          <h2 class="m-0">#{ivy.cm.co('/sidebar/IntermediateEvents')}</h2>
+          <p:commandButton id="refresh" actionListener="#{intermediateEventBean.refresh}" update="form" title="#{ivy.cm.co('/monitor/startEvent/RefreshStartEvents')}"
               icon="si si-button-refresh-arrows" styleClass="flex-shrink-0 ml-auto rounded-button"/>
 
         </div>
@@ -34,15 +34,16 @@
         <p:dataTable var="bean" value="#{intermediateEventBean.beans}"
             widgetVar="beanTable" styleClass="ui-fluid"
             paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-            id="beanTable" style="min-width: 950px;">
+            id="beanTable" style="min-width: 950px;"
+            emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
             <f:facet name="header">
               <div class="ui-input-icon-left filter-container">
                 <i class="pi pi-search"/>
-                <p:inputText id="globalFilter" onkeyup="PF('beanTable').filter()" value="#{intermediateEventBean.filter}" placeholder="Search" />
+                <p:inputText id="globalFilter" onkeyup="PF('beanTable').filter()" value="#{intermediateEventBean.filter}" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" />
               </div>
             </f:facet>
 
-            <p:column headerText="Name" sortBy="#{bean.beanName}" filterBy="#{bean.beanName}">
+            <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{bean.beanName}" filterBy="#{bean.beanName}">
               <p:link outcome="monitorIntermediateEventDetails">
                 <f:param name="application" value="#{bean.application}"/>
                 <f:param name="pm" value="#{bean.pm}"/>
@@ -53,49 +54,49 @@
               </p:link>
             </p:column>
 
-            <p:column headerText="Description" sortBy="#{bean.beanDescription}" filterBy="#{bean.beanDescription}">
+            <p:column headerText="#{ivy.cm.co('/common/Description')}" sortBy="#{bean.beanDescription}" filterBy="#{bean.beanDescription}">
               <h:outputText value="#{bean.beanDescription}"/>
             </p:column>
             
-            <p:column headerText="Request Path" sortBy="#{bean.fullRequestPath}" filterBy="#{bean.fullRequestPath}">
+            <p:column headerText="#{ivy.cm.co('/monitor/startEvent/RequestPath')}" sortBy="#{bean.fullRequestPath}" filterBy="#{bean.fullRequestPath}">
               <h:outputText value="#{bean.fullRequestPath}"/>
             </p:column>
             
-            <p:column headerText="Next poll" sortBy="#{bean.lastStartTimestamp}" style="width: 160px;">
+            <p:column headerText="#{ivy.cm.co('/monitor/startEvent/NextPoll')}" sortBy="#{bean.lastStartTimestamp}" style="width: 160px;">
               <h:outputText value="#{bean.lastStartTimestamp}"/>
             </p:column>
 
-            <p:column headerText="Executions" sortBy="#{bean.executions}" style="width: 100px;">
+            <p:column headerText="#{ivy.cm.co('/monitor/job/Executions')}" sortBy="#{bean.executions}" style="width: 100px;">
               <h:outputText value="#{bean.executions}" title="#{bean.executions}">
                 <f:convertNumber/>
               </h:outputText>
             </p:column>
 
-            <p:column headerText="Errors" sortBy="#{bean.errors}" style="width: 100px;">
+            <p:column headerText="#{ivy.cm.co('/monitor/job/Errors')}" sortBy="#{bean.errors}" style="width: 100px;">
               <h:outputText value="#{bean.errors}" title="#{bean.errors}">
                 <f:convertNumber/>
               </h:outputText>
             </p:column>
 
              <p:column styleClass="table-btn-3">
-              <p:commandButton id="start" title="Starts the bean" icon="si si-controls-play"
+              <p:commandButton id="start" title="#{ivy.cm.co('/monitor/startEvent/StartsTheBean')}" icon="si si-controls-play"
                 action="#{bean.start()}" update="@form" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button" disabled="#{bean.running}"/>
-              <p:commandButton id="stop" title="Stops the bean" icon="si si-controls-stop"
-                action="#{bean.stop()}" update="@form" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{! bean.running}"/>
-              <p:commandButton id="poll" oncomplete="PF('pollBeanDialog').show();" title="Schedule to poll the bean now" icon="si si-synchronize-arrow-clock"
+              <p:commandButton id="stop" title="#{ivy.cm.co('/monitor/startEvent/StopsTheBean')}" icon="si si-controls-stop"
+                action="#{bean.stop()}" update="@form" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{!bean.running}"/>
+              <p:commandButton id="poll" oncomplete="PF('pollBeanDialog').show();" title="#{ivy.cm.co('/monitor/startEvent/ScheduleToPollTheBeanNow')}" icon="si si-synchronize-arrow-clock"
                 action="#{intermediateEventBean.setSelected(bean)}" update="pollBeanDialog" styleClass="flex-shrink-0 ml-1 rounded-button" />
             </p:column>
           </p:dataTable>
         </h:form>
         
-        <p:dialog style="min-width: 300px;" header="Poll Bean #{intermediateEventBean.selected.name}" id="pollBeanDialog"
+        <p:dialog style="min-width: 300px;" header="#{ivy.cm.co('/monitor/startEvent/PollBeanTitle')} #{intermediateEventBean.selected.name}" id="pollBeanDialog"
           widgetVar="pollBeanDialog" responsive="true" closeOnEscape="true">
           <h:form id="pollBean" styleClass="custom-dialog-form">
-            <p:staticMessage severity="warn" detail="Scheduling to poll a bean can have negative side effects."/>
+            <p:staticMessage severity="warn" detail="#{ivy.cm.co('/monitor/startEvent/SchedulePollTooltip')}"/>
             <div class="custom-dialog-footer">
-              <p:commandButton id="cancel" type="button" onclick="PF('pollBeanDialog').hide();" value="Cancel"
+              <p:commandButton id="cancel" type="button" onclick="PF('pollBeanDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}"
                 styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
-              <p:commandButton id="schedule" onclick="PF('pollBeanDialog').hide();" value="Poll" icon="si si-controls-play"
+              <p:commandButton id="schedule" onclick="PF('pollBeanDialog').hide();" value="#{ivy.cm.co('/monitor/startEvent/Poll')}" icon="si si-controls-play"
                 styleClass="modal-input-button" actionListener="#{intermediateEventBean.selected.poll()}" update="form"/>
             </div>
           </h:form>

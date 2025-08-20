@@ -10,11 +10,11 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Monitor</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
       <li>/</li>
-      <li><span>Engine</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Engine')}</span></li>
       <li>/</li>
-      <li><a href="monitorCache.xhtml">Caches</a></li>
+      <li><a href="monitorCache.xhtml">#{ivy.cm.co('/monitor/Caches')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -25,29 +25,30 @@
       <div class="card">
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-monitor-heart-beat-search card-title-icon"></i>
-          <h2 class="m-0">Caches</h2>
+          <h2 class="m-0">#{ivy.cm.co('/monitor/Caches')}</h2>
         </div>
         <h:form id="form" style="overflow: auto;">
           <p:dataTable var="cache" value="#{cacheBean.caches}"
             widgetVar="cacheTable" styleClass="ui-fluid"
             filteredValue="#{cacheBean.filteredCaches}"
-            id="cacheTable" style="min-width: 950px;">
+            id="cacheTable" style="min-width: 950px;"
+            emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
             <f:facet name="header">
               <div class="ui-input-icon-left filter-container">
                 <i class="pi pi-search"/>
-                <p:inputText id="globalFilter" onkeyup="PF('cacheTable').filter()" placeholder="Search" value="#{cacheBean.filter}" />
+                <p:inputText id="globalFilter" onkeyup="PF('cacheTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{cacheBean.filter}" />
               </div>
             </f:facet>
-            
+
             <p:column sortBy="#{cache.name}" sortOrder="asc" filterBy="#{cache.name}">
               <f:facet name="header">
-                <h:outputText value="Name" title="The name of the cache"/>
+                <h:outputText value="#{ivy.cm.co('/common/Name')}" title="#{ivy.cm.co('/monitor/cache/NameTooltip')}"/>
               </f:facet>
-              <span><h:outputText value="#{cache.name}"/></span>
+              <span><h:outputText value="#{cache.name}" /></span>
             </p:column>
             <p:column style="width: 65px;" sortBy="#{cache.count}">
               <f:facet name="header">
-                <h:outputText value="Count" title="The number of objects that are currently cached in memory"/>
+                <h:outputText value="#{ivy.cm.co('/common/Count')}" title="#{ivy.cm.co('/monitor/cache/CountTooltip')}"/>
               </f:facet>
               <h:outputText value="#{cache.count}" title="#{cache.count}" styleClass="#{cache.countStyle}">
                 <f:convertNumber/>
@@ -55,7 +56,7 @@
             </p:column>
             <p:column style="width: 65px;" sortBy="#{cache.limit}">
               <f:facet name="header">
-                <h:outputText value="Limit" title="The number of objects in the cache (see count) is periodically reduced to this value"/>
+                <h:outputText value="#{ivy.cm.co('/common/Limit')}" title="#{ivy.cm.co('/monitor/cache/LimitTooltip')}"/>
               </f:facet>
               <h:outputText value="#{cache.limit}" title="#{cache.limit}">
                 <f:convertNumber/>
@@ -63,7 +64,7 @@
             </p:column>
             <p:column style="width: 95px;" sortBy="#{cache.readHits}">
               <f:facet name="header">
-                <h:outputText value="Read Hits" title="How many times an object was successfully read from the cache instead of the system database"/>
+                <h:outputText value="#{ivy.cm.co('/monitor/cache/ReadHits')}" title="#{ivy.cm.co('/monitor/cache/ReadHitsTooltip')}"/>
               </f:facet>
               <h:outputText value="#{cache.readHits}" title="#{cache.readHits}">
                 <f:convertNumber/>
@@ -71,7 +72,7 @@
             </p:column>
             <p:column style="width: 115px;" sortBy="#{cache.readMisses}">
               <f:facet name="header">
-                <h:outputText value="Read Misses" title="How many times an object was not found in the cache and instead had to be read from the system database"/>
+                <h:outputText value="#{ivy.cm.co('/monitor/cache/ReadMisses')}" title="#{ivy.cm.co('/monitor/cache/ReadMissesTooltip')}"/>
               </f:facet>
               <h:outputText value="#{cache.readMisses}" title="#{cache.readMisses}" styleClass="#{cache.readMissesStyle}">
                 <f:convertNumber/>
@@ -79,7 +80,7 @@
             </p:column>
             <p:column style="width: 70px;" sortBy="#{cache.writes}">
               <f:facet name="header">
-                <h:outputText value="Writes" title="How many times an object was invalidated from the cache because it was written to the system database"/>
+                <h:outputText value="#{ivy.cm.co('/monitor/cache/Writes')}" title="#{ivy.cm.co('/monitor/cache/WriteTooltip')}"/>
               </f:facet>
               <h:outputText value="#{cache.writes}" title="#{cache.writes}">
                 <f:convertNumber/>
@@ -87,20 +88,20 @@
             </p:column>
             <p:column style="width: 112px;" sortBy="#{cache.info}">
               <f:facet name="header">
-                <h:outputText id="info" value="Info"/>
+                <h:outputText id="info" value="#{ivy.cm.co('/common/Info')}"/>
                 <p:tooltip for="info">
-                  More cache limits:<br/>
+                  #{ivy.cm.co('/monitor/cache/MoreCacheLimitsTooltip')}<br/>
                   <ul>
-                    <li>Max: Maximum number of bytes or characters that are cached.</li>
-                    <li>TTL: Time to live. The maximum time an object will stay in the cache after it was first read.</li> 
-                    <li>TTI: Time to idle. The maximum time an object will stay in the cache after it was last read.</li>
+                    <li>#{ivy.cm.co('/monitor/cache/CacheMaxTooltip')}</li>
+                    <li>#{ivy.cm.co('/monitor/cache/CacheTTLTooltip')}</li> 
+                    <li>#{ivy.cm.co('/monitor/cache/CacheTTITooltip')}</li>
                   </ul>
                 </p:tooltip>
               </f:facet>
               <h:outputText value="#{cache.info}" title="#{cache.info}"/>
             </p:column>
             <p:column styleClass="table-btn-1">
-              <p:commandButton title="Clear" id="clearButton" icon="si si-bin-1" disabled="#{cache.notClearable}"
+              <p:commandButton title="#{ivy.cm.co('/common/Clear')}" id="clearButton" icon="si si-bin-1" disabled="#{cache.notClearable}"
                   type="button" styleClass="ui-button-danger rounded-button">
                 <p:ajax update="@form" listener="#{cache.clear}"/>
               </p:commandButton>

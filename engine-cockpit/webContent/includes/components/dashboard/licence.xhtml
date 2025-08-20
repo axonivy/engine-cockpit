@@ -8,40 +8,40 @@
   <div class="card-header">
     <div class="card-title flex align-items-center">
       <i class="pr-3 si si-real-estate-action-house-key"></i>
-      <h6 class="m-0">Licence</h6>
-      <p:linkButton id="tasksButtonLicenceDetail" href="licence.xhtml" title="Configure Licence"
+      <h6 class="m-0">#{ivy.cm.co('/common/Licence')}</h6>
+      <p:linkButton id="tasksButtonLicenceDetail" href="licence.xhtml" title="#{ivy.cm.co('/licence/ConfigureLicence')}"
         type="button" icon="si si-cog" styleClass="ml-auto ui-button-secondary rounded-button" />
-      <p:commandButton id="tasksButtonLicenceEvents" onclick="PF('licenceEventsDialog').show();" title="Licence Events"
+      <p:commandButton id="tasksButtonLicenceEvents" onclick="PF('licenceEventsDialog').show();" title="#{ivy.cm.co('/licence/LicenceEvents')}"
         type="button" icon="si si-alarm-bell-timer" styleClass="ml-1 ui-button-secondary rounded-button"
         rendered="#{not empty licenceBean.licenceEvents}" />
     </div>
   </div>
   <p:panelGrid rendered="#{licenceBean.installed}" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8"
     columns="2" layout="flex" styleClass="grey-label-panel">
-    <label>Owner</label>
+    <label>#{ivy.cm.co('/licence/Owner')}</label>
     <h:outputText value="#{licenceBean.organisation}" />
-    <label>Licence type</label>
+    <label>#{ivy.cm.co('/licence/LicenceType')}</label>
     <h:outputText value="#{licenceBean.licenceType}" id="licenceType" />
-    <label>Expires</label>
+    <label>#{ivy.cm.co('/licence/Expires')}</label>
     <h:panelGroup>
       <h:outputText id="expiryDate" value="#{licenceBean.expiryDate}" />
     </h:panelGroup>
-    <label>Named users</label>
+    <label>#{ivy.cm.co('/licence/NamedUsers')}</label>
     <h:outputText value="#{licenceBean.users}" />
-    <label>Concurrent sessions</label>
+    <label>#{ivy.cm.co('/licence/ConcurrentSessions')}</label>
     <h:outputText value="#{licenceBean.sessions}" />
     <ui:fragment rendered="#{licenceBean.cluster}">
-      <label>Cluster nodes</label>
+      <label>#{ivy.cm.co('/licence/ClusterNodes')}</label>
     </ui:fragment>
     <ui:fragment rendered="#{licenceBean.cluster}">
       <h:outputText value="#{licenceBean.nodes}" />
     </ui:fragment>
   </p:panelGrid>
   <p:panelGrid columns="1" layout="flex">
-    <h:outputText value="No licence installed. Your engine runs in demo mode." rendered="#{!licenceBean.installed}" />
+    <h:outputText value="#{ivy.cm.co('/licence/EngineRunsInDemoMode')}" rendered="#{!licenceBean.installed}" />
     <p:staticMessage rendered="#{licenceBean.installed and !licenceBean.valid}" severity="warn" detail="#{licenceBean.problemMessage}" />
-    <p:staticMessage rendered="#{licenceBean.showExpiryWarning()}" severity="warn" detail="Your licence is about to expire. Please get in touch with your sales." />
-    <p:linkButton id="uploadLicenceBtn" type="button" value="Upload Licence"
+    <p:staticMessage rendered="#{licenceBean.showExpiryWarning()}" severity="warn" detail="#{ivy.cm.co('/licence/ExpiredLicenceTouchYourSalesMessage')}" />
+    <p:linkButton id="uploadLicenceBtn" type="button" value="#{ivy.cm.co('/licence/UploadLicence')}"
       rendered="#{!licenceBean.installed or !licenceBean.valid}" icon="si si-upload-bottom"
       href="licence.xhtml" />
   </p:panelGrid>

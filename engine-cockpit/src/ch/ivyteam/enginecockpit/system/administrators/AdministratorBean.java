@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.administrator.AdministratorService;
 
@@ -63,25 +64,28 @@ public class AdministratorBean extends StepStatus {
 
   @Override
   public String getStepWarningMessage() {
-    return "Please configure at least one admin!";
+    return Ivy.cm().co("/setupAdmins/StepWarningMessage");
   }
 
   public void createAdmin() {
     service.config().save(admin.toAdministrator());
     load();
-    Message.info().summary("'" + admin.getName() + "' added").show();
+    Message.info().summary(Ivy.cm().content("/administrators/AdminAddedMessage").replace("name", admin.getName()).get())
+        .show();
   }
 
   public void updateAdmin() {
     service.config().save(admin.toAdministrator());
-    Message.info().summary("'" + admin.getName() + "' updated").show();
+    Message.info()
+        .summary(Ivy.cm().content("/administrators/AdminUpdatedMessage").replace("name", admin.getName()).get()).show();
   }
 
   public void deleteAdmin() {
     service.db().delete(admin.getName());
     service.config().delete(admin.getName());
     load();
-    Message.info().summary("'" + admin.getName() + "' deleted").show();
+    Message.info()
+        .summary(Ivy.cm().content("/administrators/AdminDeletedMessage").replace("name", admin.getName()).get()).show();
   }
 
   public boolean hasAdmins() {

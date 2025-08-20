@@ -12,21 +12,22 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-network-arrow"></i>
-        <h6 class="m-0">Endpoints</h6>
+        <h6 class="m-0">#{ivy.cm.co('/webServiceEndpoints/Endpoints')}</h6>
       </div>
     </div>
-    
-    <p:treeTable value="#{webserviceDetailBean.webservice.portTypes}" var="endpoint" id="webserviceEndpointTable">
-      <p:column headerText="Endpoints">
+
+    <p:treeTable value="#{webserviceDetailBean.webservice.portTypes}" var="endpoint" id="webserviceEndpointTable"
+      emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+      <p:column headerText="#{ivy.cm.co('/webServiceEndpoints/Endpoints')}">
         <i class="si si-#{endpoint.type eq 'port' ? 'network-arrow' : 'hyperlink-3'} table-icon"></i>
         <h:outputText value="#{endpoint.name}" styleClass="endpoint-entry" />
       </p:column>
       <p:column styleClass="table-btn-2">
-        <p:commandButton id="editEndpointBtn" icon="si si-pencil" title="Edit"
+        <p:commandButton id="editEndpointBtn" icon="si si-pencil" title="#{ivy.cm.co('/common/Edit')}"
           styleClass="ui-button-secondary rounded-button" process="@this"
           actionListener="#{webserviceDetailBean.setActivePortType(endpoint.name)}" update="editEndpointModal"
           oncomplete="PF('editEndpointModal').show()" rendered="#{endpoint.type eq 'port'}" />
-        <p:commandButton id="testWsEndpointBtn" title="Test Web Service Endpoint Connection"
+        <p:commandButton id="testWsEndpointBtn" title="#{ivy.cm.co('/webServiceEndpoints/TestWsEndpointButtonTitle')}"
           update="connResult:connectionTestModel" icon="si si-phone-actions-call"
           styleClass="ui-button-secondary rounded-button" process="@this"
           actionListener="#{webserviceDetailBean.setActiveEndpoint(endpoint.name)}"
@@ -35,29 +36,29 @@
     </p:treeTable>
   </h:form>
 
-  <p:staticMessage severity="info" summary="Info" detail="No Enpoint defined for this webservice"
+  <p:staticMessage severity="info" summary="#{ivy.cm.co('/common/Info')}" detail="#{ivy.cm.co('/webServiceEndpoints/NoEndpointInfoMessage')}"
     rendered="#{webserviceDetailBean.webservice.portTypes.childCount == 0}" styleClass="mb-0 mt-1" />
 
-  <p:dialog styleClass="config-edit" header="Edit endpoint '#{webserviceDetailBean.activePortType.name}'"
+  <p:dialog styleClass="config-edit" header="#{ivy.cm.co('/webServiceEndpoints/EditEndpointsConfigurationDialogHeader')} '#{webserviceDetailBean.activePortType.name}'"
     id="editEndpointModal" widgetVar="editEndpointModal" modal="true" responsive="true" closeOnEscape="true"
     width="40%">
     <h:form id="editEndpointModalForm" styleClass="custom-dialog-form">
       <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
-        <p:outputLabel value="Default" for="defaultInput" />
+        <p:outputLabel value="#{ivy.cm.co('/common/Default')}" for="defaultInput" />
         <h:panelGroup styleClass="md-inputfield">
           <p:inputText id="defaultInput" value="#{webserviceDetailBean.activePortType.default}" required="true"
-            requiredMessage="Value is required" />
+            requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}" />
           <p:message for="defaultInput" id="defaultInputMessage" />
         </h:panelGroup>
 
-        <p:outputLabel value="Fallbacks" for="fallBackInput" />
+        <p:outputLabel value="#{ivy.cm.co('/webServiceEndpoints/Fallbacks')}" for="fallBackInput" />
         <p:inputTextarea id="fallBackInput" value="#{webserviceDetailBean.activePortType.fallbacks}" />
       </p:panelGrid>
       <div class="custom-dialog-footer">
-        <p:commandButton id="cancelEndpoint" onclick="PF('editEndpointModal').hide();" value="Cancel" type="button"
+        <p:commandButton id="cancelEndpoint" onclick="PF('editEndpointModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
           styleClass="ui-button-secondary ui-button-flat modal-input-button" />
         <p:commandButton id="saveEndpoint" update="@form webservcieEndPointForm" onsuccess="PF('editEndpointModal').hide()" validateClient="true"
-          actionListener="#{webserviceDetailBean.savePortType}" value="Save" icon="si si-floppy-disk"
+          actionListener="#{webserviceDetailBean.savePortType}" value="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk"
           process="@form" styleClass="modal-input-button" />
       </div>
     </h:form>

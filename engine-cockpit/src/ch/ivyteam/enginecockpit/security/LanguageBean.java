@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.language.LanguageManager;
 import ch.ivyteam.ivy.language.LanguageRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -30,7 +31,7 @@ public class LanguageBean {
     if (Locale.ROOT.equals(locale)) {
       return "";
     }
-    return locale.getDisplayLanguage(Locale.ENGLISH) + " (" + locale.toString() + ")";
+    return locale.getDisplayLanguage(Ivy.session().getContentLocale()) + " (" + locale.toString() + ")";
   }
 
   private List<Locale> locales(ISecurityContext securityContext, Function<LanguageRepository, List<Locale>> supplier) {

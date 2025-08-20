@@ -16,7 +16,7 @@
         </p:growl>
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-navigation-right-circle card-title-icon"></i>
-          <h2 class="m-0">Migrate old Axon Ivy Engine</h2>
+          <h2 class="m-0">#{ivy.cm.co('/migrate/MigrateOldEngine')}</h2>
           <p:linkButton href="#{advisorBean.engineGuideBaseUrl}/reference/migration-wizard.html" target="_blank" rel="noopener noreferrer"
             styleClass="ml-auto ui-button-outlined rounded-button" icon="si si-question-circle" />
         </div>
@@ -27,10 +27,10 @@
               contentStyleClass="align-items-center"
               columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9">
               <p:outputLabel for="oldEngineInput"
-                value="Location of old Engine" />
+                value="#{ivy.cm.co('/migrate/OldEngineLocation')}" />
               <h:panelGroup styleClass="md-inputfield">
                 <p:inputText id="oldEngineInput"
-                  requiredMessage="Value is required"
+                  requiredMessage="#{ivy.cm.co('/Labels/RequiredMessage')}"
                   value="#{migrationBean.pathToOldEngine}"
                   required="true" />
                 <p:message for="oldEngineInput"
@@ -40,9 +40,9 @@
 
             <f:facet name="header">
               <p:panelGrid columns="2" layout="flex" contentStyleClass="align-items-center" columnClasses="col-10, col-2">
-                <h:outputText value="Location" />
+                <h:outputText value="#{ivy.cm.co('/migrate/Location')}" />
                 <p:commandButton icon="si si-heavy-equipment-hook"
-                value="Load Location" id="checkLocation"
+                value="#{ivy.cm.co('/migrate/LoadLocation')}" id="checkLocation"
                 disabled="#{migrationBean.state == 'RUNNING'}"
                 actionListener="#{migrationBean.checkOldEngineLocation}"
                 validateClient="true"
@@ -71,7 +71,7 @@
 
             <f:facet name="header">
               <p:panelGrid columns="1" layout="flex" contentStyleClass="align-items-center" columnClasses="col-12">
-                <h:outputText value="Checks" />
+                <h:outputText value="#{ivy.cm.co('/migrate/Checks')}" />
               </p:panelGrid>
             </f:facet>
           </p:panel>
@@ -82,20 +82,20 @@
             <p:messages id="licenceMessage" />
 
             <h:panelGroup rendered="#{migrationBean.validLicence}">
-              <p:staticMessage severity="info" detail="Valid licence found." />
+              <p:staticMessage severity="info" detail="#{ivy.cm.co('/migrate/ValidLicenceFoundMessage')}" />
               <pre><code><h:outputText value="#{migrationBean.licence}" /></code></pre>
             </h:panelGroup>
  
             <h:panelGroup rendered="#{!migrationBean.validLicence}">
-              <p:staticMessage severity="warn" detail="Licence is not valid. Please upload a new licence otherwise you can not start the Axon Ivy Engine after migration. Reason: #{migrationBean.invalidLicenceMessage}" />
+              <p:staticMessage severity="warn" detail="#{ivy.cm.content('/migrate/InvalidLicenceWarningMessage').replace('message', migrationBean.invalidLicenceMessage).get()}" />
             </h:panelGroup>
 
             <f:facet name="header">
               <p:panelGrid columns="2" layout="flex" contentStyleClass="align-items-center" columnClasses="col-10, col-2">
-                <h:outputText value="Licence" />
-                 <p:fileUpload id="licenceUpload" chooseIcon="si si-upload-bottom" 
-                  style="font-weight: normal;width:100%;"                
-                  label="Upload"
+                <h:outputText value="#{ivy.cm.co('/migrate/Licence')}" />
+                 <p:fileUpload id="licenceUpload" chooseIcon="si si-upload-bottom"
+                  style="font-weight: normal;width:100%;"
+                  label="#{ivy.cm.co('/migrate/Upload')}"
                   mode="simple" skinSimple="true" auto="true"
                   listener="#{migrationBean.handleUploadLicence}"
                   update="licenceUploadForm"
@@ -108,27 +108,25 @@
         <h:form id="migrationInPlaceForm">
           <p:panel id="migrationInPlace" rendered="#{migrationBean.inPlace}">
             <h:panelGroup id="migrationInPlaceInfo" layout="block">
-                This migration is an in place migration.
-                Therefore, the new Axon Ivy Engine will be installed in exactly the same place as the old Axon Ivy Engine.
-                The configuration files in container environments, such as the <code>ivy.yaml</code>, may be provided in a read-only mode.
-                As the migration needs to operate with write access onto these configuration files, you can define whether a temporary directory should be used to perform these changes.
-                After the migration, you must manually add these files to the Axon Ivy Engine.
+              #{ivy.cm.co('/migrate/InPlaceMigrationIntroduction')}
             </h:panelGroup>
 
             <h:panelGroup id="migrationInWriteToTmp" layout="block" style="margin-top:10px;">
-              <p:selectBooleanCheckbox id="migrationTmpDir" value="#{migrationBean.writeToTmp}" itemLabel="Write configuration files to temporary directory">
+              <p:selectBooleanCheckbox id="migrationTmpDir"
+                value="#{migrationBean.writeToTmp}"
+                itemLabel="#{ivy.cm.co('/migrate/WriteConfigurationFilesToTemporaryDirectory')}">
                 <p:ajax event="change" update="migrationInPlace" />
               </p:selectBooleanCheckbox>
             </h:panelGroup>
 
             <h:panelGroup id="migrationInWriteToTmpDir" layout="block" style="margin-top:10px;">
-              <h:outputText value="Temporary Directory: " />
+              <h:outputText value="#{ivy.cm.co('/migrate/TemporaryDirectory')}" />
               <code>#{migrationBean.configurationTmpDir}</code>
             </h:panelGroup>
-            
+
             <f:facet name="header">
               <p:panelGrid columns="1" layout="flex" contentStyleClass="align-items-center" columnClasses="col-12">
-                <h:outputText value="In-Place Migration" />
+                <h:outputText value="#{ivy.cm.co('/migrate/InPlaceMigration')}" />
               </p:panelGrid>
             </f:facet>
           </p:panel>
@@ -164,7 +162,7 @@
                   </h:panelGroup>
                   
                   <p:divider align="left" type="dashed">
-                    <p:commandButton actionListener="#{migrationBean.show(task)}" icon="si si-button-refresh-arrows" styleClass="ui-button-outlined" value="Log" update="log"></p:commandButton>
+                    <p:commandButton actionListener="#{migrationBean.show(task)}" icon="si si-button-refresh-arrows" styleClass="ui-button-outlined" value="#{ivy.cm.co('/migrate/Log')}" update="log"></p:commandButton>
                   </p:divider>
                   <h:panelGroup id="log" styleClass="log">
                     <p:scrollPanel style="height:300px;width:100%;">
@@ -181,7 +179,7 @@
             
             <f:facet name="header">
               <p:panelGrid columns="2" layout="flex" contentStyleClass="align-items-center" columnClasses="col-10, col-2">
-                <h:outputText value="Migration Tasks" />
+                <h:outputText value="#{ivy.cm.co('/migrate/MigrationTasks')}" />
                 <p:commandButton
                   onclick="PF('startMigrationModal').show();"
                   id="startMigration"
@@ -191,7 +189,7 @@
                    />
               </p:panelGrid>
             </f:facet>
-            
+
             <p:poll interval="1"
                    stop="#{migrationBean.state != 'RUNNING'}"
                    update="startMigration @(.task-icon) summaryForm"
@@ -199,16 +197,16 @@
           </p:panel>
         </h:form>
 
-       <p:dialog style="min-width: 300px;" header="Start Migration" id="startMigrationModal"
+       <p:dialog style="min-width: 300px;" header="#{ivy.cm.co('/migrate/StartMigration')}" id="startMigrationModal"
         widgetVar="startMigrationModal" modal="true" responsive="true" closeOnEscape="true">
         <h:form id="startMigrationForm" styleClass="custom-dialog-form">
           <div>
-            Before you start the Migration make sure you have a backup of your system database and the whole Axon Ivy Engine installation directory.
+            #{ivy.cm.co('/migrate/BackupSystemDatabaseRemindMessage')}
           </div>
           <div class="custom-dialog-footer">
-            <p:commandButton id="startMigrationCancel" onclick="PF('startMigrationModal').hide();" value="Cancel" type="button"
+            <p:commandButton id="startMigrationCancel" onclick="PF('startMigrationModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
               styleClass="ui-button-secondary ui-button-flat modal-input-button" style="width: 5rem;" />
-            <p:commandButton id="startMigrationStart" value="Start" icon="si si-check-1"
+            <p:commandButton id="startMigrationStart" value="#{ivy.cm.co('/common/Start')}" icon="si si-check-1"
               actionListener="#{migrationBean.execute}"
               update="locationForm migrationTaskForm"
               onsuccess="PF('migrationPoller').start();PF('startMigrationModal').hide();"
@@ -220,13 +218,13 @@
 
         <h:form id="summaryForm">
           <p:panel id="summaryPanel" style="margin-top: 10px;" rendered="#{migrationBean.state == 'FINISHED'}">
-            <p:staticMessage severity="#{migrationBean.finishedSeverity}" escape="false" summary="#{migrationBean.finishedMessage}" />
+            <p:staticMessage severity="#{migrationBean.finishedSeverity}" summary="#{migrationBean.finishedMessage}" />
             <p:messages id="migrationMessage" for="migrationMessage" showDetail="true" skipDetailIfEqualsSummary="true" />
             <pre style="white-space: pre-wrap; word-break: break-all; margin:0px;"><code><h:outputText value="#{migrationBean.summary}" /></code></pre>
-            
+
             <f:facet name="header">
               <p:panelGrid columns="1" layout="flex" contentStyleClass="align-items-center" columnClasses="col-12">
-                <h:outputText value="Summary" />
+                <h:outputText value="#{ivy.cm.co('/migrate/Summary')}" />
               </p:panelGrid>
             </f:facet>
           </p:panel>

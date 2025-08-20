@@ -17,11 +17,15 @@
     </h:panelGroup>
   </p:outputPanel>
   <p:tooltip id="lockDetails" for="state" rendered="#{cc.attrs.channel.locked}">
-    <h5 class="flex align-items-center"><i class="si si-computer-chip-search"></i><h:outputText value="&#160;"/>Error Information</h5>
+    <h5 class="flex align-items-center">
+      <i class="si si-computer-chip-search"></i>
+      <h:outputText value="&#160;" />
+      #{ivy.cm.co('/channelState/ErrorInformation')}
+    </h5>
     <p:panelGrid layout="grid" columns="2" columnClasses="ui-g-3, ui-g-9">
-      <p:outputLabel value="Failed deliver attemps so far:"/>
+      <p:outputLabel value="#{ivy.cm.co('/channelState/FailedDeliverAttempsSoFar')}"/>
       <h:outputText value="#{cc.attrs.channel.locks}" />
-      <p:outputLabel value="Next retry to deliver:"/>
+      <p:outputLabel value="#{ivy.cm.co('/channelState/NextRetryToDeliver')}"/>
       <h:panelGroup>
         <h:outputText value="#{cc.attrs.channel.nextRetryIn}"/>
         <h:outputText value="&#160;("/>
@@ -30,7 +34,7 @@
         </h:outputText>
         <h:outputText value=")"/>
       </h:panelGroup>
-      <p:outputLabel value="Last Error:"/>
+      <p:outputLabel value="#{ivy.cm.co('/channelState/LastError')}"/>
       <h:outputText value="#{cc.attrs.channel.lastError}" />
     </p:panelGrid>
   </p:tooltip>

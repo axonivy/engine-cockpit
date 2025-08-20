@@ -12,9 +12,9 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>Monitor</span></li>
+      <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
       <li>/</li>
-      <li><a href="logs.xhtml">Logs</a></li>
+      <li><a href="logs.xhtml">#{ivy.cm.co('/sidebar/Logs')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -37,7 +37,7 @@
               <h:form id="logChooserForm">
                 <div class="flex align-items-center">
                   <i class="pr-3 si si-common-file-text"></i>
-                  <h2 class="m-0">Logs</h2>
+                  <h2 class="m-0">#{ivy.cm.co('/sidebar/Logs')}</h2>
                   <p:calendar  id="calendar" styleClass="ml-auto" 
                     inputStyle="width:100px;"
                     value="#{logBean.localDate}"
@@ -53,7 +53,7 @@
                       itemLabel="#{log.fileName} (#{log.size})"
                       itemValue="#{log.fileName}" />
                     <p:ajax event="change"
-                      listener="#{logBean.navigateFile}"></p:ajax>
+                      listener="#{logBean.navigateFile}"/>
                   </p:selectOneMenu>
                 </div>
               </h:form>
@@ -65,12 +65,12 @@
               <cc:LogView log="#{logBean.log}" id="logView" />
             </h:panelGroup>
             <h:outputText rendered="#{empty logBean.logs}">
-              <p:staticMessage id="noLogsMessage" severity="warn" detail="No logs found on date: #{logBean.date}" />
+              <p:staticMessage id="noLogsMessage" severity="warn" detail="#{ivy.cm.co('/logs/NoLogMessage')} #{logBean.date}" />
             </h:outputText>
           </h:panelGroup>
         </div>
       </div>
-      <cc:DownloadDialog id="downloadDialog" bean="#{logBean}" title="Download all log files" />
+      <cc:DownloadDialog id="downloadDialog" bean="#{logBean}" title="#{ivy.cm.co('/logs/DownloadAllLogFiles')}" />
     </ui:define>
   </ui:composition>
 </h:body>

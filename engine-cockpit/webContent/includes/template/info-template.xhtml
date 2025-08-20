@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <meta name="mobile-web-app-capable" content="yes" />
   </f:facet>
-  <title><ui:insert name="title">Axon Ivy Engine</ui:insert></title>
+  <title><ui:insert name="title">#{ivy.cm.co('/common/AxonIvyEngine')}</ui:insert></title>
   <link rel="shortcut icon" href="#{resource['ivy-branding:favicon']}" />
   <h:outputScript name="js/layout.js" library="freya-layout" />
 </h:head>
@@ -24,20 +24,20 @@
             <p:graphicImage name="#{ivyFreyaTheme.logo}" library="ivy-branding" alt="Logo" />
           </a>
         </div>
-        
+
         <div class="layout-topbar-right">
           <div class="menu-wrapper">
             <div class="layout-menu-container" style="justify-content: right;">
               <h:form id="menuform">
                 <pm:menu widgetVar="sidebar_menu">
-                  <p:menuitem id="sr_apps" value="Applications" icon="si si-module" containerStyleClass="active-nav-page" />
-                  <p:menuitem id="sr_cockpit" value="Engine Cockpit" icon="si si-cog animated swing" url="#{engineInfo.engineCockpitUrl}" />
-                  <p:submenu  id="sr_setup" label="Setup Engine" icon="si si-lg si-startup-launch animated swing">
-                    <p:menuitem id="sr_setup_install" value="Install Axon Ivy Engine" icon="si si-tools-wench" url="setup.xhtml"/>
-                    <p:menuitem id="sr_setup_migrate" value="Migrate Axon Ivy Engine" icon="si si-navigation-right-circle" url="migrate.xhtml" />
+                  <p:menuitem id="sr_apps" value="#{ivy.cm.co('/common/Applications')}" icon="si si-module" containerStyleClass="active-nav-page" />
+                  <p:menuitem id="sr_cockpit" value="#{ivy.cm.co('/common/EngineCockpit')}" icon="si si-cog animated swing" url="#{engineInfo.engineCockpitUrl}" />
+                  <p:submenu  id="sr_setup" label="#{ivy.cm.co('/infoTemplate/SetupEngine')}" icon="si si-lg si-startup-launch animated swing">
+                    <p:menuitem id="sr_setup_install" value="#{ivy.cm.co('/infoTemplate/InstallAxonIvyEngine')}" icon="si si-tools-wench" url="setup.xhtml"/>
+                    <p:menuitem id="sr_setup_migrate" value="#{ivy.cm.co('/infoTemplate/MigrateAxonIvyEngine')}" icon="si si-navigation-right-circle" url="migrate.xhtml" />
                   </p:submenu>
-                  <p:menuitem id="sr_doc" value="Documentation" icon="si si-office-file-doc-1 animated swing" url="#{ivyAdvisor.advisor.docBaseUrl}" />
-                  <p:menuitem id="sr_shutdown" title="Shutdown Axon Ivy Engine" icon="si si-power-button animated swing" rendered="#{engineInfo.canShutdown()}" actionListener="#{engineInfo.openShutdownDialog()}" />
+                  <p:menuitem id="sr_doc" value="#{ivy.cm.co('/infoTemplate/Documentation')}" icon="si si-office-file-doc-1 animated swing" url="#{ivyAdvisor.advisor.docBaseUrl}" />
+                  <p:menuitem id="sr_shutdown" title="#{ivy.cm.co('/infoTemplate/ShutdownAxonIvyEngine')}" icon="si si-power-button animated swing" rendered="#{engineInfo.canShutdown()}" actionListener="#{engineInfo.openShutdownDialog()}" />
                 </pm:menu>
               </h:form>
             </div>
@@ -53,17 +53,17 @@
     </div>
   </div>
 
-  <p:dialog header="Shutdown" widgetVar="shutdownDialog"
+  <p:dialog header="#{ivy.cm.co('/infoTemplate/Shutdown')}" widgetVar="shutdownDialog"
     id="shutdownDialog" width="450px" height="10px"
     rendered="#{engineInfo.canShutdown()}">
     <p:outputPanel id="shutdownDialogMessage">#{engineInfo.shutdownMessage}</p:outputPanel>
     <f:facet name="footer">
-      <p:commandButton value="Cancel" type="button"
+      <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" type="button"
         id="shutdownDialogCancel" widgetVar="shutdownDialogCancel"
         onclick="PF('shutdownDialog').hide();"
         styleClass="ui-button-secondary ui-button-flat modal-input-button"
         disabled="#{engineInfo.shutdownButtonsDisabled}" />
-      <p:commandButton value="Shutdown" immediate="true"
+      <p:commandButton value="#{ivy.cm.co('/infoTemplate/Shutdown')}" immediate="true"
         update="shutdownDialogMessage shutdownDialogCancel shutdownDialogShutdown"
         id="shutdownDialogShutdown"
         disabled="#{engineInfo.shutdownButtonsDisabled}"

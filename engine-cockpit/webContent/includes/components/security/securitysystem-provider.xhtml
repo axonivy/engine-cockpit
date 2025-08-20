@@ -12,23 +12,23 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-single-neutral-actions"></i>
-        <h6 class="m-0">Identity Provider</h6>
-        
-        <p:linkButton title="Edit" icon="si si-pencil" id="editProviderBtn" rendered="#{securityProviderBean.notIvySecuritySystem}"
+        <h6 class="m-0">#{ivy.cm.co('/securitySystemProvider/IdentityProvider')}</h6>
+
+        <p:linkButton title="#{ivy.cm.co('/common/Edit')}" icon="si si-pencil" id="editProviderBtn" rendered="#{securityProviderBean.notIvySecuritySystem}"
             styleClass="ml-auto rounded-button" outcome="identity-provider">
           <f:param name="securitySystemName" value="#{securityProviderBean.securitySystemName}"/>
         </p:linkButton>
-       
-        <p:commandButton title="Save" icon="si si-floppy-disk" id="saveProviderBtn" update="securityProviderForm" actionListener="#{securityProviderBean.saveProvider}" 
+
+        <p:commandButton title="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk" id="saveProviderBtn" update="securityProviderForm" actionListener="#{securityProviderBean.saveProvider}" 
             styleClass="#{securityProviderBean.notIvySecuritySystem ? '' : 'ml-auto'} ml-1 ui-button-success rounded-button"/>
       </div>
     </div>
 
-    <p:staticMessage id="providerChangeWarning" detail="If you change the identity provider, you will lose ALL current settings of this security system!"
+    <p:staticMessage id="providerChangeWarning" detail="#{ivy.cm.co('/securitySystemProvider/ProviderChangeWarningMessage')}"
         severity="warn" rendered="#{securityProviderBean.showWarningMessage}"/>
-    
+
     <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex" styleClass="grey-label-panel ui-fluid">
-      <label>Provider</label>
+      <label>#{ivy.cm.co('/common/Provider')}</label>
       <p:selectOneMenu id="provider" value="#{securityProviderBean.provider}">
         <p:ajax event="change" listener="#{securityProviderBean.setShowWarningMessage(true)}" update="securityProviderForm" />
         <f:selectItems value="#{securityBean.providers}" var="provider" itemValue="#{provider.id()}" itemLabel="#{provider.name()}" />
@@ -36,18 +36,18 @@
     </p:panelGrid>
 
     <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex" styleClass="grey-label-panel ui-fluid" rendered="#{securityProviderBean.notIvySecuritySystem}">
-      <p:outputLabel for="synchOnLogin" value="Synchronize users on login" />
+      <p:outputLabel for="synchOnLogin" value="#{ivy.cm.co('/securitySystemProvider/SynchronizeUsersOnLogin')}" />
       <p:selectBooleanCheckbox id="synchOnLogin" value="#{securityProviderBean.synchOnLogin}" />
 
-      <p:outputLabel for="onScheduleEnabled" value="Synchronize users on schedule" />
+      <p:outputLabel for="onScheduleEnabled" value="#{ivy.cm.co('/securitySystemProvider/SynchronizeUsersOnSchedule')}" />
       <p:selectBooleanCheckbox id="onScheduleEnabled" value="#{securityProviderBean.onScheduleEnabled}" />
-      
-      <p:outputLabel for="onScheduleCronEnabled" value="Use cron expression configuration" />
+
+      <p:outputLabel for="onScheduleCronEnabled" value="#{ivy.cm.co('/securitySystemProvider/UseCronExpressionConfiguration')}" />
       <p:selectBooleanCheckbox id="onScheduleCronEnabled" value="#{securityProviderBean.useCron}" >
         <p:ajax update="@form" />
       </p:selectBooleanCheckbox>
 
-      <p:outputLabel for="onScheduleCron" value="Synchronization schedule time" />
+      <p:outputLabel for="onScheduleCron" value="#{ivy.cm.co('/securitySystemProvider/SynchronizationScheduleTime')}" />
       <h:panelGroup>
         <p:inputMask id="onScheduleTime" value="#{securityProviderBean.onScheduleTime}" mask="99:99"
           placeholder="00:00" rendered="#{!securityProviderBean.useCron}"/>
@@ -66,7 +66,7 @@
         </p:messages>
       </h:panelGroup>
 
-      <p:outputLabel for="onScheduleImportUsers" value="Import users on schedule" />
+      <p:outputLabel for="onScheduleImportUsers" value="#{ivy.cm.co('/securitySystemProvider/ImportUsersOnSchedule')}" />
       <p:selectBooleanCheckbox id="onScheduleImportUsers" value="#{securityProviderBean.onScheduleImportUsers}" />
     </p:panelGrid>
   </h:form>

@@ -12,31 +12,31 @@ class TestRestTestRunner {
 
   @Test
   void resultOk() {
-    ConnectionTestResult result = RestTestRunner.toTestResult(Status.OK);
+    ConnectionTestResult result = RestTestRunner.toTestResult(Status.OK, "", "", "", "");
     assertThat(result.getTestResult()).isEqualTo("Success");
   }
 
   @Test
   void resultOkRedirected() {
-    ConnectionTestResult result = RestTestRunner.toTestResult(Status.TEMPORARY_REDIRECT);
+    ConnectionTestResult result = RestTestRunner.toTestResult(Status.TEMPORARY_REDIRECT, "", "", "", "");
     assertThat(result.getTestResult()).isEqualTo("Success");
   }
 
   @Test
   void resultError() {
-    ConnectionTestResult result = RestTestRunner.toTestResult(Status.INTERNAL_SERVER_ERROR);
+    ConnectionTestResult result = RestTestRunner.toTestResult(Status.INTERNAL_SERVER_ERROR, "", "", "", "");
     assertThat(result.getTestResult()).isEqualTo("Error");
   }
 
   @Test
   void resultAuthenificationError() {
-    ConnectionTestResult result = RestTestRunner.toTestResult(Status.UNAUTHORIZED);
+    ConnectionTestResult result = RestTestRunner.toTestResult(Status.UNAUTHORIZED, "", "", "", "");
     assertThat(result.getTestResult()).isEqualTo("Warning");
   }
 
   @Test
   void resultBadRequest() {
-    ConnectionTestResult result = RestTestRunner.toTestResult(Status.BAD_REQUEST);
+    ConnectionTestResult result = RestTestRunner.toTestResult(Status.BAD_REQUEST, "", "", "", "");
     assertThat(result.getTestResult()).isEqualTo("Warning");
   }
 }

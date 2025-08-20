@@ -6,6 +6,7 @@ import java.util.Locale;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.notification.channel.Event;
 import ch.ivyteam.ivy.notification.channel.NotificationSubscription;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -32,7 +33,7 @@ public class NotificationChannelDataModel {
   public void reset() {
     channels.forEach(this::resetChannel);
     onload();
-    addMessage("Notification Channels reset");
+    addMessage(Ivy.cm().co("/userDetailNotifications/NotificationChannelsResetMessage"));
   }
 
   private void resetChannel(NotificationChannelDto channel) {
@@ -43,7 +44,7 @@ public class NotificationChannelDataModel {
 
   public void save() {
     channels.forEach(this::saveChannel);
-    addMessage("Notification Channels changes saved");
+    addMessage(Ivy.cm().co("/userDetailNotifications/NotificationChannelsChangesSavedMessage"));
   }
 
   private void saveChannel(NotificationChannelDto channel) {

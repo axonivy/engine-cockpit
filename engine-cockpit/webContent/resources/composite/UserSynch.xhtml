@@ -5,15 +5,15 @@
   <cc:attribute name="userSynch" required="true" type="ch.ivyteam.enginecockpit.security.UserSynch" />
 </cc:interface>
 <cc:implementation>
-  <p:dialog style="min-width: 400px;" header="Synchronize Single User" id="synchUserModal" widgetVar="synchUserModal"
+  <p:dialog style="min-width: 400px;" header="#{ivy.cm.co('/userSynch/SynchronizeSingleUserDialogHeader')}" id="synchUserModal" widgetVar="synchUserModal"
     modal="true" responsive="true" closable="false">
 
   <h:form id="synchUserForm" styleClass="custom-dialog-form">
     <div>
       <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
-        <p:outputLabel for="userSynchName" value="User Name" />
+        <p:outputLabel for="userSynchName" value="#{ivy.cm.co('/userSynch/UserName')}" />
         <h:panelGroup styleClass="md-inputfield">
-          <p:inputText id="userSynchName" required="true" requiredMessage="User Name is required"
+          <p:inputText id="userSynchName" required="true" requiredMessage="#{ivy.cm.co('/userSynch/UserNameRequiredMessage')}"
             value="#{cc.attrs.userSynch.userName}" disabled="#{cc.attrs.userSynch.preconfigured}" />
           <p:message for="userSynchName" id="userNameMessage" />
         </h:panelGroup>
@@ -24,10 +24,10 @@
       </h:panelGroup>
     </div>
     <div class="custom-dialog-footer">
-      <p:commandButton id="closeSynchUser" value="Close" ajax="false" actionListener="#{cc.attrs.userSynch.reset}"
+      <p:commandButton id="closeSynchUser" value="#{ivy.cm.co('/common/Close')}" ajax="false" actionListener="#{cc.attrs.userSynch.reset}"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true">
       <p:resetInput target="@form" />
-      <p:commandButton id="synchUserVar" validateClient="true" actionListener="#{cc.attrs.userSynch.synch}" value="Synch"
+      <p:commandButton id="synchUserVar" validateClient="true" actionListener="#{cc.attrs.userSynch.synch}" value="#{ivy.cm.co('/userSynch/Synch')}"
         icon="si si-button-refresh-arrows" styleClass="modal-input-button" update="@form" />
       </p:commandButton>
     </div>
