@@ -83,7 +83,7 @@ public class ThreadBean {
     if (dump == null) {
       return null;
     }
-    return DefaultStreamedContent.builder().name(Ivy.cm().co("ThreadDump.txt")).contentType("text/text")
+    return DefaultStreamedContent.builder().name("ThreadDump.txt").contentType("text/text")
         .stream(() -> new ByteArrayInputStream(dump.getBytes(StandardCharsets.UTF_8))).build();
   }
 
