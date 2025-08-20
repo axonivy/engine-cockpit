@@ -37,7 +37,7 @@ class WebTestWizardLicence {
     WebTestWizard.activeStepShouldHaveWarnings();
     uploadLicence();
     $(".ui-growl-message").shouldHave(text("Success"));
-    $(By.id("licence:fileUploadForm:licenceInfoTable")).shouldHave(text("lukas.lieb@axonivy.com"));
+    $(By.id("licence:fileUploadForm:licenceInfoTable")).shouldHave(text("Standard Edition"), text("Axon Ivy AG"));
     $(By.id("licence:licWarnMessage")).shouldHave(empty);
     WebTestWizard.activeStepShouldBeOk();
 
