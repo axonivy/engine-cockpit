@@ -356,7 +356,7 @@ databaseConfiguration:
   ResetDatabaseConfigurationMessage: Database configuration reset
   ResetDatabaseConfirmDialogHeader: Reset Database
   ResetDatabaseConfirmDialogMessage: Are you sure you want to reset this Database?
-  SaveDatabaseConfigurationMessage: Database configuration reset
+  SaveDatabaseConfigurationMessage: Database configuration saved
   TestDatabaseConnection: Test Database Connection
 databaseConnections:
   InUse: In Use
@@ -831,7 +831,7 @@ monitor:
     LastError: Last Error
     LastSuccessfulExecution: Last successful execution
     LastTimeTheJobFailed: Last time the job failed
-    NextExecution: Next execution
+    NextExecution: Next Execution
     RefreshJobs: Refresh jobs
     ScheduleExecuteJob: Schedule to execute the job now
     ScheduleJob: Schedule Job

@@ -23,7 +23,7 @@
       #{ivy.cm.co('/channelState/ErrorInformation')}
     </h5>
     <p:panelGrid layout="grid" columns="2" columnClasses="ui-g-3, ui-g-9">
-      <p:outputLabel value="#{ivy.cm.co('/channelState/LastError')}"/>
+      <p:outputLabel value="#{ivy.cm.co('/channelState/FailedDeliverAttempsSoFar')}"/>
       <h:outputText value="#{cc.attrs.channel.locks}" />
       <p:outputLabel value="#{ivy.cm.co('/channelState/NextRetryToDeliver')}"/>
       <h:panelGroup>
