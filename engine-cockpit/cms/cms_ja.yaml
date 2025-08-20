@@ -599,6 +599,7 @@ login:
   SignInButton: サインイン
   UserNamePlaceholder: パスワード
 logs:
+  CouldNotZipLogsMessage: ログを圧縮できませんでした
   DownloadAllLogFiles: すべてのログファイルをダウンロード
   DownloadLog: ログをダウンロード
   NoLogMessage: '指定された日付にはログが見つかりません:'

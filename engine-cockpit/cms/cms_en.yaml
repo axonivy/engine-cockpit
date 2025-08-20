@@ -598,6 +598,7 @@ login:
   SignInButton: Sign In
   UserNamePlaceholder: Password
 logs:
+  CouldNotZipLogsMessage: Could not zip logs
   DownloadAllLogFiles: Download all log files
   DownloadLog: Download log
   NoLogMessage: 'No logs found on date:'
