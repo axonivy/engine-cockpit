@@ -213,9 +213,8 @@ public class MigrationBean {
         finishedMessage = Ivy.cm().co("/migrate/EngineMigrationSuccessfulMessage");
         finishedSeverity = "info";
       } else {
-        finishedMessage = Ivy.cm().co("/migrate/EngineMigrationErrorMessage")
-            + "\n<pre style=\"white-space:pre-wrap;word-break:break-all;margin:0px;\"><code>"
-            + ExceptionUtils.getStackTrace(exception) + "</code></pre>";
+        finishedMessage = Ivy.cm().content("/migrate/EngineMigrationErrorMessage")
+            .replace("exception", ExceptionUtils.getStackTrace(exception)).get();
         finishedSeverity = "error";
       }
     }

@@ -604,7 +604,7 @@ migrate:
   BackupSystemDatabaseRemindMessage: 移行を開始する前に、システムデータベースと Axon Ivy Engine のインストールディレクトリ全体のバックアップを必ず作成してください。
   Checks: チェック
   Done: 完了
-  EngineMigrationErrorMessage: 移行中にエラーが発生しました。<br><pre style="white-space:pre-wrap;word-break:break-all;margin:0px;"><code>{0}</code></pre>
+  EngineMigrationErrorMessage: 移行中にエラーが発生しました。 ${exception}
   EngineMigrationSuccessfulMessage: Axon Ivy Engine の移行が正常に完了しました。Axon Ivy Engine を再起動してください。
   InPlaceMigration: インプレース移行
   InPlaceMigrationIntroduction: この移行はインプレース移行です。したがって、新しい Axon Ivy Engine は古い Axon Ivy Engine とまったく同じ場所にインストールされます。ivy.yaml などのコンテナ環境における設定ファイルは読み取り専用モードで提供される場合があります。 移行ではこれらの設定ファイルへの書き込みアクセスが必要なため、一時ディレクトリを使用してこれらの変更を行うかどうかを指定できます。移行後、これらのファイルを手動で Axon Ivy Engine に追加する必要があります。

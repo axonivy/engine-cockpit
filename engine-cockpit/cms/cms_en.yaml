@@ -603,7 +603,7 @@ migrate:
   BackupSystemDatabaseRemindMessage: Before you start the Migration make sure you have a backup of your system database and the whole Axon Ivy Engine installation directory.
   Checks: Checks
   Done: Done
-  EngineMigrationErrorMessage: Error during migration.
+  EngineMigrationErrorMessage: Error during migration. ${exception}
   EngineMigrationSuccessfulMessage: The Axon Ivy Engine migration was successful. Restart your Axon Ivy Engine now.
   InPlaceMigration: In-Place Migration
   InPlaceMigrationIntroduction: This migration is an in place migration. Therefore, the new Axon Ivy Engine will be installed in exactly the same place as the old Axon Ivy Engine. The configuration files in container environments, such as the ivy.yaml, may be provided in a read-only mode. As the migration
