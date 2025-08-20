@@ -13,26 +13,26 @@
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-navigation-right-circle-1"></i>
-        <h6 class="m-0">Threads</h6>
+        <h6 class="m-0">#{ivy.cm.co('/common/Threads')}</h6>
       </div>
     </div>
-    
+
     <p:dataTable value="#{cc.attrs.event.threads}" var="thread" widgetVar="threadTable" styleClass="ui-fluid"
             paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-            id="threadTable" style="min-width: 950px;">
-      <p:column headerText="Id" sortBy="#{thread.javaThreadId}">
+            id="threadTable" style="min-width: 950px;" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+      <p:column headerText="#{ivy.cm.co('/evenBeanThreads/Id')}" sortBy="#{thread.javaThreadId}">
         <h:link id="id" outcome="monitorThreads.xhtml" rendered="#{thread.isRunning}" value="#{thread.javaThreadId}">
           <f:param name="threadId" value="#{thread.javaThreadId}"/>
         </h:link>
         <h:outputText value="#{thread.javaThreadId}" rendered="#{not thread.isRunning}"/>
       </p:column>
-      <p:column headerText="Name" sortBy="#{thread.name}">
+      <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{thread.name}">
         <h:outputText value="#{thread.name}"/>
       </p:column>
-      <p:column headerText="State" sortBy="#{thread.state}">
+      <p:column headerText="#{ivy.cm.co('/common/State')}" sortBy="#{thread.state}">
         <h:outputText value="#{thread.state}"/>
       </p:column>
-      <p:column headerText="Last Error" sortBy="#{thread.lastError}">
+      <p:column headerText="#{ivy.cm.co('/common/LastError')}" sortBy="#{thread.lastError}">
         <er:Error id="error" styleClass="align-items-center" error="#{thread.lastError}"/>
       </p:column>
     </p:dataTable>

@@ -63,7 +63,7 @@
               rendered="#{clusterBean.clusterServer or param['cluster'] != null}" />
             <p:menuitem id="sr_editor" value="#{ivy.cm.co('/common/ConfigFileEditor')}" icon="si si-common-file-text-edit" url="editor.xhtml" />
           </p:submenu>
-          <p:submenu id="sr_monitor" label="#{ivy.cm.co('/sidebar/Monitor')}" icon="si si-pie-line-graph-desktop">
+          <p:submenu id="sr_monitor" label="#{ivy.cm.co('/common/Monitor')}" icon="si si-pie-line-graph-desktop">
             <p:menuitem id="sr_monitor_os" value="#{ivy.cm.co('/sidebar/OS')}" icon="si si-server-search" url="monitorOs.xhtml" />
             <p:submenu id="sr_monitor_java" label="#{ivy.cm.co('/sidebar/Java')}" icon="si si-coffee-cup">
               <p:menuitem id="sr_monitor_java_jvm" value="#{ivy.cm.co('/sidebar/JVM')}" icon="si si-coffee-cup" url="monitorJvm.xhtml" />
@@ -71,7 +71,7 @@
                 url="monitorMemory.xhtml" />
               <p:menuitem id="sr_monitor_java_class_histogram" value="#{ivy.cm.co('/sidebar/ClassHistogram')}" icon="si si-computer-chip-search"
                 url="monitorClassHistogram.xhtml" />
-              <p:menuitem id="sr_monitor_java_threads" value="#{ivy.cm.co('/sidebar/Threads')}" icon="si si-synchronize-arrow-clock" url="monitorThreads.xhtml" />
+              <p:menuitem id="sr_monitor_java_threads" value="#{ivy.cm.co('/common/Threads')}" icon="si si-synchronize-arrow-clock" url="monitorThreads.xhtml" />
               <p:menuitem id="sr_monitor_java_jfr" value="#{ivy.cm.co('/sidebar/FlightRecorder')}" icon="si si-plane-take-off" url="monitorJfr.xhtml" />
               <p:menuitem id="sr_monitor_java_mbeans" value="#{ivy.cm.co('/sidebar/MBeans')}" icon="si si-graph-statistics-coffee"
                 url="mbeans.xhtml" />
@@ -83,10 +83,10 @@
               <p:menuitem id="sr_monitor_engine_cache" value="#{ivy.cm.co('/sidebar/Cache')}" icon="si si-monitor-heart-beat-search" url="monitorCache.xhtml" />
               <p:menuitem id="sr_monitor_engine_health" value="#{ivy.cm.co('/sidebar/Health')}" icon="si si-road-sign-warning" url="monitor-health.xhtml" />
             </p:submenu>
-            <p:submenu id="sr_monitor_workflow" label="#{ivy.cm.co('/sidebar/Workflow')}" icon="si si-layout-bullets">
+            <p:submenu id="sr_monitor_workflow" label="#{ivy.cm.co('/common/Workflow')}" icon="si si-layout-bullets">
               <p:menuitem id="sr_monitor_workflow_documents" value="#{ivy.cm.co('/sidebar/Documents')}" icon="si si-office-file-doc-1" url="documents.xhtml" />
-              <p:menuitem id="sr_monitor_workflow_start_events" value="#{ivy.cm.co('/sidebar/StartEvents')}" icon="si si-navigation-right-circle-1" url="monitorStartEvents.xhtml" />
-              <p:menuitem id="sr_monitor_workflow_intermediate_events" value="#{ivy.cm.co('/sidebar/IntermediateEvents')}" icon="si si-time-clock-circle" url="monitorIntermediateEvents.xhtml" />
+              <p:menuitem id="sr_monitor_workflow_start_events" value="#{ivy.cm.co('/common/StartEvents')}" icon="si si-navigation-right-circle-1" url="monitorStartEvents.xhtml" />
+              <p:menuitem id="sr_monitor_workflow_intermediate_events" value="#{ivy.cm.co('/common/IntermediateEvents')}" icon="si si-time-clock-circle" url="monitorIntermediateEvents.xhtml" />
             </p:submenu>
             <p:submenu id="sr_monitor_performance" label="#{ivy.cm.co('/sidebar/Performance')}" icon="si si-time-clock-circle">
               <p:menuitem id="sr_monitor_performance_process_execution" value="#{ivy.cm.co('/sidebar/ProcessExecution')}" icon="si si-optimization-timer"

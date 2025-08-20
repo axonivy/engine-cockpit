@@ -7,6 +7,7 @@ import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.restricted.IProcessModelVersionInternal;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
@@ -129,8 +130,8 @@ public class ProcessModelVersion extends AbstractActivity {
   }
 
   public String getLibraryResolvedTooltip() {
-    return (isLibraryResolved() ? "All" : "Not all")
-        + " direct and indirect required libraries are available in the system.";
+    return isLibraryResolved() ? Ivy.cm().co("/pmvDetail/AllDirectIndirectRequiredLibrariesAvailableMessage")
+        : Ivy.cm().co("/pmvDetail/NotAllDirectIndirectRequiredLibrariesAvailableMessage");
   }
 
   private void countRunningCases() {

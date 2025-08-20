@@ -138,6 +138,7 @@ common:
   Communication: Communication
   ConfigFileEditor: Config File Editor
   Configuration: Configuration
+  ConfiguredState: Configured state
   Confirm: Confirm
   Connections: Connections
   CopyToClipboard: Copy to clipboard
@@ -194,10 +195,12 @@ common:
   ID: ID
   Info: Info
   Instances: Instances
+  IntermediateEvents: Intermediate Events
   IsLocal: Is Local
   IsMaster: Is Master
   Key: Key
   Language: Language
+  LastError: Last Error
   LastLogin: Last Login
   Licence: Licence
   Limit: Limit
@@ -209,6 +212,7 @@ common:
   Modified: Modified
   Modifier: Modifier
   Module: Module
+  Monitor: Monitor
   More: More
   MoreOptions: More Options
   Name: Name
@@ -279,6 +283,7 @@ common:
   Source: Source
   StackTrace: Stack Trace
   Start: Start
+  StartEvents: Start Events
   StartTime: Start Time
   StartTimestamp: Start Timestamp
   State: State
@@ -295,6 +300,7 @@ common:
   TableName: Table name
   Tables: Tables
   Template: Template
+  Threads: Threads
   Time: Time
   Timestamp: Timestamp
   Total: Total
@@ -315,6 +321,7 @@ common:
   WebServer: Web Server
   WebServiceClients: Web Service Clients
   WebServiceProcesses: Web Service Processes
+  Workflow: Workflow
   Write: Write
   'Yes': 'Yes'
 configuration:
@@ -356,7 +363,7 @@ databaseConfiguration:
   ResetDatabaseConfigurationMessage: Database configuration reset
   ResetDatabaseConfirmDialogHeader: Reset Database
   ResetDatabaseConfirmDialogMessage: Are you sure you want to reset this Database?
-  SaveDatabaseConfigurationMessage: Database configuration saved
+  SaveDatabaseConfigurationMessage: Database configuration reset
   TestDatabaseConnection: Test Database Connection
 databaseConnections:
   InUse: In Use
@@ -419,6 +426,8 @@ emailSettings:
   Wed: Wed
 error:
   ShowFullError: Show full error
+evenBeanThreads:
+  Id: Id
 exception:
   AjaxExceptionDialogHeader: Error
   ViewExpiredExceptionDialogContent: The view or session has expired.
@@ -657,7 +666,6 @@ monitor:
   SendRecv: Send / Recv
   Sending: Sending
   System: System
-  Threads: Threads
   Time: Time
   TotalLoaded: Total Loaded
   TotalStarted: Total Started
@@ -828,10 +836,9 @@ monitor:
     Executions: Executions
     JobDetail: Job Detail
     JobTitle: Job
-    LastError: Last Error
     LastSuccessfulExecution: Last successful execution
     LastTimeTheJobFailed: Last time the job failed
-    NextExecution: Next Execution
+    NextExecution: Next execution
     RefreshJobs: Refresh jobs
     ScheduleExecuteJob: Schedule to execute the job now
     ScheduleJob: Schedule Job
@@ -899,11 +906,12 @@ monitor:
     ExportTraces: Export traces
     StartTracesHelpText: Start the recording of the slow requests can have a negative impact on the performance of the engine.
     Traces: Traces
+monitorStartEventDetails:
+  ProcessModels: Process Models
 monitorTraceDetail:
   AttributesTableEmptyMesssage: Select a span to see its attributes
   ExecutionTimeMsTitle: Execution time [ms]
   ExportSpan: Export span
-  Monitor: Monitor
   Performance: Performance
   RequestNoLongerAvailableMesssage: Request no longer available
   RequestWasRemoveWarningMesssage: The request was remove from the slowest requests because other requests were even slower!
@@ -965,6 +973,28 @@ permissions:
   Permissions: Permissions
   SomePermissionDenied: Some Permission denied
   SomePermissionGranted: Some Permission granted
+pmvDetail:
+  ActivityState: Activity state
+  AllDirectIndirectRequiredLibrariesAvailableMessage: All direct and indirect required libraries are available in the system.
+  AllPMVsDependingOnPMV: All PMVs depending on this PMV
+  AllPMVsRequiredByPMV: All PMVs required by this PMV
+  DependentPMVTableEmptyMessage: The PMV '${name}' has no dependend PMVs.
+  Id: Id
+  LastDeployed: Last deployed
+  NoProjectFoundForSpecificationMessage: No project could be found for this specification.
+  NotAllDirectIndirectRequiredLibrariesAvailableMessage: Not all direct and indirect required libraries are available in the system.
+  PMV: PMV
+  PMVInformation: PMV information
+  PMVResolvedForSpecificationMessage: '''${name}'' resolved for this specification'
+  Project: Project
+  ProjectVersion: Project Version
+  ReleaseState: Release state
+  RequriedPMVTableEmptyMessage: The PMV '${name}' has no required PMVs.
+  Resolved: Resolved
+  ResolvedPMV: Resolved PMV
+  SpecifiedRequiredProjects: Specified required projects
+  SpecifiedRequiredProjectsMessage: Although some required projects are specified!
+  SpecifiedTableEmptyMessage: The PMV '${name}' has no specified required projects.
 poll:
   LastPollError: Last Poll Error
   NextPoll: Next Poll
@@ -1186,7 +1216,6 @@ sidebar:
   Engine: Engine
   FlightRecorder: Flight Recorder
   Health: Health
-  IntermediateEvents: Intermediate Events
   JVM: JVM
   Java: Java
   Jobs: Jobs
@@ -1196,7 +1225,6 @@ sidebar:
   Logs: Logs
   MBeans: MBeans
   Memory: Memory
-  Monitor: Monitor
   Notifications: Notifications
   OS: OS
   Performance: Performance
@@ -1204,10 +1232,7 @@ sidebar:
   Roles: Roles
   Sessions: Sessions
   SlowRequests: Slow Requests
-  StartEvents: Start Events
-  Threads: Threads
   TrafficGraph: Traffic Graph
-  Workflow: Workflow
 soapHistory:
   Endpoint: Endpoint
   Operation: Operation
@@ -1234,8 +1259,6 @@ sslTrustStore:
   EnableInsecureSSLAndHTTPSConnections: Enable insecure SSL and HTTPS connections
   TrustStoreConfigurations: Trust Store configurations
   TrustStoreConfigurationsSavedMessage: Trust Store configurations saved
-state:
-  ConfiguredState: Configured state
 supportReport:
   AxonIvyEngineSupportReportContent: Axon Ivy Engine Support Report
   DownloadSupportReport: Download Support Report

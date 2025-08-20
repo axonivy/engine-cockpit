@@ -10,11 +10,11 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
+      <li><span>#{ivy.cm.co('/common/Monitor')}</span></li>
       <li>/</li>
-      <li><span>#{ivy.cm.co('/sidebar/Workflow')}</span></li>
+      <li><span>#{ivy.cm.co('/common/Workflow')}</span></li>
       <li>/</li>
-      <li><a href="monitorIntermediateEvents.xhtml">#{ivy.cm.co('/sidebar/IntermediateEvents')}</a></li>
+      <li><a href="monitorIntermediateEvents.xhtml">#{ivy.cm.co('/common/IntermediateEvents')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -25,7 +25,7 @@
       <div class="card">
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-navigation-right-circle-1 card-title-icon"></i>
-          <h2 class="m-0">#{ivy.cm.co('/sidebar/IntermediateEvents')}</h2>
+          <h2 class="m-0">#{ivy.cm.co('/common/IntermediateEvents')}</h2>
           <p:commandButton id="refresh" actionListener="#{intermediateEventBean.refresh}" update="form" title="#{ivy.cm.co('/monitor/startEvent/RefreshStartEvents')}"
               icon="si si-button-refresh-arrows" styleClass="flex-shrink-0 ml-auto rounded-button"/>
 

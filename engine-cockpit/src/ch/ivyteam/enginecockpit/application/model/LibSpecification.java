@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.application.model;
 
 import ch.ivyteam.ivy.application.ILibrarySpecification;
 import ch.ivyteam.ivy.application.value.VersionRange;
+import ch.ivyteam.ivy.environment.Ivy;
 
 public class LibSpecification {
 
@@ -45,9 +46,10 @@ public class LibSpecification {
 
   public String getResolvedTooltip() {
     if (isResolved()) {
-      return "'" + getResolvedPmvName() + "' resolved for this specification";
+      return Ivy.cm().content("/pmvDetail/PMVResolvedForSpecificationMessage").replace("name", getResolvedPmvName())
+          .get();
     }
-    return "No project could be found for this specification.";
+    return Ivy.cm().co("/pmvDetail/NoProjectFoundForSpecificationMessage");
   }
 
 }

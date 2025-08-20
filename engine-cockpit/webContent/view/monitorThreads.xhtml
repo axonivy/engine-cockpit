@@ -9,11 +9,11 @@
   <h:body>
     <ui:composition template="../includes/template/template.xhtml">
       <ui:define name="breadcrumb">
-        <li><span>#{ivy.cm.co('/sidebar/Monitor')}</span></li>
+        <li><span>#{ivy.cm.co('/common/Monitor')}</span></li>
         <li>/</li>
         <li><span>#{ivy.cm.co('/sidebar/Java')}</span></li>
         <li>/</li>
-        <li><a href="monitorThreads.xhtml">#{ivy.cm.co('/sidebar/Threads')}</a></li>
+        <li><a href="monitorThreads.xhtml">#{ivy.cm.co('/common/Threads')}</a></li>
       </ui:define>
   
       <ui:define name="topbar-items">
@@ -31,7 +31,7 @@
               <div class="card-header flex-wrap">
                 <div class="card-title flex align-items-center">
                   <i class="pr-3 si si-synchronize-arrow-clock" />
-                  <h2 class="m-0">#{ivy.cm.co('/sidebar/Threads')}</h2>
+                  <h2 class="m-0">#{ivy.cm.co('/common/Threads')}</h2>
                   <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{threadBean.refresh()}" title="#{ivy.cm.co('/common/Refresh')}" styleClass="flex-shrink-0 ml-auto rounded-button" update="threadTable"/>
                   <p:commandButton id="dump" icon="pi pi-arrow-down" ajax="false" title="#{ivy.cm.co('/monitor/thread/SaveThreadDump')}" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button">
                     <p:fileDownload value="#{threadBean.dump()}"/>
