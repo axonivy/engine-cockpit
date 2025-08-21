@@ -14,6 +14,9 @@ import static com.codeborne.selenide.Selenide.$$;
 
 import java.util.Map;
 
+import com.codeborne.selenide.ScrollIntoViewOptions;
+import com.codeborne.selenide.ScrollIntoViewOptions.Block;
+
 public class Navigation {
 
   private static final String DASHBOARD_MENU = "#menuform\\:sr_dashboard";
@@ -421,7 +424,7 @@ public class Navigation {
   private static void toMenu(String menuItemPath) {
     EngineCockpitUtil.waitUntilMenuJsIsInitialized();
     closeMenus();
-    $(menuItemPath).find("a").scrollIntoView(false).click();
+    $(menuItemPath).find("a").scrollIntoView(ScrollIntoViewOptions.instant().block(Block.end)).click();
     menuShouldBeActive(menuItemPath);
   }
 
@@ -429,8 +432,8 @@ public class Navigation {
     EngineCockpitUtil.waitUntilMenuJsIsInitialized();
     closeMenus();
     $(menuItemPath).shouldBe(visible);
-    $(menuItemPath).find("a").scrollIntoView(false).click();
-    $(subMenuItemPath).find("a").shouldBe(visible).scrollIntoView(false).click();
+    $(menuItemPath).find("a").scrollIntoView(ScrollIntoViewOptions.instant().block(Block.end)).click();
+    $(subMenuItemPath).find("a").shouldBe(visible).scrollIntoView(ScrollIntoViewOptions.instant().block(Block.end)).click();
     menuShouldBeActive(subMenuItemPath);
   }
 
@@ -438,10 +441,10 @@ public class Navigation {
     EngineCockpitUtil.waitUntilMenuJsIsInitialized();
     closeMenus();
     $(menuItemPath).shouldBe(visible);
-    $(menuItemPath).find("a").scrollIntoView(false).click();
+    $(menuItemPath).find("a").scrollIntoView(ScrollIntoViewOptions.instant().block(Block.end)).click();
     $(subMenuItemPath).find("a").shouldBe(visible);
-    $(subMenuItemPath).find("a").scrollIntoView(false).click();
-    $(subSubMenuItemPath).scrollIntoView(false).click();
+    $(subMenuItemPath).find("a").scrollIntoView(ScrollIntoViewOptions.instant().block(Block.end)).click();
+    $(subSubMenuItemPath).scrollIntoView(ScrollIntoViewOptions.instant().block(Block.end)).click();
     menuShouldBeActive(subSubMenuItemPath);
   }
 

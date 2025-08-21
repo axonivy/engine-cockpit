@@ -23,6 +23,7 @@ import static com.codeborne.selenide.Selenide.refresh;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +35,9 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.ScrollIntoViewOptions;
+import com.codeborne.selenide.ScrollIntoViewOptions.Block;
+import com.codeborne.selenide.ScrollIntoViewOptions.Inline;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -116,7 +120,7 @@ class WebTestConfiguration {
       String key = "Connector.HTTP.AllowTrace";
       assertShowConfigFile(key);
     }
-    
+
     @Test
     void reloadConfig() {
       $(By.id("reloadConfig")).shouldBe(visible).click();
@@ -194,7 +198,7 @@ class WebTestConfiguration {
 
     private void navigateTo(String app) {
       Navigation.toApplicationDetail(app);
-      $(CONTENT_FILTER_BTN).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
+      $(CONTENT_FILTER_BTN).scrollIntoView(ScrollIntoViewOptions.instant().block(Block.center).inline(Inline.center));
       table = new Table(TABLE_ID, "span");
     }
 
@@ -208,7 +212,7 @@ class WebTestConfiguration {
       var config = "Data.FilesDirectory";
       table.firstColumnShouldBe(itemWithText(config));
       toggleDefaultFilter();
-      table.firstColumnShouldBe(noneMatch("Hide default values", e -> StringUtils.equals(e.getText(), config)));
+      table.firstColumnShouldBe(noneMatch("Hide default values", e -> Objects.equals(e.getText(), config)));
       resetContentFilter();
       table.firstColumnShouldBe(itemWithText(config));
     }
@@ -235,12 +239,12 @@ class WebTestConfiguration {
 
     private void assertShowAppConfigFilter(String filter, String config) {
       table.firstColumnShouldBe(noneMatch("Config should not be listed in the config table per default: " + config,
-          element -> StringUtils.equals(element.getText(), config)));
+          element -> Objects.equals(element.getText(), config)));
       toggleFilter(List.of(filter));
       table.firstColumnShouldBe(itemWithText(config));
       resetContentFilter();
       table.firstColumnShouldBe(noneMatch("Config should not be listed in the config table after reset filter: " + config,
-          element -> StringUtils.equals(element.getText(), config)));
+          element -> Objects.equals(element.getText(), config)));
     }
 
     @Test
@@ -276,7 +280,7 @@ class WebTestConfiguration {
     @BeforeEach
     void beforeEach() {
       Navigation.toApplicationDetail("demo-portal");
-      $(By.id("config:form:configTable:filterBtn")).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
+      $(By.id("config:form:configTable:filterBtn")).scrollIntoView(ScrollIntoViewOptions.instant().block(Block.center).inline(Inline.center));
       table = new Table(TABLE_ID, "span");
     }
 
@@ -403,16 +407,16 @@ class WebTestConfiguration {
     public ConfigAssert assertValue(String value) {
       var configValue = $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
       String classAttr = configValue.getAttribute("class");
-      if (StringUtils.contains(classAttr, "ui-chkbox")) {
+      if (classAttr.contains("ui-chkbox")) {
         PrimeUi.selectBooleanCheckbox(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"))
             .shouldBeChecked(Boolean.parseBoolean(value));
-      } else if (StringUtils.contains(classAttr, "ui-inputnumber")) {
+      } else if (classAttr.contains("ui-inputnumber")) {
         $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue_input"))
             .shouldBe(exactValue(value));
-      } else if (StringUtils.contains(classAttr, "ui-selectonemenu")) {
+      } else if (classAttr.contains("ui-selectonemenu")) {
         SelectOneMenu menu = PrimeUi.selectOne(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
         menu.selectedItemShould(exactText(value));
-      } else if (StringUtils.contains(configValue.getTagName(), "textarea")) {
+      } else if (configValue.getTagName().contains("textarea")) {
         configValue.shouldNotBe(visible).shouldBe(exactValue(value));
         $(".CodeMirror").shouldBe(visible, text("this is a json file"));
       } else {

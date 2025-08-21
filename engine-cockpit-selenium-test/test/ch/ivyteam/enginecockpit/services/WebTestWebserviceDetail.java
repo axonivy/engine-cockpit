@@ -21,6 +21,8 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ScrollIntoViewOptions;
+import com.codeborne.selenide.ScrollIntoViewOptions.Block;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.FeatureEditor;
@@ -82,7 +84,7 @@ class WebTestWebserviceDetail {
   }
 
   private void resetConfiguration() {
-    $("#webserviceConfigurationForm\\:resetConfig").scrollIntoView(false).click();
+    $("#webserviceConfigurationForm\\:resetConfig").scrollIntoView(ScrollIntoViewOptions.instant().block(Block.end)).click();
     $("#webserviceConfigurationForm\\:resetWsConfirmDialog").shouldBe(visible);
     $("#webserviceConfigurationForm\\:resetWsConfirmYesBtn").click();
     $("#webserviceConfigurationForm\\:wsConfigMsg_container")

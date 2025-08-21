@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -60,7 +59,7 @@ class WebTestPages {
 
   private boolean isNotInViewFolder(Path file) {
     var name = file.toString();
-    return !StringUtils.startsWith(name, "view/") && StringUtils.contains(name, "/");
+    return !name.startsWith("view/") && name.contains("/");
   }
 
   private static List<Path> getSubDirectoryXhtmlFiles(Path basePath, Predicate<Path> filter) {
@@ -68,7 +67,7 @@ class WebTestPages {
       return Files.walk(basePath)
           .map(basePath::relativize)
           .filter(filter)
-          .filter(file -> StringUtils.endsWith(file.getFileName().toString(), ".xhtml"))
+          .filter(file -> file.getFileName().toString().endsWith(".xhtml"))
           .collect(Collectors.toList());
     } catch (IOException ex) {
       throw new RuntimeException(ex);
