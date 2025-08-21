@@ -305,4 +305,7 @@ public class EngineCockpitUtil {
     webdriver().shouldHave(WebDriverConditions.jsReturnsValue("FreyaEnvironment.isInitialized", "true"));
   }
 
+  public static void waitUntilMenuJsIsInitialized() {
+    webdriver().shouldHave(WebDriverConditions.jsReturnsValue("EngineCockpitEnvironment.menuFixed", "true"));
+  }
 }
