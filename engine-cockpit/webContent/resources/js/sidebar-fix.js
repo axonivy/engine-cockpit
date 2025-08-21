@@ -3,7 +3,7 @@ var EngineCockpitEnvironment = { menuFixed: false };
 jQuery(function () {
   function initFix() {
     if (FreyaEnvironment?.isInitialized !== true) {
-      window.setTimeout(initFix, 10);
+      window.setTimeout(initFix, 0);
       return;
     }
     $.removeCookie('freya_expandeditems', { path: '/' });
