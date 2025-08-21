@@ -46,7 +46,7 @@ def getScreenshotRefBranch() {
   if (isReleasingBranch() && currentBuild.previousSuccessfulBuild != null) {
     return env.BRANCH_NAME.replace('/', '%252F')
   }
-  return 'release%252F12.0'
+  return 'release%252F13.1'
 }
 
 def getImageSimilarity() {
