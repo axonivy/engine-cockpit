@@ -17,7 +17,9 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.codeborne.selenide.ScrollIntoViewOptions;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.ScrollIntoViewOptions.Block;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
@@ -117,7 +119,7 @@ public class WebTestSecuritySystemLdap {
   }
 
   private void saveConnection() {
-    $(By.id(SAVE_CONNECTION_BTN)).scrollIntoView("{block: \"center\"}").click();
+    $(By.id(SAVE_CONNECTION_BTN)).scrollIntoView(ScrollIntoViewOptions.instant().block(Block.center)).click();
     $(CONNECTION_SAVE_GRWOL).shouldBe(visible);
     Selenide.executeJavaScript("arguments[0].click();", $(CONNECTION_SAVE_GRWOL + " .ui-growl-icon-close"));
   }

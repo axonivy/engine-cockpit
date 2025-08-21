@@ -22,7 +22,6 @@
     <module>engine-cockpit-selenium-test</module>
 
     <module>maven-config</module>
-    <module>maven-config/test</module>
     <module>image-validation</module>
   </modules>
 </project>

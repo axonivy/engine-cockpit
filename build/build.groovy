@@ -57,7 +57,7 @@ def mvnBuild(def mvnArgs = '') {
 }
 
 def recordMavenIssues() {
-  recordIssues tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
+  recordIssues tools: [mavenConsole(), eclipse(), javaDoc()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
     excludeMessage('The system property test.engine.url is configured twice!*'),
     excludeMessage('JAR will be empty*'),
     excludeMessage('Execution of job UserSynchronizer*')

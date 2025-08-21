@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>ch.ivyteam.enginecockpit</groupId>
-    <artifactId>engine-cockpit-config-test</artifactId>
+    <artifactId>engine-cockpit-config</artifactId>
     <version>12.0.8-SNAPSHOT</version>
-    <relativePath>../maven-config/test</relativePath>
+    <relativePath>../maven-config</relativePath>
   </parent>
 
   <artifactId>engine-cockpit-selenium-test</artifactId>
@@ -36,6 +36,17 @@
         <directory>testResources</directory>
       </testResource>
     </testResources>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.14.0</version>
+        <configuration>
+          <release>21</release>
+          <showDeprecation>true</showDeprecation>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 
   <profiles>
@@ -67,7 +78,7 @@
               </execution>
             </executions>
           </plugin>
-    
+
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
@@ -193,7 +204,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>${maven.surefire.version}</version>
+            <version>3.5.2</version>
             <executions>
               <execution>
                 <id>default-test</id>
@@ -217,7 +228,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>${maven.surefire.version}</version>
+            <version>3.5.2</version>
             <executions>
               <execution>
                 <id>selenium.web.tests</id>
@@ -247,7 +258,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>${maven.surefire.version}</version>
+            <version>3.5.2</version>
             <executions>
               <execution>
                 <id>selenium.web.docu</id>
