@@ -412,14 +412,14 @@ public class Navigation {
   }
 
   private static void toMenu(String menuItemPath) {
-    EngineCockpitUtil.waitUntilFreyaJsIsInitialized();
+    EngineCockpitUtil.waitUntilMenuJsIsInitialized();
     closeMenus();
     $(menuItemPath).find("a").scrollIntoView(false).click();
     menuShouldBeActive(menuItemPath);
   }
 
   private static void toSubMenu(String menuItemPath, String subMenuItemPath) {
-    EngineCockpitUtil.waitUntilFreyaJsIsInitialized();
+    EngineCockpitUtil.waitUntilMenuJsIsInitialized();
     closeMenus();
     $(menuItemPath).shouldBe(visible);
     $(menuItemPath).find("a").scrollIntoView(false).click();
@@ -428,7 +428,7 @@ public class Navigation {
   }
 
   private static void toSubSubMenu(String menuItemPath, String subMenuItemPath, String subSubMenuItemPath) {
-    EngineCockpitUtil.waitUntilFreyaJsIsInitialized();
+    EngineCockpitUtil.waitUntilMenuJsIsInitialized();
     closeMenus();
     $(menuItemPath).shouldBe(visible);
     $(menuItemPath).find("a").scrollIntoView(false).click();
