@@ -36,6 +36,9 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.ScrollIntoViewOptions;
+import com.codeborne.selenide.ScrollIntoViewOptions.Block;
+import com.codeborne.selenide.ScrollIntoViewOptions.Inline;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -196,7 +199,7 @@ class WebTestConfiguration {
 
     private void navigateTo(String app) {
       Navigation.toApplicationDetail(app);
-      $(CONTENT_FILTER_BTN).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
+      $(CONTENT_FILTER_BTN).scrollIntoView(ScrollIntoViewOptions.instant().block(Block.center).inline(Inline.center));
       table = new Table(TABLE_ID, "span");
     }
 
@@ -278,7 +281,7 @@ class WebTestConfiguration {
     @BeforeEach
     void beforeEach() {
       Navigation.toApplicationDetail("demo-portal");
-      $(By.id("config:form:configTable:filterBtn")).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
+      $(By.id("config:form:configTable:filterBtn")).scrollIntoView(ScrollIntoViewOptions.instant().block(Block.center).inline(Inline.center));
       table = new Table(TABLE_ID, "span");
     }
 
