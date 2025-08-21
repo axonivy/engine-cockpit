@@ -1,3 +1,5 @@
+var EngineCockpitEnvironment = { menuFixed: false };
+
 jQuery(function () {
   function initFix() {
     if (FreyaEnvironment?.isInitialized !== true) {
@@ -39,6 +41,7 @@ jQuery(function () {
         });
       }
     });
+    EngineCockpitEnvironment.menuFixed = true;
   }
 
   function searchCorrectMenuItemPage(value) {
