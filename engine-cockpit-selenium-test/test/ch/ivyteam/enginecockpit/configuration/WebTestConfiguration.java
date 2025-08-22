@@ -138,9 +138,10 @@ class WebTestConfiguration {
       PrimeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue"))
           .selectItemByLabel("SSL");
       $("#config\\:editConfigurationForm\\:saveEditConfiguration").click();
+      assertAndCloseGrowl(config);
       table.row(config).shouldNotHave(cssClass("default-value"));
 
-      toggleFilter(List.of("Show only defined values"));
+      toggleDefaultFilter();
       table.firstColumnShouldBe(itemWithText(config));
       assertResetConfig(config);
       table.firstColumnShouldBe(noneMatch("Config no longer listed under defined values",
@@ -303,7 +304,9 @@ class WebTestConfiguration {
   }
 
   private void toggleDefaultFilter() {
+    table.body().find(".default-value").shouldBe(visible);
     toggleFilter(List.of("Show only defined values"));
+    table.body().find(".default-value").shouldNotBe(visible);
   }
 
   private void toggleFilter(List<String> filter) {
@@ -339,8 +342,7 @@ class WebTestConfiguration {
     $("#config\\:editConfigurationForm\\:editConfigurationValue").clear();
     $("#config\\:editConfigurationForm\\:editConfigurationValue").sendKeys(newValue);
     $("#config\\:editConfigurationForm\\:saveEditConfiguration").click();
-    $("#config\\:form\\:msgs_container").shouldHave(text(key), text("saved"));
-    executeJavaScript("arguments[0].click();", $(".ui-growl-icon-close"));
+    assertAndCloseGrowl(key);
     table.valueForEntryShould(key, 2, exactText(newValue));
     $("#config\\:form\\:msgs_container").shouldNotBe(visible);
   }
@@ -371,6 +373,11 @@ class WebTestConfiguration {
 
   private void assertContentFilterText(String expectedFilter) {
     $(CONTENT_FILTER_BTN).shouldHave(attribute("title", expectedFilter));
+  }
+
+  private void assertAndCloseGrowl(String key) {
+    $("#config\\:form\\:msgs_container").shouldHave(text(key), text("saved"));
+    executeJavaScript("arguments[0].click();", $(".ui-growl-icon-close"));
   }
 
   public static class ConfigAssert {
