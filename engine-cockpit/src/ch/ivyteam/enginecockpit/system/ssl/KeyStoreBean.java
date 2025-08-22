@@ -6,7 +6,6 @@ import java.security.KeyStoreException;
 import java.security.Provider;
 import java.security.Security;
 import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -168,7 +167,7 @@ public class KeyStoreBean implements SslTableStore {
 
   @Override
   public Certificate handleUploadCertificate(FileUploadEvent event)
-      throws CertificateException, KeyStoreException, IOException {
+      throws Exception {
     try (InputStream is = event.getFile().getInputStream()) {
       return getKeyStoreUtils().handleUploadCert(is);
     }
