@@ -60,7 +60,7 @@ class WebTestDeployment {
     Files.createFile(tempFile);
     deployPath(tempFile);
     $("#uploadStatus").shouldHave(text("Success"));
-    $("#uploadLog").shouldHave(text("No projects to deploy"), text("successful deployed to application"));
+    $("#uploadLog").shouldHave(text("No projects to deploy"), text("successfully deployed to application"));
   }
 
   @Test
@@ -85,7 +85,7 @@ class WebTestDeployment {
   private void deployAndAssert(String expectedDeployOptionsText) {
     deployPath(findTestProject());
     $("#uploadStatus").shouldHave(text("Success"));
-    $("#uploadLog").shouldHave(text(expectedDeployOptionsText), text("successful deployed to application"));
+    $("#uploadLog").shouldHave(text(expectedDeployOptionsText), text("successfully deployed to application"));
   }
 
   private Path findTestProject() {
