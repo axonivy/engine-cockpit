@@ -70,3 +70,23 @@ connectionTestResult:
     gespeichert haben, bevor Sie die Verbindung testen.
   ConnectionTestRestClientNotUnderstandRequestMessage: REST Service versteht 
     keine Testanfrage
+  TLSTestButton: TLS Prüfung
+  TLSTestButtonTitle: TLS Verbindungstest
+databaseConfiguration:
+  DatabaseConfigurations: Datenbankkonfigurationen
+  MaxConnections: Max Verbindungen
+  ResetConfiguration: Konfiguration zurücksetzen
+  ResetDatabaseConfigurationMessage: Datenbank-Konfiguration zurücksetzen
+  ResetDatabaseConfirmDialogMessage: Sind Sie sicher, dass Sie diese Datenbank 
+    zurücksetzen möchten?
+  SaveDatabaseConfigurationMessage: Datenbankkonfiguration gespeichert
+databaseConnections:
+  InUse: Im Einsatz
+databaseDetail:
+  NotFoundDatabase: Datenbank '${database} nicht gefunden
+  Title: Datenbank '${database} '
+databaseHistory:
+  CopyToClipboardButtonTitle: Kopieren in der Zwischenablage
+  ProcessElementHeader: Prozesselement
+  ResultTimeValueTitle: Die Zeit, die benötigt wird, um die Ergebnisse der 
+    Erklärung zu lesen
