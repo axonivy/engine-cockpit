@@ -223,3 +223,5 @@ jdbcDriver:
 licence:
   ChooseLicence: Lizenz wählen
   ChooseLicencePlaceholder: 'Wählen oder fallen Sie eine Datei, die endet mit: .lic'
+  ConcurrentSessions: Gleichzeitige Sitzungen
+  ConfigureLicence: Licence konfigurieren
