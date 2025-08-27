@@ -164,3 +164,20 @@ indexes:
 indices:
   ClosedIndexHint: Es scheint, als wäre Ihre Maschine aus dem Speicherplatz. 
     Bitte überprüfen Sie Ihre Suchmaschine Wasserzeichen-Einstellungen.
+  OpenIndexHint: Alles ist okay, der Index ist offen.
+  Reindex: Reindex
+  ReindexDialogInfo: Dieser Schritt löst die Reindexierung der Suchmaschine aus 
+    und kann eine Weile dauern!
+  Size: Größe
+  Status: Status
+  StatusInfo: 'Status:'
+info:
+  DemoPortal: Demo Portal
+  DemoPortalIntroduction: Das Demo-Portal bietet den perfekten Einstiegspunkt, 
+    um die leistungsstarken Features der Axon Ivy Plattform als Workflow-Engine 
+    zu erkunden und zu erleben. Es ermöglicht Anwendern zu entdecken, wie 
+    einfach komplexe Geschäftsprozesse automatisiert, optimiert und optimiert 
+    werden können. Egal, ob Sie Aufgaben verwalten, Systeme integrieren oder 
+    Workflows abteilungsübergreifend orchestrieren möchten, die Plattform bietet
+    intuitive Tools und eine flexible Umgebung, um Ihren Geschäftsanforderungen 
+    gerecht zu werden.
