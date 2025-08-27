@@ -283,3 +283,5 @@ monitor:
     CacheMaxTooltip: 'Max: Maximale Anzahl von Bytes oder Zeichen, die geätzt werden.'
     CacheTTITooltip: 'TTI: Zeit zum Leeren. Die maximale Zeit, die ein Objekt im Cache
       bleibt, nachdem es zuletzt gelesen wurde.'
+    CacheTTLTooltip: 'TTL: Zeit zum Leben. Die maximale Zeit, die ein Objekt im Cache
+      bleibt, nachdem es zuerst gelesen wurde.'
