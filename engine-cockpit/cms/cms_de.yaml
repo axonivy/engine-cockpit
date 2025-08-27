@@ -262,3 +262,5 @@ migrate:
     Sie sicher, dass Sie eine Sicherung Ihrer Systemdatenbank und das gesamte 
     Axon Ivy Engine Installationsverzeichnis haben.
   EngineMigrationErrorMessage: Fehler bei der Migration. ${Ausnahme)
+  EngineMigrationSuccessfulMessage: Die Axon Ivy Engine Migration war 
+    erfolgreich. Starten Sie jetzt Ihre Axon Ivy Engine.
