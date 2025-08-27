@@ -311,3 +311,5 @@ monitor:
     EmptyHistogramMessage: Drücken Sie Refresh, um Klassenhistogramm zu laden. 
       Beachten Sie, dass dies eine vollständige Müllsammlung auslöst und die 
       Leistung des Motors beeinflussen kann
+    InstancesTooltip: Gesamtzahl der auf dem Java-Hap zugewiesenen 
+      Instanzen/Objekte für diese Klasse
