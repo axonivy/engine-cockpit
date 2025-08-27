@@ -109,3 +109,8 @@ editor:
     automatisch auf die neueste Version migriert.
   DownloadP12: .p12 herunterladen
   NotFoundConfigFile: Datei '${file} nicht gefunden
+  ReadOnlyFileWarningMessage: Diese Datei ist nur lesbar!
+  ReadOnlyOriginalFileWarningMessage: Die ursprüngliche Datei ${path} ist nur 
+    gelesen. Die Datei wurde während des Starts in ein schreibbares Verzeichnis 
+    kopiert. Änderungen müssen manuell in der Originaldatei angewendet werden, 
+    so dass die Änderungen einen Neustart überleben.
