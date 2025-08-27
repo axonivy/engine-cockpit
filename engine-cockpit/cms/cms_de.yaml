@@ -227,3 +227,7 @@ licence:
   ConfigureLicence: Licence konfigurieren
   EngineRunsInDemoMode: Keine Lizenz installiert. Ihr Motor läuft im Demo-Modus.
   EngineRunsInMaintenanceMode: Ihr Motor läuft im Wartungsmodus.
+  ExpiredLicenceMessage: Ihre Lizenz ist abgelaufen.
+  ExpiredLicenceTouchYourSalesMessage: Ihre Lizenz läuft ab. Bitte wenden Sie 
+    sich an Ihren Vertrieb.
+  InvalidLicenceMessage: Invalide Lizenz installiert.
