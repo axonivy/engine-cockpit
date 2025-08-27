@@ -234,3 +234,4 @@ licence:
   LicenceType: Lizenztyp
   Owner: Eigentümer
   SuccessfullyUploadedMessage: Erfolgreich hochgeladene Lizenz
+  UploadValidLicence: Bitte laden Sie eine gültige Lizenz ein.
