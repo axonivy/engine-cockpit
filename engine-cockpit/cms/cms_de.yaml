@@ -185,3 +185,5 @@ info:
     Wartungsmodus tätig. Wenn Ihr Setup zum Beispiel kaputt ist, weil die Axon 
     Ivy Engine nicht mit der Systemdatenbank verbinden kann oder die Lizenz 
     abgelaufen ist, dann gehen
+  EngineMaintenanceReasonSecondPart: um es zu reparieren. Wenn die Axon Ivy 
+    Engine ein Update unterzogen hat, ist es wichtig, die
