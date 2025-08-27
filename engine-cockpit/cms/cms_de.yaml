@@ -244,3 +244,6 @@ liveStats:
   DatabaseQueryExecutionTime: Datenbank Abfrage Ausführungszeit
   ExecutionTimeYAxisLabel: Ausführungszeit
   JobExecutionTime: Job Ausführung Zeit
+  Queries: Abfragen
+  TotalErrors: Fehler insgesamt
+  TotalPushes: Total Pushs
