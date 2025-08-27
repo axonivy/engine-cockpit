@@ -231,3 +231,6 @@ licence:
   ExpiredLicenceTouchYourSalesMessage: Ihre Lizenz läuft ab. Bitte wenden Sie 
     sich an Ihren Vertrieb.
   InvalidLicenceMessage: Invalide Lizenz installiert.
+  LicenceType: Lizenztyp
+  Owner: Eigentümer
+  SuccessfullyUploadedMessage: Erfolgreich hochgeladene Lizenz
