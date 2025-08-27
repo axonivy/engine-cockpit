@@ -126,3 +126,17 @@ email:
   Server: Server
 emailSettings:
   DailySummaryOn: Tägliche Zusammenfassung
+  NewTask: Neue Aufgabe
+error:
+  ShowFullError: Vollständiger Fehler anzeigen
+exception:
+  ViewExpiredExceptionDialogContent: Die Ansicht oder Sitzung ist abgelaufen.
+exceptionDetail:
+  Element: 'Element:'
+  RequestUri: Anfrage Uri
+  Servlet: Servlet
+  StackTrace: Stack-Trace
+  TechnicalCause: Technische Ursache
+  UnexpectedErrorOccured: 'Es hat sich ein unerwarteter Fehler ergeben:'
+fileUpload:
+  AcceptFilesPlaceholder: 'Wählen Sie eine Datei, die endet mit: '
