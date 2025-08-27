@@ -1,3 +1,72 @@
 administrators:
   AdminAddedMessage: "'${name}' hinzugefügt"
   AdminDeletedMessage: "'${name}' gelöscht"
+common:
+  Modifier: Modifizierung
+  NoDataAvailable: Keine Daten verfügbar
+  ProcessName: Prozessname
+  Properties: Eigenschaften
+  RequiredMessage: Wert ist erforderlich
+  RestClients: Rest Clients
+  Role: Rolle
+  RunSearchEngineQuery: Search Engine Query ausführen
+  Save: Speichern
+  SaveAndCreate: Speichern und erstellen
+  SaveChanges: Änderungen speichern
+  SearchPlaceholder: Suche
+  Security: Sicherheit
+  SecuritySystem: Sicherheitssystem
+  SecuritySystems: Sicherheitssysteme
+  Setup: Einrichtung
+  ShowConfigurationLog: Konfigurationsprotokoll anzeigen
+  ShowMoreRoleLeftMessage: Mehr anzeigen (${role} links)
+  Size: Größe
+  Source: Quelle
+  Start: Start
+  SynchronizationLog: Synchronisierungsprotokoll
+  Synchronize: Synchronisieren
+  System: System
+  SystemConfiguration: Systemkonfiguration
+  SystemDatabase: Systemdatenbank
+  Tables: Tabellen
+  Template: Vorlage
+  Total: Insgesamt
+  Type: Typ
+  Update: Aktualisierung
+  Upload: Hochladen
+  Url: Url
+  User: Benutzer
+  Username: Benutzername
+  Users: Benutzer
+  Value: Wert
+  Variables: Variablen
+  Version: Version
+  Warning: Warnung
+  Warnings: Warnungen
+  Weak: Schwach
+  WebServer: Webserver
+  WebServiceClients: Web Service Clients
+  WebServiceProcesses: Web Service-Prozesse
+  Workflow: Arbeitsablauf
+  Write: Schreiben
+  'Yes': Ja
+configuration:
+  ConfigReset: "'${config} zurücksetzen"
+  ConfigResetToDefault: "'${config}' zurücksetzen auf standard"
+  ConfigSaved: "'${config} gespeichert"
+  Examples: Beispiele
+  Filter: 'Filter:'
+  ShowDatabasesMessage: Datenbanken anzeigen
+  ShowOnlyDefinedValuesMessage: Nur definierte Werte anzeigen
+  ShowRestClientsMessage: Rest Clients anzeigen
+  ShowVariablesMessage: Variablen anzeigen
+  ShowWebServiceClientsMessage: Web Service Clients anzeigen
+  ViewFile: Datei anzeigen
+connectionTestResult:
+  ConnectToDatabaseSuccessMessage: 'Erfolgreich mit Datenbank verbunden: %s (%s) mit
+    JDBC Version %s'
+  ConnectToRestServiceFailMessage: Kann nicht mit REST-Service verbinden
+  ConnectionTestDialogHintMessage: Stellen Sie sicher, dass Sie Ihre Änderungen 
+    gespeichert haben, bevor Sie die Verbindung testen.
+  ConnectionTestRestClientNotUnderstandRequestMessage: REST Service versteht 
+    keine Testanfrage
