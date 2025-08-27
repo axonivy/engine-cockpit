@@ -187,3 +187,7 @@ info:
     abgelaufen ist, dann gehen
   EngineMaintenanceReasonSecondPart: um es zu reparieren. Wenn die Axon Ivy 
     Engine ein Update unterzogen hat, ist es wichtig, die
+  EngineMaintenanceReasonThirdPart: um sicherzustellen, dass die bestehende 
+    Instanz voll funktionsfähig ist. Dieser Prozess ist entscheidend für die 
+    Aufrechterhaltung der Funktionalität und Integrität des Systems.
+  InstallYourApplications: Installieren Sie Ihre Anwendung im Motor Cockpit.
