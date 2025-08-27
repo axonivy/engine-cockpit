@@ -261,3 +261,4 @@ migrate:
   BackupSystemDatabaseRemindMessage: Bevor Sie die Migration starten, stellen 
     Sie sicher, dass Sie eine Sicherung Ihrer Systemdatenbank und das gesamte 
     Axon Ivy Engine Installationsverzeichnis haben.
+  EngineMigrationErrorMessage: Fehler bei der Migration. ${Ausnahme)
