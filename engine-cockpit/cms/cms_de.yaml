@@ -203,3 +203,6 @@ info:
     Designer den schnellen Einsatz skalierbarer Anwendungen, die auf die 
     konkreten Geschäftsanforderungen abgestimmt sind.
   NoActiveProjects: Diese App hat keine aktiven Projekte.
+  Open: Öffnen
+  ShutdownEngineConfirmationMessage: Willst du wirklich die Axon Ivy Engine 
+    abschalten?
