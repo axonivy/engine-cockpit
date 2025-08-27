@@ -118,3 +118,11 @@ editor:
     nicht hochgeladen werden."
   UploadFileSuccessDetailMessage: "'${file}' erfolgreich hochgeladen und als ${activeFile}
     gespeichert."
+  UploadFileSuccessSummaryMessage: Datei hochgeladen
+  UploadP12: Hochladen .p12
+email:
+  ConfigureEmailServer: E-Mail Server konfigurieren
+  SendTestMail: Test Mail senden
+  Server: Server
+emailSettings:
+  DailySummaryOn: Tägliche Zusammenfassung
