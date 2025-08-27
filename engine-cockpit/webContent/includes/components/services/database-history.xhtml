@@ -27,7 +27,7 @@
       <p:column headerText="#{ivy.cm.co('/databaseHistory/ResultTimeHeader')}" style="width: 60px; word-wrap: anywhere;" sortBy="#{exec.resultTime}">
         <h:outputText value="#{exec.resultTime}" title="#{ivy.cm.co('/databaseHistory/ResultTimeValueTitle')}" />
       </p:column>
-      <p:column headerText="#{ivy.cm.co('/databaseHistory/SQL')}" sortBy="#{exec.sql}">
+      <p:column headerText="#{ivy.cm.co('/databaseHistory/SQLHeader')}" sortBy="#{exec.sql}">
         <h:outputText value="#{exec.sql}" title="#{exec.sql}" styleClass="table-cell-autocut" style="width: calc(100% - 3rem);"/>
         <p:commandButton icon="si si-copy-paste" type="button" title="#{ivy.cm.co('/databaseHistory/CopyToClipboardButtonTitle')}" onclick="var button=this; copyToClipboard($(this).siblings('.table-cell-autocut').text(), button)"
           styleClass="ui-button-flat rounded-button"/>

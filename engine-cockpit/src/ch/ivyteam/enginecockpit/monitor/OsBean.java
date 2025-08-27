@@ -53,8 +53,8 @@ public class OsBean {
   }
 
   private void setupCpuMonitor() {
-    var cpuUsed = join(SPACE, cm().co("/monitor/Cores"), "%d");
-    var threadsUsed = join(SPACE, cm().co("/monitor/Thread"), "%d");
+    var cpuUsed = join(SPACE, "%d", cm().co("/monitor/Cores"));
+    var threadsUsed = join(SPACE, "%d", cm().co("/common/Threads"));
     cpuMonitor.addInfoValue(format("%.1f", cpuLoad()));
     cpuMonitor.addInfoValue(format(cpuUsed, cpuCores()));
     cpuMonitor.addInfoValue(format(threadsUsed, cpuThreads()));

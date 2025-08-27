@@ -544,7 +544,7 @@ licence:
   Owner: 所有者
   SuccessfullyUploadedMessage: ライセンスのアップロードに成功しました。
   Unlimited: 無制限
-  UploadLicence: 決して
+  UploadLicence: ライセンスのアップロード
   UploadValidLicence: 有効なライセンスをアップロードしてください。
 licenceEvents:
   ConfirmAll: すべてを確認してください
@@ -595,9 +595,9 @@ login:
   LoginFooterCopyright: 著作権 Ⓒ Axon Ivy
   LoginFooterEngineCockpit: エンジン コックピット
   NoAdministratorsConfigured: 管理者が設定されていません。ドキュメントをご確認ください。
-  PasswordPlaceholder: ユーザー名 / メールアドレス
+  PasswordPlaceholder: パスワード
   SignInButton: サインイン
-  UserNamePlaceholder: パスワード
+  UserNamePlaceholder: ユーザー名 / メールアドレス
 logs:
   CouldNotZipLogsMessage: ログを圧縮できませんでした
   DownloadAllLogFiles: すべてのログファイルをダウンロード
@@ -639,6 +639,7 @@ monitor:
   Active: アクティブ
   CPULoad: CPU負荷
   Caches: キャッシュ
+  Class: クラス
   Classes: クラス
   Committed: コミット済み
   Cores: コア
