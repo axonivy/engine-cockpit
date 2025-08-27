@@ -225,3 +225,4 @@ licence:
   ChooseLicencePlaceholder: 'Wählen oder fallen Sie eine Datei, die endet mit: .lic'
   ConcurrentSessions: Gleichzeitige Sitzungen
   ConfigureLicence: Licence konfigurieren
+  EngineRunsInDemoMode: Keine Lizenz installiert. Ihr Motor läuft im Demo-Modus.
