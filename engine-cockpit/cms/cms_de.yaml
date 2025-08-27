@@ -114,3 +114,5 @@ editor:
     gelesen. Die Datei wurde während des Starts in ein schreibbares Verzeichnis 
     kopiert. Änderungen müssen manuell in der Originaldatei angewendet werden, 
     so dass die Änderungen einen Neustart überleben.
+  UploadFileErrorDetailMessage: "'${file}' konnte wegen einer falschen dateierweiterung
+    nicht hochgeladen werden."
