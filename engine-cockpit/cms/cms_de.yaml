@@ -308,3 +308,6 @@ monitor:
     DumpMemoryMessage2: Die resultierende Datei kann riesig sein (abhängig von 
       der aktuellen Haufengröße).
     DumpMemoryMessage3: Der Motor kann nicht für ein paar Sekunden ansprechen.
+    EmptyHistogramMessage: Drücken Sie Refresh, um Klassenhistogramm zu laden. 
+      Beachten Sie, dass dies eine vollständige Müllsammlung auslöst und die 
+      Leistung des Motors beeinflussen kann
