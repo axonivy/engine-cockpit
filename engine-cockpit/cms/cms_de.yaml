@@ -206,3 +206,5 @@ info:
   Open: Öffnen
   ShutdownEngineConfirmationMessage: Willst du wirklich die Axon Ivy Engine 
     abschalten?
+  ShutdownEngineMessage: Die Axon Ivy Engine schließt ab. Sie können das Fenster
+    schließen.
