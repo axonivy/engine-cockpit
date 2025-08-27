@@ -303,3 +303,5 @@ monitor:
       dem Java-Hap seit dem letzten klaren
     DeltaTooltip: Delta zwischen den aktuellen und minimalen Instanzen auf dem 
       Java-Hap seit dem letzten klaren
+    DumpMemoryMessage1: Das wird die ganze Haufen Erinnerung an eine Datei 
+      ablegen.
