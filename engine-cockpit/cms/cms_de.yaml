@@ -307,3 +307,4 @@ monitor:
       ablegen.
     DumpMemoryMessage2: Die resultierende Datei kann riesig sein (abhängig von 
       der aktuellen Haufengröße).
+    DumpMemoryMessage3: Der Motor kann nicht für ein paar Sekunden ansprechen.
