@@ -208,3 +208,13 @@ info:
     abschalten?
   ShutdownEngineMessage: Die Axon Ivy Engine schließt ab. Sie können das Fenster
     schließen.
+information:
+  WorkflowUI: Workflow UI
+infoTemplate:
+  Documentation: Dokumentation
+  InstallAxonIvyEngine: Axon Ivy Engine installieren
+java:
+  Version: Version
+javaInfo:
+  JVMArgumentTableHeader: JVM Argument
+  JavaDetailDialogHeader: Details
