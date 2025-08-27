@@ -191,3 +191,15 @@ info:
     Instanz voll funktionsfähig ist. Dieser Prozess ist entscheidend für die 
     Aufrechterhaltung der Funktionalität und Integrität des Systems.
   InstallYourApplications: Installieren Sie Ihre Anwendung im Motor Cockpit.
+  MaintenanceMode: Wartungsmodus
+  MigrationWizard: Migrationsassistent
+  NEODesigner: NEO Designer
+  NEODesignerIntroduction: NEO Designer ist eine Low-Code-Plattform, die die 
+    Anwendungsentwicklung mit visuellen Werkzeugen und vorgefertigten 
+    Komponenten beschleunigt und eine nahtlose Zusammenarbeit zwischen 
+    Geschäftsnutzern und Entwicklern ermöglicht. Diese Plattform vereinfacht die
+    Automatisierung von Geschäftsaufgaben, optimiert den Entwicklungsprozess und
+    reduziert die Komplexität. Um die Effizienz zu steigern, unterstützt NEO 
+    Designer den schnellen Einsatz skalierbarer Anwendungen, die auf die 
+    konkreten Geschäftsanforderungen abgestimmt sind.
+  NoActiveProjects: Diese App hat keine aktiven Projekte.
