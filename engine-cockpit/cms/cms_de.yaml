@@ -288,3 +288,14 @@ monitor:
     CountTooltip: Die Anzahl der Objekte, die derzeit im Speicher geätzt werden
     LimitTooltip: Die Anzahl der Objekte im Cache (siehe Zählung) wird 
       periodisch auf diesen Wert reduziert
+    MoreCacheLimitsTooltip: 'Weitere Cache-Grenzen:'
+    NameTooltip: Der Name des Cache
+    ReadHitsTooltip: Wie oft wurde ein Objekt aus dem Cache statt der 
+      Systemdatenbank erfolgreich gelesen
+    ReadMissesTooltip: Wie oft wurde ein Objekt nicht im Cache gefunden und 
+      musste stattdessen aus der Systemdatenbank gelesen werden
+    WriteTooltip: Wie oft wurde ein Objekt aus dem Cache ungültig, weil es in 
+      die Systemdatenbank geschrieben wurde
+  classHistogram:
+    BytesTooltip: Gesamtzahl der auf dem Java-Hap zugewiesenen Bytes zum 
+      Beispiel dieser Klasse
