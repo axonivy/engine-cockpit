@@ -1,1 +1,3 @@
-{}
+administrators:
+  AdminAddedMessage: "'${name}' hinzugefügt"
+  AdminDeletedMessage: "'${name}' gelöscht"
