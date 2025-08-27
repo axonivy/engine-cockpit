@@ -218,3 +218,8 @@ java:
 javaInfo:
   JVMArgumentTableHeader: JVM Argument
   JavaDetailDialogHeader: Details
+jdbcDriver:
+  JDBCDriver: JDBC Treiber
+licence:
+  ChooseLicence: Lizenz wählen
+  ChooseLicencePlaceholder: 'Wählen oder fallen Sie eine Datei, die endet mit: .lic'
