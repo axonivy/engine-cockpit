@@ -181,3 +181,7 @@ info:
     Workflows abteilungsübergreifend orchestrieren möchten, die Plattform bietet
     intuitive Tools und eine flexible Umgebung, um Ihren Geschäftsanforderungen 
     gerecht zu werden.
+  EngineMaintenanceReasonFirstPart: Daher ist die Axon Ivy Engine derzeit im 
+    Wartungsmodus tätig. Wenn Ihr Setup zum Beispiel kaputt ist, weil die Axon 
+    Ivy Engine nicht mit der Systemdatenbank verbinden kann oder die Lizenz 
+    abgelaufen ist, dann gehen
