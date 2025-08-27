@@ -299,3 +299,5 @@ monitor:
   classHistogram:
     BytesTooltip: Gesamtzahl der auf dem Java-Hap zugewiesenen Bytes zum 
       Beispiel dieser Klasse
+    DeltaMaxTooltip: Delta zwischen den aktuellen und maximalen Instanzen auf 
+      dem Java-Hap seit dem letzten klaren
