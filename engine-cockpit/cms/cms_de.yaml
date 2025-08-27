@@ -156,3 +156,5 @@ freeDays:
 health:
   HealthDetails: Gesundheit Details
   HealthyMessage: Keine Probleme erkannt. Motor ist gesund.
+  Problems: Probleme
+  ProblemsDetectedMessage: ${number} probleme erkannt.
