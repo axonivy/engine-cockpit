@@ -305,3 +305,5 @@ monitor:
       Java-Hap seit dem letzten klaren
     DumpMemoryMessage1: Das wird die ganze Haufen Erinnerung an eine Datei 
       ablegen.
+    DumpMemoryMessage2: Die resultierende Datei kann riesig sein (abhängig von 
+      der aktuellen Haufengröße).
