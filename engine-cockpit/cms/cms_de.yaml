@@ -314,3 +314,6 @@ monitor:
     InstancesTooltip: Gesamtzahl der auf dem Java-Hap zugewiesenen 
       Instanzen/Objekte für diese Klasse
     MemoryDump: ${appName)
+  execution:
+    ExecutionHelpText: Starten Sie die Aufnahme der Leistungsstatistik kann 
+      negative Auswirkungen auf die Leistung des Motors haben.
