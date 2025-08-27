@@ -1,11 +1,13 @@
 package ch.ivyteam.enginecockpit.system.ssl;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.security.Security;
-import java.security.cert.Certificate;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,9 +17,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 
 import ch.ivyteam.enginecockpit.commons.Message;
+import ch.ivyteam.io.PathUtils;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.KeyStoreConfig;
@@ -167,12 +171,47 @@ public class KeyStoreBean implements SslTableStore {
         .show();
   }
 
+  private byte[] uploadedKeystore;
+  private char[] importedStorePassword;
+
   @Override
-  public Certificate handleUploadCertificate(FileUploadEvent event)
-      throws CertificateException, KeyStoreException, IOException {
-    try (InputStream is = event.getFile().getInputStream()) {
-      return getKeyStoreUtils().handleUploadCert(is);
+  public void handleUploadCertificate(FileUploadEvent event)
+      throws IOException, CertificateException, KeyStoreException {
+    var extension = PathUtils.toExtension(event.getFile().getFileName());
+    if (extension.equalsIgnoreCase("p12")) {
+      try (InputStream is = event.getFile().getInputStream()) {
+        uploadedKeystore = is.readAllBytes();
+      }
+      PrimeFaces.current().executeScript("PF('passwordDialog').show();");
+    } else {
+      try (InputStream is = event.getFile().getInputStream()) {
+        getKeyStoreUtils().handleUploadCert(is);
+      }
     }
+  }
+
+  public void confirmPassword()
+      throws CertificateException, KeyStoreException, IOException, UnrecoverableKeyException, NoSuchAlgorithmException {
+    if (uploadedKeystore != null && importedStorePassword != null) {
+      try (InputStream is = new ByteArrayInputStream(uploadedKeystore)) {
+        getKeyStoreUtils().handleUploadstore(is, importedStorePassword, keyPassword);
+      } finally {
+        uploadedKeystore = null;
+        importedStorePassword = null;
+      }
+    }
+  }
+
+  public String getStorePassword() {
+    return "";
+  }
+
+  public void setStorePassword(String storePassword) {
+    this.importedStorePassword = storePassword.toCharArray();
+  }
+
+  public boolean isKeystore() {
+    return true;
   }
 
   @PostConstruct

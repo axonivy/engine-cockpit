@@ -92,6 +92,35 @@ class WebTestSSL {
 
     cleanUpCustomKeyStore();
   }
+  
+  @Test
+  void uploadStoreToKeyStore() throws IOException {
+    var useCustom = PrimeUi.selectBooleanCheckbox(By.id(Key.USE_CUSTOM));
+    var propertyPassword = $(By.id(Key.PASSWORD));
+    useCustom.setChecked();
+    propertyPassword.clear();
+    propertyPassword.sendKeys("test");
+    saveKeyStore();
+    Selenide.refresh();
+    try {
+      var table = new Table(By.id("sslKeyTable:storeTable:storeCertificates"));
+      table.firstColumnShouldBe(texts("ivy"));
+      var createTempFile = Files.createTempFile("client", ".p12");
+      try (var is = WebTestSSL.class.getResourceAsStream("client.p12")) {
+        Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
+      }
+      $(By.id("sslKeyTable:storeTable:certUpload_input")).sendKeys(createTempFile.toString());
+      $(By.id("sslKeyTable:storeTable:storePassword")).sendKeys("test");
+      $(By.id("sslKeyTable:storeTable:savePassword")).click();
+      table.firstColumnShouldBe(texts("ivy", "test-client"));
+      table.clickButtonForEntry("test-client", "delete");
+      $(By.id("sslKeyTable:storeTable:deleteCertDialog")).shouldBe(visible);
+      $(By.id("sslKeyTable:storeTable:deleteYesBtn")).shouldBe(visible).click();
+      table.firstColumnShouldBe(texts("ivy"));
+    } finally {
+      cleanUpCustomKeyStore();
+    }
+  }
 
   @Test
   void deleteKeyStoreCert() throws IOException {

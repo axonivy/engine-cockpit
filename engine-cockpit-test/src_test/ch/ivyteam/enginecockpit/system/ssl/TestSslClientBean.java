@@ -2,14 +2,20 @@ package ch.ivyteam.enginecockpit.system.ssl;
 
 import static ch.ivyteam.enginecockpit.system.ssl.StoredCert.shortSubject;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.security.KeyStore;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
 import org.junit.jupiter.api.Test;
 
+import ch.ivyteam.ivy.environment.IvyTest;
+
+@IvyTest
 class TestSslClientBean {
 
   @Test
@@ -28,7 +34,8 @@ class TestSslClientBean {
   void subject_noCN() {
     assertThat(shortSubject("CN=jira.axonivy.com,OU=ivyteam")).isEqualTo("jira.axonivy.com");
     assertThat(shortSubject("jira.axonivy.com")).isEqualTo("jira.axonivy.com");
-    assertThat(shortSubject("E=alexander.suter@axonivy.com,CN=Alexander Suter,OU=ivyTeam")).isEqualTo("Alexander Suter");
+    assertThat(shortSubject("E=alexander.suter@axonivy.com,CN=Alexander Suter,OU=ivyTeam"))
+        .isEqualTo("Alexander Suter");
     assertThat(shortSubject("CN=,OU=ivyteam")).isEqualTo("");
     assertThat(shortSubject("")).isEqualTo("");
   }
@@ -36,7 +43,8 @@ class TestSslClientBean {
   @Test
   void extractSubject() {
     TlsTesterBean bean = new TlsTesterBean();
-    assertThat(bean.getSubject("Cert alias found: CN=DigiCert Assured ID Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US alg=RSA, length=2048"))
+    assertThat(bean.getSubject(
+        "Cert alias found: CN=DigiCert Assured ID Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US alg=RSA, length=2048"))
         .isEqualTo("CN=DigiCert Assured ID Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US");
     assertThat(bean.getSubject("CN=AffirmTrust Commercial,O=AffirmTrust,C=US"))
         .isEqualTo("CN=AffirmTrust Commercial,O=AffirmTrust,C=US");
@@ -46,4 +54,29 @@ class TestSslClientBean {
         .isEqualTo("OU=certSIGN ROOT CA G2,O=CERTSIGN SA,C=RO");
   }
 
+  @Test
+  void copyPrivateKeyFromExisting() throws Exception {
+    var bean = new KeyStoreBean();
+    var keyPassword = "password";
+    var storePassword = "changeit";
+    
+    bean.setKeyPassword(keyPassword);
+    var path = Paths.get(TestSslClientBean.class.getResource("keystore.p12").toURI());
+    var keystore = new KeyStoreUtils(path.toString(), "PKCS12", "", storePassword.toCharArray());
+    try {
+      try (var is = TestSslClientBean.class.getResourceAsStream("client.p12")) {
+        keystore.handleUploadstore(is, "test".toCharArray(), keyPassword.toCharArray());
+      }
+      var store = KeyStore.getInstance(path.toFile(), storePassword.toCharArray());
+      var certs = keystore.getStoredCerts();
+      assertThat(certs.size()).isEqualTo(2);
+      var cert = store.getKey("test-client", keyPassword.toCharArray());
+      assertThat(cert.getAlgorithm()).isEqualTo("RSA");
+      assertThatThrownBy(() ->  store.getKey("test-client", "wrongKeyPassword".toCharArray()))
+            .isInstanceOf(Exception.class)
+            .hasMessageContaining("Get Key failed");
+    } finally {
+      keystore.deleteCertificate("test-client");
+    }
+  }
 }

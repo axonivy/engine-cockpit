@@ -1,6 +1,9 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
-  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
   <cc:attribute name="bean" required="true" />
@@ -10,24 +13,47 @@
 <cc:implementation>
   <div class="card">
     <h:form id="storeTable">
-      <p:growl id="sslDeleteCertificate"
-        for="sslDeleteCertificate">
+      <p:growl id="sslDeleteCertificate" for="sslDeleteCertificate">
         <p:autoUpdate />
       </p:growl>
       <div class="card-header">
         <div class="card-title flex align-items-center">
           <i class="pr-3 si si-information-circle"></i>
           <h6 class="m-0">#{cc.attrs.title}</h6>
-          <p:fileUpload id="certUpload" mode="simple"
-            skinSimple="true" multiple="false" auto="true"
+          <p:fileUpload id="certUpload" mode="simple" skinSimple="true"
+            multiple="false" auto="true"
             listener="#{cc.attrs.bean.handleUploadCertificate}"
-            update="@form"
-            style="display: none;" />
-          <p:commandButton title="#{ivy.cm.co('/sslTable/AddCertificate')}" icon="si si-upload-bottom"
-            type="button" id="Certbtn"
+            update="@form" style="display: none;" />
+          <p:commandButton
+            title="#{ivy.cm.co('/sslTable/AddCertificate')}"
+            icon="si si-upload-bottom" type="button" id="Certbtn"
             styleClass="flex-shrink-0 ml-auto ml-1 mr-1 rounded-button"
             onclick="document.getElementById(this.id.replace(':Certbtn',':certUpload_input')).click(); return false;">
           </p:commandButton>
+          <p:dialog rendered="#{cc.attrs.bean.isKeystore()}"
+            id="passwordDialog" widgetVar="passwordDialog"
+            header="#{ivy.cm.co('/sslTable/AddStoreHeader')}" modal="true"
+            resizable="false">
+            <p> #{ivy.cm.co('/sslTable/uploadInformation')} </p>
+            <h:panelGrid columns="2" 
+              columnClasses="col-4, col-8"
+              styleClass="grey-label-panel ui-fluid">
+              <h:outputLabel for="storePassword" value="#{ivy.cm.co('/sslTable/EnterPassword')}:" />
+              <p:password id="storePassword"
+                value="#{cc.attrs.bean.storePassword}"
+                feedback="false" redisplay="true" />
+            </h:panelGrid>
+            <div class="custom-dialog-footer">
+              <p:commandButton value="#{ivy.cm.co('/common/Save')}" id="savePassword"
+                actionListener="#{cc.attrs.bean.confirmPassword}"
+                process="@form" update="@form"
+                oncomplete="PF('passwordDialog').hide()" />
+              <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" type="button"
+                onclick="PF('passwordDialog').hide()"
+                styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+            </div>
+          </p:dialog>
+
         </div>
       </div>
       <p:staticMessage
@@ -64,21 +90,26 @@
         </p:column>
 
         <p:column styleClass="table-btn-1">
-          <p:commandButton id="delete" title="#{ivy.cm.co('/common/Delete')}" icon="si si-bin-1"
+          <p:commandButton id="delete"
+            title="#{ivy.cm.co('/common/Delete')}" icon="si si-bin-1"
             styleClass="ui-button-danger rounded-button"
             actionListener="#{cc.attrs.bean.deleteCertificate(certificate.alias)}"
             update="@form">
-            <p:confirm header="#{ivy.cm.content('/sslTable/DeleteCertificateConfirmHeader').replace('certificate', certificate.alias).get()}" 
+            <p:confirm
+              header="#{ivy.cm.content('/sslTable/DeleteCertificateConfirmHeader').replace('certificate', certificate.alias).get()}"
               message="#{ivy.cm.content('/sslTable/DeleteCertificateConfirmMessage').replace('certificate', certificate.alias).get()}" />
           </p:commandButton>
         </p:column>
 
       </p:dataTable>
 
-      <p:confirmDialog id="deleteCertDialog" global="true" severity="alert" appendTo="@form">
-        <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" type="button"
+      <p:confirmDialog id="deleteCertDialog" global="true"
+        severity="alert" appendTo="@form">
+        <p:commandButton value="#{ivy.cm.co('/common/Cancel')}"
+          type="button"
           styleClass="ui-confirmdialog-no ui-button-secondary ui-button-flat modal-input-button" />
-        <p:commandButton id="deleteYesBtn" value="#{ivy.cm.co('/common/Delete')}" type="button"
+        <p:commandButton id="deleteYesBtn"
+          value="#{ivy.cm.co('/common/Delete')}" type="button"
           styleClass="ui-confirmdialog-yes modal-input-button"
           icon="si si-bin-1" />
       </p:confirmDialog>

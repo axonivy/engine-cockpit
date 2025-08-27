@@ -144,11 +144,15 @@ public class TrustStoreBean implements SslTableStore {
   }
 
   @Override
-  public Certificate handleUploadCertificate(FileUploadEvent event)
+  public void handleUploadCertificate(FileUploadEvent event)
       throws CertificateException, KeyStoreException, IOException {
     try (InputStream is = event.getFile().getInputStream()) {
-      return getKeyStoreUtils().handleUploadCert(is);
+      getKeyStoreUtils().handleUploadCert(is);
     }
+  }
+
+  public boolean isKeystore() {
+    return false;
   }
 
   public void addToStore(Certificate cert) throws KeyStoreException {
