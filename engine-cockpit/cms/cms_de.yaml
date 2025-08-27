@@ -249,3 +249,15 @@ liveStats:
   TotalPushes: Total Pushs
   Transactions: Transaktionen
   Used: Verwendet
+login:
+  NoAdministratorsConfigured: Keine Administratoren konfiguriert, überprüfen Sie
+    die Dokumentation.
+  SignInButton: Anmelden
+  UserNamePlaceholder: Benutzername / E-Mail
+memberProperties:
+  SavePropertyErrorMessage: Die Eigenschaft '${property}' wurde bereits aus 
+    Ihrem Sicherheitssystem importiert
+migrate:
+  BackupSystemDatabaseRemindMessage: Bevor Sie die Migration starten, stellen 
+    Sie sicher, dass Sie eine Sicherung Ihrer Systemdatenbank und das gesamte 
+    Axon Ivy Engine Installationsverzeichnis haben.
