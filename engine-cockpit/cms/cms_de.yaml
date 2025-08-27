@@ -159,3 +159,8 @@ health:
   Problems: Probleme
   ProblemsDetectedMessage: ${number} probleme erkannt.
   RunHealthChecks: Führen Sie Gesundheitschecks
+indexes:
+  Unique: Einzigartig
+indices:
+  ClosedIndexHint: Es scheint, als wäre Ihre Maschine aus dem Speicherplatz. 
+    Bitte überprüfen Sie Ihre Suchmaschine Wasserzeichen-Einstellungen.
