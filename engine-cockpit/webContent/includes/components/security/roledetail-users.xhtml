@@ -68,7 +68,7 @@
           <ui:param name="canBeRemoved" value="#{roleDetailBean.hasRoleAssigned(user)}" />
           <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm"
             actionListener="#{roleDetailBean.removeUser(user.name)}" icon="si si-subtract" 
-            title="#{canBeRemoved ? ivy.cm.co('/common/Cancel') : ivy.cm.co('/roleDetailUsers/InheritedUser')}"
+            title="#{canBeRemoved ? ivy.cm.co('/common/Remove') : ivy.cm.co('/roleDetailUsers/InheritedUser')}"
             styleClass="ui-button-secondary rounded-button" 
             disabled="#{roleDetailBean.managed or !canBeRemoved}" />
         </p:column>

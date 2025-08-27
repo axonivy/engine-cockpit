@@ -543,7 +543,7 @@ licence:
   Owner: Owner
   SuccessfullyUploadedMessage: Successfully uploaded licence
   Unlimited: Unlimited
-  UploadLicence: Never
+  UploadLicence: Upload Licence
   UploadValidLicence: Please upload a valid licence.
 licenceEvents:
   ConfirmAll: Confirm all
@@ -594,9 +594,9 @@ login:
   LoginFooterCopyright: Copyright Ⓒ Axon Ivy
   LoginFooterEngineCockpit: Engine Cockpit
   NoAdministratorsConfigured: No administrators configured, check out the documentation.
-  PasswordPlaceholder: Username / Email
+  PasswordPlaceholder: Password
   SignInButton: Sign In
-  UserNamePlaceholder: Password
+  UserNamePlaceholder: Username / Email
 logs:
   CouldNotZipLogsMessage: Could not zip logs
   DownloadAllLogFiles: Download all log files
@@ -639,6 +639,7 @@ monitor:
   Active: Active
   CPULoad: CPU Load
   Caches: Caches
+  Class: Class
   Classes: Classes
   Committed: Committed
   Cores: Cores
