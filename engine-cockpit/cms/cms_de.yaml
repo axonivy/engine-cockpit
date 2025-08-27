@@ -285,3 +285,4 @@ monitor:
       bleibt, nachdem es zuletzt gelesen wurde.'
     CacheTTLTooltip: 'TTL: Zeit zum Leben. Die maximale Zeit, die ein Objekt im Cache
       bleibt, nachdem es zuerst gelesen wurde.'
+    CountTooltip: Die Anzahl der Objekte, die derzeit im Speicher geätzt werden
