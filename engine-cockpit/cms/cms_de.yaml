@@ -90,3 +90,22 @@ databaseHistory:
   ProcessElementHeader: Prozesselement
   ResultTimeValueTitle: Die Zeit, die benötigt wird, um die Ergebnisse der 
     Erklärung zu lesen
+deletionWarning:
+  SecondDeletionWarningMessage: Sie können Fälle und Daten verlieren. 
+    Vorsichtig.
+deployment:
+  DeployTestUsers: Test-Benutzer bereitstellen
+  DeployToApp: App bereitstellen
+  FileFormat: Datei Format
+  Options: Optionen
+directoryBrowser:
+  NodePropertiesEmptyMessage: Wählen Sie einen Knoten aus, um seine Attribute zu
+    sehen
+dynamicConfig:
+  ConnectionTestUrlDialogHeader: 'Verbindungstest - Url:'
+  TLSConnectionTestButton: TLS Verbindungstest
+editor:
+  AutoMigratedToLatestVersionWarningMessage: Diese Dateiinhalte wurden 
+    automatisch auf die neueste Version migriert.
+  DownloadP12: .p12 herunterladen
+  NotFoundConfigFile: Datei '${file} nicht gefunden
