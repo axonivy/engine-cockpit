@@ -226,3 +226,4 @@ licence:
   ConcurrentSessions: Gleichzeitige Sitzungen
   ConfigureLicence: Licence konfigurieren
   EngineRunsInDemoMode: Keine Lizenz installiert. Ihr Motor läuft im Demo-Modus.
+  EngineRunsInMaintenanceMode: Ihr Motor läuft im Wartungsmodus.
