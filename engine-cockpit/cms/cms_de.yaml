@@ -140,3 +140,19 @@ exceptionDetail:
   UnexpectedErrorOccured: 'Es hat sich ein unerwarteter Fehler ergeben:'
 fileUpload:
   AcceptFilesPlaceholder: 'Wählen Sie eine Datei, die endet mit: '
+  ChooseValidFileBeforeUpload: Wählen Sie eine gültige Datei vor dem Upload
+  FileUploadDialogDefaultTitle: Datei hochladen
+firings:
+  Duration: Dauer
+  ExecutionDuration: Ausführungsdauer
+  ExecutionDurationTooltip: min / avg / max
+  Reason: Begründung
+  Timestamp: Zeitstempel
+freeDays:
+  FreeDateTooltip: Freier Tag zum Festdatum
+  FreeDayOfYearTooltip: Freier Tag (MM-dd) jedes Jahr
+  FreeDays: Freie Tage
+  FreeEasterRelativeDayTooltip: Freier Tag relativ zu Ostern jedes Jahr
+health:
+  HealthDetails: Gesundheit Details
+  HealthyMessage: Keine Probleme erkannt. Motor ist gesund.
