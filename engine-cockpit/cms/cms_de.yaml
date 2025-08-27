@@ -116,3 +116,5 @@ editor:
     so dass die Änderungen einen Neustart überleben.
   UploadFileErrorDetailMessage: "'${file}' konnte wegen einer falschen dateierweiterung
     nicht hochgeladen werden."
+  UploadFileSuccessDetailMessage: "'${file}' erfolgreich hochgeladen und als ${activeFile}
+    gespeichert."
