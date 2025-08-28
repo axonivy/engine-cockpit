@@ -621,3 +621,8 @@ securityReportDownloadDialog:
     Informationen über Benutzer, Rollen, Benutzerrollen, Rollen Mitglieder, 
     Benutzerberechtigungen und Rollenberechtigungen. Der Download kann ein paar 
     Minuten dauern, abhängig von der Anzahl der Benutzer.
+  Generate: Generieren
+  SecurityReportGeneratedMessage: Sicherheitsbericht erstellt
+securitySystemInfo:
+  CreateSecurityReport: Sicherheitsbericht erstellen
+  DeleteSecuritySystemButtonTitle: Löschen Sie dieses Sicherheitssystem
