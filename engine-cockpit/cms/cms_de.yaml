@@ -905,3 +905,6 @@ webServer:
     Anfrage zu bauen (E-Mail-Links, ...)
   BaseUrlProblemDetectedDetailMessage: "'Base Url' scheint anders zu sein, als Ihre
     aktuelle Browser-Basis Url. Sie müssen möglicherweise Ihr 'Base Url' richtig konfigurieren"
+  BaseUrlProblemDetectedSummaryMessage: Problem erkannt
+  ChangedConfigSuccessfulMessage: ${key} erfolgreich geändert
+  CheckDocumentLink: 'Überprüfen Sie unsere Dokumentation für weitere Details:'
