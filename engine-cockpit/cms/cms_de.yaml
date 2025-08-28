@@ -642,3 +642,5 @@ securitySystemMerge:
   ApplyChangeDialogMessage: Möchten Sie wirklich ${solver Geben Sie diesen 
     Eintrag ein?
   CompareButton: Vergleich
+  CompareButtonTitle: Dies wird die Quelle nur mit dem Zielsicherheitssystem 
+    vergleichen. Dies wird NICHT Änderungen vornehmen.
