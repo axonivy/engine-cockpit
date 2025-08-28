@@ -852,3 +852,6 @@ userDetailInformation:
   ConfirmPassword: Passwort bestätigen
   DeleteUser: Löschen Sie diesen Benutzer
   DisableUser: Den Benutzer deaktivieren
+  DisabledUserWarningMessage: Dieser Benutzer ist deaktiviert
+  EMailAddress: E-Mail Adresse
+  EnableUser: Ermöglichen Sie diesen Benutzer
