@@ -922,3 +922,5 @@ webServer:
   MissingSecurityHeadersDetailMessage: 'Sicherheit Header werden nicht in der Antwort
     erkannt, aber vielleicht werden sie über einen umgekehrten Proxy hinzugefügt (Sie
     können überprüfen, dass über den Browser DevTools): ${missingSecurityHeaders}.'
+  RemoteAddressHelpMessage: Das Adressformular, aus dem die Anfrage stammt 
+    (sollte Ihr IP sein)
