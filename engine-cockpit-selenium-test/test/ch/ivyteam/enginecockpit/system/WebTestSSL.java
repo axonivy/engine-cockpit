@@ -181,8 +181,8 @@ class WebTestSSL {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
     }
     $(By.id("sslTrustTable:storeTable:certUpload_input")).sendKeys(createTempFile.toString());
-    table.firstColumnShouldBe(texts("ivy1"));
-    table.clickButtonForEntry("ivy1", "delete");
+    table.firstColumnShouldBe(texts("ivy"));
+    table.clickButtonForEntry("ivy", "delete");
     $(By.id("sslTrustTable:storeTable:deleteCertDialog")).shouldBe(visible);
     $(By.id("sslTrustTable:storeTable:deleteYesBtn")).shouldBe(visible).click();
     table.firstColumnShouldBe(empty);
