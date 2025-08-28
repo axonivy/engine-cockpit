@@ -277,6 +277,17 @@ migrate:
     Lizenz ein, sonst können Sie die Axon Ivy Engine nach der Migration nicht starten.
     Grund: ${message}'
   Licence: Lizenz
+  Log: Protokoll
+  MigrateOldEngine: Alte Axon Ivy Engine migrieren
+  MigrationTasks: Migrationsaufgaben
+  ReadingLicenceErrorMessage: 'Fehler beim Lesen der Lizenz: '
+  StartMigration: Migration starten
+  Summary: Zusammenfassung
+  TemporaryDirectory: 'Vorläufiges Verzeichnis: '
+  Upload: Hochladen
+  ValidLicenceFoundMessage: Gültige Lizenz gefunden.
+  WriteConfigurationFilesToTemporaryDirectory: Konfigurationsdateien auf 
+    temporäres Verzeichnis schreiben
 monitor:
   CPULoad: CPU Last
   cache:
@@ -317,3 +328,5 @@ monitor:
   execution:
     ExecutionHelpText: Starten Sie die Aufnahme der Leistungsstatistik kann 
       negative Auswirkungen auf die Leistung des Motors haben.
+    ExecutionOrder: Reihenfolge der ersten Ausführung
+    ExtAvgTooltip: Durchschnitt der externen Ausführungszeit [ms]
