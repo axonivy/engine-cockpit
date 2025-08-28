@@ -791,3 +791,14 @@ systemDatabase:
   URL: URL
 systemDb:
   AddAdditionalPropertyDialogHeader: Zusätzliches Eigentum
+  ConnectionInfoAdvise: Bitte überprüfen Sie die Verbindung zur Datenbank.
+  ConnectionInfoLabel: Verbindungszustand unbekannt
+  CreateDatabase: Datenbank erstellen
+  CreateDatabaseDialogDetail: Geben Sie die erforderlichen Parameter für Ihre 
+    Systemdatenbank-Konfiguration ein
+  CreateDatabaseDialogHeader: Systemdatenbank erstellen
+  CreateDatabaseSucessfulMessage: Die Datenbank wurde erfolgreich erstellt. 
+    Bitte überprüfen Sie die Verbindung!
+  Database: Datenbank
+  DatabaseNotPersistentDetail: Bitte konfigurieren Sie eine persistente 
+    Datenbank, um diesen Motor in einer produktiven Umgebung zu verwenden.
