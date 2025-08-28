@@ -389,3 +389,7 @@ monitor:
         Name: Max Größe
     RecordingMessage1: Der Start einer Fligh-Aufzeichnung kann sich negativ auf 
       die Leistung des Motors auswirken.
+    RecordingMessage2: Es gibt bereits mindestens eine Aufnahme. Willst du einen
+      anderen starten?
+    RecordingMessage3: Es steht bereits mindestens eine Aufnahme zur Verfügung. 
+      Betrachten Sie, es zu löschen, bevor Sie eine andere starten.
