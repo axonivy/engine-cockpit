@@ -739,3 +739,5 @@ setupStorage:
   DataDirectory: Datenverzeichnis
   DirectoryChangesMessage: Verzeichnis-Änderungen erfolgreich gespeichert
   StepWarningMessage: AppDirectory sollte nicht leer sein
+sidebar:
+  ClassHistogram: Klasse Histogramm
