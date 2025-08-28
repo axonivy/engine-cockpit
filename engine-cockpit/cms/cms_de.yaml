@@ -644,3 +644,15 @@ securitySystemMerge:
   CompareButton: Vergleich
   CompareButtonTitle: Dies wird die Quelle nur mit dem Zielsicherheitssystem 
     vergleichen. Dies wird NICHT Änderungen vornehmen.
+  ComparisonReport: Vergleichsbericht
+  ComparisonReportInfo: Um eine Anwendung von der Quelle auf das 
+    Zielsicherheitssystem zu verschieben, müssen im Zielsicherheitssystem 
+    dieselben Benutzer und Rollen vorhanden sein wie im Quellsystem. Durch die 
+    Ausführung aller CREATE-Operationen werden alle fehlenden Benutzer und 
+    Rollen im Zielsicherheitssystem erstellt. Es besteht keine Notwendigkeit, 
+    die UPDATE-Operationen oder DELETE-Operationen auszuführen, aber Sie können 
+    das Zielsicherheitssystem mit diesen Operationen reinigen wollen. Es könnte 
+    sein, dass die Rolle bereits existiert, aber diese ist eigentlich nicht 
+    dieselbe Rolle. Ist dies der Fall, muss die Rolle manuell im 
+    Zielsicherheitssystem sowie die Rolle im Axon Ivy Project umbenannt werden. 
+    Dann muss das Axon Ivy Projekt neu eingesetzt werden.
