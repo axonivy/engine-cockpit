@@ -631,3 +631,4 @@ securitySystemInfo:
   DeleteSecuritySystemDialogHeader: Löschen von Sicherheitssystem
   DeleteSecuritySystemWarningMessage: Beachten Sie, dass alle Benutzer und 
     Rollen dieses Sicherheitssystems sowie gelöscht werden.
+  DownloadSecurityReport: Security Report herunterladen
