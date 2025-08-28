@@ -727,3 +727,10 @@ setup:
   EngineRestartDetail: Ihr Motor muss neu gestartet werden, um den Setup-Prozess
     zu beenden!
   FinishSetupWizard: Fertig Setup Wizard
+  Licence: Lizenz
+  SystemDatabase: Systemdatenbank
+  WebServer: Webserver
+setupAdmins:
+  AddAdministratorButton: Administrator hinzufügen
+  AddAdministratorButtonTitle: Bearbeiten
+  StepWarningMessage: Bitte konfigurieren Sie mindestens einen Admin!
