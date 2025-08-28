@@ -331,4 +331,12 @@ monitor:
     ExecutionOrder: Reihenfolge der ersten Ausführung
     ExtAvgTooltip: Durchschnitt der externen Ausführungszeit [ms]
     ExtExecutions: Ausführung
+    ExtExecutionsTooltip: Anzahl externer Ausführung
+    ExtMax: Ext Max
+    ExtMaxTooltip: Maximale externe Ausführungszeit [ms]
+    ExtMinTooltip: Minimum der externen Ausführungszeit [ms]
+    ExtTotal: Insgesamt
+    ExtTotalTooltip: Gesamte externe Ausführungszeit [ms]
+    IntAvgTooltip: Durchschnitt der internen Ausführungszeit [ms]
+    IntExecutionTooltip: Anzahl der internen Ausführungen des Motors
   Active: Aktiv
