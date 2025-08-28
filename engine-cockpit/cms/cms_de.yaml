@@ -632,3 +632,7 @@ securitySystemInfo:
   DeleteSecuritySystemWarningMessage: Beachten Sie, dass alle Benutzer und 
     Rollen dieses Sicherheitssystems sowie gelöscht werden.
   DownloadSecurityReport: Security Report herunterladen
+  UsedByApplicationsTooltip: Jede Anwendung, die dieses Sicherheitssystem 
+    verwendet.
+securitySystemLanguage:
+  FormattingLanguage: Formatierung der Sprache
