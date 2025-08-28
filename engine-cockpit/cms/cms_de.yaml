@@ -510,3 +510,5 @@ restart:
   RestartFirstWarningMessageSecondPart: benutzer (zurzeit ${workingUsers})
   RestartFirstWarningMessageThirdPart: arbeiten mit ${application} wird ihre 
     aktuelle arbeit verlieren.
+  RestartSecondWarningMessage: Benutzer können nicht mit ${application} für 
+    kurze Zeit verbinden.
