@@ -825,3 +825,16 @@ tlsTesterMissingCertView:
   AddCertificateToTruststoreSuccessMesage: Das Zertifikat wurde erfolgreich 
     hinzugefügt.
   AddToTruststore: Zum Truststore hinzufügen
+  AddX509CertificateToTruststoreSuccessMesage: ${certificate} wurde erfolgreich 
+    hinzugefügt
+  ValidFrom: 'gültig ab:'
+  ValidUntil: 'gültig bis:'
+topBarItem:
+  Help: Hilfe
+triggers:
+  Triggers: Auslöser
+updateRoleParent:
+  UpdateRoleParentDialogWarningMessage: Dies ist eine kritische und gefährliche 
+    Operation, zumindest für nicht-dynamische Rollen. Die Rollenhierarchie ist 
+    in Ihrem Axon Ivy Project definiert und Ihr Laufprozess kann von dieser 
+    Hierachie abhängen.
