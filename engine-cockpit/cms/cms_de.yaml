@@ -503,3 +503,8 @@ renameRole:
     Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf 
     den neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft
     scheitern.
+restart:
+  RestartConfirmMessage: Sind Sie sicher, dass Sie die ${application} neu 
+    starten wollen?
+  RestartFirstWarningMessageFirstPart: Alle
+  RestartFirstWarningMessageSecondPart: benutzer (zurzeit ${workingUsers})
