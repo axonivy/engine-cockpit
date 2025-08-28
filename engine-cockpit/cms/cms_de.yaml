@@ -626,3 +626,6 @@ securityReportDownloadDialog:
 securitySystemInfo:
   CreateSecurityReport: Sicherheitsbericht erstellen
   DeleteSecuritySystemButtonTitle: Löschen Sie dieses Sicherheitssystem
+  DeleteSecuritySystemConfirmMessage: Sind Sie sicher, dass Sie das 
+    Sicherheitssystem '${name}' löschen möchten?
+  DeleteSecuritySystemDialogHeader: Löschen von Sicherheitssystem
