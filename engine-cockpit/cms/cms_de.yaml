@@ -496,3 +496,10 @@ pmvDetail:
   ReleaseState: Freigabezustand
   SpecifiedRequiredProjectsMessage: Obwohl einige benötigte Projekte angegeben 
     werden!
+renameRole:
+  RenameRoleDialogWarningMessage: Dies ist eine kritische und gefährliche 
+    Operation, zumindest für nicht-dynamische Rollen. Diese Rolle kann in 
+    Prozessen mit seinem alten Namen referiert werden. Alle Referenzen in allen 
+    Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf 
+    den neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft
+    scheitern.
