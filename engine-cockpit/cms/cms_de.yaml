@@ -821,3 +821,7 @@ template:
   ServerIndex: Server-Index
   ShowHealthDetails: Gesundheitsdetails anzeigen ...
   SupportReport: Unterstützungsbericht
+tlsTesterMissingCertView:
+  AddCertificateToTruststoreSuccessMesage: Das Zertifikat wurde erfolgreich 
+    hinzugefügt.
+  AddToTruststore: Zum Truststore hinzufügen
