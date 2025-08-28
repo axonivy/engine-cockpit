@@ -849,3 +849,6 @@ userDetailAbsences:
   Working: Arbeit
 userDetailInformation:
   AddRoleFailedMessage: Benutzer bereits Mitglied dieser Rolle
+  ConfirmPassword: Passwort bestätigen
+  DeleteUser: Löschen Sie diesen Benutzer
+  DisableUser: Den Benutzer deaktivieren
