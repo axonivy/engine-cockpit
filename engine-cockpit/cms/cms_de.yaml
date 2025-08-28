@@ -533,3 +533,7 @@ restHistory:
   RequestUrl: Anfrage an Url
 restServices:
   BrowseRestAPIButtonTitle: Verfügbare REST Backend Services
+  RESTServices: REST Services
+roleDetail:
+  DirectOpenTasks: Direkte offene Aufgaben
+  InheritUsers: Inhere Benutzer
