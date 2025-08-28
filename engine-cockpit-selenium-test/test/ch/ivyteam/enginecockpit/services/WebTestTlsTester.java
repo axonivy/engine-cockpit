@@ -71,8 +71,8 @@ class WebTestTlsTester {
       $(By.id("connResult:connTestForm:closeConTesterDialog")).click();
       Navigation.toSSL();
       var table = new Table(By.id("sslTrustTable:storeTable:storeCertificates"));
-      table.firstColumnShouldBe(texts("ivy1"));
-      table.clickButtonForEntry("ivy1", "delete");
+      table.firstColumnShouldBe(texts("ivy"));
+      table.clickButtonForEntry("ivy", "delete");
       $(By.id("sslKeyTable:storeTable:deleteCertDialog")).shouldBe(visible);
       $(By.id("sslKeyTable:storeTable:deleteYesBtn")).shouldBe(visible).click();
       Navigation.toRestClientDetail(RESTCLIENT_NAME);
