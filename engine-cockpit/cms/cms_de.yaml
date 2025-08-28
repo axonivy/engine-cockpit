@@ -658,3 +658,5 @@ securitySystemMerge:
     Dann muss das Axon Ivy Projekt neu eingesetzt werden.
   CreateSolveHintMessage: Dies wird den Eintrag im Ziel-Sicherheitssystem 
     erstellen ${security System
+  DeleteSolveHintMessage: Dies wird den Eintrag im Ziel-Sicherheitssystem 
+    löschen ${security System
