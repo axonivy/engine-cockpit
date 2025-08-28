@@ -380,3 +380,9 @@ monitor:
           \n\"ns\" (Nanosekunden)\n\"uns\" (Mikrosekunden)\n\"ms\" (Millisekunden)\n\
           \"s\" (Sekunden)\n\"m\" (Minuten)\n\"h\" (Stunden)\n\"d\" (Tage)\n\nBeispiele:\n\
           \"2 h\"\n\"24 h\"\n\"2 d\"\n\"0\""
+        Name: Höchstalter
+      maxSize:
+        Description: "Gibt die Größe an, gemessen in Bytes, an der Daten im Festplattenspeicher
+          gespeichert werden.\nNur funktioniert, wenn disk=true, sonst wird dieser
+          Parameter ignoriert.\n\nString-Darstellung eines Long-Wertes, muss positiv
+          sein\n\nBeispiele:\n\"0\"\n\"100000000\""
