@@ -680,3 +680,8 @@ securitySystemMerge:
   ExecuteAllUpdateOperationsConfirmDialogContent: Dies wird alle Einträge im 
     Zielsicherheitssystem aktualisieren, die sich von dem Quellsicherheitssystem
     unterscheiden
+  ExecuteAllUpdateOperationsConfirmDialogHeader: Alle UPDATE Operationen 
+    ausführen
+  IssueTargetHeader: Ziel
+  IssueWhatHeader: Was
+  MergeSecuritySystems: Verschmelzungssicherheitssysteme
