@@ -938,3 +938,6 @@ webServiceDetail:
     App.yaml-Datei. Zum Beispiel kopieren und fügen Sie den Snippet unten.
   NotFoundWebService: Webservice '${webserviceId}' nicht gefunden
   Title: Webservice '${webservice} '
+webServiceEndpoints:
+  EditEndpointsConfigurationDialogHeader: Endpunkt bearbeiten
+  EndPointSavedMessage: EndPoint gespeichert
