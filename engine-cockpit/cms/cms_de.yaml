@@ -916,3 +916,9 @@ webServer:
     absolute URIs zu bauen (Start-Links, E-Mail-Links, ...)
   ExternalBaseUrlProblemDetectedDetailMessage: "'External Base Url' scheint anders
     zu sein als Ihre aktuelle Browser-Basis Url"
+  ExternalBaseUrlProblemDetectedSummaryMessage: Problem erkannt
+  HTTPConnector: HTTP Connector
+  HTTPSConnectorctor: HTTPS Connector
+  MissingSecurityHeadersDetailMessage: 'Sicherheit Header werden nicht in der Antwort
+    erkannt, aber vielleicht werden sie über einen umgekehrten Proxy hinzugefügt (Sie
+    können überprüfen, dass über den Browser DevTools): ${missingSecurityHeaders}.'
