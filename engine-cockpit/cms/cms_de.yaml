@@ -701,3 +701,5 @@ securitySystemProvider:
 securitySystemWorkflowLanguage:
   AddNewLanguage: Neue Sprache hinzufügen
   AddWorkflowLanguageDialogHeader: Workflow Language hinzufügen
+  AddWorkflowLanguageSystemDatabaseSpaceWarningMessage: Diese Operation dauert 
+    einige Zeit und der Raum Ihrer Systemdatenbank wird wachsen.
