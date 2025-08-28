@@ -778,3 +778,11 @@ supportReport:
   OpenSupportTicketContent: Wenn Sie ein Problem bei der Verwendung der Axon Ivy
     Engine erkennen, öffnen Sie bitte ein Support-Ticket, laden Sie dieses 
     Zip-Archiv herunter und befestigen Sie es an das Ticket.
+  TodayLogFilesContent: Heutige Protokolldateien
+  ZipArchiveContainsContent: 'Dieses Zip-Archiv enthält:'
+systemConfig:
+  ReloadSystemConfigurationMessage: Systemkonfiguration neu geladen
+  ShowSecuritySystems: Sicherheitssysteme anzeigen
+systemDatabase:
+  ConfigureSystemDb: SystemDb konfigurieren
+  HSQLMemoryDbIsUsedMessage: HSQL Speicher Db wird verwendet
