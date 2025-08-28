@@ -340,4 +340,8 @@ monitor:
     IntAvgTooltip: Durchschnitt der internen Ausführungszeit [ms]
     IntExecutionTooltip: Anzahl der internen Ausführungen des Motors
     IntMaxTooltip: Maximale Motor-interne Ausführungszeit [ms]
+    IntMinTooltip: Minimum der internen Ausführungszeit [ms]
+    LoggingActiveDetails: Der Prozesselement Performance-Statistik-logger ist 
+      aktiv. Die Statistik wird automatisch vom Logger gereinigt alle 
+      ${loggingInterval}!
   Active: Aktiv
