@@ -786,3 +786,8 @@ systemConfig:
 systemDatabase:
   ConfigureSystemDb: SystemDb konfigurieren
   HSQLMemoryDbIsUsedMessage: HSQL Speicher Db wird verwendet
+  NoLicenceInstalledSummary: Keine Lizenz installiert
+  SystemDatabase: Systemdatenbank
+  URL: URL
+systemDb:
+  AddAdditionalPropertyDialogHeader: Zusätzliches Eigentum
