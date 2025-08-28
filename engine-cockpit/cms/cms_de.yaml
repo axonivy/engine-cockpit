@@ -600,3 +600,7 @@ searchEngineInformation:
     zu verlagern, dessen verfügbarer Speicherplatz kleiner ist als dieser Wert. 
     Diese Einstellung wirkt sich auf die Zuweisung aller Shards, ob zuvor 
     zugewiesen oder nicht.
+  WatermarkLowInfo: Search Engine wird keine Shards an Knoten zuweisen, die 
+    weniger Diskpace verfügbar als dieser Wert haben. Diese Einstellung wirkt 
+    sich nicht auf die Primärscherben neu erstellter Indizes aus, sondern 
+    verhindert, dass ihre Nachbildungen vergeben werden.
