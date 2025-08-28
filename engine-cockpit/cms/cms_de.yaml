@@ -703,3 +703,9 @@ securitySystemWorkflowLanguage:
   AddWorkflowLanguageDialogHeader: Workflow Language hinzufügen
   AddWorkflowLanguageSystemDatabaseSpaceWarningMessage: Diese Operation dauert 
     einige Zeit und der Raum Ihrer Systemdatenbank wird wachsen.
+  AddWorkflowLanguageWarningMessage: Wenn Sie eine neue Workflow-Sprache 
+    hinzufügen, werden der Name und die Beschreibung aller vorhandenen Aufgaben 
+    (${tasks}) und Fälle (${cases}) der Standardsprache (${language}) in die 
+    neue Sprache kopiert.
+  DeleteLanguage: Diese Sprache löschen
+  DeleteWorkflowLanguageDialogHeader: Workflow Language löschen
