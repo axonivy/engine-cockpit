@@ -430,3 +430,4 @@ monitor:
     CPUTimeTooltip: Gesamte CPU Zeit [n]
     DeadLockedMessage: Dieser Faden ist versperrt! Es wartet darauf, ${lock} zu 
       sperren, die im Besitz von Thread ${lockOwner} ist.
+    LockTooltip: Warten auf oder für Lock
