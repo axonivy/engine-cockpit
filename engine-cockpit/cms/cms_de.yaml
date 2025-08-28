@@ -346,3 +346,15 @@ monitor:
       ${loggingInterval}!
     TotalTooltip: Gesamtlaufzeit [ms] (intern + extern)
   Active: Aktiv
+  health:
+    AdditionalInformationConfiguration: Zusätzliche Informationen oder 
+      Konfiguration
+    RunCheckNow: Jetzt überprüfen
+  jfr:
+    AddConfiguration: Konfiguration hinzufügen
+    NoRecordingsFound: Keine Aufnahmen gefunden
+    Option:
+      disk:
+        Description: "Speichert aufgezeichnete Daten, wie es aufgezeichnet wird.\n\
+          \nString-Darstellung eines Booleschen Wertes, \"wahr\" oder \"false\"\n\n\
+          Beispiele:\n\"true\"\n\"false\""
