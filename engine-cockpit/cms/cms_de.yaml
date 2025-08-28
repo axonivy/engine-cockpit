@@ -908,3 +908,9 @@ webServer:
   BaseUrlProblemDetectedSummaryMessage: Problem erkannt
   ChangedConfigSuccessfulMessage: ${key} erfolgreich geändert
   CheckDocumentLink: 'Überprüfen Sie unsere Dokumentation für weitere Details:'
+  Documentation: dokumentation
+  EvaluatedUrl: Evaluierte URL
+  EvaluatedUrlHelpMessage: Beispiel wie ein externer Link berechnet wird
+  ExternalBaseUrl: Externe Basis-URL
+  ExternalBaseUrlHelpMessage: Basis-URL, die vom Motor verwendet wird, um 
+    absolute URIs zu bauen (Start-Links, E-Mail-Links, ...)
