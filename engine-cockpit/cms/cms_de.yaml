@@ -514,3 +514,5 @@ restart:
     kurze Zeit verbinden.
   RestartThirdWarningMessage: Das Neustarten kann scheitern und dann benötigen 
     Sie Zugriff auf das Betriebssystem, um es erneut zu starten.
+  RestartWarningMessage: Die Wiederherstellung von ${application} ist eine 
+    gefährliche Operation.
