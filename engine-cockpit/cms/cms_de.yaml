@@ -774,3 +774,4 @@ sslTrustStore:
   TrustStoreConfigurationsSavedMessage: Trust Store Konfigurationen gespeichert
 supportReport:
   AxonIvyEngineSupportReportContent: Axon Ivy Motor Support Report
+  DownloadSupportReport: Support Report herunterladen
