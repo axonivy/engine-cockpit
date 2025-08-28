@@ -815,3 +815,6 @@ systemDbInfo:
   LoadDataSummaryMessage: Informationen zur Systemdatenbank
 template:
   ClusterMode: Cluster-Modus!
+  ClusterModeWarning: Konfigurationsänderungen können nur auf lokalen Knoten 
+    angewendet werden!
+  Logout: Anmeldung
