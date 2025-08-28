@@ -344,4 +344,5 @@ monitor:
     LoggingActiveDetails: Der Prozesselement Performance-Statistik-logger ist 
       aktiv. Die Statistik wird automatisch vom Logger gereinigt alle 
       ${loggingInterval}!
+    TotalTooltip: Gesamtlaufzeit [ms] (intern + extern)
   Active: Aktiv
