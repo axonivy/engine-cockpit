@@ -458,3 +458,5 @@ moveApplication:
   ChangeSecuritySystemWarningMessage: Dies ist eine schwere Operation, die viele
     Daten bewegt. Wir empfehlen dringend, eine Sicherung Ihrer Systemdatenbank 
     zu erstellen.
+  NoTargetSecuritysystemSelectedMessage: Kein Zielsicherheitssystem ausgewählt
+  SourceSecuritySystem: Quelle Sicherheitssystem
