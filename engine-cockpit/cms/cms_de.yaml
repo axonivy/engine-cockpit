@@ -424,3 +424,7 @@ monitor:
     PollBeanTitle: Poll Bean
     SchedulePollTooltip: Scheduling, um eine Bohne zu verschmutzen, kann 
       negative Nebenwirkungen haben.
+  thread:
+    Blocked: Blockiert
+    CPUTime: CPU Zeit
+    CPUTimeTooltip: Gesamte CPU Zeit [n]
