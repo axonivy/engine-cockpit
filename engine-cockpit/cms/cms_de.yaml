@@ -867,3 +867,5 @@ userDetailInformation:
     Benutzer an diesen Aufgaben arbeiten. Sie können diesen Benutzer 
     deaktivieren wollen, anstatt ihn zu löschen, könnten Sie einen Teil der 
     Workflow-Geschichte verlieren.
+  UserInExternalSecuritySystemMessage: Dieser Benutzer wird vom externen 
+    Sicherheitssystem verwaltet
