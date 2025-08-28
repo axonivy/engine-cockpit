@@ -588,3 +588,8 @@ searchEngineInformation:
   DiskThresholdEnabled: Festplattenschwelle aktiviert
   DiskThresholdEnabledInfo: Dies definiert, wenn die Einstellungen darunter 
     einen Effekt haben oder nicht
+  FloodStageInfo: Search Engine wird Indizes im Nur-Lesemodus setzen, wenn 
+    verfügbarer Speicherplatz kleiner als dieser Wert ist. Diese Einstellung ist
+    ein letztes Mittel, um zu verhindern, dass Knoten aus dem Speicherplatz 
+    laufen. Der Indexblock wird automatisch freigegeben, wenn die 
+    Plattenauslastung unter das hohe Wasserzeichen fällt.
