@@ -406,3 +406,7 @@ monitor:
     EmptyMBeanMessage: Wählen Sie einen Bohnen, um seine Attribute zu sehen
     LastValue: Letzter Wert
     RemoveTrace: Entfernen der Spur
+  session:
+    ContextPath: Kontextpfad
+    HTTPSessions: Http Sitzungen
+    InvalidSessionMessage: Erschaffung ungültig / Letzter Zugang ungültig
