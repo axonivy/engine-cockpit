@@ -516,3 +516,11 @@ restart:
     Sie Zugriff auf das Betriebssystem, um es erneut zu starten.
   RestartWarningMessage: Die Wiederherstellung von ${application} ist eine 
     gefährliche Operation.
+restClientConfiguration:
+  ResetConfiguration: Konfiguration zurücksetzen
+  ResetRestClientDialogMessage: Sind Sie sicher, dass Sie diesen Rest Client 
+    zurücksetzen möchten?
+  UUID: UUID
+restClientDetail:
+  GuideText: Um Ihre Rest Client überschreiben Sie Ihre App.yaml-Datei. Zum 
+    Beispiel kopieren und fügen Sie den Snippet unten.
