@@ -419,3 +419,8 @@ monitor:
     TempTooltip: Eine temporäre Sitzung wird nur aus technischen Gründen 
       erstellt und Shoud haben eine sehr kurze Lebensdauer (ca. 1s). Temporäre 
       Sitzungen zählen nicht für lizenzierte gleichzeitige Sitzungen.
+  startEvent:
+    Poll: Poll
+    PollBeanTitle: Poll Bean
+    SchedulePollTooltip: Scheduling, um eine Bohne zu verschmutzen, kann 
+      negative Nebenwirkungen haben.
