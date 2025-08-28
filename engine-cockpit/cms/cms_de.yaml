@@ -856,3 +856,9 @@ userDetailInformation:
   EMailAddress: E-Mail Adresse
   EnableUser: Ermöglichen Sie diesen Benutzer
   ExternalID: Externer Ausweis
+  ExternalName: Externer Name
+  NotFoundSecuritySystemMessage: Sicherheitssystem '${securitySystem} nicht 
+    gefunden
+  NotFoundUserMessage: Benutzer '${user} nicht gefunden
+  UserDeleteHintMessage: Sie können diesen Benutzer deaktivieren wollen, anstatt
+    ihn zu löschen, könnten Sie einen Teil der Workflow-Geschichte verlieren.
