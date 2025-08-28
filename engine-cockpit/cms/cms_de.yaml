@@ -838,3 +838,11 @@ updateRoleParent:
     Operation, zumindest für nicht-dynamische Rollen. Die Rollenhierarchie ist 
     in Ihrem Axon Ivy Project definiert und Ihr Laufprozess kann von dieser 
     Hierachie abhängen.
+userDetail:
+  PersonalTasks: Persönliche Aufgaben
+  StartedCases: Gestartete Fälle
+userDetailAbsences:
+  End: Ende
+  Start: Start
+  UserIsCurrentlyAbsent: Benutzer ist derzeit abwesend
+  UserIsCurrentlyNotAbsent: Benutzer ist derzeit nicht abwesend
