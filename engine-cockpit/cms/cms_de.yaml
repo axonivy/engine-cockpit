@@ -775,3 +775,6 @@ sslTrustStore:
 supportReport:
   AxonIvyEngineSupportReportContent: Axon Ivy Motor Support Report
   DownloadSupportReport: Support Report herunterladen
+  OpenSupportTicketContent: Wenn Sie ein Problem bei der Verwendung der Axon Ivy
+    Engine erkennen, öffnen Sie bitte ein Support-Ticket, laden Sie dieses 
+    Zip-Archiv herunter und befestigen Sie es an das Ticket.
