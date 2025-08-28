@@ -563,3 +563,7 @@ roleDetailUsers:
   InheritedUser: Dieser Benutzer wird durch eine Unterrolle oder ein 
     Rollenmitglied geerbt
   SearchUserToAddPlaceholder: Suche Benutzer hinzufügen
+  SearchUsersPlaceholder: Suche
+  UsersOfRole: Benutzer der Rolle
+roles:
+  ExternalRoleNameMessage: "(Außen: '${rol}')"
