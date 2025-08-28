@@ -549,3 +549,11 @@ roleDetailInformation:
     Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf 
     den neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft
     scheitern.
+  DisplayName: Anzeige Name
+  ExternalName: Externer Name
+  RoleInformationChangesSavedMessage: Änderungen der Rolleninformation 
+    gespeichert
+roleDetailMembers:
+  Filter: 'Filter:'
+  RoleMembers: Mitglieder der Rolle
+  RoleMembersOfRole: Rolle Mitglieder der Rolle
