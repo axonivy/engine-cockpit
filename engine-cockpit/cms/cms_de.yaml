@@ -512,3 +512,5 @@ restart:
     aktuelle arbeit verlieren.
   RestartSecondWarningMessage: Benutzer können nicht mit ${application} für 
     kurze Zeit verbinden.
+  RestartThirdWarningMessage: Das Neustarten kann scheitern und dann benötigen 
+    Sie Zugriff auf das Betriebssystem, um es erneut zu starten.
