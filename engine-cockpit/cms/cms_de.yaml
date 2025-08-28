@@ -557,3 +557,9 @@ roleDetailMembers:
   Filter: 'Filter:'
   RoleMembers: Mitglieder der Rolle
   RoleMembersOfRole: Rolle Mitglieder der Rolle
+  SearchRolesPlaceholder: Suche
+roleDetailUsers:
+  Filter: 'Filter:'
+  InheritedUser: Dieser Benutzer wird durch eine Unterrolle oder ein 
+    Rollenmitglied geerbt
+  SearchUserToAddPlaceholder: Suche Benutzer hinzufügen
