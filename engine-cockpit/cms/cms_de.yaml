@@ -695,3 +695,4 @@ securitySystemProvider:
     verlieren Sie alle aktuellen Einstellungen dieses Sicherheitssystems!
   SynchronizationScheduleTime: Zeit der Synchronisierung
   SynchronizeUsersOnLogin: Benutzer auf Login synchronisieren
+  SynchronizeUsersOnSchedule: Benutzer im Zeitplan synchronisieren
