@@ -393,3 +393,8 @@ monitor:
       anderen starten?
     RecordingMessage3: Es steht bereits mindestens eine Aufnahme zur Verfügung. 
       Betrachten Sie, es zu löschen, bevor Sie eine andere starten.
+  job:
+    Errors: Fehler
+    ExecutionDuration: Ausführungsdauer
+    LastSuccessfulExecution: Letzte erfolgreiche Ausführung
+    LastTimeTheJobFailed: Letztes Mal scheiterte der Job
