@@ -698,3 +698,6 @@ securitySystemProvider:
   SynchronizeUsersOnSchedule: Benutzer im Zeitplan synchronisieren
   UseCronExpressionConfiguration: Verwenden Sie die Konfiguration des 
     Cron-Ausdrucks
+securitySystemWorkflowLanguage:
+  AddNewLanguage: Neue Sprache hinzufügen
+  AddWorkflowLanguageDialogHeader: Workflow Language hinzufügen
