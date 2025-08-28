@@ -862,3 +862,8 @@ userDetailInformation:
   NotFoundUserMessage: Benutzer '${user} nicht gefunden
   UserDeleteHintMessage: Sie können diesen Benutzer deaktivieren wollen, anstatt
     ihn zu löschen, könnten Sie einen Teil der Workflow-Geschichte verlieren.
+  UserDeleteHintMessageWithPersonalTasks: Der Benutzer '${user}' hat ${tasks} 
+    persönliche Aufgaben. Wenn Sie diesen Benutzer löschen, kann kein anderer 
+    Benutzer an diesen Aufgaben arbeiten. Sie können diesen Benutzer 
+    deaktivieren wollen, anstatt ihn zu löschen, könnten Sie einen Teil der 
+    Workflow-Geschichte verlieren.
