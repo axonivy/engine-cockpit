@@ -719,3 +719,10 @@ sendtestmail:
   Message: Nachricht
   SendTestMailDialogHeader: Test Mail senden
   TestMailMessageDefault: Das ist eine Testpost.
+  TestMailSubjectDefault: Test-Mail
+setup:
+  Administrators: Administratoren
+  ConfigurationIncompleteDetail: 'Sie haben Warnungen in:'
+  ConfigurationIncompleteSummary: Konfiguration unvollständig
+  EngineRestartDetail: Ihr Motor muss neu gestartet werden, um den Setup-Prozess
+    zu beenden!
