@@ -750,3 +750,12 @@ sidebar:
   Licence: Lizenz
   LiveStats: Live Stöcke
   LiveStatsFoundFrom: Live-Statistiken aus
+  ProcessExecution: Prozessausführung
+  Sessions: Sitzungen
+  SlowRequests: Langsame Anfragen
+soapHistory:
+  Endpoint: Endpunkt
+  Operation: Betrieb
+sslKeyStore:
+  DeletedCertificateMessage: Zertifikat '${certificate}' gelöscht
+  KeyStoreConfigurationsSavedMessage: Key Store Konfigurationen gespeichert
