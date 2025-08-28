@@ -582,3 +582,7 @@ searchEngine:
     einzigen Knoten-Cluster laufen, wie die interne ivy ES, ist dies normal. Auf
     einem externen Multi-Knoten-Cluster kann dies einige anstehende Probleme 
     angeben. Bitte überprüfen Sie die ES-Logs.
+  SearchEngineServerProblem: Search Engine Server Problem
+  SearchEngineServerProblemMessage: 'Konnte nicht mit Search Engine Server verbinden:'
+searchEngineInformation:
+  DiskThresholdEnabled: Festplattenschwelle aktiviert
