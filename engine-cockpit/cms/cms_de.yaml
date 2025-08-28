@@ -386,3 +386,6 @@ monitor:
           gespeichert werden.\nNur funktioniert, wenn disk=true, sonst wird dieser
           Parameter ignoriert.\n\nString-Darstellung eines Long-Wertes, muss positiv
           sein\n\nBeispiele:\n\"0\"\n\"100000000\""
+        Name: Max Größe
+    RecordingMessage1: Der Start einer Fligh-Aufzeichnung kann sich negativ auf 
+      die Leistung des Motors auswirken.
