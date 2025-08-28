@@ -410,3 +410,6 @@ monitor:
     ContextPath: Kontextpfad
     HTTPSessions: Http Sitzungen
     InvalidSessionMessage: Erschaffung ungültig / Letzter Zugang ungültig
+    LastAccessed: Letzter Zugriff
+    LicensedSessions: Lizenzierte Sitzungen
+    LicensedUsers: Lizenzierte Nutzer
