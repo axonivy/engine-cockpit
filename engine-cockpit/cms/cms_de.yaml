@@ -869,3 +869,15 @@ userDetailInformation:
     Workflow-Geschichte verlieren.
   UserInExternalSecuritySystemMessage: Dieser Benutzer wird vom externen 
     Sicherheitssystem verwaltet
+  UserInformation: Benutzerinformationen
+  UserInformationChangesSavedMessage: Benutzerinformationsänderungen gespeichert
+userDetailNotifications:
+  ByDefault: standardmäßig
+  NotSubscribed: Nicht abonniert
+  NotificationChannelsChangesSavedMessage: Benachrichtigungskanäle Änderungen 
+    gespeichert
+  ResetToDefault: Zurück zum Standard
+  Subscribed: Abonniert
+userDetailRoles:
+  RoleInExternalSecuritySystemMessage: Rolle wird vom externen Sicherheitssystem
+    verwaltet
