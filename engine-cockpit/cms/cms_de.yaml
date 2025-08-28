@@ -892,3 +892,6 @@ userDetailSubstitutes:
 users:
   AddUser: Benutzer hinzufügen
   SynchSingleUser: Single User herunterladen
+usersTable:
+  Filter: 'Filter:'
+  LastLogin: Letzter Login
