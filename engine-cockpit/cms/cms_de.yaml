@@ -476,3 +476,18 @@ notification:
 notificationChannelDetail:
   NotFoundChannel: Kanal '${channelId} nicht gefunden
   NotFoundSecurityContext: Könnte nicht finden Sicherheitskontext ${system}
+notificationDeliveries:
+  LastError: 'Letzter Fehler:'
+  Receiver: Empfänger
+permissions:
+  AllPermissions: Alle Berechtigungen
+pmvDetail:
+  ActivityState: Tätigkeitszustand
+  AllDirectIndirectRequiredLibrariesAvailableMessage: Alle direkten und indirekt
+    erforderlichen Bibliotheken sind im System verfügbar.
+  NoProjectFoundForSpecificationMessage: Für diese Spezifikation konnte kein 
+    Projekt gefunden werden.
+  NotAllDirectIndirectRequiredLibrariesAvailableMessage: Nicht alle direkten und
+    indirekt erforderlichen Bibliotheken sind im System verfügbar.
+  PMV: PMV
+  PMVResolvedForSpecificationMessage: "'${name}' für diese spezifikation"
