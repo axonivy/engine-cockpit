@@ -604,3 +604,6 @@ searchEngineInformation:
     weniger Diskpace verfügbar als dieser Wert haben. Diese Einstellung wirkt 
     sich nicht auf die Primärscherben neu erstellter Indizes aus, sondern 
     verhindert, dass ihre Nachbildungen vergeben werden.
+searchEngineTool:
+  Get: 'GET:'
+  RunSearchEngineQueryDialogHeader: Search Engine Query ausführen
