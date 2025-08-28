@@ -952,3 +952,6 @@ webServiceEndpoints:
 webServiceProcesses:
   NoWebServiceProcessesFound: Keine Web-Service-Prozesse auf implementierten 
     Apps gefunden
+  WebServiceWSDL: Webservice WSDL
+webServices:
+  NoWebServicesFound: Keine Webservices gefunden auf implementierten Apps
