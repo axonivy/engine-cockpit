@@ -802,3 +802,11 @@ systemDb:
   Database: Datenbank
   DatabaseNotPersistentDetail: Bitte konfigurieren Sie eine persistente 
     Datenbank, um diesen Motor in einer produktiven Umgebung zu verwenden.
+  DatabaseNotPersistentSummary: Datenbank nicht persistent
+  DeleteButtonTitle: Löschen
+  Error: 'Fehler: '
+  NoConnection: Keine Verbindung
+  SaveUnknownConnectionWarningMessage: Möchten Sie diese Konfiguration wirklich 
+    speichern?
+  SystemDatabaseConfigSavedSuccessfulMessage: System Datenbank config 
+    erfolgreich gespeichert
