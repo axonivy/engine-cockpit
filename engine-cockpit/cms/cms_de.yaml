@@ -358,3 +358,8 @@ monitor:
         Description: "Speichert aufgezeichnete Daten, wie es aufgezeichnet wird.\n\
           \nString-Darstellung eines Booleschen Wertes, \"wahr\" oder \"false\"\n\n\
           Beispiele:\n\"true\"\n\"false\""
+        Name: Festplattenspeicher
+      dumpOnExit:
+        Description: "Dumps Aufnahme von Daten auf Festplatte auf Java Virtual Machine
+          (JVM) Ausgang.\n\nString-Darstellung eines Booleschen Wertes, \"wahr\" oder
+          \"false\"\n\nBeispiele:\n\"true\"\n\"false\""
