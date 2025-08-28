@@ -445,3 +445,12 @@ monitorTraceDetail:
   ExecutionTimeMsTitle: Ausführungszeit [ms]
   Performance: Leistung
   RequestNoLongerAvailableMesssage: Anfrage nicht mehr verfügbar
+  RequestWasRemoveWarningMesssage: Die Anfrage wurde von den langsamsten 
+    Anfragen entfernt, weil andere Anfragen noch langsamer waren!
+moveApplication:
+  ChangeSecuritySystemDialogContent: 'Um das Sicherheitssystem einer Anwendung zu
+    ändern, muss das Zielsicherheitssystem die gleichen Rollen und Nutzer haben, so
+    dass alle Laufzeitdaten wie Aufgaben, Fälle, Geschäftsdaten und mehr neu zugewiesen
+    werden können. Daher müssen Sie zuerst überprüfen, ob das Zielsicherheitssystem
+    bereit ist. Wenn dies nicht der Fall ist, können Sie das Zielsicherheitssystem
+    überprüfen und vorbereiten:'
