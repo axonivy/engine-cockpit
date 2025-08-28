@@ -586,3 +586,5 @@ searchEngine:
   SearchEngineServerProblemMessage: 'Konnte nicht mit Search Engine Server verbinden:'
 searchEngineInformation:
   DiskThresholdEnabled: Festplattenschwelle aktiviert
+  DiskThresholdEnabledInfo: Dies definiert, wenn die Einstellungen darunter 
+    einen Effekt haben oder nicht
