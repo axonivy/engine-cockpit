@@ -685,3 +685,8 @@ securitySystemMerge:
   IssueTargetHeader: Ziel
   IssueWhatHeader: Was
   MergeSecuritySystems: Verschmelzungssicherheitssysteme
+  Security: Sicherheit
+  SourceSecuritySystem: Quelle Sicherheitssystem
+  TargetSecuritySystem: Zielsicherheitssystem
+  UpdateSolveHintMessage: Dies wird den Eintrag im Ziel-Sicherheitssystem 
+    aktualisieren ${Sicherheit System
