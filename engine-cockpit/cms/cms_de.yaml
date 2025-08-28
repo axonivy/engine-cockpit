@@ -726,3 +726,4 @@ setup:
   ConfigurationIncompleteSummary: Konfiguration unvollständig
   EngineRestartDetail: Ihr Motor muss neu gestartet werden, um den Setup-Prozess
     zu beenden!
+  FinishSetupWizard: Fertig Setup Wizard
