@@ -903,3 +903,5 @@ webServer:
   BaseUrl: Basis Url
   BaseUrlHelpMessage: Basis Url vom Motor verwendet, um absolute URI's ohne 
     Anfrage zu bauen (E-Mail-Links, ...)
+  BaseUrlProblemDetectedDetailMessage: "'Base Url' scheint anders zu sein, als Ihre
+    aktuelle Browser-Basis Url. Sie müssen möglicherweise Ihr 'Base Url' richtig konfigurieren"
