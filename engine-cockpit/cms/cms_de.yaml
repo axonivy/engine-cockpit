@@ -914,3 +914,5 @@ webServer:
   ExternalBaseUrl: Externe Basis-URL
   ExternalBaseUrlHelpMessage: Basis-URL, die vom Motor verwendet wird, um 
     absolute URIs zu bauen (Start-Links, E-Mail-Links, ...)
+  ExternalBaseUrlProblemDetectedDetailMessage: "'External Base Url' scheint anders
+    zu sein als Ihre aktuelle Browser-Basis Url"
