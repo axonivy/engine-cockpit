@@ -713,3 +713,9 @@ securitySystemWorkflowLanguage:
     wird der Name und die Beschreibung aller vorhandenen Aufgaben (${tasks}) und
     Fälle (${cases}) der Sprache gelöscht! Diese Operation dauert einige Zeit.
   MakeDefaultLanguage: Machen Sie dies zur Standardsprache
+  WorkflowLanguages: Workflow Sprachen
+sendtestmail:
+  Log: Protokoll
+  Message: Nachricht
+  SendTestMailDialogHeader: Test Mail senden
+  TestMailMessageDefault: Das ist eine Testpost.
