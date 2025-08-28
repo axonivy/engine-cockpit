@@ -414,3 +414,8 @@ monitor:
     LicensedSessions: Lizenzierte Sitzungen
     LicensedUsers: Lizenzierte Nutzer
     RefreshStatistic: Statistik kurz gefasst
+    ShowTemporarySessions: Temporäre Sitzungen anzeigen
+    ShowUnauthenticatedSessions: Unauthenticated Sessions anzeigen
+    TempTooltip: Eine temporäre Sitzung wird nur aus technischen Gründen 
+      erstellt und Shoud haben eine sehr kurze Lebensdauer (ca. 1s). Temporäre 
+      Sitzungen zählen nicht für lizenzierte gleichzeitige Sitzungen.
