@@ -465,3 +465,10 @@ moveApplication:
     bewegt werden
 newApplication:
   AddNewApplicationDialogHeader: Neue Anwendung hinzufügen
+newSecuritySystem:
+  AddNewSecuritySystemDialogHeader: Neues Sicherheitssystem hinzufügen
+newUser:
+  ConfirmPassword: Passwort bestätigen
+  EMailAddress: E-Mail Adresse
+notification:
+  Payload: Nutzlast
