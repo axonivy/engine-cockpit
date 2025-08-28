@@ -528,3 +528,6 @@ restClientDetail:
   Title: Rest Client '${restClient} '
 restClients:
   NoRestClientsFound: Keine Rest-Clients auf bereitgestellten Apps gefunden
+restHistory:
+  ProcessElement: Prozesselement
+  RequestUrl: Anfrage an Url
