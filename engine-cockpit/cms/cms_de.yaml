@@ -454,3 +454,7 @@ moveApplication:
     werden können. Daher müssen Sie zuerst überprüfen, ob das Zielsicherheitssystem
     bereit ist. Wenn dies nicht der Fall ist, können Sie das Zielsicherheitssystem
     überprüfen und vorbereiten:'
+  ChangeSecuritySystemDialogHeader: Sicherheitssystem ändern
+  ChangeSecuritySystemWarningMessage: Dies ist eine schwere Operation, die viele
+    Daten bewegt. Wir empfehlen dringend, eine Sicherung Ihrer Systemdatenbank 
+    zu erstellen.
