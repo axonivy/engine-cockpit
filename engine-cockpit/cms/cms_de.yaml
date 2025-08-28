@@ -690,3 +690,8 @@ securitySystemMerge:
   TargetSecuritySystem: Zielsicherheitssystem
   UpdateSolveHintMessage: Dies wird den Eintrag im Ziel-Sicherheitssystem 
     aktualisieren ${Sicherheit System
+securitySystemProvider:
+  ProviderChangeWarningMessage: Wenn Sie den Identitätsanbieter ändern, 
+    verlieren Sie alle aktuellen Einstellungen dieses Sicherheitssystems!
+  SynchronizationScheduleTime: Zeit der Synchronisierung
+  SynchronizeUsersOnLogin: Benutzer auf Login synchronisieren
