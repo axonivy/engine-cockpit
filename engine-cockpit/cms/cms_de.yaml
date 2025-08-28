@@ -473,3 +473,6 @@ newUser:
 notification:
   Payload: Nutzlast
   ShowPayload: Anzeige der Nutzlast
+notificationChannelDetail:
+  NotFoundChannel: Kanal '${channelId} nicht gefunden
+  NotFoundSecurityContext: Könnte nicht finden Sicherheitskontext ${system}
