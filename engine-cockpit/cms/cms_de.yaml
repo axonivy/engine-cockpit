@@ -629,3 +629,5 @@ securitySystemInfo:
   DeleteSecuritySystemConfirmMessage: Sind Sie sicher, dass Sie das 
     Sicherheitssystem '${name}' löschen möchten?
   DeleteSecuritySystemDialogHeader: Löschen von Sicherheitssystem
+  DeleteSecuritySystemWarningMessage: Beachten Sie, dass alle Benutzer und 
+    Rollen dieses Sicherheitssystems sowie gelöscht werden.
