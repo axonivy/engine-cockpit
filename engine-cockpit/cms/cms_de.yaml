@@ -339,4 +339,5 @@ monitor:
     ExtTotalTooltip: Gesamte externe Ausführungszeit [ms]
     IntAvgTooltip: Durchschnitt der internen Ausführungszeit [ms]
     IntExecutionTooltip: Anzahl der internen Ausführungen des Motors
+    IntMaxTooltip: Maximale Motor-interne Ausführungszeit [ms]
   Active: Aktiv
