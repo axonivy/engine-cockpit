@@ -949,3 +949,6 @@ webServiceEndpoints:
     Scripting-Kontext (kann nicht ausgewertet werden)\nEin Fehler geschah: ${Ausnahme}"
   TestConnectionNotFoundMessage: Service nicht gefunden
   TestWsEndpointButtonTitle: Web Service Endpoint Verbindung testen
+webServiceProcesses:
+  NoWebServiceProcessesFound: Keine Web-Service-Prozesse auf implementierten 
+    Apps gefunden
