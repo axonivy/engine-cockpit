@@ -641,3 +641,4 @@ securitySystemLanguage:
 securitySystemMerge:
   ApplyChangeDialogMessage: Möchten Sie wirklich ${solver Geben Sie diesen 
     Eintrag ein?
+  CompareButton: Vergleich
