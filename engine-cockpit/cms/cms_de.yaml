@@ -508,3 +508,5 @@ restart:
     starten wollen?
   RestartFirstWarningMessageFirstPart: Alle
   RestartFirstWarningMessageSecondPart: benutzer (zurzeit ${workingUsers})
+  RestartFirstWarningMessageThirdPart: arbeiten mit ${application} wird ihre 
+    aktuelle arbeit verlieren.
