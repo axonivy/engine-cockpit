@@ -491,3 +491,8 @@ pmvDetail:
     indirekt erforderlichen Bibliotheken sind im System verfügbar.
   PMV: PMV
   PMVResolvedForSpecificationMessage: "'${name}' für diese spezifikation"
+  Project: Projekt
+  ProjectVersion: Projektversion
+  ReleaseState: Freigabezustand
+  SpecifiedRequiredProjectsMessage: Obwohl einige benötigte Projekte angegeben 
+    werden!
