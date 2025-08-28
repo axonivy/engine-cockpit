@@ -402,3 +402,5 @@ monitor:
     ScheduleJobTooltip: Die Erstellung eines Auftrags zur sofortigen Ausführung 
       kann negative Nebenwirkungen haben, wie störende Benutzer mit unnötigen 
       täglichen Aufgaben-Mails, oder abbaute Leistung.
+  mbean:
+    EmptyMBeanMessage: Wählen Sie einen Bohnen, um seine Attribute zu sehen
