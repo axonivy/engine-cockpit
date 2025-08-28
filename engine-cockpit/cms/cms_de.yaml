@@ -759,3 +759,16 @@ soapHistory:
 sslKeyStore:
   DeletedCertificateMessage: Zertifikat '${certificate}' gelöscht
   KeyStoreConfigurationsSavedMessage: Key Store Konfigurationen gespeichert
+sslTable:
+  AddCertificate: Zertifikat hinzufügen
+  Alias: Alias
+  DeleteCertificateConfirmHeader: ${certificate} löschen
+  DeleteCertificateConfirmMessage: Sind Sie sicher, dass Sie das Zertifikat 
+    '${certificate}' löschen möchten?
+  ExpiryDate: Ablaufdatum
+  ValidCertificate: Gültig
+sslTrustStore:
+  DeleteCertificateMessage: Zertifikat '${certificate}' gelöscht
+  EnableInsecureSSLAndHTTPSConnections: Unsichere SSL- und HTTPS-Verbindungen 
+    aktivieren
+  TrustStoreConfigurationsSavedMessage: Trust Store Konfigurationen gespeichert
