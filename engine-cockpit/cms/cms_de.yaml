@@ -925,3 +925,14 @@ webServer:
   RemoteAddressHelpMessage: Das Adressformular, aus dem die Anfrage stammt 
     (sollte Ihr IP sein)
   StepWarningMessage: Mindestens den HTTP oder HTTPS Connector aktivieren
+  WebServerConnectors: Web Server Connectors
+webServiceConfiguration:
+  ResetConfiguration: Konfiguration zurücksetzen
+  ResetWSConfirmDialogMessage: Sind Sie sicher, dass Sie diesen Web Service 
+    zurücksetzen möchten?
+  WebServiceConfigurationResetMessage: Web Service Konfiguration zurücksetzen
+  WebServiceConfigurationSavedMessage: Web Service Konfiguration gespeichert
+  WebServiceConfigurations: Web Service Konfigurationen
+webServiceDetail:
+  GuideText: Um Ihren Web Service zu bearbeiten, überschreiben Sie Ihre 
+    App.yaml-Datei. Zum Beispiel kopieren und fügen Sie den Snippet unten.
