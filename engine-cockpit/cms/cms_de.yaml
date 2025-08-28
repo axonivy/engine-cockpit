@@ -330,3 +330,5 @@ monitor:
       negative Auswirkungen auf die Leistung des Motors haben.
     ExecutionOrder: Reihenfolge der ersten Ausführung
     ExtAvgTooltip: Durchschnitt der externen Ausführungszeit [ms]
+    ExtExecutions: Ausführung
+  Active: Aktiv
