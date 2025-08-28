@@ -525,3 +525,6 @@ restClientDetail:
   GuideText: Um Ihre Rest Client überschreiben Sie Ihre App.yaml-Datei. Zum 
     Beispiel kopieren und fügen Sie den Snippet unten.
   NotFoundRestClient: Restkunden '${restClient}' nicht gefunden
+  Title: Rest Client '${restClient} '
+restClients:
+  NoRestClientsFound: Keine Rest-Clients auf bereitgestellten Apps gefunden
