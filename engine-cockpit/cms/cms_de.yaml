@@ -810,3 +810,6 @@ systemDb:
     speichern?
   SystemDatabaseConfigSavedSuccessfulMessage: System Datenbank config 
     erfolgreich gespeichert
+systemDbInfo:
+  LoadDataDetailMessage: Dies kann mehrere Minuten dauern
+  LoadDataSummaryMessage: Informationen zur Systemdatenbank
