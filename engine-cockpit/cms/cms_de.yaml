@@ -709,3 +709,6 @@ securitySystemWorkflowLanguage:
     neue Sprache kopiert.
   DeleteLanguage: Diese Sprache löschen
   DeleteWorkflowLanguageDialogHeader: Workflow Language löschen
+  DeleteWorkflowLanguageWarningMessage: Wenn Sie eine Workflow-Sprache löschen, 
+    wird der Name und die Beschreibung aller vorhandenen Aufgaben (${tasks}) und
+    Fälle (${cases}) der Sprache gelöscht! Diese Operation dauert einige Zeit.
