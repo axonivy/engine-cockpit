@@ -660,3 +660,23 @@ securitySystemMerge:
     erstellen ${security System
   DeleteSolveHintMessage: Dies wird den Eintrag im Ziel-Sicherheitssystem 
     löschen ${security System
+  ExecuteAllCreateOperationsButton: Alle CREATE-Operationen ausführen
+  ExecuteAllCreateOperationsButtonTitle: Dies wird alle CREATE-Operationen im 
+    Zielsicherheitssystem ausführen
+  ExecuteAllCreateOperationsConfirmDialogContent: Dies wird alle fehlenden 
+    Einträge im Zielsicherheitssystem erstellen
+  ExecuteAllCreateOperationsConfirmDialogHeader: Alle CREATE-Operationen 
+    ausführen
+  ExecuteAllDeleteOperationsButton: Alle DELETE-Operationen ausführen
+  ExecuteAllDeleteOperationsButtonTitle: Dies wird alle DELETE-Operationen im 
+    Zielsicherheitssystem ausführen
+  ExecuteAllDeleteOperationsConfirmDialogContent: Dies wird alle Einträge im 
+    Zielsicherheitssystem löschen, die im Quellsicherheitssystem fehlen
+  ExecuteAllDeleteOperationsConfirmDialogHeader: Alle DELETE-Operationen 
+    ausführen
+  ExecuteAllUpdateOperationsButton: Alle UPDATE Operationen ausführen
+  ExecuteAllUpdateOperationsButtonTitle: Dies wird alle UPDATE-Operationen im 
+    Zielsicherheitssystem ausführen
+  ExecuteAllUpdateOperationsConfirmDialogContent: Dies wird alle Einträge im 
+    Zielsicherheitssystem aktualisieren, die sich von dem Quellsicherheitssystem
+    unterscheiden
