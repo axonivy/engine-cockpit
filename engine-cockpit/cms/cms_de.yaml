@@ -442,3 +442,6 @@ monitor:
 monitorTraceDetail:
   AttributesTableEmptyMesssage: Wählen Sie eine Spanne, um ihre Attribute zu 
     sehen
+  ExecutionTimeMsTitle: Ausführungszeit [ms]
+  Performance: Leistung
+  RequestNoLongerAvailableMesssage: Anfrage nicht mehr verfügbar
