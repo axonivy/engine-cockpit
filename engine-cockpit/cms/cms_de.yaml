@@ -772,3 +772,5 @@ sslTrustStore:
   EnableInsecureSSLAndHTTPSConnections: Unsichere SSL- und HTTPS-Verbindungen 
     aktivieren
   TrustStoreConfigurationsSavedMessage: Trust Store Konfigurationen gespeichert
+supportReport:
+  AxonIvyEngineSupportReportContent: Axon Ivy Motor Support Report
