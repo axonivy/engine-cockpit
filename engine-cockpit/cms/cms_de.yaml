@@ -847,3 +847,5 @@ userDetailAbsences:
   UserIsCurrentlyAbsent: Benutzer ist derzeit abwesend
   UserIsCurrentlyNotAbsent: Benutzer ist derzeit nicht abwesend
   Working: Arbeit
+userDetailInformation:
+  AddRoleFailedMessage: Benutzer bereits Mitglied dieser Rolle
