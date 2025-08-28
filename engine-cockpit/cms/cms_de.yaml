@@ -398,3 +398,7 @@ monitor:
     ExecutionDuration: Ausführungsdauer
     LastSuccessfulExecution: Letzte erfolgreiche Ausführung
     LastTimeTheJobFailed: Letztes Mal scheiterte der Job
+    NextExecution: Nächste Ausführung
+    ScheduleJobTooltip: Die Erstellung eines Auftrags zur sofortigen Ausführung 
+      kann negative Nebenwirkungen haben, wie störende Benutzer mit unnötigen 
+      täglichen Aufgaben-Mails, oder abbaute Leistung.
