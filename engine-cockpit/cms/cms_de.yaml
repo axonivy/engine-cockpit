@@ -734,3 +734,8 @@ setupAdmins:
   AddAdministratorButton: Administrator hinzufügen
   AddAdministratorButtonTitle: Bearbeiten
   StepWarningMessage: Bitte konfigurieren Sie mindestens einen Admin!
+setupStorage:
+  AppDirectory: App Verzeichnis
+  DataDirectory: Datenverzeichnis
+  DirectoryChangesMessage: Verzeichnis-Änderungen erfolgreich gespeichert
+  StepWarningMessage: AppDirectory sollte nicht leer sein
