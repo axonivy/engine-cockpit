@@ -941,3 +941,7 @@ webServiceDetail:
 webServiceEndpoints:
   EditEndpointsConfigurationDialogHeader: Endpunkt bearbeiten
   EndPointSavedMessage: EndPoint gespeichert
+  Endpoints: Endpunkte
+  NoEndpointInfoMessage: Kein Endpunkt für diesen Webservice definiert
+  TestConnectionAuthenticationMessage: Authentication (nur HttpBasic 
+    unterstützt) war nicht erfolgreich
