@@ -431,3 +431,11 @@ monitor:
     DeadLockedMessage: Dieser Faden ist versperrt! Es wartet darauf, ${lock} zu 
       sperren, die im Besitz von Thread ${lockOwner} ist.
     LockTooltip: Warten auf oder für Lock
+    LockedMonitors: Gesperrte Monitore
+    LockedSynchronizers: Gesperrte Synchronisierer
+    Waited: Wartet
+  traces:
+    ExecutionTime: Ausführungszeit
+    ExecutionTimeTooltip: Ausführungszeit [ms]
+    StartTracesHelpText: Starten Sie die Aufnahme der langsamen Anfragen kann 
+      einen negativen Einfluss auf die Leistung des Motors haben.
