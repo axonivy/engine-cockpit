@@ -567,3 +567,18 @@ roleDetailUsers:
   UsersOfRole: Benutzer der Rolle
 roles:
   ExternalRoleNameMessage: "(Außen: '${rol}')"
+  Member: Mitglied
+  Role: Rolle
+  SearchDummyPerformanceReason: Aus Leistungsgründen werden nur die ersten 100 
+    Rollen geladen. Verwenden Sie die Suche, um eine bestimmte Rolle zu finden.
+  Synchronize: Synchronisieren
+searchEngine:
+  SearchEngineHealthGreenHint: Alles ist ok
+  SearchEngineHealthRedHint: Es gibt ein Problem, das Ihre Aufmerksamkeit 
+    benötigt. Einige Daten können nicht verfügbar sein oder Funktionen 
+    funktionieren nicht korrekt.
+  SearchEngineHealthUnknownHint: Gesundheitszustand unbekannt
+  SearchEngineHealthYellowHint: Alles ist in Ordnung, wenn Sie auf einem 
+    einzigen Knoten-Cluster laufen, wie die interne ivy ES, ist dies normal. Auf
+    einem externen Multi-Knoten-Cluster kann dies einige anstehende Probleme 
+    angeben. Bitte überprüfen Sie die ES-Logs.
