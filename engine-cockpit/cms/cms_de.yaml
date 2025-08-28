@@ -531,3 +531,5 @@ restClients:
 restHistory:
   ProcessElement: Prozesselement
   RequestUrl: Anfrage an Url
+restServices:
+  BrowseRestAPIButtonTitle: Verfügbare REST Backend Services
