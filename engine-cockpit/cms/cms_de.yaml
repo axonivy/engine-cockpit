@@ -363,3 +363,10 @@ monitor:
         Description: "Dumps Aufnahme von Daten auf Festplatte auf Java Virtual Machine
           (JVM) Ausgang.\n\nString-Darstellung eines Booleschen Wertes, \"wahr\" oder
           \"false\"\n\nBeispiele:\n\"true\"\n\"false\""
+      duration:
+        Description: "Stellt fest, wie lange die Aufnahme laufen soll.\n\n\"0\", wenn
+          kein Limit auferlegt werden sollte, andernfalls eine String-Darstellung
+          eines positiven Long\ngefolgt von einem leeren Raum und einer der folgenden
+          Einheiten:\n\n\"ns\" (Nanosekunden)\n\"uns\" (Mikrosekunden)\n\"ms\" (Millisekunden)\n\
+          \"s\" (Sekunden)\n\"m\" (Minuten)\n\"h\" (Stunden)\n\"d\" (Tage)\n\nBeispiele:\n\
+          \"60 s\",\n\"10 m\",\n\"4 h\",\n\"0\""
