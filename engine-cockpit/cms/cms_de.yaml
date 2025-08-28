@@ -636,3 +636,8 @@ securitySystemInfo:
     verwendet.
 securitySystemLanguage:
   FormattingLanguage: Formatierung der Sprache
+  Languages: Sprachen
+  SecuritySystemLanguagesSavedMessage: Sicherheitssystem Sprachen gespeichert
+securitySystemMerge:
+  ApplyChangeDialogMessage: Möchten Sie wirklich ${solver Geben Sie diesen 
+    Eintrag ein?
