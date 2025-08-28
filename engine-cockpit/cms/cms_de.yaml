@@ -741,3 +741,11 @@ setupStorage:
   StepWarningMessage: AppDirectory sollte nicht leer sein
 sidebar:
   ClassHistogram: Klasse Histogramm
+  Databases: Datenbanken
+  Documents: Dokumente
+  Health: Gesundheit
+  JVM: JVM
+  Java: Java
+  Jobs: Jobs
+  Licence: Lizenz
+  LiveStats: Live Stöcke
