@@ -472,3 +472,4 @@ newUser:
   EMailAddress: E-Mail Adresse
 notification:
   Payload: Nutzlast
+  ShowPayload: Anzeige der Nutzlast
