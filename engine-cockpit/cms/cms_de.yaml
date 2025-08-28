@@ -404,3 +404,5 @@ monitor:
       täglichen Aufgaben-Mails, oder abbaute Leistung.
   mbean:
     EmptyMBeanMessage: Wählen Sie einen Bohnen, um seine Attribute zu sehen
+    LastValue: Letzter Wert
+    RemoveTrace: Entfernen der Spur
