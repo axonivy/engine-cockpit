@@ -593,3 +593,6 @@ searchEngineInformation:
     ein letztes Mittel, um zu verhindern, dass Knoten aus dem Speicherplatz 
     laufen. Der Indexblock wird automatisch freigegeben, wenn die 
     Plattenauslastung unter das hohe Wasserzeichen fällt.
+  FloodStageWarning: Wenn Ihr verfügbarer Speicherplatz unter der Flutstufe 
+    liegt, wird die Suchmaschine die Indexierung neuer Dokumente stoppen und 
+    aktuelle Indizes im Nur-Modus setzen
