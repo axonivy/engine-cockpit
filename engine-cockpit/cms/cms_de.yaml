@@ -537,3 +537,15 @@ restServices:
 roleDetail:
   DirectOpenTasks: Direkte offene Aufgaben
   InheritUsers: Inhere Benutzer
+roleDetailInformation:
+  AddNewChildRole: Neue Kinderrolle hinzufügen
+  DeleteRole: Diese Rolle löschen
+  DeleteRoleDialogConfirmMessage: Sind Sie sicher, dass Sie die Rolle '${role}' 
+    löschen möchten?
+  DeleteRoleDialogHeader: Löschen der Rolle
+  DeleteRoleDialogWarningMessage: Dies ist eine kritische und gefährliche 
+    Operation, zumindest für nicht-dynamische Rollen. Diese Rolle kann in 
+    Prozessen mit seinem alten Namen referiert werden. Alle Referenzen in allen 
+    Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf 
+    den neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft
+    scheitern.
