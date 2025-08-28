@@ -596,3 +596,7 @@ searchEngineInformation:
   FloodStageWarning: Wenn Ihr verfügbarer Speicherplatz unter der Flutstufe 
     liegt, wird die Suchmaschine die Indexierung neuer Dokumente stoppen und 
     aktuelle Indizes im Nur-Modus setzen
+  WatermarkHighInfo: Search Engine wird versuchen, Shards weg von einem Knoten 
+    zu verlagern, dessen verfügbarer Speicherplatz kleiner ist als dieser Wert. 
+    Diese Einstellung wirkt sich auf die Zuweisung aller Shards, ob zuvor 
+    zugewiesen oder nicht.
