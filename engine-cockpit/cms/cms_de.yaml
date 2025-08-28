@@ -936,3 +936,4 @@ webServiceConfiguration:
 webServiceDetail:
   GuideText: Um Ihren Web Service zu bearbeiten, überschreiben Sie Ihre 
     App.yaml-Datei. Zum Beispiel kopieren und fügen Sie den Snippet unten.
+  NotFoundWebService: Webservice '${webserviceId}' nicht gefunden
