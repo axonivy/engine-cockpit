@@ -947,3 +947,5 @@ webServiceEndpoints:
     unterstützt) war nicht erfolgreich
   TestConnectionErrorMessage: "Die URL scheint nicht korrekt zu sein oder enthält
     Scripting-Kontext (kann nicht ausgewertet werden)\nEin Fehler geschah: ${Ausnahme}"
+  TestConnectionNotFoundMessage: Service nicht gefunden
+  TestWsEndpointButtonTitle: Web Service Endpoint Verbindung testen
