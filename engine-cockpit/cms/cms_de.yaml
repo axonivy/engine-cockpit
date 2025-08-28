@@ -607,3 +607,17 @@ searchEngineInformation:
 searchEngineTool:
   Get: 'GET:'
   RunSearchEngineQueryDialogHeader: Search Engine Query ausführen
+searchIndex:
+  DocumentDialogHeader: 'Dokument:'
+  JSON: JSON
+  ShowDocument: Dokument anzeigen
+security:
+  ChangeSecuritySystem: Sicherheitssystem ändern
+securityDetail:
+  ProcessModels: Prozessmodelle
+securityReportDownloadDialog:
+  DownloadSecurityReportInfo: Der folgende Download enthält einen 
+    Sicherheitsbericht in Form eines Excel. Im Excel sind detaillierte 
+    Informationen über Benutzer, Rollen, Benutzerrollen, Rollen Mitglieder, 
+    Benutzerberechtigungen und Rollenberechtigungen. Der Download kann ein paar 
+    Minuten dauern, abhängig von der Anzahl der Benutzer.
