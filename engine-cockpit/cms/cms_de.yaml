@@ -818,3 +818,6 @@ template:
   ClusterModeWarning: Konfigurationsänderungen können nur auf lokalen Knoten 
     angewendet werden!
   Logout: Anmeldung
+  ServerIndex: Server-Index
+  ShowHealthDetails: Gesundheitsdetails anzeigen ...
+  SupportReport: Unterstützungsbericht
