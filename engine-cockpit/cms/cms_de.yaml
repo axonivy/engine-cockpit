@@ -370,3 +370,13 @@ monitor:
           Einheiten:\n\n\"ns\" (Nanosekunden)\n\"uns\" (Mikrosekunden)\n\"ms\" (Millisekunden)\n\
           \"s\" (Sekunden)\n\"m\" (Minuten)\n\"h\" (Stunden)\n\"d\" (Tage)\n\nBeispiele:\n\
           \"60 s\",\n\"10 m\",\n\"4 h\",\n\"0\""
+        Name: Dauer
+      maxAge:
+        Description: "Geben Sie die Zeitdauer an, die die Daten im Datenträger gespeichert
+          werden, bis die älteste\nDaten können gelöscht werden. Nur funktioniert,
+          wenn disk=true, sonst wird dieser Parameter ignoriert.\n\n\"0\", wenn keine
+          Grenze auferlegt wird, andernfalls eine Stringdarstellung eines positiven
+          Long-Wertes\ngefolgt von einem leeren Raum und einer der folgenden Einheiten,\n\
+          \n\"ns\" (Nanosekunden)\n\"uns\" (Mikrosekunden)\n\"ms\" (Millisekunden)\n\
+          \"s\" (Sekunden)\n\"m\" (Minuten)\n\"h\" (Stunden)\n\"d\" (Tage)\n\nBeispiele:\n\
+          \"2 h\"\n\"24 h\"\n\"2 d\"\n\"0\""
