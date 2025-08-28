@@ -896,3 +896,10 @@ usersTable:
   Filter: 'Filter:'
   LastLogin: Letzter Login
   LoggedIn: Eingeloggt
+userSynch:
+  UserName: Benutzername
+  UserNameRequiredMessage: Benutzername ist erforderlich
+webServer:
+  BaseUrl: Basis Url
+  BaseUrlHelpMessage: Basis Url vom Motor verwendet, um absolute URI's ohne 
+    Anfrage zu bauen (E-Mail-Links, ...)
