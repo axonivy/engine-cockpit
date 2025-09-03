@@ -124,10 +124,6 @@ public class SecurityConfigBean {
     return !isSystem();
   }
 
-  public boolean isShowLanguage() {
-    return !isSystem();
-  }
-
   public boolean isShowWorkflowLanguage() {
     return !isSystem();
   }

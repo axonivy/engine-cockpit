@@ -33,7 +33,7 @@ class WebTestWizardAdmins {
   @Test
   void adminStep() {
     var table = new Table(By.id("admins:adminForm:adminTable"));
-    WebTestAdmins.addAdmin("admin", "admin@ivyTeam.ch", "password", "password");
+    WebTestAdmins.addAdmin("admin", "admin@ivyTeam.ch", "password", "password", "en", "en");
     $(".ui-growl-title").shouldBe(text("'admin' added"));
     Selenide.refresh();
     table.firstColumnShouldBe(exactTexts("admin"));

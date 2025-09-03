@@ -90,12 +90,12 @@ public class WebTestSecuritySystemDetail {
   @Test
   void formattingLanguage() {
     var language = PrimeUi.selectOne(By.id("securityLanguageForm:formattingLanguage"));
-    language.selectItemByLabel("Aghem (agq)");
+    language.selectItemByLabel("Afrikaans (af_ZA)");
     saveLanguage();
-    language.selectedItemShould(value("agq"));
+    language.selectedItemShould(value("af_ZA"));
 
     Selenide.refresh();
-    language.selectedItemShould(value("agq"));
+    language.selectedItemShould(value("af_ZA"));
     language.selectItemByLabel("English (en)");
     saveLanguage();
     language.selectedItemShould(value("en"));
