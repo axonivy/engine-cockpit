@@ -121,6 +121,16 @@
             strongLabel="#{ivy.cm.co('/common/Strong')}" />
           <p:message for="password2" id="password2Message" />
         </h:panelGroup>
+
+        <p:outputLabel for="language" value="#{ivy.cm.co('/common/Language')}" />
+        <p:selectOneMenu id="language" value="#{administratorBean.admin.language}" editable="true" converter="localeConverter">
+          <f:selectItems value="#{languageBean.getContentLanguages(administratorBean.securityContext)}" var="locale" itemLabel="#{languageBean.toDisplayName(locale)}" />
+        </p:selectOneMenu>
+      
+        <p:outputLabel for="formattingLanguage" value="#{ivy.cm.co('/userDetailInformation/FormattingLanguage')}" />
+        <p:selectOneMenu id="formattingLanguage" value="#{administratorBean.admin.formattingLanguage}" editable="true" filter="true" filterMatchMode="contains" converter="localeConverter">
+          <f:selectItems value="#{languageBean.getFormattingLanguages(administratorBean.securityContext)}" var="locale" itemLabel="#{languageBean.toDisplayName(locale)}" />
+        </p:selectOneMenu>
       </p:panelGrid>
 
       <div class="custom-dialog-footer">

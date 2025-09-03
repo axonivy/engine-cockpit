@@ -49,7 +49,7 @@ public class WebTestAdmins {
 
   @Test
   void loginWithNewAdmin() {
-    addAdmin("support@ivyteam.ch", "support@ivyteam.ch", "password", "password");
+    addAdmin("support@ivyteam.ch", "support@ivyteam.ch", "password", "password", "en", "en");
 
     forceLogin("support@ivyteam.ch", "password");
     $("#sessionUserName").shouldBe(exactText("support@ivyteam.ch"));
@@ -72,6 +72,24 @@ public class WebTestAdmins {
   void ownAdminCannotBeDeleted() {
     assertOwnAdminCannotBeDeleted();
   }
+  
+  @Test
+  void loginWithAdminWithDifferentLanguage() {
+    addAdmin("support@ivyteam.ch", "support@ivyteam.ch", "password", "password", "de", "de");
+
+    forceLogin("support@ivyteam.ch", "password");
+    $("#sessionUserName").shouldBe(exactText("support@ivyteam.ch"));
+    $(".profile-image-wrapper img").shouldBe(exist);
+
+    Navigation.toAdmins();
+    $("h2").shouldBe(text("Administratoren"));
+
+    forceLogin();
+    $("#sessionUserName").shouldBe(exactText("admin"));
+    $(".profile-image-wrapper i").shouldBe(exist);
+    Navigation.toAdmins();
+    deleteAdmin(new Table(By.id("admins:adminForm:adminTable"), "span"), "support@ivyteam.ch");
+  }
 
   public static void assertOwnAdminCannotBeDeleted() {
     var table = new Table(By.id("admins:adminForm:adminTable"), "span");
@@ -85,7 +103,9 @@ public class WebTestAdmins {
     var user = "test";
     var email = "test@ivyTeam.ch";
     var password = "password";
-    addAdmin(user, email, password, password);
+    var language = "en";
+    var formattingLanguage = "en";
+    addAdmin(user, email, password, password, language, formattingLanguage);
     table.firstColumnShouldBe(exactTexts("admin", user));
 
     editAdmin(table, user, "test@admin.com");
@@ -120,7 +140,7 @@ public class WebTestAdmins {
   }
 
   public static void testAddAdminInvalidPassword() {
-    addAdmin("admin", "test@test.com", "password", "pass");
+    addAdmin("admin", "test@test.com", "password", "pass", "en", "en");
     $(By.id("admins:editAdminForm:nameMessage")).shouldBe(empty);
     $(By.id("admins:editAdminForm:emailMessage")).shouldBe(empty);
     $(By.id("admins:editAdminForm:password2Message")).shouldBe(empty);
@@ -129,7 +149,7 @@ public class WebTestAdmins {
   }
 
   public static void testAddAdminInvalidValues() {
-    addAdmin("", "", "", "");
+    addAdmin("", "", "", "", "", "");
     $(By.id("admins:editAdminForm:nameMessage")).shouldBe(text("Value is required"));
     $(By.id("admins:editAdminForm:emailMessage")).shouldBe(text("Value is required"));
     $(By.id("admins:editAdminForm:passwordMessage")).shouldBe(text("Value is required"));
@@ -137,7 +157,7 @@ public class WebTestAdmins {
     $(By.id("admins:editAdminForm:cancelEditAdmin")).click();
   }
 
-  public static void addAdmin(String user, String email, String password, String password2) {
+  public static void addAdmin(String user, String email, String password, String password2, String language, String formattingLanguage) {
     $(By.id("addAdminForm:newAdminBtn")).click();
     $(By.id("admins:editAdminDialog")).shouldBe(visible);
 
@@ -152,6 +172,12 @@ public class WebTestAdmins {
 
     $(By.id("admins:editAdminForm:password2")).clear();
     $(By.id("admins:editAdminForm:password2")).sendKeys(password2);
+
+    $(By.id("admins:editAdminForm:language_editableInput")).clear();
+    $(By.id("admins:editAdminForm:language_editableInput")).sendKeys(language);
+
+    $(By.id("admins:editAdminForm:formattingLanguage_editableInput")).clear();
+    $(By.id("admins:editAdminForm:formattingLanguage_editableInput")).sendKeys(formattingLanguage);
 
     $(By.id("admins:editAdminForm:addAdmin")).click();
   }

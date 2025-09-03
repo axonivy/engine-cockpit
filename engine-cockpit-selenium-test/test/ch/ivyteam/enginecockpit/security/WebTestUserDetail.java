@@ -151,12 +151,12 @@ class WebTestUserDetail {
   void formattingLanguage() {
     Navigation.toUserDetail(USER_FOO);
     var language = PrimeUi.selectOne(By.id("userInformationForm:formattingLanguage"));
-    language.selectItemByLabel("Aghem (agq)");
+    language.selectItemByLabel("Afrikaans (af_ZA)");
     $("#userInformationForm\\:saveUserInformation").click();
-    language.selectedItemShould(value("agq"));
+    language.selectedItemShould(value("af_ZA"));
 
     Selenide.refresh();
-    language.selectedItemShould(value("agq"));
+    language.selectedItemShould(value("af_ZA"));
     language.selectItemByLabel("English (en)");
     $("#userInformationForm\\:saveUserInformation").click();
 

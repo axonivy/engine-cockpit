@@ -10,6 +10,8 @@ import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.administrator.AdministratorService;
 
@@ -25,6 +27,10 @@ public class AdministratorBean extends StepStatus {
   public AdministratorBean() {
     service = AdministratorService.instance();
     load();
+  }
+  
+  public ISecurityContext getSecurityContext() {
+    return ISecurityContextRepository.instance().getSystem();
   }
 
   private void load() {

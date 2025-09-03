@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.system.administrators;
 
 import java.util.Date;
+import java.util.Locale;
 
 import ch.ivyteam.enginecockpit.util.EmailUtil;
 import ch.ivyteam.ivy.security.administrator.Administrator;
@@ -11,6 +12,8 @@ public class AdministratorDto {
   private String fullName;
   private String email;
   private String password;
+  private Locale language;
+  private Locale formattingLanguage;
   private Date lastLogin;
   private boolean external;
   private String externalId;
@@ -25,6 +28,8 @@ public class AdministratorDto {
     this.fullName = admin.fullName();
     this.email = admin.email();
     this.password = admin.password();
+    this.language = admin.language();
+    this.formattingLanguage = admin.formattingLanguage();
     var login = admin.lastLogin();
     this.lastLogin = login == null ? null : Date.from(login);
     this.external = admin.external();
@@ -68,6 +73,22 @@ public class AdministratorDto {
     this.password = password;
   }
 
+  public Locale getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(Locale language) {
+    this.language = language;
+  }
+  
+  public Locale getFormattingLanguage() {
+    return formattingLanguage;
+  }
+  
+  public void setFormattingLanguage(Locale formattingLanguage) {
+    this.formattingLanguage = formattingLanguage;
+  }
+
   public Date getLastLogin() {
     return lastLogin;
   }
@@ -90,6 +111,8 @@ public class AdministratorDto {
         .fullName(fullName)
         .email(email)
         .password(password)
+        .language(language)
+        .formattingLanguage(formattingLanguage)
         .toAdministrator();
   }
 }
