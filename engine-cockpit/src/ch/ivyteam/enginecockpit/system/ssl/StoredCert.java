@@ -7,10 +7,12 @@ public class StoredCert {
   private final String alias;
   private final X509Certificate cert;
   private final String invalidityMessage;
+  private boolean isPrivateKey;
 
-  public StoredCert(String alias, X509Certificate cert) {
+  public StoredCert(String alias, X509Certificate cert, boolean isPrivateKey) {
     this.alias = alias;
     this.cert = cert;
+    this.isPrivateKey = isPrivateKey;
     this.invalidityMessage = validate(cert);
   }
 
@@ -20,6 +22,10 @@ public class StoredCert {
 
   public X509Certificate getCert() {
     return cert;
+  }
+
+  public boolean isPrivateKey() {
+    return isPrivateKey;
   }
 
   public String getSubject() {

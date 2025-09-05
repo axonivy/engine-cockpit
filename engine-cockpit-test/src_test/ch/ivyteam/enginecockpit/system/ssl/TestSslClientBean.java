@@ -24,7 +24,7 @@ class TestSslClientBean {
 
     try (var resource = TestSslClientBean.class.getResourceAsStream("jiraaxonivycom.crt")) {
       var certFile = certFactory.generateCertificate(resource);
-      var cert = new StoredCert("ivy1", (X509Certificate) certFile);
+      var cert = new StoredCert("ivy1", (X509Certificate) certFile, false);
       var subject = cert.getSubject();
       assertThat(subject).isEqualTo("jira.axonivy.com");
     }
