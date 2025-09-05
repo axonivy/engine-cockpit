@@ -92,16 +92,9 @@ class WebTestSSL {
 
     cleanUpCustomKeyStore();
   }
-  
+
   @Test
   void uploadStoreToKeyStore() throws IOException {
-    var useCustom = PrimeUi.selectBooleanCheckbox(By.id(Key.USE_CUSTOM));
-    var propertyPassword = $(By.id(Key.PASSWORD));
-    useCustom.setChecked();
-    propertyPassword.clear();
-    propertyPassword.sendKeys("test");
-    saveKeyStore();
-    Selenide.refresh();
     try {
       var table = new Table(By.id("sslKeyTable:storeTable:storeCertificates"));
       table.firstColumnShouldBe(texts("ivy"));
@@ -110,6 +103,7 @@ class WebTestSSL {
         Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
       }
       $(By.id("sslKeyTable:storeTable:certUpload_input")).sendKeys(createTempFile.toString());
+      $(By.id("sslKeyTable:storeTable:keyPassword")).sendKeys("password");
       $(By.id("sslKeyTable:storeTable:storePassword")).sendKeys("test");
       $(By.id("sslKeyTable:storeTable:savePassword")).click();
       table.firstColumnShouldBe(texts("ivy", "test-client"));

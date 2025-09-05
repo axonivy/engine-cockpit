@@ -43,6 +43,14 @@
                 value="#{cc.attrs.bean.storePassword}"
                 feedback="false" redisplay="true" />
             </h:panelGrid>
+              <h:panelGrid columns="2" 
+              columnClasses="col-4, col-8"
+              styleClass="grey-label-panel ui-fluid">
+              <h:outputLabel for="keyPassword" value="#{ivy.cm.co('/sslTable/EnterKeyPassword')}:" />
+              <p:password id="keyPassword"
+                value="#{cc.attrs.bean.storeKeyPassword}"
+                feedback="false" redisplay="true" />
+            </h:panelGrid>
             <div class="custom-dialog-footer">
               <p:commandButton value="#{ivy.cm.co('/common/Save')}" id="savePassword"
                 actionListener="#{cc.attrs.bean.confirmPassword}"
@@ -75,6 +83,10 @@
           <h:outputText
             value="#{certificate.cert.getPublicKey().getAlgorithm()}"
             id="algorithm" />
+        </p:column>
+
+        <p:column headerText="#{ivy.cm.co('/sslTable/PrivateKey')}" rendered="#{cc.attrs.bean.isKeystore()}">
+        <i class="si table-icon si-#{certificate.isPrivateKey() ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
         </p:column>
 
         <p:column headerText="#{ivy.cm.co('/sslTable/ExpiryDate')}">

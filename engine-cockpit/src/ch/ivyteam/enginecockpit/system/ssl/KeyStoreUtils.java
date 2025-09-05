@@ -80,7 +80,7 @@ class KeyStoreUtils {
   List<StoredCert> getStoredCerts() throws KeyStoreException {
     var certs = loadInternal().getStoredCertificates();
     return certs.stream()
-        .map(cert -> new StoredCert(cert.alias(), cert.cert()))
+        .map(cert -> new StoredCert(cert.alias(), cert.cert(), cert.isPrivateKey()))
         .toList();
   }
 

@@ -1254,11 +1254,13 @@ sslTable:
   Alias: Alias
   DeleteCertificateConfirmHeader: Delete ${certificate}
   DeleteCertificateConfirmMessage: Are you sure you want to delete the Certificate '${certificate}'?
-  EnterPassword: Password
+  EnterKeyPassword: KeyPassword
+  EnterPassword: Store Password
   ExpiryDate: Expiry date
+  PrivateKey: Private Key
   Subject: Subject
   ValidCertificate: Valid
-  uploadInformation: If you are importing a password-protected private key, make sure the key password is correctly set in the Key Store configurations.
+  uploadInformation: Enter your Password of the imported store and if there is a Private key also the Key password
 sslTrustStore:
   DeleteCertificateMessage: Certificate '${certificate}' deleted
   EnableInsecureSSLAndHTTPSConnections: Enable insecure SSL and HTTPS connections
