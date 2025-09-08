@@ -141,14 +141,6 @@ public class EngineCockpitUtil {
     runTestProcess("16E881C7DC458C7D/cleanupNotification.ivp");
   }
 
-  public static void disableRestServlet() {
-    runTestProcess("16E881C7DC458C7D/disableRestServlet.ivp");
-  }
-
-  public static void enableRestServlet() {
-    runTestProcess("16E881C7DC458C7D/enableRestServlet.ivp");
-  }
-
   public static void createOldDb() {
     runTestProcess("16E8EAD7CC77A0A3/createOldDatabase.ivp");
   }

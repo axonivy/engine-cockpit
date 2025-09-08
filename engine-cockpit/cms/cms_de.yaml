@@ -105,7 +105,6 @@ common:
   Delete: Löschen
   DeleteRecording: Lösche Aufzeichnung
   Deployment: Verteilung
-  DeploymentHint: Bitte aktivieren Sie sie oder nutzen Sie das Dateisystem für die Verteilung.
   Description: Beschreibung
   Disable: Deaktivieren
   DiskSize: Festplattengrösse
@@ -203,6 +202,7 @@ common:
   Restart: Neustart
   Roles: Rollen
   Run: Starten
+  Running: Läuft
   RunningCases: Laufende Fälle
   SSL: SSL
   Schedule: Ausführen
@@ -292,6 +292,13 @@ deployment:
   FileFormat: Datei Format
   Options: Optionen
   VersionRange: Versionsbereich
+  errors:
+    InvalidFile:
+      detail: 'Die Datei hat eine ungültige Dateierweiterung. Erlaubte Erweiterungen: '
+      title: Ungültiges Dateiformat
+    UploadError:
+      detail: 'Beim Hochladen der Datei ist ein Fehler aufgetreten: '
+      title: Upload Fehler
 directoryBrowser:
   NodePropertiesEmptyMessage: Wählen Sie einen Knoten aus, um seine Attribute zu sehen
   DirectoryBrowserDialogHeader: Verzeichnis Browser
@@ -525,7 +532,6 @@ migrate:
   Location: Installationsverzeichnis
   LocationValidationErrorMessage: Fehler bei der Validierung des Installationsverzeichnisses
   OldEngineLocation: Installationsverzeichnis der alten Engine
-  Running: Läuft
 monitor:
   CPULoad: CPU Last
   cache:
@@ -1356,7 +1362,6 @@ applications:
   DeleteHintMessage: Sind Sie sicher, dass Sie dieses ${activityType} löschen wollen?
   DeleteRunningCasesHintMessage: Die ${activityType} hat ${runningCases} laufende Fälle. Diese werden auch gelöscht.
   DeploymentButtonTitle: Verteilung
-  DeploymentPossibleReason: Die Systemkonfiguration '${restServlet}' oder '${restDeployment}' ist deaktiviert.
   DisableErrorMessage: Der Zustand der Application ${application} kann nicht evaluiert werden
   ExecutionErrorMessageSummary: Kann Modul nicht ${action}
   ExecutionSuccessMessageSummary: Modul erfolgreich ${action}

@@ -1,83 +1,94 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
-
-<cc:FileUpload title="#{ivy.cm.co('/deployment/DeployToApp')} '#{appName}'" apiUrl="#{url}" acceptFiles=".iar, .zip" id="deploymentModal">
-  <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="col-4, col-8" layout="flex"
-    styleClass="grey-label-panel" style="min-width: 400px; display: none;">
-    <p:outputLabel value="#{ivy.cm.co('/deployment/DeployTestUsers')}" for="deployTestUsers" />
-    <p:selectOneMenu value="#{deployOptionsBean.deployTestUsers}" widgetVar="deployTestUsers" id="deployTestUsers">
-      <f:selectItems value="#{deployOptionsBean.deployTestUsersValues}" />
-    </p:selectOneMenu>
-
-    <p:outputLabel value="#{ivy.cm.co('/common/Version')}" for="version" />
-    <p:selectOneMenu value="#{deployOptionsBean.version}" widgetVar="version" id="version"
-      onchange="versionSelectChange()">
-      <f:selectItems value="#{deployOptionsBean.versions}" />
-    </p:selectOneMenu>
-
-    <p:outputLabel value="#{ivy.cm.co('/deployment/VersionRange')}" for="versionRange" id="versionRangeLabel" styleClass="version-range-label" />
-    <p:inputText placeholder="e.g. 2.5 or (2.0,3.0]" id="versionRange" styleClass="version-range" />
-
-    <p:outputLabel value="#{ivy.cm.co('/common/State')}" for="state" />
-    <p:selectOneMenu value="#{deployOptionsBean.state}" widgetVar="state" id="state">
-      <f:selectItems value="#{deployOptionsBean.states}" />
-    </p:selectOneMenu>
-  </p:panelGrid>
-  <p:commandButton id="showDeployOptionsBtn" value="#{ivy.cm.co('/deployment/Options')}" icon="si si-view-1"
-    styleClass="ui-button-secondary ui-button-outlined modal-input-button" type="button" onclick="visualToggle()"
-    style="float: left; width: 25%; margin: 0;" />
-  <p:linkButton href="#{advisorBean.engineGuideBaseUrl}/deployment/prepare/deployment-options/index.html" target="_blank" rel="noopener noreferrer" 
-    styleClass="ui-button-secondary ui-button-flat rounded-button" style="float: left; padding-top: 2px; margin-left: 10px; display: none;" icon="si si-question-circle" />
-  <script>
-    $(document).ready(function () {
-      versionSelectChange();
-    });
-
-    function versionSelectChange() {
-      if (PF('version').input.val() == 'RANGE') {
-        $('.version-range').parent().fadeIn();
-        $('.version-range-label').parent().fadeIn();
-      }
-      else {
-        $('.version-range').parent().fadeOut();
-        $('.version-range-label').parent().fadeOut();
-      }
-    }
-
-    function visualToggle() {
-      $('#deploymentModal\\:deployOptionsPanel').toggle();
-      $('.file-upload > .ui-linkbutton').toggle();
-      $('#deploymentModal\\:showDeployOptionsBtn').toggleClass("ui-button-outlined");
-    }
-    
-    function optionsHidden() {
-      return $('#deploymentModal\\:deployOptionsPanel').css('display') == 'none';
-    }
-    
-    function uploadDone() {
-      var log = $('#uploadLog').text()
-      if (log.indexOf('--- SUCCESS ---') == -1){
-        markError();
-      }
-    }
-
-    function addDeployOptions(form_data) {
-      if (optionsHidden()) { // don't send params: deploy.options.yaml (e.g. in app.zip) should take precedence
-        return
-      }
-
-      if (PF('version').input.val() == 'RANGE') {
-        var version = PF('versionRange').jq.val();
-      } else {
-        var version = PF('version').input.val();
-      }
-      form_data.append('deployTestUsers', PF('deployTestUsers').input.val());
-      form_data.append('targetVersion', version);
-      form_data.append('targetState', PF('state').input.val());
-    }
-  </script>
-</cc:FileUpload>
-
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui">
+  <p:dialog style="margin-left: 120px; min-width: 550px; max-width: 700px;" header="#{ivy.cm.co('/deployment/DeployToApp')} '#{appName}'"
+    id="fileUploadModal" resizable="false" widgetVar="fileUploadModal" modal="true" responsive="true"
+    closeOnEscape="true">
+    <p:ajax event="close" listener="#{deploymentBean.onDialogClose}" update="fileUploadForm fileUploadResponse"/>
+    <h:form id="fileUploadForm" enctype="multipart/form-data">
+      <p:messages id="deploymentMessages" showDetail="true" closable="true">
+        <p:autoUpdate />
+      </p:messages>
+      <h:panelGroup rendered="#{!deploymentBean.showDeployLogs}" layout="block">
+        <div class="file-upload ui-fluid">
+          <p:fileUpload id="fileUpload" value="#{deploymentBean.file}" dropZone="drop_zone" style="display: none" mode="simple" 
+            widgetVar="deployUpload" update="@form" accept="#{deploymentBean.allowedExtensionsText}"/>
+          <p:panelGrid columns="2" columnClasses="col-4, col-8" layout="flex">
+            <p:button id="chooseFileBtn" icon="si si-add" onclick="PF('deployUpload').show(); return false" value="#{ivy.cm.co('/fileUpload/ChooseFileButton')}"/>
+            <h:panelGroup id="drop_zone" styleClass="drop-zone flex">
+              <h:outputText value="#{deploymentBean.dropZoneText}"/>
+            </h:panelGroup>
+          </p:panelGrid>
+        </div>
+  
+        <div class="ui-fluid">
+          <p:commandLink styleClass="flex justify-content-between mb-2 p-2 border-solid border-1 border-round no-underline hover:bg-primary"
+            id="showDeployOptionsBtn" action="#{deploymentBean.toggleDeployOptions}" update="@form">
+            <div class="flex align-items-center">
+              <i class="si si-cog mr-2"/>
+              <span>#{ivy.cm.co('/deployment/Options')}</span>
+            </div>
+            <span class="flex align-items-center">
+              <i class="si #{deploymentBean.showDeployOptions ? 'si-arrow-up-1' : 'si-arrow-down-1'}"/>
+            </span>
+          </p:commandLink>
+          <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="col-4, col-8" layout="flex" contentStyleClass="align-items-center"
+            styleClass="grey-label-panel mt-1 p-2 w-full" rendered="#{deploymentBean.showDeployOptions}">
+            <span>#{ivy.cm.co('/common/Configuration')}</span>
+            <p:linkButton href="#{advisorBean.engineGuideBaseUrl}/deployment/prepare/deployment-options/index.html" target="_blank" rel="noopener noreferrer" 
+              styleClass="ui-button-secondary ui-button-flat rounded-button ml-2 pt-1" style="float: right" icon="si si-question-circle"/>
+            
+            <p:outputLabel value="#{ivy.cm.co('/deployment/DeployTestUsers')}" for="deployTestUsers" />
+            <p:selectOneMenu value="#{deploymentBean.deployOptions.deployTestUsers}" widgetVar="deployTestUsers" id="deployTestUsers">
+              <p:ajax update="deployOptionsPanel" event="valueChange" />
+              <f:selectItems value="#{deploymentBean.deployOptions.deployTestUsersValues}" />
+            </p:selectOneMenu>
+        
+            <p:outputLabel value="#{ivy.cm.co('/common/Version')}" for="version" />
+            <p:selectOneMenu value="#{deploymentBean.deployOptions.version}" widgetVar="version" id="version">
+              <p:ajax update="deployOptionsPanel" event="valueChange" />
+              <f:selectItems value="#{deploymentBean.deployOptions.versions}" />
+            </p:selectOneMenu>
+        
+            <p:outputLabel id="versionRangeLabel" value="#{ivy.cm.co('/deployment/VersionRange')}" for="versionRange"
+              styleClass="version-range-label" rendered="#{deploymentBean.deployOptions.isRangeVersion()}"/>
+            <p:inputText id="versionRange" placeholder="e.g. 2.5 or (2.0,3.0]" styleClass="version-range"
+              rendered="#{deploymentBean.deployOptions.isRangeVersion()}"/>
+        
+            <p:outputLabel value="#{ivy.cm.co('/common/State')}" for="state" />
+            <p:selectOneMenu value="#{deploymentBean.deployOptions.state}" widgetVar="state" id="state">
+              <p:ajax update="deployOptionsPanel" event="valueChange" />
+              <f:selectItems value="#{deploymentBean.deployOptions.states}" />
+            </p:selectOneMenu>
+          </p:panelGrid>
+        </div>
+        <div class="flex justify-content-end mt-4 pt-3" style="border-top-width: 1px; border-top-style: solid; border-color: #e5e7eb">
+          <p:commandButton id="cancelDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
+            type="button" styleClass="ui-button-secondary ui-button-outlined mr-2" />
+          <p:commandButton id="uploadBtn" icon="si si-upload-bottom" value="#{ivy.cm.co('/common/Upload')}" 
+            actionListener="#{deploymentBean.uploadAndDeploy}" disabled="#{!deploymentBean.isFileSet()}"
+            update="fileUploadResponse fileUploadForm"/>
+        </div>
+      </h:panelGroup>
+    </h:form>
+    <h:panelGroup id="fileUploadResponse" layout="block">
+      <h:panelGroup rendered="#{deploymentBean.showDeployLogs}">
+        <h:panelGroup id="uploadStatus" layout="block" styleClass="deploy-status #{deploymentBean.status.styleClass}">
+          <i class="si #{deploymentBean.status.iconClass}"></i>
+          <h:outputText value="#{deploymentBean.status.text}"/>
+        </h:panelGroup>
+        <pre id="uploadLog" class="upload-log">
+          <h:outputText value="#{deploymentBean.logs}"/>
+        </pre>
+        <div class="flex flex-row-reverse">
+          <p:commandButton id="closeDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="#{ivy.cm.co('/common/Close')}"
+            icon="si si-remove-circle" styleClass="modal-input-button" />
+          <p:commandButton id="backBtn" value="#{ivy.cm.co('/common/Back')}" icon="si si-navigation-left-circle-1"
+            styleClass="ui-button-secondary ui-button-flat modal-input-button" actionListener="#{deploymentBean.hideDeployLogs}"
+            update="fileUploadResponse fileUploadForm"/>
+        </div>
+      </h:panelGroup>
+    </h:panelGroup>
+  </p:dialog>
 </html>
