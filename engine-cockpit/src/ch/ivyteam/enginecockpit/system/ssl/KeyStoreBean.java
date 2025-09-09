@@ -173,6 +173,7 @@ public class KeyStoreBean implements SslTableStore {
 
   private byte[] uploadedKeystore;
   private char[] importedStorePassword;
+  private char[] importedKeyPassword;
 
   @Override
   public void handleUploadCertificate(FileUploadEvent event)
@@ -194,10 +195,11 @@ public class KeyStoreBean implements SslTableStore {
       throws CertificateException, KeyStoreException, IOException, UnrecoverableKeyException, NoSuchAlgorithmException {
     if (uploadedKeystore != null && importedStorePassword != null) {
       try (InputStream is = new ByteArrayInputStream(uploadedKeystore)) {
-        getKeyStoreUtils().handleUploadstore(is, importedStorePassword, keyPassword);
+        getKeyStoreUtils().handleUploadstore(is, importedStorePassword, importedKeyPassword);
       } finally {
         uploadedKeystore = null;
         importedStorePassword = null;
+        importedKeyPassword = null;
       }
     }
   }
@@ -208,6 +210,14 @@ public class KeyStoreBean implements SslTableStore {
 
   public void setStorePassword(String storePassword) {
     this.importedStorePassword = storePassword.toCharArray();
+  }
+  
+  public String getStoreKeyPassword() {
+    return "";
+  }
+
+  public void setStoreKeyPassword(String keyPassword) {
+    this.importedKeyPassword = keyPassword.toCharArray();
   }
 
   public boolean isKeystore() {
