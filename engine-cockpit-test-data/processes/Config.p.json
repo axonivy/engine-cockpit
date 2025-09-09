@@ -161,80 +161,6 @@
         "at" : { "x" : 352, "y" : 352 }
       }
     }, {
-      "id" : "f20",
-      "type" : "RequestStart",
-      "name" : "disableRestServlet.ivp",
-      "config" : {
-        "signature" : "disableRestServlet"
-      },
-      "visual" : {
-        "at" : { "x" : 96, "y" : 432 }
-      },
-      "connect" : [
-        { "id" : "f22", "to" : "f21" }
-      ]
-    }, {
-      "id" : "f21",
-      "type" : "Script",
-      "config" : {
-        "output" : {
-          "code" : [
-            "import ch.ivyteam.ivy.configuration.restricted.IConfiguration;",
-            "",
-            "IConfiguration.instance().set(\"REST.Servlet.Enabled\", \"false\");"
-          ]
-        }
-      },
-      "visual" : {
-        "at" : { "x" : 224, "y" : 432 }
-      },
-      "connect" : [
-        { "id" : "f24", "to" : "f23" }
-      ]
-    }, {
-      "id" : "f23",
-      "type" : "TaskEnd",
-      "visual" : {
-        "at" : { "x" : 352, "y" : 432 }
-      }
-    }, {
-      "id" : "f25",
-      "type" : "RequestStart",
-      "name" : "enableRestServlet.ivp",
-      "config" : {
-        "signature" : "enableRestServlet"
-      },
-      "visual" : {
-        "at" : { "x" : 96, "y" : 512 }
-      },
-      "connect" : [
-        { "id" : "f29", "to" : "f26" }
-      ]
-    }, {
-      "id" : "f26",
-      "type" : "Script",
-      "config" : {
-        "output" : {
-          "code" : [
-            "import ch.ivyteam.ivy.configuration.restricted.IConfiguration;",
-            "",
-            "IConfiguration.instance().set(\"REST.Servlet.Enabled\", \"true\");"
-          ]
-        }
-      },
-      "visual" : {
-        "at" : { "x" : 224, "y" : 512 }
-      },
-      "connect" : [
-        { "id" : "f28", "to" : "f27" }
-      ]
-    }, {
-      "id" : "f27",
-      "type" : "TaskEnd",
-      "visual" : {
-        "at" : { "x" : 352, "y" : 512 }
-      }
-    }, {
       "id" : "f30",
       "type" : "RequestStart",
       "name" : "cleanupNotification.ivp",
@@ -242,7 +168,7 @@
         "signature" : "cleanupNotification"
       },
       "visual" : {
-        "at" : { "x" : 96, "y" : 592 },
+        "at" : { "x" : 96, "y" : 448 },
         "labelOffset" : { "y" : 43 }
       },
       "connect" : [
@@ -252,7 +178,7 @@
       "id" : "f31",
       "type" : "TaskEnd",
       "visual" : {
-        "at" : { "x" : 352, "y" : 592 }
+        "at" : { "x" : 352, "y" : 448 }
       }
     }, {
       "id" : "f32",
@@ -272,7 +198,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 224, "y" : 592 }
+        "at" : { "x" : 224, "y" : 448 }
       },
       "connect" : [
         { "id" : "f33", "to" : "f31" }

@@ -134,7 +134,7 @@ public class MigrationBean {
   public String getStartMigrationButtonName() {
     return switch (running) {
       case START -> Ivy.cm().co("/common/Start");
-      case RUNNING -> Ivy.cm().co("/migrate/Running") + " " + client.taskCountDone() + "/" + client.taskCountAll();
+      case RUNNING -> Ivy.cm().co("/common/Running") + " " + client.taskCountDone() + "/" + client.taskCountAll();
       case FINISHED -> Ivy.cm().co("/migrate/Done");
     };
   }

@@ -1,9 +1,10 @@
-package ch.ivyteam.enginecockpit.fileupload;
+package ch.ivyteam.enginecockpit.deployment;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.Condition.attribute;
+import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
@@ -20,9 +21,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
@@ -39,8 +42,7 @@ class WebTestDeployment {
   @Test
   void noFile() {
     toAppDetailAndOpenDeployment();
-    $("#deploymentModal\\:uploadBtn").click();
-    $("#deploymentModal\\:uploadError").shouldBe(text("Choose a valid file before upload"));
+    $(By.id("fileUploadForm:uploadBtn")).shouldBe(disabled);
   }
 
   @Test
@@ -48,9 +50,8 @@ class WebTestDeployment {
     toAppDetailAndOpenDeployment();
     var tempFile = tempDir.resolve("app.txt");
     Files.createFile(tempFile);
-    $("#fileInput").sendKeys(tempFile.toString());
-    $("#deploymentModal\\:uploadBtn").click();
-    $("#deploymentModal\\:uploadError").shouldBe(text("Choose a valid file before upload"));
+    $(By.id("fileUploadForm:fileUpload_input")).sendKeys(tempFile.toString());
+    $(By.id("fileUploadForm:uploadBtn")).shouldBe(disabled);
   }
 
   @Test
@@ -59,8 +60,8 @@ class WebTestDeployment {
     var tempFile = tempDir.resolve("app.iar");
     Files.createFile(tempFile);
     deployPath(tempFile);
-    $("#uploadStatus").shouldHave(text("Success"));
-    $("#uploadLog").shouldHave(text("No projects to deploy"), text("successfully deployed to application"));
+    $(By.id("uploadStatus")).shouldHave(text("Success"));
+    $(By.id("uploadLog")).shouldHave(text("No projects to deploy"), text("successfully deployed to application"));
   }
 
   @Test
@@ -84,8 +85,8 @@ class WebTestDeployment {
 
   private void deployAndAssert(String expectedDeployOptionsText) {
     deployPath(findTestProject());
-    $("#uploadStatus").shouldHave(text("Success"));
-    $("#uploadLog").shouldHave(text(expectedDeployOptionsText), text("successfully deployed to application"));
+    $(By.id("uploadStatus")).shouldHave(text("Success"));
+    $(By.id("uploadLog")).shouldHave(text(expectedDeployOptionsText), text("successfully deployed to application"));
   }
 
   private Path findTestProject() {
@@ -103,19 +104,19 @@ class WebTestDeployment {
   }
 
   private void deployPath(Path testDataIar) {
-    $("#fileInput").sendKeys(testDataIar.toString());
-    $("#deploymentModal\\:uploadBtn").click();
-    $("#uploadLog").shouldNotBe(empty);
-    $("#fileUploadForm").shouldNotBe(visible);
+    $(By.id("fileUploadForm:fileUpload_input")).sendKeys(testDataIar.toString());
+    $(By.id("fileUploadForm:uploadBtn")).shouldNotBe(disabled).click();
+    $(By.id("uploadLog")).shouldNotBe(empty);
+    $(By.id("fileUploadForm")).shouldNotBe(visible);
   }
 
   @Test
   void deployOptions() {
     toAppDetailAndOpenDeployment();
     showDeploymentOptions();
-    PrimeUi.selectOne(By.id("deploymentModal:deployTestUsers")).selectedItemShould(exactText("AUTO"));
-    PrimeUi.selectOne(By.id("deploymentModal:version")).selectedItemShould(exactText("AUTO"));
-    PrimeUi.selectOne(By.id("deploymentModal:state")).selectedItemShould(exactText("ACTIVE_AND_RELEASED"));
+    PrimeUi.selectOne(By.id("fileUploadForm:deployTestUsers")).selectedItemShould(exactText("AUTO"));
+    PrimeUi.selectOne(By.id("fileUploadForm:version")).selectedItemShould(exactText("AUTO"));
+    PrimeUi.selectOne(By.id("fileUploadForm:state")).selectedItemShould(exactText("ACTIVE_AND_RELEASED"));
   }
 
   @Test
@@ -135,36 +136,40 @@ class WebTestDeployment {
     if (isDesigner()) {
       return;
     }
+    var driver = WebDriverRunner.getWebDriver();
+    var oldSize = driver.manage().window().getSize();
+    driver.manage().window().setSize(new Dimension(1600, 1500));
     Navigation.toApplications();
     $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
     $$("#form\\:tree_node_0_0 > td > span").get(1).shouldBe(visible).click();
     openDeployDialog();
     deployPath(findTestProject());
-    $("#deploymentModal\\:closeDeploymentBtn").shouldBe(visible).click();
+    $(By.id("closeDeploymentBtn")).shouldBe(visible).click();
     $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "true"));
     $("#form\\:tree_node_0_0").shouldHave(attribute("aria-expanded", "true"));
 
     $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
     openDeployDialog();
     deployPath(findTestProject());
-    $("#deploymentModal\\:closeDeploymentBtn").shouldBe(visible).click();
+    $(By.id("closeDeploymentBtn")).shouldBe(visible).click();
     $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "false"));
+    driver.manage().window().setSize(oldSize);
   }
 
   private void openDeployOptionsAndAssertVersionRange() {
     showDeploymentOptions();
-    $("#deploymentModal\\:versionRangeLabel").shouldNotBe(visible);
-    $("#deploymentModal\\:version").click();
-    $("#deploymentModal\\:version_items").shouldBe(visible);
+    $(By.id("fileUploadForm:versionRangeLabel")).shouldNotBe(visible);
+    $(By.id("fileUploadForm:version")).click();
+    $(By.id("fileUploadForm:version_items")).shouldBe(visible);
 
-    $$("#deploymentModal\\:version_items > li").find(text("RANGE")).click();
-    $("#deploymentModal\\:versionRangeLabel").shouldBe(visible);
+    $$("#fileUploadForm\\:version_items > li").find(text("RANGE")).click();
+    $(By.id("fileUploadForm:versionRangeLabel")).shouldBe(visible);
   }
 
   private void showDeploymentOptions() {
-    if (!$("#deploymentModal\\:deployOptionsPanel").is(visible)) {
-      $("#deploymentModal\\:showDeployOptionsBtn").click();
-      $("#deploymentModal\\:deployOptionsPanel").shouldBe(visible);
+    if (!$(By.id("fileUploadForm:deployOptionsPanel")).is(visible)) {
+      $(By.id("fileUploadForm:showDeployOptionsBtn")).click();
+      $(By.id("fileUploadForm:deployOptionsPanel")).shouldBe(visible);
     }
   }
 
@@ -175,16 +180,16 @@ class WebTestDeployment {
 
   private void openDeployDialog() {
     String appName = $$(".activity-name").first().shouldBe(visible).getText();
-    $("#form\\:tree\\:0\\:deployBtn").shouldBe(visible).click();
-    $("#deploymentModal\\:fileUploadModal").shouldBe(visible);
-    $("#deploymentModal\\:fileUploadModal_title").shouldHave(text(appName));
+    $(By.id("form:tree:0:deployBtn")).shouldBe(visible).click();
+    $(By.id("fileUploadModal")).shouldBe(visible);
+    $(By.id("fileUploadModal_title")).shouldHave(text(appName));
   }
 
   private void toAppDetailAndOpenDeployment() {
     Navigation.toApplicationDetail(APP);
-    $("#appDetailInfoForm\\:showDeployment").shouldBe(visible).click();
-    $("#deploymentModal\\:fileUploadModal").shouldBe(visible);
-    $("#deploymentModal\\:uploadError").shouldBe(empty);
-    $("#deploymentModal\\:fileUploadModal_title").shouldHave(text(APP));
+    $(By.id("appDetailInfoForm:showDeployment")).shouldBe(visible).click();
+    $(By.id("fileUploadModal")).shouldBe(visible);
+    $(By.id("fileUploadModal:uploadError")).shouldNotBe(visible);
+    $(By.id("fileUploadModal_title")).shouldHave(text(APP));
   }
 }

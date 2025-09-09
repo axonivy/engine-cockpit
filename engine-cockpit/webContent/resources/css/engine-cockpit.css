@@ -181,20 +181,31 @@ body .ui-dialog.ui-confirm-dialog .ui-dialog-content {
   border-color: var(--primary-color, #607d8b);
   background: var(--primary-lighter-color);
 }
-.file-upload .file-upload-error {
-  padding: 8px 14px;
-  color: red;
-  font-weight: bold;
-  line-height: 30px;
+.deploy-status {
+  display: flex;
+  font-size: medium;
 }
-#uploadStatus .si {
-  margin-right: 5xp;
-  position: relative;
+.deploy-status .si {
+  margin-right: 5px;
   top: 2px;
 }
-#uploadLog {
-  height: 500px; 
+.upload-log {
+  height: 500px;
   overflow: auto;
+}
+
+/* Deployment status colors */
+.status-running {
+  color: var(--text-color, black);
+  font-weight: bold;
+}
+.status-success {
+  color: var(--success-color, #2aa483);
+  font-weight: bold;
+}
+.status-error {
+  color: var(--error-color, #d23636);
+  font-weight: bold;
 }
 
 /* Icons */

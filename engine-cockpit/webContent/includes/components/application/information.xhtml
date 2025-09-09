@@ -28,12 +28,9 @@
     <p:panelGrid columns="1" layout="flex">
       <h:panelGroup id="deployBtnHint">
         <p:commandButton id="showDeployment" title="#{ivy.cm.co('/common/Deployment')}" value="#{ivy.cm.co('/common/Deployment')}"
-          style="margin-top: 20px; min-width: 150px;" type="button" icon="si si-upload-bottom"
-          onclick="PF('fileUploadModal').show()" disabled="#{!uploadHelperBean.deploymentPossible}" />
-        <p:tooltip for="deployBtnHint" rendered="#{!uploadHelperBean.deploymentPossible}" >
-          #{uploadHelperBean.deploymentPossibleReason}<br/>
-          #{ivy.cm.co('/common/DeploymentHint')}
-        </p:tooltip>
+          style="margin-top: 20px; min-width: 150px;" icon="si si-upload-bottom"
+          onclick="PF('fileUploadModal').show()" 
+          actionListener="#{deploymentBean.setAppName(applicationDetailBean.application.name)}"/>
       </h:panelGroup>
     </p:panelGrid>
   </h:form>

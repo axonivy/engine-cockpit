@@ -82,14 +82,10 @@
             <p:column styleClass="table-btn-5">
               <h:panelGroup id="deployBtnHint">
                 <p:commandButton title="#{ivy.cm.co('/common/Deployment')}" icon="si si-upload-bottom" rendered="#{activity.application}"
-                  type="button" id="deployBtn" styleClass="mr-1 rounded-button" disabled="#{!uploadHelperBean.deploymentPossible}">
+                  id="deployBtn" styleClass="mr-1 rounded-button" actionListener="#{deploymentBean.setAppName(activity.name)}">
                   <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}"
                     oncomplete="PF('fileUploadModal').show()" />
                 </p:commandButton>
-                <p:tooltip for="deployBtnHint" rendered="#{!uploadHelperBean.deploymentPossible}" >
-                  #{uploadHelperBean.deploymentPossibleReason}<br/>
-                  #{ivy.cm.co('/common/DeploymentHint')}
-                </p:tooltip>
               </h:panelGroup>
               <p:commandButton id="convertButton"
                 icon="si si-button-refresh-arrows" 

@@ -23,7 +23,6 @@ applications:
   DeleteHintMessage: Are you sure you want to delete this ${activityType}?
   DeleteRunningCasesHintMessage: ${activityType} has ${runningCases} running cases. They will also be deleted.
   DeploymentButtonTitle: Deployment
-  DeploymentPossibleReason: The system configuration '${restServlet}' or '${restDeployment}' is disabled.
   DisableErrorMessage: Cannot evaluate the state of the application ${application}
   ExecutionErrorMessageSummary: Could not ${action} module
   ExecutionSuccessMessageSummary: Successfully ${action} module
@@ -154,7 +153,6 @@ common:
   Delete: Delete
   DeleteRecording: Delete recording
   Deployment: Deployment
-  DeploymentHint: Please enable them or use the file system for the deployment.
   Description: Description
   Disable: Disable
   DiskSize: Disk Size
@@ -260,6 +258,7 @@ common:
   Roles: Roles
   Run: Run
   RunSearchEngineQuery: Run Search Engine Query
+  Running: Running
   RunningCases: Running Cases
   SSL: SSL
   Save: Save
@@ -390,6 +389,13 @@ deployment:
   FileFormat: File Format
   Options: Options
   VersionRange: Version Range
+  errors:
+    InvalidFile:
+      detail: 'File contains an invalid file extension. Allowed extensions: '
+      title: Invalid File Format
+    UploadError:
+      detail: 'There was an error uploading the file: '
+      title: Upload Error
 directoryBrowser:
   DirectoryBrowserDialogHeader: Directory Browser
   NodePropertiesEmptyMessage: Select a node to see its attributes
@@ -628,7 +634,6 @@ migrate:
   MigrationTasks: Migration Tasks
   OldEngineLocation: Location of old Engine
   ReadingLicenceErrorMessage: 'Error during reading licence: '
-  Running: Running
   StartMigration: Start Migration
   Summary: Summary
   TemporaryDirectory: 'Temporary Directory: '
