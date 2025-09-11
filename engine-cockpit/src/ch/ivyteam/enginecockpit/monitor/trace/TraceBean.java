@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayDeque;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,7 @@ import org.primefaces.util.ComponentUtils;
 
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.trace.Attribute;
 import ch.ivyteam.ivy.trace.SpanUri;
 import ch.ivyteam.ivy.trace.Trace;
 import ch.ivyteam.ivy.trace.TraceSpan;
@@ -182,6 +184,38 @@ public class TraceBean {
 
     public String getExecutionTimeBackground() {
       return BackgroundMeterUtil.background(trace.rootSpan().times().executionTime().toNanos(), max);
+    }
+
+    public String getSessionUser() {
+      var spanWithUser = findNearestSpanWithAttribute(trace.rootSpan(), "ivy.session.user");
+      if (spanWithUser == null) {
+        return Ivy.cm().co("/common/NoValue");
+      }
+      return spanWithUser.attributes()
+          .stream()
+          .filter(a -> "ivy.session.user".equals(a.name()))
+          .map(Attribute::value)
+          .findFirst()
+          .orElse(Ivy.cm().co("/common/NoValue"));
+    }
+
+    private TraceSpan findNearestSpanWithAttribute(TraceSpan root, String attributeName) {
+      if (root == null) {
+        return null;
+      }
+      var queue = new ArrayDeque<TraceSpan>();
+      queue.add(root);
+      while (!queue.isEmpty()) {
+        var current = queue.removeFirst();
+        var hasAttr = current.attributes().stream().anyMatch(a -> attributeName.equals(a.name()));
+        if (hasAttr) {
+          return current;
+        }
+        for (var child : current.children()) {
+          queue.addLast(child);
+        }
+      }
+      return null;
     }
 
     public String getStatusClass() {

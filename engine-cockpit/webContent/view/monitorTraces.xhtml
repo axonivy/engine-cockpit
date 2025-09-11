@@ -67,6 +67,9 @@
                   </h:outputText>
                 </a>
               </p:column>
+              <p:column headerText="Session User" style="width: 130px;">
+                <h:outputText value="#{trace.sessionUser}"/>
+              </p:column>
               <p:column style="width: 150px;" sortBy="#{trace.executionTime}" exportFunction="#{traceBean.export}">
                 <f:facet name="header">
                   <h:outputText value="#{ivy.cm.co('/monitor/traces/ExecutionTime')}" title="#{ivy.cm.co('/monitor/traces/ExecutionTimeTooltip')}"/>
