@@ -527,7 +527,7 @@ migrate:
   WriteConfigurationFilesToTemporaryDirectory: Konfigurationsdateien in temporäres Verzeichnis schreiben
   Checks: Kontrollen
   Done: Erledigt
-  LoadLocation: Orginal Installationsverzeichnis
+  LoadLocation: Laden Verzeichnis
   Location: Installationsverzeichnis
   LocationValidationErrorMessage: Fehler bei der Validierung des Installationsverzeichnisses
   OldEngineLocation: Installationsverzeichnis der alten Engine
