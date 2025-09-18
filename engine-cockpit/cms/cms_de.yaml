@@ -470,7 +470,7 @@ liveStats:
   ChannelLocks: Kanalsperren
   ChannelPushesTime: Kanal Auslieferungszeit
   Deliveries: Auslieferungen
-  Executed: Ausführungen
+  Executed: Ausgeführt
   JobsExecuted: Ausgeführte Jobs
   Locks: Sperren
   Max: Max
@@ -802,7 +802,7 @@ monitor:
   TotalLoaded: Geladen insgesamt
   TotalStarted: Gestarted insgesamt
   Unloaded: Entladen
-  Used: Im Gebrauch
+  Used: Verwendet
   Write: Schreiben
 monitorTraceDetail:
   AttributesTableEmptyMesssage: Wählen Sie eine Spanne, um ihre Eigenschaften zu sehen
