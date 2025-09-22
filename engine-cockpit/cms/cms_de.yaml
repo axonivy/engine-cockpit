@@ -697,7 +697,7 @@ monitor:
     LastSuccessfulExecution: Letzte erfolgreiche Ausführung
     LastTimeTheJobFailed: Letztes Mal, als der Job fehlgeschlagen ist
     NextExecution: Nächste Ausführung
-    ScheduleJobTooltip: Die Einplanung eines Auftrags zur sofortigen Ausführung kann negative Nebenwirkungen haben, wie Benutzer mit unnötigen täglichen Aufgaben-Mails belästigen, oder einer minimierten Leistung.
+    ScheduleJobTooltip: Die Einplanung eines Auftrags zur sofortigen Ausführung kann negative Nebenwirkungen haben, wie Benutzer mit unnötigen täglichen Aufgaben-Mails belästigen oder einer minimierten Leistung.
     DurationTooltip: min / mw / max
     Executions: Ausführungen
     JobDetail: Job Detail
