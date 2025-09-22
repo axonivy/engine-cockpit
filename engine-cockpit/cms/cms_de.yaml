@@ -470,7 +470,7 @@ liveStats:
   ChannelLocks: Kanalsperren
   ChannelPushesTime: Kanal Auslieferungszeit
   Deliveries: Auslieferungen
-  Executed: Ausführungen
+  Executed: Ausgeführt
   JobsExecuted: Ausgeführte Jobs
   Locks: Sperren
   Max: Max
@@ -527,7 +527,7 @@ migrate:
   WriteConfigurationFilesToTemporaryDirectory: Konfigurationsdateien in temporäres Verzeichnis schreiben
   Checks: Kontrollen
   Done: Erledigt
-  LoadLocation: Orginal Installationsverzeichnis
+  LoadLocation: Laden Verzeichnis
   Location: Installationsverzeichnis
   LocationValidationErrorMessage: Fehler bei der Validierung des Installationsverzeichnisses
   OldEngineLocation: Installationsverzeichnis der alten Engine
@@ -697,7 +697,7 @@ monitor:
     LastSuccessfulExecution: Letzte erfolgreiche Ausführung
     LastTimeTheJobFailed: Letztes Mal, als der Job fehlgeschlagen ist
     NextExecution: Nächste Ausführung
-    ScheduleJobTooltip: Die Einplanung eines Auftrags zur sofortigen Ausführung kann negative Nebenwirkungen haben, wie Benutzer mit unnötigen täglichen Aufgaben-Mails belästigen, oder einer minimierten Leistung.
+    ScheduleJobTooltip: Die Einplanung eines Auftrags zur sofortigen Ausführung kann negative Nebenwirkungen haben, wie Benutzer mit unnötigen täglichen Aufgaben-Mails belästigen oder einer minimierten Leistung.
     DurationTooltip: min / mw / max
     Executions: Ausführungen
     JobDetail: Job Detail
@@ -802,7 +802,7 @@ monitor:
   TotalLoaded: Geladen insgesamt
   TotalStarted: Gestarted insgesamt
   Unloaded: Entladen
-  Used: Im Gebrauch
+  Used: Verwendet
   Write: Schreiben
 monitorTraceDetail:
   AttributesTableEmptyMesssage: Wählen Sie eine Spanne, um ihre Eigenschaften zu sehen
