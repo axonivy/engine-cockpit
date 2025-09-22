@@ -202,7 +202,7 @@ common:
   Restart: Neustart
   Roles: Rollen
   Run: Starten
-  Running: Läuft
+  Running: Am Laufen
   RunningCases: Laufende Fälle
   SSL: SSL
   Schedule: Ausführen
@@ -279,7 +279,7 @@ databaseHistory:
   CopyToClipboardButtonTitle: Kopieren in der Zwischenablage
   ProcessElementHeader: Prozesselement
   ResultTimeValueTitle: Die Zeit, die benötigt wird, um die Ergebnisse der Abfrage zu lesen
-  ResultTimeHeader: Lesezeit
+  ResultTimeHeader: Ergebniszeit
   RowsAffectedHeader: Betroffende Zeilen
   SQLHeader: SQL
 deletionWarning:
@@ -834,8 +834,8 @@ newUser:
   AddUserDialogHeader: Neuen Benutzer hinzufügen
   Password: Passwort
 notification:
-  Payload: Nutzdaten
-  ShowPayload: Anzeige der Nutzdaten
+  Payload: Nutzlast
+  ShowPayload: Nutzlast anzeigen
 notificationChannelDetail:
   NotFoundChannel: Kanal '${channelId} nicht gefunden
   NotFoundSecurityContext: Konnte Sicherheitskontext ${system} nicht finden
@@ -1125,6 +1125,12 @@ sslTable:
   ExpiryDate: Ablaufdatum
   ValidCertificate: Gültig
   Subject: Inhaber
+  AddStoreHeader: Geben Sie das Passwort ein
+  EnterKeyPassword: Schlüsselpasswort
+  EnterPassword: Passwort speichern
+  PrivateKey: Privater Schlüssel
+  PublicKey: Öffentlicher Schlüssel
+  uploadInformation: Geben Sie Ihre Passwort des importierten Speichers und wenn es einen privaten Schlüssel gibt auch das Schlüsselpasswort
 sslTrustStore:
   DeleteCertificateMessage: Zertifikat '${certificate}' gelöscht
   EnableInsecureSSLAndHTTPSConnections: Unsichere SSL- und HTTPS-Verbindungen aktivieren
@@ -1248,7 +1254,7 @@ userDetailSubstitutes:
   OnAbsence: Bei Abwesenheit
   Substitutes: Stellvertreter
   Type: Typ
-  Permanent: Immer
+  Permanent: Dauerhaft
   Personal: Persönliche
 users:
   AddUser: Benutzer hinzufügen
