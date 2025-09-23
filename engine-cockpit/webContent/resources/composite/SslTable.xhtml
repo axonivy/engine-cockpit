@@ -22,7 +22,12 @@
           <h6 class="m-0">#{cc.attrs.title}</h6>
           <p:fileUpload id="certUpload" mode="simple" skinSimple="true"
             multiple="false" auto="true"
-            accept=".p12,.pem,.crt,.cer"
+            accept=".p12,.pem,.crt,.cer" rendered="#{cc.attrs.bean.isKeystore()}"
+            listener="#{cc.attrs.bean.handleUploadCertificate}"
+            update="@form" style="display: none;" />
+          <p:fileUpload id="certUpload" mode="simple" skinSimple="true"
+            multiple="false" auto="true"
+            accept=".pem,.crt,.cer" rendered="#{!cc.attrs.bean.isKeystore()}"
             listener="#{cc.attrs.bean.handleUploadCertificate}"
             update="@form" style="display: none;" />
           <p:commandButton
