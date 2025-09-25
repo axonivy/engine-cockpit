@@ -50,11 +50,11 @@
       </p:selectOneMenu>
     </p:panelGrid>
     <div class="custom-dialog-footer">
+      <p:commandButton id="cancelBtn" onclick="PF('addWorkflowLanguageModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
       <p:commandButton id="addBtn" validateClient="true" ajax="false" update=":securityWorkflowLanguageForm"
         actionListener="#{securityWorkflowLanguageBean.add(securityWorkflowLanguageBean.editLanguage)}" value="#{ivy.cm.co('/common/Add')}" icon="si si-add"
         styleClass="modal-input-button" />
-      <p:commandButton id="cancelBtn" onclick="PF('addWorkflowLanguageModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
-        styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
     </div>
   </h:form>
 </p:dialog>

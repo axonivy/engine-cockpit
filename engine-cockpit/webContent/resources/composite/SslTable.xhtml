@@ -53,13 +53,13 @@
                 feedback="false" redisplay="true" />
             </h:panelGrid>
             <div class="custom-dialog-footer">
+              <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" type="button"
+                onclick="PF('passwordDialog').hide()"
+                styleClass="ui-button-secondary ui-button-flat modal-input-button" />
               <p:commandButton value="#{ivy.cm.co('/common/Save')}" id="savePassword"
                 actionListener="#{cc.attrs.bean.confirmPassword}"
                 process="@form" update="@form"
                 oncomplete="PF('passwordDialog').hide()" />
-              <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" type="button"
-                onclick="PF('passwordDialog').hide()"
-                styleClass="ui-button-secondary ui-button-flat modal-input-button" />
             </div>
           </p:dialog>
 
