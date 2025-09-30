@@ -24,7 +24,7 @@
             <h:outputText value="#{node.displayName()}" />
           </p:treeNode>
           <p:treeNode type="nextPage">
-            <p:commandButton value="#{ivy.cm.co('/common/More')}" update="tree"
+            <p:commandButton value="More" update="tree"
               actionListener="#{cc.attrs.directoryBrowser.loadNextPage(node)}" />
           </p:treeNode>
         </p:tree>
