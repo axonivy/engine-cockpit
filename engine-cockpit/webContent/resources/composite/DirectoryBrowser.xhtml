@@ -20,8 +20,12 @@
           selection="#{cc.attrs.directoryBrowser.selectedNode}" dynamic="true" styleClass="col-6">
           <p:ajax event="expand" listener="#{cc.attrs.directoryBrowser.onNodeExpand}" update="@form:tree" />
           <p:ajax event="select" update="@form:nodeAttrTable" />
-          <p:treeNode icon="si si-#{cc.attrs.directoryBrowser.icon(node)}">
+          <p:treeNode type="browserNode" icon="si si-#{cc.attrs.directoryBrowser.icon(node)}">
             <h:outputText value="#{node.displayName()}" />
+          </p:treeNode>
+          <p:treeNode type="nextPage">
+            <p:commandButton value="#{ivy.cm.co('/common/More')}" update="tree"
+              actionListener="#{cc.attrs.directoryBrowser.loadNextPage(node)}" />
           </p:treeNode>
         </p:tree>
         <p:dataTable id="nodeAttrTable" var="attr" value="#{cc.attrs.directoryBrowser.selectedNodeProperties}"
