@@ -28,8 +28,9 @@ public class DirectoryBrowserBean {
     this.directoryBrowser = browser;
     try {
       var directoryNodeToSelect = findDirectoryNode(browser, idToSelect);
-      this.root = new DefaultTreeNode<>(null, null);
+      this.root = new DefaultTreeNode<>("root", null, null);
       browser.root().forEach(node -> addNewSubnode(root, node, directoryNodeToSelect));
+      addNextPageNode(root);
     } catch (Exception ex) {
       errorMessage(ex);
     }
@@ -59,9 +60,20 @@ public class DirectoryBrowserBean {
     loadChildren(node, null);
   }
 
+  public void loadNextPage(TreeNode<DirectoryNode> treeNode) {
+    var id = "";
+    if (treeNode.getData() != null) {
+      id = treeNode.getData().id();
+    }
+    treeNode.getChildren().removeLast();
+    var directoryNodeToSelect = findDirectoryNode(this.directoryBrowser, id);
+    this.directoryBrowser.nextPage(directoryNodeToSelect).forEach(node -> addNewSubnode(treeNode, node, directoryNodeToSelect));
+    addNextPageNode(treeNode);
+  }
+
   @SuppressWarnings("unused")
   private void addNewSubnode(TreeNode<DirectoryNode> parent, DirectoryNode dirNode, DirectoryNode directoryNodeToSelect) {
-    var node = new DefaultTreeNode<>(dirNode, parent);
+    var node = new DefaultTreeNode<>("browserNode", dirNode, parent);
     if (directoryNodeToSelect != null) {
       if (dirNode.id().equals(directoryNodeToSelect.id())) {
         node.setSelected(true);
@@ -73,7 +85,7 @@ public class DirectoryBrowserBean {
       }
     }
     if (dirNode.expandable() && !node.isExpanded()) {
-      new DefaultTreeNode<>("loading...", node);
+      new DefaultTreeNode<>("browserNode", "loading...", node);
     }
   }
 
@@ -81,8 +93,16 @@ public class DirectoryBrowserBean {
     try {
       directoryBrowser.children(node.getData())
           .forEach(child -> addNewSubnode(node, child, initialValue));
+      addNextPageNode(node);
     } catch (Exception ex) {
       errorMessage(ex);
+    }
+  }
+
+  private void addNextPageNode(TreeNode<DirectoryNode> node) {
+    if (this.directoryBrowser.hasNextPage(node.getData())) {
+      var treeNode = new DefaultTreeNode<>("nextPage", node, node);
+      treeNode.setSelectable(false);
     }
   }
 
@@ -94,8 +114,8 @@ public class DirectoryBrowserBean {
     return selectedNode;
   }
 
-  public void setSelectedNode(TreeNode<DirectoryNode> selectedNode) {
-    this.selectedNode = selectedNode;
+  public void setSelectedNode(TreeNode<DirectoryNode> treeNode) {
+    this.selectedNode = treeNode;
     try {
       if (selectedNode != null) {
         selectedNodeAttributes = directoryBrowser.properties(selectedNode.getData());

@@ -80,6 +80,16 @@ public class DummyIdentityProvider implements IdentityProvider {
     public DirectoryNode find(String node) {
       return null;
     }
+
+    @Override
+    public boolean hasNextPage(DirectoryNode node) {
+      return false;
+    }
+
+    @Override
+    public List<DirectoryNode> nextPage(DirectoryNode node) {
+      return List.of();
+    }
   }
 
   private static final class DummyDirectoryNode implements DirectoryNode {
