@@ -44,3 +44,45 @@ common:
   Communication: コミュニケーション
   Connections: コネクション
   Creator: クリエイター
+  Databases: データベース
+  Default: デフォルト
+  Delete: 削除
+  DiskSize: ディスクサイズ
+  Download: ダウンロード
+  Driver: ドライバー
+  Duration: 期間
+  Edit: 編集
+  Email: 電子メール
+  Error: エラー
+  Errors: エラー
+  ErrorsTotal: エラー合計
+  Event: イベント
+  ExecutionTime: 実行時間
+  FailTimestamp: 失敗タイムスタンプ
+  Filter: フィルター
+  Host: ホスト
+  Instances: インスタンス
+  IntermediateEvents: 中間イベント
+  IsLocal: ローカル
+  IsMaster: マスター
+  Licence: ライセンス
+  Login: ログイン
+  Message: メッセージ
+databaseHistory:
+  ProcessElementHeader: プロセス要素
+  ResultTimeHeader: 結果の時間
+deployment:
+  FileFormat: ファイル形式
+  Options: オプション
+  VersionRange: バージョン範囲
+  errors:
+    InvalidFile:
+      title: 無効なファイル形式
+    UploadError:
+      title: アップロードエラー
+directoryBrowser:
+  DirectoryBrowserDialogHeader: ディレクトリブラウザー
+editor:
+  DownloadP12: ダウンロード .p12
+  UploadFileErrorSummaryMessage: 無効な拡張子
+  UploadP12: アップロード .p12
