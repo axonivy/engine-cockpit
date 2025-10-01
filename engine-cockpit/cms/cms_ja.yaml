@@ -1,1 +1,46 @@
-{}
+administrators:
+  ConfirmPassword: パスワードの確認
+  UpdateAdministratorDialogHeader: 管理者の更新
+admins:
+  AddAdministrator: 管理者の追加
+applications:
+  DeactivateButtonTitle: 無効化
+  ForceDeleteButtonTitle: 強制削除
+  LastChangeDate: '最終変更日:'
+  LibraryVersion: 'ライブラリバージョン:'
+axonivy:
+  Build: ビルド
+  InstallationDirectory: インストールディレクトリ
+bean:
+  Class: クラス
+  RequestPath: リクエストパス
+branding:
+  DefaultValue: 'デフォルト値: '
+  ResetBrandingResourceDialogHeader: ブランドリソースのリセット
+channelState:
+  ErrorInformation: エラー情報
+cluster:
+  Node: ノード
+  Sessions: セッション
+clusterNodeInfo:
+  ClusterNodeDetail: クラスタノードの詳細
+  OperatingSystemArchitecture: オペレーティングシステムのアーキテクチャ
+  OperatingSystemName: オペレーティング システムの名前
+common:
+  Administrators: 管理者
+  Algorithm: アルゴリスム
+  AllEvents: すべてのイベント
+  Application: アプリケーション
+  Applications: アプリケーション
+  AuthenticationType: 認証タイプ
+  Branding: ブランディング
+  BusinessCalendar: ビジネスカレンダー
+  Cancel: キャンセル
+  Chart: チャート
+  Clear: クリア
+  Cluster: クラスター
+  Cockpit: コックピット
+  Color: カラー
+  Communication: コミュニケーション
+  Connections: コネクション
+  Creator: クリエイター
