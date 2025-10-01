@@ -1,31 +1,98 @@
 administrators:
   ConfirmPassword: パスワードの確認
   UpdateAdministratorDialogHeader: 管理者の更新
+  AdminAddedMessage: "'${name}' を追加しました"
+  AdminDeletedMessage: "'${name}' を削除しました"
+  AdminUpdatedMessage: "'${name}' を更新しました"
+  CreateAdministratorDialogHeader: 管理者の作成
+  DeleteAdminDialogHeader: ${name} を削除
+  DeleteAdminDialogMessage: 管理者 '${name}' を削除してもよろしいですか?
+  EditAdminDialogHeader: 管理者の追加/編集
 admins:
   AddAdministrator: 管理者の追加
+  DefineAtLeastOneAdministratorMessage: 少なくとも 1 人の管理者を定義する必要があります!
 applications:
   DeactivateButtonTitle: 無効化
   ForceDeleteButtonTitle: 強制削除
   LastChangeDate: '最終変更日:'
   LibraryVersion: 'ライブラリバージョン:'
+  AppPmPmvHeader: アプリ / PM / PMV
+  ApplicationConvertToLatestVersionMessage: 状態が「リリース済み」および「非推奨」の Axon Ivy プロジェクトがすべて最新バージョンに変換されます。
+  ApplicationWarningMessageForNoReleasedPmv: 少なくとも 1 つのプロセスモデルにリリース済みのプロセスモデルバージョンが含まれません
+  Convert: 変換
+  ConvertButtonTitle: プロジェクトを最新バージョンに変換します
+  DeleteHintMessage: この ${activityType} を削除してもよろしいですか?
+  DeleteRunningCasesHintMessage: ${activityType} に ${runningCases} の実行中のケースが含まれます。これらも削除されます。
+  DeploymentButtonTitle: デプロイメント
+  DisableErrorMessage: アプリケーション ${application} の状態を評価することができません
+  ExecutionErrorMessageSummary: モジュールを ${action} できませんでした
+  ExecutionSuccessMessageSummary: モジュールを正常に ${action} しました
+  PmvConvertToLatestVersionMessage: Axon Ivy プロジェクトは最新バージョンに変換されます。
+  RunningCasesHeader: 実行中のケース
+  WarningMessageForNoReleasedPmv: リリース済みのプロセスモデルバージョンがありません
 axonivy:
   Build: ビルド
   InstallationDirectory: インストールディレクトリ
+  AxonIvyAG: Axon Ivy AG
+  Copyright: 著作権
 bean:
   Class: クラス
   RequestPath: リクエストパス
+  Bean: Bean
+  LastInitializationError: 前回の初期化エラー
+  LastStart: 前回の開始
+  LastStartError: 前回の開始エラー
+  LastStopError: 前回の停止エラー
+  StartsBean: Bean を開始します
+  StopsBean: Bean を停止します
 branding:
   DefaultValue: 'デフォルト値: '
   ResetBrandingResourceDialogHeader: ブランドリソースのリセット
+  ChooseOrDropFileWhichEndsWith: '次の終端のファイルを選択またはドロップ:'
+  DownloadBrandingResourcesDialogHeader: "'${application}' のブランディングリソースをダウンロード"
+  EditColorDialogHeader: 色を編集する
+  EditCustomCSSDialogHeader: ${customCssFile} を編集
+  FaviconHelperMessage: ブラウザタブのロゴ (スクエアフォーマットを推奨)
+  LogoHelperMessage: メインロゴイメージ
+  LogoLightHelperMessage: メインロゴと同じですが、たとえば私たちの場合は白い文字になります
+  LogoMailHelperMessage: ロゴは、デフォルトで Axon Ivy Engine 電子メール通知によって取得されます
+  LogoSmallHelperMessage: ログインエラーページなどに使用される小サイズのロゴ (スクエアフォーマットを推奨)
+  ResetBrandingResourceConfirmMessage: ブランディングリソース '${resource}' をリセットしてもよろしいですか?
+  ResetCSSColorConfirmMessage: CSS で指定可能な色 '${cssColor}' をリセットしてもよろしいですか?
+  ResetColorDialogHeader: 色をリセット
+  ResetResourceSuccessfulMessage: "'${resource}' を正常にリセットしました"
+  ResetResourceUnsuccessfulMessage: "'${resource}' をリセットできませんでした"
+  UnknownColor: 不明な色
+  UpdateColorSuccessfulMessage: 色 '${color}' を正常に更新しました
+  UpdateColorUnsuccessfulMessage: "'${color}' を更新できませんでした"
+  UpdateCustomCSSSuccessfulMessage: "'${customCssFile}' を正常に保存しました"
+  UpdateCustomCSSUnsuccessfulMessage: "'${customCssFile}' を保存できませんでした"
+  UploadFileSuccessfulMessage: ${resource} を正常にアップロードしました
+  UploadResourceDialogHeader: "'${application}' にリソースをアップロードする"
+  Value: '値: '
 channelState:
   ErrorInformation: エラー情報
+  FailedDeliverAttempsSoFar: 'これまでの提供失敗試行回数:'
+  LastError: '前回のエラー:'
+  NextRetryToDeliver: '次の再提供試行:'
 cluster:
   Node: ノード
   Sessions: セッション
+  ClusterNodeState: ノードはライセンスされていません。常にエラーコード 503 Service Unavailable で応答します。
+  Context: コンテキスト
+  Nodes: ノード
 clusterNodeInfo:
   ClusterNodeDetail: クラスタノードの詳細
   OperatingSystemArchitecture: オペレーティングシステムのアーキテクチャ
   OperatingSystemName: オペレーティング システムの名前
+  AxonIvyVersion: Axon Ivy バージョン
+  IPAddress: IP アドレス
+  IPPort: IP ポート
+  IsLicensed: ライセンスされている
+  JavaVersion: Java バージョン
+  JavaVirtualMachineName: Java Virtual Machine 名
+  JvmRoute: Jvm ルート
+  OperatingSystemVersion: オペレーティング システムのバージョン
 common:
   Administrators: 管理者
   Algorithm: アルゴリスム
@@ -43,7 +110,7 @@ common:
   Color: カラー
   Communication: コミュニケーション
   Connections: コネクション
-  Creator: クリエイター
+  Creator: 作成者
   Databases: データベース
   Default: デフォルト
   Delete: 削除
@@ -68,9 +135,95 @@ common:
   Licence: ライセンス
   Login: ログイン
   Message: メッセージ
+  Activate: アクティブ化
+  Activity: アクティビティ
+  Add: 追加
+  Apply: 適用
+  Attribute: 属性
+  Attributes: 属性
+  AxonIvy: Axon Ivy
+  AxonIvyEngine: Axon Ivy Engine
+  Back: 戻る
+  Browse: 参照
+  Bytes: バイト
+  Check: チェック
+  Choose: 選択
+  Close: 閉じる
+  CollapseAll: すべて折りたたむ
+  ConfigFileEditor: 設定ファイルエディター
+  Configuration: 設定
+  ConfiguredState: 設定された状態
+  Confirm: 確認
+  CopyToClipboard: クリップボードにコピーする
+  Count: カウント
+  Create: 作成
+  Created: 作成済み
+  Date: 日付
+  Deactivate: 非アクティブ化
+  DefinedBy: 定義基準
+  DeleteRecording: 記録を削除する
+  Deployment: デプロイメント
+  Description: 説明
+  Disable: 無効化
+  DownloadRecording: 記録をダウンロードする
+  Enabled: 有効
+  End: 終了
+  EngineCockpit: エンジンコックピット
+  ExecTime: 実行時間
+  ExecTimeValueTitle: ステートメントの実行に必要な時間
+  ExecutionHistory: 実行履歴 (最後の 200 件)
+  ExpandAll: すべて展開する
+  Failed: 失敗
+  Failure: 失敗
+  Feature: 機能
+  Features: 機能
+  FeaturesAndProperties: 機能とプロパティ
+  File: ファイル
+  Finish: 完了
+  Finished: 完了
+  Fragmentation: 断片化
+  FullName: フルネーム
+  Good: 良好
+  Health: 正常性
+  Help: ヘルプ
+  ID: ID
+  Info: 情報
+  Key: キー
+  Language: 言語
+  LastError: 前回のエラー
+  LastLogin: 前回のログイン
+  Limit: 制限
+  Lock: ロック
+  Migration: 移行
+  MimeType: MIME タイプ
+  Modified: 変更済み
+  More: その他
+  Name: 名前
+  'No': いいえ
+  NoData: データなし
+  NoDataAvailable: 利用可能なデータがありません
+  NoRecordsFound: レコードが見つかりませんでした。
+  NoValue: 値なし
+  None: なし
+  NotAvailable: 該当なし
+  NotMatchPasswordMessage: パスワードが一致しませんでした
+  OK: OK
+  Order: 順序
+  PM: PM
+  PMV: PMV
+  Port: ポート
+  Previous: 前へ
+  Read: 読み取る
+  Receive: 受信
+  Refresh: 更新
+  Remove: 削除
 databaseHistory:
   ProcessElementHeader: プロセス要素
   ResultTimeHeader: 結果の時間
+  CopyToClipboardButtonTitle: クリップボードにコピーする
+  ResultTimeValueTitle: ステートメントの結果を読み取るために必要な時間
+  RowsAffectedHeader: 影響を受ける行
+  SQLHeader: SQL
 deployment:
   FileFormat: ファイル形式
   Options: オプション
@@ -78,11 +231,69 @@ deployment:
   errors:
     InvalidFile:
       title: 無効なファイル形式
+      detail: 'ファイルに無効な拡張子が含まれます。許可される拡張子: '
     UploadError:
       title: アップロードエラー
+      detail: 'ファイルのアップロード中にエラーが発生しました: '
+  DeployTestUsers: テストユーザーを展開
+  DeployToApp: アプリに展開
 directoryBrowser:
   DirectoryBrowserDialogHeader: ディレクトリブラウザー
+  NodePropertiesEmptyMessage: 属性を表示するノードを選択してください
 editor:
-  DownloadP12: ダウンロード .p12
+  DownloadP12: .p12 をダウンロード
   UploadFileErrorSummaryMessage: 無効な拡張子
-  UploadP12: アップロード .p12
+  UploadP12: .p12 をアップロード
+  AutoMigratedToLatestVersionWarningMessage: これらのファイルの内容は、最新バージョンに自動で移行しました。
+  NotFoundConfigFile: 設定ファイル '${file}' が見つかりません
+  ReadOnlyFileWarningMessage: このファイルは読み取り専用です!
+  ReadOnlyOriginalFileWarningMessage: 元のファイル ${path} は読み取り専用です。起動時に書き込み可能なディレクトリにファイルがコピーされました。変更が再起動後も反映されるように、元のファイルで変更を手動で適用する必要があります。
+  UploadFileErrorDetailMessage: ファイル拡張子が間違っているため、'${file}' をアップロードできませんでした。
+  UploadFileSuccessDetailMessage: "'${file}' が正常にアップロードされ、${activeFile} として保存されました。"
+  UploadFileSuccessSummaryMessage: ファイルをアップロードしました
+applicationDetail:
+  ProcessModels: プロセスモデル
+breadcrumbInfos:
+  SelectedApplication: 選択したアプリケーション
+  SelectedSecuritySystem: 選択したセキュリティシステム
+businessCalendarDetail:
+  EditAppYamlFile: アプリの YAML ファイルを編集する
+databases:
+  NoDatabasesFound: 展開されたアプリにデータベースは見つかりませんでした
+deletionWarning:
+  FirstDeletionWarningMessage: 削除は危険です。エンジンが不良状態になる可能性があります。
+  SecondDeletionWarningMessage: ケースとデータが失われる可能性があります。慎重に続行してください。
+dynamicConfig:
+  ConnectionTestUrlDialogHeader: '接続テスト URL:'
+  TLSConnectionTestButton: TLS 接続テスト
+email:
+  SendTestMail: テストメールを送信
+emailSettings:
+  DailySummaryOn: デイリーサマリー集計日
+  Fri: 金
+  Mon: 月
+  Never: 不可
+  NewTask: 新規タスク
+  Sat: 土
+  Sun: 日
+  Thu: 木
+  Tue: 火
+  Wed: 水
+error:
+  ShowFullError: 全エラーを表示する
+evenBeanThreads:
+  Id: ID
+exception:
+  ViewExpiredExceptionDialogContent: ビューまたはセッションが期限切れになりました。
+  ViewExpiredExceptionDialogHeader: ビューまたはセッション有効期限切れ
+exceptionDetail:
+  RequestUri: リクエスト URI
+  Servlet: サーブレット
+  ThreadLocalValues: スレッドローカル値
+  ThrownBy: スロー元
+fileUpload:
+  AcceptFilesPlaceholder: '次の終端のファイルを選択またはドロップ: '
+licence:
+  ChooseLicencePlaceholder: '次の終端のファイルを選択またはドロップ: .lic'
+applicationTabs:
+  NoConfiguredApplication: アプリケーションを設定していません。
