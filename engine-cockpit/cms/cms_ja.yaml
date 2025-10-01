@@ -239,6 +239,19 @@ common:
   Property: プロパティ
   Provider: プロバイダー
   Receiver: レシーバー
+  Reset: リセット
+  Schedule: スケジュール
+  SearchEngine: 検索エンジン
+  Security: セキュリティ
+  SecuritySystem: セキュリティシステム
+  SecuritySystems: セキュリティシステム
+  Services: サービス
+  Sessions: セッション
+  Setup: セットアップ
+  System: システム
+  TableName: テーブル名
+  Tables: テーブル
+  Template: テンプレート
 databaseHistory:
   ProcessElementHeader: プロセス要素
   ResultTimeHeader: 結果の時間
@@ -326,8 +339,31 @@ exceptionDetail:
   UnexpectedErrorOccured: '予期しないエラーが発生しました:'
 fileUpload:
   AcceptFilesPlaceholder: '次の終端のファイルを選択またはドロップ: '
+  FileUploadDialogDefaultTitle: ファイルのアップロード
 licence:
   ChooseLicencePlaceholder: '次の終端のファイルを選択またはドロップ: .lic'
 applicationTabs:
   NoConfiguredApplication: アプリケーションを設定していません。
   CreateApplication: アプリケーションの作成
+configuration:
+  ShowDatabasesMessage: データベースの表示
+  ShowOnlyDefinedValuesMessage: 定義された値のみを表示する
+connectionTestResult:
+  ConnectToDatabaseFailMessage: 'エラーが発生しました: %s'
+  TestConnection: テスト接続
+databaseConfiguration:
+  ResetConfiguration: リセット設定
+databaseConnections:
+  InUse: 使用中
+firings:
+  Duration: 期間
+  ExecutionDuration: 実行期間
+  Executions: 実行
+  Timestamp: タイムスタンプ
+indexes:
+  Indexes: インデックス
+indices:
+  Index: インデックス
+  Indices: インデックス
+  Status: ステータス
+  StatusInfo: 'ステータス:'
