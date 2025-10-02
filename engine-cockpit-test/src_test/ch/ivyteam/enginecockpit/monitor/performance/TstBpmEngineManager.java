@@ -3,7 +3,7 @@ package ch.ivyteam.enginecockpit.monitor.performance;
 import java.util.List;
 import java.util.Set;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.bpm.engine.restricted.IBpmEngine;
