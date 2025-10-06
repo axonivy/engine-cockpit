@@ -6,24 +6,24 @@ administrators:
   AdminUpdatedMessage: "'${name}' を更新しました"
   CreateAdministratorDialogHeader: 管理者の作成
   DeleteAdminDialogHeader: ${name} を削除
-  DeleteAdminDialogMessage: 管理者 '${name}' を削除してもよろしいですか?
-  EditAdminDialogHeader: 管理者を追加/編集
+  DeleteAdminDialogMessage: 管理者 '${name}' を削除してもよろしいですか？
+  EditAdminDialogHeader: 管理者の追加／編集
 admins:
-  AddAdministrator: 管理者を追加
-  DefineAtLeastOneAdministratorMessage: 少なくとも 1 人の管理者を定義する必要があります!
+  AddAdministrator: 管理者の追加
+  DefineAtLeastOneAdministratorMessage: 少なくとも 1 人の管理者を定義する必要があります。
 applications:
   DeactivateButtonTitle: 無効化
   ForceDeleteButtonTitle: 強制削除
-  LastChangeDate: '最終変更日:'
-  LibraryVersion: 'ライブラリバージョン:'
-  AppPmPmvHeader: アプリ / PM / PMV
+  LastChangeDate: '最終変更日：'
+  LibraryVersion: 'ライブラリバージョン：'
+  AppPmPmvHeader: アプリ／PM／PMV
   ApplicationConvertToLatestVersionMessage: 状態が「リリース済み」および「非推奨」の Axon Ivy プロジェクトがすべて最新バージョンに変換されます。
   ApplicationWarningMessageForNoReleasedPmv: 少なくとも 1 つのプロセスモデルにリリース済みのプロセスモデルバージョンが含まれません
   Convert: 変換
   ConvertButtonTitle: プロジェクトを最新バージョンに変換します
-  DeleteHintMessage: この ${activityType} を削除してもよろしいですか?
+  DeleteHintMessage: この ${activityType} を削除してもよろしいですか？
   DeleteRunningCasesHintMessage: ${activityType} に ${runningCases} の実行中のケースが含まれます。これらも削除されます。
-  DeploymentButtonTitle: デプロイメント
+  DeploymentButtonTitle: 展開
   DisableErrorMessage: アプリケーション ${application} の状態を評価することができません
   ExecutionErrorMessageSummary: モジュールを ${action} できませんでした
   ExecutionSuccessMessageSummary: モジュールを正常に ${action} しました
@@ -48,18 +48,18 @@ bean:
   StopsBean: Bean を停止します
 branding:
   DefaultValue: 'デフォルト値: '
-  ResetBrandingResourceDialogHeader: ブランドリソースのリセット
-  ChooseOrDropFileWhichEndsWith: '次の終端のファイルを選択またはドロップ:'
+  ResetBrandingResourceDialogHeader: ブランディングリソースのリセット
+  ChooseOrDropFileWhichEndsWith: '次で終わるファイルを選択またはドロップ：'
   DownloadBrandingResourcesDialogHeader: "'${application}' のブランディングリソースをダウンロード"
-  EditColorDialogHeader: 色を編集する
+  EditColorDialogHeader: 色を編集
   EditCustomCSSDialogHeader: ${customCssFile} を編集
-  FaviconHelperMessage: ブラウザタブのロゴ (スクエアフォーマットを推奨)
-  LogoHelperMessage: メインロゴイメージ
-  LogoLightHelperMessage: メインロゴと同じですが、たとえば私たちの場合は白い文字になります
+  FaviconHelperMessage: ブラウザタブのロゴ （正方形のフォーマットを推奨）
+  LogoHelperMessage: メインのロゴ画像
+  LogoLightHelperMessage: メインロゴと同じですが、例では白で書かれています
   LogoMailHelperMessage: ロゴは、デフォルトで Axon Ivy Engine メール通知によって取得されます
-  LogoSmallHelperMessage: ログインエラーページなどに使用される小サイズのロゴ (スクエアフォーマットを推奨)
-  ResetBrandingResourceConfirmMessage: ブランディングリソース '${resource}' をリセットしてもよろしいですか?
-  ResetCSSColorConfirmMessage: CSS で指定可能な色 '${cssColor}' をリセットしてもよろしいですか?
+  LogoSmallHelperMessage: ログイン、エラーページなどで使用される小さなロゴ（正方形のフォーマットを推奨）
+  ResetBrandingResourceConfirmMessage: ブランディングリソース '${resource}' をリセットしてもよろしいですか？
+  ResetCSSColorConfirmMessage: CSS で指定可能な色 '${cssColor}' をリセットしてもよろしいですか？
   ResetColorDialogHeader: 色をリセット
   ResetResourceSuccessfulMessage: "'${resource}' を正常にリセットしました"
   ResetResourceUnsuccessfulMessage: "'${resource}' をリセットできませんでした"
@@ -73,9 +73,9 @@ branding:
   Value: '値: '
 channelState:
   ErrorInformation: エラー情報
-  FailedDeliverAttempsSoFar: 'これまでのデリバリー失敗試行回数:'
-  LastError: '前回のエラー:'
-  NextRetryToDeliver: '次の再デリバリー試行:'
+  FailedDeliverAttempsSoFar: 'これまでのデリバリー失敗回数：'
+  LastError: '前回のエラー：'
+  NextRetryToDeliver: '次のデリバリー試行：'
 cluster:
   Node: ノード
   Sessions: セッション
@@ -89,7 +89,7 @@ clusterNodeInfo:
   AxonIvyVersion: Axon Ivy バージョン
   IPAddress: IP アドレス
   IPPort: IP ポート
-  IsLicensed: ライセンスされている
+  IsLicensed: ライセンス付与されている
   JavaVersion: Java バージョン
   JavaVirtualMachineName: Java Virtual Machine 名
   JvmRoute: Jvm ルート
@@ -269,7 +269,7 @@ common:
   Version: バージョン
   Warning: 警告
   Warnings: 警告
-  Weak: 週
+  Weak: 弱
   WebServer: ウェブサーバー
   WebServiceClients: Web サービスクライアント
   WebServiceProcesses: Web サービスプロセス
@@ -295,7 +295,7 @@ common:
   Send: 送信
   Severity: 重大度
   ShowConfigurationLog: 設定ログを表示する
-  ShowMoreRoleLeftMessage: その他を表示 (残り ${role})
+  ShowMoreRoleLeftMessage: その他を表示（残り ${role}）
   Size: サイズ
   Source: ソース
   StackTrace: スタックトレース
@@ -327,10 +327,10 @@ deployment:
   errors:
     InvalidFile:
       title: 無効なファイル形式
-      detail: 'ファイルに無効な拡張子が含まれます。許可される拡張子: '
+      detail: 'ファイルに無効な拡張子が含まれます。許可される拡張子： '
     UploadError:
       title: アップロードエラー
-      detail: 'ファイルのアップロード中にエラーが発生しました: '
+      detail: 'ファイルのアップロード中にエラーが発生しました： '
   DeployTestUsers: テストユーザーを展開
   DeployToApp: アプリに展開
 directoryBrowser:
@@ -360,7 +360,7 @@ deletionWarning:
   FirstDeletionWarningMessage: 削除は危険です。エンジンが不良状態になる可能性があります。
   SecondDeletionWarningMessage: ケースとデータが失われる可能性があります。慎重に続行してください。
 dynamicConfig:
-  ConnectionTestUrlDialogHeader: '接続テスト URL:'
+  ConnectionTestUrlDialogHeader: '接続テスト - URL：'
   TLSConnectionTestButton: TLS 接続テスト
 email:
   SendTestMail: テストメールを送信
@@ -428,35 +428,35 @@ applicationTabs:
   NoConfiguredApplication: アプリケーションを設定していません。
   CreateApplication: アプリケーションの作成
 configuration:
-  ShowDatabasesMessage: データベースの表示
+  ShowDatabasesMessage: データベースを表示
   ShowOnlyDefinedValuesMessage: 定義された値のみを表示する
   ApplicationConfiguration: アプリケーションの設定
   ConfigReset: "'${config}' リセット"
   ConfigResetToDefault: "'${config}' をデフォルトにリセット"
   ConfigSaved: "'${config}' を保存しました"
   ConfigurationDialogDefaultTitle: 設定
-  EditConfigurationInfoMessage: このプロパティを変更する場合は、エンジンを再起動する必要があります
+  EditConfigurationInfoMessage: このプロパティを変更する場合、エンジンを再起動する必要があります
   Examples: 例
-  Filter: 'フィルター:'
+  Filter: 'フィルター：'
   GoEditVariableValueLink: 移動して変数値を編集する
   ReloadApplicationConfiguration: アプリケーション設定を再度読み込む
   ReloadApplicationConfigurationMessage: アプリケーション '${application}' の設定を再度読み込みました
-  ResetConfigConfirmDialogMessage: ${title} '${config}' をリセットしてもよろしいですか?
+  ResetConfigConfirmDialogMessage: ${title} '${config}' をリセットしてもよろしいですか？
   ShowRestClientsMessage: REST クライアントを表示
   ShowVariablesMessage: 変数を表示
   ShowWebServiceClientsMessage: Web サービスクライアントを表示
   ViewFile: ファイルを表示
 connectionTestResult:
-  ConnectToDatabaseFailMessage: 'エラーが発生しました: %s'
+  ConnectToDatabaseFailMessage: 'エラーが発生しました：%s'
   TestConnection: テスト接続
-  ConnectToDatabaseSuccessMessage: 'データベースに正常に接続しました: %s (%s)、JDBC バージョン %s'
+  ConnectToDatabaseSuccessMessage: 'データベースに正常に接続しました：%s (%s)、JDBC バージョン %s'
   ConnectToRestServiceFailMessage: REST サービスに接続できませんでした
   ConnectToRestServiceSuccessMessage: テストリクエストを REST サービスに正常に送信しました
-  ConnectionTestDialogHeader: '接続テスト- URL:'
+  ConnectionTestDialogHeader: '接続テスト - URL：'
   ConnectionTestDialogHintMessage: 接続をテストする前に、変更を保存したことを確認してください。
   ConnectionTestRestClientAuthenticationMessage: 認証は成功しませんでした
   ConnectionTestRestClientNotUnderstandRequestMessage: REST サービスはテストリクエストを理解しません
-  InvalidRestClientUrlMessage: "無効な URL (スクリプトコンテキストが含まれる可能性があります)\nエラーが発生しました: "
+  InvalidRestClientUrlMessage: "無効な URL（スクリプトコンテキストが含まれる可能性があります）\nエラーが発生しました： "
   TLSTestButton: TLS テスト
   TLSTestButtonTitle: TLS 接続テスト
 databaseConfiguration:
@@ -465,7 +465,7 @@ databaseConfiguration:
   MaxConnections: 最大接続数
   ResetDatabaseConfigurationMessage: データベース設定のリセット
   ResetDatabaseConfirmDialogHeader: データベースをリセット
-  ResetDatabaseConfirmDialogMessage: このデータベースをリセットしてもよろしいですか?
+  ResetDatabaseConfirmDialogMessage: このデータベースをリセットしてもよろしいですか？
   SaveDatabaseConfigurationMessage: データベース設定を保存しました
   TestDatabaseConnection: データベース接続をテスト
 databaseConnections:
