@@ -59,13 +59,8 @@
       </div>
 
       <p:dialog header="#{ivy.cm.co('/searchIndex/DocumentDialogHeader')} #{searchDocBean.doc.id}" id="searchDocModal" width="50%" modal="true"
-        onShow="hljs.highlightBlock(document.querySelector('pre code.json'))" widgetVar="searchDocModal"
-        responsive="true" closeOnEscape="true">
-        <pre>
-          <code style="overflow: auto; max-height: 500px;" class="json">
-            <h:outputText value="#{searchDocBean.doc.json}" />
-          </code>
-        </pre>
+        widgetVar="searchDocModal" responsive="true" closeOnEscape="true">
+        <pe:codeMirror id="codeBlock" value="#{searchDocBean.doc.json}" mode="javascript" readonly="true" />
       </p:dialog>
     </ui:define>
   </ui:composition>

@@ -15,6 +15,7 @@ import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -320,8 +321,8 @@ class WebTestConfiguration {
     table.clickButtonForEntry(key, "tasksButton");
     table.buttonMenuForEntryShouldBeVisible(key, "activityMenu");
     table.clickButtonForEntry(key, "showFileBtn");
-    $("#config\\:showConfigurationFileModal").shouldBe(visible);
-    $(".code-block").shouldHave(text(key));
+    $(By.id("config:showConfigurationFileModal")).shouldBe(visible);
+    $(By.id("config:showConfigurationFileForm:codeBlock")).shouldHave(value(key));
   }
 
   private void assertResetConfig(String key) {
