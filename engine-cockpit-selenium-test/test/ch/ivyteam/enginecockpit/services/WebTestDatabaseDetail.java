@@ -6,6 +6,7 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -47,8 +48,8 @@ class WebTestDatabaseDetail {
     $("#databaseConfigurationForm\\:name").shouldBe(exactText(DATABASE_NAME));
 
     $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
-    $("#helpDatabaseDialog\\:helpServicesModal").shouldBe(visible);
-    $(".code-block").shouldBe(text(DATABASE_NAME));
+    $(By.id("helpDatabaseDialog:helpServicesModal")).shouldBe(visible);
+    $(By.id("helpDatabaseDialog:helpServicesForm:codeBlock")).shouldBe(value(DATABASE_NAME));
   }
 
   @Test

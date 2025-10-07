@@ -6,6 +6,7 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -42,8 +43,8 @@ class WebTestRestClientDetail {
     $("#restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
 
     $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
-    $("#helpRestClientDialog\\:helpServicesModal").shouldBe(visible);
-    $(".code-block").shouldBe(text(RESTCLIENT_NAME), text("sensitive: \"${encrypt:*****}\""));
+    $(By.id("helpRestClientDialog:helpServicesModal")).shouldBe(visible);
+    $(By.id("helpRestClientDialog:helpServicesForm:codeBlock")).shouldBe(value(RESTCLIENT_NAME), value("sensitive: \"${encrypt:*****}\""));
   }
 
   @Test

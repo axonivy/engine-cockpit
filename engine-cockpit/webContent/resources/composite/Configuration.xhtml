@@ -76,15 +76,11 @@
 
   <p:dialog styleClass="config-showfile" header="#{cc.attrs.bean.activeConfig.shortSource}" appendTo="@(body)"
     id="showConfigurationFileModal" widgetVar="showConfigurationFileModal" modal="true" responsive="true"
-    closeOnEscape="true" width="60%" onShow="hljs.highlightBlock(document.querySelector('pre code.yaml'))">
+    closeOnEscape="true" width="60%">
     <h:form id="showConfigurationFileForm">
       <p:panelGrid columns="1" layout="flex">
         <h:outputText value="#{cc.attrs.bean.activeConfig.source}" />
-
-        <h:panelGroup styleClass="code-block" layout="block">
-          <pre><code class="yaml"><h:outputText value="#{cc.attrs.bean.activeConfig.fileContent}" escape="false"/></code></pre> <!-- contains configfiles -->
-        </h:panelGroup>
-        
+        <pe:codeMirror id="codeBlock" value="#{cc.attrs.bean.activeConfig.fileContent}" mode="yaml" readonly="true" />
       </p:panelGrid>
       <p:commandButton id="downloadConfigurationFile" ajax="false" value="Download" icon="si si-download-bottom"
         styleClass="modal-input-button" style="width: 125px;">
