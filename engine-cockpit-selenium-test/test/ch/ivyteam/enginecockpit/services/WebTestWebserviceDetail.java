@@ -7,6 +7,7 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -21,7 +22,6 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ScrollIntoViewOptions;
 import com.codeborne.selenide.ScrollIntoViewOptions.Block;
 import com.codeborne.selenide.Selenide;
@@ -51,8 +51,8 @@ class WebTestWebserviceDetail {
     $("#webserviceConfigurationForm\\:name").shouldBe(exactText(WEBSERVICE_NAME));
 
     $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
-    $("#helpWebserviceDialog\\:helpServicesModal").shouldBe(Condition.visible);
-    $(".code-block").shouldBe(text(WEBSERVICE_NAME), text("sensitive: \"${encrypt:*****}\""));
+    $(By.id("helpWebserviceDialog:helpServicesModal")).shouldBe(visible);
+    $(By.id("helpWebserviceDialog:helpServicesForm:codeBlock")).shouldBe(value(WEBSERVICE_NAME), value("sensitive: \"${encrypt:*****}\""));
   }
 
   @Test
