@@ -10,9 +10,9 @@ import javax.faces.view.ViewScoped;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.ivy.environment.Ivy;
-import ch.ivyteam.ivy.mail.MailClient;
-import ch.ivyteam.ivy.mail.MailClientConfigProvider;
 import ch.ivyteam.ivy.mail.MailMessage;
+import ch.ivyteam.ivy.mail.impl.MailClientConfigProvider;
+import ch.ivyteam.ivy.mail.impl.MailClientImpl;
 
 @ManagedBean
 @ViewScoped
@@ -87,14 +87,12 @@ public class EmailBean {
   public void sendTestMail() throws IOException {
     try (var out = new ByteArrayOutputStream();
         var print = new PrintStream(out)) {
-      try (var mailClient = MailClient.newMailClient(print)) {
-
+      try (var mailClient = MailClientImpl.newMailClient(print)) {
         var mailMessage = MailMessage.create()
             .to(sendTo)
             .subject(subject)
             .textContent(message)
             .toMailMessage();
-
         sent = true;
         try {
           mailClient.send(mailMessage);
@@ -106,6 +104,8 @@ public class EmailBean {
             debugLog += ExceptionUtils.getStackTrace(exception);
           }
         }
+      } catch (Exception ex1) {
+        throw new RuntimeException(ex1);
       }
     }
   }
