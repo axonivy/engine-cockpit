@@ -110,7 +110,7 @@ common:
   Cockpit: コックピット
   Color: カラー
   Communication: コミュニケーション
-  Connections: コネクション
+  Connections: 接続
   Creator: 作成者
   Databases: データベース
   Default: デフォルト
@@ -470,7 +470,7 @@ databaseConfiguration:
   TestDatabaseConnection: データベース接続をテスト
 databaseConnections:
   InUse: 使用中
-  LastUsed: 前回使用
+  LastUsed: 前回の使用
 firings:
   Duration: 期間
   ExecutionDuration: 実行期間
@@ -589,7 +589,7 @@ memberProperties:
   Property: プロパティ
   PropertyInExternalSecuritySystem: プロパティは外部セキュリティシステムによって管理されます
   RemovePropertyMessage: プロパティを正常に削除しました
-  SavePropertyErrorMessage: プロパティ '${property}' は、セキュリティシステムから既にインポートされています
+  SavePropertyErrorMessage: プロパティ '${property}' はセキュリティシステムから既にインポートされています
   SavePropertyMessage: プロパティを正常に更新しました
 migrate:
   BackupSystemDatabaseRemindMessage: 移行を開始する前に、システムデータベースと Axon Ivy Engine のインストールディレクトリ全体がバックアップされていることを確認してください。
@@ -912,8 +912,8 @@ notificationChannelDetail:
 permissions:
   AllPermissions: すべての権限
   Grant: 付与
-  PermissionDenied: 権限は却下されました
-  PermissionGranted: 権限は付与されました
+  PermissionDenied: 権限が却下されました
+  PermissionGranted: 権限が付与されました
   Permissions: 権限
   SomePermissionDenied: 一部の権限が却下されました
   SomePermissionGranted: 一部の権限が付与されました
@@ -1092,18 +1092,18 @@ securitySystemMerge:
   ExecuteAllCreateOperationsConfirmDialogContent: ターゲットセキュリティシステムで不足しているすべてのエントリを作成します
   ExecuteAllDeleteOperationsButtonTitle: ターゲットセキュリティシステムですべての DELETE 操作を実行します
   ExecuteAllDeleteOperationsConfirmDialogContent: ソースセキュリティシステムで不足しているすべてのエントリを、ターゲットセキュリティシステムから削除します
-  ExecuteAllUpdateOperationsButtonTitle: ターゲットセキュリティシステムですべての UPDATE 操作を実行します
+  ExecuteAllUpdateOperationsButtonTitle: ターゲットセキュリティシステムですべての更新操作を実行します
   ExecuteAllUpdateOperationsConfirmDialogContent: ソースセキュリティシステムと異なるすべてのエントリを、ターゲットセキュリティシステムで更新します
   UpdateSolveHintMessage: ターゲットセキュリティシステム ${securitySystem} でエントリを更新します
   ExceutionFailed: 実行できませんでした
   ExecuteAllCreateOperationsButton: すべての CREATE 操作を実行する
   ExecuteAllCreateOperationsConfirmDialogHeader: すべての CREATE 操作を実行する
   ExecuteAllDeleteOperationsButton: すべての DELETE 操作を実行する
-  ExecuteAllDeleteOperationsConfirmDialogHeader: すべての DELETE 操作を実行する
-  ExecuteAllUpdateOperationsButton: すべての UPDATE 操作を実行する
-  ExecuteAllUpdateOperationsConfirmDialogHeader: すべての UPDATE 操作を実行する
+  ExecuteAllDeleteOperationsConfirmDialogHeader: すべての削除操作を実行する
+  ExecuteAllUpdateOperationsButton: すべての更新操作を実行する
+  ExecuteAllUpdateOperationsConfirmDialogHeader: すべての更新操作を実行する
   IssueTargetHeader: ターゲット
-  IssueWhatHeader: What
+  IssueWhatHeader: 内容
   MergeSecuritySystems: セキュリティシステムをマージ
   Security: セキュリティ
   SourceSecuritySystem: ソースセキュリティシステム
@@ -1381,7 +1381,7 @@ userDetailSubstitutes:
   Personal: 個人
   Substitutes: 代替
   Type: タイプ
-  For: For
+  For: 対象
   OnAbsence: 不在時
   Permanent: 永久
 users:
@@ -1419,7 +1419,7 @@ webServices:
 weekConfiguration:
   DefinedWorkingTime: 定義された作業時間
   FreeDay: 空き
-  FromTo: From to
+  FromTo: 期間
   WeekConfiguration: 週の設定
   WorkingDay: 作業
   WorkingTime: 作業時間
