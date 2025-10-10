@@ -153,7 +153,7 @@ class WebTestConfiguration {
     void editConfig_booleanFormat() {
       var config = "EMail.Server.SSL.UseKey";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "false", "");
+      assertThatConfigEditModalIsVisible(config, "false", "Specifies whetere a client certificate should be used for authentication");
     }
 
     @Test
