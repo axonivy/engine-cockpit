@@ -310,7 +310,7 @@ public class SystemDatabaseBean extends StepStatus {
   }
 
   public boolean isPersistentDb() {
-    return (driver == null || driver.getDriverName().contains(HSQL_DB));
+    return !(driver == null || driver.getDriverName().contains(HSQL_DB));
   }
 
   @Override
