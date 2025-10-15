@@ -923,7 +923,7 @@ restServices:
   RESTServices: REST Services
   ConfigureRestBackendButtonTitle: Rest Backend konfigurieren
 roleDetail:
-  DirectOpenTasks: Direkte offene Aufgaben
+  DirectOpenTasks: Direkte offene Tasks
   InheritUsers: Geerbte Benutzer
   RunningTasks: Aufgaben in Bearbeitung
 roleDetailInformation:
