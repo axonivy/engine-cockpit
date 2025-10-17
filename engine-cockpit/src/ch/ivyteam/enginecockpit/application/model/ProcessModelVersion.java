@@ -4,11 +4,10 @@ import java.util.List;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
-import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.restricted.IProcessModelVersionInternal;
 import ch.ivyteam.ivy.environment.Ivy;
-import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
 public class ProcessModelVersion extends AbstractActivity {
@@ -24,7 +23,7 @@ public class ProcessModelVersion extends AbstractActivity {
 
   public ProcessModelVersion(IProcessModelVersion pmv, ApplicationBean bean) {
     super(pmv.getVersionName(), pmv.getId(), pmv, bean);
-    lib = new Library(pmv.getLibrary());
+    lib = new Library();
     lastChangeDate = DateUtil.formatDate(pmv.getLastChangeDate());
     this.pmv = (IProcessModelVersionInternal) pmv;
     updateStats();
@@ -141,16 +140,16 @@ public class ProcessModelVersion extends AbstractActivity {
   }
 
   private static class Library {
-    private String id = "Unknown id";
-    private String version = "Unknown version";
-    private boolean resolved = false;
+    private final String id = "Unknown id";
+    private final String version = "Unknown version";
+    private final boolean resolved = false;
 
-    private Library(ILibrary lib) {
-      if (lib != null) {
-        id = lib.getId();
-        version = lib.getQualifiedVersion().getRawVersion();
-        resolved = lib.isResolved();
-      }
+    private Library() {
+      // if (lib != null) {
+      // id = lib.getId();
+      // version = lib.getQualifiedVersion().getRawVersion();
+      // resolved = lib.isResolved();
+      // }
     }
   }
 }

@@ -5,7 +5,6 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -21,8 +20,6 @@ import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.ILibrary;
-import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.workflow.StandardProcessType;
@@ -152,14 +149,14 @@ public class ApplicationDetailBean {
   private static List<String> librariesOf(IApplication app) {
     List<String> libs = new LinkedList<>();
     libs.add("");
-    var available = app.getProcessModels().stream()
-        .flatMap(pm -> pm.getProcessModelVersions().stream())
-        .map(IProcessModelVersion::getLibrary)
-        .filter(Objects::nonNull)
-        .map(ILibrary::getId)
-        .distinct()
-        .collect(Collectors.toList());
-    libs.addAll(available);
+    // var available = app.getProcessModels().stream()
+    // .flatMap(pm -> pm.getProcessModelVersions().stream())
+    // .map(IProcessModelVersion::getLibrary)
+    // .filter(Objects::nonNull)
+    // .map(ILibrary::getId)
+    // .distinct()
+    // .collect(Collectors.toList());
+    // libs.addAll(available);
     return libs;
   }
 }

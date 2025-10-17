@@ -1,12 +1,9 @@
 package ch.ivyteam.enginecockpit.application.model;
 
 import java.util.List;
-import java.util.Objects;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
-import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModel;
-import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
@@ -92,14 +89,15 @@ public class ProcessModel extends AbstractActivity {
   public boolean isOverrideProject() {
     if (isOverrideProject == null) {
       var overrideProject = ((IApplicationInternal) pm.getApplication()).getConfiguration().getOrDefault("OverrideProject");
-      var projectId = pm.getProcessModelVersions().stream()
-          .map(IProcessModelVersion::getLibrary)
-          .filter(Objects::nonNull)
-          .map(ILibrary::getId)
-          .distinct()
-          .findFirst()
-          .orElse(null);
-      isOverrideProject = projectId != null && projectId.equals(overrideProject);
+      // var projectId = pm.getProcessModelVersions().stream()
+      // .map(IProcessModelVersion::getLibrary)
+      // .filter(Objects::nonNull)
+      // .map(ILibrary::getId)
+      // .distinct()
+      // .findFirst()
+      // .orElse(null);
+      // var projectId = null;
+      isOverrideProject = null;// projectId != null && projectId.equals(overrideProject);
     }
     return isOverrideProject;
   }

@@ -12,8 +12,8 @@ import ch.ivyteam.enginecockpit.application.model.LibSpecification;
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
-import ch.ivyteam.ivy.application.restricted.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.ProcessModelVersionRelation;
+import ch.ivyteam.ivy.application.restricted.IApplicationConfigurationManager;
 
 @ManagedBean
 @ViewScoped
@@ -89,14 +89,14 @@ public class PmvDetailBean {
     requriedPmvs = iPmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.REQUIRED).stream()
         .map(ProcessModelVersion::new)
         .collect(Collectors.toList());
-    var library = iPmv.getLibrary();
-    if (library == null) {
-      return;
-    }
-    deployedProject = library.getId();
-    requiredSpecifications = library.getRequiredLibrarySpecifications().stream()
-        .map(LibSpecification::new)
-        .collect(Collectors.toList());
+    // var library = iPmv.getLibrary();
+    // if (library == null) {
+    // return;
+    // }
+    // deployedProject = library.getId();
+    // requiredSpecifications = library.getRequiredLibrarySpecifications().stream()
+    // .map(LibSpecification::new)
+    // .collect(Collectors.toList());
   }
 
   public ProcessModelVersion getPmv() {
