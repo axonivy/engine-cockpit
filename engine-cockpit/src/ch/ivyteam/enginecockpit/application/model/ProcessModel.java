@@ -88,7 +88,7 @@ public class ProcessModel extends AbstractActivity {
   @SuppressWarnings("restriction")
   public boolean isOverrideProject() {
     if (isOverrideProject == null) {
-      var overrideProject = ((IApplicationInternal) pm.getApplication()).getConfiguration().getOrDefault("OverrideProject");
+      ((IApplicationInternal) pm.getApplication()).getConfiguration().getOrDefault("OverrideProject");
       // var projectId = pm.getProcessModelVersions().stream()
       // .map(IProcessModelVersion::getLibrary)
       // .filter(Objects::nonNull)
@@ -97,7 +97,7 @@ public class ProcessModel extends AbstractActivity {
       // .findFirst()
       // .orElse(null);
       // var projectId = null;
-      isOverrideProject = null;// projectId != null && projectId.equals(overrideProject);
+      isOverrideProject = false;// projectId != null && projectId.equals(overrideProject);
     }
     return isOverrideProject;
   }
