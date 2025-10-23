@@ -1,62 +1,111 @@
 administrators:
-  AdminAddedMessage: "'${name}' hinzugefügt"
-  AdminDeletedMessage: "'${name}' gelöscht"
-  AdminUpdatedMessage: "'${name}' aktualisiert"
+  AdminAddedMessage: '''${name}'' hinzugefügt'
+  AdminDeletedMessage: '''${name}'' gelöscht'
+  AdminUpdatedMessage: '''${name}'' aktualisiert'
   ConfirmPassword: Passwort bestätigen
   CreateAdministratorDialogHeader: Administrator erstellen
   DeleteAdminDialogHeader: Lösche ${name}
   DeleteAdminDialogMessage: Sind Sie sicher, dass Sie den Administrator '${name}' löschen wollen?
   EditAdminDialogHeader: Administrator hinzufügen / bearbeiten
   UpdateAdministratorDialogHeader: Administrator aktualisieren
+admins:
+  AddAdministrator: Administrator hinzufügen
+  DefineAtLeastOneAdministratorMessage: Sie müssen mindestens ein Administrator definieren!
+applicationDetail:
+  ProcessModels: Prozess Modelle
+applications:
+  AppPmPmvHeader: App / PM / PMV
+  ApplicationConvertToLatestVersionMessage: Alle Axon Ivy Projekte im Zustand RELEASED und DEPRECATED werden in die neuste Version konvertiert.
+  ApplicationWarningMessageForNoReleasedPmv: Mindestens ein Prozess Modell hat keine freigegebene Prozess Modell Version
+  Convert: Konvertieren
+  ConvertButtonTitle: Konvertiert das Project in die neuste Version
+  DeactivateButtonTitle: Deaktivieren
+  DeleteHintMessage: Sind Sie sicher, dass Sie dieses ${activityType} löschen wollen?
+  DeleteRunningCasesHintMessage: Die ${activityType} hat ${runningCases} laufende Fälle. Diese werden auch gelöscht.
+  DeploymentButtonTitle: Verteilung
+  DisableErrorMessage: Der Zustand der Application ${application} kann nicht evaluiert werden
+  ExecutionErrorMessageSummary: Kann Modul nicht ${action}
+  ExecutionSuccessMessageSummary: Modul erfolgreich ${action}
+  ForceDeleteButtonTitle: Löschen erzwingen
+  LastChangeDate: 'Letztes Änderungsdatum:'
+  LibraryVersion: 'Bibliotheksversion:'
+  PmvConvertToLatestVersionMessage: Das Axon Ivy Projekt wird in die neueste Version konvertiert.
+  ReleaseButtonTitle: Freigabe
+  RunningCasesHeader: Laufende Fälle
+  WarningMessageForNoReleasedPmv: Keine freigegebene Prozess Model Version
+applicationTabs:
+  CreateApplication: ­Applikation hinzufügen
+  NoConfiguredApplication: Sie haben keine Applikationen konfiguriert.
+axonivy:
+  AxonIvyAG: Axon Ivy AG
+  Build: Gebaut am
+  Copyright: Copyright
+  InstallationDirectory: Installationsverzeichnis
+bean:
+  Bean: Bean
+  Class: Klasse
+  LastInitializationError: Letzter Initialisierungsfehler
+  LastStart: Letzter Start
+  LastStartError: Letzter Startfehler
+  LastStopError: Letzter Stopfehler
+  RequestPath: Anfragepfad
+  StartsBean: Startet das Bean
+  StopsBean: Stoppt das Bean
+branding:
+  ChooseOrDropFileWhichEndsWith: 'Wähle oder ziehe eine Datei mit folgender Dateiendung:'
+  DefaultValue: 'Standardwert: '
+  DownloadBrandingResourcesDialogHeader: Lade die Brandingresource von '${application}' herunter
+  DownloadBrandingResourcesError: Keine Brandingresourcen für die app '${appName}' gefunden
+  EditColorDialogHeader: Farbe bearbeiten
+  EditCustomCSSDialogHeader: Berarbeite ${customCssFile}
+  FaviconHelperMessage: Das Logo für die Browser-Registerkarte (Quatratisches Format empfohlen)
+  LogoHelperMessage: Das Haupt-Logo Bild
+  LogoLightHelperMessage: Das gleiche wie das Haupt-Logo, aber zum Beispiel mit einer weissen Schrift
+  LogoMailHelperMessage: Das Logo das standardmässig für Axon Ivy Engine Email-Notifikationen verwendet wird
+  LogoSmallHelperMessage: Kleines Logo (quadratisches Format empfohlen), wird für Fehler und Anmeldemasken verwendet
+  ResetBrandingResourceConfirmMessage: Sind Sie sicher, dass Sie die Branding Ressource '${resource}' zurücksetzen wollen?
+  ResetBrandingResourceDialogHeader: Branding Ressource zurücksetzen
+  ResetCSSColorConfirmMessage: Sind Sie sicher, dass Sie die CSS Farbe '${cssColor}' zurücksetzen wollen?
+  ResetColorDialogHeader: Farbe zurücksetzen
+  ResetResourceSuccessfulMessage: '''${resource}'' erfolgreich zurückgesetzt'
+  ResetResourceUnsuccessfulMessage: Konnte '${resource}' nicht zurücksetzen
+  UnknownColor: Unbekannte Farbe
+  UpdateColorSuccessfulMessage: Farbe '${color}' erfolgreich aktualisiert
+  UpdateColorUnsuccessfulMessage: Konnte '${color}' nicht aktualisieren
+  UpdateCustomCSSSuccessfulMessage: '''${customCssFile}'' erfolgreich gespeichert'
+  UpdateCustomCSSUnsuccessfulMessage: Konnte '${customCssFile}' nicht speichern
+  UploadFileSuccessfulMessage: ${resource} erfolgreich hochgeladen
+  UploadResourceDialogHeader: Ressource hochladen nach '${application}'
+  Value: 'Wert: '
+breadcrumbInfos:
+  SelectedApplication: Selektierte Applikation
+  SelectedSecuritySystem: Selektiertes Sicherheitssystem
+businessCalendarDetail:
+  EditAppYamlFile: Bearbeite app yaml Datei
+channelState:
+  ErrorInformation: Fehler Information
+  FailedDeliverAttempsSoFar: 'Fehlgeschlagene Lieferungen bis jetzt:'
+  LastError: 'Letzter Fehler:'
+  NextRetryToDeliver: 'Nächster Auslieferungsversuch:'
+cluster:
+  ClusterNodeState: Knoten ist nicht lizenziert. Er wird immer mit dem Fehlercode 503 Service Unavailable antworten.
+  Context: Kontext
+  Node: Knoten
+  Nodes: Knoten
+  Sessions: Sitzungen
+clusterNodeInfo:
+  AxonIvyVersion: Axon Ivy Version
+  ClusterNodeDetail: Klusterknoten Detail
+  IPAddress: IP-Adresse
+  IPPort: IP-Port
+  IsLicensed: Ist lizensiert
+  JavaVersion: Java Version
+  JavaVirtualMachineName: Java Virtual Machine Name
+  JvmRoute: Jvm Route
+  OperatingSystemArchitecture: Betriebssystem Architektur
+  OperatingSystemName: Betriebssystem Name
+  OperatingSystemVersion: Betriebssystem Version
 common:
-  Modifier: Modifizierung
-  NoDataAvailable: Keine Daten verfügbar
-  ProcessName: Prozessname
-  Properties: Eigenschaften
-  RequiredMessage: Wert ist erforderlich
-  RestClients: Rest Clients
-  Role: Rolle
-  RunSearchEngineQuery: Search Engine Query ausführen
-  Save: Speichern
-  SaveAndCreate: Speichern und erstellen
-  SaveChanges: Änderungen speichern
-  SearchPlaceholder: Suche
-  Security: Sicherheit
-  SecuritySystem: Sicherheitssystem
-  SecuritySystems: Sicherheitssysteme
-  Setup: Einrichtung
-  ShowConfigurationLog: Konfigurationsprotokoll anzeigen
-  ShowMoreRoleLeftMessage: Mehr anzeigen (${role} links)
-  Size: Größe
-  Source: Quelle
-  Start: Start
-  SynchronizationLog: Synchronisierungsprotokoll
-  Synchronize: Synchronisieren
-  System: System
-  SystemConfiguration: Systemkonfiguration
-  SystemDatabase: Systemdatenbank
-  Tables: Tabellen
-  Template: Vorlage
-  Total: Insgesamt
-  Type: Typ
-  Update: Aktualisierung
-  Upload: Hochladen
-  Url: Url
-  User: Benutzer
-  Username: Benutzername
-  Users: Benutzer
-  Value: Wert
-  Variables: Variablen
-  Version: Version
-  Warning: Warnung
-  Warnings: Warnungen
-  Weak: Schwach
-  WebServer: Webserver
-  WebServiceClients: Web Service Clients
-  WebServiceProcesses: Web Service-Prozesse
-  Workflow: Arbeitsablauf
-  Write: Schreiben
-  'Yes': Ja
   Activate: Aktiviere
   Activity: Aktivität
   Add: Hinzufügen
@@ -160,6 +209,7 @@ common:
   Migration: Migration
   MimeType: Mime Type
   Modified: Geändert
+  Modifier: Modifizierung
   Module: Modul
   Monitor: Überwachung
   More: Mehr
@@ -168,6 +218,7 @@ common:
   Next: Nächstes
   'No': Nein
   NoData: Keine Daten
+  NoDataAvailable: Keine Daten verfügbar
   NoRecordsFound: Keine Daten gefunden.
   NoValue: Kein Wert
   None: Keiner
@@ -189,7 +240,9 @@ common:
   Process: Prozess
   ProcessModel: Prozess Modell
   ProcessModelVersion: Prozess Modell Version
+  ProcessName: Prozessname
   Product: Produkt
+  Properties: Eigenschaften
   Property: Eigenschaft
   Provider: Anbieter
   Read: Lesen
@@ -197,22 +250,39 @@ common:
   Receiver: Empfänger
   Refresh: Aktualisieren
   Remove: Entfernen
+  RequiredMessage: Wert ist erforderlich
   Reset: Zurücksetzen
+  RestClients: Rest Clients
   RestServices: Rest Services
   Restart: Neustart
+  Role: Rolle
   Roles: Rollen
   Run: Starten
+  RunSearchEngineQuery: Search Engine Query ausführen
   Running: Läuft
   RunningCases: Laufende Fälle
   SSL: SSL
+  Save: Speichern
+  SaveAndCreate: Speichern und erstellen
+  SaveChanges: Änderungen speichern
   Schedule: Ausführen
   Search: Suchen
   SearchEngine: Suchmaschine
+  SearchPlaceholder: Suche
+  Security: Sicherheit
+  SecuritySystem: Sicherheitssystem
+  SecuritySystems: Sicherheitssysteme
   Send: Senden
   Services: Dienste
   Sessions: Sitzungen
+  Setup: Einrichtung
   Severity: Schweregrad
+  ShowConfigurationLog: Konfigurationsprotokoll anzeigen
+  ShowMoreRoleLeftMessage: Mehr anzeigen (${role} links)
+  Size: Größe
+  Source: Quelle
   StackTrace: Stack Trace
+  Start: Start
   StartEvents: Start Events
   StartTime: Startzeit
   StartTimestamp: Start Zeitstempel
@@ -222,69 +292,98 @@ common:
   StopTimestamp: Stop Zeitstempel
   Strong: Stark
   Success: Erfolg
+  SynchronizationLog: Synchronisierungsprotokoll
+  Synchronize: Synchronisieren
+  System: System
+  SystemConfiguration: Systemkonfiguration
+  SystemDatabase: Systemdatenbank
   TableName: Tabellenname
+  Tables: Tabellen
+  Template: Vorlage
   Threads: Threads
   Time: Zeit
   Timestamp: Zeitstempel
+  Total: Insgesamt
+  Type: Typ
+  Update: Aktualisierung
+  Upload: Hochladen
+  Url: Url
+  User: Benutzer
+  Username: Benutzername
+  Users: Benutzer
+  Value: Wert
   Variable: Variable
+  Variables: Variablen
+  Version: Version
+  Warning: Warnung
+  Warnings: Warnungen
+  Weak: Schwach
+  WebServer: Webserver
+  WebServiceClients: Web Service Clients
+  WebServiceProcesses: Web Service-Prozesse
+  Workflow: Arbeitsablauf
+  Write: Schreiben
+  'Yes': Ja
 configuration:
-  ConfigReset: "'${config} zurücksetzen"
-  ConfigResetToDefault: "'${config}' zurücksetzen auf standard"
-  ConfigSaved: "'${config} gespeichert"
+  ApplicationConfiguration: Applikationskonfiguration
+  ConfigReset: '''${config} zurücksetzen'
+  ConfigResetToDefault: '''${config}'' zurücksetzen auf standard'
+  ConfigSaved: '''${config} gespeichert'
+  ConfigurationDialogDefaultTitle: Konfiguration
+  EditConfigurationInfoMessage: Wenn Sie diese Eigenschaft ändern, müssen Sie Ihre Engine neu starten
   Examples: Beispiele
   Filter: 'Filter:'
+  GoEditVariableValueLink: Bearbeiten Sie den Variablewert
+  ReloadApplicationConfiguration: Applikationskonfiguration neu laden
+  ReloadApplicationConfigurationMessage: Konfiguration der Applikation '${application}' wurde neu geladen
+  ResetConfigConfirmDialogMessage: Sind Sie sicher, dass Sie ${title} '${config}' zurücksetzen wollen?
   ShowDatabasesMessage: Datenbanken anzeigen
   ShowOnlyDefinedValuesMessage: Nur definierte Werte anzeigen
   ShowRestClientsMessage: Rest Clients anzeigen
   ShowVariablesMessage: Variablen anzeigen
   ShowWebServiceClientsMessage: Web Service Clients anzeigen
   ViewFile: Datei anzeigen
-  ApplicationConfiguration: Applikationskonfiguration
-  ConfigurationDialogDefaultTitle: Konfiguration
-  EditConfigurationInfoMessage: Wenn Sie diese Eigenschaft ändern, müssen Sie Ihre Engine neu starten
-  GoEditVariableValueLink: Bearbeiten Sie den Variablewert
-  ReloadApplicationConfiguration: Applikationskonfiguration neu laden
-  ReloadApplicationConfigurationMessage: Konfiguration der Applikation '${application}' wurde neu geladen
-  ResetConfigConfirmDialogMessage: Sind Sie sicher, dass Sie ${title} '${config}' zurücksetzen wollen?
 connectionTestResult:
+  ConnectToDatabaseFailMessage: 'Ein Fehler ist aufgetreten: %s'
   ConnectToDatabaseSuccessMessage: 'Erfolgreich mit Datenbank verbunden: %s (%s) mit JDBC Version %s'
   ConnectToRestServiceFailMessage: Kann nicht mit REST-Service verbinden
-  ConnectionTestDialogHintMessage: Stellen Sie sicher, dass Sie Ihre Änderungen gespeichert haben, bevor Sie die Verbindung testen.
-  ConnectionTestRestClientNotUnderstandRequestMessage: REST Service versteht die Testanfrage nicht
-  TLSTestButton: TLS Prüfung
-  TLSTestButtonTitle: TLS Verbindungstest
-  ConnectToDatabaseFailMessage: 'Ein Fehler ist aufgetreten: %s'
   ConnectToRestServiceSuccessMessage: Testanfrage an REST service erfolgreich gesendet
   ConnectionTestDialogHeader: 'Verbindungstest - Url:'
+  ConnectionTestDialogHintMessage: Stellen Sie sicher, dass Sie Ihre Änderungen gespeichert haben, bevor Sie die Verbindung testen.
   ConnectionTestRestClientAuthenticationMessage: Authentifizierung war nicht erfolgreich
+  ConnectionTestRestClientNotUnderstandRequestMessage: REST Service versteht die Testanfrage nicht
   InvalidRestClientUrlMessage: "Keine gültige Url (enthält vielleicht einen Skriptkontext)\nEs ist ein Fehler aufgetreten: "
+  TLSTestButton: TLS Prüfung
+  TLSTestButtonTitle: TLS Verbindungstest
   TestConnection: Verbindungstest
 databaseConfiguration:
   DatabaseConfigurations: Datenbankkonfigurationen
   MaxConnections: Max Verbindungen
   ResetConfiguration: Konfiguration zurücksetzen
   ResetDatabaseConfigurationMessage: Datenbank-Konfiguration zurücksetzen
+  ResetDatabaseConfirmDialogHeader: Datenbank zurücksetzten
   ResetDatabaseConfirmDialogMessage: Sind Sie sicher, dass Sie diese Datenbank zurücksetzen möchten?
   SaveDatabaseConfigurationMessage: Datenbankkonfiguration gespeichert
-  ResetDatabaseConfirmDialogHeader: Datenbank zurücksetzten
   TestDatabaseConnection: Datenbankverbindung testen
 databaseConnections:
   InUse: Im Einsatz
   LastUsed: Letzmals im Einsatz
 databaseDetail:
+  GuideText: Um Ihre Datenbank zu bearbeiten, überschreiben Sie Ihre app.yaml Datei. Sie können zum Beispiel den Ausschnitt unten kopieren und einfügen.
   NotFoundDatabase: Datenbank '${database} nicht gefunden
   Title: Datenbank '${database} '
-  GuideText: Um Ihre Datenbank zu bearbeiten, überschreiben Sie Ihre app.yaml Datei. Sie können zum Beispiel den Ausschnitt unten kopieren und einfügen.
 databaseHistory:
   CopyToClipboardButtonTitle: Kopieren in der Zwischenablage
   ProcessElementHeader: Prozesselement
-  ResultTimeValueTitle: Die Zeit, die benötigt wird, um die Ergebnisse der Abfrage zu lesen
   ResultTimeHeader: Lesezeit
+  ResultTimeValueTitle: Die Zeit, die benötigt wird, um die Ergebnisse der Abfrage zu lesen
   RowsAffectedHeader: Betroffende Zeilen
   SQLHeader: SQL
+databases:
+  NoDatabasesFound: Keine Datenbank gefunden
 deletionWarning:
-  SecondDeletionWarningMessage: Sie können Fälle und Daten verlieren. Vorsichtig.
   FirstDeletionWarningMessage: Löschen ist gefährlich und kann Ihre Engine in einem schlechten Zustand bringen.
+  SecondDeletionWarningMessage: Sie können Fälle und Daten verlieren. Vorsichtig.
 deployment:
   DeployTestUsers: Test-Benutzer bereitstellen
   DeployToApp: App bereitstellen
@@ -299,8 +398,8 @@ deployment:
       detail: 'Beim Hochladen der Datei ist ein Fehler aufgetreten: '
       title: Upload Fehler
 directoryBrowser:
-  NodePropertiesEmptyMessage: Wählen Sie einen Knoten aus, um seine Attribute zu sehen
   DirectoryBrowserDialogHeader: Verzeichnis Browser
+  NodePropertiesEmptyMessage: Wählen Sie einen Knoten aus, um seine Attribute zu sehen
 dynamicConfig:
   ConnectionTestUrlDialogHeader: 'Verbindungstest - Url:'
   TLSConnectionTestButton: TLS Verbindungstest
@@ -311,21 +410,21 @@ editor:
   ReadOnlyFileWarningMessage: Diese Datei ist nur lesbar!
   ReadOnlyOriginalFileWarningMessage: Die ursprüngliche Datei ${path} ist schreibgeschützt. Die Datei wurde während des Starts in ein schreibbares Verzeichnis kopiert. Änderungen müssen manuell in der Originaldatei angewendet werden, so dass die Änderungen einen Neustart überleben.
   UploadFileErrorDetailMessage: Die Datei '${file}' konnte wegen einer falschen Dateiendung nicht hochgeladen werden.
+  UploadFileErrorSummaryMessage: Ungültige Erweiterung
   UploadFileSuccessDetailMessage: Die Datei wurde '${file}' erfolgreich hochgeladen und als ${activeFile} gespeichert.
   UploadFileSuccessSummaryMessage: Datei hochgeladen
   UploadP12: Hochladen .p12
-  UploadFileErrorSummaryMessage: Ungültige Erweiterung
 email:
   ConfigureEmailServer: E-Mail Server konfigurieren
+  MailAddress: E-Mail Adresse
   SendTestMail: Test Mail senden
   Server: Server
-  MailAddress: E-Mail Adresse
 emailSettings:
   DailySummaryOn: Tägliche Zusammenfassung um
-  NewTask: Neue Aufgabe
   Fri: Fr
   Mon: Mo
   Never: Niemals
+  NewTask: Neue Aufgabe
   NotificationSend: Benachrichtigung senden
   Sat: Sa
   Sun: So
@@ -334,33 +433,35 @@ emailSettings:
   Wed: Mi
 error:
   ShowFullError: Vollständiger Fehler anzeigen
+evenBeanThreads:
+  Id: Id
 exception:
-  ViewExpiredExceptionDialogContent: Die Ansicht oder Sitzung ist abgelaufen.
   AjaxExceptionDialogHeader: Fehler
+  ViewExpiredExceptionDialogContent: Die Ansicht oder Sitzung ist abgelaufen.
   ViewExpiredExceptionDialogHeader: Ansicht oder Sitzung abgelaufen
 exceptionDetail:
   Element: 'Element:'
+  Process: 'Prozess:'
+  ProcessCallStack: Prozess Aufruf Stack
   RequestUri: Anfrage Uri
   Servlet: Servlet
   StackTrace: Stack-Trace
   TechnicalCause: Technische Ursache
-  UnexpectedErrorOccured: 'Es hat sich ein unerwarteter Fehler ergeben:'
-  Process: 'Prozess:'
-  ProcessCallStack: Prozess Aufruf Stack
   ThreadLocalValues: Thread Lokale Werte
   ThrownBy: Geworfen von
+  UnexpectedErrorOccured: 'Es hat sich ein unerwarteter Fehler ergeben:'
 fileUpload:
   AcceptFilesPlaceholder: 'Wählen oder ziehen Sie eine Datei, die endet mit: '
+  ChooseFileButton: Datei auswählen
   ChooseValidFileBeforeUpload: Wählen Sie eine gültige Datei vor dem Upload
   FileUploadDialogDefaultTitle: Datei hochladen
-  ChooseFileButton: Datei auswählen
 firings:
   Duration: Dauer
   ExecutionDuration: Ausführungsdauer
   ExecutionDurationTooltip: min / mw / max
+  Executions: Ausführungen
   Reason: Begründung
   Timestamp: Zeitstempel
-  Executions: Ausführungen
 freeDays:
   FreeDateTooltip: Freier Tag zum Festdatum
   FreeDayOfYearTooltip: Freier Tag (MM-dd) jedes Jahr
@@ -373,25 +474,26 @@ health:
   ProblemsDetectedMessage: ${number} Probleme erkannt.
   RunHealthChecks: Gesundheitschecks ausführen
 indexes:
-  Unique: Einzigartig
   Cardinality: Kardinalität
   Columns: Spalten
   Indexes: Indizes
   Pages: Seiten
+  Unique: Einzigartig
 indices:
   ClosedIndexHint: Es scheint, als wäre Ihr Festplatten Speicherplatz aufgebraucht. Bitte überprüfen Sie Ihre die Wasserzeichen-Einstellungen ihrer Search Engine.
+  Index: Index
+  Indices: Indizes
   OpenIndexHint: Alles ist okay, der Index ist offen.
   Reindex: Reindex
   ReindexDialogInfo: Dieser Schritt löst die Reindexierung der Suchmaschine aus und kann eine Weile dauern!
   Size: Größe
   Status: Status
   StatusInfo: 'Status:'
-  Index: Index
-  Indices: Indizes
   Store: Speicher
 info:
   DemoPortal: Demo Portal
-  DemoPortalIntroduction: Das Demo-Portal bietet den perfekten Einstiegspunkt, um die leistungsstarken Features der Axon Ivy Plattform als Workflow-Engine zu erkunden und zu erleben. Es ermöglicht Anwendern zu entdecken, wie einfach komplexe Geschäftsprozesse automatisiert, rationalisiert und optimiert werden können. Egal, ob Sie Aufgaben verwalten, Systeme integrieren oder Workflows abteilungsübergreifend orchestrieren möchten, die Plattform bietet intuitive Tools und eine flexible Umgebung, um Ihren Geschäftsanforderungen gerecht zu werden.
+  DemoPortalIntroduction: Das Demo-Portal bietet den perfekten Einstiegspunkt, um die leistungsstarken Features der Axon Ivy Plattform als Workflow-Engine zu erkunden und zu erleben. Es ermöglicht Anwendern zu entdecken, wie einfach komplexe Geschäftsprozesse automatisiert, rationalisiert und optimiert
+    werden können. Egal, ob Sie Aufgaben verwalten, Systeme integrieren oder Workflows abteilungsübergreifend orchestrieren möchten, die Plattform bietet intuitive Tools und eine flexible Umgebung, um Ihren Geschäftsanforderungen gerecht zu werden.
   EngineMaintenanceReasonFirstPart: Daher ist die Axon Ivy Engine derzeit im Wartungsmodus. Wenn Ihr Setup zum Beispiel kaputt ist, weil die Axon Ivy Engine sich nicht mit der Systemdatenbank verbinden kann oder die Lizenz abgelaufen ist, dann gehen
   EngineMaintenanceReasonSecondPart: um es zu reparieren. Wenn Sie die Axon Ivy Engine auf eine neuere Version aktualisiert haben, ist es wichtig, die
   EngineMaintenanceReasonThirdPart: um sicherzustellen, dass die bestehende Instanz voll funktionsfähig ist. Dieser Prozess ist entscheidend für die Aufrechterhaltung der Funktionalität und Integrität des Systems.
@@ -399,18 +501,19 @@ info:
   MaintenanceMode: Wartungsmodus
   MigrationWizard: Migrationsassistent
   NEODesigner: NEO Designer
-  NEODesignerIntroduction: NEO Designer ist eine Low-Code-Plattform, welche die Anwendungsentwicklung mit visuellen Werkzeugen und vorgefertigten Komponenten beschleunigt und eine nahtlose Zusammenarbeit zwischen Geschäftsnutzern und Entwicklern ermöglicht. Diese Plattform vereinfacht die Automatisierung von Geschäftsaufgaben, optimiert den Entwicklungsprozess und reduziert die Komplexität. Um die Effizienz zu steigern, unterstützt NEO Designer den schnellen Einsatz skalierbarer Anwendungen, die auf die konkreten Geschäftsanforderungen abgestimmt sind.
+  NEODesignerIntroduction: NEO Designer ist eine Low-Code-Plattform, welche die Anwendungsentwicklung mit visuellen Werkzeugen und vorgefertigten Komponenten beschleunigt und eine nahtlose Zusammenarbeit zwischen Geschäftsnutzern und Entwicklern ermöglicht. Diese Plattform vereinfacht die Automatisierung
+    von Geschäftsaufgaben, optimiert den Entwicklungsprozess und reduziert die Komplexität. Um die Effizienz zu steigern, unterstützt NEO Designer den schnellen Einsatz skalierbarer Anwendungen, die auf die konkreten Geschäftsanforderungen abgestimmt sind.
   NoActiveProjects: Diese Applikation hat keine aktiven Projekte.
+  NoApplications: Keine Applikationen
   Open: Öffnen
+  SetupWizard: Einrichtungsassistent
   ShutdownEngineConfirmationMessage: Wollen Sie wirklich die Axon Ivy Engine abschalten?
   ShutdownEngineMessage: Die Axon Ivy Engine wird abgeschaltet. Sie können das Fenster schließen.
-  NoApplications: Keine Applikationen
-  SetupWizard: Einrichtungsassistent
 information:
-  WorkflowUI: Workflow UI
   ApplicationHome: Hauptseite der Applikation
   ApplicationInformation: Applikation Information
   FileDirectory: Datei Verzeichnis
+  WorkflowUI: Workflow UI
 infoTemplate:
   Documentation: Dokumentation
   InstallAxonIvyEngine: Axon Ivy Engine installieren
@@ -419,10 +522,10 @@ infoTemplate:
   Shutdown: Runterfahren
   ShutdownAxonIvyEngine: Axon Ivy Engine runterfahren
 java:
-  Version: Version
   Java: Java
   JavaDetails: Java Details
   Vendor: Anbieter
+  Version: Version
 javaInfo:
   JVMArgumentTableHeader: JVM Argument
   JavaDetailDialogHeader: Java Detail
@@ -431,46 +534,41 @@ jdbcDriver:
 licence:
   ChooseLicence: Lizenz wählen
   ChooseLicencePlaceholder: Wählen oder ziehen Sie eine Datei, die mit .lic endet
+  ClusterNodes: Klusterknoten
   ConcurrentSessions: Gleichzeitige Sitzungen
   ConfigureLicence: Lizenz konfigurieren
   EngineRunsInDemoMode: Keine Lizenz installiert. Ihre Engine läuft im Demo-Modus.
   EngineRunsInMaintenanceMode: Ihre Engine läuft im Wartungsmodus.
   ExpiredLicenceMessage: Ihre Lizenz ist abgelaufen.
   ExpiredLicenceTouchYourSalesMessage: Ihre Lizenz läuft ab. Bitte wenden Sie sich an Ihren Vertrieb.
-  InvalidLicenceMessage: Ungültige Lizenz installiert.
-  LicenceType: Lizenztyp
-  Owner: Eigentümer
-  SuccessfullyUploadedMessage: Lizenz erfolgreich hochgeladen
-  UploadValidLicence: Bitte laden Sie eine gültige Lizenz hoch.
-  ClusterNodes: Klusterknoten
   Expires: Ablaufdatum
+  InvalidLicenceMessage: Ungültige Lizenz installiert.
   LicenceEvents: Lizenzereignisse
+  LicenceType: Lizenztyp
   NamedUsers: Anzahl Benutzer
   Never: Niemals
+  Owner: Eigentümer
+  SuccessfullyUploadedMessage: Lizenz erfolgreich hochgeladen
   Unlimited: Unlimitiert
   UploadLicence: Lizenz hochladen
+  UploadValidLicence: Bitte laden Sie eine gültige Lizenz hoch.
 licenceEvents:
   ConfirmAll: Alle bestätigen
   LicenceEventsDialogHeader: Lizenzereignisse
 liveStats:
-  Bytes: Bytes
-  DatabaseConnections: Datenbankverbindungen
-  DatabaseQueries: Datenbankabfragen
-  DatabaseQueryExecutionTime: Datenbank Abfrage Ausführungszeit
-  ExecutionTimeYAxisLabel: Ausführungszeit
-  JobExecutionTime: Job Ausführungszeit
-  Queries: Abfragen
-  TotalErrors: Fehler insgesamt
-  TotalPushes: Total Auslieferungen
-  Transactions: Transaktionen
-  Used: Im Gebrauch
   Avg: MW
+  Bytes: Bytes
   Calls: Aufrufe
   ChannelDeliveries: Kanalauslieferungen
   ChannelLocks: Kanalsperren
   ChannelPushesTime: Kanal Auslieferungszeit
+  DatabaseConnections: Datenbankverbindungen
+  DatabaseQueries: Datenbankabfragen
+  DatabaseQueryExecutionTime: Datenbank Abfrage Ausführungszeit
   Deliveries: Auslieferungen
   Executed: Ausgeführt
+  ExecutionTimeYAxisLabel: Ausführungszeit
+  JobExecutionTime: Job Ausführungszeit
   JobsExecuted: Ausgeführte Jobs
   Locks: Sperren
   Max: Max
@@ -478,6 +576,7 @@ liveStats:
   Open: Offen
   ProcessingTime: Verarbeitungszeit
   Pushes: Auslieferungen
+  Queries: Abfragen
   ReceiveProcessingTimeMonitor: Empfangsausführungszeit
   Received: Empfangen
   ReceivedMessagesMonitor: Empfangene Meldungen
@@ -489,35 +588,52 @@ liveStats:
   Sent: Gesendet
   SentMessagesMonitor: Gesendete Nachrichten
   TotalDeliveres: Auslieferungen insgesamt
+  TotalErrors: Fehler insgesamt
+  TotalPushes: Total Auslieferungen
+  Transactions: Transaktionen
+  Used: Im Gebrauch
   WebServiceCalls: Web Service Aufrufe
   WebServiceExecutionTime: Web Service Ausführungszeit
 login:
-  NoAdministratorsConfigured: Keine Administratoren konfiguriert, überprüfen Sie die Dokumentation.
-  SignInButton: Anmelden
-  UserNamePlaceholder: Benutzername / E-Mail
   EngineCockpitLoginTitle: Engine Cockpit - Anmeldung
   IvyYamlFile: ivy.yaml
   LogInWith: Anmelden mit
   LoginFooterCopyright: Copyright Ⓒ Axon Ivy
   LoginFooterEngineCockpit: Engine Cockpit
+  NoAdministratorsConfigured: Keine Administratoren konfiguriert, überprüfen Sie die Dokumentation.
   PasswordPlaceholder: Passwort
+  SignInButton: Anmelden
+  UserNamePlaceholder: Benutzername / E-Mail
+logs:
+  CouldNotZipLogsMessage: Konnte Log Dateien nicht komprimieren
+  DownloadAllLogFiles: Lade alle Log Dateien herunter
+  DownloadLog: Log runterladen
+  NoLogMessage: 'Keine Log Dateien gefunden für dieses Datum:'
+  OpenLog: Öffne Log
 memberProperties:
-  SavePropertyErrorMessage: Die Eigenschaft '${property}' wurde bereits aus Ihrem Sicherheitssystem importiert
   Property: Eigenschaft
   PropertyInExternalSecuritySystem: Die Eigenschaft ist von einem externen Securitysystem gemanaged
   RemovePropertyMessage: Eigenschaft erfolgreich entfernt
+  SavePropertyErrorMessage: Die Eigenschaft '${property}' wurde bereits aus Ihrem Sicherheitssystem importiert
   SavePropertyMessage: Eigenschaft erfolgreich aktualisiert
 migrate:
   BackupSystemDatabaseRemindMessage: Bevor Sie die Migration starten, stellen Sie sicher, dass Sie eine Sicherung Ihrer Systemdatenbank und des gesamten Axon Ivy Engine Installationsverzeichnisses erstellt haben.
+  Checks: Kontrollen
+  Done: Erledigt
   EngineMigrationErrorMessage: Fehler bei der Migration. ${exception)
   EngineMigrationSuccessfulMessage: Die Axon Ivy Engine Migration war erfolgreich. Starten Sie jetzt die Axon Ivy Engine neu.
   InPlaceMigration: In-Place Migration
-  InPlaceMigrationIntroduction: Diese Migration ist eine In-Place Migration. Die neue Axon Ivy Engine wird an genau der gleichen Stelle wie die alte Axon Ivy Engine installiert. Die Konfigurationsdateien in Containerumgebungen, wie  z.B. ivy.yaml, können in einem Lesemodus bereitgestellt werden. Da die Migration mit Schreibzugriff auf diese Konfigurationsdateien arbeiten muss, können Sie festlegen, ob ein temporäres Verzeichnis verwendet werden soll, um diese Änderungen durchzuführen. Nach der Migration müssen Sie diese Dateien manuell dem Axon Ivy Engine hinzufügen.
+  InPlaceMigrationIntroduction: Diese Migration ist eine In-Place Migration. Die neue Axon Ivy Engine wird an genau der gleichen Stelle wie die alte Axon Ivy Engine installiert. Die Konfigurationsdateien in Containerumgebungen, wie  z.B. ivy.yaml, können in einem Lesemodus bereitgestellt werden. Da die
+    Migration mit Schreibzugriff auf diese Konfigurationsdateien arbeiten muss, können Sie festlegen, ob ein temporäres Verzeichnis verwendet werden soll, um diese Änderungen durchzuführen. Nach der Migration müssen Sie diese Dateien manuell dem Axon Ivy Engine hinzufügen.
   InvalidLicenceWarningMessage: 'Lizenz ist ungültig. Bitte laden Sie eine neue Lizenz, sonst können Sie die Axon Ivy Engine nach der Migration nicht mehr starten. Grund: ${message}'
   Licence: Lizenz
+  LoadLocation: Laden Verzeichnis
+  Location: Installationsverzeichnis
+  LocationValidationErrorMessage: Fehler bei der Validierung des Installationsverzeichnisses
   Log: Protokoll
   MigrateOldEngine: Alte Axon Ivy Engine migrieren
   MigrationTasks: Migrationsaufgaben
+  OldEngineLocation: Installationsverzeichnis der alten Engine
   ReadingLicenceErrorMessage: 'Fehler beim Lesen der Lizenz: '
   StartMigration: Migration starten
   Summary: Zusammenfassung
@@ -525,14 +641,45 @@ migrate:
   Upload: Hochladen
   ValidLicenceFoundMessage: Gültige Lizenz gefunden.
   WriteConfigurationFilesToTemporaryDirectory: Konfigurationsdateien in temporäres Verzeichnis schreiben
-  Checks: Kontrollen
-  Done: Erledigt
-  LoadLocation: Laden Verzeichnis
-  Location: Installationsverzeichnis
-  LocationValidationErrorMessage: Fehler bei der Validierung des Installationsverzeichnisses
-  OldEngineLocation: Installationsverzeichnis der alten Engine
 monitor:
+  Active: Aktiv
   CPULoad: CPU Last
+  Caches: Caches
+  Class: Klass
+  Classes: Klassen
+  Committed: Committed
+  Cores: Kerne
+  Daemons: Daemons
+  GCCount: ${label} ${formatT} Anzahl ${formatD}
+  GarbageCollection: Garbage Collection
+  HeapMemory: Heap Speicher
+  IO: IO
+  Init: Init
+  JVMMaxMemory: Jvm Max Speicher
+  JVMMemoryUsage: Jvm gebrauchter Speicher
+  JavaFlightRecorder: Java Flight Recorder
+  Load: Last
+  Loaded: Geladen
+  Max: Max
+  Memory: Speicher
+  MemoryUsage: Speicherverbrauch
+  Network: Netzwerk
+  NonHeapMemory: Nicht-Heap Speicher
+  Of: von
+  Peak: Spitze
+  Process: Prozess
+  Read: Lesen
+  ReadWrite: Lesen / Scheiben
+  Receiving: Empfangen
+  SendRecv: Senden / Empf
+  Sending: Senden
+  System: System
+  Time: Zeit
+  TotalLoaded: Geladen insgesamt
+  TotalStarted: Gestarted insgesamt
+  Unloaded: Entladen
+  Used: Verwendet
+  Write: Schreiben
   cache:
     CacheMaxTooltip: 'Max: Maximale Anzahl von Bytes oder Zeichen, die zwischengespeichert werden.'
     CacheTTITooltip: 'TTI: Leerlaufzeit. Die maximale Zeit, die ein Objekt im Cache bleibt, nachdem es zuletzt gelesen wurde.'
@@ -541,57 +688,56 @@ monitor:
     LimitTooltip: Die Anzahl der Objekte im Cache (siehe Anzahl) wird periodisch auf diesen Wert reduziert
     MoreCacheLimitsTooltip: 'Weitere Cache-Grenzen:'
     NameTooltip: Der Name des Cache
+    ReadHits: Lesen Treffer
     ReadHitsTooltip: Wie oft wurde ein Objekt aus dem Cache statt der Systemdatenbank erfolgreich gelesen
+    ReadMisses: Lesen Verfehlt
     ReadMissesTooltip: Wie oft wurde ein Objekt nicht im Cache gefunden und musste stattdessen aus der Systemdatenbank gelesen werden
     WriteTooltip: Wie oft wurde ein Objekt aus dem Cache ungültig, weil es in die Systemdatenbank geschrieben wurde
-    ReadHits: Lesen Treffer
-    ReadMisses: Lesen Verfehlt
     Writes: Schreiben
   classHistogram:
     BytesTooltip: Gesamtzahl der auf dem Java-Heap allozierten Bytes für alle Instanzen dieser Klasse
+    Clear: Klassen Histogramm aufräumen
+    DeltaMax: Max
+    DeltaMaxDetailTooltip: 'Max:'
     DeltaMaxTooltip: Delta zwischen den aktuellen und maximalen Instanzen auf dem Java-Heap seit dem letzten aufräumen
+    DeltaMin: Min
+    DeltaMinDetailTooltip: 'Min:'
     DeltaTooltip: Delta zwischen den aktuellen und minimalen Instanzen auf dem Java-Heap seit dem letzten aufräumen
+    Dump: Heap Speicher Abbild
+    DumpHeapMemory: Heap Speicher Abbild
     DumpMemoryMessage1: Der ganze Java-Heap-Speicher wird in eine Datei gespeichert.
     DumpMemoryMessage2: Die resultierende Datei kann riesig sein (abhängig von der aktuellen Heapgrösse).
     DumpMemoryMessage3: Die Engine kann für ein paar Sekunden nicht ansprechbar sein.
     EmptyHistogramMessage: Drücken Sie Aktualisieren, um das Klassenhistogramm zu laden. Beachten Sie, dass dies eine vollständige Garbage Collection auslöst und die Leistung der Engine beeinflussen kann
     InstancesTooltip: Gesamtzahl der auf dem Java-Heap allozierten Instanzen/Objekte für diese Klasse
     MemoryDump: ${appName) Speicher Abbild
-    Clear: Klassen Histogramm aufräumen
-    DeltaMax: Max
-    DeltaMaxDetailTooltip: 'Max:'
-    DeltaMin: Min
-    DeltaMinDetailTooltip: 'Min:'
-    Dump: Heap Speicher Abbild
-    DumpHeapMemory: Heap Speicher Abbild
     Refresh: Aktualisiere Klassenhistogramm
   execution:
+    ClearStatistic: Räume Statistik auf
     ExecutionHelpText: Das Starten der Aufnahme der Leistungsstatistik kann negative Auswirkungen auf die Leistung der Engine haben.
     ExecutionOrder: Reihenfolge der ersten Ausführung
+    ExtAvg: Ext MW
     ExtAvgTooltip: Durchschnitt der externen Ausführungszeit [ms]
     ExtExecutions: Ext Ausführung
     ExtExecutionsTooltip: Anzahl externer Ausführung
     ExtMax: Ext Max
     ExtMaxTooltip: Maximale externe Ausführungszeit [ms]
+    ExtMin: Ext Min
     ExtMinTooltip: Minimum der externen Ausführungszeit [ms]
     ExtTotal: Insgesamt
     ExtTotalTooltip: Gesamte externe Ausführungszeit [ms]
+    IntAvg: Int MW
     IntAvgTooltip: Durchschnitt der internen Ausführungszeit [ms]
     IntExecutionTooltip: Anzahl der internen Ausführungen
-    IntMaxTooltip: Maximale interne Ausführungszeit [ms]
-    IntMinTooltip: Minimum der internen Ausführungszeit [ms]
-    LoggingActiveDetails: Die Prozesselement Performance-Statistik-Protokollierung ist aktiv. Die Statistik wird automatisch von der Protokollierung alle ${loggingInterval} aufgeräumt!
-    TotalTooltip: Gesamtausführungszeit [ms] (intern + extern)
-    ClearStatistic: Räume Statistik auf
-    ExtAvg: Ext MW
-    ExtMin: Ext Min
-    IntAvg: Int MW
     IntExecutions: Int Ausführungen
     IntMax: Int Max
+    IntMaxTooltip: Maximale interne Ausführungszeit [ms]
     IntMin: Int Min
+    IntMinTooltip: Minimum der internen Ausführungszeit [ms]
     IntTotal: Int Insgesamt
     IntTotalTooltip: Gesamte interne Ausführungszeit [ms]
     LoggingActive: Protokollierung Aktiv!
+    LoggingActiveDetails: Die Prozesselement Performance-Statistik-Protokollierung ist aktiv. Die Statistik wird automatisch von der Protokollierung alle ${loggingInterval} aufgeräumt!
     OneSecond: 1 Sekunde
     PerformanceStatisticFileName: Leistungsstatistik
     PerformanceTooltip: Leistungsstatistik Konfiguration
@@ -599,15 +745,15 @@ monitor:
     ProcessElementName: Prozess Element Name
     ProcessElementType: Prozess Element Typ
     Seconds: Sekunden
-  Active: Aktiv
+    TotalTooltip: Gesamtausführungszeit [ms] (intern + extern)
   health:
     AdditionalInformationConfiguration: Zusätzliche Informationen oder Konfiguration
-    RunCheckNow: Jetzt überprüfen
     DisableCheck: Kontrolle deaktivieren
     EnableCheck: Kontrolle aktivieren
     HealthChecks: Gesundheitskontrollen
     RefreshHealth: Gesundheitszustand aktualisieren
     RefreshHealthChecks: Gesundheitskontrollen aktualisieren
+    RunCheckNow: Jetzt überprüfen
     RunHealthChecks: Gesundheitskontrollen ausführen
   jfr:
     AddConfiguration: Konfiguration hinzufügen
@@ -634,24 +780,8 @@ monitor:
           "false"
         Name: Speichern beim Beenden
       duration:
-        Description: |-
-          Konfiguriert, wie lange die Aufnahme laufen soll. 
-
-          "0", wenn kein Limit auferlegt werden sollte, andernfalls eine String-Darstellung einer positiven ganzen Zahl gefolgt von einem leeren Raum und einer der folgenden Einheiten:
-
-          "ns" (Nanosekunden)
-          "us" (Mikrosekunden)
-          "ms" (Millisekunden)
-          "s" (Sekunden)
-          "m" (Minuten)
-          "h" (Stunden)
-          "d" (Tage)
-
-          Beispiele:
-          "60 s"
-          "10 m"
-          "4 h"
-          "0"
+        Description: "Konfiguriert, wie lange die Aufnahme laufen soll. \n\n\"0\", wenn kein Limit auferlegt werden sollte, andernfalls eine String-Darstellung einer positiven ganzen Zahl gefolgt von einem leeren Raum und einer der folgenden Einheiten:\n\n\"ns\" (Nanosekunden)\n\"us\" (Mikrosekunden)\n\
+          \"ms\" (Millisekunden)\n\"s\" (Sekunden)\n\"m\" (Minuten)\n\"h\" (Stunden)\n\"d\" (Tage)\n\nBeispiele:\n\"60 s\"\n\"10 m\"\n\"4 h\"\n\"0\""
         Name: Dauer
       maxAge:
         Description: |-
@@ -692,49 +822,49 @@ monitor:
     RecordingMessage3: Es steht bereits mindestens eine Aufnahme zur Verfügung. Sie sollten diese löschen, bevor Sie eine andere starten.
     StartRecording: Aufnahme Starten
   job:
+    DurationTooltip: min / mw / max
     Errors: Fehler
     ExecutionDuration: Ausführungsdauer
-    LastSuccessfulExecution: Letzte erfolgreiche Ausführung
-    LastTimeTheJobFailed: Letztes Mal, als der Job fehlgeschlagen ist
-    NextExecution: Nächste Ausführung
-    ScheduleJobTooltip: Die Einplanung eines Auftrags zur sofortigen Ausführung kann negative Nebenwirkungen haben, wie Benutzer mit unnötigen täglichen Aufgaben-Mails belästigen oder einer minimierten Leistung.
-    DurationTooltip: min / mw / max
     Executions: Ausführungen
     JobDetail: Job Detail
     JobTitle: Job
+    LastSuccessfulExecution: Letzte erfolgreiche Ausführung
+    LastTimeTheJobFailed: Letztes Mal, als der Job fehlgeschlagen ist
+    NextExecution: Nächste Ausführung
     RefreshJobs: Job Aktualisieren
     ScheduleExecuteJob: Job für eine neue Ausführung einplanen
     ScheduleJob: Job Einplanen
+    ScheduleJobTooltip: Die Einplanung eines Auftrags zur sofortigen Ausführung kann negative Nebenwirkungen haben, wie Benutzer mit unnötigen täglichen Aufgaben-Mails belästigen oder einer minimierten Leistung.
   mbean:
+    AddTraceToChart: Datenpunkt zum Diagramm hinzufügen
     EmptyMBeanMessage: Wählen Sie eine Bean, um seine Eigenschaften zu sehen
     LastValue: Letzter Wert
     RemoveTrace: Datenpunk entfernen
-    AddTraceToChart: Datenpunkt zum Diagramm hinzufügen
     Traces: Datenpunkte
   session:
+    Auth: Auth
+    Cause: Grund
     ContextPath: Kontextpfad
+    Creation: Erzeugung
     HTTPSessions: Http Sitzungen
+    Id: Id
     InvalidSessionMessage: Erzeugung ungültig / Letzter Aufruf ungültig
+    KillSession: Sitzung beenden
     LastAccessed: Letzter Zugriff
     LicensedSessions: Lizenzierte Sitzungen
     LicensedUsers: Lizenzierte Benutzer
     RefreshStatistic: Statistik aktualisieren
     ShowTemporarySessions: Temporäre Sitzungen anzeigen
     ShowUnauthenticatedSessions: Unauthenticated Sessions anzeigen
-    TempTooltip: Eine temporäre Sitzung wird nur aus technischen Gründen erstellt und sollte eine sehr kurze Lebensdauer (ca. 1s) haben. Temporäre Sitzungen zählen nicht für die lizenzierten Sitzungen.
-    Auth: Auth
-    Cause: Grund
-    Creation: Erzeugung
-    Id: Id
-    KillSession: Sitzung beenden
     Temp: Temp
+    TempTooltip: Eine temporäre Sitzung wird nur aus technischen Gründen erstellt und sollte eine sehr kurze Lebensdauer (ca. 1s) haben. Temporäre Sitzungen zählen nicht für die lizenzierten Sitzungen.
   startEvent:
+    NextPoll: Nächster Aufruf
     Poll: Aufruf
     PollBeanTitle: Bean Aufruf
-    SchedulePollTooltip: Das Einplanen des Aufrufs einer Bean kann negative Nebenwirkungen haben.
-    NextPoll: Nächster Aufruf
     RefreshStartEvents: Start Events aktualisieren
     RequestPath: Anfrage Pfad
+    SchedulePollTooltip: Das Einplanen des Aufrufs einer Bean kann negative Nebenwirkungen haben.
     ScheduleToPollTheBeanNow: Das Aufrufen der Bean jetzt einplanen
     StartsTheBean: Bean starten
     StopsTheBean: Bean stoppen
@@ -742,14 +872,13 @@ monitor:
     Blocked: Blockiert
     CPUTime: CPU Zeit
     CPUTimeTooltip: Gesamte CPU Zeit [ns]
+    Daemon: Deamon
     DeadLockedMessage: Dieser Thread ist todgelockt! Es wartet darauf, die Sperre ${lock} zu sperren, die im Besitz von Thread ${lockOwner} ist.
+    Deadlocked: Todgelockt
+    LockOwner: Sperren Besitzer
     LockTooltip: Warten auf Sperre
     LockedMonitors: Gesperrte Monitore
     LockedSynchronizers: Gesperrte Synchronisierer
-    Waited: Wartet
-    Daemon: Deamon
-    Deadlocked: Todgelockt
-    LockOwner: Sperren Besitzer
     Native: Im nativen Code
     SaveThreadDump: Thread Abbild speichern
     StackTrace: Stack Trace
@@ -762,76 +891,46 @@ monitor:
     ThreadWaitOnLockWithTimeoutMessage: Thread wartet mit einer Auszeit auf die Sperre ${lock}.
     UserTime: Benutzer Zeit
     UserTimeTooltip: Benutzer CPU Zeit [ns]
+    Waited: Wartet
   traces:
     ExecutionTime: Ausführungszeit
     ExecutionTimeTooltip: Ausführungszeit [ms]
-    StartTracesHelpText: Das Starten der Aufnahme der langsamen Anfragen kann einen negativen Einfluss auf die Leistung der Engine haben.
     ExportTraces: Datenpunkte exportieren
+    StartTracesHelpText: Das Starten der Aufnahme der langsamen Anfragen kann einen negativen Einfluss auf die Leistung der Engine haben.
     Traces: Datenpunkte
-  Caches: Caches
-  Class: Klass
-  Classes: Klassen
-  Committed: Committed
-  Cores: Kerne
-  Daemons: Daemons
-  GCCount: ${label} ${formatT} Anzahl ${formatD}
-  GarbageCollection: Garbage Collection
-  HeapMemory: Heap Speicher
-  IO: IO
-  Init: Init
-  JVMMaxMemory: Jvm Max Speicher
-  JVMMemoryUsage: Jvm gebrauchter Speicher
-  JavaFlightRecorder: Java Flight Recorder
-  Load: Last
-  Loaded: Geladen
-  Max: Max
-  Memory: Speicher
-  MemoryUsage: Speicherverbrauch
-  Network: Netzwerk
-  NonHeapMemory: Nicht-Heap Speicher
-  Of: von
-  Peak: Spitze
-  Process: Prozess
-  Read: Lesen
-  ReadWrite: Lesen / Scheiben
-  Receiving: Empfangen
-  SendRecv: Senden / Empf
-  Sending: Senden
-  System: System
-  Time: Zeit
-  TotalLoaded: Geladen insgesamt
-  TotalStarted: Gestarted insgesamt
-  Unloaded: Entladen
-  Used: Verwendet
-  Write: Schreiben
+monitorStartEventDetails:
+  ProcessModels: Prozess Model
 monitorTraceDetail:
   AttributesTableEmptyMesssage: Wählen Sie eine Spanne, um ihre Eigenschaften zu sehen
   ExecutionTimeMsTitle: Ausführungszeit [ms]
+  ExportSpan: Spanne exportieren
   Performance: Leistung
   RequestNoLongerAvailableMesssage: Anfrage ist nicht mehr verfügbar
   RequestWasRemoveWarningMesssage: Die Anfrage wurde von den langsamsten Anfragen entfernt, weil andere Anfragen noch langsamer waren!
-  ExportSpan: Spanne exportieren
   SlowRequestDetail: Langsame Anfrage Detail
   SlowRequests: Langsame Anfrage
 moveApplication:
-  ChangeSecuritySystemDialogContent: 'Um das Sicherheitssystem einer Applikation zu ändern, muss das Zielsicherheitssystem die gleichen Rollen und Nutzer haben, so dass alle Laufzeitdaten wie Aufgaben, Fälle, Geschäftsdaten und mehr neu zugewiesen werden können. Daher müssen Sie zuerst überprüfen, ob das Zielsicherheitssystem bereit ist. Wenn dies nicht der Fall ist, können Sie das Zielsicherheitssystem überprüfen und vorbereiten:'
+  ChangeSecuritySystemDialogContent: 'Um das Sicherheitssystem einer Applikation zu ändern, muss das Zielsicherheitssystem die gleichen Rollen und Nutzer haben, so dass alle Laufzeitdaten wie Aufgaben, Fälle, Geschäftsdaten und mehr neu zugewiesen werden können. Daher müssen Sie zuerst überprüfen, ob
+    das Zielsicherheitssystem bereit ist. Wenn dies nicht der Fall ist, können Sie das Zielsicherheitssystem überprüfen und vorbereiten:'
   ChangeSecuritySystemDialogHeader: Sicherheitssystem ändern
   ChangeSecuritySystemWarningMessage: Dies ist ein aufwändiges Verfahren, das viele Daten bewegt. Wir empfehlen dringend, eine Sicherung Ihrer Systemdatenbank zu erstellen.
+  MergeSecuritySystem: Sicherheitssystem zusammenlegen
+  Move: Umziehen
   NoTargetSecuritysystemSelectedMessage: Kein Zielsicherheitssystem ausgewählt
   SourceSecuritySystem: Ursprungssicherheitssystem
   TargetSecuritySystem: Zielsicherheitssystem
   ValidSecuritysystemSelectedMessage: Applikation kann auf Zielsicherheitssystem umgezogen werden
-  MergeSecuritySystem: Sicherheitssystem zusammenlegen
-  Move: Umziehen
   Validate: Validieren
 newApplication:
   AddNewApplicationDialogHeader: Neue Applikation hinzufügen
+newRole:
+  NewChildRoleDialogHeader: Neue Kindrolle für Rolle ${role} hinzufügen
 newSecuritySystem:
   AddNewSecuritySystemDialogHeader: Neues Sicherheitssystem hinzufügen
 newUser:
+  AddUserDialogHeader: Neuen Benutzer hinzufügen
   ConfirmPassword: Passwort bestätigen
   EMailAddress: E-Mail Adresse
-  AddUserDialogHeader: Neuen Benutzer hinzufügen
   Password: Passwort
 notification:
   Payload: Nutzdaten
@@ -843,8 +942,6 @@ notificationChannelDetail:
   SuccessfullySavedMessage: Erfolgreich gespeichert
   UnlockChannel: Kanal entsperren (Fehlerzustand löschen)
 notificationDeliveries:
-  LastError: 'Letzter Fehler:'
-  Receiver: Empfänger
   Channel: Kanal
   Deleted: GELÖSCHT
   Delivered: Geliefert
@@ -852,10 +949,12 @@ notificationDeliveries:
   Errors: Fehler
   FailedDeliverAttemps: 'Fehlgeschlagene Auslieferungen bis jetzt:'
   Hidden: Versteckt
+  LastError: 'Letzter Fehler:'
   NextRetryToDeliver: 'Nächster Auslieferungsversuch:'
   Notification: Benachrichtigung
   Notifications: Benachrichtigungen
   Read: Lesen
+  Receiver: Empfänger
   ReevaluteDeliveries: Empfänger neu berechnen
   RetryToDeliver: Auslieferung erneut versuchen
 permissions:
@@ -869,29 +968,46 @@ permissions:
 pmvDetail:
   ActivityState: Tätigkeitszustand
   AllDirectIndirectRequiredLibrariesAvailableMessage: Alle direkten und indirekt erforderlichen Bibliotheken sind im System verfügbar.
-  NoProjectFoundForSpecificationMessage: Für diese Spezifikation konnte kein Projekt gefunden werden.
-  NotAllDirectIndirectRequiredLibrariesAvailableMessage: Nicht alle direkten und indirekt erforderlichen Bibliotheken sind im System verfügbar.
-  PMV: PMV
-  PMVResolvedForSpecificationMessage: "'${name}' gefunden für diese Spezifikation"
-  Project: Projekt
-  ProjectVersion: Projektversion
-  ReleaseState: Freigabezustand
-  SpecifiedRequiredProjectsMessage: Obwohl einige benötigte Projekte spezifiziert werden!
   AllPMVsDependingOnPMV: Alle von diesem PMV abhängigen PMVs
   AllPMVsRequiredByPMV: Alle von diesem PMV erforderlichen PMVs
   DependentPMVTableEmptyMessage: Die PMV '${name}' hat keine abhängigen PMVs.
   Id: Id
   LastDeployed: Letzte Bereitstellung
+  NoProjectFoundForSpecificationMessage: Für diese Spezifikation konnte kein Projekt gefunden werden.
+  NotAllDirectIndirectRequiredLibrariesAvailableMessage: Nicht alle direkten und indirekt erforderlichen Bibliotheken sind im System verfügbar.
+  PMV: PMV
   PMVInformation: PMV Information
+  PMVResolvedForSpecificationMessage: '''${name}'' gefunden für diese Spezifikation'
+  Project: Projekt
+  ProjectVersion: Projektversion
+  ReleaseState: Freigabezustand
   RequriedPMVTableEmptyMessage: Das PMV '${name}' hat keine erforderlichen PMVs.
   Resolved: Aufgelöst
   ResolvedPMV: Aufgelöstes PMV
   SpecifiedRequiredProjects: Spezifizierte benötigte Projekte
+  SpecifiedRequiredProjectsMessage: Obwohl einige benötigte Projekte spezifiziert werden!
   SpecifiedTableEmptyMessage: Das PMV '${name}' hat keine benötigten Projekte spezifiziert.
+poll:
+  LastPollError: Letzer Aufruf Fehler
+  NextPoll: Nächster Aufruf
+  Poll: Aufruf
+  PollBean: Bean Aufruf
+  PollBeanWarningMessage: Das Einplanen eines Aufrufs des Beans kann negative Nebenwirkungen haben.
+  PollConfiguration: Aufruf Konfiguration
+  PollDuration: Aufruf Ausführungszeit
+  PollDurationTooltip: min / mw / max
+  PollErrors: Aufruf Fehler
+  Polls: Aufrufe
+  ScheduleToPollBean: Aufruf des Beans jetzt einplanen
+  StopsBean: Bean stoppen
+progressLoader:
+  Loading: Lade ...
 renameRole:
-  RenameRoleDialogWarningMessage: Dies ist eine kritische und gefährliche Operation, zumindest für nicht-dynamische Rollen. Diese Rolle kann in Prozessen mit ihrem alten Namen referenziert werden. Alle Referenzen in allen Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf den neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft scheitern.
   RenameRoleDialogHeader: Rolle umbenennen
+  RenameRoleDialogWarningMessage: Dies ist eine kritische und gefährliche Operation, zumindest für nicht-dynamische Rollen. Diese Rolle kann in Prozessen mit ihrem alten Namen referenziert werden. Alle Referenzen in allen Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf den
+    neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft scheitern.
 restart:
+  Restart: Neustart
   RestartConfirmMessage: Sind Sie sicher, dass Sie die ${application} neu starten wollen?
   RestartFirstWarningMessageFirstPart: Alle
   RestartFirstWarningMessageSecondPart: Benutzer (zurzeit ${workingUsers})
@@ -899,16 +1015,15 @@ restart:
   RestartSecondWarningMessage: Benutzer können sich für kurze Zeit nicht mit ${application} verbinden.
   RestartThirdWarningMessage: Das Neustarten kann scheitern und dann benötigenSie Zugriff auf das Betriebssystem, um es erneut starten zu können.
   RestartWarningMessage: Der Neustart von ${application} ist eine gefährliche Operation.
-  Restart: Neustart
 restClientConfiguration:
   ResetConfiguration: Konfiguration zurücksetzen
-  ResetRestClientDialogMessage: Sind Sie sicher, dass Sie diesen Rest Client zurücksetzen möchten?
-  UUID: UUID
   ResetRestClientDialogHeader: Rest Client zurücksetzen
+  ResetRestClientDialogMessage: Sind Sie sicher, dass Sie diesen Rest Client zurücksetzen möchten?
   RestClientConfigurations: Rest Client Konfiguration
   RestConfigurationResetMessage: Rest Konfiguration zurücksetzen
   RestConfigurationSavedMessage: Rest Konfiguration gespeichert
   TestRestConnection: Rest Verbindung testen
+  UUID: UUID
 restClientDetail:
   GuideText: Überschreiben Sie ihre app.yaml Datei um den Rest Client zu bearbeiten. Kopieren und fügen zum Beispiel Sie den untenstehenden Abschnittein.
   NotFoundRestClient: Rest client '${restClient}' nicht gefunden
@@ -920,8 +1035,8 @@ restHistory:
   RequestUrl: Anfrage Url
 restServices:
   BrowseRestAPIButtonTitle: Verfügbare REST Backend Services anzeigen
-  RESTServices: REST Services
   ConfigureRestBackendButtonTitle: Rest Backend konfigurieren
+  RESTServices: REST Services
 roleDetail:
   DirectOpenTasks: Direkte offene Aufgaben
   InheritUsers: Geerbte Benutzer
@@ -931,20 +1046,21 @@ roleDetailInformation:
   DeleteRole: Diese Rolle löschen
   DeleteRoleDialogConfirmMessage: Sind Sie sicher, dass Sie die Rolle '${role}' löschen möchten?
   DeleteRoleDialogHeader: Löschen der Rolle
-  DeleteRoleDialogWarningMessage: Dies ist eine kritische und gefährliche Operation, zumindest für nicht-dynamische Rollen. Diese Rolle kann in Prozessen mit ihrem alten Namen referenziert werden. Alle Referenzen in allen Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf den neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft scheitern.
+  DeleteRoleDialogWarningMessage: Dies ist eine kritische und gefährliche Operation, zumindest für nicht-dynamische Rollen. Diese Rolle kann in Prozessen mit ihrem alten Namen referenziert werden. Alle Referenzen in allen Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf den
+    neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft scheitern.
   DisplayName: Anzeige Name
   ExternalName: Externer Name
-  RoleInformationChangesSavedMessage: Änderungen der Rolleninformation gespeichert
   ParentRole: Übergeordnete Rolle
   RenameRole: Role Umbenennen
   RoleInformation: Rollen Information
+  RoleInformationChangesSavedMessage: Änderungen der Rolleninformation gespeichert
   UpdateRoleParentButtonTitle: Übergeordnete Rolle Ändern
 roleDetailMembers:
   Filter: 'Filter:'
   RoleMembers: Mitglieder der Rolle
   RoleMembersOfRole: Rollen Mitglieder der Rolle
-  SearchRolesPlaceholder: Suche
   SearchRoleToAddPlaceholder: Suche Rollen zum Hinzufügen
+  SearchRolesPlaceholder: Suche
 roleDetailUsers:
   Filter: 'Filter:'
   InheritedUser: Dieser Benutzer wird durch eine Unterrolle oder ein Rollenmitglied geerbt
@@ -952,7 +1068,7 @@ roleDetailUsers:
   SearchUsersPlaceholder: Suche
   UsersOfRole: Benutzer der Rolle
 roles:
-  ExternalRoleNameMessage: "[Externe: '${role}']"
+  ExternalRoleNameMessage: '[Externe: ''${role}'']'
   Member: Mitglied
   Role: Rolle
   SearchDummyPerformanceReason: Aus Leistungsgründen werden nur die ersten 100 Rollen geladen. Verwenden Sie die Suche, um eine bestimmte Rolle zu finden.
@@ -965,17 +1081,18 @@ searchEngine:
   SearchEngineServerProblem: Search Engine Server Problem
   SearchEngineServerProblemMessage: 'Konnte nicht mit Search Engine Server verbinden:'
 searchEngineInformation:
+  ConfigureSearchEngineButtonTitle: Search Engine Konfigurieren
   DiskThresholdEnabled: Festplattenschwellenwert aktiviert
   DiskThresholdEnabledInfo: Dies definiert, ob die Einstellungen darunter einen Effekt haben oder nicht
-  FloodStageInfo: Die Search Engine wird Indizes nur in den schreib-geschützten Modus setzen, wenn der verfügbare Speicherplatz kleiner als dieser Wert ist. Diese Einstellung ist ein letztes Mittel, um zu verhindern, dass Knoten keinen Speicherplatz mehr haben. Die Blockierung des Indizes wird automatisch freigegeben, wenn die Plattenauslastung unter das hohe Wassermarke fällt.
-  FloodStageWarning: Wenn Ihr verfügbarer Speicherplatz unter der Wassermarke liegt, wird die Search Engine die Indexierung neuer Dokumente stoppen und aktuelle Indizes in den schreib-geschützten Modus setzen
-  WatermarkHighInfo: Die Search Engine wird versuchen, Shards weg von einem Knoten zu verlagern, dessen verfügbarer Speicherplatz kleiner ist als dieser Wert. Diese Einstellung wirkt sich auf die Zuweisung aller Shards aus, ob zuvor zugewiesen oder nicht.
-  WatermarkLowInfo: Die Search Engine wird keine Shards an Knoten zuweisen, die weniger Festplattenspeicher verfügbar haben als dieser Wert . Diese Einstellung wirkt sich nicht auf die Primärshards neu erstellter Indizes aus, sondern verhindert, dass ihre Replikate alloziert werden.
-  ConfigureSearchEngineButtonTitle: Search Engine Konfigurieren
   FloodStage: Hochwasserstand
+  FloodStageInfo: Die Search Engine wird Indizes nur in den schreib-geschützten Modus setzen, wenn der verfügbare Speicherplatz kleiner als dieser Wert ist. Diese Einstellung ist ein letztes Mittel, um zu verhindern, dass Knoten keinen Speicherplatz mehr haben. Die Blockierung des Indizes wird automatisch
+    freigegeben, wenn die Plattenauslastung unter das hohe Wassermarke fällt.
+  FloodStageWarning: Wenn Ihr verfügbarer Speicherplatz unter der Wassermarke liegt, wird die Search Engine die Indexierung neuer Dokumente stoppen und aktuelle Indizes in den schreib-geschützten Modus setzen
   NotSupportESVersionMessage: Diese OpenSearch Version ist nicht untertstützt
   WatermarkHigh: Wassermarke hoch
+  WatermarkHighInfo: Die Search Engine wird versuchen, Shards weg von einem Knoten zu verlagern, dessen verfügbarer Speicherplatz kleiner ist als dieser Wert. Diese Einstellung wirkt sich auf die Zuweisung aller Shards aus, ob zuvor zugewiesen oder nicht.
   WatermarkLow: Wassermarke niedrig
+  WatermarkLowInfo: Die Search Engine wird keine Shards an Knoten zuweisen, die weniger Festplattenspeicher verfügbar haben als dieser Wert . Diese Einstellung wirkt sich nicht auf die Primärshards neu erstellter Indizes aus, sondern verhindert, dass ihre Replikate alloziert werden.
 searchEngineTool:
   Get: 'GET:'
   RunSearchEngineQueryDialogHeader: Search Engine Abfrage ausführen
@@ -988,7 +1105,8 @@ security:
 securityDetail:
   ProcessModels: Prozessmodelle
 securityReportDownloadDialog:
-  DownloadSecurityReportInfo: Der folgende Download enthält einen Sicherheitsbericht in Form eines Excel. Im Excel sind detaillierte Informationen über Benutzer, Rollen, Benutzerrollen, Rollenmitglieder, Benutzerberechtigungen und Rollenberechtigungen. Der Download kann ein paar Minuten dauern, abhängig von der Anzahl der Benutzer.
+  DownloadSecurityReportInfo: Der folgende Download enthält einen Sicherheitsbericht in Form eines Excel. Im Excel sind detaillierte Informationen über Benutzer, Rollen, Benutzerrollen, Rollenmitglieder, Benutzerberechtigungen und Rollenberechtigungen. Der Download kann ein paar Minuten dauern, abhängig
+    von der Anzahl der Benutzer.
   Generate: Generieren
   SecurityReportGeneratedMessage: Sicherheitsbericht erstellt
 securitySystemInfo:
@@ -998,21 +1116,25 @@ securitySystemInfo:
   DeleteSecuritySystemDialogHeader: Sicherheitssystem Löschen
   DeleteSecuritySystemWarningMessage: Beachten Sie, dass alle Benutzer und Rollen dieses Sicherheitssystems auch gelöscht werden.
   DownloadSecurityReport: Sicherheitsbericht herunterladen
-  UsedByApplicationsTooltip: Jede Anwendung, die dieses Sicherheitssystem verwendet.
   MergeSecuritySystems: Sicherheitssystem zusammenlegen
   UsedByApplications: Verwendet von Applikationen
+  UsedByApplicationsTooltip: Jede Anwendung, die dieses Sicherheitssystem verwendet.
 securitySystemLanguage:
   FormattingLanguage: Formatierungssprache
   Languages: Sprachen
   SecuritySystemLanguagesSavedMessage: Sicherheitssystem Sprachen gespeichert
 securitySystemMerge:
+  ApplyChangeDialogHeader: Änderungen anwenden
   ApplyChangeDialogMessage: Möchten Sie wirklich diesen Eintrag ${solverType}?
   CompareButton: Vergleichen
   CompareButtonTitle: Dies wird die Quelle mit dem Zielsicherheitssystem vergleichen. Es werden KEINE Änderungen vorgenommen.
   ComparisonReport: Vergleichsbericht
-  ComparisonReportInfo: Um eine Applikation von der Quelle auf das Zielsicherheitssystem zu verschieben, müssen im Zielsicherheitssystem dieselben Benutzer und Rollen vorhanden sein wie im Quellsicherheitssystem. Durch die Ausführung aller CREATE-Operationen werden alle fehlenden Benutzer und Rollen im Zielsicherheitssystem erstellt. Es besteht keine Notwendigkeit, die UPDATE-Operationen oder DELETE-Operationen auszuführen, aber Sie können das Zielsicherheitssystem mit diesen Operationen reinigen. Es könnte sein, dass die Rolle im Zielsystem bereits existiert, aber es sich nicht wirklich um die gleiche Rolle handelt. Ist dies der Fall, muss die Rolle manuell im Zielsicherheitssystem sowie die Rolle im Axon Ivy Projekt umbenannt werden. Dann muss das Axon Ivy Projekt neu bereitgestellt werden.
+  ComparisonReportInfo: Um eine Applikation von der Quelle auf das Zielsicherheitssystem zu verschieben, müssen im Zielsicherheitssystem dieselben Benutzer und Rollen vorhanden sein wie im Quellsicherheitssystem. Durch die Ausführung aller CREATE-Operationen werden alle fehlenden Benutzer und Rollen im
+    Zielsicherheitssystem erstellt. Es besteht keine Notwendigkeit, die UPDATE-Operationen oder DELETE-Operationen auszuführen, aber Sie können das Zielsicherheitssystem mit diesen Operationen reinigen. Es könnte sein, dass die Rolle im Zielsystem bereits existiert, aber es sich nicht wirklich um die
+    gleiche Rolle handelt. Ist dies der Fall, muss die Rolle manuell im Zielsicherheitssystem sowie die Rolle im Axon Ivy Projekt umbenannt werden. Dann muss das Axon Ivy Projekt neu bereitgestellt werden.
   CreateSolveHintMessage: Dies wird den Eintrag im Ziel-Sicherheitssystem ${securitySystem} erstellen
   DeleteSolveHintMessage: Dies wird den Eintrag im Ziel-Sicherheitssystem löschen ${securitySystem}
+  ExceutionFailed: Ausführung fehlgeschlagen
   ExecuteAllCreateOperationsButton: Alle CREATE-Operationen ausführen
   ExecuteAllCreateOperationsButtonTitle: Dies wird alle CREATE-Operationen im Zielsicherheitssystem ausführen
   ExecuteAllCreateOperationsConfirmDialogContent: Dies wird alle fehlenden Einträge im Zielsicherheitssystem erstellen
@@ -1032,16 +1154,14 @@ securitySystemMerge:
   SourceSecuritySystem: Quelle Sicherheitssystem
   TargetSecuritySystem: Zielsicherheitssystem
   UpdateSolveHintMessage: Dies wird den Eintrag im Ziel-Sicherheitssystem ${securitySystem} aktualisieren
-  ApplyChangeDialogHeader: Änderungen anwenden
-  ExceutionFailed: Ausführung fehlgeschlagen
 securitySystemProvider:
+  IdentityProvider: Identitätsanbieter
+  ImportUsersOnSchedule: Benutzer regelmässig importieren
   ProviderChangeWarningMessage: Wenn Sie den Identitätsanbieter ändern, verlieren Sie alle aktuellen Einstellungen dieses Sicherheitssystems!
   SynchronizationScheduleTime: Zeit der Synchronisierung
   SynchronizeUsersOnLogin: Benutzer beim Anmelden synchronisieren
   SynchronizeUsersOnSchedule: Benutzer regelmässig gemäss Zeitplan synchronisieren
   UseCronExpressionConfiguration: Verwenden des CRON Ausdrucks
-  IdentityProvider: Identitätsanbieter
-  ImportUsersOnSchedule: Benutzer regelmässig importieren
 securitySystemWorkflowLanguage:
   AddNewLanguage: Neue Sprache hinzufügen
   AddWorkflowLanguageDialogHeader: Workflow Sprache hinzufügen
@@ -1053,25 +1173,25 @@ securitySystemWorkflowLanguage:
   MakeDefaultLanguage: Machen Sie diese Sprache zur Standardsprache
   WorkflowLanguages: Workflow Sprachen
 sendtestmail:
+  Email: E-Mail
   Log: Protokoll
   Message: Nachricht
   SendTestMailDialogHeader: Test Mail senden
+  Subject: Betreff
   TestMailMessageDefault: Das ist eine Test E-Mail.
   TestMailSubjectDefault: Test-Mail
-  Email: E-Mail
-  Subject: Betreff
   To: An
 setup:
   Administrators: Administratoren
   ConfigurationIncompleteDetail: 'Sie haben Warnungen in:'
   ConfigurationIncompleteSummary: Konfiguration unvollständig
   EngineRestartDetail: Ihre Engine muss neu gestartet werden, um den Einrichtungsprozess zu beenden!
+  EngineRestartSummary: Engine Neustart
   FinishSetupWizard: Einrichtungsassistent beenden
   Licence: Lizenz
+  Storage: Speicherung
   SystemDatabase: Systemdatenbank
   WebServer: Webserver
-  EngineRestartSummary: Engine Neustart
-  Storage: Speicherung
 setupAdmins:
   AddAdministratorButton: Administrator hinzufügen
   AddAdministratorButtonTitle: Bearbeiten
@@ -1082,9 +1202,13 @@ setupStorage:
   DirectoryChangesMessage: Verzeichnis-Änderungen erfolgreich gespeichert
   StepWarningMessage: App Verzeichnis sollte nicht leer sein
 sidebar:
+  Cache: Cache
   ClassHistogram: Klassen Histogramm
+  Dashboard: Dashboard
   Databases: Datenbanken
   Documents: Dokumente
+  Engine: Engine
+  FlightRecorder: Flight Recorder
   Health: Gesundheit
   JVM: JVM
   Java: Java
@@ -1092,29 +1216,28 @@ sidebar:
   Licence: Lizenz
   LiveStats: Live Statistiken
   LiveStatsFoundFrom: Live-Statistiken gefunden aus
-  ProcessExecution: Prozessausführung
-  Sessions: Sitzungen
-  SlowRequests: Langsame Anfragen
-  Cache: Cache
-  Dashboard: Dashboard
-  Engine: Engine
-  FlightRecorder: Flight Recorder
   Logs: Protokolle
   MBeans: MBeans
   Memory: Speicher
   Notifications: Benachrichtigungen
   OS: Betriebsystem
   Performance: Leistung
+  ProcessExecution: Prozessausführung
   Roles: Rollen
+  Sessions: Sitzungen
+  SlowRequests: Langsame Anfragen
   TrafficGraph: Verbindungen
 soapHistory:
   Endpoint: Endpunkt
   Operation: Betrieb
+sslConfig:
+  KeyStoreCertificates: Schlüsselspeicher Zertifikate
+  TrustStoreCertificates: Vertrauensspeicher Zertifikate
 sslKeyStore:
   DeletedCertificateMessage: Zertifikat '${certificate}' gelöscht
-  KeyStoreConfigurationsSavedMessage: Schlüsselspeicher Konfigurationen gespeichert
   KeyPassword: Schlüssel Passwort
   KeyStoreConfigurations: Schlüsselspeicher Konfigurationen
+  KeyStoreConfigurationsSavedMessage: Schlüsselspeicher Konfigurationen gespeichert
   StorePassword: Speicher Passwort
   UseCustomKeyStore: Benutzerdefinierten Schlüsselspeicher verwenden
 sslTable:
@@ -1123,34 +1246,38 @@ sslTable:
   DeleteCertificateConfirmHeader: ${certificate} löschen
   DeleteCertificateConfirmMessage: Sind Sie sicher, dass Sie das Zertifikat '${certificate}' löschen möchten?
   ExpiryDate: Ablaufdatum
-  ValidCertificate: Gültig
   Subject: Inhaber
+  ValidCertificate: Gültig
 sslTrustStore:
   DeleteCertificateMessage: Zertifikat '${certificate}' gelöscht
   EnableInsecureSSLAndHTTPSConnections: Unsichere SSL- und HTTPS-Verbindungen aktivieren
-  TrustStoreConfigurationsSavedMessage: Vertrauensspeicher Konfigurationen gespeichert
   TrustStoreConfigurations: Vertrauensspeicher Konfigurationen
+  TrustStoreConfigurationsSavedMessage: Vertrauensspeicher Konfigurationen gespeichert
 supportReport:
   AxonIvyEngineSupportReportContent: Axon Ivy Engine Support Bericht
   DownloadSupportReport: Support Bericht herunterladen
   OpenSupportTicketContent: Wenn Sie ein Problem bei der Verwendung der Axon Ivy Engine erkennen, öffnen Sie bitte ein Support-Ticket, laden Sie dieses Zip-Archiv herunter und fügen Sie es dem Ticket hinzu.
+  SupportReportDialogHeader: Support Bericht
   TodayLogFilesContent: Heutige Protokolldateien
   ZipArchiveContainsContent: 'Dieses Zip-Archiv enthält:'
-  SupportReportDialogHeader: Support Bericht
 systemConfig:
+  ReloadSystemConfiguration: Systemkonfiguration neu laden
   ReloadSystemConfigurationMessage: Systemkonfiguration neu geladen
   ShowSecuritySystems: Sicherheitssysteme anzeigen
-  ReloadSystemConfiguration: Systemkonfiguration neu laden
 systemDatabase:
   ConfigureSystemDb: SystemDb konfigurieren
+  Driver: Treiber
   HSQLMemoryDbIsUsedMessage: HSQL Memory Db wird verwendet
   NoLicenceInstalledSummary: Keine Lizenz installiert
+  NoSystemDatabaseConfiguredSummary: Treiber
   SystemDatabase: Systemdatenbank
   URL: URL
-  Driver: Treiber
-  NoSystemDatabaseConfiguredSummary: Treiber
 systemDb:
   AddAdditionalPropertyDialogHeader: Zusätzliches Eigenschaft
+  AddProperty: Eigenschaft hinzufügen
+  AdditionalProperties: Zusätzliche Eigenschaften
+  CheckConnection: Verbindung Überpfrüfen
+  Connect: Verbinden
   ConnectionInfoAdvise: Bitte überprüfen Sie die Verbindung zur Datenbank.
   ConnectionInfoLabel: Verbindungszustand unbekannt
   CreateDatabase: Datenbank erstellen
@@ -1165,13 +1292,11 @@ systemDb:
   NoConnection: Keine Verbindung
   SaveUnknownConnectionWarningMessage: Möchten Sie diese Konfiguration wirklich speichern?
   SystemDatabaseConfigSavedSuccessfulMessage: System Datenbank Konfiguration erfolgreich gespeichert
-  AddProperty: Eigenschaft hinzufügen
-  AdditionalProperties: Zusätzliche Eigenschaften
-  CheckConnection: Verbindung Überpfrüfen
-  Connect: Verbinden
 systemDbInfo:
   LoadDataDetailMessage: Dies kann mehrere Minuten dauern
   LoadDataSummaryMessage: Informationen zur Systemdatenbank werden gesammelt
+tables:
+  RowCount: Anzahl Zeilen
 template:
   ClusterMode: Kluster-Modus!
   ClusterModeWarning: Konfigurationsänderungen können nur auf lokalen Knoten angewendet werden!
@@ -1179,89 +1304,91 @@ template:
   ServerIndex: Server-Index
   ShowHealthDetails: Gesundheitsdetails anzeigen ...
   SupportReport: Support Bericht
+tlsTester:
+  Tests: Kontrollen
 tlsTesterMissingCertView:
   AddCertificateToTruststoreSuccessMesage: Das Zertifikat wurde erfolgreich hinzugefügt.
   AddToTruststore: Zum Vertrauensspeicher hinzufügen
   AddX509CertificateToTruststoreSuccessMesage: ${certificate} wurde erfolgreich hinzugefügt
-  ValidFrom: 'gültig ab:'
-  ValidUntil: 'gültig bis:'
   MissingCert: 'Fehlendes Zertifikat:'
   PublicKey: 'Öffentlicher Schlüssel:'
   Subject: 'Inhaber:'
+  ValidFrom: 'gültig ab:'
+  ValidUntil: 'gültig bis:'
 topBarItem:
   Help: Hilfe
 triggers:
-  Triggers: Auslöser
   Timing: Zeitpunkt
+  Triggers: Auslöser
 updateRoleParent:
-  UpdateRoleParentDialogWarningMessage: Dies ist eine kritische und gefährliche Operation, zumindest für nicht-dynamische Rollen. Die Rollenhierarchie ist in Ihrem Axon Ivy Projekt definiert und Ihr laufenden Prozesse kann von dieser Hierachie abhängen.
   UpdateRoleParentDialogHeader: Übergeordete Rolle aktualisieren
+  UpdateRoleParentDialogWarningMessage: Dies ist eine kritische und gefährliche Operation, zumindest für nicht-dynamische Rollen. Die Rollenhierarchie ist in Ihrem Axon Ivy Projekt definiert und Ihr laufenden Prozesse kann von dieser Hierachie abhängen.
 userDetail:
+  CanWorkOnTasks: Aufgaben an denen gerarbeitet werden kann
   PersonalTasks: Persönliche Aufgaben
   StartedCases: Gestartete Fälle
-  CanWorkOnTasks: Aufgaben an denen gerarbeitet werden kann
   WorkingOnTasks: Aufgaben an denen gearbeitet wird
 userDetailAbsences:
+  Absences: Abwesenheiten
   End: Ende
   Start: Start
   UserIsCurrentlyAbsent: Benutzer ist derzeit abwesend
   UserIsCurrentlyNotAbsent: Benutzer ist derzeit anwesend
   Working: Arbeiten
-  Absences: Abwesenheiten
 userDetailInformation:
   AddRoleFailedMessage: Benutzer ist bereits Mitglied dieser Rolle
   ConfirmPassword: Passwort bestätigen
   DeleteUser: Löschen Sie diesen Benutzer
+  DeleteUserDialogHeader: Benutzer löschen
   DisableUser: Diesen Benutzer deaktivieren
   DisabledUserWarningMessage: Dieser Benutzer ist deaktiviert
   EMailAddress: E-Mail Adresse
   EnableUser: Diesen Benutzer aktivieren
   ExternalID: Externe ID
   ExternalName: Externer Name
+  FormattingLanguage: Formattierungs-Spache
   NotFoundSecuritySystemMessage: Sicherheitssystem '${securitySystem} nicht gefunden
   NotFoundUserMessage: Benutzer '${user} nicht gefunden
+  Password: Passwort
+  Synch: Synchronisieren
   UserDeleteHintMessage: Anstatt diesen Benutzer zu löschen, können Sie ihn auch deaktivieren, damit Sie nicht seine Workflow-Geschichte verlieren.
   UserDeleteHintMessageWithPersonalTasks: Der Benutzer '${user}' hat ${tasks} persönliche Aufgaben. Wenn Sie diesen Benutzer löschen, kann kein anderer Benutzer an diesen Aufgaben arbeiten. Anstatt den Benutzer zu löschen, können Sie ihn deaktivieren, damit Sie seine Workflow-Geschichte nicht verlieren.
   UserInExternalSecuritySystemMessage: Dieser Benutzer wird von einem externen Sicherheitssystem verwaltet
   UserInformation: Benutzerinformationen
   UserInformationChangesSavedMessage: Benutzerinformationsänderungen gespeichert
-  DeleteUserDialogHeader: Benutzer löschen
-  FormattingLanguage: Formattierungs-Spache
-  Password: Passwort
-  Synch: Synchronisieren
 userDetailNotifications:
   ByDefault: standardmäßig
+  Event: Erreignis
   NotSubscribed: Nicht abonniert
+  NotificationChannels: Benachrichtigungskanäle
   NotificationChannelsChangesSavedMessage: Benachrichtigungskanäle Änderungen gespeichert
+  NotificationChannelsResetMessage: Benachrichtigungskanäle zurücksetzen
   ResetToDefault: Zurück zum Standard
   Subscribed: Abonniert
-  Event: Erreignis
-  NotificationChannels: Benachrichtigungskanäle
-  NotificationChannelsResetMessage: Benachrichtigungskanäle zurücksetzen
 userDetailRoles:
-  RoleInExternalSecuritySystemMessage: Die Rolle wird vom einem externen Sicherheitssystem verwaltet
-  RoleSearchPerformanceReasonsMessage: Aus Leistungsgründen werden nur die ersten 20 Rollen geladen. Verwenden Sie die Suche, um eine bestimmte Rolle zu finden.
   AllRoles: Alle Rollen
   Inherited: Vererbt
+  RoleInExternalSecuritySystemMessage: Die Rolle wird vom einem externen Sicherheitssystem verwaltet
+  RoleSearchPerformanceReasonsMessage: Aus Leistungsgründen werden nur die ersten 20 Rollen geladen. Verwenden Sie die Suche, um eine bestimmte Rolle zu finden.
 userDetailSubstitutes:
   For: Für
   OnAbsence: Bei Abwesenheit
-  Substitutes: Stellvertreter
-  Type: Typ
   Permanent: Immer
   Personal: Persönliche
+  Substitutes: Stellvertreter
+  Type: Typ
 users:
   AddUser: Benutzer hinzufügen
   SynchSingleUser: Einzelner Benutzer synchronisieren
 usersTable:
-  Filter: 'Filter:'
-  LastLogin: Letzte Anmeldung
-  LoggedIn: Angemeldet
   Disabled: '[deaktiviert]'
   DisabledUsersFilter: Deaktivierte Benutzer
   Email: E-Mail
   EnabledUsersFilter: Aktivierte Benutzer
   External: '[extern]'
+  Filter: 'Filter:'
+  LastLogin: Letzte Anmeldung
+  LoggedIn: Angemeldet
   ManualDisabledUsersFilter: Manuell deaktivierte Benutzer
   ManualUsersFilter: Manuelle Benutzer
   ShowDisabledUsers: Deaktivierte Benutzer anzeigen
@@ -1269,49 +1396,51 @@ usersTable:
   SynchSingleUser: Einzelner Benutzer synchronisieren
   Working: Arbeitet
 userSynch:
-  UserName: Benutzername
-  UserNameRequiredMessage: Benutzername ist erforderlich
   Synch: Synchronisieren
   SynchronizeSingleUserDialogHeader: Einzelner Benutzer synchronisieren
+  UserName: Benutzername
+  UserNameRequiredMessage: Benutzername ist erforderlich
+variables:
+  VariableConfigurationDialogTitle: variabel
 webServer:
   BaseUrl: Basis Url
   BaseUrlHelpMessage: Basis-Url der Engine wird verwendet, um absolute URIs ohne Anfrage zu bauen (E-Mail-Links, ...)
-  BaseUrlProblemDetectedDetailMessage: "'Basis-Url' scheint anders zu sein als Ihre aktuelle Browser-Basis-URL. Sie müssen möglicherweise Ihr 'Basis Url' richtig konfigurieren"
+  BaseUrlProblemDetectedDetailMessage: '''Basis-Url'' scheint anders zu sein als Ihre aktuelle Browser-Basis-URL. Sie müssen möglicherweise Ihr ''Basis Url'' richtig konfigurieren'
   BaseUrlProblemDetectedSummaryMessage: Problem erkannt
+  BaseUrlSavedMessage: Basis-Url gespeichert
+  BaseUrlSettings: Basis-Url Einstellungen
   ChangedConfigSuccessfulMessage: ${key} erfolgreich geändert
   CheckDocumentLink: 'Lesen Sie unsere Dokumentation für weitere Details:'
   Documentation: dokumentation
+  Enabled: 'Aktiviert:'
   EvaluatedUrl: Evaluierte URL
   EvaluatedUrlHelpMessage: Beispiel wie ein externer Link berechnet wird
   ExternalBaseUrl: Externe Basis-URL
   ExternalBaseUrlHelpMessage: Basis-URL, die von der Engine verwendet wird, um absolute URIs zu bauen (Start-Links, E-Mail-Links, ...)
-  ExternalBaseUrlProblemDetectedDetailMessage: "'External Basis-Url' scheint anders zu sein als Ihre aktuelle Browser basierte Url"
+  ExternalBaseUrlProblemDetectedDetailMessage: '''External Basis-Url'' scheint anders zu sein als Ihre aktuelle Browser basierte Url'
   ExternalBaseUrlProblemDetectedSummaryMessage: Problem erkannt
   HTTPConnector: HTTP Connector
   HTTPSConnectorctor: HTTPS Connector
   MissingSecurityHeadersDetailMessage: 'Die Antwort enthält keine Sicherheits-Header, es ist möglich, dass diese von einem Reverse-Proxy hinzugefügt werden (Sie können das mittels Browser DevTools überprüfen): ${missingSecurityHeaders}.'
-  RemoteAddressHelpMessage: Die Adresse, von der aus die Anfrage gesendet wurde (sollte Ihr IP sein)
-  StepWarningMessage: Aktivieren Sie mindestens den HTTP oder HTTPS Connector
-  WebServerConnectors: Web Server Connectors
-  BaseUrlSavedMessage: Basis-Url gespeichert
-  BaseUrlSettings: Basis-Url Einstellungen
-  Enabled: 'Aktiviert:'
   MissingSecurityHeadersSummaryMessage: Vermisster Sicherheits-Header?
   Port: 'Port:'
   RemoteAddress: Entfernte Adresse
+  RemoteAddressHelpMessage: Die Adresse, von der aus die Anfrage gesendet wurde (sollte Ihr IP sein)
   RequestData: Anfrage Daten
   RequestHeader: Anfrage Header
   ResponseHeader: Antwort Header
   ResponseHeaders: Antwort Headers
   ShowRequestHeaders: Zeige Anfrage Headers
   ShowResponseHeaders: Zeige Antwort Headers
+  StepWarningMessage: Aktivieren Sie mindestens den HTTP oder HTTPS Connector
+  WebServerConnectors: Web Server Connectors
 webServiceConfiguration:
   ResetConfiguration: Konfiguration zurücksetzen
+  ResetWSConfirmDialogHeader: Webservice zurücksetzen
   ResetWSConfirmDialogMessage: Sind Sie sicher, dass Sie diesen Webservice zurücksetzen möchten?
   WebServiceConfigurationResetMessage: Webservice Konfiguration zurücksetzen
   WebServiceConfigurationSavedMessage: Webservice Konfiguration gespeichert
   WebServiceConfigurations: Webservice Konfigurationen
-  ResetWSConfirmDialogHeader: Webservice zurücksetzen
   WsdlUrl: Wsdl Url
 webServiceDetail:
   GuideText: Um Ihren Webservice zu bearbeiten, überschreiben Sie Ihre App.yaml-Datei. Kopieren und fügen zum Beispiel den untenstehenden Abschnitt.
@@ -1322,153 +1451,21 @@ webServiceEndpoints:
   EditEndpointsConfigurationDialogHeader: Endpunkt bearbeiten
   EndPointSavedMessage: Endpunkt gespeichert
   Endpoints: Endpunkte
+  Fallbacks: Ausweichmöglichkeiten
   NoEndpointInfoMessage: Kein Endpunkt für diesen Webservice definiert
   TestConnectionAuthenticationMessage: Authentifizierung (nur HttpBasic unterstützt) war nicht erfolgreich
-  TestConnectionErrorMessage: "Die URL scheint nicht korrekt zu sein oder enthält einen Scripting-Kontext (kann nicht ausgewertet werden)\nDer folgende Fehler trat auf: ${exception}"
+  TestConnectionErrorMessage: |-
+    Die URL scheint nicht korrekt zu sein oder enthält einen Scripting-Kontext (kann nicht ausgewertet werden)
+    Der folgende Fehler trat auf: ${exception}
   TestConnectionNotFoundMessage: Service nicht gefunden
-  TestWsEndpointButtonTitle: Teste Web Service Endpunkt Verbindung
-  Fallbacks: Ausweichmöglichkeiten
   TestConnectionSuccessMessage: Webservice erfolgreich erreicht
+  TestWsEndpointButtonTitle: Teste Web Service Endpunkt Verbindung
 webServiceProcesses:
   NoWebServiceProcessesFound: Keine Webservice-Prozesse auf den bereitgestellten Applikationen gefunden
   WebServiceWSDL: Webservice WSDL
 webServices:
-  NoWebServicesFound: Keine Webservices gefunden auf den bereitgestellten Applikationen
   EndpointUrls: Endpunkt Urls
-admins:
-  AddAdministrator: Administrator hinzufügen
-  DefineAtLeastOneAdministratorMessage: Sie müssen mindestens ein Administrator definieren!
-applicationDetail:
-  ProcessModels: Prozess Modelle
-applications:
-  AppPmPmvHeader: App / PM / PMV
-  ApplicationConvertToLatestVersionMessage: Alle Axon Ivy Projekte im Zustand RELEASED und DEPRECATED werden in die neuste Version konvertiert.
-  ApplicationWarningMessageForNoReleasedPmv: Mindestens ein Prozess Modell hat keine freigegebene Prozess Modell Version
-  Convert: Konvertieren
-  ConvertButtonTitle: Konvertiert das Project in die neuste Version
-  DeactivateButtonTitle: Deaktivieren
-  DeleteHintMessage: Sind Sie sicher, dass Sie dieses ${activityType} löschen wollen?
-  DeleteRunningCasesHintMessage: Die ${activityType} hat ${runningCases} laufende Fälle. Diese werden auch gelöscht.
-  DeploymentButtonTitle: Verteilung
-  DisableErrorMessage: Der Zustand der Application ${application} kann nicht evaluiert werden
-  ExecutionErrorMessageSummary: Kann Modul nicht ${action}
-  ExecutionSuccessMessageSummary: Modul erfolgreich ${action}
-  ForceDeleteButtonTitle: Löschen erzwingen
-  LastChangeDate: 'Letztes Änderungsdatum:'
-  LibraryVersion: 'Bibliotheksversion:'
-  PmvConvertToLatestVersionMessage: Das Axon Ivy Projekt wird in die neueste Version konvertiert.
-  ReleaseButtonTitle: Freigabe
-  RunningCasesHeader: Laufende Fälle
-  WarningMessageForNoReleasedPmv: Keine freigegebene Prozess Model Version
-applicationTabs:
-  CreateApplication: ­Applikation hinzufügen
-  NoConfiguredApplication: Sie haben keine Applikationen konfiguriert.
-axonivy:
-  AxonIvyAG: Axon Ivy AG
-  Build: Gebaut am
-  Copyright: Copyright
-  InstallationDirectory: Installationsverzeichnis
-bean:
-  Bean: Bean
-  Class: Klasse
-  LastInitializationError: Letzter Initialisierungsfehler
-  LastStart: Letzter Start
-  LastStartError: Letzter Startfehler
-  LastStopError: Letzter Stopfehler
-  RequestPath: Anfragepfad
-  StartsBean: Startet das Bean
-  StopsBean: Stoppt das Bean
-branding:
-  ChooseOrDropFileWhichEndsWith: 'Wähle oder ziehe eine Datei mit folgender Dateiendung:'
-  DefaultValue: 'Standardwert: '
-  DownloadBrandingResourcesDialogHeader: Lade die Brandingresource von '${application}' herunter
-  EditColorDialogHeader: Farbe bearbeiten
-  EditCustomCSSDialogHeader: Berarbeite ${customCssFile}
-  FaviconHelperMessage: Das Logo für die Browser-Registerkarte (Quatratisches Format empfohlen)
-  LogoHelperMessage: Das Haupt-Logo Bild
-  LogoLightHelperMessage: Das gleiche wie das Haupt-Logo, aber zum Beispiel mit einer weissen Schrift
-  LogoMailHelperMessage: Das Logo das standardmässig für Axon Ivy Engine Email-Notifikationen verwendet wird
-  LogoSmallHelperMessage: Kleines Logo (quadratisches Format empfohlen), wird für Fehler und Anmeldemasken verwendet
-  ResetBrandingResourceConfirmMessage: Sind Sie sicher, dass Sie die Branding Ressource '${resource}' zurücksetzen wollen?
-  ResetBrandingResourceDialogHeader: Branding Ressource zurücksetzen
-  ResetCSSColorConfirmMessage: Sind Sie sicher, dass Sie die CSS Farbe '${cssColor}' zurücksetzen wollen?
-  ResetColorDialogHeader: Farbe zurücksetzen
-  ResetResourceSuccessfulMessage: "'${resource}' erfolgreich zurückgesetzt"
-  ResetResourceUnsuccessfulMessage: Konnte '${resource}' nicht zurücksetzen
-  UnknownColor: Unbekannte Farbe
-  UpdateColorSuccessfulMessage: Farbe '${color}' erfolgreich aktualisiert
-  UpdateColorUnsuccessfulMessage: Konnte '${color}' nicht aktualisieren
-  UpdateCustomCSSSuccessfulMessage: "'${customCssFile}' erfolgreich gespeichert"
-  UpdateCustomCSSUnsuccessfulMessage: Konnte '${customCssFile}' nicht speichern
-  UploadFileSuccessfulMessage: ${resource} erfolgreich hochgeladen
-  UploadResourceDialogHeader: Ressource hochladen nach '${application}'
-  Value: 'Wert: '
-breadcrumbInfos:
-  SelectedApplication: Selektierte Applikation
-  SelectedSecuritySystem: Selektiertes Sicherheitssystem
-businessCalendarDetail:
-  EditAppYamlFile: Bearbeite app yaml Datei
-channelState:
-  ErrorInformation: Fehler Information
-  FailedDeliverAttempsSoFar: 'Fehlgeschlagene Lieferungen bis jetzt:'
-  LastError: 'Letzter Fehler:'
-  NextRetryToDeliver: 'Nächster Auslieferungsversuch:'
-cluster:
-  ClusterNodeState: Knoten ist nicht lizenziert. Er wird immer mit dem Fehlercode 503 Service Unavailable antworten.
-  Context: Kontext
-  Node: Knoten
-  Nodes: Knoten
-  Sessions: Sitzungen
-clusterNodeInfo:
-  AxonIvyVersion: Axon Ivy Version
-  ClusterNodeDetail: Klusterknoten Detail
-  IPAddress: IP-Adresse
-  IPPort: IP-Port
-  IsLicensed: Ist lizensiert
-  JavaVersion: Java Version
-  JavaVirtualMachineName: Java Virtual Machine Name
-  JvmRoute: Jvm Route
-  OperatingSystemArchitecture: Betriebssystem Architektur
-  OperatingSystemName: Betriebssystem Name
-  OperatingSystemVersion: Betriebssystem Version
-databases:
-  NoDatabasesFound: Keine Datenbank gefunden
-evenBeanThreads:
-  Id: Id
-logs:
-  CouldNotZipLogsMessage: Konnte Log Dateien nicht komprimieren
-  DownloadAllLogFiles: Lade alle Log Dateien herunter
-  DownloadLog: Log runterladen
-  NoLogMessage: 'Keine Log Dateien gefunden für dieses Datum:'
-  OpenLog: Öffne Log
-monitorStartEventDetails:
-  ProcessModels: Prozess Model
-newRole:
-  NewChildRoleDialogHeader: Neue Kindrolle für Rolle ${role} hinzufügen
-poll:
-  LastPollError: Letzer Aufruf Fehler
-  NextPoll: Nächster Aufruf
-  Poll: Aufruf
-  PollBean: Bean Aufruf
-  PollBeanWarningMessage: Das Einplanen eines Aufrufs des Beans kann negative Nebenwirkungen haben.
-  PollConfiguration: Aufruf Konfiguration
-  PollDuration: Aufruf Ausführungszeit
-  PollDurationTooltip: min / mw / max
-  PollErrors: Aufruf Fehler
-  Polls: Aufrufe
-  ScheduleToPollBean: Aufruf des Beans jetzt einplanen
-  StopsBean: Bean stoppen
-progressLoader:
-  Loading: Lade ...
-sslConfig:
-  KeyStoreCertificates: Schlüsselspeicher Zertifikate
-  TrustStoreCertificates: Vertrauensspeicher Zertifikate
-tables:
-  RowCount: Anzahl Zeilen
-tlsTester:
-  Tests: Kontrollen
-variables:
-  VariableConfigurationDialogTitle: variabel
+  NoWebServicesFound: Keine Webservices gefunden auf den bereitgestellten Applikationen
 weekConfiguration:
   DefinedWorkingTime: Definiere die Arbeitszeit
   FreeDay: Frei
