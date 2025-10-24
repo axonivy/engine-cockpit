@@ -449,7 +449,7 @@ exceptionDetail:
   TechnicalCause: Technical cause
   ThreadLocalValues: Thread local values
   ThrownBy: Thrown by
-  UnexpectedErrorOccured: 'An unexpected error has occured:'
+  UnexpectedErrorOccured: 'An unexpected error has occurred:'
 fileUpload:
   AcceptFilesPlaceholder: 'Choose or drop a file which ends with: '
   ChooseFileButton: Choose file
@@ -492,8 +492,7 @@ indices:
   Store: Store
 info:
   DemoPortal: Demo Portal
-  DemoPortalIntroduction: The demo portal offers the perfect entry point to explore and experience the powerful features of the Axon Ivy platform as a workflow engine. It allows users to discover how easily complex business processes can be automated, streamlined, and optimized. Whether you're looking
-    to manage tasks, integrate systems, or orchestrate workflows across departments, the platform provides intuitive tools and a flexible environment to meet your business needs.
+  DemoPortalIntroduction: The demo portal offers the perfect entry point to explore and experience the powerful features of the Axon Ivy platform as a workflow engine. It allows users to discover how easily complex business processes can be automated, streamlined, and optimized. Whether you're looking to manage tasks, integrate systems, or orchestrate workflows across departments, the platform provides intuitive tools and a flexible environment to meet your business needs.
   EngineMaintenanceReasonFirstPart: Therefore the Axon Ivy Engine is currently operating in maintenance mode. If your setup is broken for example because the Axon Ivy Engine can not connect to the system database or the licence has been expired, then go
   EngineMaintenanceReasonSecondPart: to fix it. If the Axon Ivy Engine has undergone an update, it is essential to initiate the
   EngineMaintenanceReasonThirdPart: to ensure that the existing instance is fully operational. This process is crucial for maintaining the functionality and integrity of the system.
@@ -501,8 +500,7 @@ info:
   MaintenanceMode: Maintenance Mode
   MigrationWizard: Migration Wizard
   NEODesigner: NEO Designer
-  NEODesignerIntroduction: NEO Designer is a low-code platform that accelerates application development by using visual tools and pre-built components, enabling seamless collaboration between business users and developers. This platform simplifies the automation of business tasks, streamlining the development
-    process and reducing complexity. Designed to enhance efficiency, NEO Designer supports the rapid deployment of scalable applications, tailored to meet specific business needs effectively.
+  NEODesignerIntroduction: NEO Designer is a low-code platform that accelerates application development by using visual tools and pre-built components, enabling seamless collaboration between business users and developers. This platform simplifies the automation of business tasks, streamlining the development process and reducing complexity. Designed to enhance efficiency, NEO Designer supports the rapid deployment of scalable applications, tailored to meet specific business needs effectively.
   NoActiveProjects: This app has no active projects.
   NoApplications: No applications
   Open: Open
@@ -623,8 +621,7 @@ migrate:
   EngineMigrationErrorMessage: Error during migration. ${exception}
   EngineMigrationSuccessfulMessage: The Axon Ivy Engine migration was successful. Restart your Axon Ivy Engine now.
   InPlaceMigration: In-Place Migration
-  InPlaceMigrationIntroduction: This migration is an in place migration. Therefore, the new Axon Ivy Engine will be installed in exactly the same place as the old Axon Ivy Engine. The configuration files in container environments, such as the ivy.yaml, may be provided in a read-only mode. As the migration
-    needs to operate with write access onto these configuration files, you can define whether a temporary directory should be used to perform these changes. After the migration, you must manually add these files to the Axon Ivy Engine.
+  InPlaceMigrationIntroduction: This migration is an in place migration. Therefore, the new Axon Ivy Engine will be installed in exactly the same place as the old Axon Ivy Engine. The configuration files in container environments, such as the ivy.yaml, may be provided in a read-only mode. As the migration needs to operate with write access onto these configuration files, you can define whether a temporary directory should be used to perform these changes. After the migration, you must manually add these files to the Axon Ivy Engine.
   InvalidLicenceWarningMessage: 'Licence is not valid. Please upload a new licence otherwise you can not start the Axon Ivy Engine after migration. Reason: ${message}'
   Licence: Licence
   LoadLocation: Load Location
@@ -926,8 +923,7 @@ monitorTraceDetail:
   SlowRequestDetail: Slow Request Detail
   SlowRequests: Slow Requests
 moveApplication:
-  ChangeSecuritySystemDialogContent: 'To change the security system of an application, the target security system must have the same roles and users so that all runtime data like tasks, cases, business data and more can be re-assigned. Therefore, you first need to validate if the target security system
-    is ready. If this is not the case, you can check and prepare the target security system:'
+  ChangeSecuritySystemDialogContent: 'To change the security system of an application, the target security system must have the same roles and users so that all runtime data like tasks, cases, business data and more can be re-assigned. Therefore, you first need to validate if the target security system is ready. If this is not the case, you can check and prepare the target security system:'
   ChangeSecuritySystemDialogHeader: Change security system
   ChangeSecuritySystemWarningMessage: This is a heavy operation that moves a lot of data. We highly recommend to making a backup of your system database first.
   MergeSecuritySystem: Merge Security System
@@ -1020,8 +1016,7 @@ progressLoader:
   Loading: Loading...
 renameRole:
   RenameRoleDialogHeader: Rename Role
-  RenameRoleDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes
-    will fail in the future.
+  RenameRoleDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes will fail in the future.
 restart:
   Restart: Restart
   RestartConfirmMessage: Are you sure you want to restart the ${application}?
@@ -1062,8 +1057,7 @@ roleDetailInformation:
   DeleteRole: Delete this role
   DeleteRoleDialogConfirmMessage: Are you sure you want to delete the role '${role}'?
   DeleteRoleDialogHeader: Delete Role
-  DeleteRoleDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes
-    will fail in the future.
+  DeleteRoleDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes will fail in the future.
   DisplayName: Display Name
   ExternalName: External Name
   ParentRole: Parent Role
@@ -1143,9 +1137,7 @@ securitySystemMerge:
   CompareButton: Compare
   CompareButtonTitle: This will only compare the source with the target security system. This will NOT make any changes.
   ComparisonReport: Comparison Report
-  ComparisonReportInfo: To move an application from source to target security system the same users and roles must exist in the target security system as in the source system. By executing all CREATE operations, all missing users and roles will be created in the target security system. There is no need
-    to execute the UPDATE operations or DELETE operations, but you may want to cleanup the target security system with these operations. It could be that the role already exists, but this one is not actually the same role. If this is the case, the role must be manually renamed in the target security system
-    as well as the role in the Axon Ivy Project. Then the Axon Ivy Project must be redeployed.
+  ComparisonReportInfo: To move an application from source to target security system the same users and roles must exist in the target security system as in the source system. By executing all CREATE operations, all missing users and roles will be created in the target security system. There is no need to execute the UPDATE operations or DELETE operations, but you may want to cleanup the target security system with these operations. It could be that the role already exists, but this one is not actually the same role. If this is the case, the role must be manually renamed in the target security system as well as the role in the Axon Ivy Project. Then the Axon Ivy Project must be redeployed.
   CreateSolveHintMessage: This will create the entry in the target security system ${securitySystem}
   DeleteSolveHintMessage: This will delete the entry in the target security system ${securitySystem}
   ExceutionFailed: Exceution failed
