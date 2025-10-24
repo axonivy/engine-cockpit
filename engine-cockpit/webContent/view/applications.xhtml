@@ -54,15 +54,13 @@
                   <i class="si si-#{activity.icon} table-icon" title="#{activity.iconTitle}" />
                 </h:outputText>
               </h:outputText>
-              <!-- 
-              <h:outputText rendered="#{activity.pmv}">
-                <i class="ml-2 si si-#{activity.state.releaseStateIcon} table-icon" title="#{activity.state.releaseState}"></i>
+              <h:outputText rendered="#{activity.pm}">
+                <i class="ml-2 si si-#{activity.releaseStateIcon} table-icon" title="#{activity.releaseState}"></i>
               </h:outputText>
               <h:outputText rendered="#{activity.pmv}"
-                value="[#{activity.qualifiedVersion} / #{activity.lastChangeDate}]"
-                title="#{ivy.cm.co('/applications/LibraryVersion')} #{activity.qualifiedVersion} / #{ivy.cm.co('/applications/LastChangeDate')} #{activity.lastChangeDate}"
+                value=" [#{activity.version} / #{activity.lastChangeDate}]"
+                title="#{ivy.cm.co('/applications/LibraryVersion')} #{activity.version} / #{ivy.cm.co('/applications/LastChangeDate')} #{activity.lastChangeDate}"
                 style="color: grey;" class=" margin-left: 10px;" />
-                 -->
             </p:column>
 
             <p:column headerText="#{ivy.cm.co('/applications/RunningCasesHeader')}" responsivePriority="4" style="text-align: center; width: 110px;">

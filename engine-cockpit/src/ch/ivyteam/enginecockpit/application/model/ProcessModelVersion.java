@@ -32,6 +32,7 @@ public class ProcessModelVersion implements AppTreeItem {
     updateStats();
   }
 
+  @Override
   public String getDetailView() {
     return "xx";
     // return "pmv-detail.xhtml?appName=" + pmv.getApplication().getName() + "&pmName="
@@ -54,8 +55,14 @@ public class ProcessModelVersion implements AppTreeItem {
     return "module-three-1";
   }
 
+  @Override
   public boolean isPmv() {
     return true;
+  }
+
+  @Override
+  public String getVersion() {
+    return pmv.getLibraryVersion();
   }
 
   public boolean isNotConvertable() {
@@ -104,6 +111,7 @@ public class ProcessModelVersion implements AppTreeItem {
     return lib.version;
   }
 
+  @Override
   public String getLastChangeDate() {
     return lastChangeDate;
   }

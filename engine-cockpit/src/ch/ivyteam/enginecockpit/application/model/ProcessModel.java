@@ -4,6 +4,7 @@ import java.util.List;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.ivy.application.IProcessModel;
+import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
@@ -24,6 +25,7 @@ public class ProcessModel implements AppTreeItem {
     return String.valueOf(pm.getVersion());
   }
 
+  @Override
   public boolean isPm() {
     return true;
   }
@@ -79,6 +81,22 @@ public class ProcessModel implements AppTreeItem {
     var processModel = (ch.ivyteam.ivy.application.internal.ProcessModel) pm;
     // return processModel.hasReleasedProcessModelVersion();
     return false;
+  }
+
+  @Override
+  public ReleaseState getReleaseState() {
+    return pm.getReleaseState();
+  }
+
+  @Override
+  public String getReleaseStateIcon() {
+    return switch (getReleaseState()) {
+      case RELEASED -> "check-circle-1";
+      case DEPRECATED -> "delete";
+      case ARCHIVED -> "archive";
+      case CREATED, PREPARED -> "advertising-megaphone-2";
+      default -> "question-circle";
+    };
   }
 
   public String getWarningMessageForNoReleasedPmv() {
