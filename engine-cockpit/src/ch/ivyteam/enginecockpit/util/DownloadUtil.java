@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -17,9 +18,10 @@ public class DownloadUtil {
 
   private final static Logger LOGGER = Logger.getLogger(DownloadUtil.class);
 
-  public static void zipDir(Path source, OutputStream out) throws IOException {
+  public static void zipDir(OutputStream out, List<Path> sources) throws IOException {
     try (var zs = new ZipOutputStream(out)) {
-      Files.walk(source)
+      for (var source : sources) {
+        Files.walk(source)
               .filter(path -> !Files.isDirectory(path))
               .forEach(path -> {
                 var zipEntry = new ZipEntry(source.relativize(path).toString());
@@ -31,6 +33,7 @@ public class DownloadUtil {
                   LOGGER.error(ex);
                 }
               });
+      }
     }
   }
 

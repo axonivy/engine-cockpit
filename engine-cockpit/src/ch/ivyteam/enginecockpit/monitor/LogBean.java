@@ -87,7 +87,7 @@ public class LogBean implements AllResourcesDownload {
   private File writeLogsToZip() {
     try {
       var zipFile = Files.createTempFile("logs", ".zip").toFile();
-      DownloadUtil.zipDir(UrlUtil.getLogDir().toRealPath(), new FileOutputStream(zipFile));
+      DownloadUtil.zipDir(new FileOutputStream(zipFile), List.of(UrlUtil.getLogDir().toRealPath()));
       return zipFile;
     } catch (IOException ex) {
       var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getClass().getSimpleName(), ex.getMessage());
