@@ -259,7 +259,7 @@ common:
   Roles: Rollen
   Run: Starten
   RunSearchEngineQuery: Search Engine Query ausführen
-  Running: Läuft
+  Running: Am Laufen
   RunningCases: Laufende Fälle
   SSL: SSL
   Save: Speichern
@@ -375,8 +375,8 @@ databaseDetail:
 databaseHistory:
   CopyToClipboardButtonTitle: Kopieren in der Zwischenablage
   ProcessElementHeader: Prozesselement
-  ResultTimeHeader: Lesezeit
   ResultTimeValueTitle: Die Zeit, die benötigt wird, um die Ergebnisse der Abfrage zu lesen
+  ResultTimeHeader: Ergebniszeit
   RowsAffectedHeader: Betroffende Zeilen
   SQLHeader: SQL
 databases:
@@ -933,8 +933,8 @@ newUser:
   EMailAddress: E-Mail Adresse
   Password: Passwort
 notification:
-  Payload: Nutzdaten
-  ShowPayload: Anzeige der Nutzdaten
+  Payload: Nutzlast
+  ShowPayload: Nutzlast anzeigen
 notificationChannelDetail:
   NotFoundChannel: Kanal '${channelId} nicht gefunden
   NotFoundSecurityContext: Konnte Sicherheitskontext ${system} nicht finden
@@ -1038,7 +1038,7 @@ restServices:
   ConfigureRestBackendButtonTitle: Rest Backend konfigurieren
   RESTServices: REST Services
 roleDetail:
-  DirectOpenTasks: Direkte offene Aufgaben
+  DirectOpenTasks: Direkte offene Tasks
   InheritUsers: Geerbte Benutzer
   RunningTasks: Aufgaben in Bearbeitung
 roleDetailInformation:
@@ -1248,6 +1248,12 @@ sslTable:
   ExpiryDate: Ablaufdatum
   Subject: Inhaber
   ValidCertificate: Gültig
+  AddStoreHeader: Geben Sie das Passwort ein
+  EnterKeyPassword: Schlüsselpasswort
+  EnterPassword: Passwort speichern
+  PrivateKey: Privater Schlüssel
+  PublicKey: Öffentlicher Schlüssel
+  uploadInformation: Geben Sie Ihre Passwort des importierten Speichers und wenn es einen privaten Schlüssel gibt auch das Schlüsselpasswort
 sslTrustStore:
   DeleteCertificateMessage: Zertifikat '${certificate}' gelöscht
   EnableInsecureSSLAndHTTPSConnections: Unsichere SSL- und HTTPS-Verbindungen aktivieren
@@ -1373,7 +1379,7 @@ userDetailRoles:
 userDetailSubstitutes:
   For: Für
   OnAbsence: Bei Abwesenheit
-  Permanent: Immer
+  Permanent: Dauerhaft
   Personal: Persönliche
   Substitutes: Stellvertreter
   Type: Typ
