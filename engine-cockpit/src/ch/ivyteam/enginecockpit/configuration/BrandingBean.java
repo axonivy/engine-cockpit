@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +26,9 @@ import ch.ivyteam.enginecockpit.configuration.model.CssColorDTO;
 import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
-import ch.ivyteam.enginecockpit.util.UrlUtil;
+import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.branding.BrandingIO;
+import ch.ivyteam.ivy.application.branding.BrandingResolver;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -172,14 +174,14 @@ public class BrandingBean implements AllResourcesDownload {
 
   @Override
   public StreamedContent getAllResourcesDownload() {
-    var appName = managerBean.getSelectedApplicationName();
+    var app = managerBean.getSelectedIApplication();
     try (var out = new ByteArrayOutputStream()) {
-      DownloadUtil.zipDir(appBrandingDir(appName), out);
+      DownloadUtil.zipDir(out, appBrandingDirs(app));
       return DefaultStreamedContent
               .builder()
               .stream(() -> new ByteArrayInputStream(out.toByteArray()))
               .contentType("application/zip")
-              .name("branding-" + appName + ".zip")
+              .name("branding-" + app.getName() + ".zip")
               .build();
     } catch (IOException ex) {
       var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage());
@@ -188,21 +190,19 @@ public class BrandingBean implements AllResourcesDownload {
     return null;
   }
 
-  private Path appBrandingDir(String appName) throws IOException {
-    var brandingDir = UrlUtil.getConfigFile("applications").resolve(appName).resolve("branding");
-    if (!isBrandingDirEmpty(brandingDir)) {
-      return brandingDir.toRealPath();
+  private List<Path> appBrandingDirs(IApplication app) throws IOException {
+    var resolver = new BrandingResolver(app);
+    if (!resolver.hasBrandingResources()) {
+      throw new IOException("No branding resources found for app '" + app.getName() + "'");
     }
-    throw new IOException("No branding resources found for app '" + appName + "'");
-  }
-
-  private boolean isBrandingDirEmpty(Path brandingDir) throws IOException {
-    if (!Files.exists(brandingDir) || !Files.isDirectory(brandingDir)) {
-      return true;
+    var paths = new ArrayList<Path>();
+    if (Files.exists(resolver.configDir())) {
+      paths.add(resolver.configDir().toRealPath());
     }
-    try (var dir = Files.newDirectoryStream(brandingDir)) {
-      return !dir.iterator().hasNext();
+    if (Files.exists(resolver.appDir())) {
+      paths.add(resolver.appDir().toRealPath());
     }
+    return paths;
   }
 
 }
