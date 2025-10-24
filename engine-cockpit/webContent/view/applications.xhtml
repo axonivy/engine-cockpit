@@ -37,6 +37,7 @@
               actionListener="#{applicationBean.collapseAllNodes}" update="tree" title="#{ivy.cm.co('/common/CollapseAll')}"
               styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined" />
           </div>
+
           <p:treeTable id="tree" value="#{applicationBean.tree}" var="activity">
             <p:ajax event="expand" listener="#{applicationBean.nodeExpand}" />
             <p:ajax event="collapse" listener="#{applicationBean.nodeCollapse}" />
@@ -53,6 +54,7 @@
                   <i class="si si-#{activity.icon} table-icon" title="#{activity.iconTitle}" />
                 </h:outputText>
               </h:outputText>
+              <!-- 
               <h:outputText rendered="#{activity.pmv}">
                 <i class="ml-2 si si-#{activity.state.releaseStateIcon} table-icon" title="#{activity.state.releaseState}"></i>
               </h:outputText>
@@ -60,6 +62,7 @@
                 value="[#{activity.qualifiedVersion} / #{activity.lastChangeDate}]"
                 title="#{ivy.cm.co('/applications/LibraryVersion')} #{activity.qualifiedVersion} / #{ivy.cm.co('/applications/LastChangeDate')} #{activity.lastChangeDate}"
                 style="color: grey;" class=" margin-left: 10px;" />
+                 -->
             </p:column>
 
             <p:column headerText="#{ivy.cm.co('/applications/RunningCasesHeader')}" responsivePriority="4" style="text-align: center; width: 110px;">
@@ -67,6 +70,7 @@
             </p:column>
 
             <p:column headerText="#{ivy.cm.co('/common/State')}" responsivePriority="2" style="text-align: center; width: 50px;">
+              <!-- 
               <h:panelGroup styleClass="module-state"
                 title="#{activity.state.operation}#{activity.state.errorMessage}#{activity.state.childProblems}">
                 <i class="m-0 si si-#{activity.state.operationIcon} activity-state-#{activity.state.operationCssClass} table-icon"></i>
@@ -77,9 +81,11 @@
                     <i class="si si-road-sign-warning table-icon" title="#{activity.warningMessageForNoReleasedPmv}" ></i>
                   </h:outputText>
               </h:panelGroup>
+               -->
             </p:column>
 
             <p:column styleClass="table-btn-5">
+            <!-- 
               <h:panelGroup id="deployBtnHint">
                 <p:commandButton title="#{ivy.cm.co('/common/Deployment')}" icon="si si-upload-bottom" rendered="#{activity.application}"
                   id="deployBtn" styleClass="mr-1 rounded-button" actionListener="#{deploymentBean.setAppName(activity.name)}">
@@ -120,12 +126,15 @@
                   actionListener="#{applicationBean.setActiveActivity(activity)}"
                   update="form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();" />
               </p:menu>
+               -->
             </p:column>
           </p:treeTable>
 
+<!--
           <p:poll listener="#{applicationBean.reloadActivityStates}" update="form"
             autoStart="#{applicationBean.processing}" interval="1" />
 
+        
           <p:confirmDialog id="deleteConfirmDialog"
             header="#{ivy.cm.co('/common/Delete')} '#{applicationBean.activeActivity.name}'" severity="alert"
             widgetVar="deleteConfirmDialog">
@@ -178,6 +187,7 @@
             <p:commandButton id="convertFinishBtn" widgetVar="convertFinishBtn" value="#{ivy.cm.co('/common/Finish')}" styleClass="modal-input-button" disabled="true"
               update="conversionLog convertConfirmYesBtn" oncomplete="PF('convertDialog').hide();reloadTree();" icon="si si-check-circle-1" />
           </p:confirmDialog>
+        -->
         </h:form>
         <ui:include src="../includes/dialogs/newapplication.xhtml" />
       </div>

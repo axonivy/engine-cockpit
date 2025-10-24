@@ -5,12 +5,11 @@ import java.util.List;
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
-import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.restricted.IProcessModelVersionInternal;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
-public class ProcessModelVersion extends AbstractActivity {
+public class ProcessModelVersion implements AppTreeItem {
 
   private final IProcessModelVersionInternal pmv;
   private final String lastChangeDate;
@@ -21,80 +20,74 @@ public class ProcessModelVersion extends AbstractActivity {
     this(pmv, null);
   }
 
+  @Override
+  public String getName() {
+    return pmv.getName();
+  }
+
   public ProcessModelVersion(IProcessModelVersion pmv, ApplicationBean bean) {
-    super(pmv.getVersionName(), pmv.getId(), pmv, bean);
     lib = new Library();
     lastChangeDate = DateUtil.formatDate(pmv.getLastChangeDate());
     this.pmv = (IProcessModelVersionInternal) pmv;
     updateStats();
   }
 
-  @Override
   public String getDetailView() {
-    return "pmv-detail.xhtml?appName=" + pmv.getApplication().getName() + "&pmName="
-        + pmv.getProcessModel().getName() + "&pmvVersion=" + pmv.getVersionNumber();
+    return "xx";
+    // return "pmv-detail.xhtml?appName=" + pmv.getApplication().getName() + "&pmName="
+    // + pmv.getProcessModel().getName() + "&pmvVersion=" + pmv.getVersionNumber();
   }
 
-  @Override
   public void updateStats() {
-    super.updateStats();
-    if (pmv != null) {
-      getState().updateReleaseState(pmv.getReleaseState());
-    }
+    // super.updateStats();
+    // if (pmv != null) {
+    //// getState().updateReleaseState(pmv.getReleaseState());
+    // }
   }
 
-  @Override
   public long getRunningCasesCount() {
     countRunningCases();
     return runningCasesCount;
   }
 
-  @Override
   public String getIcon() {
     return "module-three-1";
   }
 
-  @Override
   public boolean isPmv() {
     return true;
   }
 
-  @Override
   public boolean isNotConvertable() {
     return !pmv.canBeConverted();
   }
 
-  @Override
   public void release() {
-    execute(() -> pmv.release(), "release", true);
+    // execute(() -> pmv.release(), "release", true);
   }
 
-  @Override
   public void delete() {
-    execute(() -> pmv.delete(), "delete", false);
+    // execute(() -> pmv.delete(), "delete", false);
   }
 
-  @Override
   public void convert() {
-    execute(() -> pmv.convertProject(new ProjectConversionLog()), "convert", true);
+    // execute(() -> pmv.convertProject(new ProjectConversionLog()), "convert", true);
   }
 
-  @Override
   public boolean canConvert() {
     return true;
   }
 
-  @Override
   public boolean isReleasable() {
-    return getState().is(ReleaseState.DEPRECATED, ReleaseState.ARCHIVED, ReleaseState.PREPARED);
+    // return getState().is(ReleaseState.DEPRECATED, ReleaseState.ARCHIVED, ReleaseState.PREPARED);
+    return true;
   }
 
-  @Override
   public List<String> isDeletable() {
-    return pmv.isDeletable();
+    // return pmv.isDeletable();
+    return List.of();
   }
 
-  @Override
   public long getApplicationId() {
     return pmv.getProcessModel().getApplication().getId();
   }
@@ -103,7 +96,6 @@ public class ProcessModelVersion extends AbstractActivity {
     return pmv.getProcessModel().getId();
   }
 
-  @Override
   public String getActivityType() {
     return AbstractActivity.PMV;
   }

@@ -9,23 +9,30 @@ import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.restricted.WorkflowContextInternal;
 
-public class ProcessModel extends AbstractActivity {
+public class ProcessModel implements AppTreeItem {
   private final IProcessModel pm;
   private Boolean isOverrideProject;
   private long runningCasesCount = -1;
   private List<String> deletable;
 
   public ProcessModel(IProcessModel pm, ApplicationBean bean) {
-    super(pm.getName(), pm.getId(), pm, bean);
     this.pm = pm;
   }
 
   @Override
+  public String getName() {
+    return String.valueOf(pm.getVersion());
+  }
+
   public boolean isPm() {
     return true;
   }
 
   @Override
+  public String getDetailView() {
+    return "#";
+  }
+
   @SuppressWarnings("restriction")
   public long getRunningCasesCount() {
     if (runningCasesCount < 0) {
@@ -35,37 +42,31 @@ public class ProcessModel extends AbstractActivity {
     return runningCasesCount;
   }
 
-  @Override
   public String getIcon() {
     return isOverrideProject() ? "move-to-bottom" : "module-three-2";
   }
 
-  @Override
   public String getIconTitle() {
     return isOverrideProject() ? "This PM is configured as strict override project" : getActivityType();
   }
 
-  @Override
   public long getApplicationId() {
-    return ((IProcessModel) activity).getApplication().getId();
+    // return ((IProcessModel) activity).getApplication().getId();
+    return pm.getApplication().getId();
   }
 
-  @Override
   public String getActivityType() {
     return AbstractActivity.PM;
   }
 
-  @Override
   public void delete() {
-    execute(() -> pm.getApplication().deleteProcessModel(getName()), "delete", false);
+    // execute(() -> pm.getApplication().deleteProcessModel(getName()), "delete", false);
   }
 
-  @Override
   public void forceDelete() {
-    execute(() -> ((IApplicationInternal) pm.getApplication()).forceDeleteProcessModel(getName()), "force delete", false);
+    // execute(() -> ((IApplicationInternal) pm.getApplication()).forceDeleteProcessModel(getName()), "force delete", false);
   }
 
-  @Override
   public List<String> isDeletable() {
     if (deletable == null) {
       deletable = pm.isDeletableInternal();
@@ -73,14 +74,13 @@ public class ProcessModel extends AbstractActivity {
     return deletable;
   }
 
-  @Override
   @SuppressWarnings("restriction")
   public boolean hasReleasedProcessModelVersion() {
     var processModel = (ch.ivyteam.ivy.application.internal.ProcessModel) pm;
-    return processModel.hasReleasedProcessModelVersion();
+    // return processModel.hasReleasedProcessModelVersion();
+    return false;
   }
 
-  @Override
   public String getWarningMessageForNoReleasedPmv() {
     return Ivy.cm().co("/applications/WarningMessageForNoReleasedPmv");
   }
