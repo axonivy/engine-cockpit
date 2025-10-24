@@ -55,6 +55,7 @@ branding:
   ChooseOrDropFileWhichEndsWith: 'Choose or drop a file which ends with:'
   DefaultValue: 'Default Value: '
   DownloadBrandingResourcesDialogHeader: Download Branding resources of '${application}'
+  DownloadBrandingResourcesError: No branding resources found for app '${appName}'
   EditColorDialogHeader: Edit color
   EditCustomCSSDialogHeader: Edit ${customCssFile}
   FaviconHelperMessage: The logo fot the browser tab (square format recommended)
