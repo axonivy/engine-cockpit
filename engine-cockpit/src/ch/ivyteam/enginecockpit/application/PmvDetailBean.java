@@ -21,8 +21,8 @@ public class PmvDetailBean {
 
   private static final Logger LOGGER = Logger.getLogger(PmvDetailBean.class);
   private String appName;
-  private String pmName;
-  private String pmvVersion;
+  private String pmVersion;
+  private String pmvName;
   private final ManagerBean managerBean;
   private ProcessModelVersion pmv;
   private String deployedProject;
@@ -34,12 +34,12 @@ public class PmvDetailBean {
     managerBean = ManagerBean.instance();
   }
 
-  public void setPmvVersion(String pmvVersion) {
-    this.pmvVersion = pmvVersion;
+  public void setPmvName(String pmvName) {
+    this.pmvName = pmvName;
   }
 
-  public String getPmvVersion() {
-    return pmvVersion;
+  public String getPmvName() {
+    return pmvName;
   }
 
   public void setAppName(String appName) {
@@ -50,12 +50,12 @@ public class PmvDetailBean {
     return appName;
   }
 
-  public void setPmName(String pmName) {
-    this.pmName = pmName;
+  public void setPmVersion(String pmVersion) {
+    this.pmVersion = pmVersion;
   }
 
-  public String getPmName() {
-    return pmName;
+  public String getPmVersion() {
+    return pmVersion;
   }
 
   public void onload() {
@@ -63,22 +63,20 @@ public class PmvDetailBean {
       ResponseHelper.notFound("appName not set");
       return;
     }
-    if (pmName == null) {
+    if (pmVersion == null) {
       ResponseHelper.notFound("pmName not set");
       return;
     }
-    if (pmvVersion == null) {
+    if (pmvName == null) {
       ResponseHelper.notFound("pmvVersion not set");
       return;
     }
 
     managerBean.reloadApplications();
     var appMgr = IApplicationConfigurationManager.instance();
-    var iPmv = appMgr.findProcessModelVersion(appName, pmName, Integer.parseInt(pmvVersion));
+    var iPmv = appMgr.findProcessModelVersion(appName, pmvName, Integer.parseInt(pmVersion));
     if (iPmv == null) {
-      LOGGER.warn("Can not refresh PMV details for " + appName + "/" + pmName + "/" + pmvVersion);
-      ResponseHelper.notFound("Process Model Version '" + pmName + "' for version '" + pmvVersion
-          + "' in app '" + appName + "' not found");
+      ResponseHelper.notFound("Process Model Version '" + pmVersion + "' for version '" + pmvName + "' in app '" + appName + "' not found");
       return;
     }
 

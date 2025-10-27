@@ -54,32 +54,22 @@
                   <i class="si si-#{activity.icon} table-icon" title="#{activity.iconTitle}" />
                 </h:outputText>
               </h:outputText>
-              <h:outputText rendered="#{activity.pm}">
-                <i class="ml-2 si si-#{activity.releaseStateIcon} table-icon" title="#{activity.releaseState}"></i>
-              </h:outputText>
               <h:outputText rendered="#{activity.pmv}"
                 value=" [#{activity.version} / #{activity.lastChangeDate}]"
                 title="#{ivy.cm.co('/applications/LibraryVersion')} #{activity.version} / #{ivy.cm.co('/applications/LastChangeDate')} #{activity.lastChangeDate}"
                 style="color: grey;" class=" margin-left: 10px;" />
             </p:column>
 
-            <p:column headerText="#{ivy.cm.co('/applications/RunningCasesHeader')}" responsivePriority="4" style="text-align: center; width: 110px;">
-              <h:outputText value="#{activity.runningCasesCount}" />
+            <p:column headerText="#{ivy.cm.co('/common/State')}" responsivePriority="2" style="text-align: center; width: 50px;">
+              <h:panelGroup styleClass="module-state">
+                  <h:outputText rendered="#{activity.pm}">
+                <i class="ml-2 si si-#{activity.releaseStateIcon} table-icon" title="#{activity.releaseState}"></i>
+              </h:outputText>
+              </h:panelGroup>
             </p:column>
 
-            <p:column headerText="#{ivy.cm.co('/common/State')}" responsivePriority="2" style="text-align: center; width: 50px;">
-              <!-- 
-              <h:panelGroup styleClass="module-state"
-                title="#{activity.state.operation}#{activity.state.errorMessage}#{activity.state.childProblems}">
-                <i class="m-0 si si-#{activity.state.operationIcon} activity-state-#{activity.state.operationCssClass} table-icon"></i>
-                <h:outputText rendered="#{not empty activity.state.childProblems}">
-                  <i class="si si-road-sign-warning table-icon"></i>
-                </h:outputText>
-                  <h:outputText rendered="#{!activity.hasReleasedProcessModelVersion()}">
-                    <i class="si si-road-sign-warning table-icon" title="#{activity.warningMessageForNoReleasedPmv}" ></i>
-                  </h:outputText>
-              </h:panelGroup>
-               -->
+            <p:column headerText="#{ivy.cm.co('/applications/RunningCasesHeader')}" responsivePriority="4" style="text-align: center; width: 110px;">
+              <h:outputText value="#{activity.runningCasesCount}" />
             </p:column>
 
             <p:column styleClass="table-btn-5">

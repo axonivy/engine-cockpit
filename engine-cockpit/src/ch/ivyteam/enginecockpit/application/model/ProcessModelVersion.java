@@ -2,18 +2,18 @@ package ch.ivyteam.enginecockpit.application.model;
 
 import java.util.List;
 
+import javax.ws.rs.core.UriBuilder;
+
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.restricted.IProcessModelVersionInternal;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
 public class ProcessModelVersion implements AppTreeItem {
 
   private final IProcessModelVersionInternal pmv;
   private final String lastChangeDate;
-  private final Library lib;
   private int runningCasesCount = -1;
 
   public ProcessModelVersion(IProcessModelVersion pmv) {
@@ -26,7 +26,6 @@ public class ProcessModelVersion implements AppTreeItem {
   }
 
   public ProcessModelVersion(IProcessModelVersion pmv, ApplicationBean bean) {
-    lib = new Library();
     lastChangeDate = DateUtil.formatDate(pmv.getLastChangeDate());
     this.pmv = (IProcessModelVersionInternal) pmv;
     updateStats();
@@ -34,9 +33,12 @@ public class ProcessModelVersion implements AppTreeItem {
 
   @Override
   public String getDetailView() {
-    return "xx";
-    // return "pmv-detail.xhtml?appName=" + pmv.getApplication().getName() + "&pmName="
-    // + pmv.getProcessModel().getName() + "&pmvVersion=" + pmv.getVersionNumber();
+    return UriBuilder.fromPath("pmv-detail.xhtml")
+        .queryParam("appName", pmv.getApplication().getName())
+        .queryParam("pmVersion", pmv.getProcessModel().getVersion())
+        .queryParam("pmvName", pmv.getName())
+        .build()
+        .toString();
   }
 
   public void updateStats() {
@@ -108,7 +110,7 @@ public class ProcessModelVersion implements AppTreeItem {
   }
 
   public String getQualifiedVersion() {
-    return lib.version;
+    return pmv.getLibraryVersion();
   }
 
   @Override
@@ -117,39 +119,16 @@ public class ProcessModelVersion implements AppTreeItem {
   }
 
   public String getLibraryId() {
-    return lib.id;
-  }
-
-  public boolean isLibraryResolved() {
-    return lib.resolved;
+    return pmv.getLibraryId();
   }
 
   public int getProjectVersion() {
     return pmv.projectVersion();
   }
 
-  public String getLibraryResolvedTooltip() {
-    return isLibraryResolved() ? Ivy.cm().co("/pmvDetail/AllDirectIndirectRequiredLibrariesAvailableMessage")
-        : Ivy.cm().co("/pmvDetail/NotAllDirectIndirectRequiredLibrariesAvailableMessage");
-  }
-
   private void countRunningCases() {
     if (pmv != null && runningCasesCount < 0) {
       runningCasesCount = IWorkflowContext.current().getRunningCasesCount(pmv);
-    }
-  }
-
-  private static class Library {
-    private final String id = "Unknown id";
-    private final String version = "Unknown version";
-    private final boolean resolved = false;
-
-    private Library() {
-      // if (lib != null) {
-      // id = lib.getId();
-      // version = lib.getQualifiedVersion().getRawVersion();
-      // resolved = lib.isResolved();
-      // }
     }
   }
 }

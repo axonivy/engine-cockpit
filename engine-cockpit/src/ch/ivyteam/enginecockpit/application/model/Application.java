@@ -50,6 +50,7 @@ public class Application implements AppTreeItem {
     return true;
   }
 
+  @Override
   public String getDetailView() {
     return UriBuilder.fromPath("application-detail.xhtml")
         .queryParam("appName", getName())

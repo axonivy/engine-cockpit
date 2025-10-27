@@ -22,7 +22,7 @@ public class ProcessModel implements AppTreeItem {
 
   @Override
   public String getName() {
-    return String.valueOf(pm.getVersion());
+    return "Version " + String.valueOf(pm.getVersion());
   }
 
   @Override
