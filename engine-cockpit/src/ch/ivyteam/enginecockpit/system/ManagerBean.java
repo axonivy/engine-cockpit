@@ -164,7 +164,6 @@ public class ManagerBean {
 
   public List<IApplication> getIApplications() {
     return apps.all().stream()
-        .filter(app -> !app.isSystem())
         .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
         .collect(Collectors.toList());
   }

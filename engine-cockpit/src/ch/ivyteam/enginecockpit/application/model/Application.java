@@ -83,7 +83,7 @@ public class Application implements AppTreeItem {
   }
 
   private boolean isDesignerOrSystem() {
-    return app.isDesigner() || app.isSystem();
+    return app.isDesigner();
   }
 
   public String getHomeUrl() {
