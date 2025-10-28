@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.application.model;
 import java.util.List;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
+import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
@@ -69,11 +70,32 @@ public class ProcessModel implements AppTreeItem {
     // execute(() -> ((IApplicationInternal) pm.getApplication()).forceDeleteProcessModel(getName()), "force delete", false);
   }
 
+  @Override
   public List<String> isDeletable() {
     if (deletable == null) {
       deletable = pm.isDeletableInternal();
     }
     return deletable;
+  }
+
+  @Override
+  public boolean isNotStartable() {
+    return pm.getActivityState() == ActivityState.ACTIVE;
+  }
+
+  @Override
+  public boolean isNotStopable() {
+    return pm.getActivityState() == ActivityState.INACTIVE;
+  }
+
+  @Override
+  public void activate() {
+    pm.activate();
+  }
+
+  @Override
+  public void deactivate() {
+    pm.deactivate();
   }
 
   @SuppressWarnings("restriction")
@@ -84,8 +106,28 @@ public class ProcessModel implements AppTreeItem {
   }
 
   @Override
+  public void release() {
+    pm.release();
+  }
+
+  @Override
+  public void lock() {
+    pm.lock();
+  }
+
+  @Override
   public ReleaseState getReleaseState() {
     return pm.getReleaseState();
+  }
+
+  @Override
+  public boolean isNotLockable() {
+    return pm.getActivityState() == ActivityState.LOCKED;
+  }
+
+  @Override
+  public boolean isReleasable() {
+    return pm.getReleaseState() != ReleaseState.RELEASED;
   }
 
   @Override
