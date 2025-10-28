@@ -36,10 +36,16 @@
                 widgetVar="recordingsTable" styleClass="ui-fluid"
                 id="recordingsTable" style="min-width: 950px;" emptyMessage="#{ivy.cm.co('/monitor/jfr/NoRecordingsFound')}">
                 <p:column headerText="#{ivy.cm.co('/common/ID')}" sortBy="#{recording.id}" width="5%">
-                  <span><h:outputText value="#{recording.id}"/></span>
+                  <p:link outcome="monitorJfrDetail">
+                  	<f:param name="id" value="#{recording.id}"/>
+                  	<h:outputText value="#{recording.id}"/>
+                  </p:link>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{recording.name}" width="20%">
-                  <h:outputText value="#{recording.name}"/>
+                  <p:link outcome="monitorJfrDetail">
+                  	<f:param name="id" value="#{recording.id}"/>
+	                <h:outputText value="#{recording.name}"/>
+                  </p:link>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/State')}" sortBy="#{recording.state}" width="10%">
                   <h:outputText value="#{recording.state}"/>
@@ -56,7 +62,8 @@
                 <p:column headerText="#{ivy.cm.co('/common/StopTime')}" sortBy="#{recording.stopTime}" width="15%">
                   <h:outputText value="#{recording.stopTime}"/>
                 </p:column>
-                <p:column styleClass="table-btn-3">
+                <p:column styleClass="table-btn-4">
+                  <p:commandButton id="detail" action="monitorJfrDetail" icon="pi si si-computer-chip-search" ajax="false" title="#{ivy.cm.co('/common/Analyze')}" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button"/>
                   <p:commandButton id="stop" action="#{jfrBean.stopRecording(recording)}" update="@form startRecordingDialog" title="#{ivy.cm.co('/common/StopRecording')}"
                     icon="si si-controls-stop" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{not recording.canStop}"/>
                   <p:commandButton id="download" icon="pi pi-arrow-down" ajax="false" title="#{ivy.cm.co('/common/DownloadRecording')}" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button" disabled="#{not recording.canDownload}">

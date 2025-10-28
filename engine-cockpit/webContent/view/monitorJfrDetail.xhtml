@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite"
+  xmlns:c="http://java.sun.com/jsp/jstl/core">
+  
+  <h:body>
+  
+    <f:metadata>
+      <f:viewParam name="id" value="#{jfrDetailBean.id}" />
+    </f:metadata>
+
+    <ui:composition template="../includes/template/template.xhtml">
+      <ui:define name="breadcrumb">
+        <li><span>#{ivy.cm.co('/common/Monitor')}</span></li>
+        <li>/</li>
+        <li><span>#{ivy.cm.co('/sidebar/Java')}</span></li>
+        <li>/</li>
+        <li><a href="monitorJfr.xhtml">#{ivy.cm.co('/monitor/JavaFlightRecorder')}</a></li>
+        <li>/</li>
+        <li><a href="monitorJfrDetail.xhtml">Recording</a></li>
+      </ui:define>
+  
+      <ui:define name="topbar-items">
+        <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#java-flight-recorder" />
+      </ui:define>
+  
+      <ui:define name="content">
+        <p:growl id="msgs" showDetail="true">
+         <p:autoUpdate />
+       </p:growl>
+        <h:form id="form">
+          <div class="layout-dashboard">
+            <div class="card">
+              <div class="card-header flex-wrap">
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-plane-take-off"></i>
+                  <h2 class="m-0">#{ivy.cm.co('/monitor/JavaFlightRecorder')} Recording</h2>
+                  <p:commandButton id="stop" action="#{jfrDetailBean.stopRecording()}" title="#{ivy.cm.co('/common/StopRecording')}"
+                    icon="si si-controls-stop" styleClass="flex-shrink-0 ml-auto ui-button-danger rounded-button" disabled="#{not jfrDetailBean.recording.canStop}"/>
+                  <p:commandButton id="download" icon="pi pi-arrow-down" ajax="false" title="#{ivy.cm.co('/common/DownloadRecording')}" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button" disabled="#{not jfrDetailBean.recording.canDownload}">
+                    <p:fileDownload value="#{jfrDetailBean.downloadRecording()}"/>
+                  </p:commandButton>
+                  <p:commandButton id="close" action="#{jfrDetailBean.closeRecording()}" title="#{ivy.cm.co('/common/DeleteRecording')}" disabled="#{not jfrDetailBean.recording.canClose}"
+                    icon="si si-bin-1" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button"/>
+                </div>
+              </div>
+              <div>
+                <p:outputLabel value="Recording File"/><p:outputLabel value="#{jfrDetailBean.recordingFile}"/>
+                <p:outputLabel value="Event Types"/><p:outputLabel value="#{jfrDetailBean.eventTypes.size()}"/>
+              </div>
+              <div>
+                <p:selectOneMenu value="#{jfrDetailBean.eventTypeName}" >
+                  <f:selectItems value="#{jfrDetailBean.eventTypes}" var="type"
+                                  itemLabel="#{type.label} - #{type.name}" itemValue="#{type.name}"/>
+                  <p:ajax update="@form" />
+                </p:selectOneMenu>
+              </div>
+              <div>
+                <p:outputLabel value="Description"/><p:outputLabel value="#{jfrDetailBean.eventType.label} (#{jfrDetailBean.eventType.description})"/>
+              </div>
+              <div>
+                <p:dataTable value="#{jfrDetailBean.events}" var="event">
+                  <p:columns value="#{jfrDetailBean.fields}" var="field" headerText="#{field.label}">
+                   <p:outputLabel value="#{jfrDetailBean.valueOf(event, field)}"/>
+                  </p:columns>
+                </p:dataTable>
+              </div>
+            </div>
+          </div>
+        </h:form>
+      </ui:define>
+    </ui:composition>
+  </h:body>
+</html>
+  
