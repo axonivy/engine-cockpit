@@ -12,7 +12,6 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.restricted.di.ApplicationContext;
 import ch.ivyteam.ivy.application.restricted.di.ProcessModelVersionContext;
@@ -54,8 +53,7 @@ public class RestTestRunner {
   @SuppressWarnings("restriction")
   private Optional<IProcessModelVersion> findClientPmv() {
     var restManager = ch.ivyteam.ivy.rest.client.config.restricted.IRestClientsManager.instance();
-    return app.getProcessModels().stream()
-        .map(IProcessModel::getReleasedProcessModelVersion)
+    return app.getProcessModelVersions()
         .filter(pmv -> restManager.getProjectDataModelFor(pmv).findRestClient(uiClient.uniqueId()).isPresent())
         .findAny();
   }

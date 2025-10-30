@@ -51,7 +51,7 @@ def build() {
 }
 
 def mvnBuild(def mvnArgs = '') {
-  def phase = isReleasingBranch() ? 'deploy' : 'verify'
+  def phase = isReleasingBranch() ? 'deploy' : 'deploy'
   maven cmd: "clean ${phase} -ntp -Divy.engine.version.latest.minor=true -Dmaven.test.skip=false " + mvnArgs
   junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
 }
