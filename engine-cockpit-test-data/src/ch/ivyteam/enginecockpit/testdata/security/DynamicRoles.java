@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.testdata.security;
 
 import java.util.UUID;
 
+import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -38,7 +39,10 @@ public class DynamicRoles {
 
   private static ISecurityContext context() {
     return IApplicationRepository.instance()
-        .findByName("test").orElseThrow()
+        .findByName("test").stream()
+        .filter(a -> a.getReleaseState() == ReleaseState.RELEASED)
+        .findAny()
+        .orElseThrow()
         .getSecurityContext();
   }
 }
