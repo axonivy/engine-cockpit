@@ -35,7 +35,7 @@ public class ProcessModelVersion implements AppTreeItem {
   public String getDetailView() {
     return UriBuilder.fromPath("pmv-detail.xhtml")
         .queryParam("appName", pmv.getApplication().getName())
-        .queryParam("pmVersion", pmv.getProcessModel().getVersion())
+        .queryParam("pmVersion", pmv.getApplication().getVersion())
         .queryParam("pmvName", pmv.getName())
         .build()
         .toString();
@@ -71,6 +71,7 @@ public class ProcessModelVersion implements AppTreeItem {
     return !pmv.canBeConverted();
   }
 
+  @Override
   public void release() {
     // execute(() -> pmv.release(), "release", true);
   }
@@ -87,22 +88,20 @@ public class ProcessModelVersion implements AppTreeItem {
     return true;
   }
 
+  @Override
   public boolean isReleasable() {
     // return getState().is(ReleaseState.DEPRECATED, ReleaseState.ARCHIVED, ReleaseState.PREPARED);
     return true;
   }
 
+  @Override
   public List<String> isDeletable() {
     // return pmv.isDeletable();
     return List.of();
   }
 
   public long getApplicationId() {
-    return pmv.getProcessModel().getApplication().getId();
-  }
-
-  public long getProcessModelId() {
-    return pmv.getProcessModel().getId();
+    return pmv.getApplication().getId();
   }
 
   public String getActivityType() {

@@ -53,11 +53,7 @@ public class RestTestRunner {
   @SuppressWarnings("restriction")
   private Optional<IProcessModelVersion> findClientPmv() {
     var restManager = ch.ivyteam.ivy.rest.client.config.restricted.IRestClientsManager.instance();
-    var pm = app.getReleasedProcessModel();
-    if (pm == null) {
-      return Optional.empty();
-    }
-    return pm.getProcessModelVersions().stream()
+    return app.getProcessModelVersions()
         .filter(pmv -> restManager.getProjectDataModelFor(pmv).findRestClient(uiClient.uniqueId()).isPresent())
         .findAny();
   }

@@ -13,12 +13,10 @@ import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.application.model.AppTreeItem;
 import ch.ivyteam.enginecockpit.application.model.Application;
-import ch.ivyteam.enginecockpit.application.model.ProcessModel;
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.app.NewApplication;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -50,24 +48,24 @@ public class ApplicationBean extends TreeView<AppTreeItem> {
     for (var app : managerBean.getIApplications()) {
       var activity = new Application(app, this);
       var node = new DefaultTreeNode<AppTreeItem>(activity, rootTreeNode);
-      loadPmTree(app, node, activity);
+      loadPmvTree(app, node, activity);
       // activity.getState().updateChildProblems(activity);
     }
   }
 
-  private void loadPmTree(IApplication app, TreeNode<AppTreeItem> appNode, AppTreeItem parent) {
-    for (var pm : app.getProcessModels()) {
-      var activity = new ProcessModel(pm, this);
-      // parent.addChild(activity);
-      var node = new DefaultTreeNode<AppTreeItem>(activity, appNode);
-      loadPmvTree(pm, node, activity);
-      // activity.getState().updateChildProblems(activity);
-    }
-  }
+  // private void loadPmTree(IApplication app, TreeNode<AppTreeItem> appNode, AppTreeItem parent) {
+  // for (var pm : app.getProcessModels()) {
+  // var activity = new ProcessModel(pm, this);
+  // // parent.addChild(activity);
+  // var node = new DefaultTreeNode<AppTreeItem>(activity, appNode);
+  // loadPmvTree(pm, node, activity);
+  // // activity.getState().updateChildProblems(activity);
+  // }
+  // }
 
   @SuppressWarnings("unused")
-  private void loadPmvTree(IProcessModel pm, TreeNode<AppTreeItem> pmNode, AppTreeItem parent) {
-    for (var pmv : pm.getProcessModelVersions()) {
+  private void loadPmvTree(IApplication app, TreeNode<AppTreeItem> pmNode, AppTreeItem parent) {
+    for (var pmv : app.getProcessModelVersions().toList()) {
       // if (pmv.getReleaseState() != ReleaseState.DELETED) {
       var activity = new ProcessModelVersion(pmv, this);
       // parent.addChild(activity);

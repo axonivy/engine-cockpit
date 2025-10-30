@@ -67,16 +67,19 @@ public class Application implements AppTreeItem {
     return "module";
   }
 
+  @Override
   public boolean isNotStartable() {
     // return super.isNotStartable() || isDesignerOrSystem();
     return false;
   }
 
+  @Override
   public boolean isNotStopable() {
     // return super.isNotStopable() || isDesignerOrSystem();
     return false;
   }
 
+  @Override
   public boolean isNotLockable() {
     // return super.isNotLockable() || isDesignerOrSystem();
     return false;
@@ -203,7 +206,12 @@ public class Application implements AppTreeItem {
     return Ivy.cm().co("/applications/ApplicationWarningMessageForNoReleasedPmv");
   }
 
+  @Override
   public List<String> isDeletable() {
     return app.isDeletable();
+  }
+
+  public int version() {
+    return app.getVersion();
   }
 }

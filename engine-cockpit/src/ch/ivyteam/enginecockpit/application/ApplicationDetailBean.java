@@ -82,7 +82,7 @@ public class ApplicationDetailBean {
   }
 
   public String deleteApplication() {
-    managerBean.apps().delete(appName);
+    managerBean.apps().delete(app.getName(), app.version());
     managerBean.reloadApplications();
     return "applications.xhtml?faces-redirect=true";
   }
@@ -110,8 +110,7 @@ public class ApplicationDetailBean {
   }
 
   public String getPmCount() {
-    return managerBean.formatNumber(getIApplication().getProcessModels().stream()
-        .mapToInt(pm -> pm.getProcessModelVersions().size()).sum());
+    return managerBean.formatNumber(getIApplication().getProcessModelVersions().count());
   }
 
   private IApplication getIApplication() {
