@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.ws.rs.core.UriBuilder;
 
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -94,5 +95,12 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
       calConfiguration = settings.getRootBusinessCalendarConfiguration();
     }
     return calConfiguration;
+  }
+
+  public String getEditUrl() {
+    return UriBuilder.fromPath("editor.xhtml")
+        .queryParam("file", managerBean.getSelectedApplicationName() + "/app.yaml")
+        .build()
+        .toString();
   }
 }

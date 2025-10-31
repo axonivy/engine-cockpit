@@ -39,7 +39,7 @@ class WebTestPages {
     EngineCockpitUtil.login();
     var sessionId = WebDriverRunner.getWebDriver().manage().getCookieNamed("JSESSIONID");
     var url = viewUrl("dashboard.xhtml");
-    HttpAsserter.assertThat(url).hasNoDeadLinks(10, sessionId.getValue());
+    HttpAsserter.assertThat(url, sessionId.getValue()).hasNoDeadLinks();
   }
 
   @Test
