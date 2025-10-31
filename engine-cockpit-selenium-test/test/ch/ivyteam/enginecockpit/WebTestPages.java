@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.engine.EngineUrl;
 import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
@@ -26,6 +27,7 @@ import ch.ivyteam.enginecockpit.util.HttpAsserter;
 @IvyWebTest
 class WebTestPages {
 
+  private static List<String> IGNORE_PAGES = List.of(EngineUrl.create().app("test").path("ws/engine-cockpit-test-data/197F8BA7DD34B7A2").queryParam("WSDL", "").toUrl());
   private Path webContentDir;
 
   @BeforeEach
@@ -39,7 +41,7 @@ class WebTestPages {
     EngineCockpitUtil.login();
     var sessionId = WebDriverRunner.getWebDriver().manage().getCookieNamed("JSESSIONID");
     var url = viewUrl(DASHBOARD);
-    HttpAsserter.assertThat(url).hasNoDeadLinks(10, sessionId.getValue());
+    HttpAsserter.assertThat(url, sessionId.getValue(), IGNORE_PAGES).hasNoDeadLinks();
   }
 
   @Test

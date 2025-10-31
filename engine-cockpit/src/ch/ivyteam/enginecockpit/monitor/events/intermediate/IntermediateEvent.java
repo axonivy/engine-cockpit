@@ -7,7 +7,7 @@ import ch.ivyteam.enginecockpit.monitor.events.Event;
 public final class IntermediateEvent extends Event {
 
   public IntermediateEvent(ObjectName name) {
-    super(name);
+    super(name, "monitorIntermediateEventDetails.xhtml");
   }
 
   @Override
