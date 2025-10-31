@@ -56,7 +56,7 @@ public class WebTestBranding {
     uploadImage(0);
     Path createTempFile = Files.createTempFile("logo", ".txt");
     $(By.id("fileUploadForm:brandingUpload_input")).sendKeys(createTempFile.toString());
-    $(By.id("fileUploadForm:uploadMessages")).shouldHave(text("Not supported file extension"));
+    $(By.id("msgs_container")).shouldHave(text("Not supported file extension"));
   }
 
   @Test
@@ -140,7 +140,7 @@ public class WebTestBranding {
     uploadImage(index);
     Path createTempFile = Files.createTempFile(tempFileName, tempFileExt);
     $(By.id("fileUploadForm:brandingUpload_input")).sendKeys(createTempFile.toString());
-    $(By.id("fileUploadForm:uploadMessages")).shouldHave(text("Successfully uploaded " + expectedImg));
+    $(By.id("msgs_container")).shouldHave(text("Successfully uploaded " + expectedImg));
     $(By.id("fileUploadForm:closeDialogBtn")).shouldBe(visible).click();
 
     Navigation.toBranding();
