@@ -15,8 +15,8 @@ public interface AppTreeItem {
     return isDeletable().stream().collect(Collectors.joining("\n"));
   }
 
-  // PM stuff
-  default boolean isPm() {
+  // APP stuff
+  default boolean isApp() {
     return false;
   }
 

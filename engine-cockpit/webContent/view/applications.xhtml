@@ -62,7 +62,7 @@
 
             <p:column headerText="#{ivy.cm.co('/common/State')}" responsivePriority="2" style="text-align: center; width: 50px;">
               <h:panelGroup styleClass="module-state">
-                  <h:outputText rendered="#{activity.pm}">
+                  <h:outputText rendered="#{activity.app}">
                 <i class="ml-2 si si-#{activity.releaseStateIcon} table-icon" title="#{activity.releaseState}"></i>
               </h:outputText>
               </h:panelGroup>
@@ -95,11 +95,11 @@
               </p:commandButton>
                -->
                
-              <p:commandButton title="#{ivy.cm.co('/common/Activate')}" icon="si si-controls-play" rendered="#{activity.pm}" disabled="#{activity.notStartable}"
+              <p:commandButton title="#{ivy.cm.co('/common/Activate')}" icon="si si-controls-play" rendered="#{activity.app}" disabled="#{activity.notStartable}"
                 type="button" styleClass="mr-1 ui-button-success rounded-button">
                 <p:ajax update="form" listener="#{activity.activate}" />
               </p:commandButton>
-              <p:commandButton title="#{ivy.cm.co('/common/Deactivate')}" id="deactivateButton" icon="si si-controls-stop" rendered="#{activity.pm}" disabled="#{activity.notStopable}"
+              <p:commandButton title="#{ivy.cm.co('/common/Deactivate')}" id="deactivateButton" icon="si si-controls-stop" rendered="#{activity.app}" disabled="#{activity.notStopable}"
                 type="button" styleClass="mr-1 ui-button-danger rounded-button">
                 <p:ajax update="form" listener="#{activity.deactivate}" />
               </p:commandButton>
@@ -107,9 +107,9 @@
               <p:commandButton title="#{ivy.cm.co('/common/More')}" id="tasksButton" type="button" icon="si si-navigation-menu"
                 styleClass="mr-1 ui-button-secondary rounded-button ui-button-outlined" />
               <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
-                <p:menuitem value="#{ivy.cm.co('/common/Lock')}" icon="si si-lock-1" rendered="#{activity.pm}" disabled="#{activity.notLockable}"
+                <p:menuitem value="#{ivy.cm.co('/common/Lock')}" icon="si si-lock-1" rendered="#{activity.app}" disabled="#{activity.notLockable}"
                   actionListener="#{activity.lock}" update="form" />
-                <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" rendered="#{activity.pm}" icon="si si-heavy-equipment-hook"
+                <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" rendered="#{activity.app}" icon="si si-heavy-equipment-hook"
                   disabled="#{!activity.releasable}" actionListener="#{activity.release}" update="form" />
                 <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="si si-bin-1" disabled="#{not empty activity.isDeletable()}"
                   actionListener="#{applicationBean.setActiveActivity(activity)}"

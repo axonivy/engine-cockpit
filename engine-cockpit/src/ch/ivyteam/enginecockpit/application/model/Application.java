@@ -7,7 +7,9 @@ import javax.faces.context.FacesContext;
 import javax.ws.rs.core.UriBuilder;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
+import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -29,7 +31,7 @@ public class Application implements AppTreeItem {
     if (app == null) {
       return "";
     }
-    return app.getName();
+    return app.getName() + " (v" + app.getVersion() + ")";
   }
 
   public long getId() {
@@ -46,16 +48,17 @@ public class Application implements AppTreeItem {
     secSystem = app.getSecurityContext().getName();
   }
 
-  public boolean isApplication() {
-    return true;
-  }
-
   @Override
   public String getDetailView() {
     return UriBuilder.fromPath("application-detail.xhtml")
         .queryParam("appName", getName())
         .build()
         .toString();
+  }
+
+  @Override
+  public boolean isApp() {
+    return true;
   }
 
   public long getRunningCasesCount() {
@@ -69,20 +72,58 @@ public class Application implements AppTreeItem {
 
   @Override
   public boolean isNotStartable() {
-    // return super.isNotStartable() || isDesignerOrSystem();
-    return false;
+    return app.getActivityState() == ActivityState.ACTIVE;
   }
 
   @Override
   public boolean isNotStopable() {
-    // return super.isNotStopable() || isDesignerOrSystem();
-    return false;
+    return app.getActivityState() == ActivityState.INACTIVE;
+  }
+
+  @Override
+  public void activate() {
+    app.activate();
+  }
+
+  @Override
+  public void deactivate() {
+    app.deactivate();
+  }
+
+  @Override
+  public void release() {
+    app.release();
+  }
+
+  @Override
+  public void lock() {
+    app.lock();
+  }
+
+  @Override
+  public ReleaseState getReleaseState() {
+    return app.getReleaseState();
   }
 
   @Override
   public boolean isNotLockable() {
-    // return super.isNotLockable() || isDesignerOrSystem();
-    return false;
+    return app.getActivityState() == ActivityState.LOCKED;
+  }
+
+  @Override
+  public boolean isReleasable() {
+    return app.getReleaseState() != ReleaseState.RELEASED;
+  }
+
+  @Override
+  public String getReleaseStateIcon() {
+    return switch (getReleaseState()) {
+      case RELEASED -> "check-circle-1";
+      case DEPRECATED -> "delete";
+      case ARCHIVED -> "archive";
+      case CREATED, PREPARED -> "advertising-megaphone-2";
+      default -> "question-circle";
+    };
   }
 
   private boolean isDesignerOrSystem() {
