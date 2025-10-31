@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.management.ObjectName;
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,8 +20,10 @@ public abstract class Event {
   protected MBean bean;
   private List<Firing> firings;
   private List<EventBeanThread> threads;
+  private final String detailPage;
 
-  public Event(ObjectName name) {
+  public Event(ObjectName name, String detailPage) {
+    this.detailPage = detailPage;
     bean = MBean.create(HANDLER, name);
   }
 
@@ -167,5 +170,15 @@ public abstract class Event {
 
   public List<EventBeanThread> getThreads() {
     return threads;
+  }
+
+  public String getDetailUrl() {
+    return UriBuilder.fromPath(detailPage)
+        .queryParam("application", getApplication())
+        .queryParam("pm", getPm())
+        .queryParam("pmv", getPmv())
+        .queryParam("name", getName())
+        .build()
+        .toString();
   }
 }
