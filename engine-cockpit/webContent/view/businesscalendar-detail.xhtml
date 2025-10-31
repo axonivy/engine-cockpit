@@ -20,7 +20,7 @@
     </ui:define>
 
     <ui:define name="topbar-items">
-      <cc:TopBarItem styleClass="editor-link" href="editor.xhtml?file=app-#{managerBean.selectedApplicationName}.yaml" icon="si-pencil" title="Edit app yaml file" external="false" />
+      <cc:TopBarItem styleClass="editor-link" href="#{businessCalendarBean.editUrl}" icon="si-pencil" title="Edit app yaml file" external="false" />
       <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}configuration.html#business-calendar" />
     </ui:define>
 
