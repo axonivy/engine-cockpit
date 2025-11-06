@@ -71,6 +71,7 @@ branding:
   UploadFileSuccessfulMessage: ${resource} を正常にアップロードしました
   UploadResourceDialogHeader: "'${application}' にリソースをアップロードする"
   Value: '値: '
+  DownloadBrandingResourcesError: https://hosted.weblate.org/translate/axonivy/engine-cockpit/ja/?q=state%3A%3Ctranslated
 channelState:
   ErrorInformation: エラー情報
   FailedDeliverAttempsSoFar: 'これまでのデリバリー失敗回数：'
