@@ -47,6 +47,9 @@
         <groupId>com.axonivy.ivy.ci</groupId>
         <artifactId>project-build-plugin</artifactId>
         <extensions>true</extensions>
+        <configuration>
+          <testWithEngineClasspath>true</testWithEngineClasspath>
+        </configuration>
       </plugin>
 
       <plugin>
