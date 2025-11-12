@@ -6,8 +6,6 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.apache.log4j.Logger;
-
 import ch.ivyteam.enginecockpit.application.model.LibSpecification;
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
@@ -17,9 +15,9 @@ import ch.ivyteam.ivy.application.restricted.IApplicationConfigurationManager;
 
 @ManagedBean
 @ViewScoped
+@SuppressWarnings("restriction")
 public class PmvDetailBean {
 
-  private static final Logger LOGGER = Logger.getLogger(PmvDetailBean.class);
   private String appName;
   private String pmVersion;
   private String pmvName;

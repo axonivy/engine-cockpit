@@ -90,7 +90,7 @@ public class ApplicationBean extends TreeView<AppTreeItem> {
 
   private void reloadNodeState(List<TreeNode<AppTreeItem>> nodes) {
     for (var node : nodes) {
-      var activity = node.getData();
+      // var activity = node.getData();
       // activity.updateStats();
       if (!processing) {
         // processing = activity.getState().isProcessing();
