@@ -15,7 +15,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
 
-@SuppressWarnings("removal")
+@SuppressWarnings({"removal", "unused"})
 public class Application implements AppTreeItem {
 
   private String fileDir;
@@ -42,6 +42,7 @@ public class Application implements AppTreeItem {
     this(app, null);
   }
 
+  @SuppressWarnings("restriction")
   public Application(IApplication app, ApplicationBean bean) {
     this.app = (IApplicationInternal) app;
     fileDir = app.getFileDirectory();
@@ -220,7 +221,6 @@ public class Application implements AppTreeItem {
     return app;
   }
 
-  @SuppressWarnings("deprecation")
   public List<WebServiceProcess> getWebServiceProcesses() {
     if (webServiceProcesses == null) {
       // webServiceProcesses = app.getProcessModels().stream()
@@ -234,7 +234,6 @@ public class Application implements AppTreeItem {
     return webServiceProcesses;
   }
 
-  @SuppressWarnings("restriction")
   public boolean hasReleasedProcessModelVersion() {
     // return app.getProcessModels()
     // .stream()
