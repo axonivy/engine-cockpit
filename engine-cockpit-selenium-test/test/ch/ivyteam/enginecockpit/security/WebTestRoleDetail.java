@@ -136,10 +136,13 @@ class WebTestRoleDetail {
     $("#roleInformationForm\\:parentRole").shouldBe(exactValue("boss"));
     $("#roleInformationForm\\:updateRoleParent").shouldBe(visible).click();
 
-    var provider = PrimeUi.selectOne(By.id("updateRoleParentForm:updateRoleParentNameInput"));
-    provider.selectItemByLabel("Everybody");
-    $("#updateRoleParentForm\\:updateRoleParent").click();
-    $("#roleInformationForm\\:parentRole").shouldBe(exactValue("Everybody"));
+    $(By.id("updateRoleParentForm:updateRoleParentNameInput_input")).shouldBe(visible).clear();
+    $(By.id("updateRoleParentForm:updateRoleParentNameInput_input")).sendKeys("Ever");
+    var panel = $(By.id("updateRoleParentForm:updateRoleParentNameInput_panel")).shouldBe(visible);
+    panel.findAll(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0)).first().click();
+    $(By.id("updateRoleParentForm:updateRoleParentNameInput_input")).shouldBe(exactValue("Everybody"));
+    $(By.id("updateRoleParentForm:updateRoleParent")).click();
+    $(By.id("roleInformationForm:parentRole")).shouldBe(exactValue("Everybody"));
 
     $("#roleInformationForm\\:deleteRole").shouldBe(visible).click();
     $("#roleInformationForm\\:deleteRoleConfirmDialog").shouldBe(visible);
