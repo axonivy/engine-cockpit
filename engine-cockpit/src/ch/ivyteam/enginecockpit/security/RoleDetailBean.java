@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -149,6 +150,10 @@ public class RoleDetailBean {
 
   public void setNewParentRoleName(String newParentRoleName) {
     this.newParentRoleName = newParentRoleName;
+  }
+
+  public List<Role> searchParentRoleName(String query) {
+    return searchRoles(query, r -> true);
   }
 
   public void renameRole() {
@@ -349,18 +354,7 @@ public class RoleDetailBean {
   }
 
   public List<Role> searchMember(String query) {
-    var directMatch = roleDataModel.getList().stream()
-        .filter(m -> Strings.CI.equals(m.getName(), query))
-        .filter(m -> !isRoleMemberOfRole(m.getName()))
-        .findAny();
-    var result = roleDataModel.getList().stream()
-        .filter(m -> Strings.CI.contains(m.getName(), query))
-        .filter(m -> !isRoleMemberOfRole(m.getName()))
-        .limit(10).collect(Collectors.toList());
-    if (directMatch.isPresent() && !result.contains(directMatch.get())) {
-      result.add(0, directMatch.get());
-    }
-    return result;
+    return searchRoles(query, r -> !isRoleMemberOfRole(r.getName()));
   }
 
   public MemberProperty getMemberProperty() {
@@ -414,5 +408,20 @@ public class RoleDetailBean {
         .map(IRole::getName)
         .filter(name -> !roleName.equals(name))
         .collect(Collectors.toList());
+  }
+
+  private List<Role> searchRoles(String query, Predicate<Role> filter) {
+    var directMatch = roleDataModel.getList().stream()
+        .filter(m -> Strings.CI.equals(m.getName(), query))
+        .filter(filter)
+        .findAny();
+    var result = roleDataModel.getList().stream()
+        .filter(m -> Strings.CI.contains(m.getName(), query))
+        .filter(filter)
+        .limit(10).collect(Collectors.toList());
+    if (directMatch.isPresent() && !result.contains(directMatch.get())) {
+      result.add(0, directMatch.get());
+    }
+    return result;
   }
 }
