@@ -12,9 +12,8 @@
     <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="updateRoleParentNameInput" value="#{ivy.cm.co('/common/Name')}" />
       <h:panelGroup styleClass="md-inputfield">
-        <p:selectOneMenu id="updateRoleParentNameInput" value="#{roleDetailBean.newParentRoleName}" filter="true" filterMatchMode="startsWith">
-          <f:selectItems value="#{roleDetailBean.roles}" var="role" itemLabel="#{role}" itemValue="#{role}" />
-        </p:selectOneMenu>
+        <p:autoComplete id="updateRoleParentNameInput" value="#{roleDetailBean.newParentRoleName}" dropdown="true" forceSelection="true"
+          completeMethod="#{roleDetailBean.searchParentRoleName}" appendTo="@form" />
         <p:message for="updateRoleParentNameInput" id="newRoleNameMessage" />
       </h:panelGroup>
     </p:panelGrid>
