@@ -66,14 +66,18 @@
         <div class="flex justify-content-end mt-4 pt-3" style="border-top-width: 1px; border-top-style: solid; border-color: #e5e7eb">
           <p:commandButton id="cancelDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
             type="button" styleClass="ui-button-secondary ui-button-outlined mr-2" />
-          <p:commandButton id="uploadBtn" icon="si si-upload-bottom" value="#{ivy.cm.co('/common/Upload')}" 
+          <p:commandButton id="uploadBtn" icon="si si-upload-bottom" value="#{ivy.cm.co('/deployment/Deploy')}" 
             actionListener="#{deploymentBean.uploadAndDeploy}" disabled="#{!deploymentBean.isFileSet()}"
-            update="fileUploadResponse fileUploadForm"/>
+            update="dlgfileUploadModalRes" 
+            oncomplete="PF('dlgfileUploadModalRes').show();" />
         </div>
       </h:panelGroup>
     </h:form>
+  </p:dialog>
+  <p:dialog style="margin-left: 120px; min-width: 550px; max-width: 700px;" header="#{ivy.cm.co('/deployment/DeployToApp')} '#{appName}'"
+    id="dlgfileUploadModalRes" resizable="false" widgetVar="dlgfileUploadModalRes" modal="true" responsive="true"
+    closeOnEscape="false">
     <h:panelGroup id="fileUploadResponse" layout="block">
-      <h:panelGroup rendered="#{deploymentBean.showDeployLogs}">
         <h:panelGroup id="uploadStatus" layout="block" styleClass="deploy-status #{deploymentBean.status.styleClass}">
           <i class="si #{deploymentBean.status.iconClass}"></i>
           <h:outputText value="#{deploymentBean.status.text}"/>
@@ -82,13 +86,14 @@
           <h:outputText value="#{deploymentBean.logs}"/>
         </pre>
         <div class="flex flex-row-reverse">
-          <p:commandButton id="closeDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="#{ivy.cm.co('/common/Close')}"
-            icon="si si-remove-circle" styleClass="modal-input-button" />
+          <p:commandButton id="closeDeploymentBtn" value="#{ivy.cm.co('/common/Close')}"
+            icon="si si-remove-circle" styleClass="modal-input-button"
+            onclick="PF('dlgfileUploadModalRes').hide(); PF('fileUploadModal').hide();" />
           <p:commandButton id="backBtn" value="#{ivy.cm.co('/common/Back')}" icon="si si-navigation-left-circle-1"
             styleClass="ui-button-secondary ui-button-flat modal-input-button" actionListener="#{deploymentBean.hideDeployLogs}"
-            update="fileUploadResponse fileUploadForm"/>
+            update="fileUploadResponse"
+            onclick="PF('dlgfileUploadModalRes').hide();" />
         </div>
-      </h:panelGroup>
     </h:panelGroup>
   </p:dialog>
 </html>
