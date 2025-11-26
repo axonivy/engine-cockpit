@@ -333,6 +333,7 @@ deployment:
       detail: 'ファイルのアップロード中にエラーが発生しました： '
   DeployTestUsers: テストユーザーを展開
   DeployToApp: アプリに展開
+  Deploy: デプロイ
 directoryBrowser:
   DirectoryBrowserDialogHeader: ディレクトリブラウザー
   NodePropertiesEmptyMessage: 属性を表示するノードを選択してください
