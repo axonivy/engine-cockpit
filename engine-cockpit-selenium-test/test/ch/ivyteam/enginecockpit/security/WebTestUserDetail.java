@@ -172,10 +172,15 @@ class WebTestUserDetail {
     var webNewTaskIcon = $(By.className("subscription-icon"));
     var webNewTaskCheckbox = $(By.id("notificationsForm:notificationChannelsTable:0:channels:0:subscriptionCheckbox")).lastChild().lastChild();
 
-    table.firstColumnShouldBe(size(2));
-    table.tableEntry(1, 1).shouldHave(text("task"));
     table.headerShouldBe(size(2));
     table.headerShouldBe(exactTexts("Event", "Web"));
+
+    table.firstColumnShouldBe(size(2));
+    table.tableEntry(1, 1).shouldHave(text("task"));
+    table.sortByColumn("Event");
+    table.tableEntry(1, 1).shouldNotHave(text("task"));
+    table.sortByColumn("Event");
+    table.tableEntry(1, 1).shouldHave(text("task"));
 
     shouldHaveSubscribedByDefaultState(webNewTaskIcon, webNewTaskCheckbox);
 
