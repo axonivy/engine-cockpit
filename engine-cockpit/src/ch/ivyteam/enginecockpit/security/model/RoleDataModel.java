@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.security.model;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,6 +7,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.Strings;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
+import org.primefaces.model.TreeNodeChildren;
 
 import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.ivy.security.IRole;
@@ -87,7 +87,7 @@ public class RoleDataModel extends TreeView<Role> {
     @Override
     public List<TreeNode<Role>> getChildren() {
       if (isLeaf()) {
-        return new ArrayList<>();
+        return new TreeNodeChildren<>(this);
       }
       ensureChildrenFetched();
       return super.getChildren();
