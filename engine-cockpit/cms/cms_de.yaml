@@ -387,6 +387,7 @@ deletionWarning:
 deployment:
   DeployTestUsers: Test-Benutzer bereitstellen
   DeployToApp: App bereitstellen
+  Deploy: Bereitstellen
   FileFormat: Datei Format
   Options: Optionen
   VersionRange: Versionsbereich

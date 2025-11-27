@@ -387,6 +387,7 @@ deletionWarning:
 deployment:
   DeployTestUsers: Deploy Test Users
   DeployToApp: Deploy to App
+  Deploy: Deploy
   FileFormat: File Format
   Options: Options
   VersionRange: Version Range
