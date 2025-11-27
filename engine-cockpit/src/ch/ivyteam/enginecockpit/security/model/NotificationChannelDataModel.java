@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,8 +26,8 @@ public class NotificationChannelDataModel {
   }
 
   public void onload() {
-    events = NotificationEventDto.all();
-    channels = NotificationChannelDto.all(subscriber, securityContext);
+    events = new ArrayList<>(NotificationEventDto.all());
+    channels = new ArrayList<>(NotificationChannelDto.all(subscriber, securityContext));
   }
 
   public void reset() {
