@@ -51,7 +51,7 @@ public class NotificationDto {
 
   public String getPmv() {
     return notification.pmv()
-        .map(IProcessModelVersion::getVersionName)
+        .map(IProcessModelVersion::getName)
         .orElse("");
   }
 
