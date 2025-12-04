@@ -27,7 +27,8 @@
                 id="save"
                 styleClass="flex-shrink-0 ml-auto ml-1 ui-button-success rounded-button"
                 rendered="#{!group.keyValue}"
-                actionListener="#{cc.attrs.dynamicConfig.save(group)}" />
+                actionListener="#{cc.attrs.dynamicConfig.save(group)}"
+                update="@form" />
 
               <p:commandButton id="newPropertyKeyValue"
                 actionListener="#{dynamicConfigListDialogBean.setProperty(group.getKeyValueProperty())}"
@@ -222,12 +223,15 @@
       </ui:repeat>
     </h:form>
 
-  <p:dialog header="Connection Test - Url: #{property.value}"
+  <p:dialog header="Connection Test - Url: #{tlsTesterBean.uri}"
     id="connectionTestModel" width="70%" widgetVar="connectionTestModel"
     modal="true" responsive="false" closeOnEscape="true">
+    <h:panelGroup style="height:150px" id="missingCertView" rendered="#{tlsTesterBean.hasMissingCerts()}">
+      <jc:TlsTesterMissingCertView id="missing" bean="#{tlsTesterBean}" cert="#{tlsTesterBean.missingCert}" />
+    </h:panelGroup>
     <h:panelGroup id="resultTLS" styleClass="ui-fluid"
       rendered="#{tlsTesterBean.tlsTestRendered}">
-      <jc:TlsTester url="#{property.value}"></jc:TlsTester>
+      <jc:TlsTester />
       <p:commandButton id="close"
         onclick="PF('connectionTestModel').hide();" value="Close"
         type="button"

@@ -15,9 +15,10 @@ import ch.ivyteam.ivy.ssl.restricted.tester.TLSTestData;
 @ViewScoped
 public class TlsTesterBean {
 
-  public boolean tlsTestRendered;
-  public List<TLSTestData> testResult = new ArrayList<>();
-  public List<String> infos;
+  private String uri;
+  private boolean tlsTestRendered;
+  private final List<TLSTestData> testResult = new ArrayList<>();
+  private List<String> infos;
   private Optional<X509Certificate> missingCert = Optional.empty();
 
   public boolean isHttps(String Uri) {
@@ -33,6 +34,7 @@ public class TlsTesterBean {
   }
 
   public void testConnection(String targetUri) {
+    uri = targetUri;
     testResult.clear();
     missingCert = Optional.empty();
     setTlsTestRendered(true);
@@ -40,6 +42,10 @@ public class TlsTesterBean {
     test.runTLSTests();
     missingCert = test.getMissingCert();
     infos = test.getExtendedInformations();
+  }
+
+  public String getUri() {
+    return uri;
   }
 
   public List<TLSTestData> getTestResult() {
@@ -82,6 +88,10 @@ public class TlsTesterBean {
       return parts[0].replace("Cert alias found: ", "").trim();
     }
     return inputStrings;
+  }
+
+  public boolean hasMissingCerts() {
+    return hasMissingCerts(uri);
   }
 
   public boolean hasMissingCerts(String Uri) {
