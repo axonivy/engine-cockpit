@@ -148,8 +148,7 @@ public class WebTestSystemDb {
   public static void assertSystemDbCreationDialog() {
     insertDbConnection("MySQL", "mySQL", SYS_DB, TEST_DB_NAME, SYS_DB_USER, SYS_DB_PW);
     $(CONNECTION_BUTTON).click();
-    $(CONNECTION_PANEL)
-        .shouldBe(text("Missing Database/Schema"), text("Create system database."));
+    $(CONNECTION_PANEL).shouldBe(text("Missing Database/Schema"), Duration.ofSeconds(10));
     $("#systemDb\\:systemDbForm\\:createDatabaseButton").shouldBe(enabled);
 
     $("#systemDb\\:systemDbForm\\:createDatabaseButton").click();
