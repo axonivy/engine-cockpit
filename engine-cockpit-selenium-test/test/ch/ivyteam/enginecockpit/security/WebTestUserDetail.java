@@ -5,6 +5,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
@@ -17,6 +18,9 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
+
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -360,6 +364,45 @@ class WebTestUserDetail {
     $(managerRemoveButtonId).shouldHave(cssClass(CSS_DISABLED));
 
     $(bossRemoveButtonId).click();
+  }
+
+  @Test
+  void rolesFilter() {
+    Navigation.toUserDetail(USER_FOO);
+    $$(".role-name").shouldHave(sizeGreaterThanOrEqual(3));
+
+    filterTableFor("Show only current roles");
+    assertContentFilterText("Filter: Only current roles");
+    $$(".role-name").shouldHave(size(1));
+
+    $(By.id("rolesOfUserForm:globalFilter")).shouldBe(visible).type("work");
+    $$(".role-name").shouldHave(size(0));
+
+    resetFilter();
+    assertContentFilterText("Filter: All Roles");
+    $$(".role-name").shouldHave(sizeGreaterThanOrEqual(3));
+
+    $(By.id("rolesOfUserForm:globalFilter")).shouldBe(visible).type("work");
+    $$(".role-name").shouldHave(size(1));
+  }
+
+  private void filterTableFor(String filter) {
+    filterBtn().shouldBe(visible).click();
+    PrimeUi.selectManyCheckbox(By.id("rolesOfUserForm:filterCheckboxes")).setCheckboxes(List.of(filter));
+    $(By.id("rolesOfUserForm:applyFilter")).shouldBe(visible).click();
+  }
+
+  private void resetFilter() {
+    filterBtn().shouldBe(visible).click();
+    $(By.id("rolesOfUserForm:resetFilterBtn")).shouldBe(visible).click();
+  }
+
+  private void assertContentFilterText(String expectedFilter) {
+    filterBtn().shouldHave(attribute("title", expectedFilter));
+  }
+
+  private SelenideElement filterBtn() {
+    return $(By.id("rolesOfUserForm:roleFilterBtn"));
   }
 
   @Test
