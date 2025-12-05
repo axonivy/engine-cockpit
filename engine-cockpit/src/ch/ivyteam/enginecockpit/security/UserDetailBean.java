@@ -79,7 +79,7 @@ public class UserDetailBean {
 
     userSynch = new UserSynch(securityContext, userName);
     this.user = new User(iUser);
-    roleDataModel = new RoleDataModel(new SecuritySystem(securityContext), false, 20);
+    roleDataModel = new RoleDataModel(new SecuritySystem(securityContext), false, 20, iUser);
     var caseQueryExecutor = IWorkflowContext.of(securityContext).getCaseQueryExecutor();
     startedCases = CaseQuery.create(caseQueryExecutor).where().isBusinessCase().and().creatorId()
         .isEqual(iUser.getSecurityMemberId()).executor().count();

@@ -4,28 +4,41 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.faces.model.SelectItem;
+
 import org.apache.commons.lang3.Strings;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.TreeNodeChildren;
 
+import ch.ivyteam.enginecockpit.commons.TableFilter;
 import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.security.IUser;
 
-public class RoleDataModel extends TreeView<Role> {
+public class RoleDataModel extends TreeView<Role> implements TableFilter {
   private static final int ROLE_CHILDREN_LIMIT = 100;
+  private static final String CURRENT_ROLE_FILTER = "currentRoles";
   private int showChildLimit;
   private final ISecurityContext securityContext;
   private final boolean showMember;
   private final List<Role> roles;
+  private final IUser user;
+  private List<String> rolesOfUser;
+  private List<SelectItem> contentFilters = List.of();
+  private List<String> selectedContentFilters = List.of();
 
   public RoleDataModel(SecuritySystem securitySystem, boolean showMember) {
-    this(securitySystem, showMember, ROLE_CHILDREN_LIMIT);
+    this(securitySystem, showMember, ROLE_CHILDREN_LIMIT, null);
   }
 
-  public RoleDataModel(SecuritySystem securitySystem, boolean showMember, int showChildLimit) {
+  public RoleDataModel(SecuritySystem securitySystem, boolean showMember, int showChildLimit, IUser user) {
     this.showChildLimit = showChildLimit;
+    this.user = user;
+    if (user != null) {
+      contentFilters = List.of(new SelectItem(CURRENT_ROLE_FILTER, "Show only current roles"));
+    }
     this.securityContext = securitySystem.getSecurityContext();
     this.showMember = showMember;
     this.roles = securityContext.roles().all().stream()
@@ -40,7 +53,9 @@ public class RoleDataModel extends TreeView<Role> {
   public void setFilter(String filter) {
     this.filter = filter;
     filteredTreeNode = new DefaultTreeNode<>("Filtered roles", null, null);
-    roles.stream().filter(role -> Strings.CI.contains(role.getName(), filter))
+    roles.stream()
+        .filter(this::containsUserThisRole)
+        .filter(role -> Strings.CI.contains(role.getName(), filter))
         .limit(showChildLimit)
         .forEach(role -> new DefaultTreeNode<>("role", role, filteredTreeNode));
     if (filteredTreeNode.getChildCount() >= showChildLimit) {
@@ -130,12 +145,64 @@ public class RoleDataModel extends TreeView<Role> {
     }
 
     private int addRolesToTree(List<IRole> rolesToAdd, boolean isMember) {
-      super.getChildren().addAll(rolesToAdd.stream()
+      var prefiltedRoles = rolesToAdd.stream().filter(r -> containsUserThisRole(r)).toList();
+      super.getChildren().addAll(prefiltedRoles.stream()
           .sorted(Comparator.comparing(IRole::getName))
           .limit(showChildLimit)
-          .map(child -> new LazyRoleTreeNode(child, isMember, this))
+          .map(r -> new LazyRoleTreeNode(r, isMember, this))
           .collect(Collectors.toList()));
-      return rolesToAdd.size() - showChildLimit;
+      return prefiltedRoles.size() - showChildLimit;
     }
+  }
+
+  private boolean containsUserThisRole(Role role) {
+    if (rolesOfUser == null) {
+      return true;
+    }
+    return rolesOfUser.contains(role.getName());
+  }
+
+  private boolean containsUserThisRole(IRole role) {
+    if (rolesOfUser == null) {
+      return true;
+    }
+    return rolesOfUser.contains(role.getName());
+  }
+
+  @Override
+  public List<SelectItem> getContentFilters() {
+    return contentFilters;
+  }
+
+  @Override
+  public List<String> getSelectedContentFilters() {
+    return selectedContentFilters;
+  }
+
+  @Override
+  public void setSelectedContentFilters(List<String> selectedContentFilters) {
+    if (this.selectedContentFilters.equals(selectedContentFilters)) {
+      return;
+    }
+    this.selectedContentFilters = selectedContentFilters;
+    if (selectedContentFilters.contains(CURRENT_ROLE_FILTER)) {
+      rolesOfUser = user.getAllRoles().stream().map(IRole::getName).toList();
+    } else {
+      rolesOfUser = null;
+    }
+    reloadTree();
+  }
+
+  @Override
+  public void resetSelectedContentFilters() {
+    setSelectedContentFilters(List.of());
+  }
+
+  @Override
+  public String getContentFilterText() {
+    if (selectedContentFilters.contains(CURRENT_ROLE_FILTER)) {
+      return "Only current roles";
+    }
+    return "All roles";
   }
 }

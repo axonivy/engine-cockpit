@@ -28,8 +28,24 @@
       <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
         actionListener="#{userDetailBean.roles.collapseAllNodes}" update="rolesTree" title="Collapse all"
         styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined" />
+      <p:commandButton id="roleFilterBtn" title="Filter: #{userDetailBean.roles.contentFilterText}" type="button" icon="si si-filter-1"
+        styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button" onclick="PF('roleFilterPanel').show();" />
+      <p:overlayPanel id="roleFilterPanel" for="roleFilterBtn" widgetVar="roleFilterPanel" styleClass="table-content-filter">
+        <p:selectManyCheckbox id="filterCheckboxes" layout="grid" columns="1" value="#{userDetailBean.roles.selectedContentFilters}">
+          <f:selectItems value="#{userDetailBean.roles.contentFilters}"/>
+        </p:selectManyCheckbox>
+
+        <h:panelGroup layout="block" styleClass="mt-1 flex justify-content-end">
+          <p:commandButton id="cancelFilter" value="Cancel" styleClass="ui-button-flat ui-button-secondary modal-input-button"
+            onclick="PF('roleFilterPanel').hide();" type="button" />
+          <p:commandButton id="resetFilterBtn" value="Reset" styleClass="ml-1 ui-button-secondary modal-input-button" icon="si si-delete-2"
+            update="@form" actionListener="#{userDetailBean.roles.resetSelectedContentFilters()}" />
+          <p:commandButton id="applyFilter" value="Apply" styleClass="ml-1 modal-input-button" icon="si si-check-1"
+            update="@form" />
+        </h:panelGroup>
+      </p:overlayPanel>
     </div>
-    <p:treeTable id="rolesTree" value="#{userDetailBean.roles.tree}" var="role" nodeVar="node">
+    <p:treeTable id="rolesTree" value="#{userDetailBean.roles.tree}" var="role" nodeVar="node" style="max-height: 500px; overflow-y: auto;">
       <p:ajax event="expand" listener="#{userDetailBean.roles.nodeExpand}" />
       <p:ajax event="collapse" listener="#{userDetailBean.roles.nodeCollapse}" />
       <p:column headerText="All Roles" sortBy="#{role.name}">
@@ -46,7 +62,7 @@
         </p:treeNode>
         <p:treeNode type="dummy" rendered="#{node.type == 'dummy'}">
           <p:commandButton value="Show more (#{role.name} left)" update="rolesTree"
-            actionListener="#{userDetailBean.increaseShowChildLimitAndReloadTree(1000)}" />
+            actionListener="#{userDetailBean.increaseShowChildLimitAndReloadTree(100)}" />
           </p:treeNode>
         <p:treeNode type="searchDummy" rendered="#{node.type == 'searchDummy'}">
           <h:outputText value="#{role.name}"
