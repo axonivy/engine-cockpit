@@ -105,7 +105,6 @@ public class DeploymentBean {
 
     var deploymentOptions = DeploymentOptions.create()
         .deployTestUsers(deployOptions.getDeployTestUsers())
-        .targetVersion(deployOptions.getVersion())
         .targetState(deployOptions.getState())
         .toOptions();
 
