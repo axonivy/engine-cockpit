@@ -33,7 +33,6 @@ import ch.ivyteam.ivy.persistence.db.init.SystemDatabaseSetup;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class SystemDatabaseBean extends StepStatus {

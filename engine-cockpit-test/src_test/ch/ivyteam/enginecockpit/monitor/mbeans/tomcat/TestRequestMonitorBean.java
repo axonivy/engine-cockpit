@@ -13,7 +13,6 @@ import com.axonivy.jmx.MBeans;
 
 import ch.ivyteam.ivy.environment.IvyTest;
 
-@SuppressWarnings("restriction")
 @IvyTest
 public class TestRequestMonitorBean {
   @BeforeEach

@@ -23,7 +23,6 @@ import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("restriction")
 public class SecurityProviderBean {
 
   private String name;

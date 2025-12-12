@@ -11,7 +11,6 @@ import ch.ivyteam.enginecockpit.system.model.ClusterNode;
 import ch.ivyteam.ivy.cluster.restricted.IClusterManager;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class ClusterBean {

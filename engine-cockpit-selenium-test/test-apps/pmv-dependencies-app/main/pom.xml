@@ -19,5 +19,9 @@
       <version>${project.version}</version>
       <type>iar</type>
     </dependency>
+    <dependency>
+      <groupId>com.axonivy.ivy.api</groupId>
+      <artifactId>ivy-api</artifactId>
+    </dependency>
   </dependencies>
 </project>

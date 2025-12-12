@@ -9,7 +9,6 @@ import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class WebServerConnectorBean extends StepStatus {

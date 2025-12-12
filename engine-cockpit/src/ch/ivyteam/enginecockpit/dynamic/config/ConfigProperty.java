@@ -130,7 +130,6 @@ public class ConfigProperty {
     return keyValueProperty;
   }
 
-  @SuppressWarnings("restriction")
   public class KeyValueProperty {
 
     private final Map<String, String> keyValue;

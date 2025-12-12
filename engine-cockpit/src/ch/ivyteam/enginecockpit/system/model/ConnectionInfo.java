@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.system.model;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
 
-@SuppressWarnings("restriction")
 public class ConnectionInfo {
   private final String label;
   private final String advise;

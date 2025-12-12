@@ -22,7 +22,6 @@ import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.configuration.restricted.Property;
 import ch.ivyteam.ivy.vars.Variable;
 
-@SuppressWarnings("restriction")
 public class ConfigProperty {
   private String key;
   private String value;

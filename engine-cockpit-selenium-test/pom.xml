@@ -12,21 +12,7 @@
 
   <properties>
     <test.application>system</test.application>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
-  <repositories>
-    <repository>
-      <id>central.sonatype.snapshots</id>
-      <url>https://central.sonatype.com/repository/maven-snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
-    </repository>
-  </repositories>
 
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -57,7 +43,6 @@
         <plugins>
           <plugin>
             <artifactId>maven-clean-plugin</artifactId>
-            <version>3.5.0</version>
             <executions>
               <execution>
                 <id>clean-engine-cockpit</id>
@@ -108,7 +93,6 @@
     
           <plugin>
             <artifactId>maven-resources-plugin</artifactId>
-            <version>3.4.0</version>
             <executions>
               <execution>
                 <id>copy-ivy-yaml</id>
@@ -205,7 +189,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.5.4</version>
             <executions>
               <execution>
                 <id>default-test</id>
@@ -229,7 +212,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.5.4</version>
             <executions>
               <execution>
                 <id>selenium.web.tests</id>
@@ -259,7 +241,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.5.4</version>
             <executions>
               <execution>
                 <id>selenium.web.docu</id>
@@ -282,7 +263,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
-            <version>3.8.0</version>
             <executions>
               <execution>
                 <phase>integration-test</phase>

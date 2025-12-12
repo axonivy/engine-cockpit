@@ -7,7 +7,6 @@ import ch.ivyteam.ivy.cluster.restricted.ClusterNodeState;
 import ch.ivyteam.ivy.cluster.restricted.IClusterNode;
 import ch.ivyteam.util.Version;
 
-@SuppressWarnings("restriction")
 public class ClusterNode {
 
   private final IClusterNode node;

@@ -4,7 +4,6 @@ import ch.ivyteam.enginecockpit.monitor.trace.BackgroundMeterUtil;
 import ch.ivyteam.ivy.bpm.engine.restricted.model.IProcessElement;
 import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IProcessElementExecutionStatistic;
 
-@SuppressWarnings("restriction")
 public final class ProcessElementStatistic {
 
   static final double A_MILLION = 1_000_000.0d;

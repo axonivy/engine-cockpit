@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.monitor.performance;
 
 import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IProcessElementExecutionStatistic;
 
-@SuppressWarnings("restriction")
 final class MaxBuilder {
   private long totalExecutionTime;
 

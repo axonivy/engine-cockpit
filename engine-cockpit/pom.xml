@@ -18,6 +18,24 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.axonivy.ivy.api</groupId>
+      <artifactId>ivy-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.axonivy.ivy.api</groupId>
+      <artifactId>ivy-poi-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.axonivy.ivy.api</groupId>
+      <artifactId>ivy-runtime</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.platform</groupId>
+      <artifactId>org.eclipse.core.resources</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <!-- oshi needs to align it's jna dependency with the axon ivy core jna dependency -->
       <groupId>com.github.oshi</groupId>
       <artifactId>oshi-core</artifactId>
@@ -60,7 +78,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.8.0</version>
         <executions>
           <execution>
             <id>jar</id>

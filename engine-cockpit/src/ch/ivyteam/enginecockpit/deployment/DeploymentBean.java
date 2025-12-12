@@ -96,7 +96,6 @@ public class DeploymentBean {
     deploy();
   }
 
-  @SuppressWarnings("restriction")
   private void deploy() {
     this.deploymentLogger = new CockpitDeploymentLogger();
     this.showDeployLogs = true;

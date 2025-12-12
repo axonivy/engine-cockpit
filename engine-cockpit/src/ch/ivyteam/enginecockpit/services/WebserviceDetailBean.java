@@ -90,7 +90,6 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     liveStats = new WebServiceMonitor(appName, webserviceId);
   }
 
-  @SuppressWarnings("restriction")
   private void reloadExternalWebservice() {
     var webService = IWebserviceExecutionManager.instance().getSoapWebServiceApplicationContext(app).getSoapWebService(webserviceId);
 
