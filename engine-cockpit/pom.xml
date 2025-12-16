@@ -37,6 +37,21 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>com.axonivy.ivy.api</groupId>
+      <artifactId>ivy-runtime</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.axonivy.ivy.api</groupId>
+      <artifactId>ivy-poi-api</artifactId>
+    </dependency>
+    <!-- FIXME: Needed because RestTestRunner has a dependency to IProject via IResourceDataModelProvider -->
+    <dependency>
+      <groupId>org.eclipse.platform</groupId>
+      <artifactId>org.eclipse.core.resources</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <profiles>
@@ -60,7 +75,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.8.0</version>
         <executions>
           <execution>
             <id>jar</id>

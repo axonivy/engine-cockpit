@@ -14,7 +14,6 @@ public class UiStateClient {
     builder = original.toBuilder();
   }
 
-  @SuppressWarnings("restriction")
   public UiStateClient setUiState(RestClientDto dto) {
     builder.uri(dto.getConnectionUrl())
         .property(ch.ivyteam.ivy.rest.client.config.RestClientProperty.Authentication.USERNAME, dto.getUsername());

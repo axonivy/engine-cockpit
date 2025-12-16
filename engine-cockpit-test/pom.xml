@@ -26,33 +26,27 @@
       <type>iar</type>
     </dependency>
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
+      <groupId>com.axonivy.ivy.api.test</groupId>
+      <artifactId>ivy-test-api</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
+      <groupId>com.axonivy.ivy.api</groupId>
+      <artifactId>ivy-poi-api</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
   <build>
     <testSourceDirectory>src_test</testSourceDirectory>
-    <testOutputDirectory>target/test-classes</testOutputDirectory>
     <plugins>
       <plugin>
         <groupId>com.axonivy.ivy.ci</groupId>
         <artifactId>project-build-plugin</artifactId>
-        <extensions>true</extensions>
-        <configuration>
-          <testWithEngineClasspath>true</testWithEngineClasspath>
-        </configuration>
       </plugin>
 
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.5.4</version>
         <configuration>
           <skip>${skip.tests}</skip>
           <testFailureIgnore>true</testFailureIgnore>

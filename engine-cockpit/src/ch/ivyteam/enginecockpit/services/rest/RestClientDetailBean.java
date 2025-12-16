@@ -90,7 +90,6 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     liveStats = new RestClientMonitor(app.getName(), restClient.getUniqueId().toString());
   }
 
-  @SuppressWarnings("restriction")
   private void reloadExternalRestClient() {
     var restClientManager = RestClientExecutionManager.instance();
     var client = findRestClient();

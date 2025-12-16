@@ -16,7 +16,6 @@ class TestHealthBean {
 
   HealthBean testee = new HealthBean();
 
-  @SuppressWarnings("restriction")
   @AfterEach
   void after() {
     HealthChecker.instance().checks().stream().map(HealthCheckImpl.class::cast).forEach(HealthCheckImpl::stop);

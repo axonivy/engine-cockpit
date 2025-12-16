@@ -15,7 +15,6 @@ import ch.ivyteam.ivy.request.IRequest;
 import ch.ivyteam.ivy.request.IResponse;
 import ch.ivyteam.ivy.request.RequestException;
 
-@SuppressWarnings("restriction")
 @Singleton
 final class TstBpmEngineManager implements IBpmEngineManager {
 

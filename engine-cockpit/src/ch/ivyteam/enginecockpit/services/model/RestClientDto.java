@@ -16,7 +16,6 @@ import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.config.restricted.ClientProperties;
 
-@SuppressWarnings("restriction")
 public class RestClientDto implements IService {
   private final String name;
   private String url;

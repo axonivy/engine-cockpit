@@ -20,7 +20,6 @@ import ch.ivyteam.ivy.language.LanguageManager;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class SecurityConfigBean {

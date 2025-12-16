@@ -198,7 +198,6 @@ public class Application extends AbstractActivity {
   }
 
   @Override
-  @SuppressWarnings("restriction")
   public boolean hasReleasedProcessModelVersion() {
     return app.getProcessModels()
         .stream()

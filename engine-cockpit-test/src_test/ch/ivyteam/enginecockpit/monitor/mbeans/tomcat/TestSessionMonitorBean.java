@@ -11,7 +11,6 @@ import com.axonivy.jmx.MAttribute;
 import com.axonivy.jmx.MBean;
 import com.axonivy.jmx.MBeans;
 
-@SuppressWarnings("restriction")
 public class TestSessionMonitorBean {
   @BeforeEach
   public void beforeEach() {

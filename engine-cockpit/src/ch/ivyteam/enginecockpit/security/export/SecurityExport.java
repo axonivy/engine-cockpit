@@ -29,7 +29,6 @@ import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.internal.data.AccessControlData;
 
-@SuppressWarnings("restriction")
 public class SecurityExport {
   private static final Comparator<IRole> ROLE_NAME_COMPERATOR = Comparator.comparing(IRole::getName);
   private static final int USERS_PER_EXCEL = 1000;
