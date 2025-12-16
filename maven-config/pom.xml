@@ -10,7 +10,7 @@
     <engine.dir>../.ivy-engine</engine.dir>
     <flatten.plugin.version>1.7.3</flatten.plugin.version>
     <project.build.plugin.version>13.2.1-SNAPSHOT</project.build.plugin.version>
-    <web.tester.version>13.2.0-SNAPSHOT</web.tester.version>
+    <web.tester.version>13.2.1-SNAPSHOT</web.tester.version>
     <ivy.bom.version>13.2.0-SNAPSHOT</ivy.bom.version>
     <maven.test.skip>true</maven.test.skip>
   </properties>
