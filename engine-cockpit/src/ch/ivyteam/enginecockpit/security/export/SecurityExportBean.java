@@ -14,7 +14,6 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class SecurityExportBean implements AllResourcesDownload {

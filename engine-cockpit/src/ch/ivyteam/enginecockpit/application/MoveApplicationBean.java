@@ -14,7 +14,6 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISecurityManager;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class MoveApplicationBean {

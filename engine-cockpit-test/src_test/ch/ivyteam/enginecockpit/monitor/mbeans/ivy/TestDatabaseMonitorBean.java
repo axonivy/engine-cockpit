@@ -12,7 +12,6 @@ import com.axonivy.jmx.MBeans;
 
 import ch.ivyteam.ivy.environment.IvyTest;
 
-@SuppressWarnings("restriction")
 @IvyTest
 class TestDatabaseMonitorBean {
 

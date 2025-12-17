@@ -18,7 +18,6 @@ import ch.ivyteam.ivy.configuration.internal.Configuration;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@SuppressWarnings("restriction")
 public class ConfigViewImpl implements TableFilter, ConfigView {
   private static final String DEFINED_FILTER = "defined";
   private List<ConfigProperty> configs;
@@ -43,7 +42,6 @@ public class ConfigViewImpl implements TableFilter, ConfigView {
     reloadConfigs();
   }
 
-  @SuppressWarnings("deprecation")
   private void reloadConfigs() {
     ((Configuration) configuration).blockUntilReloaded();
     configs = configuration.getProperties().stream()

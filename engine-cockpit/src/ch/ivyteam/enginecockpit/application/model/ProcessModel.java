@@ -29,7 +29,6 @@ public class ProcessModel extends AbstractActivity {
   }
 
   @Override
-  @SuppressWarnings("restriction")
   public long getRunningCasesCount() {
     if (runningCasesCount < 0) {
       var wf = (WorkflowContextInternal) IWorkflowContext.current();
@@ -77,7 +76,6 @@ public class ProcessModel extends AbstractActivity {
   }
 
   @Override
-  @SuppressWarnings("restriction")
   public boolean hasReleasedProcessModelVersion() {
     var processModel = (ch.ivyteam.ivy.application.internal.ProcessModel) pm;
     return processModel.hasReleasedProcessModelVersion();
@@ -88,7 +86,6 @@ public class ProcessModel extends AbstractActivity {
     return Ivy.cm().co("/applications/WarningMessageForNoReleasedPmv");
   }
 
-  @SuppressWarnings("restriction")
   public boolean isOverrideProject() {
     if (isOverrideProject == null) {
       var overrideProject = ((IApplicationInternal) pm.getApplication()).getConfiguration().getOrDefault("OverrideProject");

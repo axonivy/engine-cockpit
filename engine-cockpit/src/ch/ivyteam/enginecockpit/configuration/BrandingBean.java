@@ -36,7 +36,6 @@ import ch.ivyteam.ivy.application.branding.BrandingIO;
 import ch.ivyteam.ivy.application.branding.BrandingResolver;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class BrandingBean implements AllResourcesDownload {

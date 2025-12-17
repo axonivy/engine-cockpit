@@ -125,7 +125,6 @@ public class ApplicationDetailBean {
     return configView;
   }
 
-  @SuppressWarnings("restriction")
   private ConfigProperty enrichPmvProperties(ConfigProperty property) {
     if (Strings.CS.startsWith(property.getKey(), "StandardProcess")) {
       property.setConfigValueFormat(ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat.ENUMERATION);

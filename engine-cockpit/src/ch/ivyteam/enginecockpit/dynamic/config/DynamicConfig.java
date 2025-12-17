@@ -16,7 +16,6 @@ import ch.ivyteam.ivy.configuration.meta.Metadata;
 import ch.ivyteam.ivy.configuration.restricted.ConfigKey;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@SuppressWarnings("restriction")
 public class DynamicConfig {
 
   private final List<ConfigPropertyGroup> groups;

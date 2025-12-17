@@ -17,7 +17,6 @@ import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IProcessElementExecutionSt
 import ch.ivyteam.ivy.process.model.ProcessKind;
 import ch.ivyteam.ivy.process.model.value.PID;
 
-@SuppressWarnings("restriction")
 final class TstProcessElementExecStat implements IProcessElementExecutionStatistic {
   private static final Random RANDOM = new Random();
   private static final long ONE_MILLION = 1_000_000l;

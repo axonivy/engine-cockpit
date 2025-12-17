@@ -18,7 +18,6 @@ import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 
 @ManagedBean
-@SuppressWarnings("restriction")
 public class RestartBean {
 
   private boolean isRestarting;

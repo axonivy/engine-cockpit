@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import ch.ivyteam.ivy.configuration.restricted.branding.CssColor;
 
-@SuppressWarnings("restriction")
 public class CssColorDTO implements Serializable {
   private String color;
   private String value;
