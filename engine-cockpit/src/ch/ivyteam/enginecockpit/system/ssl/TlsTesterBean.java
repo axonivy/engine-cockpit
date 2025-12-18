@@ -22,15 +22,15 @@ public class TlsTesterBean {
   private Optional<X509Certificate> missingCert = Optional.empty();
 
   public boolean isHttps(String Uri) {
-    return Uri.startsWith("https");
+    return Uri.toLowerCase().startsWith("https");
   }
 
   public boolean isLdaps(String Uri) {
-    return Uri.startsWith("ldaps");
+    return Uri.toLowerCase().startsWith("ldaps");
   }
 
   public boolean isJdbc(String Uri) {
-    return Uri.startsWith("jdbc");
+    return Uri.toLowerCase().startsWith("jdbc");
   }
 
   public void testConnection(String targetUri) {
