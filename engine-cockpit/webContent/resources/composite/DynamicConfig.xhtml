@@ -60,7 +60,7 @@
                     oncomplete="PF('connectionTestModel').show()"
                     update="identityProvider:connectionTestModel"
                     styleClass="modal-input-button"
-                    rendered="#{tlsTesterBean.isLdaps(property.value)}" />
+                    disabled="#{!tlsTesterBean.isLdaps(property.value)}" />
 
                   <p:commandButton id="browseDirectory"
                     icon="si si-network-browser" title="#{ivy.cm.co('/common/Browse')}"
