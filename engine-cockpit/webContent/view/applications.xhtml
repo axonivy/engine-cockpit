@@ -156,17 +156,17 @@
 
           <p:confirmDialog id="convertDialog"
             header="#{ivy.cm.co('/applications/Convert')} '#{applicationBean.activeActivity.name}'" severity="alert"
-            widgetVar="convertDialog">
+            widgetVar="convertDialog" responsive="true" width="600">
             <f:facet name="message">
+              <p>
+                <h:outputText value="#{ivy.cm.co('/applications/ApplicationConvertToLatestVersionMessage')}" rendered="#{applicationBean.activeActivity.application}"/>
+                <h:outputText value="#{ivy.cm.co('/applications/PmvConvertToLatestVersionMessage')}" rendered="#{applicationBean.activeActivity.pmv}"/>
+              </p>
 
-              <h:outputText value="#{ivy.cm.co('/applications/ApplicationConvertToLatestVersionMessage')}" rendered="#{applicationBean.activeActivity.application}"/>
-              <h:outputText value="#{ivy.cm.co('/applications/PmvConvertToLatestVersionMessage')}" rendered="#{applicationBean.activeActivity.pmv}"/>
-
-              <br /><br />
-              <p:scrollPanel style="height:300px;width:100%;min-width:500px;">
+              <p:scrollPanel mode="native" style="height: 300px; width: 100%;">
                 <h:panelGroup id="conversionLog">
-                  <div style="padding:5px;">
-                    <pre style="white-space: pre-wrap;margin:0px;"><code>#{applicationBean.activeActivity.projectConversionLog}</code></pre>
+                  <div style="padding: 5px;">
+                    <pre style="white-space: pre-wrap; margin:0px;"><code>#{applicationBean.activeActivity.projectConversionLog}</code></pre>
                   </div>
                 </h:panelGroup>
               </p:scrollPanel>
