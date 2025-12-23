@@ -1014,7 +1014,7 @@ restart:
   RestartFirstWarningMessageSecondPart: Benutzer (zurzeit ${workingUsers})
   RestartFirstWarningMessageThirdPart: ', die mit ${application} arbeiten, werden ihre aktuelle Arbeit verlieren.'
   RestartSecondWarningMessage: Benutzer können sich für kurze Zeit nicht mit ${application} verbinden.
-  RestartThirdWarningMessage: Das Neustarten kann scheitern und dann benötigenSie Zugriff auf das Betriebssystem, um es erneut starten zu können.
+  RestartThirdWarningMessage: Das Neustarten kann scheitern und dann benötigen Sie Zugriff auf das Betriebssystem, um es erneut starten zu können.
   RestartWarningMessage: Der Neustart von ${application} ist eine gefährliche Operation.
 restClientConfiguration:
   ResetConfiguration: Konfiguration zurücksetzen
