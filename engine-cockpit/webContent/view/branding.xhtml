@@ -42,8 +42,6 @@
           <h:form id="editCustomCssForm" styleClass="custom-dialog-form">
             <pe:codeMirror id="editCustomCssValue" value="#{brandingBean.customCssContent}"
               mode="text/css" lineNumbers="true" matchBrackets="true" />
-            <pe:remoteCommand name="refreshCodeMirror" update="editCustomCssValue" />
-            <script>refreshCodeMirror();</script>
             <div class="custom-dialog-footer" style="justify-content: space-between;">
               <a href="#{advisorBean.engineGuideBaseUrl}/configuration/files/custom-css.html" target="_blank"
                 rel="noopener noreferrer" style="float: left;">
