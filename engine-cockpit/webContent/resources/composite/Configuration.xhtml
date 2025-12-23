@@ -153,8 +153,6 @@
             <pe:codeMirror id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}"
               mode="#{cc.attrs.bean.activeConfig.editorMode}" lineNumbers="true" matchBrackets="true"
               theme="#{ivyFreyaTheme.mode eq 'light' ? 'default' : 'dark'}" />
-            <pe:remoteCommand name="refreshCodeMirror" update="editConfigurationValue" />
-            <script>refreshCodeMirror();</script>
           </c:when>
           <c:otherwise>
             <p:inputText id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" />
