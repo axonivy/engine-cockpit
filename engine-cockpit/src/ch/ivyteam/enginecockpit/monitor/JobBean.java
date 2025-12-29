@@ -3,13 +3,13 @@ package ch.ivyteam.enginecockpit.monitor;
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
-import com.google.common.collect.Streams;
 
 import ch.ivyteam.enginecockpit.monitor.mbeans.MBean;
 import ch.ivyteam.enginecockpit.util.ErrorHandler;
@@ -41,7 +41,7 @@ public class JobBean {
           .stream()
           .map(Job::new);
 
-      var allJobs = Streams
+      var allJobs = Stream
           .concat(cronJobs, periodicalJobs)
           .toList();
       jobs = new ArrayList<>(allJobs);

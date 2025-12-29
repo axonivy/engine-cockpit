@@ -1,8 +1,7 @@
 package ch.ivyteam.enginecockpit.services.model;
 
+import java.util.Objects;
 import java.util.concurrent.Callable;
-
-import com.google.common.base.Objects;
 
 import ch.ivyteam.log.Logger;
 
@@ -24,7 +23,7 @@ public class ConnectionTestWrapper {
   public Object test(Callable<?> connectionTestCallable) {
     callable = connectionTestCallable;
     var result = call();
-    return Objects.equal(connectionTestCallable, callable) ? result : defaultValue;
+    return Objects.equals(connectionTestCallable, callable) ? result : defaultValue;
   }
 
   public void stop() {

@@ -71,6 +71,7 @@ branding:
   UploadFileSuccessfulMessage: ${resource} を正常にアップロードしました
   UploadResourceDialogHeader: "'${application}' にリソースをアップロードする"
   Value: '値: '
+  DownloadBrandingResourcesError: アプリ '${appName}'のブランディングリソースが見つかりませんでした
 channelState:
   ErrorInformation: エラー情報
   FailedDeliverAttempsSoFar: 'これまでのデリバリー失敗回数：'
@@ -1378,6 +1379,8 @@ userDetailRoles:
   Inherited: 継承済み
   RoleInExternalSecuritySystemMessage: ロールは外部セキュリティシステムによって管理されています
   RoleSearchPerformanceReasonsMessage: パフォーマンス上の理由から、最初の 20 件のロールのみが読み込まれます。特定のロールを見つけるには検索を使用してください。
+  OnlyCurrentRoles: 現在のロールのみ
+  ShowOnlyCurrentRoles: 現在のロールのみを表示
 userDetailSubstitutes:
   Personal: 個人
   Substitutes: 代替

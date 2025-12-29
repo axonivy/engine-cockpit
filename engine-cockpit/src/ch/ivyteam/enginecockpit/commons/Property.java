@@ -6,7 +6,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import ch.ivyteam.ivy.application.config.Meta;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 
-@SuppressWarnings("restriction")
 public class Property {
   private String name;
   private String value;

@@ -1381,8 +1381,10 @@ userDetailNotifications:
 userDetailRoles:
   AllRoles: All Roles
   Inherited: Inherited
+  OnlyCurrentRoles: Only current roles
   RoleInExternalSecuritySystemMessage: Role is managed by the external security system
   RoleSearchPerformanceReasonsMessage: For performance reasons only the first 20 roles are loaded. Use the search to find a specific role.
+  ShowOnlyCurrentRoles: Show only current roles
 userDetailSubstitutes:
   For: For
   OnAbsence: On absence

@@ -8,7 +8,6 @@ import ch.ivyteam.ivy.job.IJob;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISession;
 
-@SuppressWarnings("restriction")
 public class SecurityExportJob implements IJob {
 
   private final SecurityExport securityExport;

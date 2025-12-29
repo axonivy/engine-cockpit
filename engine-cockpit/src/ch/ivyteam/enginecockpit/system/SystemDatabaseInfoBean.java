@@ -17,7 +17,6 @@ import ch.ivyteam.ivy.persistence.db.info.SystemDbInfo;
 import ch.ivyteam.ivy.persistence.db.info.SystemDbTable;
 import ch.ivyteam.ivy.persistence.db.info.SystemDbTrigger;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class SystemDatabaseInfoBean {

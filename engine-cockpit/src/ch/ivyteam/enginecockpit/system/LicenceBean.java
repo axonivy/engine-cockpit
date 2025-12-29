@@ -29,7 +29,6 @@ import ch.ivyteam.licence.LicenceEventManager;
 import ch.ivyteam.licence.NewLicenceFileInstaller;
 import ch.ivyteam.licence.SystemLicence;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @RequestScoped
 public class LicenceBean extends StepStatus {

@@ -33,12 +33,10 @@ public class RestTestRunner {
     return new SecurityContextContext(app.getSecurityContext()).getInContext(this::testInSecurityContext);
   }
 
-  @SuppressWarnings("restriction")
   private ConnectionTestResult testInSecurityContext() {
     return new ApplicationContext(app).getInContext(this::testInAppContext);
   }
 
-  @SuppressWarnings("restriction")
   private ConnectionTestResult testInAppContext() {
     var clientPmv = findClientPmv();
     String invalidUrlMsg = Ivy.cm().co("/connectionTestResult/InvalidRestClientUrlMessage");
@@ -50,7 +48,6 @@ public class RestTestRunner {
         .getInContext(() -> testInPmvContext(invalidUrlMsg, successMsg, notUnderstandRequestMsg, authMsg, failMsg));
   }
 
-  @SuppressWarnings("restriction")
   private Optional<IProcessModelVersion> findClientPmv() {
     var restManager = ch.ivyteam.ivy.rest.client.config.restricted.IRestClientsManager.instance();
     return app.getProcessModelVersions()
@@ -71,7 +68,6 @@ public class RestTestRunner {
     }
   }
 
-  @SuppressWarnings("restriction")
   private WebTarget createClient() {
     return new ch.ivyteam.ivy.rest.client.internal.ExternalRestWebService(app, uiClient)
         .getWebTargetFactory()

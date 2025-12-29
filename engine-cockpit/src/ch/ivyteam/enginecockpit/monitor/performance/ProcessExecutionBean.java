@@ -26,7 +26,6 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("restriction")
 public final class ProcessExecutionBean {
 
   private final IExecutionStatistic statistic = IBpmEngineManager.instance().getExecutionStatistic();

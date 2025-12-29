@@ -234,6 +234,7 @@ public class Application implements AppTreeItem {
     return webServiceProcesses;
   }
 
+  @Override
   public boolean hasReleasedProcessModelVersion() {
     // return app.getProcessModels()
     // .stream()

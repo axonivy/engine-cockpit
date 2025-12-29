@@ -21,7 +21,6 @@ import ch.ivyteam.ivy.security.ISecurityDescriptor;
 import ch.ivyteam.ivy.security.ISecurityMember;
 import ch.ivyteam.ivy.security.internal.context.SecurityContext;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class PermissionBean extends TreeView<AbstractPermission> {

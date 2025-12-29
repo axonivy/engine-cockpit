@@ -5,7 +5,6 @@ import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IExecutionStatistic;
 import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IProcessElementExecutionStatistic;
 import ch.ivyteam.ivy.process.model.value.PID;
 
-@SuppressWarnings("restriction")
 class TstExecutionStatistic implements IExecutionStatistic {
 
   static final IProcessElementExecutionStatistic[] EMPTY = {};

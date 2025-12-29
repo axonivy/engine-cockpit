@@ -2,11 +2,10 @@ package ch.ivyteam.enginecockpit.monitor.value;
 
 import java.util.function.DoubleSupplier;
 import java.util.function.LongSupplier;
+import java.util.function.Supplier;
 
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
-
-import com.google.common.base.Supplier;
 
 import ch.ivyteam.enginecockpit.monitor.mbeans.MAttribute;
 import ch.ivyteam.enginecockpit.monitor.mbeans.MName;
