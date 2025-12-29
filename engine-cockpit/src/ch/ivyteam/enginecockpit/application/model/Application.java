@@ -42,7 +42,6 @@ public class Application implements AppTreeItem {
     this(app, null);
   }
 
-  @SuppressWarnings("restriction")
   public Application(IApplication app, ApplicationBean bean) {
     this.app = (IApplicationInternal) app;
     fileDir = app.getFileDirectory();

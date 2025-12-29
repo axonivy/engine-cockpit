@@ -15,7 +15,6 @@ import ch.ivyteam.ivy.application.restricted.IApplicationConfigurationManager;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("restriction")
 public class PmvDetailBean {
 
   private String appName;
