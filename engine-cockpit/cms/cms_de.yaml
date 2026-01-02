@@ -22,7 +22,7 @@ applications:
   DeactivateButtonTitle: Deaktivieren
   DeleteHintMessage: Sind Sie sicher, dass Sie dieses ${activityType} löschen wollen?
   DeleteRunningCasesHintMessage: Die ${activityType} hat ${runningCases} laufende Fälle. Diese werden auch gelöscht.
-  DeploymentButtonTitle: Verteilung
+  DeploymentButtonTitle: Bereitstellung
   DisableErrorMessage: Der Zustand der Application ${application} kann nicht evaluiert werden
   ExecutionErrorMessageSummary: Kann Modul nicht ${action}
   ExecutionSuccessMessageSummary: Modul erfolgreich ${action}
