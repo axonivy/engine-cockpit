@@ -123,7 +123,7 @@ common:
   Back: Zurück
   Branding: Branding
   Browse: Durchsuchen
-  BusinessCalendar: Geschäftskalendar
+  BusinessCalendar: Geschäftskalender
   Bytes: Bytes
   Cancel: Abbrechen
   Chart: Diagramm
@@ -493,8 +493,7 @@ indices:
   Store: Speicher
 info:
   DemoPortal: Demo Portal
-  DemoPortalIntroduction: Das Demo-Portal bietet den perfekten Einstiegspunkt, um die leistungsstarken Features der Axon Ivy Plattform als Workflow-Engine zu erkunden und zu erleben. Es ermöglicht Anwendern zu entdecken, wie einfach komplexe Geschäftsprozesse automatisiert, rationalisiert und optimiert
-    werden können. Egal, ob Sie Aufgaben verwalten, Systeme integrieren oder Workflows abteilungsübergreifend orchestrieren möchten, die Plattform bietet intuitive Tools und eine flexible Umgebung, um Ihren Geschäftsanforderungen gerecht zu werden.
+  DemoPortalIntroduction: Das Demo-Portal bietet den perfekten Einstiegspunkt, um die leistungsstarken Features der Axon Ivy Plattform als Workflow-Engine zu erkunden und zu erleben. Es ermöglicht Anwendern zu entdecken, wie einfach komplexe Geschäftsprozesse automatisiert, rationalisiert und optimiert werden können. Egal, ob Sie Aufgaben verwalten, Systeme integrieren oder Workflows abteilungsübergreifend orchestrieren möchten, die Plattform bietet intuitive Tools und eine flexible Umgebung, um Ihren Geschäftsanforderungen gerecht zu werden.
   EngineMaintenanceReasonFirstPart: Daher ist die Axon Ivy Engine derzeit im Wartungsmodus. Wenn Ihr Setup zum Beispiel kaputt ist, weil die Axon Ivy Engine sich nicht mit der Systemdatenbank verbinden kann oder die Lizenz abgelaufen ist, dann gehen
   EngineMaintenanceReasonSecondPart: um es zu reparieren. Wenn Sie die Axon Ivy Engine auf eine neuere Version aktualisiert haben, ist es wichtig, die
   EngineMaintenanceReasonThirdPart: um sicherzustellen, dass die bestehende Instanz voll funktionsfähig ist. Dieser Prozess ist entscheidend für die Aufrechterhaltung der Funktionalität und Integrität des Systems.
@@ -502,8 +501,7 @@ info:
   MaintenanceMode: Wartungsmodus
   MigrationWizard: Migrationsassistent
   NEODesigner: NEO Designer
-  NEODesignerIntroduction: NEO Designer ist eine Low-Code-Plattform, welche die Anwendungsentwicklung mit visuellen Werkzeugen und vorgefertigten Komponenten beschleunigt und eine nahtlose Zusammenarbeit zwischen Geschäftsnutzern und Entwicklern ermöglicht. Diese Plattform vereinfacht die Automatisierung
-    von Geschäftsaufgaben, optimiert den Entwicklungsprozess und reduziert die Komplexität. Um die Effizienz zu steigern, unterstützt NEO Designer den schnellen Einsatz skalierbarer Anwendungen, die auf die konkreten Geschäftsanforderungen abgestimmt sind.
+  NEODesignerIntroduction: NEO Designer ist eine Low-Code-Plattform, welche die Anwendungsentwicklung mit visuellen Werkzeugen und vorgefertigten Komponenten beschleunigt und eine nahtlose Zusammenarbeit zwischen Geschäftsnutzern und Entwicklern ermöglicht. Diese Plattform vereinfacht die Automatisierung von Geschäftsaufgaben, optimiert den Entwicklungsprozess und reduziert die Komplexität. Um die Effizienz zu steigern, unterstützt NEO Designer den schnellen Einsatz skalierbarer Anwendungen, die auf die konkreten Geschäftsanforderungen abgestimmt sind.
   NoActiveProjects: Diese Applikation hat keine aktiven Projekte.
   NoApplications: Keine Applikationen
   Open: Öffnen
@@ -624,8 +622,7 @@ migrate:
   EngineMigrationErrorMessage: Fehler bei der Migration. ${exception)
   EngineMigrationSuccessfulMessage: Die Axon Ivy Engine Migration war erfolgreich. Starten Sie jetzt die Axon Ivy Engine neu.
   InPlaceMigration: In-Place Migration
-  InPlaceMigrationIntroduction: Diese Migration ist eine In-Place Migration. Die neue Axon Ivy Engine wird an genau der gleichen Stelle wie die alte Axon Ivy Engine installiert. Die Konfigurationsdateien in Containerumgebungen, wie  z.B. ivy.yaml, können in einem Lesemodus bereitgestellt werden. Da die
-    Migration mit Schreibzugriff auf diese Konfigurationsdateien arbeiten muss, können Sie festlegen, ob ein temporäres Verzeichnis verwendet werden soll, um diese Änderungen durchzuführen. Nach der Migration müssen Sie diese Dateien manuell dem Axon Ivy Engine hinzufügen.
+  InPlaceMigrationIntroduction: Diese Migration ist eine In-Place Migration. Die neue Axon Ivy Engine wird an genau der gleichen Stelle wie die alte Axon Ivy Engine installiert. Die Konfigurationsdateien in Containerumgebungen, wie  z.B. ivy.yaml, können in einem Lesemodus bereitgestellt werden. Da die Migration mit Schreibzugriff auf diese Konfigurationsdateien arbeiten muss, können Sie festlegen, ob ein temporäres Verzeichnis verwendet werden soll, um diese Änderungen durchzuführen. Nach der Migration müssen Sie diese Dateien manuell dem Axon Ivy Engine hinzufügen.
   InvalidLicenceWarningMessage: 'Lizenz ist ungültig. Bitte laden Sie eine neue Lizenz, sonst können Sie die Axon Ivy Engine nach der Migration nicht mehr starten. Grund: ${message}'
   Licence: Lizenz
   LoadLocation: Laden Verzeichnis
@@ -781,8 +778,7 @@ monitor:
           "false"
         Name: Speichern beim Beenden
       duration:
-        Description: "Konfiguriert, wie lange die Aufnahme laufen soll. \n\n\"0\", wenn kein Limit auferlegt werden sollte, andernfalls eine String-Darstellung einer positiven ganzen Zahl gefolgt von einem leeren Raum und einer der folgenden Einheiten:\n\n\"ns\" (Nanosekunden)\n\"us\" (Mikrosekunden)\n\
-          \"ms\" (Millisekunden)\n\"s\" (Sekunden)\n\"m\" (Minuten)\n\"h\" (Stunden)\n\"d\" (Tage)\n\nBeispiele:\n\"60 s\"\n\"10 m\"\n\"4 h\"\n\"0\""
+        Description: "Konfiguriert, wie lange die Aufnahme laufen soll. \n\n\"0\", wenn kein Limit auferlegt werden sollte, andernfalls eine String-Darstellung einer positiven ganzen Zahl gefolgt von einem leeren Raum und einer der folgenden Einheiten:\n\n\"ns\" (Nanosekunden)\n\"us\" (Mikrosekunden)\n\"ms\" (Millisekunden)\n\"s\" (Sekunden)\n\"m\" (Minuten)\n\"h\" (Stunden)\n\"d\" (Tage)\n\nBeispiele:\n\"60 s\"\n\"10 m\"\n\"4 h\"\n\"0\""
         Name: Dauer
       maxAge:
         Description: |-
@@ -911,8 +907,7 @@ monitorTraceDetail:
   SlowRequestDetail: Langsame Anfrage Detail
   SlowRequests: Langsame Anfrage
 moveApplication:
-  ChangeSecuritySystemDialogContent: 'Um das Sicherheitssystem einer Applikation zu ändern, muss das Zielsicherheitssystem die gleichen Rollen und Nutzer haben, so dass alle Laufzeitdaten wie Aufgaben, Fälle, Geschäftsdaten und mehr neu zugewiesen werden können. Daher müssen Sie zuerst überprüfen, ob
-    das Zielsicherheitssystem bereit ist. Wenn dies nicht der Fall ist, können Sie das Zielsicherheitssystem überprüfen und vorbereiten:'
+  ChangeSecuritySystemDialogContent: 'Um das Sicherheitssystem einer Applikation zu ändern, muss das Zielsicherheitssystem die gleichen Rollen und Nutzer haben, so dass alle Laufzeitdaten wie Aufgaben, Fälle, Geschäftsdaten und mehr neu zugewiesen werden können. Daher müssen Sie zuerst überprüfen, ob das Zielsicherheitssystem bereit ist. Wenn dies nicht der Fall ist, können Sie das Zielsicherheitssystem überprüfen und vorbereiten:'
   ChangeSecuritySystemDialogHeader: Sicherheitssystem ändern
   ChangeSecuritySystemWarningMessage: Dies ist ein aufwändiges Verfahren, das viele Daten bewegt. Wir empfehlen dringend, eine Sicherung Ihrer Systemdatenbank zu erstellen.
   MergeSecuritySystem: Sicherheitssystem zusammenlegen
@@ -1005,8 +1000,7 @@ progressLoader:
   Loading: Lade ...
 renameRole:
   RenameRoleDialogHeader: Rolle umbenennen
-  RenameRoleDialogWarningMessage: Dies ist eine kritische und gefährliche Operation, zumindest für nicht-dynamische Rollen. Diese Rolle kann in Prozessen mit ihrem alten Namen referenziert werden. Alle Referenzen in allen Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf den
-    neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft scheitern.
+  RenameRoleDialogWarningMessage: Dies ist eine kritische und gefährliche Operation, zumindest für nicht-dynamische Rollen. Diese Rolle kann in Prozessen mit ihrem alten Namen referenziert werden. Alle Referenzen in allen Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf den neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft scheitern.
 restart:
   Restart: Neustart
   RestartConfirmMessage: Sind Sie sicher, dass Sie die ${application} neu starten wollen?
@@ -1047,8 +1041,7 @@ roleDetailInformation:
   DeleteRole: Diese Rolle löschen
   DeleteRoleDialogConfirmMessage: Sind Sie sicher, dass Sie die Rolle '${role}' löschen möchten?
   DeleteRoleDialogHeader: Löschen der Rolle
-  DeleteRoleDialogWarningMessage: Dies ist eine kritische und gefährliche Operation, zumindest für nicht-dynamische Rollen. Diese Rolle kann in Prozessen mit ihrem alten Namen referenziert werden. Alle Referenzen in allen Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf den
-    neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft scheitern.
+  DeleteRoleDialogWarningMessage: Dies ist eine kritische und gefährliche Operation, zumindest für nicht-dynamische Rollen. Diese Rolle kann in Prozessen mit ihrem alten Namen referenziert werden. Alle Referenzen in allen Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf den neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft scheitern.
   DisplayName: Anzeige Name
   ExternalName: Externer Name
   ParentRole: Übergeordnete Rolle
@@ -1086,8 +1079,7 @@ searchEngineInformation:
   DiskThresholdEnabled: Festplattenschwellenwert aktiviert
   DiskThresholdEnabledInfo: Dies definiert, ob die Einstellungen darunter einen Effekt haben oder nicht
   FloodStage: Hochwasserstand
-  FloodStageInfo: Die Search Engine wird Indizes nur in den schreib-geschützten Modus setzen, wenn der verfügbare Speicherplatz kleiner als dieser Wert ist. Diese Einstellung ist ein letztes Mittel, um zu verhindern, dass Knoten keinen Speicherplatz mehr haben. Die Blockierung des Indizes wird automatisch
-    freigegeben, wenn die Plattenauslastung unter das hohe Wassermarke fällt.
+  FloodStageInfo: Die Search Engine wird Indizes nur in den schreib-geschützten Modus setzen, wenn der verfügbare Speicherplatz kleiner als dieser Wert ist. Diese Einstellung ist ein letztes Mittel, um zu verhindern, dass Knoten keinen Speicherplatz mehr haben. Die Blockierung des Indizes wird automatisch freigegeben, wenn die Plattenauslastung unter das hohe Wassermarke fällt.
   FloodStageWarning: Wenn Ihr verfügbarer Speicherplatz unter der Wassermarke liegt, wird die Search Engine die Indexierung neuer Dokumente stoppen und aktuelle Indizes in den schreib-geschützten Modus setzen
   NotSupportESVersionMessage: Diese OpenSearch Version ist nicht untertstützt
   WatermarkHigh: Wassermarke hoch
@@ -1106,8 +1098,7 @@ security:
 securityDetail:
   ProcessModels: Prozessmodelle
 securityReportDownloadDialog:
-  DownloadSecurityReportInfo: Der folgende Download enthält einen Sicherheitsbericht in Form eines Excel. Im Excel sind detaillierte Informationen über Benutzer, Rollen, Benutzerrollen, Rollenmitglieder, Benutzerberechtigungen und Rollenberechtigungen. Der Download kann ein paar Minuten dauern, abhängig
-    von der Anzahl der Benutzer.
+  DownloadSecurityReportInfo: Der folgende Download enthält einen Sicherheitsbericht in Form eines Excel. Im Excel sind detaillierte Informationen über Benutzer, Rollen, Benutzerrollen, Rollenmitglieder, Benutzerberechtigungen und Rollenberechtigungen. Der Download kann ein paar Minuten dauern, abhängig von der Anzahl der Benutzer.
   Generate: Generieren
   SecurityReportGeneratedMessage: Sicherheitsbericht erstellt
 securitySystemInfo:
@@ -1130,9 +1121,7 @@ securitySystemMerge:
   CompareButton: Vergleichen
   CompareButtonTitle: Dies wird die Quelle mit dem Zielsicherheitssystem vergleichen. Es werden KEINE Änderungen vorgenommen.
   ComparisonReport: Vergleichsbericht
-  ComparisonReportInfo: Um eine Applikation von der Quelle auf das Zielsicherheitssystem zu verschieben, müssen im Zielsicherheitssystem dieselben Benutzer und Rollen vorhanden sein wie im Quellsicherheitssystem. Durch die Ausführung aller CREATE-Operationen werden alle fehlenden Benutzer und Rollen im
-    Zielsicherheitssystem erstellt. Es besteht keine Notwendigkeit, die UPDATE-Operationen oder DELETE-Operationen auszuführen, aber Sie können das Zielsicherheitssystem mit diesen Operationen reinigen. Es könnte sein, dass die Rolle im Zielsystem bereits existiert, aber es sich nicht wirklich um die
-    gleiche Rolle handelt. Ist dies der Fall, muss die Rolle manuell im Zielsicherheitssystem sowie die Rolle im Axon Ivy Projekt umbenannt werden. Dann muss das Axon Ivy Projekt neu bereitgestellt werden.
+  ComparisonReportInfo: Um eine Applikation von der Quelle auf das Zielsicherheitssystem zu verschieben, müssen im Zielsicherheitssystem dieselben Benutzer und Rollen vorhanden sein wie im Quellsicherheitssystem. Durch die Ausführung aller CREATE-Operationen werden alle fehlenden Benutzer und Rollen im Zielsicherheitssystem erstellt. Es besteht keine Notwendigkeit, die UPDATE-Operationen oder DELETE-Operationen auszuführen, aber Sie können das Zielsicherheitssystem mit diesen Operationen reinigen. Es könnte sein, dass die Rolle im Zielsystem bereits existiert, aber es sich nicht wirklich um die gleiche Rolle handelt. Ist dies der Fall, muss die Rolle manuell im Zielsicherheitssystem sowie die Rolle im Axon Ivy Projekt umbenannt werden. Dann muss das Axon Ivy Projekt neu bereitgestellt werden.
   CreateSolveHintMessage: Dies wird den Eintrag im Ziel-Sicherheitssystem ${securitySystem} erstellen
   DeleteSolveHintMessage: Dies wird den Eintrag im Ziel-Sicherheitssystem löschen ${securitySystem}
   ExceutionFailed: Ausführung fehlgeschlagen
