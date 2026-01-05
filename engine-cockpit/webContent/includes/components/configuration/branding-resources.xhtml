@@ -17,7 +17,7 @@
         <p:graphicImage url="#{res.url}" alt="#{res.name}" styleClass="branding-img #{res.label}" />
       </div>
       <div class="col-12 md:col-4 lg:col-2 align-self-center">
-        <p:splitButton id="uploadBtn" value="Upload #{res.label}" title="Upload #{res.label}" icon="si si-upload-bottom" styleClass="branding-btn"
+        <p:splitButton id="uploadBtn" value="Upload" title="Upload #{res.label}" icon="si si-upload-bottom" styleClass="branding-btn"
           actionListener="#{brandingBean.setCurrentRes(res.name)}" update="@this fileUpload" oncomplete="PF('fileUploadModal').show()" process="@this">
           <p:menuitem id="resetBtn" value="Reset" icon="si si-undo" styleClass="ui-button-secondary" oncomplete="PF('resetBrandingConfirmDialog').show()"
             actionListener="#{brandingBean.setCurrentRes(res.name)}" update="resetBrandingConfirmDialog" process="@this"/>
