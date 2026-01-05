@@ -76,7 +76,6 @@ public class WebTestBranding {
     Tab.APP.switchToTab("demo-portal");
     openCustomCssDialog();
     executeJs("$('#editCustomCssForm > textarea').val('hallo123')");
-    executeJs("refreshCodeMirror();");
     $(By.id("editCustomCssForm:saveCustomCss")).shouldBe(visible).click();
     $(By.id("msgs_container")).shouldBe(visible, text("Successfully saved 'custom.css'"));
 
