@@ -22,7 +22,7 @@ applications:
   DeactivateButtonTitle: Deaktivieren
   DeleteHintMessage: Sind Sie sicher, dass Sie dieses ${activityType} löschen wollen?
   DeleteRunningCasesHintMessage: Die ${activityType} hat ${runningCases} laufende Fälle. Diese werden auch gelöscht.
-  DeploymentButtonTitle: Bereitstellung
+  DeploymentButtonTitle: Bereitstellen
   DisableErrorMessage: Der Zustand der Application ${application} kann nicht evaluiert werden
   ExecutionErrorMessageSummary: Kann Modul nicht ${action}
   ExecutionSuccessMessageSummary: Modul erfolgreich ${action}
@@ -153,7 +153,7 @@ common:
   DefinedBy: Definiert von
   Delete: Löschen
   DeleteRecording: Lösche Aufzeichnung
-  Deployment: Verteilung
+  Deployment: Bereitstellen
   Description: Beschreibung
   Disable: Deaktivieren
   DiskSize: Festplattengrösse
@@ -386,7 +386,7 @@ deletionWarning:
   SecondDeletionWarningMessage: Sie können Fälle und Daten verlieren. Vorsichtig.
 deployment:
   DeployTestUsers: Test-Benutzer bereitstellen
-  DeployToApp: App bereitstellen
+  DeployToApp: Bereitstellen in App
   Deploy: Bereitstellen
   FileFormat: Datei Format
   Options: Optionen
@@ -643,7 +643,7 @@ monitor:
   Active: Aktiv
   CPULoad: CPU Last
   Caches: Caches
-  Class: Klass
+  Class: Klasse
   Classes: Klassen
   Committed: Committed
   Cores: Kerne
