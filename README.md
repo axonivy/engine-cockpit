@@ -1,5 +1,7 @@
 # Axon Ivy Engine Cockpit
 
+[![translation-status](https://hosted.weblate.org/widget/axonivy/doc/svg-badge.svg)](https://hosted.weblate.org/engage/axonivy/)
+
 This is the repository of the Axon Ivy Engine Cockpit.
 
 ## Run local tests
