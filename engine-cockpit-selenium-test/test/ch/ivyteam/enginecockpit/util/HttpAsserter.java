@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.util;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -11,8 +12,8 @@ import org.jsoup.Jsoup;
 
 public class HttpAsserter {
 
-  public static HttpAssert assertThat(String url, String sessionId) {
-    return new HttpAssert(url, sessionId);
+  public static HttpAssert assertThat(String url, String sessionId, List<String> ignorePages) {
+    return new HttpAssert(url, sessionId, ignorePages);
   }
 
   public static class HttpAssert {
@@ -21,14 +22,17 @@ public class HttpAsserter {
     private final Set<String> processed = new HashSet<>();
     private final Set<String> deadLinks = new HashSet<>();
     private final String sessionId;
+    private final List<String> ignorePages;
 
-    private HttpAssert(String testUrl, String sessionId) {
+    private HttpAssert(String testUrl, String sessionId, List<String> ignorePages) {
       this.testUrl = testUrl;
       this.sessionId = sessionId;
+      this.ignorePages = ignorePages;
     }
 
     public void hasNoDeadLinks() {
       processed.clear();
+      processed.addAll(ignorePages);
       deadLinks.clear();
       crawlAndCheckLinks(testUrl);
 

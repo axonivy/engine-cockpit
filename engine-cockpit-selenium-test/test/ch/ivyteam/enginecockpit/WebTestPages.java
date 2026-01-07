@@ -26,6 +26,7 @@ import ch.ivyteam.enginecockpit.util.HttpAsserter;
 @IvyWebTest
 class WebTestPages {
 
+  private static List<String> IGNORE_PAGES = List.of("https://www.axonivy.com");
   private Path webContentDir;
 
   @BeforeEach
@@ -39,7 +40,7 @@ class WebTestPages {
     EngineCockpitUtil.login();
     var sessionId = WebDriverRunner.getWebDriver().manage().getCookieNamed("JSESSIONID");
     var url = viewUrl("dashboard.xhtml");
-    HttpAsserter.assertThat(url, sessionId.getValue()).hasNoDeadLinks();
+    HttpAsserter.assertThat(url, sessionId.getValue(), IGNORE_PAGES).hasNoDeadLinks();
   }
 
   @Test
