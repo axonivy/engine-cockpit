@@ -9,7 +9,7 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 @SessionScoped
 public class EngineModeBean {
   public boolean isDemo() {
-    return EngineMode.is(EngineMode.DEMO) || EngineMode.is(EngineMode.DESIGNER_EMBEDDED);
+    return EngineMode.is(EngineMode.DEMO);
   }
 
   public boolean isMaintenance() {
