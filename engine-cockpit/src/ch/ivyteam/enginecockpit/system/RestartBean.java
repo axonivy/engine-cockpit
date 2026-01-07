@@ -92,9 +92,6 @@ public class RestartBean {
     if (isRunningInContainer()) {
       return true;
     }
-    if (EngineMode.isEmbeddedInDesigner()) {
-      return true;
-    }
     if (EngineMode.is(EngineMode.ENTERPRISE)) {
       return true;
     }
