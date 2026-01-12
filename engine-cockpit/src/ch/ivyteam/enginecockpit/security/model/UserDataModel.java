@@ -22,6 +22,8 @@ import ch.ivyteam.ivy.security.query.UserQuery;
 
 public class UserDataModel extends LazyDataModel<User> implements TableFilter {
 
+  private static final long serialVersionUID = 1L;
+
   private static final String MANUAL_FILTER = "manual";
   private static final String DISABLED_FILTER = "disabled";
   private SecuritySystem securitySystem;

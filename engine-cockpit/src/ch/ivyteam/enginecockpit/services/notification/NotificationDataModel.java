@@ -15,6 +15,8 @@ import ch.ivyteam.ivy.notification.query.NotificationDeliveryQuery;
 
 public class NotificationDataModel extends LazyDataModel<NotificationDeliveryDto> {
 
+  private static final long serialVersionUID = 1L;
+
   private final NotificationDto notification;
   private String filter;
 

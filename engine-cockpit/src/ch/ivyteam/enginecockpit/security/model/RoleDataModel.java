@@ -19,6 +19,7 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
 
 public class RoleDataModel extends TreeView<Role> implements TableFilter {
+
   private static final int ROLE_CHILDREN_LIMIT = 100;
   private static final String CURRENT_ROLE_FILTER = "currentRoles";
   private int showChildLimit;
@@ -89,6 +90,9 @@ public class RoleDataModel extends TreeView<Role> implements TableFilter {
   }
 
   public class LazyRoleTreeNode extends DefaultTreeNode<Role> {
+
+    private static final long serialVersionUID = 1L;
+
     private final IRole role;
     private boolean childrenFetched;
     private final boolean member;

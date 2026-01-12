@@ -6,6 +6,9 @@ import java.util.Objects;
 import ch.ivyteam.ivy.configuration.restricted.branding.CssColor;
 
 public class CssColorDTO implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+
   private String color;
   private String value;
   private String defaultValue;

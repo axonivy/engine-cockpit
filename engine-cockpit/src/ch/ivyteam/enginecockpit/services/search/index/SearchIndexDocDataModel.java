@@ -13,6 +13,8 @@ import ch.ivyteam.enginecockpit.services.search.SearchEngineService;
 
 public class SearchIndexDocDataModel extends LazyDataModel<SearchIndexDoc> {
 
+  private static final long serialVersionUID = 1L;
+
   private final SearchEngineIndex index;
 
   public SearchIndexDocDataModel(SearchEngineIndex index) {

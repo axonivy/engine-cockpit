@@ -13,6 +13,8 @@ import ch.ivyteam.ivy.searchengine.index.IndexInfo;
 
 public class SearchEngineIndexDataModel extends LazyDataModel<SearchEngineIndex> {
 
+  private static final long serialVersionUID = 1L;
+
   public static final ISearchEngineManager searchEngine = ISearchEngineManager.instance();
 
   @Override
