@@ -17,6 +17,8 @@ import ch.ivyteam.ivy.jsf.primefaces.sort.SortMetaConverter;
 
 public class BlobsDataModel extends LazyDataModel<BlobDto> {
 
+  private static final long serialVersionUID = 1L;
+
   private final SecuritySystem securitySystem;
   private String filter;
 

@@ -19,6 +19,8 @@ import ch.ivyteam.ivy.security.ISessionInternal;
 
 public class SessionDataModel extends LazyDataModel<SessionDto> {
 
+  private static final long serialVersionUID = 1L;
+
   private static final List<Function<ISessionInternal, String>> GLOBAL_FILTERS = List.of(
       s -> s.getSessionUser() == null ? "" : s.getSessionUser().getName(),
       ISessionInternal::creationReason,

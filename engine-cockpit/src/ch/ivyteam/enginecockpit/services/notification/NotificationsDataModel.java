@@ -23,6 +23,8 @@ import ch.ivyteam.ivy.security.query.UserQuery;
 
 public class NotificationsDataModel extends LazyDataModel<NotificationDto> {
 
+  private static final long serialVersionUID = 1L;
+
   private final SecuritySystem securitySystem;
   private String filter;
 

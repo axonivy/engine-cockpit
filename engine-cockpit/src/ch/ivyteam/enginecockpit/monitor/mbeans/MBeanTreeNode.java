@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 import org.primefaces.model.DefaultTreeNode;
 
 public class MBeanTreeNode extends DefaultTreeNode<MName> implements Comparable<MBeanTreeNode> {
+
+  private static final long serialVersionUID = 1L;
+
   MBeanTreeNode(MName name, Set<MName> allNames) {
     setData(name);
     setChildren(name.getDirectChildren(allNames)
