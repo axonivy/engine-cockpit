@@ -30,6 +30,7 @@ class WebTestPages {
   private static List<String> IGNORE_PAGES = List.of(
       EngineUrl.create().app("test").path("ws/engine-cockpit-test-data/197F8BA7DD34B7A2").queryParam("WSDL", "").toUrl(),
       EngineUrl.create().app("test-ad").path("ws/engine-cockpit-test-data/197F8BA7DD34B7A2").queryParam("WSDL", "").toUrl(),
+      EngineUrl.create().app("test-ad").path("test-ad/ws/engine-cockpit-test-data/197F8BA7DD34B7A2").queryParam("WSDL", "").toUrl(),
       EngineUrl.create().app("demo-portal").path("ws/engine-cockpit-test-data/197F8BA7DD34B7A2").queryParam("WSDL", "").toUrl()
   );
   private Path webContentDir;
