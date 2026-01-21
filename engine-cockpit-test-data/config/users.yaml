@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/app/14.0.0/users.json
+Users:
+  - Name: foo
+    Password: foo
+    FullName: Marcelo Footer
+    Mail: m.footer@test.com
+  - Name: bar
+    Password: bar
+    FullName: Ibrahim Barman
+    Mail: i.barman@test.com
+  - Name: jon
+    Password: jon
+    FullName: Johnny Depp
+    Mail: jd@ivyteam.ch
