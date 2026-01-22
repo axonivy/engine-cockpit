@@ -7,9 +7,9 @@ def buildIntegrationOnLinux(def mvnArgs = '') {
     def dbName = "db-" + random
     try {
       sh "docker network create ${networkName}"
-      docker.image('mysql:5').withRun("-e \"MYSQL_ROOT_PASSWORD=1234\" -e \"MYSQL_DATABASE=test\" --name ${dbName} --network ${networkName}") {
-        docker.image("selenium/standalone-firefox:4").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName} --shm-size 1g --hostname=ivy") {
-          docker.build('maven', '-f build/Dockerfile .').inside("--name ${ivyName} --network ${networkName}") {
+      docker.build('mysql', '-f build/Dockerfile.mysql .').withRun("--name ${dbName} --network ${networkName}") {
+        docker.build('selenium', '-f build/Dockerfile.selenium .').withRun("--shm-size=2g --name ${seleniumName} --network ${networkName} --hostname=ivy") {
+          docker.build('maven', '-f build/Dockerfile.maven .').inside("--name ${ivyName} --network ${networkName}") {
             def mvnBuildArgs = "-Dwdm.gitHubTokenName=ivy-team " +
                 "-Dwdm.gitHubTokenSecret=${env.GITHUB_TOKEN} " +
                 "-Dengine.page.url=${params.engineSource} " +
@@ -45,7 +45,7 @@ def buildIntegration(def mvnBuildArgs) {
 }
 
 def build() {
-  docker.build('maven', '-f build/Dockerfile .').inside("") {
+  docker.build('maven', '-f build/Dockerfile.maven .').inside("") {
     mvnBuild("-Pcockpit -Dengine.page.url=${params.engineSource}");
   }
 }
