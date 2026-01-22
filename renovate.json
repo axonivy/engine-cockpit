@@ -2,5 +2,16 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>axonivy/renovate-config"
+  ],
+  "packageRules": [
+    {
+      "description": "disable non public dependencies",
+      "matchPackageNames": [
+        "ch.ivyteam.enginecockpit:engine-cockpit-config",
+        "ch.ivyteam.enginecockpit:engine-cockpit-test-data",
+        "ch.ivyteam.maven:screenshot-html-plugin"
+      ],
+      "enabled": false
+    }
   ]
 }
