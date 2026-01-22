@@ -142,7 +142,6 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
 
   public List<String> completeDriver(String value) {
     return JdbcDriver.all().stream()
-        .filter(JdbcDriver::isInstalled)
         .map(JdbcDriver::getDriverName)
         .filter(name -> !Strings.CS.startsWith(name, SystemDatabaseBean.HSQL_DB))
         .filter(name -> Strings.CS.startsWith(name, value))
