@@ -15,20 +15,16 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 
-import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
-
 @IvyWebTest
 class WebTestMigration {
 
   @BeforeEach
   void beforeEach() {
-    EngineCockpitUtil.disableRestart();
     login("migrate.xhtml");
   }
 
   @AfterEach
   void afterEach() {
-    EngineCockpitUtil.removeRestart();
     login("migrate.xhtml");
   }
 
