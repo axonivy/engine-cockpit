@@ -186,7 +186,6 @@ public class SystemDatabaseBean extends StepStatus {
 
   public void saveConfigurationAndRestart() throws IOException {
     saveConfiguration();
-    new RestartBean().restart();
   }
 
   public void initCreator() {
