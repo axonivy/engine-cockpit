@@ -12,6 +12,8 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.application.model.App;
+import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.application.security.SecurityContextRemovalCheck;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -77,8 +79,12 @@ public class SecurityConfigBean {
     this.formattingLanguage = formattingLanguage;
   }
 
-  public List<String> getUsedByApps() {
-    return securitySystem.getAppNames();
+  public List<App> getUsedByApps() {
+    return securitySystem.getApps();
+  }
+
+  public String getApplicationDetailLink(App app) {
+    return Application.getDetailViewLink(app.name(), app.version());
   }
 
   public boolean isDeletable() {

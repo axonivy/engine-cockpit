@@ -61,7 +61,7 @@ public class SecurityBean {
   }
 
   public static boolean isDefaultWithNoApps(SecuritySystem system) {
-    return DEFAULT.equals(system.getSecuritySystemName()) && system.getAppNames().isEmpty();
+    return DEFAULT.equals(system.getSecuritySystemName()) && system.getApps().isEmpty();
   }
 
   public List<SecuritySystem> getSecuritySystems() {

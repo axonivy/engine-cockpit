@@ -231,7 +231,7 @@ class WebDocuScreenshot {
     Navigation.toApplications();
     takeScreenshot("applications", new Dimension(SCREENSHOT_WIDTH, 500));
     takeDialogScreenshot("dialog-new-app", By.id("form:createApplicationBtn"));
-    Navigation.toPmvDetail(isDesigner() ? DESIGNER : "demo-portal", "portal", "portal$1");
+    Navigation.toPmvDetail(isDesigner() ? DESIGNER : "demo-portal", "portal");
     takeScreenshot("pmv-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
     Navigation.toApplicationDetail(isDesigner() ? DESIGNER : "test");
     takeScreenshot("application-detail", new Dimension(SCREENSHOT_WIDTH, 900));

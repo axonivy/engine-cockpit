@@ -20,6 +20,7 @@ abstract class AbstractDatabase {
   private final String label;
   private final String name;
   private final String application;
+  private final String appVersion;
 
   AbstractDatabase(ObjectName extDatabase, String queries, Monitor connectionsMonitor, Monitor queriesMonitor,
       Monitor executionTimeMonitor) {
@@ -30,6 +31,7 @@ abstract class AbstractDatabase {
     if (extDatabase == null) {
       name = "";
       application = "";
+      appVersion = "";
       label = Ivy.cm().co("/common/NoData");
       connectionsMonitor.addInfoValue(format(Ivy.cm().co("/common/NoDataAvailable")));
       queriesMonitor.addInfoValue(format(Ivy.cm().co("/common/NoDataAvailable")));
@@ -38,6 +40,7 @@ abstract class AbstractDatabase {
     }
 
     application = extDatabase.getKeyProperty("application");
+    appVersion = extDatabase.getKeyProperty("version");
     name = extDatabase.getKeyProperty("name");
     label = toLabel(application, name);
     var canonicalName = extDatabase.getCanonicalName();
@@ -76,6 +79,10 @@ abstract class AbstractDatabase {
 
   public String application() {
     return application;
+  }
+
+  public String appVersion() {
+    return appVersion;
   }
 
   public String label() {

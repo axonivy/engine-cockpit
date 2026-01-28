@@ -6,8 +6,8 @@
   <f:metadata>
     <f:viewParam name="appName" value="#{pmvDetailBean.appName}" />
     <f:viewParam name="appName" value="#{managerBean.selectedApplicationName}" />
-    <f:viewParam name="pmName" value="#{pmvDetailBean.pmName}" />
-    <f:viewParam name="pmvVersion" value="#{pmvDetailBean.pmvVersion}" />
+    <f:viewParam name="appVersion" value="#{pmvDetailBean.appVersion}" />
+    <f:viewParam name="pmvName" value="#{pmvDetailBean.pmvName}" />
     <f:viewAction action="#{pmvDetailBean.onload}" />
   </f:metadata>
 
@@ -16,7 +16,7 @@
     <ui:define name="breadcrumb">
       <li><a href="applications.xhtml">#{ivy.cm.co('/common/Applications')}</a></li>
       <li>/</li>
-      <li><a href="application-detail.xhtml?appName=#{pmvDetailBean.appName}">#{pmvDetailBean.appName}</a></li>
+      <li><a href="#{pmvDetailBean.applicationDetailLink}">#{pmvDetailBean.appName}</a></li>
       <li>/</li>
       <li><a href="#{pmvDetailBean.pmv.detailView}">#{pmvDetailBean.pmv.name}</a></li>
     </ui:define>
@@ -28,7 +28,7 @@
     <ui:define name="content">
       <div class="layout-dashboard">
         <div class="grid">
-          <div class="col-12 md:col-12 xl:col-8">
+          <div class="col-12 md:col-12 xl:col-12">
             <div class="card">
               <div class="card-header">
                 <div class="card-title flex align-items-center">
@@ -41,69 +41,15 @@
                 styleClass="grey-label-panel ui-fluid">
                 <label>#{ivy.cm.co('/common/Name')}</label>
                 <h:outputText value="#{pmvDetailBean.pmv.name}" />
-                <label>#{ivy.cm.co('/common/Version')}</label>
-                <h:outputText value="#{pmvDetailBean.pmvVersion}" />
-                <label>#{ivy.cm.co('/pmvDetail/Project')}</label>
-                <h:outputText value="#{pmvDetailBean.deployedProject}" />
+                <label>Library ID</label>
+                <h:outputText value="#{pmvDetailBean.pmv.libraryId}" />
+                <label>Library #{ivy.cm.co('/common/Version')}</label>
+                <h:outputText value="#{pmvDetailBean.pmv.libraryVersion}" />
                 <label>#{ivy.cm.co('/pmvDetail/LastDeployed')}</label>
                 <h:outputText value="#{pmvDetailBean.pmv.lastChangeDate}" />
                 <label>#{ivy.cm.co('/pmvDetail/ProjectVersion')}</label>
                 <h:outputText value="#{pmvDetailBean.pmv.projectVersion}" />
               </p:panelGrid>
-            </div>
-          </div>
-
-          <div class="col-12 md:col-12 xl:col-4">
-            <div class="card">
-              <div class="card-header">
-                <div class="card-title flex align-items-center">
-                  <i class="pr-3 si si-cog-play"></i>
-                  <h6 class="m-0">#{ivy.cm.co('/common/Activity')}</h6>
-                </div>
-              </div>
-
-              <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
-                styleClass="grey-label-panel ui-fluid">
-                <label>#{ivy.cm.co('/common/State')}</label>
-                <h:panelGroup layout="block" styleClass="inline-flex align-items-center gap-2">
-                  <i class="si si-#{pmvDetailBean.pmv.state.operationIcon} icon-bold
-                    activity-state-#{pmvDetailBean.pmv.state.operationCssClass}"
-                    title="#{pmvDetailBean.pmv.state.operation}" />
-                  <span>#{pmvDetailBean.pmv.state.errorMessage}</span>
-                </h:panelGroup>
-                <label>#{ivy.cm.co('/common/ConfiguredState')}</label>
-                <h:outputText>
-                  <i class="si si-#{pmvDetailBean.pmv.state.stateIcon} icon-bold
-                    activity-state-#{pmvDetailBean.pmv.state.stateCssClass}" title="#{pmvDetailBean.pmv.state.state}" />
-                </h:outputText>
-              </p:panelGrid>
-            </div>
-          </div>
-
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <div class="card-title flex align-items-center">
-                  <i class="pr-3 si si-module-three-1"></i>
-                  <h6 class="m-0">#{ivy.cm.co('/pmvDetail/SpecifiedRequiredProjects')}</h6>
-                </div>
-              </div>
-              <p:dataTable id="specifiedTable" var="spec" value="#{pmvDetailBean.requiredSpecifications}"
-                emptyMessage="#{ivy.cm.content('/pmvDetail/SpecifiedTableEmptyMessage').replace('name', pmvDetailBean.pmv.name).get()}">
-                <p:column headerText="#{ivy.cm.co('/pmvDetail/Id')}">
-                  <h:outputText value="#{spec.id}" title="#{spec.id}" />
-                </p:column>
-                <p:column headerText="#{ivy.cm.co('/common/Version')}">
-                  <h:outputText value="#{spec.version}" />
-                </p:column>
-                <p:column headerText="#{ivy.cm.co('/pmvDetail/ResolvedPMV')}">
-                  <i class="si si-#{spec.resolved ? 'check-circle-1' : 'remove-circle'} state-#{spec.resolved ? 'active' : 'inactive'} table-icon"
-                    title="#{spec.resolvedTooltip}"></i>
-                  <h:outputLink value="#{spec.resolvedPmv.detailView}">
-                    <h:outputText value="#{spec.resolvedPmvName}" />
-                  </h:outputLink>
-                </p:column>
-              </p:dataTable>
             </div>
           </div>
 
@@ -124,22 +70,9 @@
                     </h:outputText>
                   </h:outputLink>
                 </p:column>
-                <p:column headerText="#{ivy.cm.co('/pmvDetail/Resolved')}">
-                  <i class="si si-#{pmv.libraryResolved ? 'check-circle-1' : 'remove-circle'} table-icon 
-                    activity-state-#{pmv.libraryResolved ? 'active' : 'inactive'}"
-                    title="#{pmv.libraryResolvedTooltip}"></i>
-                </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/Version')}">
                   <h:outputText value="#{pmv.qualifiedVersion}" />
-                </p:column>
-                <p:column headerText="#{ivy.cm.co('/pmvDetail/ActivityState')}">
-                  <i class="si si-#{pmv.state.operationIcon} table-icon activity-state-#{pmv.state.operationCssClass}"
-                    title="#{pmv.state.operation}#{activity.state.errorMessage}"></i>
-                </p:column>
-                <p:column headerText="#{ivy.cm.co('/pmvDetail/ReleaseState')}">
-                  <i class="si si-#{pmv.state.releaseStateIcon} table-icon activity-state-#{pmv.state.releaseStateCssClass}"
-                    title="#{pmv.state.releaseState}"></i>
-                </p:column>
+                </p:column>   
               </p:dataTable>
             </div>
           </div>
@@ -154,7 +87,7 @@
               </div>
               <p:dataTable id="requriedPmvTable" var="pmv" value="#{pmvDetailBean.requiredPmvs}"
                 emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', pmvDetailBean.pmv.name).get()} 
-                  #{not empty pmvDetailBean.requiredSpecifications ? ivy.cm.co('/pmvDetail/SpecifiedRequiredProjectsMessage') : ''}">
+                  #{not empty pmvDetailBean.requiredPmvs ? ivy.cm.co('/pmvDetail/SpecifiedRequiredProjectsMessage') : ''}">
                 <p:column headerText="PMV">
                   <h:outputLink value="#{pmv.detailView}">
                     <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
@@ -162,22 +95,10 @@
                     </h:outputText>
                   </h:outputLink>
                 </p:column>
-                <p:column headerText="#{ivy.cm.co('/pmvDetail/Resolved')}">
-                  <i class="si si-#{pmv.libraryResolved ? 'check-circle-1' : 'remove-circle'} table-icon 
-                    activity-state-#{pmv.libraryResolved ? 'active' : 'inactive'}"
-                    title="#{pmv.libraryResolvedTooltip}"></i>
-                </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/Version')}">
                   <h:outputText value="#{pmv.qualifiedVersion}" />
                 </p:column>
-                <p:column headerText="#{ivy.cm.co('/pmvDetail/ActivityState')}">
-                  <i class="si si-#{pmv.state.operationIcon} table-icon activity-state-#{pmv.state.operationCssClass}"
-                    title="#{pmv.state.operation}#{activity.state.errorMessage}"></i>
-                </p:column>
-                <p:column headerText="#{ivy.cm.co('/pmvDetail/ReleaseState')}">
-                  <i class="si si-#{pmv.state.releaseStateIcon} table-icon" title="#{pmv.state.releaseState}"></i>
-                </p:column>
-              </p:dataTable>
+               </p:dataTable>
             </div>
           </div>
         </div>

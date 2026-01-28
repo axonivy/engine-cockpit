@@ -86,14 +86,13 @@ public class Navigation {
   public static void toApplicationDetail(String appName) {
     toApplications();
     clickAppTreeActivity(appName);
-    assertCurrentUrlContains("application-detail.xhtml?appName=" + appName);
+    assertCurrentUrlContains("application-detail.xhtml?appName=" + appName + "&appVersion=1");
     menuShouldBeActive(APPLICATIONS_MENU);
   }
 
-  public static void toPmvDetail(String appName, String pmName, String pmvName) {
+  public static void toPmvDetail(String appName, String pmvName) {
     toApplications();
     openAppTreeActivity(appName);
-    openAppTreeActivity(pmName);
     clickAppTreeActivity(pmvName);
     menuShouldBeActive(APPLICATIONS_MENU);
   }
@@ -107,7 +106,7 @@ public class Navigation {
   }
 
   private static void clickAppTreeActivity(String appName) {
-    $$(".activity-name").find(text(appName)).shouldBe(visible).click();
+    $$(".activity-name").find(exactText(appName)).shouldBe(visible).click();
   }
 
   public static void toSecuritySystem() {

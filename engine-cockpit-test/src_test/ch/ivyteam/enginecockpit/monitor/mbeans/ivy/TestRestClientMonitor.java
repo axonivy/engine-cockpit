@@ -33,12 +33,12 @@ class TestRestClientMonitor {
   void withData() throws Exception {
     MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
     MBeans.registerMBeanFor(new Client("client2 (uuid-2)"));
-    var testee = new RestClientMonitor("test", "uuid-1");
+    var testee = new RestClientMonitor("test", 1, "uuid-1");
     assertThat(testee.getRestClient()).isEqualTo("test > client1");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
-    testee = new RestClientMonitor("test", "uuid-2");
+    testee = new RestClientMonitor("test", 1, "uuid-2");
     assertThat(testee.getRestClient()).isEqualTo("test > client2");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
@@ -48,7 +48,7 @@ class TestRestClientMonitor {
   @Test
   void connectionMonitor() {
     MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
-    var testee = new RestClientMonitor("test", "uuid-1");
+    var testee = new RestClientMonitor("test", 1, "uuid-1");
 
     var dataSet = testee.getConnectionsMonitor().getModel().getData().getDataSet();
     assertThat(dataSet).hasSize(2);
@@ -69,7 +69,7 @@ class TestRestClientMonitor {
   @Test
   void callsMonitor() {
     MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
-    var testee = new RestClientMonitor("test", "uuid-1");
+    var testee = new RestClientMonitor("test", 1, "uuid-1");
 
     var dataSet = testee.getCallsMonitor().getModel().getData().getDataSet();
     assertThat(dataSet).hasSize(2);
@@ -85,13 +85,12 @@ class TestRestClientMonitor {
     assertThat(errors.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
     assertThat(testee.getCallsMonitor().getInfo()).isEqualTo("Calls: -, Total 3, Errors -, Errors Total 4");
-
   }
 
   @Test
   void executionTimeMonitor() {
     MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
-    var testee = new RestClientMonitor("test", "uuid-1");
+    var testee = new RestClientMonitor("test", 1, "uuid-1");
 
     var dataSet = testee.getExecutionTimeMonitor().getModel().getData().getDataSet();
     assertThat(dataSet).hasSize(3);
@@ -115,7 +114,7 @@ class TestRestClientMonitor {
         .isEqualTo("Execution Time: Min 5 us, Avg -, Max 7 us, Total 6 us");
   }
 
-  @MBean("ivy Engine:type=External REST Web Service,application=test,name=\"#{name}\"")
+  @MBean("ivy Engine:type=External REST Web Service,application=test,version=1,name=\"#{name}\"")
   private static final class Client {
     private final String name;
 

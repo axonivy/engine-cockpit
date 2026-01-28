@@ -16,9 +16,9 @@ public class TestProcessModelVersion {
   /** ISSUE XIVY-4159 Application overview not displayed due to NPE */
   @Test
   void emptyLibrary() {
-    ProcessModelVersion pmv = new ProcessModelVersion(createPmvProxy());
-    assertThat(pmv.getQualifiedVersion()).isEqualTo("Unknown version");
-    assertThat(pmv.getLibraryId()).isEqualTo("Unknown id");
+    var pmv = new ProcessModelVersion(createPmvProxy());
+    assertThat(pmv.getQualifiedVersion()).isNull();
+    assertThat(pmv.getLibraryId()).isNull();
   }
 
   private IProcessModelVersion createPmvProxy() {

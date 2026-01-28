@@ -29,6 +29,7 @@ class RestClient {
   private final String id;
   private final String name;
   private final String application;
+  private final String appVersion;
 
   private RestClient() {
     this(null);
@@ -39,6 +40,7 @@ class RestClient {
       id = "";
       name = "";
       application = "";
+      appVersion = "";
       label = Ivy.cm().co("/common/NoData");
       callsMonitor.addInfoValue(format(Ivy.cm().co("/common/NoDataAvailable")));
       executionTimeMonitor.addInfoValue(format(Ivy.cm().co("/common/NoDataAvailable")));
@@ -53,6 +55,7 @@ class RestClient {
     this.id = Strings.CS.removeEnd(identifier, ")");
 
     application = restClient.getKeyProperty("application");
+    appVersion = restClient.getKeyProperty("version");
     label = toLabel(application, name);
 
     var usedConnections = cache(1, attribute(restClient, "usedConnections", Unit.ONE));
@@ -92,6 +95,10 @@ class RestClient {
 
   public String application() {
     return application;
+  }
+
+  public String appVersion() {
+    return appVersion;
   }
 
   public String label() {

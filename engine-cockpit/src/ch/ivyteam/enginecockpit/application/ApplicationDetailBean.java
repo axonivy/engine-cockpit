@@ -21,8 +21,6 @@ import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.ILibrary;
-import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.workflow.StandardProcessType;
@@ -34,6 +32,7 @@ import ch.ivyteam.ivy.workflow.standard.StandardProcessStartFinder;
 public class ApplicationDetailBean {
 
   private String appName;
+  private String appVersion;
 
   private Application app;
 
@@ -53,10 +52,19 @@ public class ApplicationDetailBean {
     return appName;
   }
 
+  public void setAppVersion(String appVersion) {
+    this.appVersion = appVersion;
+  }
+  
+  public String getAppVersion() {
+    return appVersion;
+  }
+
   public void onload() {
     managerBean.reloadApplications();
     app = managerBean.getApplications().stream()
         .filter(a -> a.getName().equals(appName))
+        .filter(a -> a.version() == Integer.parseInt(appVersion))
         .findAny()
         .orElse(null);
     if (app == null) {
@@ -85,7 +93,7 @@ public class ApplicationDetailBean {
   }
 
   public String deleteApplication() {
-    managerBean.apps().delete(appName);
+    managerBean.apps().delete(app.getName(), app.version());
     managerBean.reloadApplications();
     return "applications.xhtml?faces-redirect=true";
   }
@@ -113,8 +121,7 @@ public class ApplicationDetailBean {
   }
 
   public String getPmCount() {
-    return managerBean.formatNumber(getIApplication().getProcessModels().stream()
-        .mapToInt(pm -> pm.getProcessModelVersions().size()).sum());
+    return managerBean.formatNumber(getIApplication().getProcessModelVersions().count());
   }
 
   private IApplication getIApplication() {
@@ -151,13 +158,10 @@ public class ApplicationDetailBean {
   private static List<String> librariesOf(IApplication app) {
     List<String> libs = new LinkedList<>();
     libs.add("");
-    var available = app.getProcessModels().stream()
-        .flatMap(pm -> pm.getProcessModelVersions().stream())
-        .map(IProcessModelVersion::getLibrary)
-        .filter(Objects::nonNull)
-        .map(ILibrary::getId)
-        .distinct()
-        .collect(Collectors.toList());
+     var available = app.getProcessModelVersions()     
+     .map(pmv -> pmv.getLibraryId())
+     .distinct()
+     .collect(Collectors.toList());
     libs.addAll(available);
     return libs;
   }

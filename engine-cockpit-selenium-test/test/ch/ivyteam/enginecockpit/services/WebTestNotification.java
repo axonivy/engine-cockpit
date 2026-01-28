@@ -52,7 +52,7 @@ class WebTestNotification {
     notifications.tableEntry(1, 1).should(matchText(".*-.*-.*"));
     notifications.tableEntry(1, 3).should(text("task"));
     notifications.tableEntry(1, 4).should(text("Everybody"));
-    notifications.tableEntry(1, 5).should(text("engine-cockpit-test-data$1"));
+    notifications.tableEntry(1, 5).should(text("engine-cockpit-test-data"));
     notifications.tableEntry(1, 6).should(text("Default"));
 
     var uuid = notifications.tableEntry(1, 1).text();
@@ -75,7 +75,7 @@ class WebTestNotification {
   @Test
   void notifications_pmv() {
     var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
-    notifications.tableEntry(1, 5).$("a").should(text("engine-cockpit-test-data$1")).click();
+    notifications.tableEntry(1, 5).$("a").should(text("engine-cockpit-test-data")).click();
     Selenide.webdriver().shouldHave(WebDriverConditions.urlContaining("pmv-detail.xhtml"));
   }
 

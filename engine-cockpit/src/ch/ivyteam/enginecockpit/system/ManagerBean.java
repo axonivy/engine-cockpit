@@ -131,6 +131,14 @@ public class ManagerBean {
     return selectedApplication.getName();
   }
 
+  public String getSelectedApplicationDetailLink() {
+    var selectedApplication = getSelectedApplication();
+    if (selectedApplication == null) {
+      return "";
+    }
+    return Application.getDetailViewLink(selectedApplication.getName(), selectedApplication.version());
+  }
+
   public IApplicationRepository apps() {
     return apps;
   }
@@ -163,7 +171,6 @@ public class ManagerBean {
 
   public List<IApplication> getIApplications() {
     return apps.all().stream()
-        .filter(app -> !app.isSystem())
         .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
         .collect(Collectors.toList());
   }

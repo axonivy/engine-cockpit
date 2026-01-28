@@ -24,6 +24,7 @@ class WebService {
   private final String id;
   private final String name;
   private final String application;
+  private final String appVersion;
 
   private WebService() {
     this(null);
@@ -34,6 +35,7 @@ class WebService {
       id = "";
       name = "";
       application = "";
+      appVersion = "";
       label = Ivy.cm().co("/common/NoData");
       callsMonitor.addInfoValue(format(Ivy.cm().co("/common/NoDataAvailable")));
       executionTimeMonitor.addInfoValue(format(Ivy.cm().co("/common/NoDataAvailable")));
@@ -47,6 +49,7 @@ class WebService {
     this.id = Strings.CS.removeEnd(identifier, ")");
 
     application = webService.getKeyProperty("application");
+    appVersion = webService.getKeyProperty("version");
     label = application + " > " + name;
 
     var calls = new ExecutionCounter(webService.getCanonicalName(), "calls");
@@ -76,6 +79,10 @@ class WebService {
 
   public String application() {
     return application;
+  }
+
+  public String appVersion() {
+    return appVersion;
   }
 
   public String label() {

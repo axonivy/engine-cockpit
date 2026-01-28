@@ -53,9 +53,9 @@
             </p:column>
             
             <p:column headerText="#{ivy.cm.co('/common/Application')}">
-              <ui:repeat var="app" value="#{system.appNames}" varStatus="status">
-                <a href="application-detail.xhtml?appName=#{app}">
-                  <i class="si si-module table-icon"></i>#{app}
+              <ui:repeat var="app" value="#{system.apps}" varStatus="status">
+                <a href="#{system.getApplicationDetailLink(app)}">
+                  <i class="si si-module table-icon"></i>#{app.name()}
                 </a>
                 <h:outputText value="#{status.last ? '' : ' / '}" />
               </ui:repeat>

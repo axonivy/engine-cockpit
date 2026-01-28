@@ -45,17 +45,6 @@
               <f:selectItems value="#{deploymentBean.deployOptions.deployTestUsersValues}" />
             </p:selectOneMenu>
         
-            <p:outputLabel value="#{ivy.cm.co('/common/Version')}" for="version" />
-            <p:selectOneMenu value="#{deploymentBean.deployOptions.version}" widgetVar="version" id="version">
-              <p:ajax update="deployOptionsPanel" event="valueChange" />
-              <f:selectItems value="#{deploymentBean.deployOptions.versions}" />
-            </p:selectOneMenu>
-        
-            <p:outputLabel id="versionRangeLabel" value="#{ivy.cm.co('/deployment/VersionRange')}" for="versionRange"
-              styleClass="version-range-label" rendered="#{deploymentBean.deployOptions.isRangeVersion()}"/>
-            <p:inputText id="versionRange" placeholder="e.g. 2.5 or (2.0,3.0]" styleClass="version-range"
-              rendered="#{deploymentBean.deployOptions.isRangeVersion()}"/>
-        
             <p:outputLabel value="#{ivy.cm.co('/common/State')}" for="state" />
             <p:selectOneMenu value="#{deploymentBean.deployOptions.state}" widgetVar="state" id="state">
               <p:ajax update="deployOptionsPanel" event="valueChange" />

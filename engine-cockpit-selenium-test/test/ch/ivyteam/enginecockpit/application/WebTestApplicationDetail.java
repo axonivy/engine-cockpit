@@ -92,7 +92,7 @@ class WebTestApplicationDetail {
   void home() {
     Navigation.toApplicationDetail("test");
     var home = $(By.id("appDetailInfoForm:home"));
-    home.$("a").shouldHave(Condition.href("/test"));
+    home.$("a").shouldHave(Condition.href("/test/1"));
     home.click();
     assertThat(Selenide.webdriver().driver().url()).contains("/dev-workflow-ui/");
   }

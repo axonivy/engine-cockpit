@@ -52,7 +52,7 @@ class WebTestIntermediateEvents {
   @Test
   void filter() {
     table.rows().shouldHave(CollectionCondition.sizeGreaterThan(1));
-    table.search(EngineCockpitUtil.getAppName() + "/engine-cockpit-test-data$1/188B95440FE25CA6-f19");
+    table.search(EngineCockpitUtil.getAppName() + "/engine-cockpit-test-data/188B95440FE25CA6-f19");
     table.rows().shouldHave(CollectionCondition.size(1));
   }
 

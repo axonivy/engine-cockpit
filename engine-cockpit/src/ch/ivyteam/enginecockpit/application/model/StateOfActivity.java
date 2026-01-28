@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.application.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -158,30 +157,5 @@ public class StateOfActivity {
   public static boolean is(String operation, ActivityOperationState... states) {
     return Arrays.asList(states).stream()
         .anyMatch(s -> s.name().equals(operation));
-  }
-
-  public void updateChildProblems(AbstractActivity activity) {
-    if (is(activity.getState().operation, ActivityOperationState.ACTIVE, ActivityOperationState.LOCKED)) {
-      this.childProblems = checkChildrenForProblemStates(activity);
-    }
-  }
-
-  private static List<String> checkChildrenForProblemStates(AbstractActivity activity) {
-    if (activity == null) {
-      return List.of();
-    }
-    var problems = new ArrayList<String>();
-    for (var child : activity.children) {
-      if (is(child.getState().operation, ActivityOperationState.INACTIVE, ActivityOperationState.ERROR)
-          && isNotArchived(child)) {
-        problems.add(child.getName() + ": " + child.getState().operation);
-      }
-      problems.addAll(checkChildrenForProblemStates(child));
-    }
-    return problems;
-  }
-
-  private static boolean isNotArchived(AbstractActivity child) {
-    return !(child.isPmv() && child.getState().is(ReleaseState.ARCHIVED));
   }
 }

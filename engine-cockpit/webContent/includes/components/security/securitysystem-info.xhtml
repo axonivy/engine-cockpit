@@ -51,8 +51,8 @@
         </h:panelGroup>
       </h:panelGroup>
       <ui:repeat var="app" value="#{securityConfigBean.usedByApps}" varStatus="status">
-        <a href="application-detail.xhtml?appName=#{app}">
-          <i class="si si-module link-icon"></i>#{app}
+        <a href="#{securityConfigBean.getApplicationDetailLink(app)}">
+          <i class="si si-module link-icon"></i>#{app.name()}
         </a>
         <h:outputText value="#{status.last ? '' : ' / '}" />
       </ui:repeat>

@@ -30,6 +30,7 @@ import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.ssl.restricted.SslConnectionTesterClient;
@@ -79,7 +80,10 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
 
   public void onload() {
-    app = IApplicationRepository.instance().findByName(appName).orElse(null);
+    app = IApplicationRepository.instance().findByName(appName).stream()
+        .filter(a -> a.getReleaseState() == ReleaseState.RELEASED)
+        .findAny()
+        .orElse(null);
     if (app == null) {
       ResponseHelper.notFound(Ivy.cm().content("/common/NotFoundApplication").replace("application", appName).get());
       return;
@@ -87,7 +91,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     webServiceClients = WebServiceClients.of(app);
     loadWebService();
     reloadExternalWebservice();
-    liveStats = new WebServiceMonitor(appName, webserviceId);
+    liveStats = new WebServiceMonitor(appName, app.getVersion(), webserviceId);
   }
 
   private void reloadExternalWebservice() {
