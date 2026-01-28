@@ -85,7 +85,7 @@ public class Navigation {
 
   public static void toApplicationDetail(String appName) {
     toApplications();
-    clickAppTreeActivity(appName);
+    clickAppTreeActivity(appName + " (v1)");
     assertCurrentUrlContains("application-detail.xhtml?appName=" + appName + "&appVersion=1");
     menuShouldBeActive(APPLICATIONS_MENU);
   }
@@ -98,7 +98,7 @@ public class Navigation {
   }
 
   private static void openAppTreeActivity(String appName) {
-    $$(".activity-name").find(exactText(appName))
+    $$(".activity-name").find(exactText(appName + " (v1)"))
         .parent()
         .parent()
         .find(".ui-treetable-toggler").shouldBe(visible)

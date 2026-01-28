@@ -22,6 +22,8 @@
       styleClass="grey-label-panel ui-fluid">
       <label>#{ivy.cm.co('/common/Name')}</label>
       <h:outputText value="#{applicationDetailBean.application.name}" />
+      <label>#{ivy.cm.co('/common/Version')}</label>
+      <h:outputText value="#{applicationDetailBean.appVersion}" />
       <label>#{ivy.cm.co('/information/FileDirectory')}</label>
       <h:outputText value="#{applicationDetailBean.application.fileDir}" />
     </p:panelGrid>
