@@ -34,7 +34,7 @@ class WebTestPmvDetail {
   @Test
   void pmvDetailContent() {
     $$(".card").shouldHave(size(3));
-    $(".card", 0).shouldHave(text(PMV), text("ch.ivyteam.kingfisher.enginecockpit:main-pmv-test"));
+    $(".card", 0).shouldHave(text(PMV), text("ch.ivyteam.enginecockpit:main-pmv-test"));
   }
 
   @Test
