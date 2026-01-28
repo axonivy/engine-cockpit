@@ -5,6 +5,7 @@
 <h:body>
   <f:metadata>
     <f:viewParam name="appName" value="#{applicationDetailBean.appName}" />
+    <f:viewParam name="appVersion" value="#{applicationDetailBean.appVersion}" />
     <f:viewParam name="appName" value="#{managerBean.selectedApplicationName}" />
     <f:viewAction action="#{applicationDetailBean.onload}" />
   </f:metadata>
@@ -18,7 +19,7 @@
     <ui:define name="breadcrumb">
       <li><a href="applications.xhtml">#{ivy.cm.co('/common/Applications')}</a></li>
       <li>/</li>
-      <li><a href="application-detail.xhtml?appName=#{applicationDetailBean.appName}">#{applicationDetailBean.appName}</a></li>
+      <li><a href="#{applicationDetailBean.application.detailView}">#{applicationDetailBean.appName}</a></li>
     </ui:define>
     
     <ui:define name="topbar-items">

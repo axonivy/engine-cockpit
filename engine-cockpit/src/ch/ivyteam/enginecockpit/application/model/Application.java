@@ -9,8 +9,9 @@ import javax.faces.context.FacesContext;
 import javax.ws.rs.core.UriBuilder;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
+import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IProcessModel;
+import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -18,17 +19,31 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
 import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
 
-@SuppressWarnings("removal")
-public class Application extends AbstractActivity {
+@SuppressWarnings({"removal", "unused"})
+public class Application extends AppTreeItem {
 
   private String fileDir;
   private String secSystem = ISecurityContext.DEFAULT;
   private long runningCasesCount = -1;
   private IApplicationInternal app;
   private List<WebServiceProcess> webServiceProcesses;
+  private String name;
 
   public Application() {
-    super("", 0, null, null);
+    super(null, null);
+  }
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  public long getId() {
+    return app.getId();
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public Application(IApplication app) {
@@ -36,53 +51,98 @@ public class Application extends AbstractActivity {
   }
 
   public Application(IApplication app, ApplicationBean bean) {
-    super(app.getName(), app.getId(), app, bean);
+    super(bean, app);
     this.app = (IApplicationInternal) app;
+    this.name = app.getName();
     fileDir = app.getFileDirectory();
     secSystem = app.getSecurityContext().getName();
   }
 
   @Override
-  public boolean isApplication() {
-    return true;
+  public String getDetailView() {
+    return getDetailViewLink(getName(), version());
   }
 
-  @Override
-  public String getDetailView() {
+  public static String getDetailViewLink(String appName, int appVersion) {
     return UriBuilder.fromPath("application-detail.xhtml")
-        .queryParam("appName", getName())
+        .queryParam("appName", appName)
+        .queryParam("appVersion", appVersion)
         .build()
         .toString();
   }
 
   @Override
+  public boolean isApp() {
+    return true;
+  }
+
   public long getRunningCasesCount() {
     countRunningCases();
     return runningCasesCount;
   }
 
-  @Override
   public String getIcon() {
     return "module";
   }
 
   @Override
   public boolean isNotStartable() {
-    return super.isNotStartable() || isDesignerOrSystem();
+    return app.getActivityState() == ActivityState.ACTIVE;
   }
 
   @Override
   public boolean isNotStopable() {
-    return super.isNotStopable() || isDesignerOrSystem();
+    return app.getActivityState() == ActivityState.INACTIVE;
+  }
+
+  @Override
+  public void activate() {
+    app.activate();
+  }
+
+  @Override
+  public void deactivate() {
+    app.deactivate();
+  }
+
+  @Override
+  public void release() {
+    app.release();
+  }
+
+  @Override
+  public void lock() {
+    app.lock();
+  }
+
+  @Override
+  public ReleaseState getReleaseState() {
+    return app.getReleaseState();
   }
 
   @Override
   public boolean isNotLockable() {
-    return super.isNotLockable() || isDesignerOrSystem();
+    return app.getActivityState() == ActivityState.LOCKED;
+  }
+
+  @Override
+  public boolean isReleasable() {
+    return app.getReleaseState() != ReleaseState.RELEASED;
+  }
+
+  @Override
+  public String getReleaseStateIcon() {
+    return switch (getReleaseState()) {
+      case RELEASED -> "check-circle-1";
+      case DEPRECATED -> "delete";
+      case ARCHIVED -> "archive";
+      case CREATED, PREPARED -> "advertising-megaphone-2";
+      default -> "question-circle";
+    };
   }
 
   private boolean isDesignerOrSystem() {
-    return app.isDesigner() || app.isSystem();
+    return app.isDesigner();
   }
 
   public String getHomeUrl() {
@@ -132,7 +192,7 @@ public class Application extends AbstractActivity {
 
   @Override
   public String getActivityType() {
-    return AbstractActivity.APP;
+    return AppTreeItem.APP;
   }
 
   @Override
@@ -140,8 +200,10 @@ public class Application extends AbstractActivity {
     execute(() -> app.convertProjects(new ProjectConversionLog()), "convert", true);
   }
 
-  @Override
   public boolean canConvert() {
+    if (app != null) {
+      return app.hasProjectsToConvert();
+    }
     return true;
   }
 
@@ -155,17 +217,15 @@ public class Application extends AbstractActivity {
 
   @Override
   public void delete() {
-    execute(() -> IApplicationRepository.instance().delete(getName()), "delete", false);
+    execute(() -> IApplicationRepository.instance().delete(getName(), version()), "delete", false);
   }
 
-  @Override
   public String getDeleteHint() {
     var message = new StringBuilder();
     if (runningCasesCount > 0) {
       message.append(Ivy.cm().content("/applications/DeleteRunningCasesHintMessage")
           .replace("activityType", getActivityType()).replace("runningCases", String.valueOf(runningCasesCount)).get());
     }
-    message.append(super.getDeleteHint());
     return message.toString();
   }
 
@@ -186,26 +246,16 @@ public class Application extends AbstractActivity {
   @SuppressWarnings("deprecation")
   public List<WebServiceProcess> getWebServiceProcesses() {
     if (webServiceProcesses == null) {
-      webServiceProcesses = app.getProcessModels().stream()
-          .map(IProcessModel::getReleasedProcessModelVersion)
-          .map(IWorkflowProcessModelVersion::of)
-          .filter(Objects::nonNull)
-          .flatMap(pmv -> pmv.getWebServiceProcesses().stream())
-          .map(WebServiceProcess::new)
-          .collect(Collectors.toList());
+      webServiceProcesses = app.getProcessModelVersions()
+        .map(IWorkflowProcessModelVersion::of)
+        .filter(Objects::nonNull)
+        .flatMap(pmv -> pmv.getWebServiceProcesses().stream())
+        .map(WebServiceProcess::new)
+        .collect(Collectors.toList());
     }
     return webServiceProcesses;
   }
 
-  @Override
-  public boolean hasReleasedProcessModelVersion() {
-    return app.getProcessModels()
-        .stream()
-        .map(ch.ivyteam.ivy.application.internal.ProcessModel.class::cast)
-        .allMatch(ch.ivyteam.ivy.application.internal.ProcessModel::hasReleasedProcessModelVersion);
-  }
-
-  @Override
   public String getWarningMessageForNoReleasedPmv() {
     return Ivy.cm().co("/applications/ApplicationWarningMessageForNoReleasedPmv");
   }
@@ -213,5 +263,14 @@ public class Application extends AbstractActivity {
   @Override
   public List<String> isDeletable() {
     return app.isDeletable();
+  }
+
+  public int version() {
+    return app.getVersion();
+  }
+
+  @Override
+  public long getProcessModelVersionId() {
+    return -1;
   }
 }

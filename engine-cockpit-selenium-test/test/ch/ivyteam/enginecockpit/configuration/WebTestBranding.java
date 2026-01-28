@@ -29,6 +29,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 public class WebTestBranding {
+
   @BeforeEach
   void beforeEach() {
     login();

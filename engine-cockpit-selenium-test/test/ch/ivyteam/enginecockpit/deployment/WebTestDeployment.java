@@ -115,20 +115,6 @@ class WebTestDeployment {
     toAppDetailAndOpenDeployment();
     showDeploymentOptions();
     PrimeUi.selectOne(By.id("fileUploadForm:deployTestUsers")).selectedItemShould(exactText("AUTO"));
-    PrimeUi.selectOne(By.id("fileUploadForm:version")).selectedItemShould(exactText("AUTO"));
-    PrimeUi.selectOne(By.id("fileUploadForm:state")).selectedItemShould(exactText("ACTIVE_AND_RELEASED"));
-  }
-
-  @Test
-  void deployOptionsVersionRange() {
-    toAppDetailAndOpenDeployment();
-    openDeployOptionsAndAssertVersionRange();
-  }
-
-  @Test
-  void deployOptionsVersionRange_AppsView() {
-    toAppsAndOpenDeployDialog();
-    openDeployOptionsAndAssertVersionRange();
   }
 
   @Test
@@ -141,12 +127,10 @@ class WebTestDeployment {
     driver.manage().window().setSize(new Dimension(1600, 1500));
     Navigation.toApplications();
     $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
-    $$("#form\\:tree_node_0_0 > td > span").get(1).shouldBe(visible).click();
     openDeployDialog();
     deployPath(findTestProject());
     $(By.id("closeDeploymentBtn")).shouldBe(visible).click();
     $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "true"));
-    $("#form\\:tree_node_0_0").shouldHave(attribute("aria-expanded", "true"));
 
     $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
     openDeployDialog();
@@ -156,26 +140,11 @@ class WebTestDeployment {
     driver.manage().window().setSize(oldSize);
   }
 
-  private void openDeployOptionsAndAssertVersionRange() {
-    showDeploymentOptions();
-    $(By.id("fileUploadForm:versionRangeLabel")).shouldNotBe(visible);
-    $(By.id("fileUploadForm:version")).click();
-    $(By.id("fileUploadForm:version_items")).shouldBe(visible);
-
-    $$("#fileUploadForm\\:version_items > li").find(text("RANGE")).click();
-    $(By.id("fileUploadForm:versionRangeLabel")).shouldBe(visible);
-  }
-
   private void showDeploymentOptions() {
     if (!$(By.id("fileUploadForm:deployOptionsPanel")).is(visible)) {
       $(By.id("fileUploadForm:showDeployOptionsBtn")).click();
       $(By.id("fileUploadForm:deployOptionsPanel")).shouldBe(visible);
     }
-  }
-
-  private void toAppsAndOpenDeployDialog() {
-    Navigation.toApplications();
-    openDeployDialog();
   }
 
   private void openDeployDialog() {

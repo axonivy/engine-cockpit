@@ -82,14 +82,14 @@ public class Tab {
         .shouldHave(attribute("data-index", String.valueOf(index)));
   }
 
-  public void switchToTab(String securitySystemName) {
-    if (getSelectedTab().equals(securitySystemName)) {
+  public void switchToTab(String name) {
+    if (getSelectedTab().equals(name)) {
       return;
     }
     $$(tab).asDynamicIterable().stream()
-        .filter(e -> e.has(exactText(securitySystemName)))
+        .filter(e -> e.has(exactText(name)))
         .findFirst()
         .ifPresent(SelenideElement::click);
-    $(selectedTab).shouldBe(exactText(securitySystemName));
+    $(selectedTab).shouldBe(exactText(name));
   }
 }

@@ -10,7 +10,8 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.io.IOUtils;
 
-import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.enginecockpit.application.model.App;
+import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
@@ -21,7 +22,7 @@ public class SecuritySystem {
   private final ISecurityContext securityContext;
   private long usersCount = -1;
   private int rolesCount = -1;
-  private List<String> appNames;
+  private List<App> apps;
 
   public SecuritySystem(ISecurityContext securityContext) {
     this.securityContext = securityContext;
@@ -59,13 +60,17 @@ public class SecuritySystem {
     return securityContext.getId();
   }
 
-  public List<String> getAppNames() {
-    if (appNames == null) {
-      appNames = IApplicationRepository.of(securityContext).all().stream()
-          .map(IApplication::getName)
+  public List<App> getApps() {
+    if (apps == null) {
+      apps = IApplicationRepository.of(securityContext).all().stream()
+          .map(app -> new App(app.getName(), app.getVersion()))
           .collect(Collectors.toList());
     }
-    return appNames;
+    return apps;
+  }
+
+  public String getApplicationDetailLink(App app) {
+    return Application.getDetailViewLink(app.name(), app.version());
   }
 
   public long getUsersCount() {
@@ -86,7 +91,7 @@ public class SecuritySystem {
     if (ISecurityContext.DEFAULT.equals(getSecuritySystemName())) {
       return false;
     }
-    return getAppNames().isEmpty();
+    return getApps().isEmpty();
   }
 
   public String getLink() {

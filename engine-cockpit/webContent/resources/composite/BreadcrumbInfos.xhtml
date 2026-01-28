@@ -16,7 +16,7 @@
       </a>
     </h:panelGroup>
     <h:panelGroup rendered="#{cc.attrs.appContext}">
-      <a href="application-detail.xhtml?appName=#{managerBean.selectedApplicationName}" title="#{ivy.cm.co('/breadcrumbInfos/SelectedApplication')}">
+      <a href="#{managerBean.getSelectedApplicationDetailLink()}" title="#{ivy.cm.co('/breadcrumbInfos/SelectedApplication')}">
         <i class="si si-module link-icon"></i> 
         <h:outputText value="#{managerBean.selectedApplicationName}" />
       </a>

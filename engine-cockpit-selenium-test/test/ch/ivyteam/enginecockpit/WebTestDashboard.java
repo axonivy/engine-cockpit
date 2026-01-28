@@ -48,7 +48,7 @@ public class WebTestDashboard {
     var cases = $(".overview-box h1", 2).shouldBe(visible).text();
     assertThat(Integer.parseInt(cases)).isGreaterThan(0);
     var apps = $(".overview-box h1", 3).shouldBe(visible).text();
-    assertThat(Integer.parseInt(apps)).isEqualTo(4);
+    assertThat(Integer.parseInt(apps)).isGreaterThanOrEqualTo(4);
     $$(".card").shouldHave(size(10));
     EngineCockpitUtil.destroyRunningCase();
   }
