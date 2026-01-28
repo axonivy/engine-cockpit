@@ -77,10 +77,7 @@
                 <p:commandButton id="finishWizardNo" onclick="PF('finishWizardModel').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
                   styleClass="ui-button-secondary ui-button-flat modal-input-button" />
                 <p:commandButton id="finishWizardYes" oncomplete="window.location = '/'" value="#{ivy.cm.co('/common/OK')}" icon="si si-check-1" 
-                  styleClass="modal-input-button" actionListener="#{systemDatabaseBean.saveConfiguration}" rendered="#{not restartBean.restartable}"/>
-                <p:commandButton id="finishWizardRestart" onclick="var button=this; buttonAddSpinner(button);" oncomplete="redirectToHomeAfterRestart()" 
-                  value="#{ivy.cm.co('/common/Restart')}" icon="si si-power-button" styleClass="modal-input-button" actionListener="#{systemDatabaseBean.saveConfigurationAndRestart}" 
-                  rendered="#{restartBean.restartable}"/>
+                  styleClass="modal-input-button" actionListener="#{systemDatabaseBean.saveConfiguration}"/>
               </div>
             </h:form>
           </p:dialog>
