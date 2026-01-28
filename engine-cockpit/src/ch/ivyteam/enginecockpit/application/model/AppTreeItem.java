@@ -22,6 +22,7 @@ public abstract class AppTreeItem {
   private StateOfActivity state;
 
   public abstract String getName();
+  public abstract String getDisplayName();
   public abstract String getDetailView();
   public abstract List<String> isDeletable();
 

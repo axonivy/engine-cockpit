@@ -25,6 +25,11 @@ public class ProcessModelVersion extends AppTreeItem {
     return pmv.getName();
   }
 
+  @Override
+  public String getDisplayName() {
+    return getName();
+  }
+
   public ProcessModelVersion(IProcessModelVersion pmv, ApplicationBean bean) {
     super(bean, null);
     lastChangeDate = DateUtil.formatDate(pmv.getLastChangeDate());

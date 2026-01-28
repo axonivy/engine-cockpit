@@ -38,6 +38,11 @@ public class Application extends AppTreeItem {
     return name;
   }
 
+  @Override
+  public String getDisplayName() {
+    return name + " (v" + version() + ")";
+  }
+
   public long getId() {
     return app.getId();
   }

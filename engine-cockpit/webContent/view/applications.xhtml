@@ -41,19 +41,13 @@
           <p:treeTable id="tree" value="#{applicationBean.tree}" var="activity">
             <p:ajax event="expand" listener="#{applicationBean.nodeExpand}" />
             <p:ajax event="collapse" listener="#{applicationBean.nodeCollapse}" />
-            <p:column headerText="#{ivy.cm.co('/applications/AppPmPmvHeader')}" sortBy="#{activity.name}">
+            <p:column headerText="#{ivy.cm.co('/applications/AppPmPmvHeader')}" sortBy="#{activity.displayName}">
               <h:outputLink rendered="#{activity.detailView != '#'}" value="#{activity.detailView}">
-                <h:outputText value="#{activity.name}" styleClass="activity-name"
-                  title="#{activity.activityType} #{activity.name}">
+                <h:outputText value="#{activity.displayName}" styleClass="activity-name"
+                  title="#{activity.activityType} #{activity.displayName}">
                   <i class="si si-#{activity.icon} table-icon" title="#{activity.activityType}" />
                 </h:outputText>
               </h:outputLink>
-              <h:outputText rendered="#{activity.detailView == '#'}">
-                <h:outputText value="#{activity.name}" styleClass="activity-name"
-                  title="#{activity.activityType} #{activity.name}" style="color: grey;">
-                  <i class="si si-#{activity.icon} table-icon" title="#{activity.iconTitle}" />
-                </h:outputText>
-              </h:outputText>
               <h:outputText rendered="#{activity.pmv}"
                 value=" [#{activity.version} / #{activity.lastChangeDate}]"
                 title="#{ivy.cm.co('/applications/LibraryVersion')} #{activity.version} / #{ivy.cm.co('/applications/LastChangeDate')} #{activity.lastChangeDate}"

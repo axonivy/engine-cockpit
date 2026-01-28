@@ -151,6 +151,7 @@ class WebTestDeployment {
     String appName = $$(".activity-name").first().shouldBe(visible).getText();
     $(By.id("form:tree:0:deployBtn")).shouldBe(visible).click();
     $(By.id("fileUploadModal")).shouldBe(visible);
+    appName = org.apache.commons.lang3.StringUtils.substringBefore(appName, " (v");
     $(By.id("fileUploadModal_title")).shouldHave(text(appName));
   }
 
