@@ -80,9 +80,7 @@ public abstract class AppTreeItem {
     return false;
   }
 
-  public String getVersion() {
-    return null;
-  }
+  public abstract String getVersion();
 
   public String getLastChangeDate() {
     return null;

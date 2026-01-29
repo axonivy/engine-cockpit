@@ -270,6 +270,14 @@ public class Application extends AppTreeItem {
     return app.isDeletable();
   }
 
+  @Override
+  public String getVersion() {
+    if (app == null) {
+      return "";
+    }
+    return String.valueOf(app.getVersion());
+  }
+
   public int version() {
     return app.getVersion();
   }

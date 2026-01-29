@@ -32,7 +32,7 @@
         <p:commandButton id="showDeployment" title="#{ivy.cm.co('/common/Deployment')}" value="#{ivy.cm.co('/common/Deployment')}"
           style="margin-top: 20px; min-width: 150px;" icon="si si-upload-bottom"
           onclick="PF('fileUploadModal').show()" 
-          actionListener="#{deploymentBean.setAppName(applicationDetailBean.application.name)}"/>
+          actionListener="#{deploymentBean.setAppNameAndVersion(applicationDetailBean.application.name, applicationDetailBean.appVersion)}"/>
       </h:panelGroup>
     </p:panelGrid>
   </h:form>
@@ -41,6 +41,7 @@
 <h:panelGroup id="deployPanel">
   <ui:include src="../../dialogs/deployment.xhtml">
     <ui:param name="appName" value="#{applicationDetailBean.application.name}" />
+    <ui:param name="appVersion" value="#{applicationDetailBean.appVersion}" />
     <ui:param name="url" value="apps/#{applicationDetailBean.application.name}" />
   </ui:include>
 </h:panelGroup>

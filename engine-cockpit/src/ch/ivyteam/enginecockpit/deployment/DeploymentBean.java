@@ -37,6 +37,7 @@ public class DeploymentBean {
   private Path uploadedFile;
 
   private String appNameFromView;
+  private String appVersionFromView;
   private final DeploymentStatus status = new DeploymentStatus();
 
   public String getDropZoneText() {
@@ -47,8 +48,9 @@ public class DeploymentBean {
     return uploaded.getName() + " (" + prettyFileSize(uploaded.length()) + ")";
   }
 
-  public void setAppName(String appName) {
+  public void setAppNameAndVersion(String appName, String appVersion) {
     this.appNameFromView = appName;
+    this.appVersionFromView = appVersion;
   }
 
   public UploadedFile getFile() {
@@ -109,6 +111,7 @@ public class DeploymentBean {
 
     var projectDeployable = Deployable.create()
         .appName(this.appNameFromView)
+        .appVersion(Integer.parseInt(appVersionFromView))
         .fileToDeploy(this.uploadedFile)
         .deployOptions(deploymentOptions)
         .toDeployable();
