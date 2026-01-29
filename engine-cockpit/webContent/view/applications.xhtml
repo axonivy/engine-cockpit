@@ -69,11 +69,11 @@
             <p:column styleClass="table-btn-5">              
               <h:panelGroup id="deployBtnHint">
                 <p:commandButton title="#{ivy.cm.co('/common/Deployment')}" icon="si si-upload-bottom" rendered="#{activity.app}"
-                  id="deployBtn" styleClass="mr-1 rounded-button" actionListener="#{deploymentBean.setAppName(activity.name)}">
+                  id="deployBtn" styleClass="mr-1 rounded-button" actionListener="#{deploymentBean.setAppNameAndVersion(activity.name, activity.version)}">
                   <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}"
                     oncomplete="PF('fileUploadModal').show()" />
                 </p:commandButton>
-              </h:panelGroup>              
+              </h:panelGroup>
               
               <p:commandButton id="convertButton"
                 icon="si si-button-refresh-arrows" 
@@ -158,9 +158,11 @@
         </h:form>
         <ui:include src="../includes/dialogs/newapplication.xhtml" />
       </div>
+
       <h:panelGroup id="deployPanel">
         <ui:include src="../includes/dialogs/deployment.xhtml">
           <ui:param name="appName" value="#{applicationBean.activeActivity.name}" />
+          <ui:param name="appVersion" value="#{applicationBean.activeActivity.version}" />
           <ui:param name="url" value="apps/#{applicationBean.activeActivity.name}" />
         </ui:include>
         <p:remoteCommand name="reloadTree" update="form" action="#{applicationBean.reloadTree}"/>
