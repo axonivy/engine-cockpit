@@ -24,7 +24,7 @@ RestClients:
       appKey: ${ivy.var.password}
   engine-rest:
     UUID: 7ed632a9-5227-43f0-aa9b-8854fb515b9c
-    Url: ${ivy.app.baseurl}/api
+    Url: '{ivy.app.baseurl}/api'
     Features:
       - ch.ivyteam.ivy.rest.client.mapper.JsonFeature
     Properties:
