@@ -280,7 +280,6 @@ common:
   RequiredMessage: 値は必須です
   RestClients: REST クライアント
   RestServices: REST サービス
-  Restart: 再起動
   Role: ロール
   Roles: ロール
   Run: 実行
@@ -959,15 +958,6 @@ progressLoader:
 renameRole:
   RenameRoleDialogHeader: ロールの名前変更
   RenameRoleDialogWarningMessage: これは重大かつ危険な操作であり、少なくとも非ダイナミックロールに対しては特に注意が必要です。このロールは、古い名前でプロセス内から参照されている可能性があります。すべての展開済みプロジェクト（PMV）内のすべてのプロセスにおけるすべての参照を、新しい名前に手動で変更する必要があります。名前を変更しないと、将来的にプロセスで不具合が発生します。
-restart:
-  Restart: 再起動
-  RestartConfirmMessage: ${application} を再起動してもよろしいですか？
-  RestartFirstWarningMessageFirstPart: すべて
-  RestartFirstWarningMessageSecondPart: ユーザー（現在の${workingUsers}）
-  RestartFirstWarningMessageThirdPart: ${application} を操作すると現在の作業は失われます。
-  RestartSecondWarningMessage: しばらくの間、ユーザーは ${application} に接続できなくなります。
-  RestartThirdWarningMessage: 再起動は失敗する可能性があり、再起動するには OS にアクセスする必要があります。
-  RestartWarningMessage: ${application} の再起動は危険な操作です。
 restClientConfiguration:
   ResetConfiguration: 設定をリセットする
   ResetRestClientDialogHeader: REST クライアントをリセット

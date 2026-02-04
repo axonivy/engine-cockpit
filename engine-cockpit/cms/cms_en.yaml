@@ -254,7 +254,6 @@ common:
   Reset: Reset
   RestClients: Rest Clients
   RestServices: Rest Services
-  Restart: Restart
   Role: Role
   Roles: Roles
   Run: Run
@@ -1018,15 +1017,6 @@ progressLoader:
 renameRole:
   RenameRoleDialogHeader: Rename Role
   RenameRoleDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes will fail in the future.
-restart:
-  Restart: Restart
-  RestartConfirmMessage: Are you sure you want to restart the ${application}?
-  RestartFirstWarningMessageFirstPart: All
-  RestartFirstWarningMessageSecondPart: users (currently ${workingUsers})
-  RestartFirstWarningMessageThirdPart: working with ${application} will lose their current work.
-  RestartSecondWarningMessage: Users will not be able to connect to ${application} for a short time.
-  RestartThirdWarningMessage: Restarting may fail and then you need access to the operating system to start it again.
-  RestartWarningMessage: Restarting ${application} is a dangerous operation.
 restClientConfiguration:
   ResetConfiguration: Reset configuration
   ResetRestClientDialogHeader: Reset Rest Client
