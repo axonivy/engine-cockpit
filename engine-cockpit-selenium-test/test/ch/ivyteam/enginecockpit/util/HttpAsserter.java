@@ -32,7 +32,6 @@ public class HttpAsserter {
 
     public void hasNoDeadLinks() {
       processed.clear();
-      processed.addAll(ignorePages);
       deadLinks.clear();
       crawlAndCheckLinks(testUrl);
 
@@ -44,7 +43,7 @@ public class HttpAsserter {
     }
 
     private void crawlAndCheckLinks(String url, String sourcePage) {
-      if (processed.contains(url)) {
+      if (isProcessed(url)) {
         return;
       }
 
@@ -69,7 +68,7 @@ public class HttpAsserter {
           }
 
           var resolvedUrl = resolveUrl(url, href);
-          if (resolvedUrl == null || processed.contains(resolvedUrl)) {
+          if (resolvedUrl == null || isProcessed(resolvedUrl)) {
             continue;
           }
 
@@ -109,7 +108,7 @@ public class HttpAsserter {
     }
 
     private void checkLinkAvailabilityOnly(String url, String sourcePage) {
-      if (processed.contains(url)) {
+      if (isProcessed(url)) {
         return;
       }
 
@@ -125,6 +124,10 @@ public class HttpAsserter {
         System.err.println("Dead link found: " + url + " - " + ex.getMessage() + " (found on: " + sourcePage + ")");
         deadLinks.add(url);
       }
+    }
+
+    private boolean isProcessed(String url) {
+      return processed.contains(url) || ignorePages.stream().anyMatch(p -> url.contains(p));
     }
   }
 }
