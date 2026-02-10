@@ -29,8 +29,8 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 class WebTestSearchEngine {
 
-  private static final String dossierIndex = "ivy-default-businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$dossier";
-  private static final String addressIndex = "ivy-default-businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$address";
+  private static final String DOSSIER_INDEX = "ivy-default-businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$dossier";
+  private static final String ADDRESS_INDEX = "ivy-default-businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$address";
 
   @BeforeAll
   static void setup() {
@@ -61,16 +61,16 @@ class WebTestSearchEngine {
   void indicies() {
     Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"), true);
     assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSizeGreaterThanOrEqualTo(2)
-        .contains(dossierIndex, addressIndex);
-    checkIndexValues(table, dossierIndex, "10");
-    checkIndexValues(table, addressIndex, "1");
+        .contains(DOSSIER_INDEX, ADDRESS_INDEX);
+    checkIndexValues(table, DOSSIER_INDEX, "10");
+    checkIndexValues(table, ADDRESS_INDEX, "1");
     $(By.id("searchEngineIndexForm:indiciesTable:indexName")).shouldBe(visible).click();
     $(By.id("ajaxExceptionDialog")).shouldNotBe(visible);
   }
 
   @Test
   void index() {
-    Navigation.toSearchIndex(dossierIndex);
+    Navigation.toSearchIndex(ADDRESS_INDEX);
     var table = new Table(By.id("tableForm:docTable"));
     table.search("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
     $(By.id("tableForm:docTable:0:showDocument"))
@@ -83,50 +83,50 @@ class WebTestSearchEngine {
 
   @Test
   void configEdit() {
-    $("#searchEngineInfoForm\\:configSearchEngine").click();
+    $(By.id("searchEngineInfoForm:configSearchEngine")).click();
     assertCurrentUrlContains("systemconfig.xhtml?filter=SearchEngine");
   }
 
   @Test
   void queryTool() {
-    $("#searchEngineQueryToolModal").shouldNotBe(visible);
-    $("#searchEngineInfoForm\\:queryToolBtn").click();
+    $(By.id("searchEngineQueryToolModal")).shouldNotBe(visible);
+    $(By.id("searchEngineInfoForm:queryToolBtn")).click();
     assertQueryTool("GET: http://localhost:19200/", "ivy-opensearch", 3);
   }
 
   @Test
   void indexQueryTool() {
-    $("#searchEngineQueryToolModal").shouldNotBe(visible);
-    new Table(By.id("searchEngineIndexForm:indiciesTable"), true).clickButtonForEntry(dossierIndex, "queryToolBtn");
-    assertQueryTool("GET: http://localhost:19200/" + dossierIndex + "/", "mappings", 1);
+    $(By.id("searchEngineQueryToolModal")).shouldNotBe(visible);
+    new Table(By.id("searchEngineIndexForm:indiciesTable"), true).clickButtonForEntry(ADDRESS_INDEX, "queryToolBtn");
+    assertQueryTool("GET: http://localhost:19200/" + ADDRESS_INDEX + "/", "mappings", 1);
   }
 
   @Test
   void reindex() {
-    $("reindexSearchEngineModel").shouldNotBe(visible);
-    new Table(By.id("searchEngineIndexForm:indiciesTable"), true).clickButtonForEntry(dossierIndex, "reindexBtn");
-    $("#reindexSearchEngineModel").shouldBe(visible);
-    $("#reindexSearchEngineModel_title").shouldBe(text(dossierIndex));
-    $("#reindexSearchEngineBtn").click();
-    $("#reindexSearchEngineModel").shouldNotBe(visible);
+    $(By.id("reindexSearchEngineModel")).shouldNotBe(visible);
+    new Table(By.id("searchEngineIndexForm:indiciesTable"), true).clickButtonForEntry(DOSSIER_INDEX, "reindexBtn");
+    $(By.id("reindexSearchEngineModel")).shouldBe(visible);
+    $(By.id("reindexSearchEngineModel_title")).shouldBe(text(DOSSIER_INDEX));
+    $(By.id("reindexSearchEngineBtn")).click();
+    $(By.id("reindexSearchEngineModel")).shouldNotBe(visible);
   }
 
   private void assertQueryTool(String url, String responseContent, int apiCount) {
-    $("#searchEngineQueryToolModal").shouldBe(visible);
-    $(".querytool-url").shouldBe(exactText(url));
-    $("#searchEngineQueryToolForm\\:query_input").shouldBe(exactValue(""));
+    $(By.id("searchEngineQueryToolModal")).shouldBe(visible);
+    $(By.className("querytool-url")).shouldBe(exactText(url));
+    $(By.id("searchEngineQueryToolForm:query_input")).shouldBe(exactValue(""));
     assertQueryToolProposal(apiCount);
-    $("#searchEngineQueryToolForm pre").shouldBe(empty);
+    $(By.id("searchEngineQueryToolForm")).find("pre").shouldBe(empty);
 
-    $("#searchEngineQueryToolForm\\:runSearchEngineQueryBtn").click();
-    $("#searchEngineQueryToolForm pre").shouldBe(text(responseContent));
+    $(By.id("searchEngineQueryToolForm:runSearchEngineQueryBtn")).click();
+    $(By.id("searchEngineQueryToolForm")).find("pre").shouldBe(text(responseContent));
   }
 
   private void assertQueryToolProposal(int apiCount) {
-    $("#searchEngineQueryToolForm\\:query_button").click();
-    $("#searchEngineQueryToolForm\\:query_panel").shouldBe(visible);
-    $$("#searchEngineQueryToolForm\\:query_panel li").shouldHave(size(apiCount));
-    $(".querytool-url").click();
+    $(By.id("searchEngineQueryToolForm:query_button")).click();
+    $(By.id("searchEngineQueryToolForm:query_panel")).shouldBe(visible);
+    $(By.id("searchEngineQueryToolForm:query_panel")).findAll("li").shouldHave(size(apiCount));
+    $(By.className("querytool-url")).click();
   }
 
   private void checkIndexValues(Table table, String tableRow, String count) {
