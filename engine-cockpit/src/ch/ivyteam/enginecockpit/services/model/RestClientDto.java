@@ -42,7 +42,7 @@ public class RestClientDto implements IService {
     username = properties.stream().filter(p -> Objects.equals(p.getName(), "username"))
         .map(Property::getValue).findFirst().orElse("");
     features = client.features().stream()
-        .map(f -> new Feature(f.clazz(), f.isDefault()))
+        .map(f -> new Feature(f.clazz()))
         .collect(Collectors.toList());
     passwordChanged = false;
     var propMap = new HashMap<String, String>();

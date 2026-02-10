@@ -45,7 +45,7 @@ public class Webservice implements IService {
         .map(Property::getValue).findFirst().orElse("");
     passwordChanged = false;
     features = webservice.features().stream()
-        .map(f -> new Feature(f.clazz(), f.isDefault()))
+        .map(f -> new Feature(f.clazz()))
         .toList();
     genId = webservice.id();
 
