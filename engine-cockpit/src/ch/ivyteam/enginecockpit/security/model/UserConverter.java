@@ -5,13 +5,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import jakarta.inject.Named;
-
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 
-@Named
 @FacesConverter(value = "userConverter")
 public class UserConverter implements Converter {
 

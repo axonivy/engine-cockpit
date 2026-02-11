@@ -9,13 +9,10 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
-import jakarta.inject.Named;
-
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFileRepository;
 
-@Named
 @FacesConverter(value = "editorFileConverter")
 public class EditorFileConverter implements Converter {
 
