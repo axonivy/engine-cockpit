@@ -135,7 +135,7 @@ class WebTestPermission {
 
     getVisibleTreeNodes().shouldBe(size(1));
     $(By.id("permissionsForm:permissionTable_node_0")).find(".ui-treetable-toggler").should(exist).click();
-    getVisibleTreeNodes().shouldBe(size(3));
+    getVisibleTreeNodes().shouldBe(size(4));
     $(By.id("permissionsForm:collapseAll")).shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(1));
   }
