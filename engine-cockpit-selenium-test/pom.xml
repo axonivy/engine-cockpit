@@ -27,7 +27,6 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <release>21</release>
           <showDeprecation>true</showDeprecation>
         </configuration>
       </plugin>
