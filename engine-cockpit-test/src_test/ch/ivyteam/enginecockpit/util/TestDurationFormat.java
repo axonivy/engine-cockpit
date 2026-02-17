@@ -1,4 +1,3 @@
-
 package ch.ivyteam.enginecockpit.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,7 +19,7 @@ class TestDurationFormat {
 
   @BeforeEach
   void beforeEach() {
-    Now.set(str -> NOW);
+    Now.set(_ -> NOW);
   }
 
   @Test

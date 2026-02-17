@@ -157,7 +157,7 @@ public class RoleDetailBean {
   }
 
   public List<Role> searchParentRoleName(String query) {
-    return searchRoles(query, r -> true);
+    return searchRoles(query, _ -> true);
   }
 
   public void renameRole() {
