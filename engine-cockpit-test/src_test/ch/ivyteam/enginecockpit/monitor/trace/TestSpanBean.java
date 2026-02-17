@@ -22,7 +22,7 @@ class TestSpanBean {
 
   @BeforeEach
   void beforeEach() {
-    try (var undef = ch.ivyteam.ivy.trace.Span.open(() -> new TstSpan("undef", List.of(attribute("attr", 1234), attribute("hello", "world"))))) {
+    try (var _ = ch.ivyteam.ivy.trace.Span.open(() -> new TstSpan("undef", List.of(attribute("attr", 1234), attribute("hello", "world"))))) {
       try (var ok = ch.ivyteam.ivy.trace.Span.open(() -> new TstSpan("ok"))) {
         try (var error = ch.ivyteam.ivy.trace.Span.open(() -> new TstSpan("error"))) {
           error.error(new Throwable());
