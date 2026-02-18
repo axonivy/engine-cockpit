@@ -20,6 +20,8 @@
     <h:outputText value="#{javaBean.version}" />
     <label>#{ivy.cm.co('/java/Vendor')}</label>
     <h:outputText value="#{javaBean.vendor}" />
+    <label>Java Home</label>
+    <h:outputText value="#{javaBean.home}" style="word-break: break-all;"/>
   </p:panelGrid>
 </div>
 <ui:include src="../../dialogs/javainfo.xhtml" />

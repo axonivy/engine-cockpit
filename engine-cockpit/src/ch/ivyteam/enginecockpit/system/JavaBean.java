@@ -10,22 +10,34 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean
 @SessionScoped
 public class JavaBean {
-  List<String> jvmArgs;
+  private final String name;
+  private final String version;
+  private final String vendor;
+  private final String home;
+  private final List<String> jvmArgs;
 
   public JavaBean() {
+    name = System.getProperty("java.vm.name");
+    version = System.getProperty("java.version") + " (" + System.getProperty("java.vm.version") + ")";
+    vendor = System.getProperty("java.vendor");
+    home = System.getProperty("java.home");
     jvmArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
   }
 
+  public String getName() {
+    return name;
+  }
+
   public String getVersion() {
-    return System.getProperty("java.version");
+    return version;
   }
 
   public String getVendor() {
-    return System.getProperty("java.vendor");
+    return vendor;
   }
 
-  public String getName() {
-    return System.getProperty("java.vm.name");
+  public String getHome() {
+    return home;
   }
 
   public List<Object> getProperties() {
