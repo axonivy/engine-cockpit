@@ -10,7 +10,6 @@ import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
-import ch.ivyteam.ivy.application.ProcessModelVersionRelation;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 
 @ManagedBean
@@ -85,10 +84,10 @@ public class PmvDetailBean {
     }
 
     pmv = new ProcessModelVersion(iPmv);
-    dependendPmvs = iPmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.DEPENDENT).stream()
+    dependendPmvs = iPmv.getAllDependentProcessModelVersions()
         .map(ProcessModelVersion::new)
         .collect(Collectors.toList());
-    requriedPmvs = iPmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.REQUIRED).stream()
+    requriedPmvs = iPmv.getAllRequiredProcessModelVersions()
         .map(ProcessModelVersion::new)
         .collect(Collectors.toList());
    }
