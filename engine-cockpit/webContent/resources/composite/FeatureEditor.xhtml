@@ -14,12 +14,12 @@
 <cc:implementation>
   <p:commandButton id="editFeatureBtn"
     actionListener="#{cc.attrs.bean.setFeature(feature.clazz)}"
-    icon="si si-pencil" title="#{ivy.cm.co('/common/Edit')}" disabled="#{feature.default}"
+    icon="si si-pencil" title="#{ivy.cm.co('/common/Edit')}"
     update="@form" rendered="#{!cc.attrs.isNewFeature}"
     oncomplete="PF('featureModal').show();" process="@this" 
     styleClass="flex-shrink-0 ml-1 ui-button-secondary rounded-button" />
 
-  <p:commandButton id="deleteFeatureBtn" disabled="#{feature.default}"
+  <p:commandButton id="deleteFeatureBtn" 
     actionListener="#{cc.attrs.bean.removeFeature(feature.clazz)}"
     update="#{cc.attrs.formName}" icon="si si-bin-1" title="#{ivy.cm.co('/common/Delete')}"
     rendered="#{!cc.attrs.isNewFeature}" process="@this"
