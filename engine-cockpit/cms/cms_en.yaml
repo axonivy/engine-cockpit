@@ -1308,7 +1308,11 @@ template:
   ShowHealthDetails: Show health details ...
   SupportReport: Support Report
 tlsTester:
+  Issuer: 'Issuer'
+  PublicKeyFormat: 'Public Key Format'
+  SignatureAlgorithm: 'Signature Algorithm'
   Tests: Tests
+  Validity: 'Validity'
 tlsTesterMissingCertView:
   AddCertificateToTruststoreSuccessMesage: The certificate was successfully added.
   AddToTruststore: Add To Truststore

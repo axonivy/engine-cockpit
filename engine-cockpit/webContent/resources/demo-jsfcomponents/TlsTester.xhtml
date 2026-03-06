@@ -31,13 +31,19 @@
     </p:column>
     <p:rowExpansion>
       <p:dataTable var="logDataEntry" styleClass="noHeader" value="#{logEntry.entryList}"
-        id="taskTable" rowKey="#{logEntry.entryList}" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+        id="taskTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
         <p:column style="border:0px;" width="1em">
-          <h:outputText value="#{logDataEntry}" />
-          <h:panelGroup id="infos" rendered="#{tlsTesterBean.hasExtendedInformations(logDataEntry)}">
+          <h:outputText value="#{logDataEntry.message()}" />
+          <h:panelGroup id="infos" rendered="#{logDataEntry.extendedInformation() != null}">
             <i class="si si-question-circle" />
-            <p:tooltip for="infos" escape="false"
-              value="#{tlsTesterBean.getExtendedInformations(logDataEntry)}" />
+            <p:tooltip for="infos">
+              <h:panelGrid columns="1">
+                <h:outputText value="#{ivy.cm.co('/tlsTester/Issuer')}: #{logDataEntry.extendedInformation().issuer()}" />
+                <h:outputText value="#{ivy.cm.co('/tlsTester/SignatureAlgorithm')}: #{logDataEntry.extendedInformation().signatureAlgorithm()}" />
+                <h:outputText value="#{ivy.cm.co('/tlsTester/Validity')}: #{logDataEntry.extendedInformation().validity()}" />
+                <h:outputText value="#{ivy.cm.co('/tlsTester/PublicKeyFormat')}: #{logDataEntry.extendedInformation().publicKeyFormat()}" />
+              </h:panelGrid>
+            </p:tooltip>
           </h:panelGroup>
         </p:column>
       </p:dataTable>
