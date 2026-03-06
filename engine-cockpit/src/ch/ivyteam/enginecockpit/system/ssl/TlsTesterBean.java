@@ -18,7 +18,6 @@ public class TlsTesterBean {
   private String uri;
   private boolean tlsTestRendered;
   private final List<TLSTestData> testResult = new ArrayList<>();
-  private List<String> infos;
   private Optional<X509Certificate> missingCert = Optional.empty();
 
   public boolean isHttps(String Uri) {
@@ -41,7 +40,6 @@ public class TlsTesterBean {
     TLSTest test = new TLSTest(testResult, targetUri);
     test.runTLSTests();
     missingCert = test.getMissingCert();
-    infos = test.getExtendedInformations();
   }
 
   public String getUri() {
@@ -69,17 +67,6 @@ public class TlsTesterBean {
       return "unused-column";
     }
     return "";
-  }
-
-  public boolean hasExtendedInformations(String logEntry) {
-    return !getExtendedInformations(logEntry).isBlank();
-  }
-
-  public String getExtendedInformations(String logEntry) {
-    return infos.stream()
-        .filter(info -> info.contains(getSubject(logEntry)))
-        .findFirst()
-        .orElse("");
   }
 
   String getSubject(String inputStrings) {
