@@ -1291,7 +1291,11 @@ template:
   ShowHealthDetails: Gesundheitsdetails anzeigen ...
   SupportReport: Support Bericht
 tlsTester:
+  Issuer: 'Aussteller'
+  PublicKeyFormat: 'Format des öffentlichen Schlüssels'
+  SignatureAlgorithm: 'Signaturalgorithmus'
   Tests: Kontrollen
+  Validity: 'Gültigkeit'
 tlsTesterMissingCertView:
   AddCertificateToTruststoreSuccessMesage: Das Zertifikat wurde erfolgreich hinzugefügt.
   AddToTruststore: Zum Vertrauensspeicher hinzufügen
