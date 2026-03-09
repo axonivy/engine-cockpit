@@ -618,7 +618,7 @@ migrate:
   BackupSystemDatabaseRemindMessage: Bevor Sie die Migration starten, stellen Sie sicher, dass Sie eine Sicherung Ihrer Systemdatenbank und des gesamten Axon Ivy Engine Installationsverzeichnisses erstellt haben.
   Checks: Kontrollen
   Done: Erledigt
-  EngineMigrationErrorMessage: Fehler bei der Migration. ${exception)
+  EngineMigrationErrorMessage: Fehler bei der Migration.
   EngineMigrationSuccessfulMessage: Die Axon Ivy Engine Migration war erfolgreich. Starten Sie jetzt die Axon Ivy Engine neu.
   InPlaceMigration: In-Place Migration
   InPlaceMigrationIntroduction: Diese Migration ist eine In-Place Migration. Die neue Axon Ivy Engine wird an genau der gleichen Stelle wie die alte Axon Ivy Engine installiert. Die Konfigurationsdateien in Containerumgebungen, wie  z.B. ivy.yaml, können in einem Lesemodus bereitgestellt werden. Da die Migration mit Schreibzugriff auf diese Konfigurationsdateien arbeiten muss, können Sie festlegen, ob ein temporäres Verzeichnis verwendet werden soll, um diese Änderungen durchzuführen. Nach der Migration müssen Sie diese Dateien manuell dem Axon Ivy Engine hinzufügen.

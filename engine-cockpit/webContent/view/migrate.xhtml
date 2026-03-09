@@ -220,8 +220,7 @@
         <h:form id="summaryForm">
           <p:panel id="summaryPanel" style="margin-top: 10px;" rendered="#{migrationBean.state == 'FINISHED'}">
             <p:staticMessage severity="#{migrationBean.finishedSeverity}" summary="#{migrationBean.finishedMessage}" />
-            <p:messages id="migrationMessage" for="migrationMessage" showDetail="true" skipDetailIfEqualsSummary="true" />
-            <pre style="white-space: pre-wrap; word-break: break-all; margin:0px;"><code><h:outputText value="#{migrationBean.summary}" /></code></pre>
+            <pre style="white-space: pre-wrap; word-break: break-all; margin:0px;"><code><h:outputText value="#{migrationBean.finishedSeverity == 'info' ? migrationBean.summary : migrationBean.finishedStackTrace}" /></code></pre>
 
             <f:facet name="header">
               <p:panelGrid columns="1" layout="flex" contentStyleClass="align-items-center" columnClasses="col-12">
