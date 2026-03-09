@@ -15,7 +15,6 @@
   <properties>
     <engine.page.url>https://product.ivyteam.io</engine.page.url>
     <engine.dir>../.ivy-engine</engine.dir>
-    <maven.test.skip>true</maven.test.skip>
   </properties>
 
   <dependencies>
