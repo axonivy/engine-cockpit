@@ -37,6 +37,7 @@ public class MigrationBean {
   private final Set<String> showLogs = new HashSet<>();
   private String finishedMessage;
   private String finishedSeverity;
+  private String finishedStackTrace;
 
   public MigrationBean() {
     var location = EngineMigrator.proposeLocation();
@@ -204,6 +205,10 @@ public class MigrationBean {
     return finishedSeverity;
   }
 
+  public String getFinishedStackTrace() {
+    return finishedStackTrace;
+  }
+
   public MigrationState getState() throws InterruptedException, ExecutionException {
     if (running == MigrationState.RUNNING && asyncRunner != null && asyncRunner.isDone()) {
       running = MigrationState.FINISHED;
@@ -212,8 +217,9 @@ public class MigrationBean {
         finishedMessage = "The Axon Ivy Engine migration was successful. Restart your Axon Ivy Engine now.";
         finishedSeverity = "info";
       } else {
-        finishedMessage = "Error during migration.\n<pre style=\"white-space:pre-wrap;word-break:break-all;margin:0px;\"><code>" + ExceptionUtils.getStackTrace(exception) + "</code></pre>";
+        finishedMessage = "Error during migration.";
         finishedSeverity = "error";
+        finishedStackTrace = ExceptionUtils.getStackTrace(exception);
       }
     }
     return running;
