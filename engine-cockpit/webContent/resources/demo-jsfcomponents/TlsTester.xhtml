@@ -30,14 +30,19 @@
       <h:outputText class="si table-icon si-#{tlsTesterBean.icon(logEntry.result)}"/>
     </p:column>
     <p:rowExpansion>
-      <p:dataTable var="logDataEntry" styleClass="noHeader" value="#{logEntry.entryList}"
-        id="taskTable" rowKey="#{logEntry.entryList}">
+      <p:dataTable var="logDataEntry" styleClass="noHeader" value="#{logEntry.entryList}" id="taskTable">
         <p:column style="border:0px;" width="1em">
-          <h:outputText value="#{logDataEntry}" />
-          <h:panelGroup id="infos" rendered="#{tlsTesterBean.hasExtendedInformations(logDataEntry)}">
+          <h:outputText value="#{logDataEntry.message()}" />
+          <h:panelGroup id="infos" rendered="#{logDataEntry.extendedInformation() != null}">
             <i class="si si-question-circle" />
-            <p:tooltip for="infos" escape="false"
-              value="#{tlsTesterBean.getExtendedInformations(logDataEntry)}" />
+            <p:tooltip for="infos">
+              <h:panelGrid columns="1">
+                <h:outputText value="Issuer: #{logDataEntry.extendedInformation().issuer()}" />
+                <h:outputText value="Signature Algorithm: #{logDataEntry.extendedInformation().signatureAlgorithm()}" />
+                <h:outputText value="Validity: #{logDataEntry.extendedInformation().validity()}" />
+                <h:outputText value="Public Key Format: #{logDataEntry.extendedInformation().publicKeyFormat()}" />
+              </h:panelGrid>
+            </p:tooltip>
           </h:panelGroup>
         </p:column>
       </p:dataTable>
