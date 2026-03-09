@@ -37,10 +37,12 @@ public class AdministratorDto {
     this.enabled = admin.enabled();
   }
 
+  // TODO: Should be renamed to getUsername
   public String getName() {
     return userName;
   }
 
+  // TODO: Should be renamed to setUsername
   public void setName(String name) {
     this.userName = name;
   }
@@ -80,11 +82,11 @@ public class AdministratorDto {
   public void setLanguage(Locale language) {
     this.language = language;
   }
-  
+
   public Locale getFormattingLanguage() {
     return formattingLanguage;
   }
-  
+
   public void setFormattingLanguage(Locale formattingLanguage) {
     this.formattingLanguage = formattingLanguage;
   }

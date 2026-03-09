@@ -1,0 +1,94 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/template.xhtml">
+    <ui:define name="content">
+      <f:event type="preRenderView" listener="#{loginBean.checkLogin}" />
+
+      <h:form id="profileForm">
+        <div class="grid mb-2">
+          <div class="col-12 md:col-6">
+            <div class="card ui-fluid">
+              <h4>#{ivy.cm.co('/adminProfile/AdminProfile')}</h4>
+              <p:growl id="growl" showDetail="true" />
+              <div>
+                <div class="mb-3">
+                  <h:outputLabel for="userName">#{ivy.cm.co('/common/Username')}</h:outputLabel>
+                  <p:inputText id="userName" value="#{administratorBean.getAdmin().getName()}" styleClass="mt-2"
+                    disabled="true" />
+                </div>
+
+                <div class="mb-3">
+                  <h:outputLabel for="fullName">#{ivy.cm.co('/common/FullName')}</h:outputLabel>
+                  <p:inputText id="fullName" value="#{administratorBean.getAdmin().getFullName()}" styleClass="mt-2" />
+                </div>
+
+                <div class="mb-3">
+                  <h:outputLabel for="email">#{ivy.cm.co('/common/Email')}</h:outputLabel>
+                  <p:inputText id="email" value="#{administratorBean.getAdmin().getEmail()}" styleClass="mt-2" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 md:col-6">
+            <div class="card h-full">
+              <h4>#{ivy.cm.co('/adminProfile/LanguageAndLocalization')}</h4>
+
+              <div class="mb-3">
+                <h:outputLabel for="contentLanguage">#{ivy.cm.co('/common/Language')}</h:outputLabel>
+                <div class="mt-2">
+                  <p:selectOneMenu id="contentLanguage" value="#{administratorBean.getAdmin().getLanguage()}" editable="true"
+                    converter="localeConverter" styleClass="w-full">
+                    <f:selectItems value="#{profileBean.contentLanguages}" var="locale"
+                      itemLabel="#{profileBean.toDisplayName(locale)}" />
+                  </p:selectOneMenu>
+                  <small>
+                    <h:panelGroup id="contentLanguageDisplay" styleClass="text-500">
+                      <h:outputText value="#{ivy.cm.co('/profile/currentContentLanguage')} " />
+                      <b>
+                        <h:outputText value="#{profileBean.currentContentLocale} " />
+                      </b>
+                      <h:outputText value="(#{profileBean.currentContentLocaleSource})" />
+                    </h:panelGroup>
+                  </small>
+                  <p:tooltip for="contentLanguageDisplay" value="#{ivy.cm.co('/profile/currentContentLocale')}"
+                    position="bottom" />
+                </div>
+              </div>
+
+              <div>
+                <h:outputLabel for="formattingLanguage">#{ivy.cm.co('/common/formattingLanguage')}</h:outputLabel>
+                <div class="mt-2">
+                  <p:selectOneMenu id="formattingLanguage" filter="true" filterMatchMode="contains" editable="true"
+                    value="#{profileBean.formattingLanguage}" converter="localeConverter" styleClass="w-full">
+                    <f:selectItems value="#{profileBean.formattingLanguages}" var="locale"
+                      itemLabel="#{profileBean.toDisplayName(locale)}" />
+                  </p:selectOneMenu>
+                  <p>
+                    <small>
+                      <h:panelGroup id="formattingLanguageDisplay" styleClass="text-500">
+                        <h:outputText value="#{ivy.cm.co('/profile/currentFormattingLanguage')} " />
+                        <b>
+                          <h:outputText value="#{profileBean.currentFormattingLocale} " />
+                        </b>
+                        <h:outputText value="(#{profileBean.currentFormattingLocaleSource})" />
+                      </h:panelGroup>
+                    </small>
+                    <p:tooltip for="formattingLanguageDisplay" value="#{ivy.cm.co('/profile/currentFormattingLocale')}"
+                      position="bottom" />
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </h:form>
+
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>

@@ -11,6 +11,9 @@ administrators:
 admins:
   AddAdministrator: Administrator hinzufügen
   DefineAtLeastOneAdministratorMessage: Sie müssen mindestens ein Administrator definieren!
+adminProfile:
+  AdminProfile: Administrator Profil
+  LanguageAndLocalization: Sprache & Lokalisierung
 applicationDetail:
   ProcessModels: Prozess Modelle
 applications:
