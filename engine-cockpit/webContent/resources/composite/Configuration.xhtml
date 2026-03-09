@@ -110,6 +110,7 @@
         
         <h:outputLabel for="editConfigurationDescription" rendered="#{cc.attrs.bean.activeConfig.hasDescription()}"
           value="Description" />
+        <!-- This `escape="false"` usage is safe as the description of configuration values is coming from the core (`ivy.yaml`) or project sources (`variables.yaml`, `app.yaml`) -->
         <h:outputText id="editConfigurationDescription" value="#{cc.attrs.bean.activeConfig.htmlDescription}" 
           styleClass="config-edit-description" escape="false" rendered="#{cc.attrs.bean.activeConfig.hasDescription()}" />
           
