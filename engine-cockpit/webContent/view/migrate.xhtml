@@ -157,6 +157,7 @@
               <p:rowExpansion>
                 <p class="m-0">
                   <h:panelGroup rendered="#{not empty task.description}">
+                    <!-- This `escape="false"` usage is safe as the task description is statically provided by implementations of `MigrationTask` in the core -->
                     <h:outputText value="#{task.description}" escape="false" />
                   </h:panelGroup>
                   <h:panelGroup rendered="#{not empty task.script}">
