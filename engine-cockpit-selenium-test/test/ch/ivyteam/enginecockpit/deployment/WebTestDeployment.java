@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.deployment;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.isVscode;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
@@ -32,7 +32,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 @IvyWebTest
 class WebTestDeployment {
 
-  private static final String APP = isVscode() ? EngineUrl.applicationName() : "test-ad";
+  private static final String APP = isDesigner() ? EngineUrl.applicationName() : "test-ad";
 
   @BeforeEach
   void beforeEach() {
@@ -66,7 +66,7 @@ class WebTestDeployment {
 
   @Test
   void validApp() {
-    if (isVscode()) {
+    if (isDesigner()) {
       return;
     }
     toAppDetailAndOpenDeployment();
@@ -75,7 +75,7 @@ class WebTestDeployment {
 
   @Test
   void validAppWithDeployOptions() {
-    if (isVscode()) {
+    if (isDesigner()) {
       return;
     }
     toAppDetailAndOpenDeployment();
@@ -119,7 +119,7 @@ class WebTestDeployment {
 
   @Test
   void keepExpandedState() {
-    if (isVscode()) {
+    if (isDesigner()) {
       return;
     }
     var driver = WebDriverRunner.getWebDriver();

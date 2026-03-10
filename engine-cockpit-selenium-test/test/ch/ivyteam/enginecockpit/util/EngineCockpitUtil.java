@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.util;
 
 import static com.axonivy.ivy.webtest.engine.EngineUrl.create;
+import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.hidden;
@@ -27,7 +28,7 @@ public class EngineCockpitUtil {
   public static String LOGIN = "login.xhtml";
 
   public static String getAdminUser() {
-    return isVscode() ? "Developer" : "admin";
+    return isDesigner() ? "Developer" : "admin";
   }
 
   public static void login() {
@@ -208,7 +209,7 @@ public class EngineCockpitUtil {
   private static void runTestProcess(String processLink) {
     open(create().app(getAppName()).servlet(SERVLET.PROCESS).path("engine-cockpit-test-data/" + processLink)
         .toUrl());
-    assertCurrentUrlContains(isVscode() ? "/dev-workflow-ui/faces" : "end");
+    assertCurrentUrlContains(isDesigner() ? "/dev-workflow-ui/faces" : "end");
   }
 
   public static String viewUrl(String page) {
@@ -217,7 +218,7 @@ public class EngineCockpitUtil {
 
   public static String viewUrl(String page, Map<String, String> queryParams) {
     var urlBuilder = create();// .staticView(parts.path)
-    if (isVscode()) {
+    if (isDesigner()) {
       // test it in designer as PMV
       urlBuilder = urlBuilder.staticView("engine-cockpit/" + page);
     } else {
@@ -235,11 +236,7 @@ public class EngineCockpitUtil {
   }
 
   public static String getAppName() {
-    return isVscode() ? EngineUrl.applicationName() : "test";
-  }
-
-  public static boolean isVscode() {
-    return Boolean.getBoolean("isVscode");
+    return isDesigner() ? EngineUrl.applicationName() : "test";
   }
 
   public static void assertLiveStats(List<String> expectedChartTitles) {

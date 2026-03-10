@@ -3,8 +3,7 @@
     "java.test.config": {
         "vmArgs": [
             "-Dtest.engine.url=http://localhost:8080/~Developer-engine-cockpit",
-            "-Dtest.engine.app=Developer-engine-cockpit",
-            "-DisVscode=true"
+            "-Dtest.engine.app=Developer-engine-cockpit"
         ]
     }
 }
