@@ -1,9 +1,9 @@
 package ch.ivyteam.enginecockpit.docu;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.executeJs;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.getAppName;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.isVscode;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
-import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
-import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -231,9 +231,9 @@ class WebDocuScreenshot {
     Navigation.toApplications();
     takeScreenshot("applications", new Dimension(SCREENSHOT_WIDTH, 500));
     takeDialogScreenshot("dialog-new-app", By.id("form:createApplicationBtn"));
-    Navigation.toPmvDetail(isDesigner() ? DESIGNER : "demo-portal", "portal");
+    Navigation.toPmvDetail(isVscode() ? getAppName() : "demo-portal", "portal");
     takeScreenshot("pmv-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
-    Navigation.toApplicationDetail(isDesigner() ? DESIGNER : "test");
+    Navigation.toApplicationDetail(getAppName());
     takeScreenshot("application-detail", new Dimension(SCREENSHOT_WIDTH, 900));
     takeDialogScreenshot("dialog-deploy-app", By.id("appDetailInfoForm:showDeployment"));
   }

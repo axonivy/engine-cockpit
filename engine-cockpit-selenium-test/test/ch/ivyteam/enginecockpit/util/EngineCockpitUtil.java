@@ -1,8 +1,6 @@
 package ch.ivyteam.enginecockpit.util;
 
-import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.create;
-import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.hidden;
@@ -19,6 +17,7 @@ import java.util.Map;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import com.axonivy.ivy.webtest.engine.EngineUrl;
 import com.axonivy.ivy.webtest.engine.EngineUrl.SERVLET;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
@@ -28,7 +27,7 @@ public class EngineCockpitUtil {
   public static String LOGIN = "login.xhtml";
 
   public static String getAdminUser() {
-    return isDesigner() ? "Developer" : "admin";
+    return isVscode() ? "Developer" : "admin";
   }
 
   public static void login() {
@@ -209,7 +208,7 @@ public class EngineCockpitUtil {
   private static void runTestProcess(String processLink) {
     open(create().app(getAppName()).servlet(SERVLET.PROCESS).path("engine-cockpit-test-data/" + processLink)
         .toUrl());
-    assertCurrentUrlContains(isDesigner() ? "/dev-workflow-ui/faces" : "end");
+    assertCurrentUrlContains(isVscode() ? "/dev-workflow-ui/faces" : "end");
   }
 
   public static String viewUrl(String page) {
@@ -218,7 +217,7 @@ public class EngineCockpitUtil {
 
   public static String viewUrl(String page, Map<String, String> queryParams) {
     var urlBuilder = create();// .staticView(parts.path)
-    if (isDesigner()) {
+    if (isVscode()) {
       // test it in designer as PMV
       urlBuilder = urlBuilder.staticView("engine-cockpit/" + page);
     } else {
@@ -236,7 +235,11 @@ public class EngineCockpitUtil {
   }
 
   public static String getAppName() {
-    return isDesigner() ? DESIGNER : "test";
+    return isVscode() ? EngineUrl.applicationName() : "test";
+  }
+
+  public static boolean isVscode() {
+    return Boolean.getBoolean("isVscode");
   }
 
   public static void assertLiveStats(List<String> expectedChartTitles) {

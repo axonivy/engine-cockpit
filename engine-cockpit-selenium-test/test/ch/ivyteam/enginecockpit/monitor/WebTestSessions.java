@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.isVscode;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.containExactTextsCaseSensitive;
 import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
@@ -59,7 +60,7 @@ class WebTestSessions {
   @Test
   void view() {
     $("h2").shouldHave(text("Sessions"));
-    if (EngineUrl.isDesigner()) {
+    if (isVscode()) {
       table.firstColumnShouldBe(containExactTextsCaseSensitive(EngineCockpitUtil.getAdminUser()));
     } else {
       tableWithoutLink.firstColumnShouldBe(containExactTextsCaseSensitive(EngineCockpitUtil.getAdminUser()));
@@ -68,7 +69,7 @@ class WebTestSessions {
 
   @Test
   void filterUnauthenticatedSession() {
-    if (EngineUrl.isDesigner()) {
+    if (isVscode()) {
       return;
     }
     createUnauthenticatedSession();
