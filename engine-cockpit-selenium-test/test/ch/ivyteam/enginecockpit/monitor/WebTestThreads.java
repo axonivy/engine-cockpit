@@ -43,7 +43,7 @@ public class WebTestThreads {
     Wait()
         .withTimeout(TWENTY_SECONDS)
         .ignoring(AssertionError.class)
-        .until(webDriver -> {
+        .until(_ -> {
           refresh();
           threadsTable.rows().shouldBe(sizeGreaterThan(20));
           return true;
@@ -57,7 +57,7 @@ public class WebTestThreads {
     Wait()
         .withTimeout(TWENTY_SECONDS)
         .ignoring(AssertionError.class)
-        .until(webDriver -> {
+        .until(_ -> {
           $(id("form:refresh"))
               .shouldBe(visible, enabled)
               .click();
@@ -84,7 +84,7 @@ public class WebTestThreads {
 
     Wait().withTimeout(TWENTY_SECONDS)
         .ignoring(AssertionError.class)
-        .until(webDriver -> {
+        .until(_ -> {
           $(id("form:refresh"))
               .shouldBe(visible, enabled)
               .click();

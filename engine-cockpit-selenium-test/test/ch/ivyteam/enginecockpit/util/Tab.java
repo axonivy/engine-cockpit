@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.util;
 
-import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
-import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.getAppName;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
@@ -17,7 +16,7 @@ import com.codeborne.selenide.SelenideElement;
 
 public class Tab {
 
-  public static String DEFAULT_APP = isDesigner() ? DESIGNER : "test";
+  public static String DEFAULT_APP = getAppName();
 
   public static final Tab SECURITY_SYSTEM = new Tab(
       "li.security-system-tab > a",

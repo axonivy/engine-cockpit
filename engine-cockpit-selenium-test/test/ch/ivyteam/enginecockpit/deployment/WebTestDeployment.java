@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.deployment;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
-import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.disabled;
@@ -24,6 +23,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.engine.EngineUrl;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.codeborne.selenide.WebDriverRunner;
 
@@ -32,7 +32,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 @IvyWebTest
 class WebTestDeployment {
 
-  private static final String APP = isDesigner() ? DESIGNER : "test-ad";
+  private static final String APP = isDesigner() ? EngineUrl.applicationName() : "test-ad";
 
   @BeforeEach
   void beforeEach() {

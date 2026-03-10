@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.util;
 
-import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.create;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.CollectionCondition.size;
@@ -19,6 +18,7 @@ import java.util.Map;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import com.axonivy.ivy.webtest.engine.EngineUrl;
 import com.axonivy.ivy.webtest.engine.EngineUrl.SERVLET;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
@@ -236,7 +236,7 @@ public class EngineCockpitUtil {
   }
 
   public static String getAppName() {
-    return isDesigner() ? DESIGNER : "test";
+    return isDesigner() ? EngineUrl.applicationName() : "test";
   }
 
   public static void assertLiveStats(List<String> expectedChartTitles) {

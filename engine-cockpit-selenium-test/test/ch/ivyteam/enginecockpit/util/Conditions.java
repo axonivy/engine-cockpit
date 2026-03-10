@@ -29,7 +29,7 @@ public class Conditions {
     private final IntConsumer consumer;
 
     public IntegerCondition() {
-      this(i -> {});
+      this(_ -> {});
     }
 
     public IntegerCondition(IntConsumer consumer) {

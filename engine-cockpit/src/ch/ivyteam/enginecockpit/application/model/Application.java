@@ -146,10 +146,6 @@ public class Application extends AppTreeItem {
     };
   }
 
-  private boolean isDesignerOrSystem() {
-    return app.isDesigner();
-  }
-
   public String getHomeUrl() {
     return app.getHomeLink().getRelative();
   }

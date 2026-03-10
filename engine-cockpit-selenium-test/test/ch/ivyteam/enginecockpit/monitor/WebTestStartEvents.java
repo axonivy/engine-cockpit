@@ -108,7 +108,7 @@ class WebTestStartEvents {
     Wait()
         .withTimeout(Duration.ofSeconds(10))
         .ignoring(AssertionError.class)
-        .until(webDriver -> {
+        .until(_ -> {
           $(By.id("refresh")).click();
           assertThat(table.rows().texts()).isNotEqualTo(content);
           return true;
@@ -125,7 +125,7 @@ class WebTestStartEvents {
     Wait()
         .withTimeout(Duration.ofSeconds(10))
         .ignoring(AssertionError.class)
-        .until(webDriver -> {
+        .until(_ -> {
           $(By.id("refresh")).click();
           var executions = Long.parseLong(table.tableEntry(1, 5).text());
           assertThat(executions).isGreaterThan(initialExecutions);

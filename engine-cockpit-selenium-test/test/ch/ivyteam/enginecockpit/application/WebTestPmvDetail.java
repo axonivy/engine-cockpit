@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.application;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
-import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.texts;
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.engine.EngineUrl;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -22,7 +22,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 class WebTestPmvDetail {
 
-  private static final String APP = isDesigner() ? DESIGNER : "test-pmvs";
+  private static final String APP = isDesigner() ? EngineUrl.applicationName(): "test-pmvs";
   private static final String PMV = "main";
 
   @BeforeEach
