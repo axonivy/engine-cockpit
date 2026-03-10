@@ -180,7 +180,7 @@ class WebTestConfiguration {
       Selenide.Wait()
           .withTimeout(Duration.ofSeconds(5))
           .ignoring(AssertionError.class)
-          .until(webDriver -> {
+          .until(_ -> {
             health.find("a").click();
             Selenide.sleep(10);
             return health.attr("class").contains("active-topmenuitem");

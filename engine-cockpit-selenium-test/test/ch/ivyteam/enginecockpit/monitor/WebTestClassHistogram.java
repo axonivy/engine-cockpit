@@ -56,7 +56,7 @@ public class WebTestClassHistogram {
     Wait()
         .withTimeout(TWENTY_SECONDS)
         .ignoring(AssertionError.class)
-        .until(webDriver -> {
+        .until(_ -> {
           refresh();
           classTable.body().shouldNotBe(text(oldTableContent));
           return true;
