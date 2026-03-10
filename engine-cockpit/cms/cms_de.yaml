@@ -14,6 +14,12 @@ admins:
 adminProfile:
   AdminProfile: Administrator Profil
   LanguageAndLocalization: Sprache & Lokalisierung
+  CurrentContentLanguage: Aktuelle Sprache
+  CurrentContentLocale: Sprache der aktuellen Sitzung
+  FormattingLanguage: Formatierungssprache
+  CurrentFormattingLanguage: Aktuelle formattierungs Sprache
+  CurrentFormattingLocale: Formattierungs Sprache der aktuellen Sitzung
+
 applicationDetail:
   ProcessModels: Prozess Modelle
 applications:

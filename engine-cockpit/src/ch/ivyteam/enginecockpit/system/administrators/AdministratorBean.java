@@ -37,16 +37,6 @@ public class AdministratorBean extends StepStatus {
     admins = service.db().all().stream()
         .map(AdministratorDto::new)
         .collect(Collectors.toList());
-
-    // Try to set the current admin by username
-    var currentUserName = ISession.current().getSessionUserName();
-    if (currentUserName != null) {
-      admins.stream().filter(admin -> admin.getName().equalsIgnoreCase(currentUserName)).findFirst()
-          .ifPresent(admin -> this.admin = admin);
-    }
-    IO.println("Loaded admins: " + admins.stream().map(AdministratorDto::getName).collect(Collectors.joining(", ")));
-    IO.println("Current session user: " + currentUserName);
-    IO.println("Current admin after load: " + (admin != null ? admin.getName() : "null"));
   }
 
   public List<AdministratorDto> getAdmins() {
