@@ -11,9 +11,6 @@
   <fileSets>
     <fileSet>
       <directory>target/classes</directory>
-      <excludes>
-        <exclude>META-INF/</exclude>
-      </excludes>
       <outputDirectory></outputDirectory>
     </fileSet>
     <fileSet>
