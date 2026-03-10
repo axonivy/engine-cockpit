@@ -16,9 +16,9 @@ target/
 
 # ivy
 classes/
-src_dataClasses/
-src_generated/
-src_wsproc/
+src_generated/dataclass/
+src_generated/wsprocess/
+src_generated/repo/
 
 **/lib/mvn-deps/*
 .flattened-pom.xml
