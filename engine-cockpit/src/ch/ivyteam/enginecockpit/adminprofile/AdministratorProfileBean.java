@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
-import ch.ivyteam.enginecockpit.system.administrators.AdministratorDto;
 import ch.ivyteam.ivy.language.LanguageManager;
 import ch.ivyteam.ivy.language.LanguageRepository;
 import ch.ivyteam.ivy.security.ISession;
@@ -20,8 +18,8 @@ import ch.ivyteam.ivy.security.administrator.AdministratorService;
 @ViewScoped
 public class AdministratorProfileBean {
 
-  private List<AdministratorDto> admins;
-  private AdministratorDto loggedInAdmin;
+  private List<AdministratorProfileDTO> admins;
+  private AdministratorProfileDTO loggedInAdmin;
   private final AdministratorService service;
 
   public AdministratorProfileBean() {
@@ -32,22 +30,23 @@ public class AdministratorProfileBean {
   private void load() {
     // Load all admins from the database
     admins = service.db().all().stream()
-        .map(AdministratorDto::new)
+        .map(AdministratorProfileDTO::new)
         .collect(Collectors.toList());
 
     // Try to set loggedInAdmin by username
     var currentUserName = ISession.current().getSessionUserName();
     if (currentUserName != null) {
-      admins.stream().filter(admin -> admin.getName().equalsIgnoreCase(currentUserName)).findFirst()
+      admins.stream().filter(admin -> admin.getUserName().equalsIgnoreCase(currentUserName)).findFirst()
           .ifPresent(admin -> this.loggedInAdmin = admin);
     }
-    IO.println("Loaded admins: " + admins.stream().map(AdministratorDto::getName).collect(Collectors.joining(", ")));
+    IO.println("Loaded admins: "
+        + admins.stream().map(AdministratorProfileDTO::getUserName).collect(Collectors.joining(", ")));
     IO.println("Current session user: " + currentUserName);
 
     if (loggedInAdmin == null) {
       IO.println("No matching admin found for current user.");
     } else {
-      IO.println("Logged in admin: " + loggedInAdmin.getName());
+      IO.println("Logged in admin: %s (%s)".formatted(loggedInAdmin.getUserName(), loggedInAdmin.getFullName()));
     }
   }
 
@@ -56,7 +55,7 @@ public class AdministratorProfileBean {
   }
 
   // Getters and Setters
-  public AdministratorDto getLoggedInAdmin() {
+  public AdministratorProfileDTO getLoggedInAdmin() {
     return loggedInAdmin;
   }
 
@@ -93,6 +92,12 @@ public class AdministratorProfileBean {
     l.add(Locale.ROOT);
     l.addAll(locales);
     return l;
+  }
+
+  // Use AdministratorService to save changes to the loggedInAdmin, based on
+  // current state from the form
+  public void save() {
+    service.config().save(loggedInAdmin.toAdministrator());
   }
 
 }

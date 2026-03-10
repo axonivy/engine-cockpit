@@ -12,6 +12,7 @@ admins:
   AddAdministrator: Add Administrator
   DefineAtLeastOneAdministratorMessage: You need to define at least one administrator!
 adminProfile:
+  AdminProfileTitle: Edit your profile information
   AdminProfile: Administrator Profile
   LanguageAndLocalization: Language & Localization
   CurrentContentLanguage: Current language

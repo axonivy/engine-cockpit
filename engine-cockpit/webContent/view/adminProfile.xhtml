@@ -8,6 +8,8 @@
       <!-- TODO: Does this make sense in the admin profile view? -->
       <f:event type="preRenderView" listener="#{loginBean.checkLogin}" />
 
+      <h1>#{ivy.cm.co('/adminProfile/AdminProfileTitle')}</h1>
+
       <h:form id="profileForm">
         <div class="grid mb-2">
           <div class="col-12 md:col-6">
@@ -17,18 +19,20 @@
               <div>
                 <div class="mb-3">
                   <h:outputLabel for="userName">#{ivy.cm.co('/common/Username')}</h:outputLabel>
-                  <p:inputText id="userName" value="#{administratorProfileBean.getLoggedInAdmin().getName()}" styleClass="mt-2"
-                    disabled="true" />
+                  <p:inputText id="userName" value="#{administratorProfileBean.getLoggedInAdmin().userName}"
+                    styleClass="mt-2" disabled="true" />
                 </div>
 
                 <div class="mb-3">
                   <h:outputLabel for="fullName">#{ivy.cm.co('/common/FullName')}</h:outputLabel>
-                  <p:inputText id="fullName" value="#{administratorProfileBean.getLoggedInAdmin().getFullName()}" styleClass="mt-2" />
+                  <p:inputText id="fullName" value="#{administratorProfileBean.getLoggedInAdmin().fullName}"
+                    styleClass="mt-2" />
                 </div>
 
                 <div class="mb-3">
                   <h:outputLabel for="email">#{ivy.cm.co('/common/Email')}</h:outputLabel>
-                  <p:inputText id="email" value="#{administratorProfileBean.getLoggedInAdmin().getEmail()}" styleClass="mt-2" />
+                  <p:inputText id="email" value="#{administratorProfileBean.getLoggedInAdmin().email}"
+                    styleClass="mt-2" />
                 </div>
               </div>
             </div>
@@ -42,21 +46,16 @@
               <div class="mb-3">
                 <h:outputLabel for="contentLanguage">#{ivy.cm.co('/common/Language')}</h:outputLabel>
                 <div class="mt-2">
-                  <p:selectOneMenu
-                    id="contentLanguage"
-                    value="#{administratorProfileBean.getLoggedInAdmin().getLanguage()}"
-                    editable="true"
-                    converter="localeConverter"
-                    styleClass="w-full">
-                    <f:selectItems
-                      value="#{administratorProfileBean.getContentLanguages()}"
-                      var="locale"
-                    />
+                  <p:selectOneMenu id="contentLanguage" value="#{administratorProfileBean.getLoggedInAdmin().language}"
+                    editable="false" converter="localeConverter" styleClass="w-full">
+                    <f:selectItems value="#{administratorProfileBean.getContentLanguages()}" var="locale" />
                   </p:selectOneMenu>
                   <small>
                     <h:panelGroup id="contentLanguageDisplay" styleClass="text-500">
                       <h:outputText value="#{ivy.cm.co('/adminProfile/CurrentContentLocale')} " />
-                      <b><h:outputText value="#{administratorProfileBean.currentContentLocale} " /></b>
+                      <b>
+                        <h:outputText value="#{administratorProfileBean.currentContentLocale} " />
+                      </b>
                       <h:outputText value="(#{administratorProfileBean.currentContentLocaleSource})" />
                     </h:panelGroup>
                   </small>
@@ -68,39 +67,33 @@
               <div>
                 <h:outputLabel for="formattingLanguage">#{ivy.cm.co('/adminProfile/FormattingLanguage')}</h:outputLabel>
                 <div class="mt-2">
-                  <p:selectOneMenu
-                    id="formattingLanguage"
-                    value="#{administratorProfileBean.getLoggedInAdmin().getFormattingLanguage()}"
-                    editable="true"
-                    converter="localeConverter"
-                    styleClass="w-full">
-                    <f:selectItems
-                      value="#{administratorProfileBean.getFormattingLanguages()}"
-                      var="locale"
-                    />
+                  <p:selectOneMenu id="formattingLanguage"
+                    value="#{administratorProfileBean.getLoggedInAdmin().formattingLanguage}" editable="false"
+                    converter="localeConverter" styleClass="w-full">
+                    <f:selectItems value="#{administratorProfileBean.getFormattingLanguages()}" var="locale" />
                   </p:selectOneMenu>
                   <small>
                     <h:panelGroup id="formattingLanguageDisplay" styleClass="text-500">
-                      <h:outputText value="#{ivy.cm.co('/adminProfile/CurrentFormattingLanguage')} " />
+                      <h:outputText value="#{ivy.cm.co('/adminProfile/CurrentFormattingLocale')} " />
                       <b>
                         <h:outputText value="#{administratorProfileBean.currentFormattingLocale} " />
                       </b>
                       <h:outputText value="(#{administratorProfileBean.currentFormattingLocaleSource})" />
                     </h:panelGroup>
                   </small>
-                    <p:tooltip for="formattingLanguageDisplay" value="#{ivy.cm.co('/adminProfile/CurrentFormattingLocale')}"
-                      position="bottom" />
+                  <p:tooltip for="formattingLanguageDisplay"
+                    value="#{ivy.cm.co('/adminProfile/CurrentFormattingLocale')}" position="bottom" />
                 </div>
               </div>
             </div>
           </div>
-          
-          <!-- TODO: Implement save functionality -->
-          <!-- <div class="flex justify-content-end">
-            <p:commandButton id="saveBtn" value="TESTBUTTON" icon="si si-floppy-disk"
-              styleClass="w-8rem" actionListener="#{administratorProfileBean.dummySave}"/>
-          </div> -->
         </div>
+
+        <div class="flex justify-content-end">
+          <p:commandButton id="saveBtn" value="Save Profile" icon="si si-floppy-disk" styleClass="w-12rem"
+            actionListener="#{administratorProfileBean.save()}" update="@form" />
+        </div>
+
       </h:form>
 
     </ui:define>

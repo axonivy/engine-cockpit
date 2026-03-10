@@ -12,6 +12,7 @@ admins:
   AddAdministrator: Administrator hinzufügen
   DefineAtLeastOneAdministratorMessage: Sie müssen mindestens ein Administrator definieren!
 adminProfile:
+  AdminProfileTitle: Bearbeiten Sie Ihre Profilinformationen
   AdminProfile: Administrator Profil
   LanguageAndLocalization: Sprache & Lokalisierung
   CurrentContentLanguage: Aktuelle Sprache
@@ -19,7 +20,6 @@ adminProfile:
   FormattingLanguage: Formatierungssprache
   CurrentFormattingLanguage: Aktuelle formattierungs Sprache
   CurrentFormattingLocale: Formattierungs Sprache der aktuellen Sitzung
-
 applicationDetail:
   ProcessModels: Prozess Modelle
 applications:
