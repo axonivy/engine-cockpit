@@ -4,21 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
-import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import ch.ivyteam.enginecockpit.commons.Message;
-import ch.ivyteam.enginecockpit.monitor.log.LogView;
-import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.enginecockpit.system.administrators.AdministratorDto;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.language.LanguageManager;
 import ch.ivyteam.ivy.language.LanguageRepository;
-import ch.ivyteam.ivy.security.ISecurityContext;
-import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.ISessionInternal;
 import ch.ivyteam.ivy.security.administrator.AdministratorService;
