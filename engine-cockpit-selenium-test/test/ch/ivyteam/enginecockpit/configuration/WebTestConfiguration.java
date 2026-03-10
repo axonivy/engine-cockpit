@@ -236,7 +236,7 @@ class WebTestConfiguration {
 
     @Test
     void showWebSerivceClientsConfigs() {
-      assertShowAppConfigFilter("Show Web Service Clients", "WebServiceClients.test-web.WsCallLibrary");
+      assertShowAppConfigFilter("Show Web Service Clients", "WebServiceClients.test-web.Properties.username");
     }
 
     private void assertShowAppConfigFilter(String filter, String config) {

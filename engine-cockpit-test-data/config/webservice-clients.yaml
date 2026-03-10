@@ -20,7 +20,6 @@ WebServiceClients:
         - test.com
     Codegen:
       WsdlUrl: http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx?WSDL
-
   #test web service
   second-web:
     Id: 17A86479A1CF0D33
