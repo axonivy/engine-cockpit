@@ -1,19 +1,18 @@
 package ch.ivyteam.enginecockpit.adminprofile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import ch.ivyteam.ivy.language.LanguageManager;
-import ch.ivyteam.ivy.language.LanguageRepository;
+import ch.ivyteam.enginecockpit.commons.Message;
+import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.ISessionInternal;
 import ch.ivyteam.ivy.security.administrator.AdministratorService;
-import ch.ivyteam.ivy.security.administrator.Administrator;
 
 @ManagedBean
 @ViewScoped
@@ -29,41 +28,29 @@ public class AdministratorProfileBean {
     load();
   }
 
-  // TODO: Remove this later, debugging only
-  private void peekAdmin(Administrator admin) {
-    IO.println("------\n Username: %s\n Full Name: %s\n Email: %s\n Content Language: %s\n Formatting Language: %s\n Password: %s".formatted(
-        admin.username(), admin.fullName(), admin.email(), admin.language(), admin.formattingLanguage(), admin.password()));
-  }
-
   private void load() {
     // Load all admins from the database
     admins = service.db().all().stream()
-        .peek(this::peekAdmin) // TODO: Remove debug print
         .map(AdministratorProfileDTO::new)
         .collect(Collectors.toList());
     
     // Load the current logged in session user and get username
     var currentUserName = ISession.current().getSessionUserName();
 
-    // Debug print
-    IO.println("Current session user: " + currentUserName);
-
     // Try to set loggedInAdmin and isAdmin by comparing usernames
     if (currentUserName != null) {
       admins.stream().filter(admin -> admin.getUserName().equalsIgnoreCase(currentUserName)).findFirst()
           .ifPresentOrElse((admin -> {
-            IO.println("Found matching admin for current user: %s (%s)".formatted(admin.getUserName(), admin.getFullName()));
             this.loggedInAdmin = admin;
             this.isAdmin = true;
           }), () -> {
-            IO.println("No matching admin found for current user.");
             this.isAdmin = false;
           });
     }
   }
 
-  private ISessionInternal session() {
-    return (ISessionInternal) ISession.current();
+  public ISecurityContext getSecurityContext() {
+    return ISecurityContextRepository.instance().getSystem();
   }
 
   // Getters and Setters
@@ -75,13 +62,9 @@ public class AdministratorProfileBean {
     return isAdmin;
   }
 
-  // Locales and Languages
-  public List<Locale> getContentLanguages() {
-    return locales(LanguageRepository::allContent);
-  }
-
-  public List<Locale> getFormattingLanguages() {
-    return locales(LanguageRepository::allFormatting);
+  // Current language and formatting
+  private ISessionInternal session() {
+    return (ISessionInternal) ISession.current();
   }
 
   public Locale getCurrentContentLocale() {
@@ -100,21 +83,11 @@ public class AdministratorProfileBean {
     return session().getFormattingLocaleInfo().source();
   }
 
-  private List<Locale> locales(Function<LanguageRepository, List<Locale>> loader) {
-    var locales = loader.apply(LanguageManager.instance().languages(ISession.current().getSecurityContext())).stream()
-        // .sorted(Comparator.comparing(this::localeToDisplayName,String.CASE_INSENSITIVE_ORDER))
-        .collect(Collectors.toList());
-    var l = new ArrayList<Locale>();
-    l.add(Locale.ROOT);
-    l.addAll(locales);
-    return l;
-  }
-
   // Use AdministratorService to save changes to the loggedInAdmin, based on
   // current state from the form
   public void save() {
-    IO.println("Saving admin profile for user: %s".formatted(loggedInAdmin.toString()));
     service.config().save(loggedInAdmin.toAdministrator());
+    Message.info().summary(Ivy.cm().content("/administrators/AdminUpdatedMessage").replace("name", loggedInAdmin.getUserName()).get()).show();
   }
 
 }

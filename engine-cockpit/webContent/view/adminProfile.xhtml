@@ -85,7 +85,6 @@
                 </div>
               </div>
 
-              <!-- TODO: Make pretty labels for Locale -->
               <div class="col-12 md:col-6">
                 <div class="card h-full">
                   <h4>#{ivy.cm.co('/adminProfile/LanguageAndLocalization')}</h4>
@@ -93,9 +92,16 @@
                   <div class="mb-3">
                     <h:outputLabel for="contentLanguage">#{ivy.cm.co('/common/Language')}</h:outputLabel>
                     <div class="mt-2">
-                      <p:selectOneMenu id="contentLanguage" value="#{administratorProfileBean.getLoggedInAdmin().language}"
-                        editable="false" converter="localeConverter" styleClass="w-full">
-                        <f:selectItems value="#{administratorProfileBean.getContentLanguages()}" var="locale" />
+                      <p:selectOneMenu
+                        id="contentLanguage"
+                        value="#{administratorProfileBean.getLoggedInAdmin().language}"
+                        editable="false"
+                        converter="localeConverter"
+                        styleClass="w-full">
+                        <f:selectItems
+                          value="#{languageBean.getContentLanguages(administratorProfileBean.securityContext)}"
+                          var="locale"
+                          itemLabel="#{languageBean.toDisplayName(locale)}" />
                       </p:selectOneMenu>
                       <small>
                         <h:panelGroup id="contentLanguageDisplay" styleClass="text-500">
@@ -115,10 +121,16 @@
                     <h:outputLabel for="formattingLanguage">
                       #{ivy.cm.co('/adminProfile/FormattingLanguage')}</h:outputLabel>
                     <div class="mt-2">
-                      <p:selectOneMenu id="formattingLanguage"
-                        value="#{administratorProfileBean.getLoggedInAdmin().formattingLanguage}" editable="false"
-                        converter="localeConverter" styleClass="w-full">
-                        <f:selectItems value="#{administratorProfileBean.getFormattingLanguages()}" var="locale" />
+                      <p:selectOneMenu
+                        id="formattingLanguage"
+                        value="#{administratorProfileBean.getLoggedInAdmin().formattingLanguage}"
+                        editable="false"
+                        converter="localeConverter"
+                        styleClass="w-full">
+                        <f:selectItems
+                          value="#{languageBean.getFormattingLanguages(administratorProfileBean.securityContext)}"
+                          var="locale"
+                          itemLabel="#{languageBean.toDisplayName(locale)}" />
                       </p:selectOneMenu>
                       <small>
                         <h:panelGroup id="formattingLanguageDisplay" styleClass="text-500">
