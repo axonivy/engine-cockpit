@@ -20,6 +20,7 @@ adminProfile:
   FormattingLanguage: Formatting language
   CurrentFormattingLanguage: Current formatting language
   CurrentFormattingLocale: Formatting locale of the current session
+  NotAnAdministrator: The logged in session user is not an administrator
 applicationDetail:
   ProcessModels: Process Models
 applications:

@@ -20,6 +20,7 @@ public class AdministratorProfileBean {
 
   private List<AdministratorProfileDTO> admins;
   private AdministratorProfileDTO loggedInAdmin;
+  private String isAdmin;
   private final AdministratorService service;
 
   public AdministratorProfileBean() {
@@ -32,21 +33,26 @@ public class AdministratorProfileBean {
     admins = service.db().all().stream()
         .map(AdministratorProfileDTO::new)
         .collect(Collectors.toList());
-
-    // Try to set loggedInAdmin by username
+    
+    // Load the current logged in session user and get username
     var currentUserName = ISession.current().getSessionUserName();
-    if (currentUserName != null) {
-      admins.stream().filter(admin -> admin.getUserName().equalsIgnoreCase(currentUserName)).findFirst()
-          .ifPresent(admin -> this.loggedInAdmin = admin);
-    }
+
+    // Debug print
     IO.println("Loaded admins: "
         + admins.stream().map(AdministratorProfileDTO::getUserName).collect(Collectors.joining(", ")));
     IO.println("Current session user: " + currentUserName);
 
-    if (loggedInAdmin == null) {
-      IO.println("No matching admin found for current user.");
-    } else {
-      IO.println("Logged in admin: %s (%s)".formatted(loggedInAdmin.getUserName(), loggedInAdmin.getFullName()));
+    // Try to set loggedInAdmin and isAdmin by comparing usernames
+    if (currentUserName != null) {
+      admins.stream().filter(admin -> admin.getUserName().equalsIgnoreCase(currentUserName)).findFirst()
+          .ifPresentOrElse((admin -> {
+            IO.println("Found matching admin for current user: %s (%s)".formatted(admin.getUserName(), admin.getFullName()));
+            this.loggedInAdmin = admin;
+            this.isAdmin = "isAdmin";
+          }), () -> {
+            IO.println("No matching admin found for current user.");
+            this.isAdmin = "notAdmin";
+          });
     }
   }
 
@@ -57,6 +63,10 @@ public class AdministratorProfileBean {
   // Getters and Setters
   public AdministratorProfileDTO getLoggedInAdmin() {
     return loggedInAdmin;
+  }
+
+  public String getIsAdmin() {
+    return isAdmin;
   }
 
   // Locales and Languages
