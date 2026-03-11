@@ -16,10 +16,10 @@ adminProfile:
   AdminProfile: Administrator Profil
   LanguageAndLocalization: Sprache & Lokalisierung
   CurrentContentLanguage: Aktuelle Sprache
-  CurrentContentLocale: Sprache der aktuellen Sitzung
+  CurrentContentLocale: Aktuelle Sprache-Locale
   FormattingLanguage: Formatierungssprache
-  CurrentFormattingLanguage: Aktuelle formattierungs Sprache
-  CurrentFormattingLocale: Formattierungs Sprache der aktuellen Sitzung
+  CurrentFormattingLanguage: Aktuelle Formatierungssprache
+  CurrentFormattingLocale: Aktuelle Formatierungslocale
   NotAnAdministrator: Der eingeloggte Benutzer ist kein Administrator
   SaveProfile: Profil speichern
   AdministratorProfileBreadcrumb: Administrator Profil

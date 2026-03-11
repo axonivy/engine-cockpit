@@ -24,12 +24,6 @@ public class AdministratorProfileDTO {
     this.formattingLanguage = admin.formattingLanguage();
   }
 
-  @Override
-  public String toString() {
-    return "AdministratorProfileDTO [userName=%s, fullName=%s, email=%s, language=%s, formattingLanguage=%s, password=%s]".formatted(
-        userName, fullName, email, language, formattingLanguage, password);
-  }
-
   public String getUserName() {
     return userName;
   }
