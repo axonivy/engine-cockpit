@@ -22,6 +22,7 @@ adminProfile:
   CurrentFormattingLocale: Formatting locale of the current session
   NotAnAdministrator: The logged in session user is not an administrator
   SaveProfile: Save Profile
+  AdministratorProfileBreadcrumb: Administrator Profile
 applicationDetail:
   ProcessModels: Process Models
 applications:
