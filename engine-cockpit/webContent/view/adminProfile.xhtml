@@ -9,10 +9,8 @@
       <f:event type="preRenderView" listener="#{loginBean.checkLogin}" />
 
       
-      
-      <!-- <h:panelGroup rendered="#{administratorProfileBean.isAdmin()}"> -->
       <pe:switch id="displayProfileEditSwitch" value="#{administratorProfileBean.isAdmin}">
-        <pe:case value="isAdmin">
+        <pe:case value="#{true}">
           <h1>#{ivy.cm.co('/adminProfile/AdminProfileTitle')}</h1>
           <h:form id="profileForm">
             <div class="grid mb-2">
@@ -35,10 +33,53 @@
 
                     <div class="mb-3">
                       <h:outputLabel for="email">#{ivy.cm.co('/common/Email')}</h:outputLabel>
-                      <p:inputText id="email" value="#{administratorProfileBean.getLoggedInAdmin().email}"
+                      <p:inputText
+                        id="email"
+                        value="#{administratorProfileBean.getLoggedInAdmin().email}"
+                        required="true"
+                        requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}"
                         styleClass="mt-2" />
                     </div>
 
+                    <div class="mb-3">
+                      <p:outputLabel for="password" value="#{ivy.cm.co('/common/Password')}" />
+                      <h:panelGroup styleClass="md-inputfield">
+                        <p:password
+                          id="password"
+                          match="passwordConfirm"
+                          validatorMessage="#{ivy.cm.co('/common/NotMatchPasswordMessage')}"
+                          feedback="true"
+                          inline="true"
+                          autocomplete="new-password"
+                          value="#{administratorProfileBean.getLoggedInAdmin().password}"
+                          redisplay="true"
+                          toggleMask="true"
+                          promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+                          goodLabel="#{ivy.cm.co('/common/Good')}"
+                          weakLabel="#{ivy.cm.co('/common/Weak')}"
+                          strongLabel="#{ivy.cm.co('/common/Strong')}" />
+                        <p:message for="password" id="passwordMessage">
+                          <p:autoUpdate />
+                        </p:message>
+                      </h:panelGroup>
+                    </div>
+
+                    <div class="mb-3">
+                      <p:outputLabel for="passwordConfirm" value="#{ivy.cm.co('/administrators/ConfirmPassword')}" />
+                      <h:panelGroup styleClass="md-inputfield">
+                        <p:password
+                          id="passwordConfirm"
+                          feedback="true"
+                          inline="true"
+                          redisplay="true"
+                          toggleMask="true"
+                          promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+                          goodLabel="#{ivy.cm.co('/common/Good')}"
+                          weakLabel="#{ivy.cm.co('/common/Weak')}"
+                          strongLabel="#{ivy.cm.co('/common/Strong')}" />
+                        <p:message for="passwordConfirm" id="passwordConfirmMessage" />
+                      </h:panelGroup>
+                    </div>
 
                   </div>
                 </div>
@@ -94,20 +135,23 @@
                   </div>
                 </div>
               </div>
+
             </div>
 
             <div class="flex justify-content-end">
-              <p:commandButton id="saveBtn" value="Save Profile" icon="si si-floppy-disk" styleClass="w-12rem"
-                actionListener="#{administratorProfileBean.save()}" update="@form" />
+              <p:commandButton
+                id="saveBtn"
+                value="#{ivy.cm.co('/adminProfile/SaveProfile')}"
+                icon="si si-floppy-disk"
+                styleClass="modal-input-button"
+                actionListener="#{administratorProfileBean.save()}"
+                update="@form" />
             </div>
 
           </h:form>
         </pe:case>
         <pe:defaultCase><h1>#{ivy.cm.co('/adminProfile/NotAnAdministrator')}</h1></pe:defaultCase>
-      <!-- </h:panelGroup> -->
       </pe:switch>
-      
-
     </ui:define>
   </ui:composition>
 </h:body>

@@ -13,6 +13,7 @@ import ch.ivyteam.ivy.language.LanguageRepository;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.ISessionInternal;
 import ch.ivyteam.ivy.security.administrator.AdministratorService;
+import ch.ivyteam.ivy.security.administrator.Administrator;
 
 @ManagedBean
 @ViewScoped
@@ -20,7 +21,7 @@ public class AdministratorProfileBean {
 
   private List<AdministratorProfileDTO> admins;
   private AdministratorProfileDTO loggedInAdmin;
-  private String isAdmin;
+  private boolean isAdmin;
   private final AdministratorService service;
 
   public AdministratorProfileBean() {
@@ -28,9 +29,16 @@ public class AdministratorProfileBean {
     load();
   }
 
+  // TODO: Remove this later, debugging only
+  private void peekAdmin(Administrator admin) {
+    IO.println("------\n Username: %s\n Full Name: %s\n Email: %s\n Content Language: %s\n Formatting Language: %s\n Password: %s".formatted(
+        admin.username(), admin.fullName(), admin.email(), admin.language(), admin.formattingLanguage(), admin.password()));
+  }
+
   private void load() {
     // Load all admins from the database
     admins = service.db().all().stream()
+        .peek(this::peekAdmin) // TODO: Remove debug print
         .map(AdministratorProfileDTO::new)
         .collect(Collectors.toList());
     
@@ -38,8 +46,6 @@ public class AdministratorProfileBean {
     var currentUserName = ISession.current().getSessionUserName();
 
     // Debug print
-    IO.println("Loaded admins: "
-        + admins.stream().map(AdministratorProfileDTO::getUserName).collect(Collectors.joining(", ")));
     IO.println("Current session user: " + currentUserName);
 
     // Try to set loggedInAdmin and isAdmin by comparing usernames
@@ -48,10 +54,10 @@ public class AdministratorProfileBean {
           .ifPresentOrElse((admin -> {
             IO.println("Found matching admin for current user: %s (%s)".formatted(admin.getUserName(), admin.getFullName()));
             this.loggedInAdmin = admin;
-            this.isAdmin = "isAdmin";
+            this.isAdmin = true;
           }), () -> {
             IO.println("No matching admin found for current user.");
-            this.isAdmin = "notAdmin";
+            this.isAdmin = false;
           });
     }
   }
@@ -65,7 +71,7 @@ public class AdministratorProfileBean {
     return loggedInAdmin;
   }
 
-  public String getIsAdmin() {
+  public boolean getIsAdmin() {
     return isAdmin;
   }
 
@@ -107,6 +113,7 @@ public class AdministratorProfileBean {
   // Use AdministratorService to save changes to the loggedInAdmin, based on
   // current state from the form
   public void save() {
+    IO.println("Saving admin profile for user: %s".formatted(loggedInAdmin.toString()));
     service.config().save(loggedInAdmin.toAdministrator());
   }
 

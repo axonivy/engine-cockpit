@@ -21,6 +21,7 @@ adminProfile:
   CurrentFormattingLanguage: Current formatting language
   CurrentFormattingLocale: Formatting locale of the current session
   NotAnAdministrator: The logged in session user is not an administrator
+  SaveProfile: Save Profile
 applicationDetail:
   ProcessModels: Process Models
 applications:
@@ -242,6 +243,7 @@ common:
   PM: PM
   PMV: PMV
   Password: Password
+  ConfirmPassword: Confirm Password
   Path: Path
   PleaseEnterPassword: Please enter a password
   Port: Port
@@ -951,7 +953,6 @@ newSecuritySystem:
   AddNewSecuritySystemDialogHeader: Add new security system
 newUser:
   AddUserDialogHeader: Add new user
-  ConfirmPassword: Confirm Password
   EMailAddress: E-Mail Address
   Password: Password
 notification:

@@ -7,6 +7,7 @@ public class AdministratorProfileDTO {
 
   private String userName;
   private String fullName;
+  private String password;
   private String email;
   private Locale language;
   private Locale formattingLanguage;
@@ -17,9 +18,16 @@ public class AdministratorProfileDTO {
   public AdministratorProfileDTO(Administrator admin) {
     this.userName = admin.username();
     this.fullName = admin.fullName();
+    this.password = admin.password();
     this.email = admin.email();
     this.language = admin.language();
     this.formattingLanguage = admin.formattingLanguage();
+  }
+
+  @Override
+  public String toString() {
+    return "AdministratorProfileDTO [userName=%s, fullName=%s, email=%s, language=%s, formattingLanguage=%s, password=%s]".formatted(
+        userName, fullName, email, language, formattingLanguage, password);
   }
 
   public String getUserName() {
@@ -32,6 +40,14 @@ public class AdministratorProfileDTO {
 
   public void setFullName(String fullName) {
     this.fullName = fullName;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public String getEmail() {
@@ -63,6 +79,7 @@ public class AdministratorProfileDTO {
         .username(userName)
         .fullName(fullName)
         .email(email)
+        .password(password)
         .language(language)
         .formattingLanguage(formattingLanguage)
         .toAdministrator();
