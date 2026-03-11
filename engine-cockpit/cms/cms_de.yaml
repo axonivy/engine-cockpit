@@ -936,6 +936,7 @@ newSecuritySystem:
   AddNewSecuritySystemDialogHeader: Neues Sicherheitssystem hinzufügen
 newUser:
   AddUserDialogHeader: Neuen Benutzer hinzufügen
+  ConfirmPassword: Passwort bestätigen
   EMailAddress: E-Mail Adresse
   Password: Passwort
 notification:

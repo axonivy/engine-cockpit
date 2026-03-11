@@ -953,6 +953,7 @@ newSecuritySystem:
   AddNewSecuritySystemDialogHeader: Add new security system
 newUser:
   AddUserDialogHeader: Add new user
+  ConfirmPassword: Confirm Password
   EMailAddress: E-Mail Address
   Password: Password
 notification:
