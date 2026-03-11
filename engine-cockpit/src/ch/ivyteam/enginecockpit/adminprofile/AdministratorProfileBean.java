@@ -1,8 +1,6 @@
 package ch.ivyteam.enginecockpit.adminprofile;
 
-import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -18,34 +16,32 @@ import ch.ivyteam.ivy.security.administrator.AdministratorService;
 @ViewScoped
 public class AdministratorProfileBean {
 
-  private List<AdministratorProfileDTO> admins;
   private AdministratorProfileDTO loggedInAdmin;
   private boolean isAdmin;
   private final AdministratorService service;
 
   public AdministratorProfileBean() {
     service = AdministratorService.instance();
+    isAdmin = false; // default is false until proven
     load();
   }
 
   private void load() {
-    // Load all admins from the database
-    admins = service.db().all().stream()
-        .map(AdministratorProfileDTO::new)
-        .collect(Collectors.toList());
     
-    // Load the current logged in session user and get username
+    // Load the current logged in session username. Must match admin username
     var currentUserName = ISession.current().getSessionUserName();
-
+    
     // Try to set loggedInAdmin and isAdmin by comparing usernames
     if (currentUserName != null) {
-      admins.stream().filter(admin -> admin.getUserName().equalsIgnoreCase(currentUserName)).findFirst()
-          .ifPresentOrElse((admin -> {
-            this.loggedInAdmin = admin;
-            this.isAdmin = true;
-          }), () -> {
-            this.isAdmin = false;
-          });
+      service.db().all().stream()
+        .map(AdministratorProfileDTO::new)
+        .filter(adminDTO -> adminDTO.getUserName().equalsIgnoreCase(currentUserName))
+        .findFirst()
+        .ifPresent(adminDTO -> {
+          this.loggedInAdmin = adminDTO;
+          this.isAdmin = true;
+          }
+        );
     }
   }
 
