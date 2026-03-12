@@ -1011,7 +1011,6 @@ profile:
   NotAnAdmin: Der eingeloggte Benutzer ist kein Admin
   Profile: Admin Profil
   ProfileBreadcrumb: Admin Profil
-  ProfileTitle: Bearbeiten Sie Ihre Profilinformationen
   SaveProfile: Profil speichern
 progressLoader:
   Loading: Lade ...
