@@ -5,6 +5,7 @@ import java.util.Locale;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import ch.ivyteam.enginecockpit.commons.Message;
+import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
@@ -17,29 +18,27 @@ import ch.ivyteam.ivy.security.administrator.AdministratorService;
 public class ProfileBean {
 
   private ProfileDTO loggedInAdmin;
-  private boolean isAdmin;
   private final AdministratorService service;
 
   public ProfileBean() {
     service = AdministratorService.instance();
-    isAdmin = false; // default is false until proven
-    load();
   }
 
-  private void load() {
+  public void load() {
     
     // Load the current logged in session username. Must match admin username
     var currentUserName = ISession.current().getSessionUserName();
     
-    // Try to set loggedInAdmin and isAdmin by comparing usernames
+    // Try to set loggedInAdmin by comparing username
     if (currentUserName != null) {
       service.db().all().stream()
+        .filter(admin -> currentUserName.equalsIgnoreCase(admin.username())) // equalsIgnoreCase is fine, currentUserName is not-null here
+        .findAny()
         .map(ProfileDTO::new)
-        .filter(adminDTO -> adminDTO.getUserName().equalsIgnoreCase(currentUserName))
-        .findFirst()
-        .ifPresent(adminDTO -> {
-          this.loggedInAdmin = adminDTO;
-          this.isAdmin = true;
+        .ifPresentOrElse(adminDTO -> loggedInAdmin = adminDTO,
+          () -> {
+            ResponseHelper.notFound("Could not find admin with name " + currentUserName);
+            return;
           }
         );
     }
@@ -52,10 +51,6 @@ public class ProfileBean {
   // Getters and Setters
   public ProfileDTO getLoggedInAdmin() {
     return loggedInAdmin;
-  }
-
-  public boolean getIsAdmin() {
-    return isAdmin;
   }
 
   // Current language and formatting
