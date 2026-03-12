@@ -35,11 +35,9 @@ public class ProfileBean {
         .filter(admin -> currentUserName.equalsIgnoreCase(admin.username())) // equalsIgnoreCase is fine, currentUserName is not-null here
         .findAny()
         .map(ProfileDTO::new)
-        .ifPresentOrElse(adminDTO -> loggedInAdmin = adminDTO,
-          () -> {
-            ResponseHelper.notFound("Could not find admin with name " + currentUserName);
-            return;
-          }
+        .ifPresentOrElse(
+          adminDTO -> loggedInAdmin = adminDTO,
+          () -> ResponseHelper.notFound("Could not find admin with name " + currentUserName)
         );
     }
   }
