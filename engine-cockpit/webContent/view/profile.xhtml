@@ -25,7 +25,6 @@
       <!-- TODO: Does this make sense in the admin profile view? -->
       <f:event type="preRenderView" listener="#{loginBean.checkLogin}" />
     
-      <h1>#{ivy.cm.co('/profile/ProfileTitle')}</h1>
       <h:form id="profileForm">
         <div class="grid mb-2">
           <div class="col-12 md:col-6">
@@ -50,8 +49,6 @@
                   <p:inputText
                     id="email"
                     value="#{profileBean.loggedInAdmin.email}"
-                    required="true"
-                    requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}"
                     styleClass="mt-2" />
                 </div>
 

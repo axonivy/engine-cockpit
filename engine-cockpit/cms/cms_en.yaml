@@ -1027,7 +1027,6 @@ profile:
   NotAnAdmin: The logged in session user is not an admin
   Profile: Admin Profile
   ProfileBreadcrumb: Admin Profile
-  ProfileTitle: Edit your profile information
   SaveProfile: Save Profile
 progressLoader:
   Loading: Loading...
