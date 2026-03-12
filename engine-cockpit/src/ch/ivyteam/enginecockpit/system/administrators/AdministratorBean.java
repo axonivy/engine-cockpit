@@ -28,7 +28,7 @@ public class AdministratorBean extends StepStatus {
     service = AdministratorService.instance();
     load();
   }
-  
+
   public ISecurityContext getSecurityContext() {
     return ISecurityContextRepository.instance().getSystem();
   }

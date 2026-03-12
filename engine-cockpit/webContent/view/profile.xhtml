@@ -1,0 +1,182 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/template.xhtml">
+  
+    <ui:define name="breadcrumb">
+      <li><span>#{ivy.cm.co('/common/System')}</span></li>
+      <li>/</li>
+      <li><a href="profile.xhtml">#{ivy.cm.co('/profile/ProfileBreadcrumb')}</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}system.html#administrators" />
+    </ui:define>
+    
+    <ui:define name="content">
+
+      <!-- TODO: Does this make sense in the admin profile view? -->
+      <f:event type="preRenderView" listener="#{loginBean.checkLogin}" />
+    
+      <pe:switch id="displayProfileEditSwitch" value="#{profileBean.isAdmin}">
+        <pe:case value="#{true}">
+          <h1>#{ivy.cm.co('/profile/ProfileTitle')}</h1>
+          <h:form id="profileForm">
+            <div class="grid mb-2">
+              <div class="col-12 md:col-6">
+                <div class="card ui-fluid">
+                  <h4>#{ivy.cm.co('/profile/Profile')}</h4>
+                  <p:growl id="growl" showDetail="true" />
+                  <div>
+                    <div class="mb-3">
+                      <h:outputLabel for="userName">#{ivy.cm.co('/common/Username')}</h:outputLabel>
+                      <p:inputText id="userName" value="#{profileBean.loggedInAdmin.userName}"
+                        styleClass="mt-2" disabled="true" />
+                    </div>
+
+                    <div class="mb-3">
+                      <h:outputLabel for="fullName">#{ivy.cm.co('/common/FullName')}</h:outputLabel>
+                      <p:inputText id="fullName" value="#{profileBean.loggedInAdmin.fullName}"
+                        styleClass="mt-2" />
+                    </div>
+
+                    <div class="mb-3">
+                      <h:outputLabel for="email">#{ivy.cm.co('/common/Email')}</h:outputLabel>
+                      <p:inputText
+                        id="email"
+                        value="#{profileBean.loggedInAdmin.email}"
+                        required="true"
+                        requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}"
+                        styleClass="mt-2" />
+                    </div>
+
+                    <div class="mb-3">
+                      <p:outputLabel for="password" value="#{ivy.cm.co('/common/Password')}" />
+                      <h:panelGroup styleClass="md-inputfield">
+                        <p:password
+                          id="password"
+                          match="passwordConfirm"
+                          validatorMessage="#{ivy.cm.co('/common/NotMatchPasswordMessage')}"
+                          feedback="true"
+                          inline="true"
+                          autocomplete="new-password"
+                          value="#{profileBean.loggedInAdmin.password}"
+                          redisplay="false"
+                          toggleMask="true"
+                          promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+                          goodLabel="#{ivy.cm.co('/common/Good')}"
+                          weakLabel="#{ivy.cm.co('/common/Weak')}"
+                          strongLabel="#{ivy.cm.co('/common/Strong')}" />
+                        <p:message for="password" id="passwordMessage">
+                          <p:autoUpdate />
+                        </p:message>
+                      </h:panelGroup>
+                    </div>
+
+                    <div class="mb-3">
+                      <p:outputLabel for="passwordConfirm" value="#{ivy.cm.co('/administrators/ConfirmPassword')}" />
+                      <h:panelGroup styleClass="md-inputfield">
+                        <p:password
+                          id="passwordConfirm"
+                          feedback="true"
+                          inline="true"
+                          redisplay="false"
+                          toggleMask="true"
+                          promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
+                          goodLabel="#{ivy.cm.co('/common/Good')}"
+                          weakLabel="#{ivy.cm.co('/common/Weak')}"
+                          strongLabel="#{ivy.cm.co('/common/Strong')}" />
+                        <p:message for="passwordConfirm" id="passwordConfirmMessage" />
+                      </h:panelGroup>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 md:col-6">
+                <div class="card h-full">
+                  <h4>#{ivy.cm.co('/profile/LanguageAndLocalization')}</h4>
+
+                  <div class="mb-3">
+                    <h:outputLabel for="contentLanguage">#{ivy.cm.co('/common/Language')}</h:outputLabel>
+                    <div class="mt-2">
+                      <p:selectOneMenu
+                        id="contentLanguage"
+                        value="#{profileBean.loggedInAdmin.language}"
+                        editable="false"
+                        converter="localeConverter"
+                        styleClass="w-full">
+                        <f:selectItems
+                          value="#{languageBean.getContentLanguages(profileBean.securityContext)}"
+                          var="locale"
+                          itemLabel="#{languageBean.toDisplayName(locale)}" />
+                      </p:selectOneMenu>
+                      <small>
+                        <h:panelGroup id="contentLanguageDisplay" styleClass="text-500">
+                          <h:outputText value="#{ivy.cm.co('/profile/CurrentContentLanguage')} " />
+                          <b>
+                            <h:outputText value="#{profileBean.currentContentLocale} " />
+                          </b>
+                          <h:outputText value="(#{profileBean.currentContentLocaleSource})" />
+                        </h:panelGroup>
+                      </small>
+                      <p:tooltip for="contentLanguageDisplay" value="#{ivy.cm.co('/profile/CurrentContentLocale')}"
+                        position="bottom" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <h:outputLabel for="formattingLanguage">
+                      #{ivy.cm.co('/profile/FormattingLanguage')}</h:outputLabel>
+                    <div class="mt-2">
+                      <p:selectOneMenu
+                        id="formattingLanguage"
+                        value="#{profileBean.loggedInAdmin.formattingLanguage}"
+                        editable="false"
+                        converter="localeConverter"
+                        styleClass="w-full">
+                        <f:selectItems
+                          value="#{languageBean.getFormattingLanguages(profileBean.securityContext)}"
+                          var="locale"
+                          itemLabel="#{languageBean.toDisplayName(locale)}" />
+                      </p:selectOneMenu>
+                      <small>
+                        <h:panelGroup id="formattingLanguageDisplay" styleClass="text-500">
+                          <h:outputText value="#{ivy.cm.co('/profile/CurrentFormattingLocale')} " />
+                          <b>
+                            <h:outputText value="#{profileBean.currentFormattingLocale} " />
+                          </b>
+                          <h:outputText value="(#{profileBean.currentFormattingLocaleSource})" />
+                        </h:panelGroup>
+                      </small>
+                      <p:tooltip for="formattingLanguageDisplay"
+                        value="#{ivy.cm.co('/profile/CurrentFormattingLocale')}" position="bottom" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="flex justify-content-end">
+              <p:commandButton
+                id="saveBtn"
+                value="#{ivy.cm.co('/profile/SaveProfile')}"
+                icon="si si-floppy-disk"
+                styleClass="modal-input-button"
+                actionListener="#{profileBean.save()}"
+                update="@form" />
+            </div>
+
+          </h:form>
+        </pe:case>
+        <pe:defaultCase><h1>#{ivy.cm.co('/profile/NotAnAdmin')}</h1></pe:defaultCase>
+      </pe:switch>
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>
