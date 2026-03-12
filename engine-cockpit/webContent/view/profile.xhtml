@@ -8,7 +8,7 @@
     <ui:define name="breadcrumb">
       <li><span>#{ivy.cm.co('/common/System')}</span></li>
       <li>/</li>
-      <li><a href="adminProfile.xhtml">#{ivy.cm.co('/adminProfile/AdministratorProfileBreadcrumb')}</a></li>
+      <li><a href="profile.xhtml">#{ivy.cm.co('/profile/ProfileBreadcrumb')}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -20,25 +20,25 @@
       <!-- TODO: Does this make sense in the admin profile view? -->
       <f:event type="preRenderView" listener="#{loginBean.checkLogin}" />
     
-      <pe:switch id="displayProfileEditSwitch" value="#{administratorProfileBean.isAdmin}">
+      <pe:switch id="displayProfileEditSwitch" value="#{profileBean.isAdmin}">
         <pe:case value="#{true}">
-          <h1>#{ivy.cm.co('/adminProfile/AdminProfileTitle')}</h1>
+          <h1>#{ivy.cm.co('/profile/ProfileTitle')}</h1>
           <h:form id="profileForm">
             <div class="grid mb-2">
               <div class="col-12 md:col-6">
                 <div class="card ui-fluid">
-                  <h4>#{ivy.cm.co('/adminProfile/AdminProfile')}</h4>
+                  <h4>#{ivy.cm.co('/profile/Profile')}</h4>
                   <p:growl id="growl" showDetail="true" />
                   <div>
                     <div class="mb-3">
                       <h:outputLabel for="userName">#{ivy.cm.co('/common/Username')}</h:outputLabel>
-                      <p:inputText id="userName" value="#{administratorProfileBean.getLoggedInAdmin().userName}"
+                      <p:inputText id="userName" value="#{profileBean.loggedInAdmin.userName}"
                         styleClass="mt-2" disabled="true" />
                     </div>
 
                     <div class="mb-3">
                       <h:outputLabel for="fullName">#{ivy.cm.co('/common/FullName')}</h:outputLabel>
-                      <p:inputText id="fullName" value="#{administratorProfileBean.getLoggedInAdmin().fullName}"
+                      <p:inputText id="fullName" value="#{profileBean.loggedInAdmin.fullName}"
                         styleClass="mt-2" />
                     </div>
 
@@ -46,7 +46,7 @@
                       <h:outputLabel for="email">#{ivy.cm.co('/common/Email')}</h:outputLabel>
                       <p:inputText
                         id="email"
-                        value="#{administratorProfileBean.getLoggedInAdmin().email}"
+                        value="#{profileBean.loggedInAdmin.email}"
                         required="true"
                         requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}"
                         styleClass="mt-2" />
@@ -62,8 +62,8 @@
                           feedback="true"
                           inline="true"
                           autocomplete="new-password"
-                          value="#{administratorProfileBean.getLoggedInAdmin().password}"
-                          redisplay="true"
+                          value="#{profileBean.loggedInAdmin.password}"
+                          redisplay="false"
                           toggleMask="true"
                           promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
                           goodLabel="#{ivy.cm.co('/common/Good')}"
@@ -82,7 +82,7 @@
                           id="passwordConfirm"
                           feedback="true"
                           inline="true"
-                          redisplay="true"
+                          redisplay="false"
                           toggleMask="true"
                           promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
                           goodLabel="#{ivy.cm.co('/common/Good')}"
@@ -98,62 +98,62 @@
 
               <div class="col-12 md:col-6">
                 <div class="card h-full">
-                  <h4>#{ivy.cm.co('/adminProfile/LanguageAndLocalization')}</h4>
+                  <h4>#{ivy.cm.co('/profile/LanguageAndLocalization')}</h4>
 
                   <div class="mb-3">
                     <h:outputLabel for="contentLanguage">#{ivy.cm.co('/common/Language')}</h:outputLabel>
                     <div class="mt-2">
                       <p:selectOneMenu
                         id="contentLanguage"
-                        value="#{administratorProfileBean.getLoggedInAdmin().language}"
+                        value="#{profileBean.loggedInAdmin.language}"
                         editable="false"
                         converter="localeConverter"
                         styleClass="w-full">
                         <f:selectItems
-                          value="#{languageBean.getContentLanguages(administratorProfileBean.securityContext)}"
+                          value="#{languageBean.getContentLanguages(profileBean.securityContext)}"
                           var="locale"
                           itemLabel="#{languageBean.toDisplayName(locale)}" />
                       </p:selectOneMenu>
                       <small>
                         <h:panelGroup id="contentLanguageDisplay" styleClass="text-500">
-                          <h:outputText value="#{ivy.cm.co('/adminProfile/CurrentContentLanguage')} " />
+                          <h:outputText value="#{ivy.cm.co('/profile/CurrentContentLanguage')} " />
                           <b>
-                            <h:outputText value="#{administratorProfileBean.currentContentLocale} " />
+                            <h:outputText value="#{profileBean.currentContentLocale} " />
                           </b>
-                          <h:outputText value="(#{administratorProfileBean.currentContentLocaleSource})" />
+                          <h:outputText value="(#{profileBean.currentContentLocaleSource})" />
                         </h:panelGroup>
                       </small>
-                      <p:tooltip for="contentLanguageDisplay" value="#{ivy.cm.co('/adminProfile/CurrentContentLocale')}"
+                      <p:tooltip for="contentLanguageDisplay" value="#{ivy.cm.co('/profile/CurrentContentLocale')}"
                         position="bottom" />
                     </div>
                   </div>
 
                   <div>
                     <h:outputLabel for="formattingLanguage">
-                      #{ivy.cm.co('/adminProfile/FormattingLanguage')}</h:outputLabel>
+                      #{ivy.cm.co('/profile/FormattingLanguage')}</h:outputLabel>
                     <div class="mt-2">
                       <p:selectOneMenu
                         id="formattingLanguage"
-                        value="#{administratorProfileBean.getLoggedInAdmin().formattingLanguage}"
+                        value="#{profileBean.loggedInAdmin.formattingLanguage}"
                         editable="false"
                         converter="localeConverter"
                         styleClass="w-full">
                         <f:selectItems
-                          value="#{languageBean.getFormattingLanguages(administratorProfileBean.securityContext)}"
+                          value="#{languageBean.getFormattingLanguages(profileBean.securityContext)}"
                           var="locale"
                           itemLabel="#{languageBean.toDisplayName(locale)}" />
                       </p:selectOneMenu>
                       <small>
                         <h:panelGroup id="formattingLanguageDisplay" styleClass="text-500">
-                          <h:outputText value="#{ivy.cm.co('/adminProfile/CurrentFormattingLocale')} " />
+                          <h:outputText value="#{ivy.cm.co('/profile/CurrentFormattingLocale')} " />
                           <b>
-                            <h:outputText value="#{administratorProfileBean.currentFormattingLocale} " />
+                            <h:outputText value="#{profileBean.currentFormattingLocale} " />
                           </b>
-                          <h:outputText value="(#{administratorProfileBean.currentFormattingLocaleSource})" />
+                          <h:outputText value="(#{profileBean.currentFormattingLocaleSource})" />
                         </h:panelGroup>
                       </small>
                       <p:tooltip for="formattingLanguageDisplay"
-                        value="#{ivy.cm.co('/adminProfile/CurrentFormattingLocale')}" position="bottom" />
+                        value="#{ivy.cm.co('/profile/CurrentFormattingLocale')}" position="bottom" />
                     </div>
                   </div>
                 </div>
@@ -164,16 +164,16 @@
             <div class="flex justify-content-end">
               <p:commandButton
                 id="saveBtn"
-                value="#{ivy.cm.co('/adminProfile/SaveProfile')}"
+                value="#{ivy.cm.co('/profile/SaveProfile')}"
                 icon="si si-floppy-disk"
                 styleClass="modal-input-button"
-                actionListener="#{administratorProfileBean.save()}"
+                actionListener="#{profileBean.save()}"
                 update="@form" />
             </div>
 
           </h:form>
         </pe:case>
-        <pe:defaultCase><h1>#{ivy.cm.co('/adminProfile/NotAnAdministrator')}</h1></pe:defaultCase>
+        <pe:defaultCase><h1>#{ivy.cm.co('/profile/NotAnAdmin')}</h1></pe:defaultCase>
       </pe:switch>
     </ui:define>
   </ui:composition>

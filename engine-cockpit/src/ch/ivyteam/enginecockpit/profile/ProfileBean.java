@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.adminprofile;
+package ch.ivyteam.enginecockpit.profile;
 
 import java.util.Locale;
 
@@ -14,13 +14,13 @@ import ch.ivyteam.ivy.security.administrator.AdministratorService;
 
 @ManagedBean
 @ViewScoped
-public class AdministratorProfileBean {
+public class ProfileBean {
 
-  private AdministratorProfileDTO loggedInAdmin;
+  private ProfileDTO loggedInAdmin;
   private boolean isAdmin;
   private final AdministratorService service;
 
-  public AdministratorProfileBean() {
+  public ProfileBean() {
     service = AdministratorService.instance();
     isAdmin = false; // default is false until proven
     load();
@@ -34,7 +34,7 @@ public class AdministratorProfileBean {
     // Try to set loggedInAdmin and isAdmin by comparing usernames
     if (currentUserName != null) {
       service.db().all().stream()
-        .map(AdministratorProfileDTO::new)
+        .map(ProfileDTO::new)
         .filter(adminDTO -> adminDTO.getUserName().equalsIgnoreCase(currentUserName))
         .findFirst()
         .ifPresent(adminDTO -> {
@@ -50,7 +50,7 @@ public class AdministratorProfileBean {
   }
 
   // Getters and Setters
-  public AdministratorProfileDTO getLoggedInAdmin() {
+  public ProfileDTO getLoggedInAdmin() {
     return loggedInAdmin;
   }
 
@@ -79,10 +79,10 @@ public class AdministratorProfileBean {
     return session().getFormattingLocaleInfo().source();
   }
 
-  // Use AdministratorService to save changes to the loggedInAdmin, based on
+  // Use the admin service to save changes to the loggedInAdmin, based on
   // current state from the form
   public void save() {
-    service.config().save(loggedInAdmin.toAdministrator());
+    service.config().save(loggedInAdmin.toAdmin());
     Message.info().summary(Ivy.cm().content("/administrators/AdminUpdatedMessage").replace("name", loggedInAdmin.getUserName()).get()).show();
   }
 

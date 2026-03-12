@@ -1,9 +1,9 @@
-package ch.ivyteam.enginecockpit.adminprofile;
+package ch.ivyteam.enginecockpit.profile;
 
 import java.util.Locale;
 import ch.ivyteam.ivy.security.administrator.Administrator;
 
-public class AdministratorProfileDTO {
+public class ProfileDTO {
 
   private String userName;
   private String fullName;
@@ -12,10 +12,10 @@ public class AdministratorProfileDTO {
   private Locale language;
   private Locale formattingLanguage;
 
-  public AdministratorProfileDTO() {
+  public ProfileDTO() {
   }
 
-  public AdministratorProfileDTO(Administrator admin) {
+  public ProfileDTO(Administrator admin) {
     this.userName = admin.username();
     this.fullName = admin.fullName();
     this.password = admin.password();
@@ -68,7 +68,7 @@ public class AdministratorProfileDTO {
     this.formattingLanguage = formattingLanguage;
   }
 
-  public Administrator toAdministrator() {
+  public Administrator toAdmin() {
     return Administrator.create()
         .username(userName)
         .fullName(fullName)
