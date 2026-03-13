@@ -9,6 +9,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlCo
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Condition.text;
+import org.openqa.selenium.By;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,7 @@ public class WebTestProfile {
   @Test
   void testProfileUsernameMatch() {
     navigateToProfilePage();
-    $("#profileForm:userName").shouldBe(visible).shouldHave(text(adminUser));
+    $(By.id("profileForm:userName")).shouldBe(visible).shouldHave(text(adminUser));
   }
 
 }
