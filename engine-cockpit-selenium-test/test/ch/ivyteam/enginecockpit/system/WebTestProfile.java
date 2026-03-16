@@ -17,10 +17,9 @@ import org.junit.jupiter.api.Test;
 import com.axonivy.ivy.webtest.IvyWebTest;
 
 @IvyWebTest
-public class WebTestProfile {
+class WebTestProfile {
   
   private final String PROFILE = "profile.xhtml";
-  private final String adminUser = getAdminUser();
 
   private void navigateToProfilePage() {
     open(viewUrl(PROFILE));
@@ -32,7 +31,7 @@ public class WebTestProfile {
   }
   
   @Test
-  void testLinkToProfile() {
+  void linkToProfile() {
     $("ul.layout-topbar-actions").shouldBe(visible);
     $("li.topbar-item.user-profile").shouldBe(visible);
     $("li.topbar-item.user-profile > a").click();
@@ -41,9 +40,9 @@ public class WebTestProfile {
   }
 
   @Test
-  void testProfileUsernameMatch() {
+  void profileUsernameMatch() {
     navigateToProfilePage();
-    $(By.id("profileForm:userName")).shouldBe(visible).shouldHave(value(adminUser));
+    $(By.id("profileForm:userName")).shouldBe(visible).shouldHave(value(getAdminUser()));
   }
 
 }
