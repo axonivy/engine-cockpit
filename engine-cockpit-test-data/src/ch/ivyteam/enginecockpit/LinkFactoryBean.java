@@ -12,7 +12,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.engine.cockpit.CockpitLinkFactory;
 import ch.ivyteam.ivy.model.value.WebLink;
 
@@ -58,17 +57,11 @@ public class LinkFactoryBean {
   }
 
   private Link externalDatabase() {
-    return toLink("External Database realDb", CockpitLinkFactory.externalDatabase(applicationName(), "realdb"));
+    return toLink("External Database realDb", CockpitLinkFactory.externalDatabase("test", "realdb"));
   }
 
   private Link restService() {
-    return toLink("Rest Client test-rest", CockpitLinkFactory.restClient(applicationName(), "test-rest"));
-  }
-
-  private String applicationName() {
-    return IApplicationRepository.instance().designer()
-        .map(IApplication::getName)
-        .orElse("test");
+    return toLink("Rest Client test-rest", CockpitLinkFactory.restClient("test", "test-rest"));
   }
 
   public static class Link {
