@@ -8,18 +8,13 @@ import java.util.stream.Stream;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 
-import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.engine.cockpit.CockpitLinkFactory;
 import ch.ivyteam.ivy.model.value.WebLink;
 
 @ManagedBean
 @RequestScoped
 public class LinkFactoryBean {
-
-  private static final String DESIGNER_APP_CONTEXT = "/" + IApplication.DESIGNER_APPLICATION_NAME;
 
   public List<Link> getLinks() {
     var links = new ArrayList<>(Stream.of(CockpitLinkFactory.class.getMethods())
@@ -43,15 +38,7 @@ public class LinkFactoryBean {
   }
 
   private Link toLink(String title, WebLink link) {
-    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-    var appContext = externalContext.getRequestContextPath();
-    String path;
-    if (!DESIGNER_APP_CONTEXT.equals(appContext)) {
-      path = "/system/engine-cockpit/faces/" + link.getRelative();
-    } else {
-      path = appContext + externalContext.getRequestServletPath() + externalContext.getRequestPathInfo();
-      path = path.replace("engine-cockpit-test-data", "engine-cockpit").replace("link-factory.xhtml", link.getRelative());
-    }
+    var path = "/system/engine-cockpit/faces/" + link.getRelative();
     link = WebLink.of(path);
     return new Link(title, link.getAbsolute());
   }
