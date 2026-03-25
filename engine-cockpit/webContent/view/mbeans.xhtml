@@ -31,10 +31,10 @@
               <p:tree value="#{mBeansBean.root}" var="node" selectionMode="single"
                 style="border: none; max-height: 300px; overflow: auto; padding: 0;" id="mBeans">
                 <p:ajax event="select" update="attributes" listener="#{mBeansBean.onSelectNode}" />
-                <p:treeNode type="folder" icon="si si-folder-empty">
+                <p:treeNode type="folder" icon="si si-folder-empty" ariaLabel="#{node.displayName}">
                   <h:outputText value="#{node.displayName}" />
                 </p:treeNode>
-                <p:treeNode type="bean" icon="si si-analytics-bars">
+                <p:treeNode type="bean" icon="si si-analytics-bars" ariaLabel="#{node.displayName}">
                   <h:outputText id="bean" value="#{node.displayName}" />
                   <p:tooltip for="bean" value="#{node.description}"/>
                 </p:treeNode>
