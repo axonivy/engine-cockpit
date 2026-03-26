@@ -59,7 +59,7 @@ public class Application extends AppTreeItem {
     super(bean, app);
     this.app = (IApplicationInternal) app;
     this.name = app.getName();
-    fileDir = app.getFileDirectory();
+    fileDir = this.app.getDirectory().toString();
     secSystem = app.getSecurityContext().getName();
   }
 
