@@ -4,6 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
@@ -75,12 +75,9 @@ public class WebTestMBeans {
 
   private static void expandMBeanNodeWithText(String treeNodeText) {
     var toggler = getTreeNodeWithText(treeNodeText)
-        .parent()
         .find(".ui-tree-toggler");
     toggler.shouldBe(visible);
-    if (toggler.attr("class").contains("ui-icon-triangle-1-e")) // not yet
-                                                                // expanded
-    {
+    if (toggler.attr("class").contains("ui-icon-triangle-1-e")) { // not yet expanded
       toggler.click();
     }
   }
@@ -90,7 +87,7 @@ public class WebTestMBeans {
   }
 
   private static SelenideElement getTreeNodeWithText(String treeNodeText) {
-    return mBeanNodes().find(Condition.text(treeNodeText));
+    return $("#mBeans .ui-treenode-content[aria-label='" + treeNodeText + "']");
   }
 
   private static ElementsCollection mBeanNodes() {
