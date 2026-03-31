@@ -299,7 +299,7 @@
       "type" : "RestClientCall",
       "config" : {
         "target" : {
-          "clientId" : "7ed632a9-5227-43f0-aa9b-8854fb515b9c",
+          "clientId" : "engine-rest",
           "path" : "/test/info"
         }
       },
