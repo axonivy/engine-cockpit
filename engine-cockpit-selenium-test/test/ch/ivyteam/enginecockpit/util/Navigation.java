@@ -252,10 +252,10 @@ public class Navigation {
     menuShouldBeActive(SERVICES_RESTCLIENTS_MENU);
   }
 
-  public static void toRestClientDetail(String restClientName) {
+  public static void toRestClientDetail(String restClientKey) {
     toRestClients();
-    $$(Tab.APP.activePanelCss + " .restclient-name").find(text(restClientName)).shouldBe(visible).click();
-    assertCurrentUrlContains("restclientdetail.xhtml?app=" + Tab.DEFAULT_APP + "&name=" + restClientName);
+    $$(Tab.APP.activePanelCss + " .restclient-name").find(text(restClientKey)).shouldBe(visible).click();
+    assertCurrentUrlContains("restclientdetail.xhtml?app=" + Tab.DEFAULT_APP + "&key=" + restClientKey);
     menuShouldBeActive(SERVICES_RESTCLIENTS_MENU);
   }
 

@@ -1027,7 +1027,6 @@ restClientConfiguration:
   RestConfigurationResetMessage: REST 設定のリセット
   RestConfigurationSavedMessage: REST 設定を保存しました
   TestRestConnection: REST 接続をテスト
-  UUID: UUID
 restClientDetail:
   GuideText: REST クライアントを編集するには、app.yaml ファイルを上書きします。たとえば、下のスニペットをコピーして貼り付けます。
   NotFoundRestClient: REST クライアント '${restClient}' が見つかりません

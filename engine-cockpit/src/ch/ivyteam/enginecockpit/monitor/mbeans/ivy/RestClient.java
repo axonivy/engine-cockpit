@@ -26,7 +26,7 @@ class RestClient {
       .yAxisLabel(Ivy.cm().co("/common/ExecutionTime")).toMonitor();
 
   private final String label;
-  private final String id;
+  private final String key;
   private final String name;
   private final String application;
   private final String appVersion;
@@ -37,7 +37,7 @@ class RestClient {
 
   RestClient(ObjectName restClient) {
     if (restClient == null) {
-      id = "";
+      key = "";
       name = "";
       application = "";
       appVersion = "";
@@ -52,7 +52,7 @@ class RestClient {
     nm = Strings.CS.removeEnd(nm, "\"");
     this.name = StringUtils.substringBeforeLast(nm, "(").trim();
     var identifier = StringUtils.substringAfterLast(nm, "(");
-    this.id = Strings.CS.removeEnd(identifier, ")");
+    this.key = Strings.CS.removeEnd(identifier, ")");
 
     application = restClient.getKeyProperty("application");
     appVersion = restClient.getKeyProperty("version");
@@ -85,8 +85,8 @@ class RestClient {
     executionTimeMonitor.addSeries(Series.build(calls.deltaMaxExecutionTime(), Ivy.cm().co("/liveStats/Max")).toSeries());
   }
 
-  public String id() {
-    return id;
+  public String key() {
+    return key;
   }
 
   public String name() {

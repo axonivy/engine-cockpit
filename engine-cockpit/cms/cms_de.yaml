@@ -1019,6 +1019,7 @@ renameRole:
   RenameRoleDialogWarningMessage: Dies ist eine kritische und gefährliche Operation, zumindest für nicht-dynamische Rollen. Diese Rolle kann in Prozessen mit ihrem alten Namen referenziert werden. Alle Referenzen in allen Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf den
     neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft scheitern.
 restClientConfiguration:
+  Key: Schlüssel
   ResetConfiguration: Konfiguration zurücksetzen
   ResetRestClientDialogHeader: Rest Client zurücksetzen
   ResetRestClientDialogMessage: Sind Sie sicher, dass Sie diesen Rest Client zurücksetzen möchten?
@@ -1026,7 +1027,6 @@ restClientConfiguration:
   RestConfigurationResetMessage: Rest Konfiguration zurücksetzen
   RestConfigurationSavedMessage: Rest Konfiguration gespeichert
   TestRestConnection: Rest Verbindung testen
-  UUID: UUID
 restClientDetail:
   GuideText: Überschreiben Sie ihre app.yaml Datei um den Rest Client zu bearbeiten. Kopieren und fügen zum Beispiel Sie den untenstehenden Abschnittein.
   NotFoundRestClient: Rest client '${restClient}' nicht gefunden

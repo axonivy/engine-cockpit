@@ -34,11 +34,11 @@
 
     <p:panelGrid columns="2" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9" layout="flex"
       styleClass="grey-label-panel ui-fluid">
-      <label>#{ivy.cm.co('/restClientConfiguration/UUID')}</label>
-      <h:outputText id="uuid" value="#{restClientDetailBean.restClient.uniqueId}" />
+      <label>#{ivy.cm.co('/restClientConfiguration/Key')}</label>
+      <h:outputText id="key" value="#{restClientDetailBean.restClient.key}" />
 
       <label>#{ivy.cm.co('/common/Name')}</label>
-      <h:outputText id="name" value="#{restClientDetailBean.name}" />
+      <h:outputText id="name" value="#{restClientDetailBean.restClient.name}" />
 
       <p:outputLabel for="decription" value="#{ivy.cm.co('/common/Description')}" />
       <h:outputText id="decription" value="#{restClientDetailBean.restClient.description}" />
