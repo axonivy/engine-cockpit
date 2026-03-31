@@ -36,7 +36,7 @@ import ch.ivyteam.ivy.rest.client.internal.RestClientExecutionManager;
 public class RestClientDetailBean extends HelpServices implements IConnectionTestResult, PropertyEditor, FeatureEditor {
 
   private RestClientDto restClient;
-  private String restClientName;
+  private String restClientKey;
 
   private String appName;
   private IApplication app;
@@ -63,12 +63,12 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     return appName;
   }
 
-  public String getName() {
-    return restClientName;
+  public String getKey() {
+    return restClientKey;
   }
 
-  public void setName(String restClientName) {
-    this.restClientName = restClientName;
+  public void setKey(String restClientKey) {
+    this.restClientKey = restClientKey;
   }
 
   public void onload() {
@@ -85,13 +85,13 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     var client = findRestClient();
     if (client == null) {
       ResponseHelper.notFound(
-          Ivy.cm().content("/restClientDetail/NotFoundRestClient").replace("restClient", restClientName).get());
+          Ivy.cm().content("/restClientDetail/NotFoundRestClient").replace("restClient", restClientKey).get());
       return;
     }
 
     loadRestClient();
     reloadExternalRestClient();
-    liveStats = new RestClientMonitor(app.getName(), app.getVersion(), restClient.getUniqueId().toString());
+    liveStats = new RestClientMonitor(app.getName(), app.getVersion(), restClient.getKey());
   }
 
   private void reloadExternalRestClient() {
@@ -99,7 +99,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     var client = findRestClient();
 
     var applicationContext = restClientManager.getRestWebServiceApplicationContext(app);
-    var restWebService = applicationContext.getRestWebService(client.uniqueId());
+    var restWebService = applicationContext.getRestWebService(client.key());
 
     history = new ArrayList<>(restWebService.getCallHistory().stream()
         .map(call -> new ExecHistory(
@@ -124,7 +124,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   }
 
   private RestClient findRestClient() {
-    return restClients.find(restClientName);
+    return restClients.find(restClientKey);
   }
 
   public RestClientDto getRestClient() {
@@ -151,7 +151,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   @Override
   public String getTitle() {
-    return Ivy.cm().content("/restClientDetail/Title").replace("restClient", restClientName).get();
+    return Ivy.cm().content("/restClientDetail/Title").replace("restClient", restClientKey).get();
   }
 
   @Override
@@ -198,7 +198,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   public void resetConfig() {
     connectionTest.stop();
-    restClients.remove(restClientName);
+    restClients.remove(restClientKey);
     var msg = new FacesMessage(Ivy.cm().co("/restClientConfiguration/RestConfigurationResetMessage"), "");
     FacesContext.getCurrentInstance().addMessage("restConfigMsg", msg);
     loadRestClient();
@@ -218,7 +218,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   }
 
   private Builder restBuilder() {
-    return restClients.find(restClientName).toBuilder();
+    return restClients.find(restClientKey).toBuilder();
   }
 
   private void saveRestClient(Builder builder) {

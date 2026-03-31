@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.UriBuilder;
@@ -17,6 +16,7 @@ import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.config.restricted.ClientProperties;
 
 public class RestClientDto implements IService {
+  private final String key;
   private final String name;
   private String url;
   private final String description;
@@ -24,7 +24,6 @@ public class RestClientDto implements IService {
   private String password;
   private String username;
   private final List<Feature> features;
-  private final UUID uniqueId;
   private boolean passwordChanged;
   private final Map<String, Object> connectionProps;
 
@@ -32,7 +31,7 @@ public class RestClientDto implements IService {
     name = client.name();
     url = client.uri();
     description = client.description();
-    uniqueId = client.uniqueId();
+    key = client.key();
     var metas = client.metas();
     properties = client.properties().stream()
         .map(p -> new Property(p.key(), p.value(), metas.get(p.key()), p.isDefault()))
@@ -52,8 +51,8 @@ public class RestClientDto implements IService {
     connectionProps = ClientProperties.clientProps(propMap);
   }
 
-  public UUID getUniqueId() {
-    return uniqueId;
+  public String getKey() {
+    return key;
   }
 
   public String getName() {
@@ -63,7 +62,7 @@ public class RestClientDto implements IService {
   public String getViewUrl(String app) {
     return UriBuilder.fromPath("restclientdetail.xhtml")
         .queryParam("app", app)
-        .queryParam("name", name)
+        .queryParam("key", key)
         .build()
         .toString();
   }

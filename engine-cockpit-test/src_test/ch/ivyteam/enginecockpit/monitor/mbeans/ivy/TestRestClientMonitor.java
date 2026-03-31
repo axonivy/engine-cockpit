@@ -31,14 +31,14 @@ class TestRestClientMonitor {
 
   @Test
   void withData() throws Exception {
-    MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
-    MBeans.registerMBeanFor(new Client("client2 (uuid-2)"));
-    var testee = new RestClientMonitor("test", 1, "uuid-1");
+    MBeans.registerMBeanFor(new Client("client1 (client1)"));
+    MBeans.registerMBeanFor(new Client("client2 (client2)"));
+    var testee = new RestClientMonitor("test", 1, "client1");
     assertThat(testee.getRestClient()).isEqualTo("test > client1");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
-    testee = new RestClientMonitor("test", 1, "uuid-2");
+    testee = new RestClientMonitor("test", 1, "client2");
     assertThat(testee.getRestClient()).isEqualTo("test > client2");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
@@ -47,8 +47,8 @@ class TestRestClientMonitor {
 
   @Test
   void connectionMonitor() {
-    MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
-    var testee = new RestClientMonitor("test", 1, "uuid-1");
+    MBeans.registerMBeanFor(new Client("client1 (client1)"));
+    var testee = new RestClientMonitor("test", 1, "client1");
 
     var dataSet = testee.getConnectionsMonitor().getModel().getData().getDataSet();
     assertThat(dataSet).hasSize(2);
@@ -68,8 +68,8 @@ class TestRestClientMonitor {
 
   @Test
   void callsMonitor() {
-    MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
-    var testee = new RestClientMonitor("test", 1, "uuid-1");
+    MBeans.registerMBeanFor(new Client("client1 (client1)"));
+    var testee = new RestClientMonitor("test", 1, "client1");
 
     var dataSet = testee.getCallsMonitor().getModel().getData().getDataSet();
     assertThat(dataSet).hasSize(2);
@@ -89,8 +89,8 @@ class TestRestClientMonitor {
 
   @Test
   void executionTimeMonitor() {
-    MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
-    var testee = new RestClientMonitor("test", 1, "uuid-1");
+    MBeans.registerMBeanFor(new Client("client1 (client1)"));
+    var testee = new RestClientMonitor("test", 1, "client1");
 
     var dataSet = testee.getExecutionTimeMonitor().getModel().getData().getDataSet();
     assertThat(dataSet).hasSize(3);

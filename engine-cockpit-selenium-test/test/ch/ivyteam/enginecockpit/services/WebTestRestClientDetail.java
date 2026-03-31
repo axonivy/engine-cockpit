@@ -38,7 +38,7 @@ class WebTestRestClientDetail {
 
   @Test
   void detailOpen() {
-    assertCurrentUrlContains("restclientdetail.xhtml?app=" + Tab.DEFAULT_APP + "&name=" + RESTCLIENT_NAME);
+    assertCurrentUrlContains("restclientdetail.xhtml?app=" + Tab.DEFAULT_APP + "&key=" + RESTCLIENT_NAME);
     $$(".card").shouldHave(size(3));
     $("#restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
 

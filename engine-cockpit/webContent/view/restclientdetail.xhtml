@@ -5,7 +5,7 @@
 <h:body>
   <f:metadata>
     <f:viewParam name="app" value="#{restClientDetailBean.app}" />
-    <f:viewParam name="name" value="#{restClientDetailBean.name}" />
+    <f:viewParam name="key" value="#{restClientDetailBean.key}" />
     <f:viewAction action="#{restClientDetailBean.onload}" />
   </f:metadata>
 
@@ -16,7 +16,7 @@
       <li>/</li>
       <li><a href="restclients.xhtml">#{ivy.cm.co('/common/RestClients')}</a></li>
       <li>/</li>
-      <li><a href="#{restClientDetailBean.viewUrl}">#{restClientDetailBean.name}</a></li>
+      <li><a href="#{restClientDetailBean.viewUrl}">#{restClientDetailBean.key}</a></li>
       <cc:BreadcrumbInfos />
     </ui:define>
 

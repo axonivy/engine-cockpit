@@ -1,7 +1,7 @@
-# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0-dev/config/rest-clients.json
+# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0-dev/config/rest-clients-1.json
 RestClients:
   test-rest:
-    UUID: 2fb1152a-d43a-4840-b798-81ce34cef104
+    Name: test-rest
     Url: http://test-webservices.ivyteam.io:8090/api/v3
     Features:
       - ch.ivyteam.ivy.rest.client.mapper.JsonFeature
@@ -13,8 +13,9 @@ RestClients:
       sensitive: ${decrypt:\u0083\u0060\u0020\u00CE\u00DB\u0037\u009E\u00CB\u00E1\u00F5\u00D7\u00F9\u00F5\u00A2\u0006\u0010\u00A6\u002E\u0030\u0016\u009F\u00F8\u0014\u00AC\u0007\u0079\u0092\u0002\u00B7\u000B\u00A5\u006B\u00D1\u0086\u00AB\u006E\u00A1\u0020\u0039\u0030\u00DA\u00D6\u006A\u00EF\u00E3\u0004\u0072\u002D\u00F4\u0006\u001F\u00E5\u0084\u00A7\u00CB\u0092\u00E6\u0058\u00E2\u00D9\u0091\u00CC\u00B5\u00DE}
       PATH.host: test-webservices.ivyteam.io
       PATH.port: '91'
+    LegacyUUID: 2fb1152a-d43a-4840-b798-81ce34cef104
   second-rest:
-    UUID: 26191921-e4ff-48c2-a53e-803791cc3057
+    Name: second-rest
     Url: http://localhost/second
     Features:
       - ch.ivyteam.ivy.rest.client.mapper.JsonFeature
@@ -22,11 +23,13 @@ RestClients:
     Properties:
       JSON.Deserialization.FAIL_ON_UNKNOWN_PROPERTIES: 'false'
       appKey: ${ivy.var.password}
+    LegacyUUID: 26191921-e4ff-48c2-a53e-803791cc3057
   engine-rest:
-    UUID: 7ed632a9-5227-43f0-aa9b-8854fb515b9c
+    Name: engine-rest
     Url: '{ivy.app.baseurl}/api'
     Features:
       - ch.ivyteam.ivy.rest.client.mapper.JsonFeature
     Properties:
       username: ''
       password: ${decrypt:}
+    LegacyUUID: 7ed632a9-5227-43f0-aa9b-8854fb515b9c
