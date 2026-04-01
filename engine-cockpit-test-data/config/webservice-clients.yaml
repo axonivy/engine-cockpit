@@ -1,8 +1,8 @@
-# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0-dev/config/webservice-clients-1.json
+# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0-dev/config/webservice-clients-2.json
 WebServiceClients:
   #this is a web service
   test-web:
-    Id: 16AB1778C1FA54E5
+    Name: test-web
     ServiceClass: com.smartbear.client.SampleWebService
     Features:
       - ch.ivyteam.ivy.webservice.exec.cxf.feature.HttpBasicAuthenticationFeature
@@ -20,8 +20,10 @@ WebServiceClients:
         - test.com
     Codegen:
       WsdlUrl: http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx?WSDL
+    LegacyId: 16AB1778C1FA54E5
   #test web service
   second-web:
-    Id: 17A86479A1CF0D33
+    Name: second-web
     Codegen:
       WsdlUrl: blabla
+    LegacyId: 17A86479A1CF0D33

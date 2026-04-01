@@ -333,7 +333,7 @@
       "id" : "f40",
       "type" : "WebServiceCall",
       "config" : {
-        "clientId" : "16AB1778C1FA54E5",
+        "clientId" : "test-web",
         "operation" : {
           "name" : "HelloWorld",
           "port" : "SampleWebServiceSoap"
