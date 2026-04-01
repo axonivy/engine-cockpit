@@ -20,10 +20,9 @@ WebServiceClients:
         - test.com
     Codegen:
       WsdlUrl: http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx?WSDL
-    LegacyId: 16AB1778C1FA54E5
   #test web service
   second-web:
     Name: second-web
+    ServiceClass: com.smartbear.client.SampleWebService
     Codegen:
       WsdlUrl: blabla
-    LegacyId: 17A86479A1CF0D33

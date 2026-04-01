@@ -43,7 +43,7 @@ import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManage
 public class WebserviceDetailBean extends HelpServices implements IConnectionTestResult, PropertyEditor, FeatureEditor {
 
   private Webservice webservice;
-  private String webserviceId;
+  private String webserviceKey;
 
   private String appName;
   private IApplication app;
@@ -71,12 +71,12 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     return appName;
   }
 
-  public String getId() {
-    return webserviceId;
+  public String getKey() {
+    return webserviceKey;
   }
 
-  public void setId(String webserviceId) {
-    this.webserviceId = webserviceId;
+  public void setKey(String webserviceKey) {
+    this.webserviceKey = webserviceKey;
   }
 
   public void onload() {
@@ -91,11 +91,11 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     webServiceClients = WebServiceClients.of(app);
     loadWebService();
     reloadExternalWebservice();
-    liveStats = new WebServiceMonitor(appName, app.getVersion(), webserviceId);
+    liveStats = new WebServiceMonitor(appName, app.getVersion(), webserviceKey);
   }
 
   private void reloadExternalWebservice() {
-    var webService = IWebserviceExecutionManager.instance().getSoapWebServiceApplicationContext(app).getSoapWebService(webserviceId);
+    var webService = IWebserviceExecutionManager.instance().getSoapWebServiceApplicationContext(app).getSoapWebService(webserviceKey);
 
     history = new ArrayList<>(webService.getCallHistory().stream()
         .map(call -> new WebServiceExecHistory(
@@ -116,10 +116,10 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
 
   private void loadWebService() {
-    var ws = webServiceClients.find(webserviceId);
+    var ws = webServiceClients.find(webserviceKey);
     if (ws == null) {
       ResponseHelper.notFound(
-          Ivy.cm().content("/webServiceDetail/NotFoundWebService").replace("webserviceId", webserviceId).get());
+          Ivy.cm().content("/webServiceDetail/NotFoundWebService").replace("webservice", webserviceKey).get());
       return;
     }
     webservice = new Webservice(ws);
@@ -278,7 +278,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
 
   private Builder wsBuilder() {
-    return webServiceClients.find(webserviceId).toBuilder();
+    return webServiceClients.find(webserviceKey).toBuilder();
   }
 
   private void saveWebService(Builder builder) {

@@ -45,7 +45,7 @@ class WebTestWebserviceDetail {
 
   @Test
   void detailOpen() {
-    assertCurrentUrlContains("webservicedetail.xhtml?app=" + Tab.DEFAULT_APP + "&id=");
+    assertCurrentUrlContains("webservicedetail.xhtml?app=" + Tab.DEFAULT_APP + "&key=");
     $$(".card").shouldHave(size(4));
     $("#webserviceConfigurationForm\\:name").shouldBe(exactText(WEBSERVICE_NAME));
 

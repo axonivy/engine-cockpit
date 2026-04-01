@@ -1019,7 +1019,6 @@ renameRole:
   RenameRoleDialogWarningMessage: Dies ist eine kritische und gefährliche Operation, zumindest für nicht-dynamische Rollen. Diese Rolle kann in Prozessen mit ihrem alten Namen referenziert werden. Alle Referenzen in allen Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf den
     neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft scheitern.
 restClientConfiguration:
-  Key: Schlüssel
   ResetConfiguration: Konfiguration zurücksetzen
   ResetRestClientDialogHeader: Rest Client zurücksetzen
   ResetRestClientDialogMessage: Sind Sie sicher, dass Sie diesen Rest Client zurücksetzen möchten?
@@ -1459,7 +1458,7 @@ webServiceConfiguration:
   WsdlUrl: Wsdl Url
 webServiceDetail:
   GuideText: Um Ihren Webservice zu bearbeiten, überschreiben Sie Ihre App.yaml-Datei. Kopieren und fügen zum Beispiel den untenstehenden Abschnitt.
-  NotFoundWebService: Webservice '${webserviceId}' nicht gefunden
+  NotFoundWebService: Webservice '${webservice}' nicht gefunden
   Title: Webservice '${webservice} '
   WebService: Webservice
 webServiceEndpoints:

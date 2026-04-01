@@ -1129,7 +1129,8 @@ securitySystemMerge:
   CompareButton: 比較
   CompareButtonTitle: 対象となるセキュリティシステムとソースを比較します。変更は一切行われません。
   ComparisonReport: 比較レポート
-  ComparisonReportInfo: アプリケーションをソースのセキュリティシステムからターゲットのセキュリティシステムへ移行するには、ソースシステムと同じユーザーおよびロールがターゲットのセキュリティシステム内に存在する必要があります。すべての CREATE 操作を実行することで、不足しているユーザーおよびロールがターゲットのセキュリティシステムに作成されます。UPDATE 操作や DELETE 操作を実行する必要はありませんが、必要に応じてこれらの操作を用いてターゲットのセキュリティシステムをクリーンアップすることもできます。ただし、ロールがすでに存在していても、実際には同一のロールではない可能性があります。その場合、対象のセキュリティシステム内のロールと Axon Ivy プロジェクト内のロールの名前を手動で変更してから、Axon Ivy プロジェクトを再展開する必要があります。
+  ComparisonReportInfo: アプリケーションをソースのセキュリティシステムからターゲットのセキュリティシステムへ移行するには、ソースシステムと同じユーザーおよびロールがターゲットのセキュリティシステム内に存在する必要があります。すべての CREATE 操作を実行することで、不足しているユーザーおよびロールがターゲットのセキュリティシステムに作成されます。UPDATE 操作や DELETE 操作を実行する必要はありませんが、必要に応じてこれらの操作を用いてターゲットのセキュリティシステムをクリーンアップすることもできます。ただし、ロールがすでに存在していても、実際には同一のロールではない可能性があります。その場合、対象のセキュリティシステム内のロールと
+    Axon Ivy プロジェクト内のロールの名前を手動で変更してから、Axon Ivy プロジェクトを再展開する必要があります。
   CreateSolveHintMessage: ターゲットセキュリティシステム ${securitySystem} でエントリを作成します
   DeleteSolveHintMessage: ターゲットセキュリティシステム ${securitySystem} でエントリを削除します
   ExceutionFailed: 実行できませんでした
@@ -1450,7 +1451,7 @@ webServiceConfiguration:
   WsdlUrl: WSDL の URL
 webServiceDetail:
   GuideText: Web サービスを編集するには、app.yaml ファイルを上書きします。たとえば、下のスニペットをコピーして貼り付けます。
-  NotFoundWebService: Web サービス '${webserviceId}' が見つかりません
+  NotFoundWebService: Web サービス '${webservice}' が見つかりません
   Title: Web サービス '${webservice}'
   WebService: Web サービス
 webServiceEndpoints:
