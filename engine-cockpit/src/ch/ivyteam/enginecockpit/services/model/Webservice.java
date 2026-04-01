@@ -20,7 +20,7 @@ import ch.ivyteam.ivy.webservice.client.WebServiceClient;
 
 public class Webservice implements IService {
   private final String name;
-  private final String genId;
+  private final String key;
   private final String description;
   private final String wsdlUrl;
   private final List<Feature> features;
@@ -47,7 +47,7 @@ public class Webservice implements IService {
     features = webservice.features().stream()
         .map(f -> new Feature(f.clazz(), f.isDefault()))
         .toList();
-    genId = webservice.id();
+    key = webservice.key();
 
     webservice.portTypes()
         .forEach(p -> {
@@ -63,8 +63,8 @@ public class Webservice implements IService {
     return name;
   }
 
-  public String getGenId() {
-    return genId;
+  public String getKey() {
+    return key;
   }
 
   public String getDescription() {
@@ -74,7 +74,7 @@ public class Webservice implements IService {
   public String getViewUrl(String app) {
     return UriBuilder.fromPath("webservicedetail.xhtml")
         .queryParam("app", app)
-        .queryParam("id", genId)
+        .queryParam("key", key)
         .build()
         .toString();
   }

@@ -274,7 +274,7 @@ public class Navigation {
   public static void toWebserviceDetail(String webserviceName) {
     toWebservices();
     $$(Tab.APP.activePanelCss + " .webservice-name").find(text(webserviceName)).shouldBe(visible).click();
-    assertCurrentUrlContains("webservicedetail.xhtml?app=" + Tab.DEFAULT_APP + "&id=");
+    assertCurrentUrlContains("webservicedetail.xhtml?app=" + Tab.DEFAULT_APP + "&key=");
     menuShouldBeActive(SERVICES_WEBSERVICES_MENU);
   }
 

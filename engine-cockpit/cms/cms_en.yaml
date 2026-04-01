@@ -1035,7 +1035,6 @@ renameRole:
   RenameRoleDialogWarningMessage: This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes
     will fail in the future.
 restClientConfiguration:
-  Key: Key
   ResetConfiguration: Reset configuration
   ResetRestClientDialogHeader: Reset Rest Client
   ResetRestClientDialogMessage: Are you sure you want to reset this Rest Client?
@@ -1473,7 +1472,7 @@ webServiceConfiguration:
   WsdlUrl: Wsdl Url
 webServiceDetail:
   GuideText: To edit your Web Service overwrite your app.yaml file. For example copy and paste the snippet below.
-  NotFoundWebService: Web service '${webserviceId}' not found
+  NotFoundWebService: Web service '${webservice}' not found
   Title: Web Service '${webservice}'
   WebService: Web Service
 webServiceEndpoints:
