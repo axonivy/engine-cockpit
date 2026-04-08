@@ -59,7 +59,7 @@ public class RestClientMonitor {
   private static Set<ObjectName> searchJmx(String appName, int appVersion, String restClientKey)
       throws MalformedObjectNameException {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
-        new ObjectName("ivy Engine:type=External REST Web Service,application=" + appName + ",version="+appVersion+",name=\"*(" + restClientKey + ")\""),
+        new ObjectName("ivy Engine:type=External REST Web Service,application=" + appName + ",version=" + appVersion + ",name=" + restClientKey),
         null);
   }
 

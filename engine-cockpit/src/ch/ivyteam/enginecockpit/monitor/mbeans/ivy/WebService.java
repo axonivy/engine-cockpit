@@ -4,9 +4,6 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
 import javax.management.ObjectName;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Strings;
-
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -21,8 +18,7 @@ class WebService {
       .yAxisLabel(Ivy.cm().co("/common/ExecutionTime")).toMonitor();
 
   private final String label;
-  private final String id;
-  private final String name;
+  private final String key;
   private final String application;
   private final String appVersion;
 
@@ -32,8 +28,7 @@ class WebService {
 
   WebService(ObjectName webService) {
     if (webService == null) {
-      id = "";
-      name = "";
+      key = "";
       application = "";
       appVersion = "";
       label = Ivy.cm().co("/common/NoData");
@@ -41,16 +36,11 @@ class WebService {
       executionTimeMonitor.addInfoValue(format(Ivy.cm().co("/common/NoDataAvailable")));
       return;
     }
-    var nm = webService.getKeyProperty("name");
-    nm = Strings.CS.removeStart(nm, "\"");
-    nm = Strings.CS.removeEnd(nm, "\"");
-    this.name = StringUtils.substringBeforeLast(nm, "(").trim();
-    var identifier = StringUtils.substringAfterLast(nm, "(");
-    this.id = Strings.CS.removeEnd(identifier, ")");
+    this.key = webService.getKeyProperty("name");
 
     application = webService.getKeyProperty("application");
     appVersion = webService.getKeyProperty("version");
-    label = application + " > " + name;
+    label = application + " > " + key;
 
     var calls = new ExecutionCounter(webService.getCanonicalName(), "calls");
     callsMonitor.addInfoValue(format("%5d", calls.deltaExecutions()));
@@ -69,12 +59,8 @@ class WebService {
     executionTimeMonitor.addSeries(Series.build(calls.deltaMaxExecutionTime(), Ivy.cm().co("/liveStats/Max")).toSeries());
   }
 
-  public String id() {
-    return id;
-  }
-
-  public String name() {
-    return name;
+  public String key() {
+    return key;
   }
 
   public String application() {
