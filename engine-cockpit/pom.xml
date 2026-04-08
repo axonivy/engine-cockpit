@@ -20,8 +20,8 @@
     <dependency>
       <!-- oshi needs to align it's jna dependency with the axon ivy core jna dependency -->
       <groupId>com.github.oshi</groupId>
-      <artifactId>oshi-core</artifactId>
-      <version>6.11.0</version>
+      <artifactId>oshi-core-java25</artifactId>
+      <version>6.11.1</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
