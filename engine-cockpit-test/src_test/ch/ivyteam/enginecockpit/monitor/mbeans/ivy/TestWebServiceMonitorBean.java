@@ -30,13 +30,13 @@ class TestWebServiceMonitorBean {
 
   @Test
   void withData() throws Exception {
-    MBeans.registerMBeanFor(new Ws("ws1 (1)"));
-    MBeans.registerMBeanFor(new Ws("ws2 (2)"));
-    var testee = new WebServiceMonitor("test", 1, "1");
+    MBeans.registerMBeanFor(new Ws("ws1"));
+    MBeans.registerMBeanFor(new Ws("ws2"));
+    var testee = new WebServiceMonitor("test", 1, "ws1");
     assertThat(testee.getWebService()).isEqualTo("test > ws1");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
-    testee = new WebServiceMonitor("test", 1, "2");
+    testee = new WebServiceMonitor("test", 1, "ws2");
     assertThat(testee.getWebService()).isEqualTo("test > ws2");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
@@ -44,8 +44,8 @@ class TestWebServiceMonitorBean {
 
   @Test
   void callsMonitor() {
-    MBeans.registerMBeanFor(new Ws("ws1 (1)"));
-    var testee = new WebServiceMonitor("test", 1, "1");
+    MBeans.registerMBeanFor(new Ws("ws1"));
+    var testee = new WebServiceMonitor("test", 1, "ws1");
 
     var dataSet = testee.getCallsMonitor().getModel().getData().getDataSet();
     assertThat(dataSet).hasSize(2);
@@ -65,8 +65,8 @@ class TestWebServiceMonitorBean {
 
   @Test
   void executionTimeMonitor() {
-    MBeans.registerMBeanFor(new Ws("ws1 (1)"));
-    var testee = new WebServiceMonitor("test", 1, "1");
+    MBeans.registerMBeanFor(new Ws("ws1"));
+    var testee = new WebServiceMonitor("test", 1, "ws1");
 
     var dataSet = testee.getExecutionTimeMonitor().getModel().getData().getDataSet();
     assertThat(dataSet).hasSize(3);
@@ -90,7 +90,7 @@ class TestWebServiceMonitorBean {
         .isEqualTo("Execution Time: Min 5 us, Avg -, Max 7 us, Total 6 us");
   }
 
-  @MBean("ivy Engine:type=External Web Service,application=test,version=1,name=\"#{name}\"")
+  @MBean("ivy Engine:type=External Web Service,application=test,version=1,name=#{name}")
   private static final class Ws {
     private final String name;
 

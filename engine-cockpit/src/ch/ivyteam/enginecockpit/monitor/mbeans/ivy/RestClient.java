@@ -6,9 +6,6 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
 import javax.management.ObjectName;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Strings;
-
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
@@ -27,7 +24,6 @@ class RestClient {
 
   private final String label;
   private final String key;
-  private final String name;
   private final String application;
   private final String appVersion;
 
@@ -38,7 +34,6 @@ class RestClient {
   RestClient(ObjectName restClient) {
     if (restClient == null) {
       key = "";
-      name = "";
       application = "";
       appVersion = "";
       label = Ivy.cm().co("/common/NoData");
@@ -47,16 +42,11 @@ class RestClient {
       connectionsMonitor.addInfoValue(format(Ivy.cm().co("/common/NoDataAvailable")));
       return;
     }
-    var nm = restClient.getKeyProperty("name");
-    nm = Strings.CS.removeStart(nm, "\"");
-    nm = Strings.CS.removeEnd(nm, "\"");
-    this.name = StringUtils.substringBeforeLast(nm, "(").trim();
-    var identifier = StringUtils.substringAfterLast(nm, "(");
-    this.key = Strings.CS.removeEnd(identifier, ")");
+    this.key = restClient.getKeyProperty("name");
 
     application = restClient.getKeyProperty("application");
     appVersion = restClient.getKeyProperty("version");
-    label = toLabel(application, name);
+    label = toLabel(application, key);
 
     var usedConnections = cache(1, attribute(restClient, "usedConnections", Unit.ONE));
     var openConnections = attribute(restClient, "openConnections", Unit.ONE);
@@ -87,10 +77,6 @@ class RestClient {
 
   public String key() {
     return key;
-  }
-
-  public String name() {
-    return name;
   }
 
   public String application() {

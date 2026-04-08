@@ -31,8 +31,8 @@ class TestRestClientMonitor {
 
   @Test
   void withData() throws Exception {
-    MBeans.registerMBeanFor(new Client("client1 (client1)"));
-    MBeans.registerMBeanFor(new Client("client2 (client2)"));
+    MBeans.registerMBeanFor(new Client("client1"));
+    MBeans.registerMBeanFor(new Client("client2"));
     var testee = new RestClientMonitor("test", 1, "client1");
     assertThat(testee.getRestClient()).isEqualTo("test > client1");
     assertThat(testee.getCallsMonitor()).isNotNull();
@@ -47,7 +47,7 @@ class TestRestClientMonitor {
 
   @Test
   void connectionMonitor() {
-    MBeans.registerMBeanFor(new Client("client1 (client1)"));
+    MBeans.registerMBeanFor(new Client("client1"));
     var testee = new RestClientMonitor("test", 1, "client1");
 
     var dataSet = testee.getConnectionsMonitor().getModel().getData().getDataSet();
@@ -68,7 +68,7 @@ class TestRestClientMonitor {
 
   @Test
   void callsMonitor() {
-    MBeans.registerMBeanFor(new Client("client1 (client1)"));
+    MBeans.registerMBeanFor(new Client("client1"));
     var testee = new RestClientMonitor("test", 1, "client1");
 
     var dataSet = testee.getCallsMonitor().getModel().getData().getDataSet();
@@ -89,7 +89,7 @@ class TestRestClientMonitor {
 
   @Test
   void executionTimeMonitor() {
-    MBeans.registerMBeanFor(new Client("client1 (client1)"));
+    MBeans.registerMBeanFor(new Client("client1"));
     var testee = new RestClientMonitor("test", 1, "client1");
 
     var dataSet = testee.getExecutionTimeMonitor().getModel().getData().getDataSet();
@@ -114,7 +114,7 @@ class TestRestClientMonitor {
         .isEqualTo("Execution Time: Min 5 us, Avg -, Max 7 us, Total 6 us");
   }
 
-  @MBean("ivy Engine:type=External REST Web Service,application=test,version=1,name=\"#{name}\"")
+  @MBean("ivy Engine:type=External REST Web Service,application=test,version=1,name=#{name}")
   private static final class Client {
     private final String name;
 

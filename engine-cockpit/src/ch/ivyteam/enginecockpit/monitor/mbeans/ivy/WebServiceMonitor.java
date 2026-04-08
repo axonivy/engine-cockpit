@@ -48,13 +48,13 @@ public class WebServiceMonitor {
   private boolean isWebService(WebService service) {
     return service.application().equals(applicationName) &&
         service.appVersion().equals(String.valueOf(appVersion)) &&
-        service.id().equals(webServiceKey);
+        service.key().equals(webServiceKey);
   }
 
   private static Set<ObjectName> searchJmx(String appName, int appVersion, String webServiceKey)
       throws MalformedObjectNameException {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
-        new ObjectName("ivy Engine:type=External Web Service,application=" + appName + ",version=" + appVersion + ",name=\"*(" + webServiceKey + ")\""),
+        new ObjectName("ivy Engine:type=External Web Service,application=" + appName + ",version=" + appVersion + ",name=" + webServiceKey),
         null);
   }
 }
