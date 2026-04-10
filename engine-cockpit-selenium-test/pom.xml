@@ -116,6 +116,14 @@
             <artifactId>project-build-plugin</artifactId>
             <executions>
               <execution>
+                <id>install.engine</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>installEngine</goal>
+                </goals>
+              </execution>
+
+              <execution>
                 <id>start.test.engine</id>
                 <phase>pre-integration-test</phase>
                 <goals>
