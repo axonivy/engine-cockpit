@@ -87,7 +87,7 @@
               <overWriteSnapshots>true</overWriteSnapshots>
             </configuration>
           </plugin>
-    
+
           <plugin>
             <artifactId>maven-resources-plugin</artifactId>
             <executions>
@@ -117,7 +117,7 @@
             <executions>
               <execution>
                 <id>install.engine</id>
-                <phase>pre-integration-test</phase>
+                <phase>package</phase>
                 <goals>
                   <goal>installEngine</goal>
                 </goals>
