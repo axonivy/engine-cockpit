@@ -56,7 +56,7 @@ class TestTraceBean {
     assertThat(bean.isNotCleanable()).isTrue();
     bean.start();
     assertThat(bean.isNotCleanable()).isTrue();
-    try (var _ = Span.open(() -> new TstSpan("test"))) {}
+    try (var _ = Span.open().instance(() -> new TstSpan("test"))) {}
     bean.refresh();
     assertThat(bean.isNotCleanable()).isFalse();
     bean.stop();
@@ -69,7 +69,7 @@ class TestTraceBean {
   void slowTraces() {
     bean.start();
     assertThat(bean.getSlowTraces()).isEmpty();
-    try (var _ = Span.open(() -> new TstSpan("test name"))) {}
+    try (var _ = Span.open().instance(() -> new TstSpan("test name"))) {}
     bean.refresh();
     assertThat(bean.getSlowTraces()).hasSize(1);
   }
@@ -78,7 +78,7 @@ class TestTraceBean {
   void trace_undef() {
     bean.start();
     assertThat(bean.getSlowTraces()).isEmpty();
-    try (var _ = Span.open(() -> new TstSpan("test name", List.of(attribute("attr", 1234), attribute("hello", "world"))))) {}
+    try (var _ = Span.open().instance(() -> new TstSpan("test name", List.of(attribute("attr", 1234), attribute("hello", "world"))))) {}
     bean.refresh();
     assertThat(bean.getSlowTraces()).hasSize(1);
     var trc = bean.getSlowTraces().get(0);
@@ -97,7 +97,7 @@ class TestTraceBean {
   void trace_error() {
     bean.start();
     assertThat(bean.getSlowTraces()).isEmpty();
-    try (var span = Span.open(() -> new TstSpan("with error"))) {
+    try (var span = Span.open().instance(() -> new TstSpan("with error"))) {
       span.error(new Throwable());
     }
     bean.refresh();
@@ -112,7 +112,7 @@ class TestTraceBean {
   void trace_ok() {
     bean.start();
     assertThat(bean.getSlowTraces()).isEmpty();
-    try (var span = Span.open(() -> new TstSpan("with ok"))) {
+    try (var span = Span.open().instance(() -> new TstSpan("with ok"))) {
       span.result(SpanResult.ok(attribute("status", 200)));
     }
     bean.refresh();
