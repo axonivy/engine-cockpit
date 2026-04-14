@@ -18,7 +18,7 @@
       <p:commandButton id="cancel" onclick="PF('supportReportModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="download" ajax="false" value="#{ivy.cm.co('/common/Download')}"
         onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'ti-download');}"
-        title="#{ivy.cm.co('/supportReport/DownloadSupportReport')}" icon="si ti-download" styleClass="modal-input-button"
+        title="#{ivy.cm.co('/supportReport/DownloadSupportReport')}" icon="ti ti-download" styleClass="modal-input-button"
         style="width: 150px;">
         <p:fileDownload value="#{supportBean.supportReport}" />
       </p:commandButton>

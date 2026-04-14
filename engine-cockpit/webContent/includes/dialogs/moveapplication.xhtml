@@ -39,7 +39,7 @@
       <p:commandButton id="validateMoveApplication" update="moveApplicationForm" actionListener="#{moveApplicationBean.validate()}" value="#{ivy.cm.co('/moveApplication/Validate')}" 
         oncomplete="var button=this; buttonRemoveSpinner(button, 'ti-check');"
         onclick="var button=this; buttonAddSpinner(button);"
-        icon="si ti-check" styleClass="modal-input-button" />
+        icon="ti ti-check" styleClass="modal-input-button" />
       <p:commandButton id="moveApplication" disabled="#{!moveApplicationBean.isValid()}" actionListener="#{moveApplicationBean.move()}" value="#{ivy.cm.co('/moveApplication/Move')}"
         oncomplete="var button=this; buttonRemoveSpinner(button, 'ti-check');PF('moveApplicationModal').hide();"
         onclick="var button=this; buttonAddSpinner(button);" update="appDetailSecurityForm"

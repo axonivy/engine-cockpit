@@ -33,7 +33,7 @@
                   <p:commandButton id="clear" actionListener="#{classHistogramBean.clear}" update="@form" title="#{ivy.cm.co('/monitor/classHistogram/Clear')}"
                       icon="ti ti-trash" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{classHistogramBean.notClearable}"/>
                   <p:commandButton id="dump" update="dumpMemory" title="#{ivy.cm.co('/monitor/classHistogram/Dump')}" onclick="PF('dumpMemoryDialog').show();"
-                      icon="si ti-download" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button"/>
+                      icon="ti ti-download" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button"/>
                 </div>
               </div>
               <p:dataTable var="class" value="#{classHistogramBean.classes}" filteredValue="#{classHistogramBean.filteredClasses}"
@@ -132,7 +132,7 @@
               <p:commandButton id="cancel" type="button" onclick="PF('dumpMemoryDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
               <p:commandButton id="dump" ajax="false" value="#{ivy.cm.co('/monitor/classHistogram/Dump')}" update="form" title="#{ivy.cm.co('/monitor/classHistogram/DumpHeapMemory')}"
                   onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'ti-download'); PF('dumpMemoryDialog').hide();}"
-                  icon="si ti-download" styleClass="modal-input-button">
+                  icon="ti ti-download" styleClass="modal-input-button">
                 <p:fileDownload value="#{classHistogramBean.dumpMemory()}"/>
               </p:commandButton>
             </div>

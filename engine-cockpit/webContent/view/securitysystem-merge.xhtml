@@ -25,7 +25,7 @@
             <p:autoUpdate />
           </p:growl>
           <div class="flex align-items-center mb-3">
-            <i class="pr-3 si ti-arrow-big-down-lines card-title-icon" />
+            <i class="pr-3 ti ti-arrow-big-down-lines card-title-icon" />
             <h2 class="m-0">#{ivy.cm.co('/securitySystemMerge/MergeSecuritySystems')}</h2>
           </div>
 
@@ -39,7 +39,7 @@
                 itemLabel="#{securitySystem}" itemValue="#{securitySystem}" />
             </p:selectOneMenu>
 
-            <p:commandButton update="form" id="compare" icon="si ti-arrow-big-down-lines" value="#{ivy.cm.co('/securitySystemMerge/CompareButton')}" 
+            <p:commandButton update="form" id="compare" icon="ti ti-arrow-big-down-lines" value="#{ivy.cm.co('/securitySystemMerge/CompareButton')}" 
               title="#{ivy.cm.co('/securitySystemMerge/CompareButtonTitle')}"
               actionListener="#{securitySystemCompareBean.run}"
               oncomplete="var button=this; buttonRemoveSpinner(button, 'ti-arrow-big-down-lines');"
