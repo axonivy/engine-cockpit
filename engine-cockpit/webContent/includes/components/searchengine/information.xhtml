@@ -12,7 +12,7 @@
       <div class="card-title flex align-items-center">
         <i class="pr-3 ti ti-info-circle"></i>
         <h6 class="m-0">#{ivy.cm.co('/common/SearchEngine')}</h6>
-        <p:commandButton id="queryToolBtn" title="#{ivy.cm.co('/common/RunSearchEngineQuery')}" icon="si si-monitor-heart-beat-search"
+        <p:commandButton id="queryToolBtn" title="#{ivy.cm.co('/common/RunSearchEngineQuery')}" icon="ti ti-device-desktop-search"
           update="searchEngineQueryToolModal" actionListener="#{searchEngineBean.setActiveIndex(null)}"
           styleClass="ml-auto rounded-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
         <p:linkButton id="configSearchEngine" title="#{ivy.cm.co('/searchEngineInformation/ConfigureSearchEngineButtonTitle')}" icon="ti ti-settings" type="button"

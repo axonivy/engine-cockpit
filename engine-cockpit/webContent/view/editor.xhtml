@@ -24,7 +24,7 @@
           <p:autoUpdate />
         </p:growl>
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-common-file-text-edit card-title-icon"></i>
+          <i class="pr-3 ti ti-file-pencil card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/common/ConfigFileEditor')}</h2>
 
           <h:form id="fileChooserForm" styleClass="ml-auto">
@@ -77,7 +77,7 @@
                 update="uploadDownloadBinary"
                 style="display: none;" />
               <p:commandButton title="#{ivy.cm.co('/editor/UploadP12')}" value="#{ivy.cm.co('/editor/UploadP12')}" 
-                icon="si si-upload-bottom"
+                icon="ti ti-upload"
                 type="button" id="uploadbtn"
                 styleClass="ui-button-outlined"
                 onclick="document.getElementById(this.id.replace(':uploadbtn',':binaryUpload_input')).click(); return false;">

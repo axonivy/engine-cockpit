@@ -70,8 +70,8 @@ public class SearchEngineIndex {
   }
 
   public enum IndexStatus {
-    OPEN("open", "pi pi-lock-open state-active", Ivy.cm().co("/indices/OpenIndexHint")),
-    CLOSED("closed", "pi pi-lock state-inactive",  Ivy.cm().co("/indices/ClosedIndexHint")),
+    OPEN("open", "ti ti-lock-open-2 state-active", Ivy.cm().co("/indices/OpenIndexHint")),
+    CLOSED("closed", "ti ti-lock state-inactive",  Ivy.cm().co("/indices/ClosedIndexHint")),
     UNKNOWN("unknown", "ti ti-help-circle", "");
 
     private final String state;

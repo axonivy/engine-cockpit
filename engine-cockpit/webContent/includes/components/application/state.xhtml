@@ -7,14 +7,14 @@
   <h:form id="appDetailStateForm">
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-cog-play"></i>
+        <i class="pr-3 ti ti-settings-automation"></i>
         <h6 class="m-0">#{ivy.cm.co('/common/Activity')}</h6>
         
         <p:commandButton id="activateApplication" title="#{ivy.cm.co('/common/Activate')}" type="button" icon="ti ti-player-play"
           disabled="#{applicationDetailBean.application.notStartable}" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button">
           <p:ajax listener="#{applicationDetailBean.application.activate}" update="@form" />
         </p:commandButton>
-        <p:commandButton id="deActivateApplication" title="#{ivy.cm.co('/common/Deactivate')}" type="button" icon="si si-controls-stop"
+        <p:commandButton id="deActivateApplication" title="#{ivy.cm.co('/common/Deactivate')}" type="button" icon="ti ti-player-stop"
           disabled="#{applicationDetailBean.application.notStopable}" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button">
           <p:ajax listener="#{applicationDetailBean.application.deactivate}" update="@form" />
         </p:commandButton>

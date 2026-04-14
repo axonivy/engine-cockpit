@@ -46,7 +46,7 @@
         <h:outputText value="#{index.size}" />
       </p:column>
       <p:column styleClass="table-btn-2">
-        <p:commandButton id="queryToolBtn" title="#{ivy.cm.co('/common/RunSearchEngineQuery')}" icon="si si-monitor-heart-beat-search"
+        <p:commandButton id="queryToolBtn" title="#{ivy.cm.co('/common/RunSearchEngineQuery')}" icon="ti ti-device-desktop-search"
           actionListener="#{searchEngineBean.setActiveIndex(index)}" update="searchEngineQueryToolModal"
           styleClass="rounded-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
         <p:commandButton title="#{ivy.cm.co('/indices/Reindex')}"

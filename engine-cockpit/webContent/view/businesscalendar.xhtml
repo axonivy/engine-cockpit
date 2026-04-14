@@ -19,7 +19,7 @@
       <div class="card">
         <p:growl id="msgs" />
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-calendar card-title-icon"></i>
+          <i class="pr-3 ti ti-calendar-event card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/common/BusinessCalendar')}</h2>
         </div>
 
@@ -47,7 +47,7 @@
               <p:column>
                 <p:treeNode>
                   <h:outputLink value="businesscalendar-detail.xhtml?calendarName=#{node.name}" id="calendarNode" styleClass="business-calendar">
-                    <i class="si si-calendar table-icon"></i>
+                    <i class="ti ti-calendar-event table-icon"></i>
                     <h:outputText value="#{node.name}" />
                   </h:outputLink>
                 </p:treeNode>

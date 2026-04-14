@@ -102,7 +102,7 @@ class WebTestApplication {
         .shouldHave(attribute("title", "This PM is configured as strict override project"));
     // project of app test-ad has no override configured
     $$(".activity-name").find(exactText("portal-user-examples")).parent().find(".table-icon")
-        .shouldHave(cssClass("si-module-three-2"))
+        .shouldHave(cssClass("ti-packages"))
         .shouldHave(attribute("title", "PM"));
   }
 

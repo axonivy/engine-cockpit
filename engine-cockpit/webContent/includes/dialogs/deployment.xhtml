@@ -30,7 +30,7 @@
               <span>#{ivy.cm.co('/deployment/Options')}</span>
             </div>
             <span class="flex align-items-center">
-              <i class="si #{deploymentBean.showDeployOptions ? 'si-arrow-up-1' : 'ti-chevron-down'}"/>
+              <i class="si #{deploymentBean.showDeployOptions ? 'ti-chevron-up' : 'ti-chevron-down'}"/>
             </span>
           </p:commandLink>
           <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="col-4, col-8" layout="flex" contentStyleClass="align-items-center"
@@ -55,7 +55,7 @@
         <div class="flex justify-content-end mt-4 pt-3" style="border-top-width: 1px; border-top-style: solid; border-color: #e5e7eb">
           <p:commandButton id="cancelDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
             type="button" styleClass="ui-button-secondary ui-button-outlined mr-2" />
-          <p:commandButton id="uploadBtn" icon="si si-upload-bottom" value="#{ivy.cm.co('/deployment/Deploy')}" 
+          <p:commandButton id="uploadBtn" icon="ti ti-upload" value="#{ivy.cm.co('/deployment/Deploy')}" 
             actionListener="#{deploymentBean.uploadAndDeploy}" disabled="#{!deploymentBean.isFileSet()}"
             update="fileUploadResponse fileUploadForm"/>
         </div>
@@ -73,7 +73,7 @@
         <div class="flex flex-row-reverse">
           <p:commandButton id="closeDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="#{ivy.cm.co('/common/Close')}"
             icon="ti ti-circle-minus" styleClass="modal-input-button" />
-          <p:commandButton id="backBtn" value="#{ivy.cm.co('/common/Back')}" icon="si si-navigation-left-circle-1"
+          <p:commandButton id="backBtn" value="#{ivy.cm.co('/common/Back')}" icon="ti ti-circle-arrow-left"
             styleClass="ui-button-secondary ui-button-flat modal-input-button" actionListener="#{deploymentBean.hideDeployLogs}"
             update="fileUploadResponse fileUploadForm"/>
         </div>

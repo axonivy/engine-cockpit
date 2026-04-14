@@ -37,7 +37,7 @@
                     <p:menuitem id="sr_setup_migrate" value="#{ivy.cm.co('/infoTemplate/MigrateAxonIvyEngine')}" icon="ti ti-circle-arrow-right" url="migrate.xhtml" />
                   </p:submenu>
                   <p:menuitem id="sr_doc" value="#{ivy.cm.co('/infoTemplate/Documentation')}" icon="ti ti-file-type-doc animated swing" url="#{ivyAdvisor.advisor.docBaseUrl}" />
-                  <p:menuitem id="sr_shutdown" title="#{ivy.cm.co('/infoTemplate/ShutdownAxonIvyEngine')}" icon="si si-power-button animated swing" rendered="#{engineInfo.canShutdown()}" actionListener="#{engineInfo.openShutdownDialog()}" />
+                  <p:menuitem id="sr_shutdown" title="#{ivy.cm.co('/infoTemplate/ShutdownAxonIvyEngine')}" icon="ti ti-power animated swing" rendered="#{engineInfo.canShutdown()}" actionListener="#{engineInfo.openShutdownDialog()}" />
                 </pm:menu>
               </h:form>
             </div>
@@ -68,7 +68,7 @@
         id="shutdownDialogShutdown"
         disabled="#{engineInfo.shutdownButtonsDisabled}"
         actionListener="#{engineInfo.shutdown()}"
-        styleClass="modal-input-button" icon="si si-power-button" />
+        styleClass="modal-input-button" icon="ti ti-power" />
     </f:facet>
   </p:dialog>
 

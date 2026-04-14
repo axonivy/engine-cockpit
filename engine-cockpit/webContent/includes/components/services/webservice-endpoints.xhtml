@@ -28,7 +28,7 @@
           actionListener="#{webserviceDetailBean.setActivePortType(endpoint.name)}" update="editEndpointModal"
           oncomplete="PF('editEndpointModal').show()" rendered="#{endpoint.type eq 'port'}" />
         <p:commandButton id="testWsEndpointBtn" title="#{ivy.cm.co('/webServiceEndpoints/TestWsEndpointButtonTitle')}"
-          update="connResult:connectionTestModel" icon="si si-phone-actions-call"
+          update="connResult:connectionTestModel" icon="ti ti-phone-outgoing"
           styleClass="ui-button-secondary rounded-button" process="@this"
           actionListener="#{webserviceDetailBean.setActiveEndpoint(endpoint.name)}"
           rendered="#{endpoint.type eq 'link'}" oncomplete="PF('connectionTestModel').show()" async="true" />

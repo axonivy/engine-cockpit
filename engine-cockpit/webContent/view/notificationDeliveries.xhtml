@@ -97,7 +97,7 @@
                 </h:panelGroup>
               </p:outputPanel>
               <p:tooltip id="errorDetails" for="error">
-                <h5 class="flex align-items-center"><i class="si si-computer-chip-search"></i><h:outputText value="&#160;"/>#{ivy.cm.co('/notificationDeliveries/ErrorInformation')}</h5>
+                <h5 class="flex align-items-center"><i class="ti ti-settings-search"></i><h:outputText value="&#160;"/>#{ivy.cm.co('/notificationDeliveries/ErrorInformation')}</h5>
                 <p:panelGrid layout="grid" columns="2" columnClasses="ui-g-3, ui-g-9">
                   <p:outputLabel value="#{ivy.cm.co('/notificationDeliveries/FailedDeliverAttemps')}"/>
                   <h:outputText value="#{delivery.numberOfErrors}" />

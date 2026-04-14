@@ -18,7 +18,7 @@
         <h:form id="form" onkeypress="if (event.keyCode == 13) return false;">
           <p:growl for="applicationMessage" id="applicationMessage" showDetail="true" />
           <div class="flex align-items-center mb-3">
-            <i class="pr-3 si si-layout-module card-title-icon"></i>
+            <i class="pr-3 ti ti-layout-grid card-title-icon"></i>
             <h2 class="m-0">#{ivy.cm.co('/common/Applications')}</h2>
             <p:commandButton styleClass="ml-auto" id="createApplicationBtn" widgetVar="createApplication" icon="ti ti-plus"
               value="#{ivy.cm.co('/common/Add')}" onclick="PF('newApplicationModal').show();" type="button" />
@@ -68,7 +68,7 @@
 
             <p:column styleClass="table-btn-5">              
               <h:panelGroup id="deployBtnHint">
-                <p:commandButton title="#{ivy.cm.co('/common/Deployment')}" icon="si si-upload-bottom" rendered="#{activity.app}"
+                <p:commandButton title="#{ivy.cm.co('/common/Deployment')}" icon="ti ti-upload" rendered="#{activity.app}"
                   id="deployBtn" styleClass="mr-1 rounded-button" actionListener="#{deploymentBean.setAppNameAndVersion(activity.name, activity.version)}">
                   <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}"
                     oncomplete="PF('fileUploadModal').show()" />
@@ -90,7 +90,7 @@
                 type="button" styleClass="mr-1 ui-button-success rounded-button">
                 <p:ajax update="form" listener="#{activity.activate}" />
               </p:commandButton>
-              <p:commandButton title="#{ivy.cm.co('/common/Deactivate')}" id="deactivateButton" icon="si si-controls-stop" rendered="#{activity.app}" disabled="#{activity.notStopable}"
+              <p:commandButton title="#{ivy.cm.co('/common/Deactivate')}" id="deactivateButton" icon="ti ti-player-stop" rendered="#{activity.app}" disabled="#{activity.notStopable}"
                 type="button" styleClass="mr-1 ui-button-danger rounded-button">
                 <p:ajax update="form" listener="#{activity.deactivate}" />
               </p:commandButton>
@@ -100,7 +100,7 @@
               <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
                 <p:menuitem value="#{ivy.cm.co('/common/Lock')}" icon="ti ti-lock" rendered="#{activity.app}" disabled="#{activity.notLockable}"
                   actionListener="#{activity.lock}" update="form" />
-                <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" rendered="#{activity.app}" icon="si si-heavy-equipment-hook"
+                <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" rendered="#{activity.app}" icon="ti ti-crane"
                   disabled="#{!activity.releasable}" actionListener="#{activity.release}" update="form" />
                 <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash" disabled="#{not empty activity.isDeletable()}"
                   actionListener="#{applicationBean.setActiveActivity(activity)}"

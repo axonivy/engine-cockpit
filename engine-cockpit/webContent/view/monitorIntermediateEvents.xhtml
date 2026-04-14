@@ -77,7 +77,7 @@
              <p:column styleClass="table-btn-3">
               <p:commandButton id="start" title="#{ivy.cm.co('/monitor/startEvent/StartsTheBean')}" icon="ti ti-player-play"
                 action="#{bean.start()}" update="@form" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button" disabled="#{bean.running}"/>
-              <p:commandButton id="stop" title="#{ivy.cm.co('/monitor/startEvent/StopsTheBean')}" icon="si si-controls-stop"
+              <p:commandButton id="stop" title="#{ivy.cm.co('/monitor/startEvent/StopsTheBean')}" icon="ti ti-player-stop"
                 action="#{bean.stop()}" update="@form" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{!bean.running}"/>
               <p:commandButton id="poll" oncomplete="PF('pollBeanDialog').show();" title="#{ivy.cm.co('/monitor/startEvent/ScheduleToPollTheBeanNow')}" icon="ti ti-clock-play"
                 action="#{intermediateEventBean.setSelected(bean)}" update="pollBeanDialog" styleClass="flex-shrink-0 ml-1 rounded-button" />

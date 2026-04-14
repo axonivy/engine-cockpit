@@ -55,7 +55,7 @@
                     placeholder="#{property.defaultValue}" />
 
                   <p:commandButton id="testTlsConectionBtn"
-                    title="#{ivy.cm.co('/dynamicConfig/TLSConnectionTestButton')}" icon="si si-phone-actions-call" 
+                    title="#{ivy.cm.co('/dynamicConfig/TLSConnectionTestButton')}" icon="ti ti-phone-outgoing" 
                     actionListener="#{tlsTesterBean.testConnection(property.value)}"
                     oncomplete="PF('connectionTestModel').show()"
                     update="identityProvider:connectionTestModel"

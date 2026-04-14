@@ -30,7 +30,7 @@
     <p:panelGrid columns="1" layout="flex">
       <h:panelGroup id="deployBtnHint">
         <p:commandButton id="showDeployment" title="#{ivy.cm.co('/common/Deployment')}" value="#{ivy.cm.co('/common/Deployment')}"
-          style="margin-top: 20px; min-width: 150px;" icon="si si-upload-bottom"
+          style="margin-top: 20px; min-width: 150px;" icon="ti ti-upload"
           onclick="PF('fileUploadModal').show()" 
           actionListener="#{deploymentBean.setAppNameAndVersion(applicationDetailBean.application.name, applicationDetailBean.appVersion)}"/>
       </h:panelGroup>
