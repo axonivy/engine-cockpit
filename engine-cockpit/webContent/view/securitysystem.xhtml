@@ -22,9 +22,9 @@
             <p:autoUpdate />
           </p:growl>
           <div class="flex align-items-center mb-3">
-            <i class="pr-3 si si-lock-1 card-title-icon"></i>
+            <i class="pr-3 ti ti-lock card-title-icon"></i>
             <h2 class="m-0">#{ivy.cm.co('/common/SecuritySystems')}</h2>
-            <p:commandButton styleClass="ml-auto" id="createSecuritySystemBtn" icon="si si-add" type="button" value="#{ivy.cm.co('/common/Add')}"
+            <p:commandButton styleClass="ml-auto" id="createSecuritySystemBtn" icon="ti ti-plus" type="button" value="#{ivy.cm.co('/common/Add')}"
               onclick="PF('newSecuritySystemModal').show();" />
           </div>
           <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
@@ -33,13 +33,13 @@
             id="securitySystemTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
             <f:facet name="header">
               <div class="ui-input-icon-left filter-container">
-                <i class="pi pi-search"/>
+                <i class="ti ti-search"/>
                 <p:inputText id="globalFilter" onkeyup="PF('securitySystemTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{securityBean.filter}" />
               </div>
             </f:facet>
             <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{system.securitySystemName}" filterBy="#{system.securitySystemName}">
               <h:outputLink value="#{system.link}">
-                <i class="si si-lock-1 table-icon"></i>
+                <i class="ti ti-lock table-icon"></i>
                 <h:outputText value="#{system.securitySystemName}" styleClass="security-name" />
               </h:outputLink>
             </p:column>
@@ -55,7 +55,7 @@
             <p:column headerText="#{ivy.cm.co('/common/Application')}">
               <ui:repeat var="app" value="#{system.apps}" varStatus="status">
                 <a href="#{system.getApplicationDetailLink(app)}">
-                  <i class="si si-module table-icon"></i>#{app.name()}
+                  <i class="ti ti-layout-grid table-icon"></i>#{app.name()}
                 </a>
                 <h:outputText value="#{status.last ? '' : ' / '}" />
               </ui:repeat>

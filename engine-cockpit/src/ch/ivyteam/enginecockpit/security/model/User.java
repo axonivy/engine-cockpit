@@ -81,7 +81,7 @@ public class User implements SecurityMember {
 
   @Override
   public String getCssIconClass() {
-    return "si si-single-neutral-actions";
+    return "ti ti-user-check";
   }
 
   @Override

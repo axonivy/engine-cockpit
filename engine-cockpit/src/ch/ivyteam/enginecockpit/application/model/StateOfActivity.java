@@ -115,7 +115,7 @@ public class StateOfActivity {
         this.operationIcon = "remove-circle";
         break;
       default:
-        this.operationIcon = "button-refresh-arrows si-is-spinning";
+        this.operationIcon = "button-refresh-arrows spinning";
         this.processing = true;
     }
   }

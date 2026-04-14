@@ -18,7 +18,7 @@
       </p:growl>
       <div class="card-header">
         <div class="card-title flex align-items-center">
-          <i class="pr-3 si si-information-circle"></i>
+          <i class="pr-3 ti ti-info-circle"></i>
           <h6 class="m-0">#{cc.attrs.title}</h6>
           <p:fileUpload id="certUpload" mode="simple" skinSimple="true"
             multiple="false" auto="true"
@@ -104,7 +104,7 @@
 
         <p:column styleClass="table-btn-1">
           <p:commandButton id="delete"
-            title="#{ivy.cm.co('/common/Delete')}" icon="si si-bin-1"
+            title="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
             styleClass="ui-button-danger rounded-button"
             actionListener="#{cc.attrs.bean.deleteCertificate(certificate.alias)}"
             update="@form">
@@ -124,7 +124,7 @@
         <p:commandButton id="deleteYesBtn"
           value="#{ivy.cm.co('/common/Delete')}" type="button"
           styleClass="ui-confirmdialog-yes modal-input-button"
-          icon="si si-bin-1" />
+          icon="ti ti-trash" />
       </p:confirmDialog>
 
     </h:form>

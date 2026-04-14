@@ -26,12 +26,12 @@
       <div class="card">
 
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-advertising-megaphone-2 card-title-icon"></i>
+          <i class="pr-3 ti ti-speakerphone card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/notificationDeliveries/Notification')} #{notificationBean.notification.id}</h2>
           <p:commandButton id="reusher" actionListener="#{notificationBean.notification.reusher}" title="#{ivy.cm.co('/notificationDeliveries/ReevaluteDeliveries')}"
-            icon="si si-multiple-actions-add" styleClass="flex-shrink-0 ml-auto rounded-button" update="tableForm"/>
+            icon="ti ti-user-plus" styleClass="flex-shrink-0 ml-auto rounded-button" update="tableForm"/>
           <p:commandButton id="retry" actionListener="#{notificationBean.notification.retry}" title="#{ivy.cm.co('/notificationDeliveries/RetryToDeliver')}"
-            icon="si si-send-email" styleClass="flex-shrink-0 ml-1 rounded-button" update="tableForm"/>
+            icon="ti ti-mail" styleClass="flex-shrink-0 ml-1 rounded-button" update="tableForm"/>
         </div>
 
         <h:form id="tableForm" onkeypress="if (event.keyCode == 13) return false;">
@@ -40,7 +40,7 @@
             <f:facet name="header">
               <div class="flex">
                 <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
-                  <i class="pi pi-search"/>
+                  <i class="ti ti-search"/>
                   <p:inputText id="globalFilter" onkeyup="PF('deliveryTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{notificationBean.dataModel.filter}" />
                 </span>
               </div>
@@ -88,11 +88,11 @@
             <p:column headerText="#{ivy.cm.co('/notificationDeliveries/Errors')}">
               <p:outputPanel id="error" rendered="#{delivery.numberOfErrors gt 0}">
                 <h:panelGroup>
-                  <i class="si si-delete-1 table-icon state-inactive"></i>
+                  <i class="ti ti-trash table-icon state-inactive"></i>
                   <h:outputText value="#{delivery.numberOfErrors}" />
                 </h:panelGroup>
                 <h:panelGroup rendered="#{not empty delivery.nextRetryAt}">
-                  <i class="si si-synchronize-arrow-clock table-icon"></i>
+                  <i class="ti ti-clock-play table-icon"></i>
                   <h:outputText value="#{delivery.nextRetryIn}" />
                 </h:panelGroup>
               </p:outputPanel>
@@ -117,7 +117,7 @@
             </p:column>
 
             <p:column styleClass="table-btn-1">
-              <p:commandButton id="retry" title="#{ivy.cm.co('/notificationDeliveries/RetryToDeliver')}" icon="si si-send-email" rendered="#{delivery.numberOfErrors gt 0}"
+              <p:commandButton id="retry" title="#{ivy.cm.co('/notificationDeliveries/RetryToDeliver')}" icon="ti ti-mail" rendered="#{delivery.numberOfErrors gt 0}"
                 actionListener="#{delivery.retry}" ajax="true" update="@form" styleClass="rounded-button"/>
             </p:column>
 

@@ -20,7 +20,7 @@
     <ui:define name="topbar-items">
       <li class="topbar-item">
         <a id="downloadAllLogs" href="#" onclick="PF('downloadModal').show();">
-          <i class="topbar-icon si si-download-bottom"></i>
+          <i class="topbar-icon ti ti-download"></i>
         </a>
       </li>
       <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#logs" />
@@ -36,7 +36,7 @@
             <div class="card-title">
               <h:form id="logChooserForm">
                 <div class="flex align-items-center">
-                  <i class="pr-3 si si-common-file-text"></i>
+                  <i class="pr-3 ti ti-file-text"></i>
                   <h2 class="m-0">#{ivy.cm.co('/sidebar/Logs')}</h2>
                   <p:calendar  id="calendar" styleClass="ml-auto" 
                     inputStyle="width:100px;"

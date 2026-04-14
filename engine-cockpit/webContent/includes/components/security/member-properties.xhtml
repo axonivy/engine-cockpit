@@ -8,11 +8,11 @@
     <p:growl for="propertiesMessage" id="propertiesMessage" showDetail="true" />
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-cog"></i>
+        <i class="pr-3 ti ti-settings"></i>
         <h6 class="m-0">#{ivy.cm.co('/common/Properties')}</h6>
         <p:commandButton id="newPropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
           actionListener="#{memberProperty.setProperty(null)}" update="propertyModalForm:propertyModal" title="#{ivy.cm.co('/common/Add')}"
-          icon="si si-add" styleClass="flex-shrink-0 ml-auto rounded-button" />
+          icon="ti ti-plus" styleClass="flex-shrink-0 ml-auto rounded-button" />
       </div>
     </div>
 
@@ -22,21 +22,21 @@
       emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
       <f:facet name="header">
         <div class="ui-input-icon-left filter-container">
-          <i class="pi pi-search"/>
+          <i class="ti ti-search"/>
           <p:inputText id="globalFilter" onkeyup="PF('propertiesTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{memberProperty.filter}" />
         </div>
       </f:facet>
 
       <p:column headerText="#{ivy.cm.co('/common/Name')}" filterBy="#{property.key}" sortBy="#{property.value}">
         <h:outputText value="#{property.key}" styleClass="property-name">
-          <i class="si si-cog table-icon"></i>
+          <i class="ti ti-settings table-icon"></i>
         </h:outputText>
       </p:column>
   
       <p:column headerText="#{ivy.cm.co('/common/Value')}" filterBy="#{property.value}">
         <h:outputText value="#{property.value}" title="#{property.value}" styleClass="table-cell-autocut">
           <h:panelGroup rendered="#{property.managed}">
-            <i class="si si-button-refresh-arrows table-icon"
+            <i class="ti ti-refresh table-icon"
               title="#{ivy.cm.co('/memberProperties/PropertyInExternalSecuritySystem')}"></i>
           </h:panelGroup>
         </h:outputText>
@@ -45,10 +45,10 @@
       <p:column styleClass="table-btn-2">
         <p:outputLabel>
           <p:commandButton id="editPropertyBtn" actionListener="#{memberProperty.setProperty(property)}"
-            icon="si si-pencil" title="#{ivy.cm.co('/common/Edit')}" update="propertyModalForm:propertyModal" disabled="#{property.managed}"
+            icon="ti ti-pencil" title="#{ivy.cm.co('/common/Edit')}" update="propertyModalForm:propertyModal" disabled="#{property.managed}"
             styleClass="ui-button-secondary rounded-button" oncomplete="PF('propertyModal').show();"
             process="@this" />
-          <p:commandButton id="deletePropertyBtn" type="button" icon="si si-bin-1" title="#{ivy.cm.co('/common/Delete')}"
+          <p:commandButton id="deletePropertyBtn" type="button" icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"
             disabled="#{property.managed}" styleClass="ml-1 ui-button-danger rounded-button">
             <p:ajax listener="#{memberProperty.removeProperty(property.key)}" update="@form" />
           </p:commandButton>
@@ -82,7 +82,7 @@
       <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="saveProperty" validateClient="true" ajax="false" update=":propertiesForm"
-        actionListener="#{memberProperty.saveProperty}" value="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk"
+        actionListener="#{memberProperty.saveProperty}" value="#{ivy.cm.co('/common/Save')}" icon="ti ti-device-floppy"
         styleClass="modal-input-button" />
     </f:facet>
   </p:dialog>

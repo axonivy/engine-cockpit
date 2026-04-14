@@ -24,7 +24,7 @@
     <ui:define name="content">
       <div class="card">
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-advertising-megaphone-2 card-title-icon"></i>
+          <i class="pr-3 ti ti-speakerphone card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/sidebar/Notifications')}</h2>
         </div>
         <cc:SecuritySystemTabs tabChange="#{notificationsBean.onload}" id="tabs">
@@ -35,7 +35,7 @@
               <f:facet name="header">
                 <div class="flex">
                   <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
-                    <i class="pi pi-search"/>
+                    <i class="ti ti-search"/>
                     <p:inputText id="globalFilter" onkeyup="PF('notificationTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{notificationsBean.dataModel.filter}" />
                   </span>
                 </div>
@@ -79,7 +79,7 @@
               </p:column>
 
               <p:column styleClass="table-btn-1">
-                <p:commandButton id="showPayload" title="#{ivy.cm.co('/notification/ShowPayload')}" icon="si si-office-file-doc-1"
+                <p:commandButton id="showPayload" title="#{ivy.cm.co('/notification/ShowPayload')}" icon="ti ti-file-type-doc"
                     actionListener="#{notificationPayloadBean.setNotification(notification)}" update="payloadModal" styleClass="rounded-button"
                     oncomplete="PF('payloadModal').show()" />
               </p:column>

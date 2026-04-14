@@ -35,7 +35,7 @@
                     <i class="pr-3 si si-monitor-heart-beat-search"></i>
                     <h6 class="m-0">#{ivy.cm.co('/monitorTraceDetail/SlowRequestDetail')}</h6>
                     <p:commandButton id="export" title="#{ivy.cm.co('/monitorTraceDetail/ExportSpan')}"
-                      ajax="false" icon="si si-office-file-xls-1"
+                      ajax="false" icon="ti ti-file-type-xls"
                       styleClass="flex-shrink-0 ml-auto ui-button-secondary rounded-button"
                       disabled="#{!spanBean.traceAvailable}">
                       <p:dataExporter type="xlsxstream"
@@ -58,7 +58,7 @@
                 <p:ajax event="select" listener="#{spanBean.nodeSelect}" update="attributesTable" />
                 <p:column headerText="#{ivy.cm.co('/common/Name')}" exportFunction="#{spanBean.exportName(span)}">
                   <h:outputText value="#{span.name}" title="#{span.attributesInfo}">
-                    <i class="si si-time-clock-circle #{span.statusClass} table-icon" title="#{span.statusTooltip}"></i>
+                    <i class="ti ti-clock #{span.statusClass} table-icon" title="#{span.statusTooltip}"></i>
                   </h:outputText>
                 </p:column>
                 <p:column style="width: 130px;" exportFunction="#{traceBean.export}">
@@ -87,7 +87,7 @@
             <div class="card">
               <div class="card-header flex-wrap">
                 <div class="card-title flex align-items-center">
-                  <i class="pr-3 si si-cog"></i>
+                  <i class="pr-3 ti ti-settings"></i>
                   <h6 class="m-0">#{ivy.cm.co('/common/Attributes')}</h6>
                 </div>
               </div>

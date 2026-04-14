@@ -7,12 +7,12 @@
   <h:form id="appDetailInfoForm">
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-information-circle"></i>
+        <i class="pr-3 ti ti-info-circle"></i>
         <h6 class="m-0">#{ivy.cm.co('/information/ApplicationInformation')}</h6>
-        <p:linkButton id="home" title="#{ivy.cm.co('/information/ApplicationHome')}" icon="si si-house-chimney-2"
+        <p:linkButton id="home" title="#{ivy.cm.co('/information/ApplicationHome')}" icon="ti ti-home"
           href="#{applicationDetailBean.application.homeUrl}" disabled="#{applicationDetailBean.application.disabled}"
           styleClass="flex-shrink-0 ml-auto rounded-button"/>
-        <p:linkButton id="workflow" title="#{ivy.cm.co('/information/WorkflowUI')}" icon="si si-layout-bullets" 
+        <p:linkButton id="workflow" title="#{ivy.cm.co('/information/WorkflowUI')}" icon="ti ti-list" 
           href="#{applicationDetailBean.application.devWorkflowUrl}" disabled="#{applicationDetailBean.application.disabled}"
           styleClass="flex-shrink-0 ml-1 rounded-button"/>
       </div>

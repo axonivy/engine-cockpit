@@ -27,16 +27,16 @@
           <div class="card">
             <div class="card-header flex-wrap">
               <div class="card-title flex align-items-center">
-                <i class="pr-3 si si si-view-1"></i>
+                <i class="pr-3 si ti ti-eye"></i>
                 <h2 class="m-0">#{ivy.cm.co('/sidebar/TrafficGraph')}</h2>
                 <p:commandButton id="start" onclick="PF('startRecordingDialog').show();" title="#{ivy.cm.co('/monitor/jfr/StartRecording')}"
-                    icon="si si-controls-play" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button" disabled="#{traceBean.notStartable}" />
+                    icon="ti ti-player-play" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button" disabled="#{traceBean.notStartable}" />
                 <p:commandButton id="stop" actionListener="#{traceBean.stop}" update="@form" title="#{ivy.cm.co('/common/StopRecording')}"
                     icon="si si-controls-stop" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notStoppable}"/>
                 <p:commandButton id="clear" actionListener="#{trafficGraphBean.clear}" update="@form" title="#{ivy.cm.co('/monitor/execution/ClearStatistic')}"
-                    icon="si si-bin-1" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{trafficGraphBean.notClearable}"/>
+                    icon="ti ti-trash" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{trafficGraphBean.notClearable}"/>
                 <p:commandButton id="refresh" actionListener="#{trafficGraphBean.refresh}" update="@form" title="#{ivy.cm.co('/monitor/session/RefreshStatistic')}"
-                    icon="si si-button-refresh-arrows" styleClass="flex-shrink-0 ml-1 rounded-button"  disabled="#{traceBean.notRefreshable}"/>
+                    icon="ti ti-refresh" styleClass="flex-shrink-0 ml-1 rounded-button"  disabled="#{traceBean.notRefreshable}"/>
               </div>
             </div>
             <p:diagram id="diagram" style="border-right: dotted 1px; border-bottom: dotted 1px; height: #{trafficGraphBean.height}px; width: #{trafficGraphBean.width}px; overflow: hidden;" value="#{trafficGraphBean.model}" styleClass="ui-widget-content" var="system">
@@ -64,7 +64,7 @@
           <p:staticMessage severity="warn" detail="#{ivy.cm.co('/monitor/traces/StartTracesHelpText')}" />
           <div class="custom-dialog-footer">
             <p:commandButton id="cancel" type="button" onclick="PF('startRecordingDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
-            <p:commandButton id="start" onclick="PF('startRecordingDialog').hide();" value="#{ivy.cm.co('/common/Start')}" icon="si si-controls-play"
+            <p:commandButton id="start" onclick="PF('startRecordingDialog').hide();" value="#{ivy.cm.co('/common/Start')}" icon="ti ti-player-play"
               styleClass="modal-input-button" actionListener="#{traceBean.start}" update="form"/>
           </div>
         </h:form>

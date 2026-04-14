@@ -19,7 +19,7 @@
       <div class="card">
         <p:growl id="msgs" />
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-network-share card-title-icon"></i>
+          <i class="pr-3 ti ti-world card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/common/RestClients')}</h2>
         </div>
         <cc:ApplicationTabs tabChange="#{restClientsBean.reloadRestClients}" id="tabs">
@@ -30,7 +30,7 @@
               filteredValue="#{restClientsBean.filteredRestClients}" lazy="false" id="restClientsTable">
               <f:facet name="header">
                 <div class="ui-input-icon-left filter-container">
-                  <i class="pi pi-search"/>
+                  <i class="ti ti-search"/>
                   <p:inputText id="globalFilter" onkeyup="PF('restClientsTable_#{app.id}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{restClientsBean.filter}" />
                 </div>
               </f:facet>
@@ -39,7 +39,7 @@
                 styleClass="restclient-name-column">
                 <a href="#{restclient.getViewUrl(app.name)}">
                   <h:outputText value="#{restclient.name}" styleClass="restclient-name">
-                    <i class="si si-network-share table-icon"></i>
+                    <i class="ti ti-world table-icon"></i>
                   </h:outputText>
                 </a>
               </p:column>

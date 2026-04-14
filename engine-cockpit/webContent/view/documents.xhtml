@@ -24,7 +24,7 @@
     <ui:define name="content">
       <div class="card">
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-office-file-doc-1 card-title-icon"></i>
+          <i class="pr-3 ti ti-file-type-doc card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/sidebar/Documents')}</h2>
         </div>
         <cc:SecuritySystemTabs tabChange="#{blobsBean.onload}" id="tabs">
@@ -35,7 +35,7 @@
               <f:facet name="header">
                 <div class="flex">
                   <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
-                    <i class="pi pi-search"/>
+                    <i class="ti ti-search"/>
                     <p:inputText id="globalFilter" onkeyup="PF('blobsTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{blobsBean.dataModel.filter}" />
                   </span>
                 </div>
@@ -82,7 +82,7 @@
               </p:column>
               
               <p:column styleClass="table-btn-1">
-                <p:commandButton ajax="false" icon="si si-download-bottom" styleClass="rounded-button" onclick="PrimeFaces.monitorDownload(start, stop);">
+                <p:commandButton ajax="false" icon="ti ti-download" styleClass="rounded-button" onclick="PrimeFaces.monitorDownload(start, stop);">
                   <p:fileDownload value="#{blob.download()}"/>
                 </p:commandButton>
               </p:column>

@@ -10,12 +10,12 @@
     </p:growl>
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-information-circle"></i>
+        <i class="pr-3 ti ti-info-circle"></i>
         <h6 class="m-0">#{ivy.cm.co('/common/SearchEngine')}</h6>
         <p:commandButton id="queryToolBtn" title="#{ivy.cm.co('/common/RunSearchEngineQuery')}" icon="si si-monitor-heart-beat-search"
           update="searchEngineQueryToolModal" actionListener="#{searchEngineBean.setActiveIndex(null)}"
           styleClass="ml-auto rounded-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
-        <p:linkButton id="configSearchEngine" title="#{ivy.cm.co('/searchEngineInformation/ConfigureSearchEngineButtonTitle')}" icon="si si-cog" type="button"
+        <p:linkButton id="configSearchEngine" title="#{ivy.cm.co('/searchEngineInformation/ConfigureSearchEngineButtonTitle')}" icon="ti ti-settings" type="button"
           styleClass="ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=SearchEngine" />
       </div>
     </div>
@@ -44,7 +44,7 @@
           <h:panelGroup>
             <h:outputText id="version" value="#{searchEngineBean.searchEngine.version}" />
             <h:outputText rendered="#{searchEngineBean.searchEngine.notSupported}">
-              <i class="si si-lg si-road-sign-warning search-machine-health-yellow"
+              <i class="text-xl ti-alert-triangle search-machine-health-yellow"
               style="position: relative; top: 3px; font-weight: 700;"
               title="#{ivy.cm.co('/searchEngineInformation/NotSupportESVersionMessage')}"></i>
             </h:outputText>
@@ -53,7 +53,7 @@
           <h:panelGroup>
             <label>#{ivy.cm.co('/searchEngineInformation/DiskThresholdEnabled')}</label>
             <h:panelGroup id="diskThresholdHelp" styleClass="flex align-items-center ml-1">
-              <i class="si si-question-circle"></i>
+              <i class="ti ti-help-circle"></i>
               <p:tooltip for="@parent" value="#{ivy.cm.co('/searchEngineInformation/DiskThresholdEnabledInfo')}" position="top" />
             </h:panelGroup>
           </h:panelGroup>
@@ -62,7 +62,7 @@
           <h:panelGroup>
             <label>#{ivy.cm.co('/searchEngineInformation/WatermarkLow')}</label>
             <h:panelGroup id="watermarkLowHelp" styleClass="flex align-items-center ml-1">
-              <i class="si si-question-circle"></i>
+              <i class="ti ti-help-circle"></i>
               <p:tooltip for="@parent" value="#{ivy.cm.co('/searchEngineInformation/WatermarkLowInfo')}"
                position="top" />
             </h:panelGroup>
@@ -72,7 +72,7 @@
           <h:panelGroup>
             <label>#{ivy.cm.co('/searchEngineInformation/WatermarkHigh')}</label>
             <h:panelGroup id="watermarkHighHelp" styleClass="flex align-items-center ml-1">
-              <i class="si si-question-circle"></i>
+              <i class="ti ti-help-circle"></i>
               <p:tooltip for="@parent" value="#{ivy.cm.co('/searchEngineInformation/WatermarkHighInfo')}" 
                 position="top" />
             </h:panelGroup>
@@ -82,7 +82,7 @@
           <h:panelGroup>
             <label>#{ivy.cm.co('/searchEngineInformation/FloodStage')}</label>
             <h:panelGroup id="floodStageHelp" styleClass="flex align-items-center ml-1">
-              <i class="si si-question-circle"></i>
+              <i class="ti ti-help-circle"></i>
               <p:tooltip for="@parent" value="#{ivy.cm.co('/searchEngineInformation/FloodStageInfo')}" 
                 position="top" />
             </h:panelGroup>

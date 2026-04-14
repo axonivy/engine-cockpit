@@ -11,13 +11,13 @@
   <li style="margin-left: 2rem; font-size: 14px;">
     <h:panelGroup rendered="#{!cc.attrs.appContext}">
       <a href="security-detail.xhtml?securitySystemName=#{managerBean.selectedSecuritySystem.securitySystemName}" title="#{ivy.cm.co('/breadcrumbInfos/SelectedSecuritySystem')}">
-        <i class="si si-lock-1 link-icon"></i> 
+        <i class="ti ti-lock link-icon"></i> 
         <h:outputText value="#{managerBean.selectedSecuritySystem.securitySystemName}" />
       </a>
     </h:panelGroup>
     <h:panelGroup rendered="#{cc.attrs.appContext}">
       <a href="#{managerBean.getSelectedApplicationDetailLink()}" title="#{ivy.cm.co('/breadcrumbInfos/SelectedApplication')}">
-        <i class="si si-module link-icon"></i> 
+        <i class="ti ti-layout-grid link-icon"></i> 
         <h:outputText value="#{managerBean.selectedApplicationName}" />
       </a>
     </h:panelGroup>

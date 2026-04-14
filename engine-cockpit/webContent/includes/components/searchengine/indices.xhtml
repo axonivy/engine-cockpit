@@ -10,7 +10,7 @@
     </p:growl>
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-common-file-text"></i>
+        <i class="pr-3 ti ti-file-text"></i>
         <h6 class="m-0">#{ivy.cm.co('/indices/Indices')}</h6>
       </div>
     </div>
@@ -21,7 +21,7 @@
       <p:column id="indexName" headerText="#{ivy.cm.co('/common/Name')}" styleClass="index-name-column">
         <a href="#{index.viewUrl}" class="flex align-items-center">
           <h:outputText value="#{index.name}" styleClass="index-name" style="overflow: auto">
-            <i class="si si-common-file-text table-icon"></i>
+            <i class="ti ti-file-text table-icon"></i>
           </h:outputText>
           <h:outputText styleClass="ml-2 addition-row-info"
             value="[Reindexing: #{index.countIndexing} (#{index.percentIndexed}%)]"
@@ -50,7 +50,7 @@
           actionListener="#{searchEngineBean.setActiveIndex(index)}" update="searchEngineQueryToolModal"
           styleClass="rounded-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
         <p:commandButton title="#{ivy.cm.co('/indices/Reindex')}"
-          icon="si si-button-refresh-arrows #{searchEngineBean.isReindexing(index) ? 'si-is-spinning' : ''} spin-icon"
+          icon="ti ti-refresh #{searchEngineBean.isReindexing(index) ? 'spinning' : ''} spin-icon"
           styleClass="ml-1 ui-button-secondary rounded-button" id="reindexBtn"
           oncomplete="PF('reindexSearchEngineModel').show();" actionListener="#{searchEngineBean.setActiveIndex(index)}"
           update="reindexSearchEngineModel" />
@@ -70,7 +70,7 @@
       type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
     <p:commandButton id="reindexSearchEngineBtn" update="searchEngineIndexForm"
       onclick="PF('reindexSearchEngineModel').hide();"
-      actionListener="#{searchEngineBean.reindex}" value="#{ivy.cm.co('/indices/Reindex')}" icon="si si-button-refresh-arrows"
+      actionListener="#{searchEngineBean.reindex}" value="#{ivy.cm.co('/indices/Reindex')}" icon="ti ti-refresh"
       styleClass="modal-input-button" />
   </f:facet>
 </p:dialog>

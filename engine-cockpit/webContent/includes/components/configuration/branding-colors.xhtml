@@ -8,7 +8,7 @@
     filteredValue="#{brandingBean.filteredCssColors}" widgetVar="colorsTable" id="colorsTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
     <f:facet name="header">
       <div class="ui-input-icon-left filter-container">
-        <i class="pi pi-search"/>
+        <i class="ti ti-search"/>
         <p:inputText id="globalFilter" onkeyup="PF('colorsTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{brandingBean.filter}" />
       </div>
     </f:facet>
@@ -21,10 +21,10 @@
       <h:outputText value="#{color.value}" />
     </p:column>
     <p:column styleClass="table-btn-2">
-      <p:commandButton id="setColor" icon="si si-pencil" styleClass="ui-button-secondary rounded-button" 
+      <p:commandButton id="setColor" icon="ti ti-pencil" styleClass="ui-button-secondary rounded-button" 
         actionListener="#{brandingBean.setSelectedCssColor(color.color)}" 
         update="cssColorPickerForm:editCssColorModal" oncomplete="PF('editCssColorModal').show();" process="@this"/>
-      <p:commandButton id="resetColor" icon="si si-undo" styleClass="ml-1 ui-button-danger rounded-button"
+      <p:commandButton id="resetColor" icon="ti ti-arrow-back-up" styleClass="ml-1 ui-button-danger rounded-button"
         actionListener="#{brandingBean.setSelectedCssColor(color.color)}" disabled="#{color.default}"
         update="resetColorConfirmDialog" oncomplete="PF('resetColorConfirmDialog').show();" process="@this"/>
     </p:column>

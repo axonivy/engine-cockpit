@@ -19,22 +19,22 @@
       <div class="card">
         <p:growl id="msgs" showDetail="true" />
         <h:form id="form" class="flex align-items-center mb-3">
-          <i class="pr-3 si si-single-neutral-actions card-title-icon"></i>
+          <i class="pr-3 ti ti-user-check card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/common/Users')} <i id="userCount">(#{userBean.userCount})</i></h2>
           <h:panelGroup id="syncPanel" styleClass="ml-auto">
             <p:splitButton value="#{ivy.cm.co('/common/Synchronize')}"
-              icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedSecuritySystem ? 'si-is-spinning' : ''} spin-icon"
+              icon="ti ti-refresh #{securityBean.syncRunningForSelectedSecuritySystem ? 'spinning' : ''} spin-icon"
               id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedSecuritySystem}" immediate="true"
               process="@this" actionListener="#{securityBean.triggerSyncForSelectedSecuritySystem}" update="@parent">
-              <p:menuitem id="synchUserBtn" value="#{ivy.cm.co('/users/SynchSingleUser')}" icon="si si-button-refresh-arrows"
+              <p:menuitem id="synchUserBtn" value="#{ivy.cm.co('/users/SynchSingleUser')}" icon="ti ti-refresh"
                 onclick="PF('synchUserModal').show()" />
-              <p:menuitem id="userSyncLog" value="#{ivy.cm.co('/common/SynchronizationLog')}" icon="si si-common-file-text"
+              <p:menuitem id="userSyncLog" value="#{ivy.cm.co('/common/SynchronizationLog')}" icon="ti ti-file-text"
                 onclick="window.location.href='#{securityBean.synchLogUri}'" />
               <p:divider style="margin: 0;" />
-              <p:menuitem id="syncNewUserBtn" value="#{ivy.cm.co('/users/AddUser')}" icon="si si-add" onclick="PF('newUserModal').show();" />
+              <p:menuitem id="syncNewUserBtn" value="#{ivy.cm.co('/users/AddUser')}" icon="ti ti-plus" onclick="PF('newUserModal').show();" />
             </p:splitButton>
             <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedSecuritySystem}" interval="2" update="@parent" />
-            <p:commandButton id="newUserBtn" value="#{ivy.cm.co('/common/Add')}" icon="si si-add" type="button"
+            <p:commandButton id="newUserBtn" value="#{ivy.cm.co('/common/Add')}" icon="ti ti-plus" type="button"
               onclick="PF('newUserModal').show();" rendered="#{securityBean.ivySecurityForSelectedSecuritySystem}" />
           </h:panelGroup>
         </h:form>

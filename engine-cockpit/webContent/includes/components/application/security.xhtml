@@ -7,21 +7,21 @@
   <h:form id="appDetailSecurityForm">
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-lock-1"></i>
+        <i class="pr-3 ti ti-lock"></i>
         <h6 class="m-0">#{ivy.cm.co('/common/SecuritySystem')}</h6>
-        <p:commandButton id="moveApplication" title="#{ivy.cm.co('/security/ChangeSecuritySystem')}" type="button" icon="si si-pencil" onclick="PF('moveApplicationModal').show();"
+        <p:commandButton id="moveApplication" title="#{ivy.cm.co('/security/ChangeSecuritySystem')}" type="button" icon="ti ti-pencil" onclick="PF('moveApplicationModal').show();"
           styleClass="flex-shrink-0 ml-auto rounded-button">
             <p:ajax listener="#{moveApplicationBean.setApp(applicationDetailBean.application)}" update="moveApplicationForm" />
         </p:commandButton>
         <p:commandButton id="synchronizeSecurity"
           rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
           title="#{ivy.cm.co('/common/Synchronize')}" type="button"
-          icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''}"
+          icon="ti ti-refresh #{securityBean.syncRunningForSelectedApp ? 'spinning' : ''}"
           styleClass="ml-1 ui-button-secondary rounded-button spin-icon" onclick="PF('logPoller').start()">
           <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
         </p:commandButton>
         <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="5" update="@form" />
-        <p:linkButton id="showAdSyncLogBtn" icon="si si-common-file-text" styleClass="ml-1 ui-button-secondary rounded-button"
+        <p:linkButton id="showAdSyncLogBtn" icon="ti ti-file-text" styleClass="ml-1 ui-button-secondary rounded-button"
           href="#{securityBean.synchLogUri}" rendered="#{!securityBean.ivySecurityForSelectedApp}" />
       </div>
     </div>
@@ -30,7 +30,7 @@
       <h:outputLink value="#{applicationDetailBean.securitySystem.link}">
         <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemName}"
           rendered="#{not empty applicationDetailBean.securitySystem.link}">
-          <i class="si si-lock-1 link-icon"></i>
+          <i class="ti ti-lock link-icon"></i>
         </h:outputText>
       </h:outputLink>
       <label>#{ivy.cm.co('/common/Provider')}</label>
@@ -38,13 +38,13 @@
       <label>#{ivy.cm.co('/common/Users')}</label>
       <h:outputLink value="users.xhtml">
         <h:outputText value="#{applicationDetailBean.securitySystem.usersCount}">
-          <i class="si si-single-neutral-actions link-icon"></i>
+          <i class="ti ti-user-check link-icon"></i>
         </h:outputText>
       </h:outputLink>
       <label>#{ivy.cm.co('/common/Roles')}</label>
       <h:outputLink value="roles.xhtml">
         <h:outputText value="#{applicationDetailBean.securitySystem.rolesCount}">
-          <i class="si si-multiple-neutral-1 link-icon"></i>
+          <i class="ti ti-users link-icon"></i>
         </h:outputText>
       </h:outputLink>
     </p:panelGrid>

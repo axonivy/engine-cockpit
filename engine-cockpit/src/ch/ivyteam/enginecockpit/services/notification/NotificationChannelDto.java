@@ -116,8 +116,8 @@ public class NotificationChannelDto {
 
   public String getStateIcon() {
     return switch (getStateText()) {
-      case "Open" -> "si si-check-circle-1 state-active";
-      case "Locked" -> "si si-remove-circle state-inactive";
+      case "Open" -> "ti ti-circle-check state-active";
+      case "Locked" -> "ti ti-circle-minus state-inactive";
       default -> "";
     };
   }

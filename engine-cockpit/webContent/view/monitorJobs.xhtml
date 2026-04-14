@@ -27,10 +27,10 @@
        </p:growl>
       <div class="card">
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-task-list-approve card-title-icon"></i>
+          <i class="pr-3 ti ti-clipboard-list card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/sidebar/Jobs')}</h2>
           <p:commandButton id="refresh" actionListener="#{jobBean.refresh}" update="form" title="#{ivy.cm.co('/monitor/job/RefreshJobs')}"
-              icon="si si-button-refresh-arrows" styleClass="flex-shrink-0 ml-auto rounded-button"/>
+              icon="ti ti-refresh" styleClass="flex-shrink-0 ml-auto rounded-button"/>
 
         </div>
         <h:form id="form" style="overflow: auto;" onkeypress="if (event.keyCode == 13) return false;">
@@ -40,14 +40,14 @@
             id="jobTable" style="min-width: 950px;">
             <f:facet name="header">
               <div class="ui-input-icon-left filter-container">
-                <i class="pi pi-search"/>
+                <i class="ti ti-search"/>
                 <p:inputText id="globalFilter" onkeyup="PF('jobTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{jobBean.filter}" />
               </div>
             </f:facet>
 
             <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{job.name}" filterBy="#{job.name}">
               <p:commandLink oncomplete="PF('jobDialog').show();" title="#{ivy.cm.co('/monitor/job/JobDetail')}" action="#{jobBean.setSelected(job)}" update="jobDialog">
-                <i class="si si-task-list-approve table-icon"/>
+                <i class="ti ti-clipboard-list table-icon"/>
                 <span><h:outputText value="#{job.name}"/></span>
               </p:commandLink>
             </p:column>
@@ -77,7 +77,7 @@
             </p:column>
 
              <p:column styleClass="table-btn-1">
-              <p:commandButton id="schedule" oncomplete="PF('scheduleJobDialog').show();" title="#{ivy.cm.co('/monitor/job/ScheduleExecuteJob')}" icon="si si-controls-play"
+              <p:commandButton id="schedule" oncomplete="PF('scheduleJobDialog').show();" title="#{ivy.cm.co('/monitor/job/ScheduleExecuteJob')}" icon="ti ti-player-play"
                 action="#{jobBean.setSelected(job)}" update="scheduleJobDialog" styleClass="rounded-button" />
             </p:column>
           </p:dataTable>
@@ -88,7 +88,7 @@
             <p:staticMessage severity="warn" detail="#{ivy.cm.co('/monitor/job/ScheduleJobTooltip')}" />
             <div class="custom-dialog-footer">
               <p:commandButton id="cancel" type="button" onclick="PF('scheduleJobDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
-              <p:commandButton id="schedule" onclick="PF('scheduleJobDialog').hide();" value="#{ivy.cm.co('/common/Schedule')}" icon="si si-controls-play"
+              <p:commandButton id="schedule" onclick="PF('scheduleJobDialog').hide();" value="#{ivy.cm.co('/common/Schedule')}" icon="ti ti-player-play"
                   styleClass="modal-input-button" actionListener="#{jobBean.selected.schedule()}" update="form"/>
             </div>
           </h:form>
@@ -122,7 +122,7 @@
             <h:outputText id="lastErrorTime" value="#{jobBean.selected.lastErrorTime}"/>
             <h:panelGroup>
               <p:outputLabel for="lastError" value="#{ivy.cm.co('/common/LastError')}"/>
-              <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="#{ivy.cm.co('/common/CopyToClipboard')}" onclick="var button=this; copyToClipboard($('#job\\:lastError').text(), button)"
+              <p:commandButton id="copyError" icon="ti ti-copy" type="button" title="#{ivy.cm.co('/common/CopyToClipboard')}" onclick="var button=this; copyToClipboard($('#job\\:lastError').text(), button)"
                   styleClass="ui-button-flat rounded-button"/>
             </h:panelGroup>
             <p:outputPanel id="lastError" styleClass="code">#{jobBean.selected.lastError}</p:outputPanel>  

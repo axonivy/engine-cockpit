@@ -11,15 +11,15 @@
 
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-single-neutral-actions"></i>
+        <i class="pr-3 ti ti-user-check"></i>
         <h6 class="m-0">#{ivy.cm.co('/securitySystemProvider/IdentityProvider')}</h6>
 
-        <p:linkButton title="#{ivy.cm.co('/common/Edit')}" icon="si si-pencil" id="editProviderBtn" rendered="#{securityProviderBean.notIvySecuritySystem}"
+        <p:linkButton title="#{ivy.cm.co('/common/Edit')}" icon="ti ti-pencil" id="editProviderBtn" rendered="#{securityProviderBean.notIvySecuritySystem}"
             styleClass="ml-auto rounded-button" outcome="identity-provider">
           <f:param name="securitySystemName" value="#{securityProviderBean.securitySystemName}"/>
         </p:linkButton>
 
-        <p:commandButton title="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk" id="saveProviderBtn" update="securityProviderForm" actionListener="#{securityProviderBean.saveProvider}" 
+        <p:commandButton title="#{ivy.cm.co('/common/Save')}" icon="ti ti-device-floppy" id="saveProviderBtn" update="securityProviderForm" actionListener="#{securityProviderBean.saveProvider}" 
             styleClass="#{securityProviderBean.notIvySecuritySystem ? '' : 'ml-auto'} ml-1 ui-button-success rounded-button"/>
       </div>
     </div>
@@ -57,7 +57,7 @@
           <br/>
           <h:panelGroup layout="block" styleClass="flex align-items-center mt-1">  
             <h:outputText value="#{securityProviderBean.cronReadable}" style="opacity: 0.5;"/>
-            <h:outputText id="cronHelp" class="ml-1 si si-information-circle" style="opacity: 0.5;"/>
+            <h:outputText id="cronHelp" class="ml-1 ti ti-info-circle" style="opacity: 0.5;"/>
             <p:tooltip for="cronHelp" value="#{securityProviderBean.cronHelp}" position="bottom" escape="false"/> <!-- contains no user input, contains html-->
           </h:panelGroup>
         </h:panelGroup>

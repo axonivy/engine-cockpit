@@ -7,7 +7,7 @@
   <h:form id="substitutesForm">
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-single-neutral-actions"></i>
+        <i class="pr-3 ti ti-user-check"></i>
         <h6 class="m-0">#{ivy.cm.co('/userDetailSubstitutes/Substitutes')}</h6>
       </div>
     </div>
@@ -19,7 +19,7 @@
       <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{substitute.name}">
         <a href="#{substitute.substituteViewUrl}">
           <h:outputText value="#{substitute.name}" styleClass="substitute-name">
-            <i class="si si-single-neutral-actions table-icon" />
+            <i class="ti ti-user-check table-icon" />
           </h:outputText>
         </a>
       </p:column>

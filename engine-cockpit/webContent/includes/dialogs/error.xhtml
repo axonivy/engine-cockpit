@@ -10,7 +10,7 @@
       <h:outputText id="message" value="#{errorBean.selected.message}"/>
       <h:panelGroup>
         <p:outputLabel for="stackTrace" value="#{ivy.cm.co('/common/StackTrace')}"/>
-        <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="#{ivy.cm.co('/common/CopyToClipboard')}" onclick="var button=this; copyToClipboard($('#error\\:stackTrace').text(), button)"
+        <p:commandButton id="copyError" icon="ti ti-copy" type="button" title="#{ivy.cm.co('/common/CopyToClipboard')}" onclick="var button=this; copyToClipboard($('#error\\:stackTrace').text(), button)"
             styleClass="ui-button-flat rounded-button"/>
       </h:panelGroup>
       <p:outputPanel id="stackTrace" styleClass="code">

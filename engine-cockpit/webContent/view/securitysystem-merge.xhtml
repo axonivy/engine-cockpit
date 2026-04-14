@@ -25,7 +25,7 @@
             <p:autoUpdate />
           </p:growl>
           <div class="flex align-items-center mb-3">
-            <i class="pr-3 si si-move-to-bottom card-title-icon" />
+            <i class="pr-3 si ti-arrow-big-down-lines card-title-icon" />
             <h2 class="m-0">#{ivy.cm.co('/securitySystemMerge/MergeSecuritySystems')}</h2>
           </div>
 
@@ -39,10 +39,10 @@
                 itemLabel="#{securitySystem}" itemValue="#{securitySystem}" />
             </p:selectOneMenu>
 
-            <p:commandButton update="form" id="compare" icon="si si-move-to-bottom" value="#{ivy.cm.co('/securitySystemMerge/CompareButton')}" 
+            <p:commandButton update="form" id="compare" icon="si ti-arrow-big-down-lines" value="#{ivy.cm.co('/securitySystemMerge/CompareButton')}" 
               title="#{ivy.cm.co('/securitySystemMerge/CompareButtonTitle')}"
               actionListener="#{securitySystemCompareBean.run}"
-              oncomplete="var button=this; buttonRemoveSpinner(button, 'si-move-to-bottom');"
+              oncomplete="var button=this; buttonRemoveSpinner(button, 'ti-arrow-big-down-lines');"
               onclick="var button=this; buttonAddSpinner(button);" 
                />
           </p:panelGrid>
@@ -53,13 +53,13 @@
               <p:staticMessage severity="info" detail="#{ivy.cm.co('/securitySystemMerge/ComparisonReportInfo')}" />
 
               <p:commandButton value="#{ivy.cm.co('/securitySystemMerge/ExecuteAllCreateOperationsButton')}" styleClass="mr-2 mb-2 ui-button-success"
-                title="#{ivy.cm.co('/securitySystemMerge/ExecuteAllCreateOperationsButtonTitle')}" update="report" icon="si si-add"
+                title="#{ivy.cm.co('/securitySystemMerge/ExecuteAllCreateOperationsButtonTitle')}" update="report" icon="ti ti-plus"
                 actionListener="#{securitySystemCompareBean.solveCreateIssues()}">
                 <p:confirm header="#{ivy.cm.co('/securitySystemMerge/ExecuteAllCreateOperationsConfirmDialogHeader')}"
                   message="#{ivy.cm.co('/securitySystemMerge/ExecuteAllCreateOperationsConfirmDialogContent')}" icon="ui-icon-alert" />
               </p:commandButton>
 
-              <p:commandButton value="#{ivy.cm.co('/securitySystemMerge/ExecuteAllUpdateOperationsButton')}" styleClass="mr-2 mb-2" icon="si si-navigation-right-circle"
+              <p:commandButton value="#{ivy.cm.co('/securitySystemMerge/ExecuteAllUpdateOperationsButton')}" styleClass="mr-2 mb-2" icon="ti ti-circle-arrow-right"
                 title="#{ivy.cm.co('/securitySystemMerge/ExecuteAllUpdateOperationsButtonTitle')}" update="report"
                 actionListener="#{securitySystemCompareBean.solveUpdateIssues()}">
                 <p:confirm header="#{ivy.cm.co('/securitySystemMerge/ExecuteAllUpdateOperationsConfirmDialogHeader')}"
@@ -67,7 +67,7 @@
                   icon="ui-icon-alert" />
               </p:commandButton>
 
-              <p:commandButton value="#{ivy.cm.co('/securitySystemMerge/ExecuteAllDeleteOperationsButton')}" styleClass="mr-2 mb-2 ui-button-danger" icon="si si-bin-1"
+              <p:commandButton value="#{ivy.cm.co('/securitySystemMerge/ExecuteAllDeleteOperationsButton')}" styleClass="mr-2 mb-2 ui-button-danger" icon="ti ti-trash"
                 title="#{ivy.cm.co('/securitySystemMerge/ExecuteAllDeleteOperationsButtonTitle')}" update="report"
                 actionListener="#{securitySystemCompareBean.solveDeleteIssues()}">
                 <p:confirm header="#{ivy.cm.co('/securitySystemMerge/ExecuteAllDeleteOperationsConfirmDialogHeader')}"

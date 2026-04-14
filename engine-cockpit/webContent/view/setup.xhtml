@@ -42,18 +42,18 @@
           </h:panelGroup>
 
           <h:panelGroup id="wizardStepButtons" styleClass="wizard-steps mt-4 flex" layout="block">
-            <p:linkButton styleClass="ui-button-outlined rounded-button" type="button" icon="si si-question-circle"
+            <p:linkButton styleClass="ui-button-outlined rounded-button" type="button" icon="ti ti-help-circle"
               href="#{advisorBean.engineGuideBaseUrl}/reference/setup-wizard.html" target="_blank" rel="noopener noreferrer" />
             <p:commandButton id="cancelWizard" onclick="window.location = '/'" value="#{ivy.cm.co('/common/Cancel')}" type="button"
               styleClass="ml-auto ui-button-secondary ui-button-flat wizard-step-button" />
             <p:commandButton id="prevStep" actionListener="#{wizardBean.prevStep()}" value="#{ivy.cm.co('/common/Previous')}" update="wizardStepPage" process="@this" immediate="true"
-              icon="si si-arrow-left-1" styleClass="ml-1 ui-button-secondary wizard-step-button" 
+              icon="ti ti-chevron-left" styleClass="ml-1 ui-button-secondary wizard-step-button" 
               rendered="#{!wizardBean.firstStep}" async="true"/>
             <p:commandButton id="nextStep" actionListener="#{wizardBean.nextStep()}" value="#{ivy.cm.co('/common/Next')}" 
-              update="wizardStepPage" process="@this" immediate="true" icon="si si-arrow-right-1" 
+              update="wizardStepPage" process="@this" immediate="true" icon="ti ti-chevron-right" 
               styleClass="ml-1 wizard-step-button" rendered="#{!wizardBean.lastStep}" async="true"/>
             <p:commandButton id="finishWizard" value="#{ivy.cm.co('/common/Finish')}" oncomplete="PF('finishWizardModel').show();"
-              update="finishWizardModel" icon="si si-check-1" styleClass="ml-1 wizard-step-button" rendered="#{wizardBean.lastStep}" />
+              update="finishWizardModel" icon="ti ti-check" styleClass="ml-1 wizard-step-button" rendered="#{wizardBean.lastStep}" />
           </h:panelGroup>
 
           <p:dialog style="min-width: 300px;" header="#{ivy.cm.co('/setup/FinishSetupWizard')}" id="finishWizardModel"
@@ -76,7 +76,7 @@
               <div class="custom-dialog-footer">
                 <p:commandButton id="finishWizardNo" onclick="PF('finishWizardModel').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
                   styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-                <p:commandButton id="finishWizardYes" oncomplete="window.location = '/'" value="#{ivy.cm.co('/common/OK')}" icon="si si-check-1" 
+                <p:commandButton id="finishWizardYes" oncomplete="window.location = '/'" value="#{ivy.cm.co('/common/OK')}" icon="ti ti-check" 
                   styleClass="modal-input-button" actionListener="#{systemDatabaseBean.saveConfiguration}"/>
               </div>
             </h:form>

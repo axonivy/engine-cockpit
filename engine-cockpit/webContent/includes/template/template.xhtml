@@ -32,13 +32,13 @@
       <div class="layout-topbar-wrapper">
         <div class="layout-topbar-left">
           <a href="#" class="menu-button">
-           <i class="pi pi-bars"/>
+           <i class="ti ti-menu-2"/>
           </a>
         </div>
         
         <div class="layout-breadcrumb">
           <ul class="inline-flex align-items-center">
-            <li><a href="dashboard.xhtml"><i class="si si-lg si-house-chimney-2"></i></a></li>
+            <li><a href="dashboard.xhtml"><i class="text-xl ti-home"></i></a></li>
             <li>/</li>
             <ui:insert name="breadcrumb" />
           </ul>
@@ -51,7 +51,7 @@
             <h:outputText rendered="#{not empty licenceBean.licenceEvents}">
               <li class="topbar-item topbar-notifications licence-notification">
                 <a href="#" onclick="PF('licenceEventsDialog').show();">
-                  <i class="topbar-icon si si-alarm-bell-timer animated swing"></i>
+                  <i class="topbar-icon ti ti-bell-plus animated swing"></i>
                 </a>
               </li>
             </h:outputText>
@@ -64,7 +64,7 @@
                 <ul>
                   <li>
                     <a href="#{advisorBean.engineGuideBaseUrl}/integration/cluster/configuration.html#changes">
-                      <i class="si si-lg si-road-sign-warning"></i>
+                      <i class="text-xl ti-alert-triangle"></i>
                       <span style="max-width: calc(100% - 40px)">
                         <b>#{ivy.cm.co('/template/ClusterMode')}"</b><br/>
                         #{ivy.cm.co('/template/ClusterModeWarning')}"
@@ -78,7 +78,7 @@
             <h:outputText rendered="#{not empty healthBean.messages}">
               <li class="topbar-item topbar-notifications health-messages">
                 <a href="#">
-                  <i class="topbar-icon si si-road-sign-warning animated swing"></i>
+                  <i class="topbar-icon si ti-alert-triangle animated swing"></i>
                   <h:outputText id="health-check-badge" value="#{healthBean.messageCount}" styleClass="health-check-badge" />
                 </a>
                 <ul>
@@ -86,7 +86,7 @@
                     <h:panelGroup>
                       <li>
                         <a href="#{msg.actionLink}">
-                          <i class="si si-lg #{msg.severityIcon} #{msg.severityClass}"></i>
+                          <i class="text-xl #{msg.severityIcon} #{msg.severityClass}"></i>
                           <span style="max-width: calc(100% - 40px)">
                             <b>#{msg.message}</b><br/>
                             #{msg.description}
@@ -105,7 +105,7 @@
             <ui:insert name="topbar-items">
               <li class="topbar-item">
                 <a href="#{advisorBean.cockpitEngineGuideUrl}index.html" target="_blank" rel="noopener noreferrer">
-                  <i class="topbar-icon si si-question-circle"></i>
+                  <i class="topbar-icon ti ti-help-circle"></i>
                 </a>
               </li>
             </ui:insert>
@@ -124,7 +124,7 @@
                   <h:outputText rendered="#{not empty loginBean.gravatarHash}">
                     <img src="https://www.gravatar.com/avatar/#{loginBean.gravatarHash}?d=404" style="border-radius: 10px; display: none;" onload="showGravatarImg(this);"/>
                   </h:outputText>
-                  <i class="si si-single-neutral-circle" style="font-size: 28px; padding: 2px;"></i>
+                  <i class="ti ti-user-circle" style="font-size: 28px; padding: 2px;"></i>
                 </span>
                 <span id="sessionUserName" class="topbar-item-name profile-name">
                   <span>#{loginBean.sessionUserName}</span>
@@ -133,25 +133,25 @@
               <ul>
                 <li>
                   <p:link id="profileLink" href="profile.xhtml">
-                    <i class="si si-lg si-single-neutral-actions"></i>
+                    <i class="text-xl ti-user-check"></i>
                     <span>#{ivy.cm.co('/profile/Profile')}</span>
                   </p:link>
                 </li>
                 <li>
                   <p:commandLink id="sessionLogoutBtn" actionListener="#{loginBean.logout}">
-                    <i class="si si-lg si-logout-1"></i>
+                    <i class="text-xl ti-logout"></i>
                     <span>#{ivy.cm.co('/template/Logout')}</span>
                   </p:commandLink>
                 </li>
                 <li>
                   <p:commandLink id="supportReport" type="button" onclick="PF('supportReportModal').show()">
-                    <i class="si si-lg si-help-wheel"></i>
+                    <i class="text-xl ti-help-circle"></i>
                     <span>#{ivy.cm.co('/template/SupportReport')}</span>
                   </p:commandLink>
                 </li>
                 <li>
                   <p:link id="serverIndex" type="button" href="/">
-                    <i class="si si-lg si si-information-circle"></i>
+                    <i class="text-xl ti ti-info-circle"></i>
                     <span>#{ivy.cm.co('/template/ServerIndex')}</span>
                   </p:link>
                 </li>

@@ -22,7 +22,7 @@
       styleClass="tls-tester-result-column #{tlsTesterBean.backgroundColor(logEntry.result)}">
       <h:outputText value="#{logEntry.group}" />
       <h:panelGroup id="info">
-        <i class="si si-question-circle" />
+        <i class="ti ti-help-circle" />
         <p:tooltip for="info" value="#{logEntry.groupInfo}" />
       </h:panelGroup>
     </p:column>
@@ -35,7 +35,7 @@
         <p:column style="border:0px;" width="1em">
           <h:outputText value="#{logDataEntry.message()}" />
           <h:panelGroup id="infos" rendered="#{logDataEntry.extendedInformation() != null}">
-            <i class="si si-question-circle" />
+            <i class="ti ti-help-circle" />
             <p:tooltip for="infos">
               <h:panelGrid columns="1">
                 <h:outputText value="#{ivy.cm.co('/tlsTester/Issuer')}: #{logDataEntry.extendedInformation().issuer()}" />

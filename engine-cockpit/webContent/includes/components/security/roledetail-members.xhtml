@@ -10,7 +10,7 @@
     </p:growl>
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-multiple-neutral-1"></i>
+        <i class="pr-3 ti ti-users"></i>
         <h6 class="m-0">#{ivy.cm.co('/roleDetailMembers/RoleMembers')}</h6>
       </div>
     </div>
@@ -20,7 +20,7 @@
         completeMethod="#{roleDetailBean.searchMember}" style="width: 100%;" styleClass="card-autocomplete-search"
         placeholder="#{ivy.cm.co('/roleDetailMembers/SearchRoleToAddPlaceholder')}" />
       <p:commandButton id="addMemberToRoleBtn" update="membersOfRoleForm" actionListener="#{roleDetailBean.addMember}"
-        icon="si si-add" title="#{ivy.cm.co('/common/Add')}" 
+        icon="ti ti-plus" title="#{ivy.cm.co('/common/Add')}" 
         styleClass="ml-1 flex-shrink-0 rounded-button" />
     </div>
     <p:dataTable id="roleMemberTable" value="#{roleDetailBean.membersOfRole}" widgetVar="membersOfRoleTable" var="member"
@@ -28,7 +28,7 @@
       paginatorAlwaysVisible="false" styleClass="mt-2" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
       <f:facet name="header">
         <div class="ui-input-icon-left filter-container">
-          <i class="pi pi-search"/>
+          <i class="ti ti-search"/>
           <p:inputText onkeyup="PF('membersOfRoleTable').filter()" placeholder="#{ivy.cm.co('/roleDetailMembers/SearchRolesPlaceholder')}" id="globalFilter" value="#{roleDetailBean.membersFitler}" />
         </div>
       </f:facet>
@@ -44,7 +44,7 @@
       </p:column>
       <p:column styleClass="table-btn-1">
         <p:commandButton id="removeMemberFromRoleBtn" update="membersOfRoleForm"
-          actionListener="#{roleDetailBean.removeMember(member.name)}" icon="si si-subtract" title="#{ivy.cm.co('/common/Remove')}"
+          actionListener="#{roleDetailBean.removeMember(member.name)}" icon="ti ti-minus" title="#{ivy.cm.co('/common/Remove')}"
           styleClass="ui-button-secondary rounded-button" />
       </p:column>
     </p:dataTable>

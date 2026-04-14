@@ -47,10 +47,10 @@ public class HealthBean {
 
   private static String severityIcon(HealthSeverity severity) {
     return switch (severity) {
-      case HEALTHY -> "si si-check-1";
-      case LOW -> "si si-road-sign-warning";
-      case HIGH -> "si si-alert-circle";
-      case CRITICAL -> "si si-alarm-bell";
+      case HEALTHY -> "ti ti-check";
+      case LOW -> "ti ti-alert-triangle";
+      case HIGH -> "ti ti-alert-circle";
+      case CRITICAL -> "ti ti-bell";
     };
   }
 

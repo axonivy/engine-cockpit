@@ -9,11 +9,11 @@
   </p:growl>
   <div class="card-header">
     <div class="card-title flex align-items-center">
-      <i class="pr-3 si si-email-action-unread"></i>
+      <i class="pr-3 ti ti-mail-opened"></i>
       <h6 class="m-0">#{ivy.cm.co('/common/Email')}</h6>
-      <p:commandButton id="openTestMailBtn" title="#{ivy.cm.co('/email/SendTestMail')}" icon="si si-send-email" type="button"
+      <p:commandButton id="openTestMailBtn" title="#{ivy.cm.co('/email/SendTestMail')}" icon="ti ti-mail" type="button"
         styleClass="ml-auto ui-button-secondary rounded-button" onclick="PF('sendTestMailModal').show()" />
-      <p:linkButton id="configureEmailBtn" title="#{ivy.cm.co('/email/ConfigureEmailServer')}" icon="si si-cog" type="button"
+      <p:linkButton id="configureEmailBtn" title="#{ivy.cm.co('/email/ConfigureEmailServer')}" icon="ti ti-settings" type="button"
         styleClass="ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=EMail" />
     </div>
   </div>

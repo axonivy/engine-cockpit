@@ -10,7 +10,7 @@
     filteredValue="#{notificationChannelsBean.filteredChannels}" lazy="false" id="channelsTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
     <f:facet name="header">
       <div class="ui-input-icon-left filter-container">
-        <i class="pi pi-search"/>
+        <i class="ti ti-search"/>
         <p:inputText id="globalFilter" onkeyup="PF('channelsTable_#{app.id}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{notificationChannelsBean.filter}" />
       </div>
     </f:facet>

@@ -20,16 +20,16 @@
     </ui:define>
 
     <ui:define name="topbar-items">
-      <cc:TopBarItem styleClass="log-link" href="#{managerBean.configLogUrl}" icon="si-common-file-text" title="#{ivy.cm.co('/common/ShowConfigurationLog')}" external="false" />
+      <cc:TopBarItem styleClass="log-link" href="#{managerBean.configLogUrl}" icon="ti-file-text" title="#{ivy.cm.co('/common/ShowConfigurationLog')}" external="false" />
       <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}system.html#system-configuration" />
     </ui:define>
 
     <ui:define name="content">
       <div class="card">
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-cog card-title-icon"></i>
+          <i class="pr-3 ti ti-settings card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/common/SystemConfiguration')}</h2>
-          <p:commandButton id="reloadConfig" title="#{ivy.cm.co('/systemConfig/ReloadSystemConfiguration')}" icon="si si-button-refresh-arrows" 
+          <p:commandButton id="reloadConfig" title="#{ivy.cm.co('/systemConfig/ReloadSystemConfiguration')}" icon="ti ti-refresh" 
             actionListener="#{systemConfigBean.reloadConfig()}"
             styleClass="flex-shrink-0 ml-auto rounded-button"/>
         </div>

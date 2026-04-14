@@ -9,7 +9,7 @@
 
    <h:outputText value="#{ivy.cm.co('/moveApplication/ChangeSecuritySystemDialogContent')}" />
 
-   <p:linkButton icon="si si-move-to-bottom" outcome="securitysystem-merge.xhtml" styleClass="mt-1" style="max-width:200px;" value="#{ivy.cm.co('/moveApplication/MergeSecuritySystem')}">
+   <p:linkButton icon="ti ti-arrow-big-down-lines" outcome="securitysystem-merge.xhtml" styleClass="mt-1" style="max-width:200px;" value="#{ivy.cm.co('/moveApplication/MergeSecuritySystem')}">
      <f:param name="source" value="#{moveApplicationBean.securitySystemName}"/>
    </p:linkButton>
 
@@ -37,13 +37,13 @@
     <div class="custom-dialog-footer">
       <p:commandButton id="cancelMoveApplication" onclick="PF('moveApplicationModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="validateMoveApplication" update="moveApplicationForm" actionListener="#{moveApplicationBean.validate()}" value="#{ivy.cm.co('/moveApplication/Validate')}" 
-        oncomplete="var button=this; buttonRemoveSpinner(button, 'si-check-1');"
+        oncomplete="var button=this; buttonRemoveSpinner(button, 'ti-check');"
         onclick="var button=this; buttonAddSpinner(button);"
-        icon="si si-check-1" styleClass="modal-input-button" />
+        icon="si ti-check" styleClass="modal-input-button" />
       <p:commandButton id="moveApplication" disabled="#{!moveApplicationBean.isValid()}" actionListener="#{moveApplicationBean.move()}" value="#{ivy.cm.co('/moveApplication/Move')}"
-        oncomplete="var button=this; buttonRemoveSpinner(button, 'si-check-1');PF('moveApplicationModal').hide();"
+        oncomplete="var button=this; buttonRemoveSpinner(button, 'ti-check');PF('moveApplicationModal').hide();"
         onclick="var button=this; buttonAddSpinner(button);" update="appDetailSecurityForm"
-        icon="si si-move-to-bottom" styleClass="modal-input-button" />
+        icon="ti ti-arrow-big-down-lines" styleClass="modal-input-button" />
     </div>
   </h:form>
 </p:dialog>

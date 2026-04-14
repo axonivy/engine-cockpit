@@ -11,9 +11,9 @@
     <h:form id="eventPoll">
       <div class="card-header">
         <div class="card-title flex align-items-center">
-          <i class="pr-3 si si-time-clock-circle"></i>
+          <i class="pr-3 ti ti-clock"></i>
           <h6 class="m-0">#{ivy.cm.co('/poll/Poll')}</h6>
-          <p:commandButton id="pollBtn" oncomplete="PF('pollBeanDialog').show();" title="#{ivy.cm.co('/poll/ScheduleToPollBean')}" icon="si si-synchronize-arrow-clock"
+          <p:commandButton id="pollBtn" oncomplete="PF('pollBeanDialog').show();" title="#{ivy.cm.co('/poll/ScheduleToPollBean')}" icon="ti ti-clock-play"
               update="polls" styleClass="flex-shrink-0 ml-auto rounded-button" />
         </div>
       </div>
@@ -47,7 +47,7 @@
         <p:staticMessage severity="warn" detail="#{ivy.cm.co('/poll/PollBeanWarningMessage')}"/>
         <div class="custom-dialog-footer">
           <p:commandButton id="cancel" type="button" onclick="PF('pollBeanDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
-          <p:commandButton id="pollBtn" onclick="PF('pollBeanDialog').hide();" value="#{ivy.cm.co('/poll/Poll')}" icon="si si-controls-play"
+          <p:commandButton id="pollBtn" onclick="PF('pollBeanDialog').hide();" value="#{ivy.cm.co('/poll/Poll')}" icon="ti ti-player-play"
               styleClass="modal-input-button" actionListener="#{cc.attrs.event.poll()}" update="polls:eventPoll"/>
         </div>
       </h:form>

@@ -20,7 +20,7 @@
       <p:commandButton id="cancelSearchEngineQueryBtn" onclick="PF('searchEngineQueryToolModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
         type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="runSearchEngineQueryBtn" validateClient="true" update="@form"
-        actionListener="#{searchEngineBean.runQuery}" value="#{ivy.cm.co('/common/Run')}" icon="si si-send-email"
+        actionListener="#{searchEngineBean.runQuery}" value="#{ivy.cm.co('/common/Run')}" icon="ti ti-mail"
         styleClass="modal-input-button" />
     </div>
   </h:form>

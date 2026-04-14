@@ -12,17 +12,17 @@
     <div class="layout-menu-container">
       <h:form id="menuform">
         <pm:menu widgetVar="sidebar_menu">
-          <p:menuitem id="sr_dashboard" value="#{ivy.cm.co('/sidebar/Dashboard')}" icon="si si-layout-dashboard" url="dashboard.xhtml" />
+          <p:menuitem id="sr_dashboard" value="#{ivy.cm.co('/sidebar/Dashboard')}" icon="ti ti-layout-dashboard" url="dashboard.xhtml" />
           <p:menuitem id="sr_applications" value="#{ivy.cm.co('/common/Applications')}" icon="si si-layout-module"
             url="applications.xhtml" />
           <p:submenu id="sr_security" label="#{ivy.cm.co('/common/Security')}" icon="si si-shield-lock">
-            <p:menuitem id="sr_security_system" value="#{ivy.cm.co('/common/SecuritySystems')}" icon="si si-lock-1"
+            <p:menuitem id="sr_security_system" value="#{ivy.cm.co('/common/SecuritySystems')}" icon="ti ti-lock"
               url="securitysystem.xhtml" />
-            <p:menuitem id="sr_users" value="#{ivy.cm.co('/common/Users')}" icon="si si-single-neutral-actions" url="users.xhtml" />
-            <p:menuitem id="sr_roles" value="#{ivy.cm.co('/common/Roles')}" icon="si si-multiple-neutral-1" url="roles.xhtml" />
+            <p:menuitem id="sr_users" value="#{ivy.cm.co('/common/Users')}" icon="ti ti-user-check" url="users.xhtml" />
+            <p:menuitem id="sr_roles" value="#{ivy.cm.co('/common/Roles')}" icon="ti ti-users" url="roles.xhtml" />
           </p:submenu>
 
-          <p:submenu id="sr_configuration" label="#{ivy.cm.co('/common/Configuration')}" icon="si si-cog">
+          <p:submenu id="sr_configuration" label="#{ivy.cm.co('/common/Configuration')}" icon="ti ti-settings">
             <p:menuitem id="sr_variables" value="#{ivy.cm.co('/common/Variables')}" icon="si si-archive-folder"
               url="variables.xhtml" />
             <p:menuitem id="sr_business_calendar" value="#{ivy.cm.co('/common/BusinessCalendar')}" icon="si si-calendar"
@@ -32,71 +32,71 @@
           </p:submenu>
 
           <p:submenu id="sr_services" label="#{ivy.cm.co('/common/Services')}" icon="si si-conversation-chat-2">
-            <p:menuitem id="sr_notification_channels" value="#{ivy.cm.co('/common/NotificationChannels')}" icon="si si-advertising-megaphone-2" url="notification-channels.xhtml"/>
+            <p:menuitem id="sr_notification_channels" value="#{ivy.cm.co('/common/NotificationChannels')}" icon="ti ti-speakerphone" url="notification-channels.xhtml"/>
             <p:menuitem id="sr_database" value="#{ivy.cm.co('/common/Databases')}" icon="si si-database"
               url="databases.xhtml" />
-            <p:menuitem id="sr_web_service" value="#{ivy.cm.co('/common/WebServiceClients')}" icon="si si-network-arrow"
+            <p:menuitem id="sr_web_service" value="#{ivy.cm.co('/common/WebServiceClients')}" icon="ti ti-network"
               url="webservices.xhtml" />
-            <p:menuitem id="sr_web_service_processes" value="#{ivy.cm.co('/common/WebServiceProcesses')}" icon="si si-network-arrow"
+            <p:menuitem id="sr_web_service_processes" value="#{ivy.cm.co('/common/WebServiceProcesses')}" icon="ti ti-network"
               url="webserviceprocesses.xhtml" />
-            <p:menuitem id="sr_rest_client" value="#{ivy.cm.co('/common/RestClients')}" icon="si si-network-share"
+            <p:menuitem id="sr_rest_client" value="#{ivy.cm.co('/common/RestClients')}" icon="ti ti-world"
               url="restclients.xhtml" />
-            <p:menuitem id="sr_rest_services" value="#{ivy.cm.co('/common/RestServices')}" icon="si si-network-browser"
+            <p:menuitem id="sr_rest_services" value="#{ivy.cm.co('/common/RestServices')}" icon="ti ti-browser"
               url="restservices.xhtml" />
             <p:menuitem id="sr_searchengine" value="#{ivy.cm.co('/common/SearchEngine')}" icon="si si-monitor-heart-beat-search"
               url="searchengine.xhtml" />
           </p:submenu>
-          <p:submenu id="sr_system" label="#{ivy.cm.co('/common/System')}" icon="si si-cog-double-2">
-            <p:menuitem id="sr_admins" value="#{ivy.cm.co('/common/Administrators')}" icon="si si-single-neutral-shield"
+          <p:submenu id="sr_system" label="#{ivy.cm.co('/common/System')}" icon="ti ti-settings">
+            <p:menuitem id="sr_admins" value="#{ivy.cm.co('/common/Administrators')}" icon="ti ti-lock-square-rounded"
               url="admins.xhtml" />
             <p:menuitem id="sr_systemdb" value="#{ivy.cm.co('/common/SystemDatabase')}" icon="si si-database-settings"
               url="systemdb.xhtml" />
             <p:menuitem id="sr_licence" value="#{ivy.cm.co('/common/Licence')}" icon="si si-real-estate-action-house-key"
               url="licence.xhtml" />
-            <p:menuitem id="sr_web_server" value="#{ivy.cm.co('/common/WebServer')}" icon="si si-network-signal"
+            <p:menuitem id="sr_web_server" value="#{ivy.cm.co('/common/WebServer')}" icon="ti ti-building-broadcast-tower"
               url="webserver.xhtml" />
-            <p:menuitem id="sr_system_config" value="#{ivy.cm.co('/common/SystemConfiguration')}" icon="si si-cog-double"
+            <p:menuitem id="sr_system_config" value="#{ivy.cm.co('/common/SystemConfiguration')}" icon="ti ti-settings-double"
               url="systemconfig.xhtml" />
-            <p:menuitem id="sr_ssl" value="#{ivy.cm.co('/common/SSL')}" icon="si si-lock-1"
+            <p:menuitem id="sr_ssl" value="#{ivy.cm.co('/common/SSL')}" icon="ti ti-lock"
               url="sslconfig.xhtml" />
             <p:menuitem id="sr_cluster" value="#{ivy.cm.co('/common/Cluster')}" icon="si si-monitor-network" url="cluster.xhtml"
               rendered="#{clusterBean.clusterServer or param['cluster'] != null}" />
-            <p:menuitem id="sr_editor" value="#{ivy.cm.co('/common/ConfigFileEditor')}" icon="si si-common-file-text-edit" url="editor.xhtml" />
+            <p:menuitem id="sr_editor" value="#{ivy.cm.co('/common/ConfigFileEditor')}" icon="ti ti-file-text-edit" url="editor.xhtml" />
           </p:submenu>
           <p:submenu id="sr_monitor" label="#{ivy.cm.co('/common/Monitor')}" icon="si si-pie-line-graph-desktop">
             <p:menuitem id="sr_monitor_os" value="#{ivy.cm.co('/sidebar/OS')}" icon="si si-server-search" url="monitorOs.xhtml" />
             <p:submenu id="sr_monitor_java" label="#{ivy.cm.co('/sidebar/Java')}" icon="si si-coffee-cup">
               <p:menuitem id="sr_monitor_java_jvm" value="#{ivy.cm.co('/sidebar/JVM')}" icon="si si-coffee-cup" url="monitorJvm.xhtml" />
-              <p:menuitem id="sr_monitor_java_memory" value="#{ivy.cm.co('/sidebar/Memory')}" icon="si si-analytics-board-graph-line"
+              <p:menuitem id="sr_monitor_java_memory" value="#{ivy.cm.co('/sidebar/Memory')}" icon="ti ti-chart-line"
                 url="monitorMemory.xhtml" />
               <p:menuitem id="sr_monitor_java_class_histogram" value="#{ivy.cm.co('/sidebar/ClassHistogram')}" icon="si si-computer-chip-search"
                 url="monitorClassHistogram.xhtml" />
-              <p:menuitem id="sr_monitor_java_threads" value="#{ivy.cm.co('/common/Threads')}" icon="si si-synchronize-arrow-clock" url="monitorThreads.xhtml" />
+              <p:menuitem id="sr_monitor_java_threads" value="#{ivy.cm.co('/common/Threads')}" icon="ti ti-clock-play" url="monitorThreads.xhtml" />
               <p:menuitem id="sr_monitor_java_jfr" value="#{ivy.cm.co('/sidebar/FlightRecorder')}" icon="si si-plane-take-off" url="monitorJfr.xhtml" />
               <p:menuitem id="sr_monitor_java_mbeans" value="#{ivy.cm.co('/sidebar/MBeans')}" icon="si si-graph-statistics-coffee"
                 url="mbeans.xhtml" />
             </p:submenu>
             <p:submenu id="sr_monitor_engine" label="#{ivy.cm.co('/sidebar/Engine')}" icon="si si-computer-chip-search">
-              <p:menuitem id="sr_monitor_engine_notification" value="#{ivy.cm.co('/sidebar/Notifications')}" icon="si si-advertising-megaphone-2" url="notifications.xhtml" />
+              <p:menuitem id="sr_monitor_engine_notification" value="#{ivy.cm.co('/sidebar/Notifications')}" icon="ti ti-speakerphone" url="notifications.xhtml" />
               <p:menuitem id="sr_monitor_engine_sessions" value="#{ivy.cm.co('/sidebar/Sessions')}" icon="si si-analytics-graph-line" url="monitor-sessions.xhtml" />
-              <p:menuitem id="sr_monitor_engine_jobs" value="#{ivy.cm.co('/sidebar/Jobs')}" icon="si si-task-list-approve" url="monitorJobs.xhtml" />
+              <p:menuitem id="sr_monitor_engine_jobs" value="#{ivy.cm.co('/sidebar/Jobs')}" icon="ti ti-clipboard-list" url="monitorJobs.xhtml" />
               <p:menuitem id="sr_monitor_engine_cache" value="#{ivy.cm.co('/sidebar/Cache')}" icon="si si-monitor-heart-beat-search" url="monitorCache.xhtml" />
-              <p:menuitem id="sr_monitor_engine_health" value="#{ivy.cm.co('/sidebar/Health')}" icon="si si-road-sign-warning" url="monitor-health.xhtml" />
+              <p:menuitem id="sr_monitor_engine_health" value="#{ivy.cm.co('/sidebar/Health')}" icon="ti ti-alert-triangle" url="monitor-health.xhtml" />
             </p:submenu>
-            <p:submenu id="sr_monitor_workflow" label="#{ivy.cm.co('/common/Workflow')}" icon="si si-layout-bullets">
-              <p:menuitem id="sr_monitor_workflow_documents" value="#{ivy.cm.co('/sidebar/Documents')}" icon="si si-office-file-doc-1" url="documents.xhtml" />
-              <p:menuitem id="sr_monitor_workflow_start_events" value="#{ivy.cm.co('/common/StartEvents')}" icon="si si-navigation-right-circle-1" url="monitorStartEvents.xhtml" />
-              <p:menuitem id="sr_monitor_workflow_intermediate_events" value="#{ivy.cm.co('/common/IntermediateEvents')}" icon="si si-time-clock-circle" url="monitorIntermediateEvents.xhtml" />
+            <p:submenu id="sr_monitor_workflow" label="#{ivy.cm.co('/common/Workflow')}" icon="ti ti-list">
+              <p:menuitem id="sr_monitor_workflow_documents" value="#{ivy.cm.co('/sidebar/Documents')}" icon="ti ti-file-type-doc" url="documents.xhtml" />
+              <p:menuitem id="sr_monitor_workflow_start_events" value="#{ivy.cm.co('/common/StartEvents')}" icon="ti ti-circle-arrow-right" url="monitorStartEvents.xhtml" />
+              <p:menuitem id="sr_monitor_workflow_intermediate_events" value="#{ivy.cm.co('/common/IntermediateEvents')}" icon="ti ti-clock" url="monitorIntermediateEvents.xhtml" />
             </p:submenu>
-            <p:submenu id="sr_monitor_performance" label="#{ivy.cm.co('/sidebar/Performance')}" icon="si si-time-clock-circle">
+            <p:submenu id="sr_monitor_performance" label="#{ivy.cm.co('/sidebar/Performance')}" icon="ti ti-clock">
               <p:menuitem id="sr_monitor_performance_process_execution" value="#{ivy.cm.co('/sidebar/ProcessExecution')}" icon="si si-optimization-timer"
                 url="monitorProcessExecution.xhtml" />
-              <p:menuitem id="sr_monitor_performance_traces" value="#{ivy.cm.co('/sidebar/SlowRequests')}" icon="si si-alarm-bell-timer"
+              <p:menuitem id="sr_monitor_performance_traces" value="#{ivy.cm.co('/sidebar/SlowRequests')}" icon="ti ti-bell-plus"
                 url="monitorTraces.xhtml" />
-              <p:menuitem id="sr_monitor_performance_traffic_graph" value="#{ivy.cm.co('/sidebar/TrafficGraph')}" icon="si si-view-1"
+              <p:menuitem id="sr_monitor_performance_traffic_graph" value="#{ivy.cm.co('/sidebar/TrafficGraph')}" icon="ti ti-eye"
                 url="monitorTrafficGraph.xhtml" />
             </p:submenu>
-            <p:menuitem id="sr_logs" value="#{ivy.cm.co('/sidebar/Logs')}" icon="si si-common-file-text" url="logs.xhtml" />
+            <p:menuitem id="sr_logs" value="#{ivy.cm.co('/sidebar/Logs')}" icon="ti ti-file-text" url="logs.xhtml" />
           </p:submenu>
         </pm:menu>
       </h:form>

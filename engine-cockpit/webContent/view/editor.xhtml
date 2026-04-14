@@ -85,7 +85,7 @@
               <p:commandButton title="#{ivy.cm.co('/editor/DownloadP12')}" id="binaryDownload"
                 actionListener="#{editorBean.fileDownloadView()}"
                 value="#{ivy.cm.co('/editor/DownloadP12')}" ajax="false"
-                icon="si si-download-bottom" styleClass="ui-button-outlined">
+                icon="ti ti-download" styleClass="ui-button-outlined">
                 <p:fileDownload value="#{editorBean.file}" />
               </p:commandButton>
               <p:tooltip for="binaryDownload" value="#{editorBean.name} #{editorBean.size} #{ivy.cm.co('/common/Bytes')}" />
@@ -149,7 +149,7 @@
               <p:commandButton id="cancelEditor" onclick="window.location.reload(true)" value="#{ivy.cm.co('/common/Cancel')}" type="button"
                 styleClass="ml-auto ui-button-secondary ui-button-flat" disabled="#{editorBean.activeConfigFile == null}" />
               <p:commandButton id="saveEditor" styleClass="ml-1" value="#{ivy.cm.co('/common/Save')}" disabled="#{!editorBean.canSave()}"
-                icon="si si-floppy-disk" onclick="saveEditor()" actionListener="#{editorBean.activeConfigFile.save()}" widgetVar="saveEditor" />
+                icon="ti ti-device-floppy" onclick="saveEditor()" actionListener="#{editorBean.activeConfigFile.save()}" widgetVar="saveEditor" />
             </div>
           </h:form>
         </h:panelGroup>

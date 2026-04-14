@@ -20,10 +20,10 @@
         <div class="card ui-fluid">
           <div class="card-header">
             <div class="card-title flex align-items-center">
-              <i class="pr-3 si si-information-circle"></i>
+              <i class="pr-3 ti ti-info-circle"></i>
               <h6 class="m-0">#{group.name}</h6>
 
-              <p:commandButton title="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk"
+              <p:commandButton title="#{ivy.cm.co('/common/Save')}" icon="ti ti-device-floppy"
                 id="save"
                 styleClass="flex-shrink-0 ml-auto ml-1 ui-button-success rounded-button"
                 rendered="#{!group.keyValue}"
@@ -36,7 +36,7 @@
                 oncomplete="PF('propertyKeyValueModal').show();"
                 process="@this"
                 update="identityProvider:dynamicConfigKeyValueForm"
-                title="#{ivy.cm.co('/common/Add')}" icon="si si-add"
+                title="#{ivy.cm.co('/common/Add')}" icon="ti ti-plus"
                 styleClass="flex-shrink-0 ml-auto rounded-button" />
 
             </div>
@@ -63,7 +63,7 @@
                     disabled="#{!tlsTesterBean.isLdaps(property.value)}" />
 
                   <p:commandButton id="browseDirectory"
-                    icon="si si-network-browser" title="#{ivy.cm.co('/common/Browse')}"
+                    icon="ti ti-browser" title="#{ivy.cm.co('/common/Browse')}"
                     actionListener="#{identityProviderBean.browseProperty(property)}"
                     oncomplete="PF('directoryBrowserDialog').show();"
                     update="directoryBrowser:directoryBrowserForm directoryBrowser:chooseDirectoryName"
@@ -74,7 +74,7 @@
                   <h:panelGroup id="usedByHelpString"
                     styleClass="label-help-icon"
                     rendered="#{property.hasSecondLine()}">
-                    <i class="si si-question-circle"></i>
+                    <i class="ti ti-help-circle"></i>
                     <p:tooltip for="@parent"
                       value="#{property.description}" position="top"
                       styleClass="pre-tooltip" />
@@ -99,7 +99,7 @@
                   <h:panelGroup id="usedByHelpPassword"
                     styleClass="label-help-icon"
                     rendered="#{property.hasSecondLine()}">
-                    <i class="si si-question-circle"></i>
+                    <i class="ti ti-help-circle"></i>
                     <p:tooltip for="@parent"
                       value="#{property.description}"
                       styleClass="pre-tooltip" position="top" />
@@ -119,7 +119,7 @@
                   <h:panelGroup id="usedByHelpBoolean"
                     styleClass="label-help-icon"
                     rendered="#{property.hasSecondLine()}">
-                    <i class="si si-question-circle"></i>
+                    <i class="ti ti-help-circle"></i>
                     <p:tooltip for="@parent"
                       value="#{property.description}"
                       styleClass="pre-tooltip" position="top" />
@@ -140,7 +140,7 @@
                   <h:panelGroup id="usedByHelpNumber"
                     styleClass="label-help-icon"
                     rendered="#{property.hasSecondLine()}">
-                    <i class="si si-question-circle"></i>
+                    <i class="ti ti-help-circle"></i>
                     <p:tooltip for="@parent"
                       value="#{property.description}"
                       styleClass="pre-tooltip" position="top" />
@@ -163,7 +163,7 @@
                   <h:panelGroup id="usedByHelpDropdown"
                     styleClass="label-help-icon"
                     rendered="#{property.hasSecondLine()}">
-                    <i class="si si-question-circle"></i>
+                    <i class="ti ti-help-circle"></i>
                     <p:tooltip for="@parent"
                       value="#{property.description}"
                       styleClass="pre-tooltip" position="top" />
@@ -193,13 +193,13 @@
                   <p:column styleClass="table-btn-2">
                     <p:commandButton id="editPropertyBtn"
                       actionListener="#{dynamicConfigListDialogBean.setProperty(property.getKeyValueProperty(), keyValue.key, keyValue.value)}"
-                      icon="si si-pencil" title="#{ivy.cm.co('/common/Edit')}"
+                      icon="ti ti-pencil" title="#{ivy.cm.co('/common/Edit')}"
                       styleClass="ui-button-secondary rounded-button"
                       oncomplete="PF('propertyKeyValueModal').show();"
                       process="@this"
                       update="identityProvider:dynamicConfigKeyValueForm" />
                     <p:commandButton id="deleteKeyValueBtn"
-                      type="button" icon="si si-bin-1" title="#{ivy.cm.co('/common/Delete')}"
+                      type="button" icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"
                       styleClass="ml-1 ui-button-danger rounded-button">
                       <p:ajax
                         listener="#{property.getKeyValueProperty().removeKeyValue(keyValue.key)}"
@@ -213,7 +213,7 @@
                     <h:panelGroup id="usedByHelpKeyValue"
                       styleClass="label-help-icon"
                       rendered="#{property.hasSecondLine()}">
-                      <i class="si si-question-circle"></i>
+                      <i class="ti ti-help-circle"></i>
                       <p:tooltip for="@parent"
                         value="#{property.description}"
                         styleClass="pre-tooltip" position="top" />
@@ -271,7 +271,7 @@
               requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}" required="true"
               value="#{dynamicConfigListDialogBean.newValue}" />
             <p:commandButton id="browseDirectory"
-              icon="si si-network-browser" title="#{ivy.cm.co('/common/Browse')}"
+              icon="ti ti-browser" title="#{ivy.cm.co('/common/Browse')}"
               actionListener="#{identityProviderBean.browseBeanProperty(dynamicConfigListDialogBean)}"
               oncomplete="PF('directoryBrowserDialog').show();"
               rendered="#{dynamicConfigListDialogBean.isDirectoryBrowser()}"
@@ -292,7 +292,7 @@
         <p:commandButton id="savePropertyKeyAttribute"
           validateClient="true" ajax="false"
           actionListener="#{dynamicConfigListDialogBean.saveProp}"
-          value="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk"
+          value="#{ivy.cm.co('/common/Save')}" icon="ti ti-device-floppy"
           update="identityProvider:dynamicConfigForm"
           styleClass="modal-input-button" />
       </div>

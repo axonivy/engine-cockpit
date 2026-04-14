@@ -44,7 +44,7 @@ class WebTestDatabaseHistory {
     new Table(By.id("databaseExecHistoryForm:databaseExecHistoryTable"))
         .firstColumnShouldBe(sizeGreaterThan(0));
 
-    $(".si-copy-paste").shouldBe(visible).click();
+    $(".ti-copy").shouldBe(visible).click();
     var copyPasteAlert = switchTo().alert();
     assertThat(copyPasteAlert.getText()).contains("Person");
     copyPasteAlert.accept();

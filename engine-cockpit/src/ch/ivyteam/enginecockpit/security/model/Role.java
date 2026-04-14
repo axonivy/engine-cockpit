@@ -58,7 +58,7 @@ public class Role implements SecurityMember {
 
   @Override
   public String getCssIconClass() {
-    return "si si-multiple-neutral-1";
+    return "ti ti-users";
   }
 
   @Override

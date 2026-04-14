@@ -31,7 +31,7 @@ public class Task {
 
   public void run() {
     state = "running";
-    stateIcon = "button-refresh-arrows si-is-spinning";
+    stateIcon = "button-refresh-arrows spinning";
   }
 
   public String getScript() {

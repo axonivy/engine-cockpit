@@ -35,7 +35,7 @@
             emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
             <f:facet name="header">
               <div class="ui-input-icon-left filter-container">
-                <i class="pi pi-search"/>
+                <i class="ti ti-search"/>
                 <p:inputText id="globalFilter" onkeyup="PF('cacheTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{cacheBean.filter}" />
               </div>
             </f:facet>
@@ -101,7 +101,7 @@
               <h:outputText value="#{cache.info}" title="#{cache.info}"/>
             </p:column>
             <p:column styleClass="table-btn-1">
-              <p:commandButton title="#{ivy.cm.co('/common/Clear')}" id="clearButton" icon="si si-bin-1" disabled="#{cache.notClearable}"
+              <p:commandButton title="#{ivy.cm.co('/common/Clear')}" id="clearButton" icon="ti ti-trash" disabled="#{cache.notClearable}"
                   type="button" styleClass="ui-button-danger rounded-button">
                 <p:ajax update="@form" listener="#{cache.clear}"/>
               </p:commandButton>
