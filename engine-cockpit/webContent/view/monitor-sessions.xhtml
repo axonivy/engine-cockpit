@@ -107,7 +107,7 @@
                <p:column headerText="#{ivy.cm.co('/monitor/session/HTTPSessions')}" sortBy="#{ses.httpSessionCount}">
                 <h:panelGroup id="httpSessionGrp">
                    <h:outputText id="httpSession" value="#{ses.httpSessionCount}"/>
-                   <i class="fa-solid fa-info-circle"/>
+                   <i class="fa-info-circle"/>
                 </h:panelGroup>
                 <p:tooltip for="httpSessionGrp" rendered="#{!ses.httpSessions.isEmpty()}">
                   <ui:repeat value="#{ses.httpSessions}" var="httpSession">
