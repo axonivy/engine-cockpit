@@ -142,12 +142,12 @@ public class ConfigProperty {
       return "password-lock-2";
     }
     if (configValueFormat == ConfigValueFormat.FILE) {
-      return "common-file-text";
+      return "file-text";
     }
     if (configValueFormat == ConfigValueFormat.EXPRESSION) {
-      return "archive-folder";
+      return "archive";
     }
-    return "cog";
+    return "settings";
   }
 
   public String getConfigValueFormat() {
