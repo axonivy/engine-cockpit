@@ -627,3 +627,12 @@ body .ui-tooltip .ui-panelgrid .ui-panelgrid-cell {
 .layout-wrapper .layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions > li.health-messages > ul {
   min-width: 350px;
 }
+
+/* Tabler Icons */
+.spinning {
+  animation: icon-spin 2s linear infinite reverse;
+}
+
+@keyframes icon-spin {
+  to { transform: rotate(360deg); }
+}
