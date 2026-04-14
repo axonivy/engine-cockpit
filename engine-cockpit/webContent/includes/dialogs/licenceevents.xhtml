@@ -10,7 +10,7 @@
       <ul>
         <ui:repeat value="#{licenceBean.licenceEvents}" var="event">
           <li class="align-items-center gap-3">
-            <i class="m-0 si si-xl si-#{event.level eq 'ERROR' ? 'alert-circle error' : 'road-sign-warning warning'}"></i>
+            <i class="m-0 text-2xl si-#{event.level eq 'ERROR' ? 'alert-circle error' : 'road-sign-warning warning'}"></i>
             <div class="flex flex-column">
               <h:outputText styleClass="text-sm name" value="#{event.timestamp}" style="color: var(--text-color-secondary);" />
               <h:outputText styleClass="message" value="#{event.message}" />
