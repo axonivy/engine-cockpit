@@ -31,7 +31,7 @@ public class Task {
 
   public void run() {
     state = "running";
-    stateIcon = "button-refresh-arrows spinning";
+    stateIcon = "ti ti-refresh spinning";
   }
 
   public String getScript() {
@@ -40,7 +40,7 @@ public class Task {
 
   public void done() {
     state = DONE;
-    stateIcon = "check-circle-1 state-active";
+    stateIcon = "ti ti-circle-check state-active";
   }
 
   public boolean isDone() {
@@ -49,7 +49,7 @@ public class Task {
 
   public void fail() {
     state = "fail";
-    stateIcon = "remove-circle state-inactive";
+    stateIcon = "ti ti-circle-minus state-inactive";
   }
 
   public String getName() {
