@@ -108,7 +108,7 @@ body .user-avatar > img {
   width: 100%; height: 33px;
 }
 .card .card-title-icon, 
-.card .card-title > .si {
+.card .card-title > .ti {
   font-size: 1.4em;
 }
 .grey-label-panel .ui-panelgrid-cell:nth-child(odd) > label {
@@ -185,7 +185,7 @@ body .ui-dialog.ui-confirm-dialog .ui-dialog-content {
   display: flex;
   font-size: medium;
 }
-.deploy-status .si {
+.deploy-status .ti {
   margin-right: 5px;
   top: 2px;
 }
