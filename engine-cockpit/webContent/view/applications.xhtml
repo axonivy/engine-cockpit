@@ -45,7 +45,7 @@
               <h:outputLink rendered="#{activity.detailView != '#'}" value="#{activity.detailView}">
                 <h:outputText value="#{activity.displayName}" styleClass="activity-name"
                   title="#{activity.activityType} #{activity.displayName}">
-                  <i class="si si-#{activity.icon} table-icon" title="#{activity.activityType}" />
+                  <i class="#{activity.icon} table-icon" title="#{activity.activityType}" />
                 </h:outputText>
               </h:outputLink>
               <h:outputText rendered="#{activity.pmv}"
@@ -57,7 +57,7 @@
             <p:column headerText="#{ivy.cm.co('/common/State')}" responsivePriority="2" style="text-align: center; width: 50px;">
               <h:panelGroup styleClass="module-state">
                   <h:outputText rendered="#{activity.app}">
-                <i class="ml-2 si si-#{activity.releaseStateIcon} table-icon" title="#{activity.releaseState}"></i>
+                <i class="ml-2 #{activity.releaseStateIcon} table-icon" title="#{activity.releaseState}"></i>
               </h:outputText>
               </h:panelGroup>
             </p:column>

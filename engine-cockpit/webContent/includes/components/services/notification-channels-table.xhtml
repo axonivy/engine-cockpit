@@ -22,10 +22,10 @@
       </a>
     </p:column>
     <p:column headerText="#{ivy.cm.co('/common/Enabled')}" sortBy="#{channel.enabled}" style="text-align: center">
-      <i class="si table-icon si-#{channel.enabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
+      <i class="si table-icon #{channel.enabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
     </p:column>
     <p:column headerText="#{ivy.cm.co('/common/AllEvents')}" sortBy="#{channel.allEventsEnabled}" style="text-align: center">
-      <i class="si table-icon si-#{channel.allEventsEnabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
+      <i class="si table-icon #{channel.allEventsEnabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
     </p:column>
     <p:column headerText="#{ivy.cm.co('/common/State')}" sortBy="#{channel.stateText}" style="text-align: center">
       <cc:ChannelState id="state" channel="#{channel}"/>

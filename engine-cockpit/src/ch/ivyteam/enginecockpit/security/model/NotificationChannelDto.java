@@ -66,10 +66,10 @@ public class NotificationChannelDto {
     var iconTitle = new StringBuilder();
 
     if (subscribedByUser || (useDefault && subscription.isSubscribedByDefault())) {
-      icon.append("check-circle-1 state-active");
+      icon.append("ti ti-circle-check state-active");
       iconTitle.append(Ivy.cm().co("/userDetailNotifications/Subscribed"));
     } else {
-      icon.append("remove-circle state-inactive");
+      icon.append("ti ti-circle-minus state-inactive");
       iconTitle.append(Ivy.cm().co("/userDetailNotifications/NotSubscribed"));
     }
 

@@ -69,7 +69,7 @@
 
               <p:column headerText="#{ivy.cm.co('/common/PMV')}">
                 <p:link rendered="#{not empty notification.pmvUri}" href="#{notification.pmvUri}">
-                  <i class="si-#{notification.pmvIcon} table-icon"/>
+                  <i class="#{notification.pmvIcon} table-icon"/>
                   <h:outputText value="#{notification.pmv}" />
                 </p:link>
               </p:column>

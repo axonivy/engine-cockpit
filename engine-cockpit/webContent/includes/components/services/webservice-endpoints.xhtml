@@ -19,7 +19,7 @@
     <p:treeTable value="#{webserviceDetailBean.webservice.portTypes}" var="endpoint" id="webserviceEndpointTable"
       emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
       <p:column headerText="#{ivy.cm.co('/webServiceEndpoints/Endpoints')}">
-        <i class="si si-#{endpoint.type eq 'port' ? 'network-arrow' : 'hyperlink-3'} table-icon"></i>
+        <i class="#{endpoint.type eq 'port' ? 'network-arrow' : 'hyperlink-3'} table-icon"></i>
         <h:outputText value="#{endpoint.name}" styleClass="endpoint-entry" />
       </p:column>
       <p:column styleClass="table-btn-2">

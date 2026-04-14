@@ -25,20 +25,20 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 @ViewScoped
 public class OsBean {
   private final Monitor memoryMonitor = Monitor.build().name(cm().co("/monitor/Memory"))
-      .icon("analytics-board-graph-line")
+      .icon("ti ti-chart-line")
       .yAxisLabel(cm().co("/monitor/Memory"))
       .reverseColors()
       .toMonitor();
   private final Monitor cpuMonitor = Monitor.build().name(cm().co("/monitor/CPULoad"))
-      .icon("computer-chip")
+      .icon("ti ti-cpu")
       .yAxisLabel(cm().co("/monitor/Load"))
       .toMonitor();
   private final Monitor networkMonitor = Monitor.build().name(cm().co("/monitor/Network"))
-      .icon("network-signal")
+      .icon("ti ti-building-broadcast-tower")
       .yAxisLabel(cm().co("/monitor/SendRecv"))
       .toMonitor();
   private final Monitor ioMonitor = Monitor.build().name(cm().co("/monitor/IO"))
-      .icon("cd")
+      .icon("ti ti-device-floppy")
       .yAxisLabel(cm().co("/monitor/ReadWrite"))
       .toMonitor();
 

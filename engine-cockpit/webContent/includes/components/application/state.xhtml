@@ -27,12 +27,12 @@
     <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex" styleClass="grey-label-panel">
       <label>#{ivy.cm.co('/common/State')}</label>
       <h:outputText>
-        <i class="si si-#{applicationDetailBean.application.state.operationIcon} icon-bold activity-state-#{applicationDetailBean.application.state.operationCssClass}"
+        <i class="#{applicationDetailBean.application.state.operationIcon} icon-bold activity-state-#{applicationDetailBean.application.state.operationCssClass}"
           title="#{applicationDetailBean.application.state.operation}" />
       </h:outputText>
       <label>#{ivy.cm.co('/common/ConfiguredState')}</label>
       <h:outputText>
-        <i class="si si-#{applicationDetailBean.application.state.stateIcon} icon-bold activity-state-#{applicationDetailBean.application.state.stateCssClass}"
+        <i class="#{applicationDetailBean.application.state.stateIcon} icon-bold activity-state-#{applicationDetailBean.application.state.stateCssClass}"
           title="#{applicationDetailBean.application.state.state}" />
       </h:outputText>
     </p:panelGrid>

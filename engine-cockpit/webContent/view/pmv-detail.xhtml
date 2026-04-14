@@ -66,7 +66,7 @@
                 <p:column headerText="#{ivy.cm.co('/pmvDetail/PMV')}">
                   <h:outputLink value="#{pmv.detailView}">
                     <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
-                      <i class="si si-#{pmv.icon}" style="margin-right: 5px;" />
+                      <i class="#{pmv.icon}" style="margin-right: 5px;" />
                     </h:outputText>
                   </h:outputLink>
                 </p:column>
@@ -91,7 +91,7 @@
                 <p:column headerText="PMV">
                   <h:outputLink value="#{pmv.detailView}">
                     <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
-                      <i class="si si-#{pmv.icon}" style="margin-right: 5px;" />
+                      <i class="#{pmv.icon}" style="margin-right: 5px;" />
                     </h:outputText>
                   </h:outputLink>
                 </p:column>

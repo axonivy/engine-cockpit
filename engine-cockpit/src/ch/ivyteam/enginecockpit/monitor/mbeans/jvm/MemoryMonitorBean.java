@@ -24,15 +24,15 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 @ViewScoped
 public class MemoryMonitorBean {
   private final Monitor heapMemoryMonitor = Monitor.build().name(cm().co("/monitor/HeapMemory"))
-      .icon("analytics-board-graph-line")
+      .icon("ti ti-chart-line")
       .yAxisLabel(cm().co("/monitor/Memory"))
       .toMonitor();
   private final Monitor nonHeapMemoryMonitor = Monitor.build().name(cm().co("/monitor/NonHeapMemory"))
-      .icon("analytics-board-graph-line")
+      .icon("ti ti-chart-line")
       .yAxisLabel(cm().co("/monitor/Memory"))
       .toMonitor();
   private final Monitor gcMonitor = Monitor.build().name(cm().co("/monitor/GarbageCollection"))
-      .icon("recycling-trash-bin-2")
+      .icon("ti ti-recycle")
       .yAxisLabel(cm().co("/monitor/Time"))
       .toMonitor();
 

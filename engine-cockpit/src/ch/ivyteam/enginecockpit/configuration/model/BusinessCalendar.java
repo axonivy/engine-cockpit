@@ -108,28 +108,28 @@ public class BusinessCalendar {
     public TimeDayConfig(FreeDayOfYear freeDay, String calendarName) {
       this(freeDay);
       this.calendarName = calendarName;
-      this.icon = "synchronize-arrow-clock";
+      this.icon = "ti ti-clock-play";
       this.tooltip = Ivy.cm().co("/freeDays/FreeDayOfYearTooltip");
     }
 
     public TimeDayConfig(FreeEasterRelativeDay freeDay, String calendarName) {
       this(freeDay);
       this.calendarName = calendarName;
-      this.icon = "synchronize-arrow-clock";
+      this.icon = "ti ti-clock-play";
       this.tooltip = Ivy.cm().co("/freeDays/FreeEasterRelativeDayTooltip");
     }
 
     public TimeDayConfig(FreeDate freeDay, String calendarName) {
       this(freeDay);
       this.calendarName = calendarName;
-      this.icon = "time-clock-circle";
+      this.icon = "ti ti-clock";
       this.tooltip = Ivy.cm().co("/freeDays/FreeDateTooltip");
     }
 
     public TimeDayConfig(WorkingTime time, String calendarName) {
       this(time);
       this.calendarName = calendarName;
-      this.icon = "hourglass";
+      this.icon = "ti ti-hourglass-low";
       this.tooltip = Ivy.cm().co("/weekConfiguration/DefinedWorkingTime");
     }
 

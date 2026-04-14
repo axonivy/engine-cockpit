@@ -32,7 +32,7 @@
 
       <p:column headerText="#{ivy.cm.co('/permissions/AllPermissions')}">
         <h:outputText value="#{permission.name}">
-          <i class="si si-#{permission.group ? 'folder-empty' : 'lock-1'} table-icon"></i>
+          <i class="#{permission.group ? 'folder-empty' : 'lock-1'} table-icon"></i>
         </h:outputText>
       </p:column>
   

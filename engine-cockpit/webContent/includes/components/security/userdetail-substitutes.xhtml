@@ -26,20 +26,20 @@
 
       <p:column headerText="#{ivy.cm.co('/userDetailSubstitutes/Type')}" sortBy="#{substitute.typeTitle}">
         <h:outputText value="#{substitute.typeTitle}">
-          <i class="si si-#{substitute.typeIcon} table-icon" />
+          <i class="#{substitute.typeIcon} table-icon" />
         </h:outputText>
       </p:column>
 
       <p:column headerText="#{ivy.cm.co('/userDetailSubstitutes/For')}" sortBy="#{substitute.memberTitle}">
         <h:outputText value="#{substitute.memberTitle}">
-          <i class="si si-#{substitute.memberIcon} table-icon" />
+          <i class="#{substitute.memberIcon} table-icon" />
         </h:outputText>
       </p:column>
 
       <p:column headerText="#{ivy.cm.co('/common/Role')}" sortBy="#{substitute.role}">
         <a href="#{substitute.roleViewUrl}">
           <h:outputText value="#{substitute.role}" styleClass="substitute-name" rendered="#{!substitute.role.blank}">
-            <i class="si si-#{substitute.memberIcon} table-icon" />
+            <i class="#{substitute.memberIcon} table-icon" />
           </h:outputText>
         </a>
       </p:column>
