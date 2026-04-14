@@ -30,7 +30,7 @@
               <span>#{ivy.cm.co('/deployment/Options')}</span>
             </div>
             <span class="flex align-items-center">
-              <i class="si #{deploymentBean.showDeployOptions ? 'ti-chevron-up' : 'ti-chevron-down'}"/>
+              <i class="#{deploymentBean.showDeployOptions ? 'ti ti-chevron-up' : 'ti ti-chevron-down'}"/>
             </span>
           </p:commandLink>
           <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="col-4, col-8" layout="flex" contentStyleClass="align-items-center"
@@ -64,7 +64,7 @@
     <h:panelGroup id="fileUploadResponse" layout="block">
       <h:panelGroup rendered="#{deploymentBean.showDeployLogs}">
         <h:panelGroup id="uploadStatus" layout="block" styleClass="deploy-status #{deploymentBean.status.styleClass}">
-          <i class="si #{deploymentBean.status.iconClass}"></i>
+          <i class="#{deploymentBean.status.iconClass}"></i>
           <h:outputText value="#{deploymentBean.status.text}"/>
         </h:panelGroup>
         <pre id="uploadLog" class="upload-log">

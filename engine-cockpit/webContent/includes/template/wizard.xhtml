@@ -56,7 +56,7 @@
                 <li class="themeswitch-item">
                   <p:commandLink id="themeSwitcher" onclick="PrimeFaces.FreyaConfigurator.changeLayout('ivy', '#{ivyFreyaTheme.mode == 'light' ? 'dark' : 'light'}');"
                     style="text-decoration: none;">
-                    <i class="topbar-icon pi pi-#{ivyFreyaTheme.mode == 'light' ? 'moon' : 'sun'}"/>
+                    <i class="topbar-icon #{ivyFreyaTheme.mode == 'light' ? 'ti ti-moon' : 'ti ti-sun-high'}"/>
                     <span>#{ivyFreyaTheme.mode == 'light' ? ivy.cm.co('/wizard/Dark') : ivy.cm.co('/wizard/Light')}</span>
                     <p:ajax onstart="PrimeFaces.FreyaConfigurator.beforeResourceChange();" listener="#{ivyFreyaTheme.toggleTheme}" update="themeSwitcher" />
                   </p:commandLink>
