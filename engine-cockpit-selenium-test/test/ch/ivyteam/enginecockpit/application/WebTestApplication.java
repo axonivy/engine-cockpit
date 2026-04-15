@@ -98,11 +98,11 @@ class WebTestApplication {
     expandAppTree();
     // project of app test has override configured
     $$(".activity-name").find(exactText("portal-components")).parent().find(".table-icon")
-        .shouldHave(cssClass("ti-arrow-big-down-lines"))
+        .shouldHave(cssClass("ti ti-arrow-big-down-lines"))
         .shouldHave(attribute("title", "This PM is configured as strict override project"));
     // project of app test-ad has no override configured
     $$(".activity-name").find(exactText("portal-user-examples")).parent().find(".table-icon")
-        .shouldHave(cssClass("ti-packages"))
+        .shouldHave(cssClass("ti ti-packages"))
         .shouldHave(attribute("title", "PM"));
   }
 

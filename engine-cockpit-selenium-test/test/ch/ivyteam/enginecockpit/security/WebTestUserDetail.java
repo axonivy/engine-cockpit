@@ -42,7 +42,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 class WebTestUserDetail {
 
   private static final String CSS_MEMBER_INHERIT = "light";
-  private static final String CSS_MEMBER = "ti-circle-check";
+  private static final String CSS_MEMBER = "ti ti-circle-check";
   private static final String CSS_DISABLED = "ui-state-disabled";
   private static final String ROLE_REMOVE_BUTTON = "button:nth-child(2)";
   private static final String ROLE_ADD_BUTTON = "button:nth-child(1)";
@@ -270,9 +270,9 @@ class WebTestUserDetail {
 
   private void iconShouldHaveSubscribedState(SelenideElement icon, boolean subscribed) {
     if (subscribed) {
-      icon.shouldHave(cssClass("ti-circle-check"));
+      icon.shouldHave(cssClass("ti ti-circle-check"));
     } else {
-      icon.shouldHave(cssClass("ti-circle-minus"));
+      icon.shouldHave(cssClass("ti ti-circle-minus"));
     }
   }
 
@@ -310,7 +310,7 @@ class WebTestUserDetail {
   @Test
   void absences_isWorking() {
     Navigation.toUserDetail(USER_FOO);
-    $(By.id("working")).shouldHave(cssClass("ti-circle-check"));
+    $(By.id("working")).shouldHave(cssClass("ti ti-circle-check"));
   }
 
   @Test
@@ -319,7 +319,7 @@ class WebTestUserDetail {
     beforeEach();
     Navigation.toUserDetail(USER_FOO);
 
-    $(By.id("working")).shouldHave(cssClass("ti-circle-minus"));
+    $(By.id("working")).shouldHave(cssClass("ti ti-circle-minus"));
 
     Table table = new Table(By.id("absencesForm:absencesTable"));
     table.firstColumnShouldBe(size(2));
