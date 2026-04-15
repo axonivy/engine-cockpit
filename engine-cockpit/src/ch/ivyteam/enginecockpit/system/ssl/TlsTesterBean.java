@@ -101,7 +101,7 @@ public class TlsTesterBean {
       return "ti ti-circle-minus state-inactive";
     }
     if (result.contains("1")) {
-      return "ti ti-circle-check-1 state-active";
+      return "ti ti-circle-check state-active";
     }
     return "ti ti-help-circle state-unused";
   }

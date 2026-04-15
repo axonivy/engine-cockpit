@@ -27,7 +27,7 @@
       </h:panelGroup>
     </p:column>
     <p:column width="2rem" styleClass="tls-tester-result-column #{tlsTesterBean.backgroundColor(logEntry.result)}">
-      <h:outputText class="table-icon {tlsTesterBean.icon(logEntry.result)}"/>
+      <h:outputText class="table-icon #{tlsTesterBean.icon(logEntry.result)}"/>
     </p:column>
     <p:rowExpansion>
       <p:dataTable var="logDataEntry" styleClass="noHeader" value="#{logEntry.entryList}"
