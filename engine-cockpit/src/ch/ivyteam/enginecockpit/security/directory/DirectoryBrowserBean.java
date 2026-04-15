@@ -45,11 +45,11 @@ public class DirectoryBrowserBean {
 
   public String icon(DirectoryNode node) {
     return switch (node.type()) {
-      case DEFAULT -> "folder-empty";
-      case DOMAIN -> "buildings-1";
-      case GROUP -> "multiple-neutral-1";
-      case ORGANIZATION -> "folder-share";
-      case USER -> "single-neutral-actions";
+      case DEFAULT -> "ti ti-folder-open";
+      case DOMAIN -> "ti ti-buildings";
+      case GROUP -> "ti ti-users";
+      case ORGANIZATION -> "ti ti-folder-share";
+      case USER -> "ti ti-user";
     };
   }
 
