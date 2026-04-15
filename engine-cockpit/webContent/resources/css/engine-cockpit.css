@@ -209,7 +209,7 @@ body .ui-dialog.ui-confirm-dialog .ui-dialog-content {
 }
 
 /* Icons */
-.si.link-icon {
+.ti.link-icon {
   margin-right: 5px;
   position: relative;
   top: 2px;
@@ -326,12 +326,12 @@ body .ui-datatable thead th[class*="table-btn"] {
 }
 
 /* Search Engine */
-.si.icon-bold {
+.ti.icon-bold {
   font-weight: bold;
   font-size: 24px;
 }
 
-.si.state-icon {
+.ti.state-icon {
   position: relative;
   top: 3px;
   font-size: 1.2em;
