@@ -63,10 +63,10 @@ public class SearchEngine {
 
   public enum SearchEngineHealth {
 
-    GREEN("green", "check-circle-1", Ivy.cm().co("/searchEngine/SearchEngineHealthGreenHint")),
-    YELLOW("yellow", "check-circle-1", Ivy.cm().co("/searchEngine/SearchEngineHealthYellowHint")),
-    RED("red", "remove-circle", Ivy.cm().co("/searchEngine/SearchEngineHealthRedHint")),
-    UNKNOWN("unknown", "question-circle", Ivy.cm().co("/searchEngine/SearchEngineHealthUnknownHint"));
+    GREEN("green", "ti ti-circle-check", Ivy.cm().co("/searchEngine/SearchEngineHealthGreenHint")),
+    YELLOW("yellow", "ti ti-circle-check", Ivy.cm().co("/searchEngine/SearchEngineHealthYellowHint")),
+    RED("red", "ti ti-circle-minus", Ivy.cm().co("/searchEngine/SearchEngineHealthRedHint")),
+    UNKNOWN("unknown", "ti ti-help-circle", Ivy.cm().co("/searchEngine/SearchEngineHealthUnknownHint"));
 
     private final String state;
     private final String icon;
