@@ -49,8 +49,8 @@ class WebTestSearchEngine {
     $(By.id("searchEngineInfoForm:name")).shouldBe(text("ivy-opensearch"));
     $(By.id("searchEngineInfoForm:url")).shouldBe(exactText("http://localhost:19200"));
     $(By.id("searchEngineInfoForm:version")).shouldNotBe(empty);
-    $("#searchEngineInfoForm\\:state > i").shouldHave(cssClass("ti ti-circle-check"));
-    $("#searchEngineInfoForm\\:health > i").shouldHave(cssClass("ti ti-circle-check"));
+    $("#searchEngineInfoForm\\:state > i").shouldHave(cssClass("ti-circle-check"));
+    $("#searchEngineInfoForm\\:health > i").shouldHave(cssClass("ti-circle-check"));
     $(By.id("searchEngineInfoForm:diskThreshold")).shouldHave(text("true"));
     $(By.id("searchEngineInfoForm:watermarkLow")).shouldNotBe(empty);
     $(By.id("searchEngineInfoForm:watermarkHigh")).shouldNotBe(empty);

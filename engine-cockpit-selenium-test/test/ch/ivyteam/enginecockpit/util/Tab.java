@@ -23,7 +23,7 @@ public class Tab {
       "li.security-system-tab",
       "li.security-system-tab.ui-state-active",
       ".ui-tabs-panel:not(.ui-helper-hidden)",
-      tab -> tab.switchToTab("default"));
+      tab -> tab.switchToTab("~Developer-engine-cockpit"));
 
   public static final Tab APP = new Tab(
       "li.application-tab > a",
