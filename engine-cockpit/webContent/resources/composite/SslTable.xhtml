@@ -93,7 +93,7 @@
         <p:column headerText="#{ivy.cm.co('/sslTable/ExpiryDate')}">
           <h:panelGroup id="valid">
             <i
-              class="si table-icon #{certificate.isValid() ? 'ti ti-circle-check state-active' : 'ti ti-circle-minus state-inactive'}" />
+              class="table-icon #{certificate.isValid() ? 'ti ti-circle-check state-active' : 'ti ti-circle-minus state-inactive'}" />
             <h:outputText value="#{certificate.cert.notAfter}"
               id="expiryDate"
               styleClass="#{certificate.isValid() ? '' : 'state-inactive'}" />
