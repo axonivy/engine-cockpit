@@ -170,7 +170,7 @@ public class Navigation {
   }
 
   public static void toUserDetail(String userName) {
-    toUserDetail("~Developer-engine-cockpit", userName);
+    toUserDetail("default", userName);
   }
 
   public static void toUserDetail(String system, String userName) {
@@ -189,7 +189,7 @@ public class Navigation {
   }
 
   public static void toRoleDetail(String roleName) {
-    toRoleDetail("~Developer-engine-cockpit", roleName);
+    toRoleDetail("default", roleName);
   }
 
   public static void toRoleDetail(String system, String roleName) {
