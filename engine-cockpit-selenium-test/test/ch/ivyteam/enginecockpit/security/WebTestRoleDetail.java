@@ -40,7 +40,7 @@ class WebTestRoleDetail {
   private static final String DIRECTORY_BROWSER_FORM = "#directoryBrowser\\:directoryBrowserForm\\:";
   private static final String DIRECTORY_BROWSER_DIALOG = "directoryBrowser:directoryBrowserDialog";
   private static final String ROLE_USERS_TABLE = "usersOfRoleForm:roleUserTable";
-  private static final String DETAIL_ROLE_NAME = "boss";
+  private static final String DETAIL_ROLE_NAME = "Boss";
 
   @BeforeEach
   void beforeEach() {
