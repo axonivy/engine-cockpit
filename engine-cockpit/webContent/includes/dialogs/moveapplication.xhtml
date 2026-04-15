@@ -37,11 +37,11 @@
     <div class="custom-dialog-footer">
       <p:commandButton id="cancelMoveApplication" onclick="PF('moveApplicationModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="validateMoveApplication" update="moveApplicationForm" actionListener="#{moveApplicationBean.validate()}" value="#{ivy.cm.co('/moveApplication/Validate')}" 
-        oncomplete="var button=this; buttonRemoveSpinner(button, 'ti-check');"
+        oncomplete="var button=this; buttonRemoveSpinner(button, 'ti ti-check');"
         onclick="var button=this; buttonAddSpinner(button);"
         icon="ti ti-check" styleClass="modal-input-button" />
       <p:commandButton id="moveApplication" disabled="#{!moveApplicationBean.isValid()}" actionListener="#{moveApplicationBean.move()}" value="#{ivy.cm.co('/moveApplication/Move')}"
-        oncomplete="var button=this; buttonRemoveSpinner(button, 'ti-check');PF('moveApplicationModal').hide();"
+        oncomplete="var button=this; buttonRemoveSpinner(button, 'ti ti-check');PF('moveApplicationModal').hide();"
         onclick="var button=this; buttonAddSpinner(button);" update="appDetailSecurityForm"
         icon="ti ti-arrow-big-down-lines" styleClass="modal-input-button" />
     </div>

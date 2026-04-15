@@ -17,7 +17,7 @@
     <div class="custom-dialog-footer">
       <p:commandButton id="cancel" onclick="PF('supportReportModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="download" ajax="false" value="#{ivy.cm.co('/common/Download')}"
-        onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'ti-download');}"
+        onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'ti ti-download');}"
         title="#{ivy.cm.co('/supportReport/DownloadSupportReport')}" icon="ti ti-download" styleClass="modal-input-button"
         style="width: 150px;">
         <p:fileDownload value="#{supportBean.supportReport}" />

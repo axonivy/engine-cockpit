@@ -3,11 +3,11 @@ function copyToClipboard(content, button) {
     navigator.clipboard.writeText(content);
     if (button) {
       const icon = $(button).find('.ui-icon');
-      icon.removeClass('ti-copy')
-      icon.addClass('ti-check');
+      icon.removeClass('ti ti-copy')
+      icon.addClass('ti ti-check');
       setTimeout(() => {
-        icon.removeClass('ti-check');
-        icon.addClass('ti-copy')
+        icon.removeClass('ti ti-check');
+        icon.addClass('ti ti-copy')
       }, 1000);
     }
   } catch {

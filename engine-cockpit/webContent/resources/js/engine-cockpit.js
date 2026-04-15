@@ -5,14 +5,14 @@ function buttonAddSpinner(button) {
   $(button).addClass('ui-state-disabled');
   var icon = $(button).find('.ui-icon');
   icon.removeClass(function (index, css) {
-    return (css.match(/(^|\s)si-\S+/g) || []).join(' '); // removes anything that starts with "si-"
+    return (css.match(/(^|\s)ti ti-\S+/g) || []).join(' '); // removes anything that starts with "ti ti-"
   });
-  $(icon).addClass('ti-refresh spinning');
+  $(icon).addClass('ti ti-refresh spinning');
 }
 
 function buttonRemoveSpinner(button, defaultIcon) {
   var icon = $(button).find('.ui-icon')
-  $(icon).removeClass('ti-refresh spinning');
+  $(icon).removeClass('ti ti-refresh spinning');
   $(icon).addClass(defaultIcon);
   $(button).removeClass('ui-state-disabled');
 }

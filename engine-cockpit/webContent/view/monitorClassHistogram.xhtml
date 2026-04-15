@@ -131,7 +131,7 @@
             <div class="custom-dialog-footer">
               <p:commandButton id="cancel" type="button" onclick="PF('dumpMemoryDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
               <p:commandButton id="dump" ajax="false" value="#{ivy.cm.co('/monitor/classHistogram/Dump')}" update="form" title="#{ivy.cm.co('/monitor/classHistogram/DumpHeapMemory')}"
-                  onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'ti-download'); PF('dumpMemoryDialog').hide();}"
+                  onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'ti ti-download'); PF('dumpMemoryDialog').hide();}"
                   icon="ti ti-download" styleClass="modal-input-button">
                 <p:fileDownload value="#{classHistogramBean.dumpMemory()}"/>
               </p:commandButton>
