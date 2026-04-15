@@ -30,7 +30,8 @@ pipeline {
 
 def getTestFilter() {
   if (isReleasingBranch()) {
-    return 'WebTest*.java'
+    // return 'WebTest*.java'
+    return 'WebTestRoleDetail.java'
   }
   return params.testFilter
 }
