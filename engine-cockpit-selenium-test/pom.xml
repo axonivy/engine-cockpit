@@ -208,7 +208,8 @@
     <profile>
       <id>integration</id>
       <properties>
-        <test.filter>WebTest*.java</test.filter>
+        <!-- <test.filter>WebTest*.java</test.filter> -->
+        <test.filter>WebTestRoleDetail.java</test.filter>
       </properties>
 
       <build>
