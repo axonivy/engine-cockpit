@@ -38,7 +38,7 @@
         
         <div class="layout-breadcrumb">
           <ul class="inline-flex align-items-center">
-            <li><a href="dashboard.xhtml"><i class="text-xl ti-home"></i></a></li>
+            <li><a href="dashboard.xhtml"><i class="text-xl ti ti-home"></i></a></li>
             <li>/</li>
             <ui:insert name="breadcrumb" />
           </ul>
@@ -64,7 +64,7 @@
                 <ul>
                   <li>
                     <a href="#{advisorBean.engineGuideBaseUrl}/integration/cluster/configuration.html#changes">
-                      <i class="text-xl ti-alert-triangle"></i>
+                      <i class="text-xl ti ti-alert-triangle"></i>
                       <span style="max-width: calc(100% - 40px)">
                         <b>#{ivy.cm.co('/template/ClusterMode')}"</b><br/>
                         #{ivy.cm.co('/template/ClusterModeWarning')}"
@@ -133,19 +133,19 @@
               <ul>
                 <li>
                   <p:link id="profileLink" href="profile.xhtml">
-                    <i class="text-xl ti-user-check"></i>
+                    <i class="text-xl ti ti-user-check"></i>
                     <span>#{ivy.cm.co('/profile/Profile')}</span>
                   </p:link>
                 </li>
                 <li>
                   <p:commandLink id="sessionLogoutBtn" actionListener="#{loginBean.logout}">
-                    <i class="text-xl ti-logout"></i>
+                    <i class="text-xl ti ti-logout"></i>
                     <span>#{ivy.cm.co('/template/Logout')}</span>
                   </p:commandLink>
                 </li>
                 <li>
                   <p:commandLink id="supportReport" type="button" onclick="PF('supportReportModal').show()">
-                    <i class="text-xl ti-help-circle"></i>
+                    <i class="text-xl ti ti-help-circle"></i>
                     <span>#{ivy.cm.co('/template/SupportReport')}</span>
                   </p:commandLink>
                 </li>
