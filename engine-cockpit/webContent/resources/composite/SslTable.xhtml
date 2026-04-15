@@ -74,7 +74,7 @@
         value="#{cc.attrs.bean.certificats}" id="storeCertificates">
         <p:column headerText="#{ivy.cm.co('/sslTable/Alias')}">
             <i
-              class="si table-icon #{certificate.isPrivateKey() ? 'shield-globe' : 'single-neutral-shield'}" id="icon"/>
+              class="table-icon #{certificate.isPrivateKey() ? 'ti ti-shield' : 'ti ti-user-shield'}" id="icon"/>
           <h:outputText value="#{certificate.alias}" id="alias" />
           <p:tooltip for="alias"
           value="#{certificate.isPrivateKey() ? ivy.cm.co('/sslTable/PrivateKey') : ivy.cm.co('/sslTable/PublicKey')}" />
@@ -93,7 +93,7 @@
         <p:column headerText="#{ivy.cm.co('/sslTable/ExpiryDate')}">
           <h:panelGroup id="valid">
             <i
-              class="si table-icon #{certificate.isValid() ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
+              class="si table-icon #{certificate.isValid() ? 'ti ti-circle-check state-active' : 'ti ti-circle-minus state-inactive'}" />
             <h:outputText value="#{certificate.cert.notAfter}"
               id="expiryDate"
               styleClass="#{certificate.isValid() ? '' : 'state-inactive'}" />

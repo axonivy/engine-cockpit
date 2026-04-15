@@ -19,7 +19,7 @@
       id="databaseConnectionsTable" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false">
       <p:column headerText="#{ivy.cm.co('/databaseConnections/InUse')}" sortBy="#{conn.inUse}">
         <h:outputText styleClass="connection">
-          <i class="#{conn.inUse ? 'check-circle-1' : 'remove-circle'} table-icon"></i>
+          <i class="#{conn.inUse ? 'ti ti-circle-check' : 'ti ti-circle-minus'} table-icon"></i>
         </h:outputText>
       </p:column>
       <p:column headerText="#{ivy.cm.co('/databaseConnections/LastUsed')}" sortBy="#{conn.lastUsed}">

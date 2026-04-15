@@ -58,13 +58,13 @@
                 <p:column headerText="#{ivy.cm.co('/common/IsMaster')}" sortBy="#{node.master}">
                   <h:outputText>
                     <i
-                      class="#{node.master ? 'check-circle-1' : 'remove-circle'} table-icon #{node.master ? 'state-active' : 'state-inactive'}"></i>
+                      class="#{node.master ? 'ti ti-circle-check' : 'ti ti-circle-minus'} table-icon #{node.master ? 'state-active' : 'state-inactive'}"></i>
                   </h:outputText>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/IsLocal')}" sortBy="#{node.local}">
                   <h:outputText>
                     <i
-                      class="#{node.local ? 'check-circle-1' : 'remove-circle'} table-icon #{node.local ? 'state-active' : 'state-inactive'}"></i>
+                      class="#{node.local ? 'ti ti-circle-check' : 'ti ti-circle-minus'} table-icon #{node.local ? 'state-active' : 'state-inactive'}"></i>
                   </h:outputText>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/StartTimestamp')}" sortBy="#{node.startTimestamp}">
