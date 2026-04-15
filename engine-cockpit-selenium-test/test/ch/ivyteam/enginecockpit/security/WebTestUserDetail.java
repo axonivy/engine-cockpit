@@ -272,7 +272,7 @@ class WebTestUserDetail {
     if (subscribed) {
       icon.shouldHave(cssClass("ti ti-circle-check"));
     } else {
-      icon.shouldHave(cssClass("ti ti-circle-minus"));
+      icon.shouldHave(cssClass("ti-circle-minus"), cssClass("ti"));
     }
   }
 
