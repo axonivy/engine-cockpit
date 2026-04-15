@@ -11,7 +11,7 @@ pipeline {
 
   parameters {
     string(name: 'engineSource', defaultValue: 'https://product.ivyteam.io', description: 'Engine page url')
-    string(name: 'testFilter', defaultValue: 'WebTest*.java', description: 'Change to only run tests of the matching classes (flag will be gnored on master)')
+    string(name: 'testFilter', defaultValue: 'WebTestRoleDetail.java', description: 'Change to only run tests of the matching classes (flag will be gnored on master)')
   }
 
   stages {
@@ -30,8 +30,7 @@ pipeline {
 
 def getTestFilter() {
   if (isReleasingBranch()) {
-    // return 'WebTest*.java'
-    return 'WebTestRoleDetail.java'
+    return 'WebTest*.java'
   }
   return params.testFilter
 }
