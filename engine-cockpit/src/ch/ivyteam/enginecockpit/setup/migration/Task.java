@@ -21,7 +21,7 @@ public class Task {
     this.version = task.version();
     this.name = task.name();
     this.description = task.description();
-    this.stateIcon = "time-clock-circle";
+    this.stateIcon = "ti ti-clock";
     this.script = task.script();
   }
 

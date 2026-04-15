@@ -311,16 +311,16 @@ public class User implements SecurityMember {
       String memberIcon;
       String memberTitle;
       if (substitutionRole == null) {
-        memberIcon = "single-neutral-actions";
+        memberIcon = "ti ti-user";
         memberTitle = Ivy.cm().co("/userDetailSubstitutes/Personal");
       } else {
         role = substitutionRole.getName();
-        memberIcon = "multiple-neutral-1";
+        memberIcon = "ti ti-users";
         memberTitle = Ivy.cm().co("/common/Role");
       }
 
       boolean onAbsence = SubstitutionType.ON_ABSENCE.equals(substitute.getSubstitutionType());
-      String typeIcon = onAbsence ? "time-clock-circle" : "pin";
+      String typeIcon = onAbsence ? "ti ti-clock" : "ti ti-pin";
       String typeTitle =
           onAbsence ? Ivy.cm().co("/userDetailSubstitutes/OnAbsence") : Ivy.cm().co("/userDetailSubstitutes/Permanent");
 
