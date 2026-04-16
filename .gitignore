@@ -23,6 +23,3 @@ classes/
 **/lib/mvn-deps/*
 .flattened-pom.xml
 /workspace
-
-# TODO: Remove
-icon-replacement/
