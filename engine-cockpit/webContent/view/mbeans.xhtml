@@ -24,17 +24,17 @@
             <div class="card">
               <div class="card-header">
                 <div class="card-title flex align-items-center">
-                  <i class="pr-3 si si-coffee-cup"></i>
+                  <i class="pr-3 ti ti-coffee"></i>
                   <h6 class="m-0">#{ivy.cm.co('/sidebar/MBeans')}</h6>
                 </div>
               </div>
               <p:tree value="#{mBeansBean.root}" var="node" selectionMode="single"
                 style="border: none; max-height: 300px; overflow: auto; padding: 0;" id="mBeans">
                 <p:ajax event="select" update="attributes" listener="#{mBeansBean.onSelectNode}" />
-                <p:treeNode type="folder" icon="si si-folder-empty" ariaLabel="#{node.displayName}">
+                <p:treeNode type="folder" icon="ti ti-folder-open" ariaLabel="#{node.displayName}">
                   <h:outputText value="#{node.displayName}" />
                 </p:treeNode>
-                <p:treeNode type="bean" icon="si si-analytics-bars" ariaLabel="#{node.displayName}">
+                <p:treeNode type="bean" icon="ti ti-chart-bar" ariaLabel="#{node.displayName}">
                   <h:outputText id="bean" value="#{node.displayName}" />
                   <p:tooltip for="bean" value="#{node.description}"/>
                 </p:treeNode>
@@ -45,7 +45,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="card-title flex align-items-center">
-                  <i class="pr-3 si si-cog"></i>
+                  <i class="pr-3 ti ti-settings"></i>
                   <h6 class="m-0">#{ivy.cm.co('/common/Attributes')}</h6>
                 </div>
               </div>
@@ -61,7 +61,7 @@
                 </p:column>
                 <p:column styleClass="table-btn-1">
                   <p:commandButton id="addTrace" rendered="#{mAttr.isTraceable}" update="poll chart traces" immediate="true"
-                    actionListener="#{mBeansBean.addTrace(mAttr)}" icon="si si-analytics-graph" styleClass="rounded-button" title="#{ivy.cm.co('/monitor/mbean/AddTraceToChart')}"/>
+                    actionListener="#{mBeansBean.addTrace(mAttr)}" icon="ti ti-chart-dots" styleClass="rounded-button" title="#{ivy.cm.co('/monitor/mbean/AddTraceToChart')}"/>
                 </p:column>
               </p:dataTable>
             </div>
@@ -70,7 +70,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="card-title flex align-items-center">
-                  <i class="pr-3 si si-analytics-bars"></i>
+                  <i class="pr-3 ti ti-chart-bar"></i>
                   <h6 class="m-0">#{ivy.cm.co('/common/Chart')}</h6>
                 </div>
               </div>
@@ -81,7 +81,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="card-title flex align-items-center">
-                  <i class="pr-3 si si-analytics-bars"></i>
+                  <i class="pr-3 ti ti-chart-bar"></i>
                   <h6 class="m-0">#{ivy.cm.co('/monitor/mbean/Traces')}</h6>
                 </div>
               </div>
@@ -103,7 +103,7 @@
                 </p:column>
                 <p:column styleClass="table-btn-1">
                   <p:commandButton id="removeTrace" update="chart traces" immediate="true"
-                    actionListener="#{mBeansBean.removeTrace(trace)}" icon="si si-remove" styleClass="ui-button-danger rounded-button"
+                    actionListener="#{mBeansBean.removeTrace(trace)}" icon="ti ti-x" styleClass="ui-button-danger rounded-button"
                     title="#{ivy.cm.co('/monitor/mbean/RemoveTrace')}" />
                 </p:column>
               </p:dataTable>

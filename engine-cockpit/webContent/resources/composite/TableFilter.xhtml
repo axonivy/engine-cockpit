@@ -18,9 +18,9 @@
       <h:panelGroup layout="block" styleClass="mt-1 flex justify-content-end">
         <p:commandButton id="cancelFilter" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-flat ui-button-secondary modal-input-button"
           onclick="PF('filterPanel').hide();" type="button" />
-        <p:commandButton id="resetFilterBtn" value="#{ivy.cm.co('/common/Reset')}" styleClass="ml-1 ui-button-secondary modal-input-button" icon="si si-delete-2"
+        <p:commandButton id="resetFilterBtn" value="#{ivy.cm.co('/common/Reset')}" styleClass="ml-1 ui-button-secondary modal-input-button" icon="ti ti-circle-x"
           update="#{cc.attrs.update}" actionListener="#{cc.attrs.bean.resetSelectedContentFilters()}" />
-        <p:commandButton id="applyFilter" value="#{ivy.cm.co('/common/Apply')}" styleClass="ml-1 modal-input-button" icon="si si-check-1"
+        <p:commandButton id="applyFilter" value="#{ivy.cm.co('/common/Apply')}" styleClass="ml-1 modal-input-button" icon="ti ti-check"
           update="#{cc.attrs.update}" />
       </h:panelGroup>
     </h:form>

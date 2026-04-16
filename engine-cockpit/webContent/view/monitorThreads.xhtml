@@ -30,10 +30,10 @@
             <div class="card">
               <div class="card-header flex-wrap">
                 <div class="card-title flex align-items-center">
-                  <i class="pr-3 si si-synchronize-arrow-clock" />
+                  <i class="pr-3 ti ti-clock-play" />
                   <h2 class="m-0">#{ivy.cm.co('/common/Threads')}</h2>
-                  <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{threadBean.refresh()}" title="#{ivy.cm.co('/common/Refresh')}" styleClass="flex-shrink-0 ml-auto rounded-button" update="threadTable"/>
-                  <p:commandButton id="dump" icon="pi pi-arrow-down" ajax="false" title="#{ivy.cm.co('/monitor/thread/SaveThreadDump')}" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button">
+                  <p:commandButton id="refresh" icon="ti ti-refresh" action="#{threadBean.refresh()}" title="#{ivy.cm.co('/common/Refresh')}" styleClass="flex-shrink-0 ml-auto rounded-button" update="threadTable"/>
+                  <p:commandButton id="dump" icon="ti ti-arrow-down" ajax="false" title="#{ivy.cm.co('/monitor/thread/SaveThreadDump')}" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button">
                     <p:fileDownload value="#{threadBean.dump()}"/>
                   </p:commandButton>
                 </div>
@@ -45,13 +45,13 @@
                 emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
                 <f:facet name="header">
                   <div class="ui-input-icon-left filter-container">
-                    <i class="pi pi-search"/>
+                    <i class="ti ti-search"/>
                     <p:inputText id="globalFilter" onkeyup="PF('threadTable').filter()" value="#{threadBean.filter}" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}"/>
                   </div>
                 </f:facet>
                 <p:column headerText="#{ivy.cm.co('/common/ID')}" sortBy="#{thread.id}" filterBy="#{thread.id}" width="5%">
                   <p:commandLink oncomplete="PF('threadDialog').show();" title="#{ivy.cm.co('/monitor/thread/ThreadDetail')}" action="#{threadBean.setSelected(thread)}" update="threadDialog">
-                    <i class="pr-3 si si-synchronize-arrow-clock" />
+                    <i class="pr-3 ti ti-clock-play" />
                     <h:outputText value="#{thread.id}"/>
                   </p:commandLink>
                 </p:column>
@@ -63,7 +63,7 @@
                     <h:outputText value="#{thread.state}" class="#{thread.stateColorClass}"/>
                     <p:tooltip for="state" value="#{thread.stateTitle}" position="right"/>
                     <h:panelGroup rendered="#{thread.deadLocked}">
-                      <i h:rendered="#{thread.deadLocked}" class="pr-3 si si-road-sign-warning deadlocked ${thread.stateColorClass}"></i>
+                      <i h:rendered="#{thread.deadLocked}" class="pr-3 ti ti-alert-triangle deadlocked ${thread.stateColorClass}"></i>
                     </h:panelGroup>
                   </h:panelGroup>
                 </p:column>
@@ -136,7 +136,7 @@
               <p:outputPanel id="lockedMonitors" styleClass="code">#{threadBean.selected.lockedMonitors}</p:outputPanel>
               <h:panelGroup>
                 <p:outputLabel for="stackTrace" value="#{ivy.cm.co('/monitor/thread/StackTrace')}"/>
-                <p:commandButton id="copyStack" icon="si si-copy-paste" type="button" title="#{ivy.cm.co('/common/CopyToClipboard')}"
+                <p:commandButton id="copyStack" icon="ti ti-copy" type="button" title="#{ivy.cm.co('/common/CopyToClipboard')}"
                   onclick="var button=this; copyToClipboard($('#thread\\:stackTrace').text(), button)"
                   styleClass="ui-button-flat rounded-button"/>
               </h:panelGroup>

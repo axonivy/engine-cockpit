@@ -5,7 +5,7 @@
   <div class="col-12 md:col-12 xl:col-12">
     <div class="card">
       <div class="flex align-items-center mb-3">
-        <i class="pr-3 si si-archive-folder"></i>
+        <i class="pr-3 ti ti-archive"></i>
         <h6 id="indexes" class="m-0">#{ivy.cm.co('/indexes/Indexes')}</h6>
       </div>
       <h:form>
@@ -14,7 +14,7 @@
           lazy="false" styleClass="userTable ui-fluid" id="systemDbIndexesTable" filteredValue="#{systemDatabaseInfoBean.filteredIndexes}">
           <f:facet name="header">
             <div class="ui-input-icon-left filter-container">
-              <i class="pi pi-search"/>
+              <i class="ti ti-search"/>
               <p:inputText id="globalFilter" onkeyup="PF('systemDbIndexesTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{systemDatabaseInfoBean.filterIndex}" />
             </div>
           </f:facet>

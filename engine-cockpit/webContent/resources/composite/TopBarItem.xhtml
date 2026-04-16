@@ -6,7 +6,7 @@
 <cc:interface>
   <cc:attribute name="styleClass" default="help-link"/>
   <cc:attribute name="href" default="#{advisorBean.cockpitEngineGuideUrl}" />
-  <cc:attribute name="icon" default="si-question-circle" />
+  <cc:attribute name="icon" default="ti ti-help-circle" />
   <cc:attribute name="title" default="#{ivy.cm.co('/topBarItem/Help')}" />
   <cc:attribute name="external" default="true" />
 </cc:interface>
@@ -16,7 +16,7 @@
        target="#{cc.attrs.external ? '_blank' : ''}" 
        rel="#{cc.attrs.external ? 'noopener noreferrer' : ''}" 
        title="#{cc.attrs.title}">
-      <i class="topbar-icon si #{cc.attrs.icon}"></i>
+      <i class="topbar-icon #{cc.attrs.icon}"></i>
     </a>
   </li>
 </cc:implementation>

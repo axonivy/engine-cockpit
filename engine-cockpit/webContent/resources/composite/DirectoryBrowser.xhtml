@@ -20,7 +20,7 @@
           selection="#{cc.attrs.directoryBrowser.selectedNode}" dynamic="true" styleClass="col-6">
           <p:ajax event="expand" listener="#{cc.attrs.directoryBrowser.onNodeExpand}" update="@form:tree" />
           <p:ajax event="select" update="@form:nodeAttrTable" />
-          <p:treeNode type="browserNode" icon="si si-#{cc.attrs.directoryBrowser.icon(node)}">
+          <p:treeNode type="browserNode" icon="#{cc.attrs.directoryBrowser.icon(node)}">
             <h:outputText value="#{node.displayName()}" />
           </p:treeNode>
           <p:treeNode type="nextPage">
@@ -45,7 +45,7 @@
       <p:commandButton id="cancelDirectoryBrowser" onclick="PF('directoryBrowserDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="chooseDirectoryName" actionListener="#{cc.attrs.returnListener}" value="#{ivy.cm.co('/common/Choose')}"
-        icon="si si-check-1" styleClass="modal-input-button" update="#{cc.attrs.updateFields}"
+        icon="ti ti-check" styleClass="modal-input-button" update="#{cc.attrs.updateFields}"
         onclick="PF('directoryBrowserDialog').hide();" disabled="#{cc.attrs.directoryBrowser.tree.childCount == 0}"/>
     </f:facet>
   </p:dialog>

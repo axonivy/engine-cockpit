@@ -19,7 +19,7 @@
       <div class="card">
         <p:growl id="msgs" />
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-database card-title-icon"></i>
+          <i class="pr-3 ti ti-database card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/common/Databases')}</h2>
         </div>
         <cc:ApplicationTabs tabChange="#{databaseBean.reloadDatabases}" id="tabs">
@@ -30,7 +30,7 @@
               filteredValue="#{databaseBean.filteredDatabases}" lazy="false" id="databasesTable">
               <f:facet name="header">
                 <div class="ui-input-icon-left filter-container">
-                  <i class="pi pi-search"/>
+                  <i class="ti ti-search"/>
                   <p:inputText id="globalFilter" onkeyup="PF('databasesTable_#{app.id}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{databaseBean.filter}" />
                 </div>
               </f:facet>
@@ -39,7 +39,7 @@
                 styleClass="database-name-column">
                 <a href="#{database.getViewUrl(app.name)}">
                   <h:outputText value="#{database.name}" styleClass="database-name">
-                    <i class="si si-database table-icon"></i>
+                    <i class="ti ti-database table-icon"></i>
                   </h:outputText>
                 </a>
               </p:column>

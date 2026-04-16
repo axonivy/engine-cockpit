@@ -7,18 +7,18 @@
   <h:form id="appDetailStateForm">
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-cog-play"></i>
+        <i class="pr-3 ti ti-settings-automation"></i>
         <h6 class="m-0">#{ivy.cm.co('/common/Activity')}</h6>
         
-        <p:commandButton id="activateApplication" title="#{ivy.cm.co('/common/Activate')}" type="button" icon="si si-controls-play"
+        <p:commandButton id="activateApplication" title="#{ivy.cm.co('/common/Activate')}" type="button" icon="ti ti-player-play"
           disabled="#{applicationDetailBean.application.notStartable}" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button">
           <p:ajax listener="#{applicationDetailBean.application.activate}" update="@form" />
         </p:commandButton>
-        <p:commandButton id="deActivateApplication" title="#{ivy.cm.co('/common/Deactivate')}" type="button" icon="si si-controls-stop"
+        <p:commandButton id="deActivateApplication" title="#{ivy.cm.co('/common/Deactivate')}" type="button" icon="ti ti-player-stop"
           disabled="#{applicationDetailBean.application.notStopable}" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button">
           <p:ajax listener="#{applicationDetailBean.application.deactivate}" update="@form" />
         </p:commandButton>
-        <p:commandButton id="lockApplication" title="#{ivy.cm.co('/common/Lock')}" type="button" icon="si si-lock-1"
+        <p:commandButton id="lockApplication" title="#{ivy.cm.co('/common/Lock')}" type="button" icon="ti ti-lock"
           disabled="#{applicationDetailBean.application.notLockable}" styleClass="flex-shrink-0 ml-1 ui-button-warning rounded-button">
           <p:ajax listener="#{applicationDetailBean.application.lock}" update="@form" />
         </p:commandButton>
@@ -27,12 +27,12 @@
     <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex" styleClass="grey-label-panel">
       <label>#{ivy.cm.co('/common/State')}</label>
       <h:outputText>
-        <i class="si si-#{applicationDetailBean.application.state.operationIcon} icon-bold activity-state-#{applicationDetailBean.application.state.operationCssClass}"
+        <i class="#{applicationDetailBean.application.state.operationIcon} icon-bold activity-state-#{applicationDetailBean.application.state.operationCssClass}"
           title="#{applicationDetailBean.application.state.operation}" />
       </h:outputText>
       <label>#{ivy.cm.co('/common/ConfiguredState')}</label>
       <h:outputText>
-        <i class="si si-#{applicationDetailBean.application.state.stateIcon} icon-bold activity-state-#{applicationDetailBean.application.state.stateCssClass}"
+        <i class="#{applicationDetailBean.application.state.stateIcon} icon-bold activity-state-#{applicationDetailBean.application.state.stateCssClass}"
           title="#{applicationDetailBean.application.state.state}" />
       </h:outputText>
     </p:panelGrid>

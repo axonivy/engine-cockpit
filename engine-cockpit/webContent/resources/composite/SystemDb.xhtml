@@ -30,10 +30,10 @@
           <div>
             <p:commandButton value="#{ivy.cm.co('/systemDb/CheckConnection')}" id="checkConnectionButton"
               styleClass="mr-1 wizard-top-button"
-              onstart="$('#connectionIcon').attr('class', 'si si-button-refresh-arrows si-is-spinning');" async="true"
-              icon="si si-check-1" update="#{cc.attrs.updateFields}"
+              onstart="$('#connectionIcon').attr('class', 'ti ti-refresh spinning');" async="true"
+              icon="ti ti-check" update="#{cc.attrs.updateFields}"
               actionListener="#{systemDatabaseBean.testConnection()}" />
-            <p:commandButton value="#{ivy.cm.co('/systemDb/CreateDatabase')}" id="createDatabaseButton" icon="si si-database-settings"
+            <p:commandButton value="#{ivy.cm.co('/systemDb/CreateDatabase')}" id="createDatabaseButton" icon="ti ti-database-cog"
               styleClass="mr-1 wizard-top-button ui-button-secondary" actionListener="#{systemDatabaseBean.initCreator()}"
               update="systemDb:createDatabaseDialog" oncomplete="PF('createDatabaseDialog').show();"
               disabled="#{!systemDatabaseBean.connectionInfo.mustCreate}" />
@@ -140,7 +140,7 @@
                 <p:commandButton id="removeAdditionalProperty"
                   actionListener="#{systemDatabaseBean.removeProp(property.key)}"
                   update="@form:additionalPropertiesTable,#{cc.attrs.updateFields}"
-                  icon="si si-bin-1"
+                  icon="ti ti-trash"
                   title="#{ivy.cm.co('/common/Delete')}"
                   styleClass="ui-button-danger rounded-button"
                   process="@this" />
@@ -148,7 +148,7 @@
             </p:dataTable>
             <p:commandButton id="newAdditionalPropertyBtn"
               actionListener="#{systemDatabaseBean.addProp()}"
-              icon="si si-add" title="#{ivy.cm.co('/systemDb/AddProperty')}"
+              icon="ti ti-plus" title="#{ivy.cm.co('/systemDb/AddProperty')}"
               update="systemDb:addAdditionalPropertyDialog"
               value="#{ivy.cm.co('/systemDb/AddProperty')}"
               styleClass="mt-2 ui-button-secondary"
@@ -195,12 +195,12 @@
             oncomplete="PF('createDatabaseDialog').hide();" />
           <p:commandButton id="confirmCreateButton" value="#{ivy.cm.co('/common/SaveAndCreate')}"
             disabled="#{systemDatabaseBean.dbCreatorRunning}"
-            icon="si si-#{systemDatabaseBean.dbCreatorRunning ? 'button-refresh-arrows si-is-spinning' : 'database-settings'}"
+            icon="#{systemDatabaseBean.dbCreatorRunning ? 'ti ti-refresh spinning' : 'ti ti-database-cog'}"
             actionListener="#{systemDatabaseBean.createDatabase}" style="width: 170px;" update="@form"
             styleClass="modal-input-button" />
         </h:panelGroup>
         <h:panelGroup rendered="#{systemDatabaseBean.dbCreatorFinished}">
-          <p:commandButton id="closeCreationButton" value="#{ivy.cm.co('/systemDb/Connect')}" icon="si si-check-1"
+          <p:commandButton id="closeCreationButton" value="#{ivy.cm.co('/systemDb/Connect')}" icon="ti ti-check"
             actionListener="#{systemDatabaseBean.testConnection}" onclick="PF('createDatabaseDialog').hide();"
             update="#{cc.attrs.updateFields}" styleClass="modal-input-button" />
         </h:panelGroup>
@@ -231,7 +231,7 @@
           type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
         <p:commandButton id="saveProperty" validateClient="true"
           update="@form,systemDb:systemDbForm:additionalPropertiesTable,#{cc.attrs.updateFields}" actionListener="#{systemDatabaseBean.saveProp()}"
-          value="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk" styleClass="modal-input-button"
+          value="#{ivy.cm.co('/common/Save')}" icon="ti ti-device-floppy" styleClass="modal-input-button"
           oncomplete="if (!args.validationFailed) PF('addAdditionalPropertyDialog').hide();" />
       </div>
     </h:form>

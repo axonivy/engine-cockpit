@@ -21,16 +21,16 @@
       </p:growl>
       <div class="card">
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-database-settings card-title-icon"></i>
+          <i class="pr-3 ti ti-database-cog card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/common/SystemDatabase')}</h2>
-          <p:linkButton outcome="systemdb-info" icon="si si-layout-dashboard" value="#{ivy.cm.co('/common/Info')}"
+          <p:linkButton outcome="systemdb-info" icon="ti ti-layout-dashboard" value="#{ivy.cm.co('/common/Info')}"
               styleClass="ml-auto ui-button-secondary" id="infoDb"/>
           <h:panelGroup id="sysDbSaveButtons" styleClass="ml-1">
             <p:commandButton actionListener="#{systemDatabaseBean.saveConfiguration}" value="#{ivy.cm.co('/common/Save')}"
-              icon="si si-floppy-disk" style="width: auto; float: right;" id="saveSystemDbConfig"
+              icon="ti ti-device-floppy" style="width: auto; float: right;" id="saveSystemDbConfig"
               rendered="#{systemDatabaseBean.connectionInfo.successful}" />
             <p:commandButton type="button" onclick="PF('saveUnknownConnectionModel').show()" value="#{ivy.cm.co('/common/Save')}"
-              icon="si si-floppy-disk" style="width: auto; float: right;" id="saveUnknownSystemDbConfig"
+              icon="ti ti-device-floppy" style="width: auto; float: right;" id="saveUnknownSystemDbConfig"
               rendered="#{!systemDatabaseBean.connectionInfo.successful}" />
           </h:panelGroup>
         </div>
@@ -47,7 +47,7 @@
             <p:commandButton id="cancelSaveUnknownConnection" onclick="PF('saveUnknownConnectionModel').hide();"
               value="#{ivy.cm.co('/common/Cancel')}" type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
             <p:commandButton id="saveUnknownConneciton" actionListener="#{systemDatabaseBean.saveConfiguration}"
-              value="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk" styleClass="modal-input-button" widgetVar="saveUnknownConneciton"
+              value="#{ivy.cm.co('/common/Save')}" icon="ti ti-device-floppy" styleClass="modal-input-button" widgetVar="saveUnknownConneciton"
               oncomplete="PF('saveUnknownConnectionModel').hide();" />
           </div>
         </h:form>

@@ -10,19 +10,19 @@
     </p:growl>
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-lock-1"></i>
+        <i class="pr-3 ti ti-lock"></i>
         <h6 class="m-0">#{ivy.cm.co('/permissions/Permissions')}</h6>
       </div>
     </div>
     
     <div class="table-search flex ui-fluid">
       <span class="ui-input-icon-left filter-container">
-        <i class="pi pi-search"/>
+        <i class="ti ti-search"/>
         <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{permissionBean.filter}">
           <p:ajax event="keyup" delay="300" update="@form:permissionTable" />
         </p:inputText>
       </span>
-      <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
+      <p:commandButton id="collapseAll" icon="ti ti-arrows-minimize"
         actionListener="#{permissionBean.collapseAllNodes}" update="permissionTable" title="#{ivy.cm.co('/common/CollapseAll')}"
         styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined" />
     </div>
@@ -32,25 +32,25 @@
 
       <p:column headerText="#{ivy.cm.co('/permissions/AllPermissions')}">
         <h:outputText value="#{permission.name}">
-          <i class="si si-#{permission.group ? 'folder-empty' : 'lock-1'} table-icon"></i>
+          <i class="#{permission.group ? 'ti ti-folder-open' : 'ti ti-lock'} table-icon"></i>
         </h:outputText>
       </p:column>
   
       <p:column id="icons" styleClass="permission-icon table-btn-2">
         <h:outputText rendered="#{permission.grant}">
-          <i id="grant" class="si si-check-circle table-icon" title="#{ivy.cm.co('/permissions/PermissionGranted')}" />
+          <i id="grant" class="ti ti-circle-check table-icon" title="#{ivy.cm.co('/permissions/PermissionGranted')}" />
         </h:outputText>
         <h:outputText rendered="#{!permission.grant and permission.someGrant}">
-          <i id="someGrant" class="si si-check-circle table-icon light" title="#{ivy.cm.co('/permissions/SomePermissionGranted')}" />
+          <i id="someGrant" class="ti ti-circle-check table-icon light" title="#{ivy.cm.co('/permissions/SomePermissionGranted')}" />
         </h:outputText>
         <h:outputText rendered="#{permission.deny}">
-          <i id="deny" class="si si-subtract-circle table-icon" title="#{ivy.cm.co('/permissions/PermissionDenied')}" />
+          <i id="deny" class="ti ti-circle-minus table-icon" title="#{ivy.cm.co('/permissions/PermissionDenied')}" />
         </h:outputText>
         <h:outputText rendered="#{!permission.deny and permission.someDeny}">
-          <i id="someDeny" class="si si-subtract-circle table-icon light" title="#{ivy.cm.co('/permissions/SomePermissionDenied')}" />
+          <i id="someDeny" class="ti ti-circle-minus table-icon light" title="#{ivy.cm.co('/permissions/SomePermissionDenied')}" />
         </h:outputText>
         <h:outputText rendered="#{!permission.group and not empty permission.permissionHolder and !permission.explicit}">
-          <i id="everybody" class="si si-multiple-neutral-1 table-icon" title="#{permission.permissionHolder}"></i>
+          <i id="everybody" class="ti ti-users table-icon" title="#{permission.permissionHolder}"></i>
         </h:outputText>
       </p:column>
   

@@ -36,11 +36,11 @@
            value="#{ivy.cm.co('/common/Close')}" type="button" update="connTestForm"
            styleClass="modal-input-button ui-button-secondary ui-button-flat"/>
         <p:commandButton id="testTlsConectionBtn" title="#{ivy.cm.co('/connectionTestResult/TLSTestButtonTitle')}" rendered="#{tlsTesterBean.isHttps(cc.attrs.url) || tlsTesterBean.isJdbc(cc.attrs.url)}"
-           icon="si si-arrow-right" value="#{ivy.cm.co('/connectionTestResult/TLSTestButton')}"
+           icon="ti ti-arrow-right" value="#{ivy.cm.co('/connectionTestResult/TLSTestButton')}"
            update="@form" styleClass="modal-input-button"
            actionListener="#{tlsTesterBean.testConnection(cc.attrs.url)}" />
         <p:commandButton id="testConnectionBtn" title="#{ivy.cm.co('/connectionTestResult/TestConnection')}" update="@form" value="#{ivy.cm.co('/connectionTestResult/TestConnection')}"
-           icon="si si-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod};"
+           icon="ti ti-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod};"
            immediate="true" process="@this" async="true" onclick="buttonAddSpinner(this);" action="#{tlsTesterBean.setTlsTestRendered(false)}"/>
       </div>
     </h:form>

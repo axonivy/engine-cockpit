@@ -21,7 +21,7 @@ public class Task {
     this.version = task.version();
     this.name = task.name();
     this.description = task.description();
-    this.stateIcon = "time-clock-circle";
+    this.stateIcon = "ti ti-clock";
     this.script = task.script();
   }
 
@@ -31,7 +31,7 @@ public class Task {
 
   public void run() {
     state = "running";
-    stateIcon = "button-refresh-arrows si-is-spinning";
+    stateIcon = "ti ti-refresh spinning";
   }
 
   public String getScript() {
@@ -40,7 +40,7 @@ public class Task {
 
   public void done() {
     state = DONE;
-    stateIcon = "check-circle-1 state-active";
+    stateIcon = "ti ti-circle-check state-active";
   }
 
   public boolean isDone() {
@@ -49,7 +49,7 @@ public class Task {
 
   public void fail() {
     state = "fail";
-    stateIcon = "remove-circle state-inactive";
+    stateIcon = "ti ti-circle-minus state-inactive";
   }
 
   public String getName() {

@@ -24,7 +24,7 @@
           </h:panelGroup>
           <h:panelGroup>
             <p:commandButton id="generateButton" value="#{ivy.cm.co('/securityReportDownloadDialog/Generate')}" widgetVar="generateButton"
-              icon="si si-office-file-xls-1"
+              icon="ti ti-file-type-xls"
               disabled="#{cc.attrs.bean.disableGenerateButton}"
               action="#{cc.attrs.bean.startReport}"
               update="downloadForm"
@@ -35,7 +35,7 @@
           <h:panelGroup>
             <p:commandButton id="downloadButton" widgetVar="downloadButton" disabled="#{cc.attrs.bean.disableDownloadButton}"
               value="#{ivy.cm.co('/common/Download')}" title="#{ivy.cm.co('/common/Download')}"
-              icon="si si-download-bottom" styleClass="modal-input-button" style="width: 120px;" ajax="false" onclick="PF('securityReportDownloadModal').hide();">
+              icon="ti ti-download" styleClass="modal-input-button" style="width: 120px;" ajax="false" onclick="PF('securityReportDownloadModal').hide();">
               <p:fileDownload value="#{cc.attrs.bean.allResourcesDownload}" />
             </p:commandButton>
             <p:commandButton id="cancel" onclick="PF('securityReportDownloadModal').hide();" action="#{cc.attrs.bean.cancel}" value="#{ivy.cm.co('/common/Cancel')}" ajax="false"

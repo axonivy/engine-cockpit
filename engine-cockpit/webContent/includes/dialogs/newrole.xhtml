@@ -18,7 +18,7 @@
       <p:commandButton id="cancelNewRole" onclick="PF('newChildRoleModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="saveNewRole" validateClient="true" action="#{roleDetailBean.createNewChildRole}" ajax="false"
-        update="@form" value="#{ivy.cm.co('/common/Add')}" icon="si si-add" styleClass="modal-input-button" />
+        update="@form" value="#{ivy.cm.co('/common/Add')}" icon="ti ti-plus" styleClass="modal-input-button" />
     </div>
   </h:form>
 </p:dialog>

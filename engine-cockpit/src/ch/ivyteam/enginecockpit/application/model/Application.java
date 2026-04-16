@@ -87,7 +87,7 @@ public class Application extends AppTreeItem {
   }
 
   public String getIcon() {
-    return "module";
+    return "ti ti-cube";
   }
 
   @Override
@@ -138,11 +138,11 @@ public class Application extends AppTreeItem {
   @Override
   public String getReleaseStateIcon() {
     return switch (getReleaseState()) {
-      case RELEASED -> "check-circle-1";
-      case DEPRECATED -> "delete";
-      case ARCHIVED -> "archive";
-      case CREATED, PREPARED -> "advertising-megaphone-2";
-      default -> "question-circle";
+      case RELEASED -> "ti ti-circle-check";
+      case DEPRECATED -> "ti ti-circle-half-vertical";
+      case ARCHIVED -> "ti ti-archive";
+      case CREATED, PREPARED -> "ti ti-speakerphone";
+      default -> "ti ti-help-circle";
     };
   }
 

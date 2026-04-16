@@ -26,7 +26,7 @@
       <p:commandButton id="cancelNewSecuritySystem" onclick="PF('newSecuritySystemModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
         type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="saveNewSecuritySystem" validateClient="true" update="form:securitySystemTable, @form"
-        actionListener="#{securityBean.createNewSecuritySystem}" value="#{ivy.cm.co('/common/Save')}" icon="si si-floppy-disk"
+        actionListener="#{securityBean.createNewSecuritySystem}" value="#{ivy.cm.co('/common/Save')}" icon="ti ti-device-floppy"
         styleClass="modal-input-button" oncomplete="PF('newSecuritySystemModal').hide();" />
     </div>
   </h:form>

@@ -99,7 +99,7 @@ public class ClusterNode {
     if (isLicensed()) {
       return "";
     }
-    return "si si-real-estate-action-house-key table-icon state-inactive";
+    return "ti ti-home-up table-icon state-inactive";
   }
 
   public Version getIvyVersion() {

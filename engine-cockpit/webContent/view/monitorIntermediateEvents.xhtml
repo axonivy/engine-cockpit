@@ -24,10 +24,10 @@
     <ui:define name="content">
       <div class="card">
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-navigation-right-circle-1 card-title-icon"></i>
+          <i class="pr-3 ti ti-circle-arrow-right card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/common/IntermediateEvents')}</h2>
           <p:commandButton id="refresh" actionListener="#{intermediateEventBean.refresh}" update="form" title="#{ivy.cm.co('/monitor/startEvent/RefreshStartEvents')}"
-              icon="si si-button-refresh-arrows" styleClass="flex-shrink-0 ml-auto rounded-button"/>
+              icon="ti ti-refresh" styleClass="flex-shrink-0 ml-auto rounded-button"/>
 
         </div>
         <h:form id="form" style="overflow: auto;" onkeypress="if (event.keyCode == 13) return false;">
@@ -38,14 +38,14 @@
             emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
             <f:facet name="header">
               <div class="ui-input-icon-left filter-container">
-                <i class="pi pi-search"/>
+                <i class="ti ti-search"/>
                 <p:inputText id="globalFilter" onkeyup="PF('beanTable').filter()" value="#{intermediateEventBean.filter}" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" />
               </div>
             </f:facet>
 
             <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{bean.beanName}" filterBy="#{bean.beanName}">
               <a href="#{bean.detailUrl}">
-                <i class="si si-navigation-right-circle-1 table-icon"/>
+                <i class="ti ti-circle-arrow-right table-icon"/>
                 <h:outputText value="#{bean.beanName}"/>
               </a>
             </p:column>
@@ -75,11 +75,11 @@
             </p:column>
 
              <p:column styleClass="table-btn-3">
-              <p:commandButton id="start" title="#{ivy.cm.co('/monitor/startEvent/StartsTheBean')}" icon="si si-controls-play"
+              <p:commandButton id="start" title="#{ivy.cm.co('/monitor/startEvent/StartsTheBean')}" icon="ti ti-player-play"
                 action="#{bean.start()}" update="@form" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button" disabled="#{bean.running}"/>
-              <p:commandButton id="stop" title="#{ivy.cm.co('/monitor/startEvent/StopsTheBean')}" icon="si si-controls-stop"
+              <p:commandButton id="stop" title="#{ivy.cm.co('/monitor/startEvent/StopsTheBean')}" icon="ti ti-player-stop"
                 action="#{bean.stop()}" update="@form" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{!bean.running}"/>
-              <p:commandButton id="poll" oncomplete="PF('pollBeanDialog').show();" title="#{ivy.cm.co('/monitor/startEvent/ScheduleToPollTheBeanNow')}" icon="si si-synchronize-arrow-clock"
+              <p:commandButton id="poll" oncomplete="PF('pollBeanDialog').show();" title="#{ivy.cm.co('/monitor/startEvent/ScheduleToPollTheBeanNow')}" icon="ti ti-clock-play"
                 action="#{intermediateEventBean.setSelected(bean)}" update="pollBeanDialog" styleClass="flex-shrink-0 ml-1 rounded-button" />
             </p:column>
           </p:dataTable>
@@ -92,7 +92,7 @@
             <div class="custom-dialog-footer">
               <p:commandButton id="cancel" type="button" onclick="PF('pollBeanDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}"
                 styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
-              <p:commandButton id="schedule" onclick="PF('pollBeanDialog').hide();" value="#{ivy.cm.co('/monitor/startEvent/Poll')}" icon="si si-controls-play"
+              <p:commandButton id="schedule" onclick="PF('pollBeanDialog').hide();" value="#{ivy.cm.co('/monitor/startEvent/Poll')}" icon="ti ti-player-play"
                 styleClass="modal-input-button" actionListener="#{intermediateEventBean.selected.poll()}" update="form"/>
             </div>
           </h:form>

@@ -90,10 +90,10 @@ public class StateOfActivity {
     this.activityState = update.name();
     switch (update) {
       case ACTIVE:
-        this.activityStateIcon = "check-circle-1";
+        this.activityStateIcon = "ti ti-circle-check";
         break;
       default:
-        this.activityStateIcon = "button-pause";
+        this.activityStateIcon = "ti ti-player-pause";
     }
   }
 
@@ -106,16 +106,16 @@ public class StateOfActivity {
     switch (update) {
       case ACTIVE:
       case LOCKED:
-        this.operationIcon = "check-circle-1";
+        this.operationIcon = "ti ti-circle-check";
         break;
       case INACTIVE:
-        this.operationIcon = "button-pause";
+        this.operationIcon = "ti ti-player-pause";
         break;
       case ERROR:
-        this.operationIcon = "remove-circle";
+        this.operationIcon = "ti ti-circle-minus";
         break;
       default:
-        this.operationIcon = "button-refresh-arrows si-is-spinning";
+        this.operationIcon = "ti ti-refresh spinning";
         this.processing = true;
     }
   }
@@ -127,20 +127,20 @@ public class StateOfActivity {
     this.releaseState = update.name();
     switch (update) {
       case RELEASED:
-        this.releaseStateIcon = "check-circle-1";
+        this.releaseStateIcon = "ti ti-circle-check";
         break;
       case DEPRECATED:
-        this.releaseStateIcon = "delete";
+        this.releaseStateIcon = "ti ti-circle-half-vertical";
         break;
       case ARCHIVED:
-        this.releaseStateIcon = "archive";
+        this.releaseStateIcon = "ti ti-archive";
         break;
       case CREATED:
       case PREPARED:
-        this.releaseStateIcon = "advertising-megaphone-2";
+        this.releaseStateIcon = "ti ti-speakerphone";
         break;
       default:
-        this.releaseStateIcon = "question-circle";
+        this.releaseStateIcon = "ti ti-help-circle";
     }
   }
 

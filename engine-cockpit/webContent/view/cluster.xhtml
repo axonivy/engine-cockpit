@@ -16,14 +16,14 @@
     <ui:define name="content">
       <div class="card">
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-monitor-network card-title-icon"></i>
+          <i class="pr-3 ti ti-topology-star card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/common/Cluster')}</h2>
         </div>
 
         <p:tabView id="clusterTabView" styleClass="tab-view-card">
           <p:tab id="nodesTab">
             <f:facet name="title">
-              <i class="si si-monitor table-icon" />
+              <i class="ti ti-device-desktop table-icon" />
               <h:outputText value=" #{ivy.cm.co('/cluster/Nodes')}" />
             </f:facet>
             <h:form id="nodesForm">
@@ -32,7 +32,7 @@
                 lazy="false" styleClass="ui-fluid" id="clusterTable">
                 <f:facet name="header">
                   <div class="ui-input-icon-left filter-container">
-                    <i class="pi pi-search"/>
+                    <i class="ti ti-search"/>
                     <p:inputText id="globalFilter" placeholder="Search" value="#{clusterBean.filter}" onkeyup="PF('clusterTable').filter()" />
                   </div>
                 </f:facet>
@@ -41,7 +41,7 @@
                   <p:commandLink id="clusterNode">
                     <p:ajax listener="#{clusterBean.setActiveClusterNode(node)}" process="@this"
                       oncomplete="PF('clusterNodeDialog').show()" update="clusterNodeDialog" />
-                    <i class="si si-monitor table-icon"></i>
+                    <i class="ti ti-device-desktop table-icon"></i>
                     <h:outputText value="#{node.name}" styleClass="node-name" />
                   </p:commandLink>
                 </p:column>
@@ -58,13 +58,13 @@
                 <p:column headerText="#{ivy.cm.co('/common/IsMaster')}" sortBy="#{node.master}">
                   <h:outputText>
                     <i
-                      class="si si-#{node.master ? 'check-circle-1' : 'remove-circle'} table-icon #{node.master ? 'state-active' : 'state-inactive'}"></i>
+                      class="#{node.master ? 'ti ti-circle-check' : 'ti ti-circle-minus'} table-icon #{node.master ? 'state-active' : 'state-inactive'}"></i>
                   </h:outputText>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/IsLocal')}" sortBy="#{node.local}">
                   <h:outputText>
                     <i
-                      class="si si-#{node.local ? 'check-circle-1' : 'remove-circle'} table-icon #{node.local ? 'state-active' : 'state-inactive'}"></i>
+                      class="#{node.local ? 'ti ti-circle-check' : 'ti ti-circle-minus'} table-icon #{node.local ? 'state-active' : 'state-inactive'}"></i>
                   </h:outputText>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/StartTimestamp')}" sortBy="#{node.startTimestamp}">
@@ -82,7 +82,7 @@
 
           <p:tab id="sessionsTab">
             <f:facet name="title">
-              <i class="si si-analytics-graph-line" />
+              <i class="ti ti-graph" />
               <h:outputText value=" #{ivy.cm.co('/cluster/Sessions')}" />
             </f:facet>
             <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"

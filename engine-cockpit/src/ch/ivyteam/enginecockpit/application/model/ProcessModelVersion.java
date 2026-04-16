@@ -57,7 +57,7 @@ public class ProcessModelVersion extends AppTreeItem {
   }
 
   public String getIcon() {
-    return "module-three-1";
+    return "ti ti-packages";
   }
 
   @Override

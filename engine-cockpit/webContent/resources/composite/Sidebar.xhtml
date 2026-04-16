@@ -9,14 +9,14 @@
 
 <cc:implementation>
   <a href="#" id="layout-config-button" class="layout-config-button" onclick="PF('liveStatePoll').start();">
-    <i class="si si-#{cc.attrs.icon}"></i>
+    <i class="#{cc.attrs.icon}"></i>
   </a>
   
   <div id="layout-config" class="layout-config">
     <div class="layout-config-content">
       <div class="flex">
         <h3>#{ivy.cm.co('/sidebar/LiveStats')}</h3>
-        <p:commandButton icon="si si-remove" styleClass="ml-auto ui-button-danger ui-button-outlined rounded-button layout-config-close" 
+        <p:commandButton icon="ti ti-x" styleClass="ml-auto ui-button-danger ui-button-outlined rounded-button layout-config-close" 
           onclick="PF('liveStatePoll').stop(); $('#layout-config').toggleClass('layout-config-active');" type="button" />
       </div>
 

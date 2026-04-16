@@ -44,9 +44,9 @@ public class DeploymentStatus {
 
   public String getIconClass() {
     return switch (state) {
-      case RUNNING -> "si-button-refresh-arrows si-is-spinning";
-      case SUCCESS -> "si-check-circle-1";
-      case ERROR -> "si-alert-circle";
+      case RUNNING -> "ti ti-refresh spinning";
+      case SUCCESS -> "ti ti-circle-check";
+      case ERROR -> "ti ti-alert-circle";
       default -> "";
     };
   }

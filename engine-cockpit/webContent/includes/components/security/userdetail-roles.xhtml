@@ -10,25 +10,25 @@
     </p:growl>
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-multiple-neutral-1"></i>
+        <i class="pr-3 ti ti-users"></i>
         <h6 class="m-0">#{ivy.cm.co('/common/Roles')}</h6>
       </div>
     </div>
 
     <div class="table-search flex ui-fluid">
       <span class="ui-input-icon-left filter-container">
-        <i class="pi pi-search"/>
+        <i class="ti ti-search"/>
         <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{userDetailBean.roles.filter}">
           <p:ajax event="keyup" delay="300" update="@form:rolesTree" />
         </p:inputText>
       </span>
-      <p:commandButton id="expandAll" icon="si si-move-expand-vertical"
+      <p:commandButton id="expandAll" icon="ti ti-arrows-vertical"
         actionListener="#{userDetailBean.roles.expandAllNodes}" update="rolesTree" title="#{ivy.cm.co('/common/ExpandAll')}"
         styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined expand-all" />
-      <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
+      <p:commandButton id="collapseAll" icon="ti ti-arrows-minimize"
         actionListener="#{userDetailBean.roles.collapseAllNodes}" update="rolesTree" title="#{ivy.cm.co('/common/CollapseAll')}"
         styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined" />
-      <p:commandButton id="roleFilterBtn" title="#{ivy.cm.co('/usersTable/Filter')} #{userDetailBean.roles.contentFilterText}" type="button" icon="si si-filter-1"
+      <p:commandButton id="roleFilterBtn" title="#{ivy.cm.co('/usersTable/Filter')} #{userDetailBean.roles.contentFilterText}" type="button" icon="ti ti-filter"
         styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button" onclick="PF('roleFilterPanel').show();" />
       <p:overlayPanel id="roleFilterPanel" for="roleFilterBtn" widgetVar="roleFilterPanel" styleClass="table-content-filter">
         <p:selectManyCheckbox id="filterCheckboxes" layout="grid" columns="1" value="#{userDetailBean.roles.selectedContentFilters}">
@@ -38,9 +38,9 @@
         <h:panelGroup layout="block" styleClass="mt-1 flex justify-content-end">
           <p:commandButton id="cancelFilter" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-flat ui-button-secondary modal-input-button"
             onclick="PF('roleFilterPanel').hide();" type="button" />
-          <p:commandButton id="resetFilterBtn" value="#{ivy.cm.co('/common/Reset')}" styleClass="ml-1 ui-button-secondary modal-input-button" icon="si si-delete-2"
+          <p:commandButton id="resetFilterBtn" value="#{ivy.cm.co('/common/Reset')}" styleClass="ml-1 ui-button-secondary modal-input-button" icon="ti ti-circle-x"
             update="@form" actionListener="#{userDetailBean.roles.resetSelectedContentFilters()}" />
-          <p:commandButton id="applyFilter" value="#{ivy.cm.co('/common/Apply')}" styleClass="ml-1 modal-input-button" icon="si si-check-1"
+          <p:commandButton id="applyFilter" value="#{ivy.cm.co('/common/Apply')}" styleClass="ml-1 modal-input-button" icon="ti ti-check"
             update="@form" />
         </h:panelGroup>
       </p:overlayPanel>
@@ -57,7 +57,7 @@
             </h:outputText>
             <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
             <h:panelGroup rendered="#{userDetailBean.isRoleManaged(role)}">
-              <i class="si si-button-refresh-arrows table-icon" title="#{ivy.cm.co('/userDetailRoles/RoleInExternalSecuritySystemMessage')}"></i>
+              <i class="ti ti-refresh table-icon" title="#{ivy.cm.co('/userDetailRoles/RoleInExternalSecuritySystemMessage')}"></i>
             </h:panelGroup>
           </a>
         </p:treeNode>
@@ -68,7 +68,7 @@
         <p:treeNode type="searchDummy" rendered="#{node.type == 'searchDummy'}">
           <h:outputText value="#{role.name}"
             title="#{ivy.cm.co('/userDetailRoles/RoleSearchPerformanceReasonsMessage')}">
-            <i class="si si-navigation-menu-horizontal table-icon"></i>
+            <i class="ti ti-dots table-icon"></i>
           </h:outputText>
         </p:treeNode>
       </p:column>
@@ -76,10 +76,10 @@
       <p:column styleClass="table-btn-1">
         <h:panelGroup rendered="#{node.type == 'role'}">
           <h:outputText rendered="#{userDetailBean.isUserMemberOfButNotDirect(role)}">
-            <i class="si si-check-circle table-icon light" title="#{ivy.cm.co('/userDetailRoles/Inherited')}" />
+            <i class="ti ti-circle-check table-icon light" title="#{ivy.cm.co('/userDetailRoles/Inherited')}" />
           </h:outputText>
           <h:outputText rendered="#{userDetailBean.isUserDirectMemberOf(role)}">
-            <i class="si si-check-circle table-icon" />
+            <i class="ti ti-circle-check table-icon" />
           </h:outputText>
         </h:panelGroup>
       </p:column>
@@ -87,10 +87,10 @@
       <p:column styleClass="table-btn-2">
         <h:panelGroup rendered="#{node.type == 'role'}">
           <p:commandButton id="addRoleToUserBtn" update="@form" actionListener="#{userDetailBean.addRole(role.name)}"
-            icon="si si-add" title="#{ivy.cm.co('/common/Add')}" styleClass="rounded-button"
+            icon="ti ti-plus" title="#{ivy.cm.co('/common/Add')}" styleClass="rounded-button"
             disabled="#{userDetailBean.isAddRoleButtonDisabled(role)}" />
           <p:commandButton id="removeRoleFromUserBtn" update="@form"
-            actionListener="#{userDetailBean.removeRole(role.name)}" icon="si si-subtract" title="#{ivy.cm.co('/common/Remove')}"
+            actionListener="#{userDetailBean.removeRole(role.name)}" icon="ti ti-minus" title="#{ivy.cm.co('/common/Remove')}"
             styleClass="ml-1 ui-button-secondary rounded-button"
             disabled="#{userDetailBean.isRemoveRoleButtonDisabled(role)}" />
         </h:panelGroup>

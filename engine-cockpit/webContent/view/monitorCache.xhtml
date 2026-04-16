@@ -24,7 +24,7 @@
     <ui:define name="content">
       <div class="card">
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-monitor-heart-beat-search card-title-icon"></i>
+          <i class="pr-3 ti ti-device-desktop-search card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/monitor/Caches')}</h2>
         </div>
         <h:form id="form" style="overflow: auto;">
@@ -35,7 +35,7 @@
             emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
             <f:facet name="header">
               <div class="ui-input-icon-left filter-container">
-                <i class="pi pi-search"/>
+                <i class="ti ti-search"/>
                 <p:inputText id="globalFilter" onkeyup="PF('cacheTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{cacheBean.filter}" />
               </div>
             </f:facet>
@@ -101,7 +101,7 @@
               <h:outputText value="#{cache.info}" title="#{cache.info}"/>
             </p:column>
             <p:column styleClass="table-btn-1">
-              <p:commandButton title="#{ivy.cm.co('/common/Clear')}" id="clearButton" icon="si si-bin-1" disabled="#{cache.notClearable}"
+              <p:commandButton title="#{ivy.cm.co('/common/Clear')}" id="clearButton" icon="ti ti-trash" disabled="#{cache.notClearable}"
                   type="button" styleClass="ui-button-danger rounded-button">
                 <p:ajax update="@form" listener="#{cache.clear}"/>
               </p:commandButton>

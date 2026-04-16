@@ -27,18 +27,18 @@
           <div class="card">
             <div class="card-header flex-wrap">
               <div class="card-title flex align-items-center">
-                <i class="pr-3 si si-alarm-bell-timer"></i>
+                <i class="pr-3 ti ti-bell-plus"></i>
                 <h2 class="m-0">#{ivy.cm.co('/sidebar/SlowRequests')}</h2>
                 <p:commandButton id="start" onclick="PF('startRecordingDialog').show();" title="#{ivy.cm.co('/monitor/jfr/StartRecording')}"
-                    icon="si si-controls-play" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button" disabled="#{traceBean.notStartable}" />
+                    icon="ti ti-player-play" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button" disabled="#{traceBean.notStartable}" />
                 <p:commandButton id="stop" actionListener="#{traceBean.stop}" update="@form" title="#{ivy.cm.co('/common/StopRecording')}"
-                    icon="si si-controls-stop" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notStoppable}" />
+                    icon="ti ti-player-stop" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notStoppable}" />
                 <p:commandButton id="clear" actionListener="#{traceBean.clear}" update="@form" title="#{ivy.cm.co('/monitor/execution/ClearStatistic')}"
-                    icon="si si-bin-1" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notCleanable}" />
+                    icon="ti ti-trash" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notCleanable}" />
                 <p:commandButton id="refresh" actionListener="#{traceBean.refresh}" update="@form" title="#{ivy.cm.co('/monitor/session/RefreshStatistic')}"
-                    icon="si si-button-refresh-arrows" styleClass="flex-shrink-0 ml-1 rounded-button" disabled="#{traceBean.notRefreshable}" />
+                    icon="ti ti-refresh" styleClass="flex-shrink-0 ml-1 rounded-button" disabled="#{traceBean.notRefreshable}" />
                 <p:commandButton id="export" title="#{ivy.cm.co('/monitor/traces/ExportTraces')}" ajax="false"
-                    icon="si si-office-file-xls-1" styleClass="flex-shrink-0 ml-1 ui-button-secondary rounded-button" disabled="#{traceBean.notCleanable}">
+                    icon="ti ti-file-type-xls" styleClass="flex-shrink-0 ml-1 ui-button-secondary rounded-button" disabled="#{traceBean.notCleanable}">
                   <p:dataExporter type="xlsxstream" target="traceTable" fileName="#{ivy.cm.co('/monitor/traces/Traces')}"/>
                 </p:commandButton>
               </div>
@@ -51,7 +51,7 @@
               emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
               <f:facet name="header">
                 <div class="ui-input-icon-left filter-container" style="width: 100%;">
-                  <i class="pi pi-search"/>
+                  <i class="ti ti-search"/>
                   <p:inputText id="globalFilter" onkeyup="PF('traceTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{traceBean.filter}" />
                 </div>
               </f:facet>
@@ -63,7 +63,7 @@
               <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{trace.name}" filterBy="#{trace.name}" exportFunction="#{traceBean.export}" style="width: 100%;">
                 <a href="monitorTraceDetail.xhtml?traceId=#{trace.id}">
                   <h:outputText value="#{trace.name}" title="#{trace.info}" >
-                    <i class="si si-time-clock-circle #{trace.statusClass} table-icon" title="#{trace.statusTooltip}"></i>
+                    <i class="ti ti-clock #{trace.statusClass} table-icon" title="#{trace.statusTooltip}"></i>
                   </h:outputText>
                 </a>
               </p:column>
@@ -96,7 +96,7 @@
           <p:staticMessage severity="warn" detail="#{ivy.cm.co('/monitor/traces/StartTracesHelpText')}" />
           <div class="custom-dialog-footer">
             <p:commandButton id="cancel" type="button" onclick="PF('startRecordingDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
-            <p:commandButton id="start" onclick="PF('startRecordingDialog').hide();" value="#{ivy.cm.co('/common/Start')}" icon="si si-controls-play"
+            <p:commandButton id="start" onclick="PF('startRecordingDialog').hide();" value="#{ivy.cm.co('/common/Start')}" icon="ti ti-player-play"
               styleClass="modal-input-button" actionListener="#{traceBean.start}" update="form"/>
           </div>
         </h:form>

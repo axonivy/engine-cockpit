@@ -25,9 +25,9 @@
           <p:autoUpdate />
         </p:growl>
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-buildings-1 card-title-icon"></i>
+          <i class="pr-3 ti ti-buildings card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/common/Branding')}</h2>
-          <p:commandButton styleClass="ml-auto" id="downloadAllResources" icon="si si-download-bottom"
+          <p:commandButton styleClass="ml-auto" id="downloadAllResources" icon="ti ti-download"
             value="#{ivy.cm.co('/common/Download')}" onclick="PF('downloadModal').show();" type="button" />
         </div>
 
@@ -45,12 +45,12 @@
             <div class="custom-dialog-footer" style="justify-content: space-between;">
               <a href="#{advisorBean.engineGuideBaseUrl}/configuration/files/custom-css.html" target="_blank"
                 rel="noopener noreferrer" style="float: left;">
-                <i class="si si-xl si-question-circle"></i>
+                <i class="text-2xl ti ti-help-circle"></i>
               </a>
               <div>
                 <p:commandButton id="saveCustomCss" process="editCustomCssForm:editCustomCssValue" partialSubmit="true"
                   onsuccess="PF('editCustomCssModal').hide();" actionListener="#{brandingBean.saveCustomCss}" value="#{ivy.cm.co('/common/Save')}"
-                  icon="si si-floppy-disk" styleClass="modal-input-button" update="msgs" />
+                  icon="ti ti-device-floppy" styleClass="modal-input-button" update="msgs" />
                 <p:commandButton id="cancelCustomCss" onclick="PF('editCustomCssModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
                   type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
               </div>
@@ -64,7 +64,7 @@
             <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('resetBrandingConfirmDialog').hide();" type="button"
               styleClass="ui-button-secondary ui-button-flat modal-input-button" />
             <p:commandButton id="resetBrandingConfirmYesBtn" value="#{ivy.cm.co('/common/Reset')}" immediate="true" ajax="false"
-              actionListener="#{brandingBean.resetRes}" icon="si si-undo" styleClass="modal-input-button" />
+              actionListener="#{brandingBean.resetRes}" icon="ti ti-arrow-back-up" styleClass="modal-input-button" />
           </h:form>
         </p:confirmDialog>
 
@@ -120,7 +120,7 @@
             <f:facet name="footer">
               <p:commandButton id="cancelCssColor" onclick="PF('editCssColorModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
                 type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-              <p:commandButton id="saveCssColor" icon="si si-floppy-disk" value="#{ivy.cm.co('/common/Save')}" 
+              <p:commandButton id="saveCssColor" icon="ti ti-device-floppy" value="#{ivy.cm.co('/common/Save')}" 
                 actionListener="#{brandingBean.saveColor}" 
                 styleClass="modal-input-button" ajax="false" />
             </f:facet>
@@ -133,7 +133,7 @@
             <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('resetColorConfirmDialog').hide();" type="button"
               styleClass="ui-button-secondary ui-button-flat modal-input-button" />
             <p:commandButton id="resetColorConfirmYesBtn" value="#{ivy.cm.co('/common/Reset')}" immediate="true" ajax="false"
-              actionListener="#{brandingBean.resetColor}" icon="si si-undo" styleClass="modal-input-button" />
+              actionListener="#{brandingBean.resetColor}" icon="ti ti-arrow-back-up" styleClass="modal-input-button" />
           </h:form>
         </p:confirmDialog>
 
@@ -144,7 +144,7 @@
             <h:form enctype="multipart/form-data" id="fileUploadForm">
               <div class="file-upload">
                 <p:commandButton id="chooseFileBtn" value="#{ivy.cm.co('/common/Choose')}" onclick="PF('uploadDnd').show();return false;"
-                  icon="si si-add" styleClass="mb-2"/>
+                  icon="ti ti-plus" styleClass="mb-2"/>
                 <p:inputTextarea id="dropZone" styleClass="drop-zone" readonly="true"
                   style="width: 100%; line-height: 100px; text-align: center; margin-bottom: 20px;"
                   value="#{ivy.cm.co('/branding/ChooseOrDropFileWhichEndsWith')} #{brandingBean.allowedExtensionsString}" rows="1" />

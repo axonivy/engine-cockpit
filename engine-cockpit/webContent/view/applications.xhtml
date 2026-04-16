@@ -18,22 +18,22 @@
         <h:form id="form" onkeypress="if (event.keyCode == 13) return false;">
           <p:growl for="applicationMessage" id="applicationMessage" showDetail="true" />
           <div class="flex align-items-center mb-3">
-            <i class="pr-3 si si-layout-module card-title-icon"></i>
+            <i class="pr-3 ti ti-layout-grid card-title-icon"></i>
             <h2 class="m-0">#{ivy.cm.co('/common/Applications')}</h2>
-            <p:commandButton styleClass="ml-auto" id="createApplicationBtn" widgetVar="createApplication" icon="si si-add"
+            <p:commandButton styleClass="ml-auto" id="createApplicationBtn" widgetVar="createApplication" icon="ti ti-plus"
               value="#{ivy.cm.co('/common/Add')}" onclick="PF('newApplicationModal').show();" type="button" />
           </div>
           <div class="table-search flex ui-fluid">
             <span class="ui-input-icon-left filter-container">
-              <i class="pi pi-search"/>
+              <i class="ti ti-search"/>
               <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{applicationBean.filter}">
                 <p:ajax event="keyup" delay="300" update="@form:tree" />
               </p:inputText>
             </span>
-            <p:commandButton id="expandAll" icon="si si-move-expand-vertical"
+            <p:commandButton id="expandAll" icon="ti ti-arrows-vertical"
               actionListener="#{applicationBean.expandAllNodes}" update="tree" title="#{ivy.cm.co('/common/ExpandAll')}"
               styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined expand-all" />
-            <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
+            <p:commandButton id="collapseAll" icon="ti ti-arrows-minimize"
               actionListener="#{applicationBean.collapseAllNodes}" update="tree" title="#{ivy.cm.co('/common/CollapseAll')}"
               styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined" />
           </div>
@@ -45,7 +45,7 @@
               <h:outputLink rendered="#{activity.detailView != '#'}" value="#{activity.detailView}">
                 <h:outputText value="#{activity.displayName}" styleClass="activity-name"
                   title="#{activity.activityType} #{activity.displayName}">
-                  <i class="si si-#{activity.icon} table-icon" title="#{activity.activityType}" />
+                  <i class="#{activity.icon} table-icon" title="#{activity.activityType}" />
                 </h:outputText>
               </h:outputLink>
               <h:outputText rendered="#{activity.pmv}"
@@ -57,7 +57,7 @@
             <p:column headerText="#{ivy.cm.co('/common/State')}" responsivePriority="2" style="text-align: center; width: 50px;">
               <h:panelGroup styleClass="module-state">
                   <h:outputText rendered="#{activity.app}">
-                <i class="ml-2 si si-#{activity.releaseStateIcon} table-icon" title="#{activity.releaseState}"></i>
+                <i class="ml-2 #{activity.releaseStateIcon} table-icon" title="#{activity.releaseState}"></i>
               </h:outputText>
               </h:panelGroup>
             </p:column>
@@ -68,7 +68,7 @@
 
             <p:column styleClass="table-btn-5">              
               <h:panelGroup id="deployBtnHint">
-                <p:commandButton title="#{ivy.cm.co('/common/Deployment')}" icon="si si-upload-bottom" rendered="#{activity.app}"
+                <p:commandButton title="#{ivy.cm.co('/common/Deployment')}" icon="ti ti-upload" rendered="#{activity.app}"
                   id="deployBtn" styleClass="mr-1 rounded-button" actionListener="#{deploymentBean.setAppNameAndVersion(activity.name, activity.version)}">
                   <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}"
                     oncomplete="PF('fileUploadModal').show()" />
@@ -76,7 +76,7 @@
               </h:panelGroup>
               
               <p:commandButton id="convertButton"
-                icon="si si-button-refresh-arrows" 
+                icon="ti ti-refresh" 
                 actionListener="#{applicationBean.setActiveActivity(activity)}"
                 rendered="#{activity.canConvert()}"
                 update="form:convertDialog"
@@ -86,27 +86,27 @@
                 styleClass="mr-1 ui-button-danger rounded-button">
               </p:commandButton>              
                
-              <p:commandButton title="#{ivy.cm.co('/common/Activate')}" icon="si si-controls-play" rendered="#{activity.app}" disabled="#{activity.notStartable}"
+              <p:commandButton title="#{ivy.cm.co('/common/Activate')}" icon="ti ti-player-play" rendered="#{activity.app}" disabled="#{activity.notStartable}"
                 type="button" styleClass="mr-1 ui-button-success rounded-button">
                 <p:ajax update="form" listener="#{activity.activate}" />
               </p:commandButton>
-              <p:commandButton title="#{ivy.cm.co('/common/Deactivate')}" id="deactivateButton" icon="si si-controls-stop" rendered="#{activity.app}" disabled="#{activity.notStopable}"
+              <p:commandButton title="#{ivy.cm.co('/common/Deactivate')}" id="deactivateButton" icon="ti ti-player-stop" rendered="#{activity.app}" disabled="#{activity.notStopable}"
                 type="button" styleClass="mr-1 ui-button-danger rounded-button">
                 <p:ajax update="form" listener="#{activity.deactivate}" />
               </p:commandButton>
               
-              <p:commandButton title="#{ivy.cm.co('/common/More')}" id="tasksButton" type="button" icon="si si-navigation-menu"
+              <p:commandButton title="#{ivy.cm.co('/common/More')}" id="tasksButton" type="button" icon="ti ti-menu-2"
                 styleClass="mr-1 ui-button-secondary rounded-button ui-button-outlined" />
               <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
-                <p:menuitem value="#{ivy.cm.co('/common/Lock')}" icon="si si-lock-1" rendered="#{activity.app}" disabled="#{activity.notLockable}"
+                <p:menuitem value="#{ivy.cm.co('/common/Lock')}" icon="ti ti-lock" rendered="#{activity.app}" disabled="#{activity.notLockable}"
                   actionListener="#{activity.lock}" update="form" />
-                <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" rendered="#{activity.app}" icon="si si-heavy-equipment-hook"
+                <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" rendered="#{activity.app}" icon="ti ti-crane"
                   disabled="#{!activity.releasable}" actionListener="#{activity.release}" update="form" />
-                <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="si si-bin-1" disabled="#{not empty activity.isDeletable()}"
+                <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash" disabled="#{not empty activity.isDeletable()}"
                   actionListener="#{applicationBean.setActiveActivity(activity)}"
                   update="form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();"
                   title="#{activity.notDeletableMessage}" style="pointer-events: all;" />
-                <p:menuitem id="forceDeleteBtn" value="#{ivy.cm.co('/applications/ForceDeleteButtonTitle')}" rendered="#{activity.app and not empty activity.isDeletable()}" icon="si si-bin-1"
+                <p:menuitem id="forceDeleteBtn" value="#{ivy.cm.co('/applications/ForceDeleteButtonTitle')}" rendered="#{activity.app and not empty activity.isDeletable()}" icon="ti ti-trash"
                   actionListener="#{applicationBean.setActiveActivity(activity)}"
                   update="form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();" />
               </p:menu>
@@ -126,9 +126,9 @@
             <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteConfirmDialog').hide();" type="button"
               styleClass="ui-button-secondary ui-button-flat modal-input-button" />
             <p:commandButton id="deleteConfirmYesBtn" value="#{ivy.cm.co('/common/Delete')}" immediate="true" styleClass="modal-input-button"
-              actionListener="#{applicationBean.activeActivity.delete}" update="form" icon="si si-bin-1" rendered="#{not isForceDelete}" />
+              actionListener="#{applicationBean.activeActivity.delete}" update="form" icon="ti ti-trash" rendered="#{not isForceDelete}" />
             <p:commandButton id="foreceDeleteConfirmYesBtn" value="#{ivy.cm.co('/applications/ForceDeleteButtonTitle')}" immediate="true" styleClass="modal-input-button"
-              actionListener="#{applicationBean.activeActivity.forceDelete}" update="form" icon="si si-bin-1" rendered="#{isForceDelete}" />
+              actionListener="#{applicationBean.activeActivity.forceDelete}" update="form" icon="ti ti-trash" rendered="#{isForceDelete}" />
           </p:confirmDialog>
 
           <p:confirmDialog id="convertDialog"
@@ -150,10 +150,10 @@
             </f:facet>
 
             <p:commandButton id="convertConfirmYesBtn" widgetVar="convertConfirmYesBtn" value="#{ivy.cm.co('/applications/Convert')}" styleClass="modal-input-button" disabled="#{applicationBean.activeActivity.notConvertable}"
-              actionListener="#{applicationBean.activeActivity.convert}" update="conversionLog convertConfirmYesBtn" oncomplete="PF('convertConfirmYesBtn').disable();PF('convertFinishBtn').enable();" icon="si si-button-refresh-arrows" />
+              actionListener="#{applicationBean.activeActivity.convert}" update="conversionLog convertConfirmYesBtn" oncomplete="PF('convertConfirmYesBtn').disable();PF('convertFinishBtn').enable();" icon="ti ti-refresh" />
 
             <p:commandButton id="convertFinishBtn" widgetVar="convertFinishBtn" value="#{ivy.cm.co('/common/Finish')}" styleClass="modal-input-button" disabled="true"
-              update="conversionLog convertConfirmYesBtn" oncomplete="PF('convertDialog').hide();reloadTree();" icon="si si-check-circle-1" />
+              update="conversionLog convertConfirmYesBtn" oncomplete="PF('convertDialog').hide();reloadTree();" icon="ti ti-circle-check" />
           </p:confirmDialog>
         </h:form>
         <ui:include src="../includes/dialogs/newapplication.xhtml" />

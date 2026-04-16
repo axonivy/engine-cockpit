@@ -5,7 +5,7 @@
   <div class="col-12 md:col-12 xl:col-6">
     <div class="card">
       <div class="flex align-items-center mb-3">
-        <i class="pr-3 si si-recycling-hand-trash"/>
+        <i class="pr-3 ti ti-trash"/>
         <h6 id="triggers" class="m-0">#{ivy.cm.co('/triggers/Triggers')}</h6>
       </div>
       <h:form>
@@ -14,7 +14,7 @@
           lazy="false" styleClass="userTable ui-fluid" id="systemDbTriggersTable" filteredValue="#{systemDatabaseInfoBean.filteredTriggers}">
           <f:facet name="header">
             <div class="ui-input-icon-left filter-container">
-              <i class="pi pi-search"/>
+              <i class="ti ti-search"/>
               <p:inputText id="globalFilter" onkeyup="PF('systemDbTriggersTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{systemDatabaseInfoBean.filterTrigger}" />
             </div>
           </f:facet>

@@ -88,7 +88,7 @@ class WebTestRoles {
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
     var syncBtnId = "#form\\:syncMoreBtn_button";
     $(syncBtnId).shouldBe(visible).click();
-    $(syncBtnId).findAll("span").first().shouldHave(cssClass("si-is-spinning"));
-    $(syncBtnId).findAll("span").first().shouldHave(not(cssClass("si-is-spinning")), Duration.ofSeconds(20));
+    $(syncBtnId).findAll("span").first().shouldHave(cssClass("spinning"));
+    $(syncBtnId).findAll("span").first().shouldHave(not(cssClass("spinning")), Duration.ofSeconds(20));
   }
 }

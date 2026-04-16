@@ -15,7 +15,7 @@
     <p:ajax event="tabChange" listener="#{cc.attrs.tabChange}" update="@this #{cc.attrs.update}" />
     <p:tab title="#{app.name}" titleStyleClass="application-tab">
       <f:facet name="title">
-        <i class="si si-module mr-1" />
+        <i class="ti ti-cube mr-1" />
         <h:outputText value="#{app.name}" />
       </f:facet>
       <cc:insertChildren />
@@ -24,7 +24,7 @@
   <h:panelGroup rendered="#{empty managerBean.applications}" layout="block" 
     styleClass="flex align-items-center">
     <h:outputText value="#{ivy.cm.co('/applicationTabs/NoConfiguredApplication')}" />
-    <p:linkButton styleClass="ml-3" icon="si si-add" value="#{ivy.cm.co('/applicationTabs/CreateApplication')}" href="applications.xhtml" />
+    <p:linkButton styleClass="ml-3" icon="ti ti-plus" value="#{ivy.cm.co('/applicationTabs/CreateApplication')}" href="applications.xhtml" />
   </h:panelGroup>
 </cc:implementation>
 

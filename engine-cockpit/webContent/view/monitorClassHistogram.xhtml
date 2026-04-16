@@ -26,14 +26,14 @@
             <div class="card">
               <div class="card-header flex-wrap">
                 <div class="card-title flex align-items-center">
-                  <i class="pr-3 si si-computer-chip-search"></i>
+                  <i class="pr-3 ti ti-settings-search"></i>
                   <h2 class="m-0">#{ivy.cm.co('/sidebar/ClassHistogram')}</h2>
-                  <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{classHistogramBean.refresh()}" title="#{ivy.cm.co('/monitor/classHistogram/Refresh')}"
+                  <p:commandButton id="refresh" icon="ti ti-refresh" action="#{classHistogramBean.refresh()}" title="#{ivy.cm.co('/monitor/classHistogram/Refresh')}"
                       update="@form" styleClass="flex-shrink-0 ml-auto rounded-button"/>
                   <p:commandButton id="clear" actionListener="#{classHistogramBean.clear}" update="@form" title="#{ivy.cm.co('/monitor/classHistogram/Clear')}"
-                      icon="si si-bin-1" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{classHistogramBean.notClearable}"/>
+                      icon="ti ti-trash" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" disabled="#{classHistogramBean.notClearable}"/>
                   <p:commandButton id="dump" update="dumpMemory" title="#{ivy.cm.co('/monitor/classHistogram/Dump')}" onclick="PF('dumpMemoryDialog').show();"
-                      icon="si si-download-bottom" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button"/>
+                      icon="ti ti-download" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button"/>
                 </div>
               </div>
               <p:dataTable var="class" value="#{classHistogramBean.classes}" filteredValue="#{classHistogramBean.filteredClasses}"
@@ -42,7 +42,7 @@
                 paginator="true" rows="100" paginatorPosition="bottom" resizableColumns="true" sortBy="#{class.instances}">
                 <f:facet name="header">
                   <div class="ui-input-icon-left filter-container">
-                    <i class="pi pi-search"/>
+                    <i class="ti ti-search"/>
                     <p:inputText id="globalFilter" onkeyup="PF('classesTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}"
                       value="#{classHistogramBean.filter}" />
                   </div>
@@ -131,8 +131,8 @@
             <div class="custom-dialog-footer">
               <p:commandButton id="cancel" type="button" onclick="PF('dumpMemoryDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
               <p:commandButton id="dump" ajax="false" value="#{ivy.cm.co('/monitor/classHistogram/Dump')}" update="form" title="#{ivy.cm.co('/monitor/classHistogram/DumpHeapMemory')}"
-                  onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'si-download-bottom'); PF('dumpMemoryDialog').hide();}"
-                  icon="si si-download-bottom" styleClass="modal-input-button">
+                  onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'ti ti-download'); PF('dumpMemoryDialog').hide();}"
+                  icon="ti ti-download" styleClass="modal-input-button">
                 <p:fileDownload value="#{classHistogramBean.dumpMemory()}"/>
               </p:commandButton>
             </div>

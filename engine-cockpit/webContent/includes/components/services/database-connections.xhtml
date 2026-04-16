@@ -10,7 +10,7 @@
     </p:growl>
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-hyperlink-3"></i>
+        <i class="pr-3 ti ti-link"></i>
         <h6 class="m-0">#{ivy.cm.co('/common/Connections')}</h6>
       </div>
     </div>
@@ -19,7 +19,7 @@
       id="databaseConnectionsTable" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false">
       <p:column headerText="#{ivy.cm.co('/databaseConnections/InUse')}" sortBy="#{conn.inUse}">
         <h:outputText styleClass="connection">
-          <i class="si si-#{conn.inUse ? 'check-circle-1' : 'remove-circle'} table-icon"></i>
+          <i class="#{conn.inUse ? 'ti ti-circle-check' : 'ti ti-circle-minus'} table-icon"></i>
         </h:outputText>
       </p:column>
       <p:column headerText="#{ivy.cm.co('/databaseConnections/LastUsed')}" sortBy="#{conn.lastUsed}">

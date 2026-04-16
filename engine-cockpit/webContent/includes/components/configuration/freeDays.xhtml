@@ -6,7 +6,7 @@
 <div class="card">
   <div class="card-header">
     <div class="card-title flex align-items-center">
-      <i class="pr-3 si si-calendar-date"></i>
+      <i class="pr-3 ti ti-calendar-event"></i>
       <h6 class="m-0">#{ivy.cm.co('/freeDays/FreeDays')}</h6>
     </div>
   </div>
@@ -18,14 +18,14 @@
 
     <p:column headerText="#{ivy.cm.co('/common/Date')}">
       <h:outputText value="#{day.value}" title="#{day.tooltip}">
-        <i class="si si-#{day.icon} table-icon"></i>
+        <i class="#{day.icon} table-icon"></i>
       </h:outputText>
     </p:column>
 
     <p:column headerText="#{ivy.cm.co('/common/DefinedBy')}">
       <a href="businesscalendar-detail.xhtml?calendarName=#{day.calendarName}">
         <h:outputText value="#{day.calendarName}">
-          <i class="si si-calendar table-icon"></i>
+          <i class="ti ti-calendar-event table-icon"></i>
         </h:outputText>
       </a>
     </p:column>

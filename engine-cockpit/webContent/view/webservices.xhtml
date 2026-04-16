@@ -19,7 +19,7 @@
       <div class="card">
         <p:growl id="msgs" />
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-network-arrow card-title-icon"></i>
+          <i class="pr-3 ti ti-network card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/common/WebServiceClients')}</h2>
         </div>
         <cc:ApplicationTabs tabChange="#{webserviceBean.reloadWebservices}" id="tabs">
@@ -30,7 +30,7 @@
               filteredValue="#{webserviceBean.filteredWebservices}" lazy="false" id="webservicesTable">
               <f:facet name="header">
                 <div class="ui-input-icon-left filter-container">
-                  <i class="pi pi-search"/>
+                  <i class="ti ti-search"/>
                   <p:inputText id="globalFilter" onkeyup="PF('webservicesTable_#{app.id}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{webserviceBean.filter}" />
                 </div>
               </f:facet>
@@ -39,7 +39,7 @@
                 styleClass="webservice-name-column">
                 <a href="#{webservice.getViewUrl(app.name)}">
                   <h:outputText value="#{webservice.name}" styleClass="webservice-name">
-                    <i class="si si-network-arrow table-icon"></i>
+                    <i class="ti ti-network table-icon"></i>
                   </h:outputText>
                 </a>
               </p:column>

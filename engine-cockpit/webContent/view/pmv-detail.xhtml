@@ -32,7 +32,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="card-title flex align-items-center">
-                  <i class="pr-3 si si-information-circle"></i>
+                  <i class="pr-3 ti ti-info-circle"></i>
                   <h6 class="m-0">#{ivy.cm.co('/pmvDetail/PMVInformation')}</h6>
                 </div>
               </div>
@@ -57,7 +57,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="card-title flex align-items-center">
-                  <i class="pr-3 si si-navigation-up-circle"></i>
+                  <i class="pr-3 ti ti-circle-arrow-up"></i>
                   <h6 class="m-0">#{ivy.cm.co('/pmvDetail/AllPMVsDependingOnPMV')}</h6>
                 </div>
               </div>
@@ -66,7 +66,7 @@
                 <p:column headerText="#{ivy.cm.co('/pmvDetail/PMV')}">
                   <h:outputLink value="#{pmv.detailView}">
                     <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
-                      <i class="si si-#{pmv.icon}" style="margin-right: 5px;" />
+                      <i class="#{pmv.icon}" style="margin-right: 5px;" />
                     </h:outputText>
                   </h:outputLink>
                 </p:column>
@@ -81,7 +81,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="card-title flex align-items-center">
-                  <i class="pr-3 si si-navigation-down-circle"></i>
+                  <i class="pr-3 ti ti-circle-arrow-down"></i>
                   <h6 class="m-0">#{ivy.cm.co('/pmvDetail/AllPMVsRequiredByPMV')}</h6>
                 </div>
               </div>
@@ -91,7 +91,7 @@
                 <p:column headerText="PMV">
                   <h:outputLink value="#{pmv.detailView}">
                     <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
-                      <i class="si si-#{pmv.icon}" style="margin-right: 5px;" />
+                      <i class="#{pmv.icon}" style="margin-right: 5px;" />
                     </h:outputText>
                   </h:outputLink>
                 </p:column>

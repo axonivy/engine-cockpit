@@ -38,7 +38,7 @@
       <p:commandButton id="cancelSendTestMailBtn" onclick="PF('sendTestMailModal').hide()" value="#{ivy.cm.co('/common/Cancel')}" 
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="sendTestMailBtn" validateClient="true" update="debugLog result"
-        actionListener="#{emailBean.sendTestMail}" value="#{ivy.cm.co('/common/Send')}" icon="si si-send-email" styleClass="modal-input-button" />
+        actionListener="#{emailBean.sendTestMail}" value="#{ivy.cm.co('/common/Send')}" icon="ti ti-mail" styleClass="modal-input-button" />
     </div>
   </h:form>
 </p:dialog>

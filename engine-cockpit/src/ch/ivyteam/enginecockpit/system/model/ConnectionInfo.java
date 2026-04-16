@@ -17,7 +17,7 @@ public class ConnectionInfo {
     label = Ivy.cm().co("/systemDb/ConnectionInfoLabel");
     advise = Ivy.cm().co("/systemDb/ConnectionInfoAdvise");
     messageLevel = "ui-message-info";
-    icon = "si si-question-circle";
+    icon = "ti ti-help-circle";
   }
 
   public ConnectionInfo(ConnectionTestResult result) {
@@ -82,11 +82,11 @@ public class ConnectionInfo {
 
   private static String getIcon(ConnectionTestResult result) {
     if (result.isSuccessful()) {
-      return "si si-check-circle";
+      return "ti ti-circle-check";
     } else if (result.isFailed()) {
-      return "si si-delete-1";
+      return "ti ti-trash";
     }
-    return "si si-question-circle";
+    return "ti ti-help-circle";
   }
 
 }

@@ -12,8 +12,8 @@
     modal="true" responsive="true" closeOnEscape="true">
     <h:form id="downloadForm">
       <p:commandButton id="downloadBtn" ajax="false" value="#{ivy.cm.co('/common/Download')}"
-        onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'si-download-bottom');}"
-        title="#{cc.attrs.title}" icon="si si-download-bottom" styleClass="modal-input-button" style="width: 150px;">
+        onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'ti ti-download');}"
+        title="#{cc.attrs.title}" icon="ti ti-download" styleClass="modal-input-button" style="width: 150px;">
         <p:fileDownload value="#{cc.attrs.bean.allResourcesDownload}" />
       </p:commandButton>
       <p:commandButton id="cancel" onclick="PF('downloadModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"

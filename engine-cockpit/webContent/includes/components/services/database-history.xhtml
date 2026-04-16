@@ -10,7 +10,7 @@
     </p:growl>
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-optimization-timer"></i>
+        <i class="pr-3 ti ti-calendar-clock"></i>
         <h6 class="m-0">#{ivy.cm.co('/common/ExecutionHistory')}</h6>
       </div>
     </div>
@@ -29,7 +29,7 @@
       </p:column>
       <p:column headerText="#{ivy.cm.co('/databaseHistory/SQLHeader')}" sortBy="#{exec.sql}">
         <h:outputText value="#{exec.sql}" title="#{exec.sql}" styleClass="table-cell-autocut" style="width: calc(100% - 3rem);"/>
-        <p:commandButton icon="si si-copy-paste" type="button" title="#{ivy.cm.co('/databaseHistory/CopyToClipboardButtonTitle')}" onclick="var button=this; copyToClipboard($(this).siblings('.table-cell-autocut').text(), button)"
+        <p:commandButton icon="ti ti-copy" type="button" title="#{ivy.cm.co('/databaseHistory/CopyToClipboardButtonTitle')}" onclick="var button=this; copyToClipboard($(this).siblings('.table-cell-autocut').text(), button)"
           styleClass="ui-button-flat rounded-button"/>
       </p:column>
       <p:column headerText="#{ivy.cm.co('/databaseHistory/ProcessElementHeader')}" style="width: 75px; word-wrap: anywhere;" sortBy="#{exec.element}">

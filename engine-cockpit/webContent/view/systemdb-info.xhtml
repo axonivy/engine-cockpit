@@ -17,7 +17,7 @@
           <p:ajax event="load" listener="#{systemDatabaseInfoBean.loadData}"/>
           <f:facet name="loading">
             <div class="ui-message ui-staticmessage ui-message-info ui-widget ui-corner-all">
-              <i id="connectionIcon" class="si si-button-refresh-arrows si-is-spinning"></i>
+              <i id="connectionIcon" class="ti ti-refresh spinning"></i>
               <span class="ui-message-info-summary ml-2">#{ivy.cm.co('/systemDbInfo/LoadDataSummaryMessage')}</span>
               <span class="ui-message-info-detail">#{ivy.cm.co('/systemDbInfo/LoadDataDetailMessage')}</span>
             </div>

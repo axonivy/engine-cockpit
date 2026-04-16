@@ -17,7 +17,7 @@
     <h6>#{ivy.cm.co('/tlsTesterMissingCertView/MissingCert')}</h6>
     <p:rowToggler/>
     <h:outputText id="subject" value="#{cc.attrs.cert.subjectX500Principal}"></h:outputText>
-    <p:commandButton id="add" value="#{ivy.cm.co('/tlsTesterMissingCertView/AddToTruststore')}" icon="si si-add"
+    <p:commandButton id="add" value="#{ivy.cm.co('/tlsTesterMissingCertView/AddToTruststore')}" icon="ti ti-plus"
       styleClass="modal-input-button" 
       actionListener="#{trustStoreBean.addToStore(cc.attrs.cert)}"
       action="#{cc.attrs.bean.clearMissingCert()}"

@@ -139,15 +139,15 @@ public class ConfigProperty {
 
   public String getIcon() {
     if (isPassword()) {
-      return "password-lock-2";
+      return "ti ti-password-lock-2";
     }
     if (configValueFormat == ConfigValueFormat.FILE) {
-      return "common-file-text";
+      return "ti ti-file-text";
     }
     if (configValueFormat == ConfigValueFormat.EXPRESSION) {
-      return "archive-folder";
+      return "ti ti-archive";
     }
-    return "cog";
+    return "ti ti-settings";
   }
 
   public String getConfigValueFormat() {

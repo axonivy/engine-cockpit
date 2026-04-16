@@ -15,7 +15,7 @@
           <p:fileUpload id="fileUpload" value="#{deploymentBean.file}" dropZone="drop_zone" style="display: none" mode="simple" 
             widgetVar="deployUpload" update="@form" accept="#{deploymentBean.allowedExtensionsText}"/>
           <p:panelGrid columns="2" columnClasses="col-4, col-8" layout="flex">
-            <p:button id="chooseFileBtn" icon="si si-add" onclick="PF('deployUpload').show(); return false" value="#{ivy.cm.co('/fileUpload/ChooseFileButton')}"/>
+            <p:button id="chooseFileBtn" icon="ti ti-plus" onclick="PF('deployUpload').show(); return false" value="#{ivy.cm.co('/fileUpload/ChooseFileButton')}"/>
             <h:panelGroup id="drop_zone" styleClass="drop-zone flex">
               <h:outputText value="#{deploymentBean.dropZoneText}"/>
             </h:panelGroup>
@@ -26,18 +26,18 @@
           <p:commandLink styleClass="flex justify-content-between mb-2 p-2 border-solid border-1 border-round no-underline hover:bg-primary"
             id="showDeployOptionsBtn" action="#{deploymentBean.toggleDeployOptions}" update="@form">
             <div class="flex align-items-center">
-              <i class="si si-cog mr-2"/>
+              <i class="ti ti-settings mr-2"/>
               <span>#{ivy.cm.co('/deployment/Options')}</span>
             </div>
             <span class="flex align-items-center">
-              <i class="si #{deploymentBean.showDeployOptions ? 'si-arrow-up-1' : 'si-arrow-down-1'}"/>
+              <i class="#{deploymentBean.showDeployOptions ? 'ti ti-chevron-up' : 'ti ti-chevron-down'}"/>
             </span>
           </p:commandLink>
           <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="col-4, col-8" layout="flex" contentStyleClass="align-items-center"
             styleClass="grey-label-panel mt-1 p-2 w-full" rendered="#{deploymentBean.showDeployOptions}">
             <span>#{ivy.cm.co('/common/Configuration')}</span>
             <p:linkButton href="#{advisorBean.engineGuideBaseUrl}/deployment/prepare/deployment-options/index.html" target="_blank" rel="noopener noreferrer" 
-              styleClass="ui-button-secondary ui-button-flat rounded-button ml-2 pt-1" style="float: right" icon="si si-question-circle"/>
+              styleClass="ui-button-secondary ui-button-flat rounded-button ml-2 pt-1" style="float: right" icon="ti ti-help-circle"/>
             
             <p:outputLabel value="#{ivy.cm.co('/deployment/DeployTestUsers')}" for="deployTestUsers" />
             <p:selectOneMenu value="#{deploymentBean.deployOptions.deployTestUsers}" widgetVar="deployTestUsers" id="deployTestUsers">
@@ -55,7 +55,7 @@
         <div class="flex justify-content-end mt-4 pt-3" style="border-top-width: 1px; border-top-style: solid; border-color: #e5e7eb">
           <p:commandButton id="cancelDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
             type="button" styleClass="ui-button-secondary ui-button-outlined mr-2" />
-          <p:commandButton id="uploadBtn" icon="si si-upload-bottom" value="#{ivy.cm.co('/deployment/Deploy')}" 
+          <p:commandButton id="uploadBtn" icon="ti ti-upload" value="#{ivy.cm.co('/deployment/Deploy')}" 
             actionListener="#{deploymentBean.uploadAndDeploy}" disabled="#{!deploymentBean.isFileSet()}"
             update="fileUploadResponse fileUploadForm"/>
         </div>
@@ -64,7 +64,7 @@
     <h:panelGroup id="fileUploadResponse" layout="block">
       <h:panelGroup rendered="#{deploymentBean.showDeployLogs}">
         <h:panelGroup id="uploadStatus" layout="block" styleClass="deploy-status #{deploymentBean.status.styleClass}">
-          <i class="si #{deploymentBean.status.iconClass}"></i>
+          <i class="#{deploymentBean.status.iconClass}"></i>
           <h:outputText value="#{deploymentBean.status.text}"/>
         </h:panelGroup>
         <pre id="uploadLog" class="upload-log">
@@ -72,8 +72,8 @@
         </pre>
         <div class="flex flex-row-reverse">
           <p:commandButton id="closeDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="#{ivy.cm.co('/common/Close')}"
-            icon="si si-remove-circle" styleClass="modal-input-button" />
-          <p:commandButton id="backBtn" value="#{ivy.cm.co('/common/Back')}" icon="si si-navigation-left-circle-1"
+            icon="ti ti-circle-minus" styleClass="modal-input-button" />
+          <p:commandButton id="backBtn" value="#{ivy.cm.co('/common/Back')}" icon="ti ti-circle-arrow-left"
             styleClass="ui-button-secondary ui-button-flat modal-input-button" actionListener="#{deploymentBean.hideDeployLogs}"
             update="fileUploadResponse fileUploadForm"/>
         </div>

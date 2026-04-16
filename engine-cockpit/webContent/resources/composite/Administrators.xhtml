@@ -11,7 +11,7 @@
     <p:dataTable var="admin" value="#{administratorBean.admins}" id="adminTable" widgetVar="adminTable" styleClass="ui-fluid" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
       <f:facet name="header">
         <div class="ui-input-icon-left filter-container">
-          <i class="pi pi-search"/>
+          <i class="ti ti-search"/>
           <p:inputText id="globalFilter" onkeyup="PF('adminTable').filter()" value="#{administratorBean.filter}" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" />
         </div>
       </f:facet>
@@ -19,7 +19,7 @@
       <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{admin.name}" filterBy="#{admin.name}">
         <h:panelGroup styleClass="flex align-items-center">
           <h:outputText value="#{admin.name}" styleClass="ml-1 admin-name">
-            <h:panelGroup layout="block" styleClass="user-avatar si si-single-neutral-shield">
+            <h:panelGroup layout="block" styleClass="user-avatar ti ti-lock-square-rounded">
               <img src="https://www.gravatar.com/avatar/#{admin.gravatarHash}?d=404" onload="showGravatarImg(this);"/>
             </h:panelGroup>
           </h:outputText>
@@ -43,11 +43,11 @@
       </p:column>
 
       <p:column styleClass="table-btn-2">
-        <p:commandButton id="editAdminBtn" disabled="#{admin.external}" actionListener="#{administratorBean.setAdmin(admin)}" icon="si si-pencil"
+        <p:commandButton id="editAdminBtn" disabled="#{admin.external}" actionListener="#{administratorBean.setAdmin(admin)}" icon="ti ti-pencil"
           title="#{ivy.cm.co('/common/Edit')}" update="admins:editAdminDialog" styleClass="ui-button-secondary rounded-button"
           oncomplete="PF('editAdminDialog').show();" process="@this" />
         <p:commandButton id="deleteAdmin"  actionListener="#{administratorBean.setAdmin(admin)}"
-          update="@form:deleteAdminDialog" icon="si si-bin-1" title="#{ivy.cm.co('/common/Delete')}"
+          update="@form:deleteAdminDialog" icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"
           styleClass="ml-1 ui-button-danger rounded-button" process="@this"
           disabled="#{administratorBean.isDeleteButtonDisabled(admin)}" oncomplete="PF('deleteAdminDialog').show();" />
       </p:column>
@@ -59,7 +59,7 @@
       <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteAdminDialog').hide();" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="deleteAdminYesBtn" value="#{ivy.cm.co('/common/Delete')}" immediate="true" styleClass="modal-input-button"
-        actionListener="#{administratorBean.deleteAdmin}" update="#{cc.attrs.updateFields}" icon="si si-bin-1" />
+        actionListener="#{administratorBean.deleteAdmin}" update="#{cc.attrs.updateFields}" icon="ti ti-trash" />
     </p:confirmDialog>
   </h:form>
 
@@ -138,11 +138,11 @@
           styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
 
         <p:commandButton id="addAdmin" rendered="#{empty administratorBean.admin.name}" validateClient="true" update="#{cc.attrs.updateFields}"
-          actionListener="#{administratorBean.createAdmin()}" value="#{ivy.cm.co('/common/Create')}" icon="si si-floppy-disk"
+          actionListener="#{administratorBean.createAdmin()}" value="#{ivy.cm.co('/common/Create')}" icon="ti ti-device-floppy"
           styleClass="modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />
 
         <p:commandButton id="updateAdmin" rendered="#{not empty administratorBean.admin.name}" validateClient="true" update="#{cc.attrs.updateFields}"
-          actionListener="#{administratorBean.updateAdmin()}" value="#{ivy.cm.co('/common/Update')}" icon="si si-floppy-disk"
+          actionListener="#{administratorBean.updateAdmin()}" value="#{ivy.cm.co('/common/Update')}" icon="ti ti-device-floppy"
           styleClass="modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />
       </div>
     </h:form>

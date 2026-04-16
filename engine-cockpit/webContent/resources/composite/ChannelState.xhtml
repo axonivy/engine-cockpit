@@ -12,13 +12,13 @@
     <i class="table-icon #{cc.attrs.channel.stateIcon}" />
     <h:panelGroup rendered="#{cc.attrs.channel.locked}">
       <h:outputText value="#{cc.attrs.channel.locks}" />
-      <i class="si si-synchronize-arrow-clock table-icon"></i>
+      <i class="ti ti-clock-play table-icon"></i>
       <h:outputText value="#{cc.attrs.channel.nextRetryIn}" />
     </h:panelGroup>
   </p:outputPanel>
   <p:tooltip id="lockDetails" for="state" rendered="#{cc.attrs.channel.locked}">
     <h5 class="flex align-items-center">
-      <i class="si si-computer-chip-search"></i>
+      <i class="ti ti-settings-search"></i>
       <h:outputText value="&#160;" />
       #{ivy.cm.co('/channelState/ErrorInformation')}
     </h5>

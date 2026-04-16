@@ -18,7 +18,7 @@
       </p:growl>
       <div class="card-header">
         <div class="card-title flex align-items-center">
-          <i class="pr-3 si si-information-circle"></i>
+          <i class="pr-3 ti ti-info-circle"></i>
           <h6 class="m-0">#{cc.attrs.title}</h6>
           <p:fileUpload id="certUpload" mode="simple" skinSimple="true"
             multiple="false" auto="true"
@@ -27,7 +27,7 @@
             update="@form" style="display: none;" />
           <p:commandButton
             title="#{ivy.cm.co('/sslTable/AddCertificate')}"
-            icon="si si-upload-bottom" type="button" id="Certbtn"
+            icon="ti ti-upload" type="button" id="Certbtn"
             styleClass="flex-shrink-0 ml-auto ml-1 mr-1 rounded-button"
             onclick="document.getElementById(this.id.replace(':Certbtn',':certUpload_input')).click(); return false;">
           </p:commandButton>
@@ -74,7 +74,7 @@
         value="#{cc.attrs.bean.certificats}" id="storeCertificates">
         <p:column headerText="#{ivy.cm.co('/sslTable/Alias')}">
             <i
-              class="si table-icon si-#{certificate.isPrivateKey() ? 'shield-globe' : 'single-neutral-shield'}" id="icon"/>
+              class="table-icon #{certificate.isPrivateKey() ? 'ti ti-shield' : 'ti ti-user-shield'}" id="icon"/>
           <h:outputText value="#{certificate.alias}" id="alias" />
           <p:tooltip for="alias"
           value="#{certificate.isPrivateKey() ? ivy.cm.co('/sslTable/PrivateKey') : ivy.cm.co('/sslTable/PublicKey')}" />
@@ -93,7 +93,7 @@
         <p:column headerText="#{ivy.cm.co('/sslTable/ExpiryDate')}">
           <h:panelGroup id="valid">
             <i
-              class="si table-icon si-#{certificate.isValid() ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
+              class="table-icon #{certificate.isValid() ? 'ti ti-circle-check state-active' : 'ti ti-circle-minus state-inactive'}" />
             <h:outputText value="#{certificate.cert.notAfter}"
               id="expiryDate"
               styleClass="#{certificate.isValid() ? '' : 'state-inactive'}" />
@@ -104,7 +104,7 @@
 
         <p:column styleClass="table-btn-1">
           <p:commandButton id="delete"
-            title="#{ivy.cm.co('/common/Delete')}" icon="si si-bin-1"
+            title="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
             styleClass="ui-button-danger rounded-button"
             actionListener="#{cc.attrs.bean.deleteCertificate(certificate.alias)}"
             update="@form">
@@ -124,7 +124,7 @@
         <p:commandButton id="deleteYesBtn"
           value="#{ivy.cm.co('/common/Delete')}" type="button"
           styleClass="ui-confirmdialog-yes modal-input-button"
-          icon="si si-bin-1" />
+          icon="ti ti-trash" />
       </p:confirmDialog>
 
     </h:form>

@@ -42,7 +42,7 @@ class TestHealthBean {
     assertThat(check.getDescription()).isEqualTo("Checks if this is a release candidate version");
     assertThat(check.getSeverity()).isEqualTo(HealthSeverity.HEALTHY);
     assertThat(check.getSeverityClass()).isEqualTo("health-healthy");
-    assertThat(check.getSeverityIcon()).isEqualTo("si si-check-1");
+    assertThat(check.getSeverityIcon()).isEqualTo("ti ti-check");
     assertThat(check.getNextExecution()).isEqualTo("n.a.");
     assertThat(check.getTimeUntilNextExecution()).isEqualTo("n.a.");
 
@@ -50,7 +50,7 @@ class TestHealthBean {
 
     assertThat(check.getSeverity()).isEqualTo(HealthSeverity.HIGH);
     assertThat(check.getSeverityClass()).isEqualTo("health-high");
-    assertThat(check.getSeverityIcon()).isEqualTo("si si-alert-circle");
+    assertThat(check.getSeverityIcon()).isEqualTo("ti ti-alert-circle");
   }
 
   @Test
@@ -88,7 +88,7 @@ class TestHealthBean {
     assertThat(msg.getDescription()).isEqualTo("Don't use this version in production it is a release candidate");
     assertThat(msg.getSeverity()).isEqualTo(HealthSeverity.HIGH);
     assertThat(msg.getSeverityClass()).isEqualTo("health-high");
-    assertThat(msg.getSeverityIcon()).isEqualTo("si si-alert-circle");
+    assertThat(msg.getSeverityIcon()).isEqualTo("ti ti-alert-circle");
     assertThat(msg.getActionLink()).isEqualTo("https://developer.axonivy.com/download");
     assertThat(msg.getCheck()).isEqualTo("Release Candidate");
   }
@@ -96,13 +96,13 @@ class TestHealthBean {
   @Test
   void severity() {
     assertThat(testee.getSeverityClass()).isEqualTo("health-healthy");
-    assertThat(testee.getSeverityIcon()).isEqualTo("si si-check-1");
+    assertThat(testee.getSeverityIcon()).isEqualTo("ti ti-check");
     assertThat(testee.getSeverityName()).isEqualTo("HEALTHY");
 
     runCheck();
 
     assertThat(testee.getSeverityClass()).isEqualTo("health-high");
-    assertThat(testee.getSeverityIcon()).isEqualTo("si si-alert-circle");
+    assertThat(testee.getSeverityIcon()).isEqualTo("ti ti-alert-circle");
     assertThat(testee.getSeverityName()).isEqualTo("HIGH");
   }
 

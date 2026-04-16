@@ -126,9 +126,9 @@ public class MigrationBean {
 
   public String getStartMigrationButtonIcon() {
     return switch (running) {
-      case START -> "si si-controls-play";
-      case RUNNING -> "si si-button-refresh-arrows si-is-spinning";
-      case FINISHED -> "si si-check-1";
+      case START -> "ti ti-player-play";
+      case RUNNING -> "ti ti-refresh spinning";
+      case FINISHED -> "ti ti-check";
     };
   }
 

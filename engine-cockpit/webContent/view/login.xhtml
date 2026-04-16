@@ -32,7 +32,7 @@
           weakLabel="#{ivy.cm.co('/common/Weak')}"
           strongLabel="#{ivy.cm.co('/common/Strong')}" />
 
-        <p:commandButton update="@form" id="login" actionListener="#{loginBean.login}" value="#{ivy.cm.co('/login/SignInButton')}" icon="si si-login-3" ajax="false"/>
+        <p:commandButton update="@form" id="login" actionListener="#{loginBean.login}" value="#{ivy.cm.co('/login/SignInButton')}" icon="ti ti-login-2" ajax="false"/>
         <p:messages globalOnly="true" id="loginMessage" />
         
         <h:panelGroup rendered="#{loginBean.OAuthProvider != null}" styleClass="oauth-providers">

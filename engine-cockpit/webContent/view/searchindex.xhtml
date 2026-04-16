@@ -26,7 +26,7 @@
 
         <div class="card-header">
           <div class="card-title flex align-items-center">
-            <i class="pr-3 si si-information-circle"></i>
+            <i class="pr-3 ti ti-info-circle"></i>
             <h6 class="m-0">#{searchIndexBean.searchIndex.name}</h6>
           </div>
         </div>
@@ -50,7 +50,7 @@
             </p:column>
 
             <p:column styleClass="table-btn-1">
-              <p:commandButton id="showDocument" title="#{ivy.cm.co('/searchIndex/ShowDocument')}" icon="si si-office-file-doc-1"
+              <p:commandButton id="showDocument" title="#{ivy.cm.co('/searchIndex/ShowDocument')}" icon="ti ti-file-type-doc"
                 actionListener="#{searchDocBean.setDoc(doc)}" update="searchDocModal" styleClass="rounded-button"
                 oncomplete="PF('searchDocModal').show()" />
             </p:column>

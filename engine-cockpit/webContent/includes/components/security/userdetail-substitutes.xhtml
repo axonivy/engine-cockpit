@@ -7,7 +7,7 @@
   <h:form id="substitutesForm">
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 si si-single-neutral-actions"></i>
+        <i class="pr-3 ti ti-user-check"></i>
         <h6 class="m-0">#{ivy.cm.co('/userDetailSubstitutes/Substitutes')}</h6>
       </div>
     </div>
@@ -19,27 +19,27 @@
       <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{substitute.name}">
         <a href="#{substitute.substituteViewUrl}">
           <h:outputText value="#{substitute.name}" styleClass="substitute-name">
-            <i class="si si-single-neutral-actions table-icon" />
+            <i class="ti ti-user-check table-icon" />
           </h:outputText>
         </a>
       </p:column>
 
       <p:column headerText="#{ivy.cm.co('/userDetailSubstitutes/Type')}" sortBy="#{substitute.typeTitle}">
         <h:outputText value="#{substitute.typeTitle}">
-          <i class="si si-#{substitute.typeIcon} table-icon" />
+          <i class="#{substitute.typeIcon} table-icon" />
         </h:outputText>
       </p:column>
 
       <p:column headerText="#{ivy.cm.co('/userDetailSubstitutes/For')}" sortBy="#{substitute.memberTitle}">
         <h:outputText value="#{substitute.memberTitle}">
-          <i class="si si-#{substitute.memberIcon} table-icon" />
+          <i class="#{substitute.memberIcon} table-icon" />
         </h:outputText>
       </p:column>
 
       <p:column headerText="#{ivy.cm.co('/common/Role')}" sortBy="#{substitute.role}">
         <a href="#{substitute.roleViewUrl}">
           <h:outputText value="#{substitute.role}" styleClass="substitute-name" rendered="#{!substitute.role.blank}">
-            <i class="si si-#{substitute.memberIcon} table-icon" />
+            <i class="#{substitute.memberIcon} table-icon" />
           </h:outputText>
         </a>
       </p:column>

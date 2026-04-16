@@ -11,10 +11,10 @@
     <f:facet name="header">
       <div class="flex">
         <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
-          <i class="pi pi-search"/>
+          <i class="ti ti-search"/>
           <p:inputText id="globalFilter" onkeyup="PF('usersTable_#{app.id}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{userBean.userDataModel.filter}" />
         </span>
-        <p:commandButton id="filterBtn" title="#{ivy.cm.co('/usersTable/Filter')} #{userBean.userDataModel.contentFilterText}" type="button" icon="si si-filter-1"
+        <p:commandButton id="filterBtn" title="#{ivy.cm.co('/usersTable/Filter')} #{userBean.userDataModel.contentFilterText}" type="button" icon="ti ti-filter"
           styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button" onclick="PF('filterPanel_#{securitySystem.id}').show();" />
         <p:overlayPanel id="filterPanel" for="filterBtn" widgetVar="filterPanel_#{securitySystem.id}" styleClass="table-content-filter">
           <p:selectManyCheckbox id="filterCheckboxes" layout="grid" columns="1" value="#{userBean.userDataModel.selectedContentFilters}">
@@ -24,9 +24,9 @@
           <h:panelGroup layout="block" styleClass="mt-1 flex justify-content-end">
             <p:commandButton id="cancelFilter" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-flat ui-button-secondary modal-input-button"
               onclick="PF('filterPanel_#{securitySystem.id}').hide();" type="button" />
-            <p:commandButton id="resetFilterBtn" value="#{ivy.cm.co('/common/Reset')}" styleClass="ml-1 ui-button-secondary modal-input-button" icon="si si-delete-2"
+            <p:commandButton id="resetFilterBtn" value="#{ivy.cm.co('/common/Reset')}" styleClass="ml-1 ui-button-secondary modal-input-button" icon="ti ti-circle-x"
               update="@form" actionListener="#{userBean.userDataModel.resetSelectedContentFilters()}" />
-            <p:commandButton id="applyFilter" value="#{ivy.cm.co('/common/Apply')}" styleClass="ml-1 modal-input-button" icon="si si-check-1"
+            <p:commandButton id="applyFilter" value="#{ivy.cm.co('/common/Apply')}" styleClass="ml-1 modal-input-button" icon="ti ti-check"
               update="@form" />
           </h:panelGroup>
         </p:overlayPanel>
@@ -57,10 +57,10 @@
       </h:outputText>
     </p:column>
     <p:column headerText="#{ivy.cm.co('/usersTable/Working')}" style="width: 100px; text-align: center">
-      <i class="si table-icon si-#{user.working ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}"></i>
+      <i class="table-icon #{user.working ? 'ti ti-circle-check state-active' : 'ti ti-circle-minus state-inactive'}"></i>
     </p:column>
     <p:column headerText="#{ivy.cm.co('/usersTable/LoggedIn')}" style="width: 100px; text-align: center">
-      <i class="si table-icon si-#{user.loggedIn ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}"></i>
+      <i class="table-icon #{user.loggedIn ? 'ti ti-circle-check state-active' : 'ti ti-circle-minus state-inactive'}"></i>
     </p:column>
   </p:dataTable>
 </h:form>

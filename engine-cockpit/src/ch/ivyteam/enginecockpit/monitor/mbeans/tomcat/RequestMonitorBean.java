@@ -26,10 +26,10 @@ import ch.ivyteam.ivy.environment.Ivy;
 @ViewScoped
 public class RequestMonitorBean {
   private final Monitor requestsMonitor =
-      Monitor.build().name(Ivy.cm().co("/liveStats/Requests")).icon("network-signal").toMonitor();
+      Monitor.build().name(Ivy.cm().co("/liveStats/Requests")).icon("ti ti-building-broadcast-tower").toMonitor();
   private final Monitor errorsMonitor =
-      Monitor.build().name(Ivy.cm().co("/common/Errors")).icon("global-warming-globe-fire").toMonitor();
-  private final Monitor bytesMonitor = Monitor.build().name(Ivy.cm().co("/liveStats/Bytes")).icon("cd")
+      Monitor.build().name(Ivy.cm().co("/common/Errors")).icon("ti ti-world-exclamation").toMonitor();
+  private final Monitor bytesMonitor = Monitor.build().name(Ivy.cm().co("/liveStats/Bytes")).icon("ti ti-device-floppy")
       .yAxisLabel(Ivy.cm().co("/liveStats/Bytes")).toMonitor();
   private final Monitor processingTimeMonitor = Monitor.build().name(Ivy.cm().co("/liveStats/ProcessingTime"))
       .icon("optimization-timer").yAxisLabel(Ivy.cm().co("/common/Time")).toMonitor();

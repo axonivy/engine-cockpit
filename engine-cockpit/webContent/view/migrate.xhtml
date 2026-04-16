@@ -15,10 +15,10 @@
           <p:autoUpdate />
         </p:growl>
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-navigation-right-circle card-title-icon"></i>
+          <i class="pr-3 ti ti-circle-arrow-right card-title-icon"></i>
           <h2 class="m-0">#{ivy.cm.co('/migrate/MigrateOldEngine')}</h2>
           <p:linkButton href="#{advisorBean.engineGuideBaseUrl}/reference/migration-wizard.html" target="_blank" rel="noopener noreferrer"
-            styleClass="ml-auto ui-button-outlined rounded-button" icon="si si-question-circle" />
+            styleClass="ml-auto ui-button-outlined rounded-button" icon="ti ti-help-circle" />
         </div>
 
         <h:form id="locationForm">
@@ -41,7 +41,7 @@
             <f:facet name="header">
               <p:panelGrid columns="2" layout="flex" contentStyleClass="align-items-center" columnClasses="col-10, col-2">
                 <h:outputText value="#{ivy.cm.co('/migrate/Location')}" />
-                <p:commandButton icon="si si-heavy-equipment-hook"
+                <p:commandButton icon="ti ti-crane"
                 value="#{ivy.cm.co('/migrate/LoadLocation')}" id="checkLocation"
                 disabled="#{migrationBean.state == 'RUNNING'}"
                 actionListener="#{migrationBean.checkOldEngineLocation}"
@@ -59,7 +59,7 @@
               value="#{migrationBean.result.checks()}">
               <div>
                 <i style="position: relative; top: 2px;"
-                  class="#{check.success() ? 'si si-check-circle-1 state-active' : 'si si-delete-1 state-inactive'}"></i>
+                  class="#{check.success() ? 'ti ti-circle-check state-active' : 'ti ti-trash state-inactive'}"></i>
                 <h:outputText value=" #{check.message()}" />
                 <h:panelGroup rendered="#{not empty check.error()}">
                   <pre style="white-space: pre-wrap; word-break: break-all;"><code><h:outputText value="#{check.error()}" /></code></pre>
@@ -93,7 +93,7 @@
             <f:facet name="header">
               <p:panelGrid columns="2" layout="flex" contentStyleClass="align-items-center" columnClasses="col-10, col-2">
                 <h:outputText value="#{ivy.cm.co('/migrate/Licence')}" />
-                 <p:fileUpload id="licenceUpload" chooseIcon="si si-upload-bottom"
+                 <p:fileUpload id="licenceUpload" chooseIcon="ti ti-upload"
                   style="font-weight: normal;width:100%;"
                   label="#{ivy.cm.co('/migrate/Upload')}"
                   mode="simple" skinSimple="true" auto="true"
@@ -138,7 +138,7 @@
               id="taskTable" rowKey="#{task.name}">
               <p:column style="width:3%;">
                 <h:panelGroup id="taskState" styleClass="task-icon">
-                  <i class="mr-0 si si-#{task.stateIcon} link-icon"></i>
+                  <i class="mr-0 #{task.stateIcon} link-icon"></i>
                 </h:panelGroup>
               </p:column>
 
@@ -163,7 +163,7 @@
                   </h:panelGroup>
                   
                   <p:divider align="left" type="dashed">
-                    <p:commandButton actionListener="#{migrationBean.show(task)}" icon="si si-button-refresh-arrows" styleClass="ui-button-outlined" value="#{ivy.cm.co('/migrate/Log')}" update="log"></p:commandButton>
+                    <p:commandButton actionListener="#{migrationBean.show(task)}" icon="ti ti-refresh" styleClass="ui-button-outlined" value="#{ivy.cm.co('/migrate/Log')}" update="log"></p:commandButton>
                   </p:divider>
                   <h:panelGroup id="log" styleClass="log">
                     <p:scrollPanel style="height:300px;width:100%;">
@@ -207,7 +207,7 @@
           <div class="custom-dialog-footer">
             <p:commandButton id="startMigrationCancel" onclick="PF('startMigrationModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
               styleClass="ui-button-secondary ui-button-flat modal-input-button" style="width: 5rem;" />
-            <p:commandButton id="startMigrationStart" value="#{ivy.cm.co('/common/Start')}" icon="si si-check-1"
+            <p:commandButton id="startMigrationStart" value="#{ivy.cm.co('/common/Start')}" icon="ti ti-check"
               actionListener="#{migrationBean.execute}"
               update="locationForm migrationTaskForm"
               onsuccess="PF('migrationPoller').start();PF('startMigrationModal').hide();"

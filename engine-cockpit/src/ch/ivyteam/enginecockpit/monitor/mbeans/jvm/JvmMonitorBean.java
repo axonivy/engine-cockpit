@@ -22,14 +22,14 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 @ViewScoped
 public class JvmMonitorBean {
   private final Monitor cpuMonitor = Monitor.build().name(cm().co("/monitor/CPULoad"))
-      .icon("computer-chip")
+      .icon("ti ti-cpu")
       .yAxisLabel(cm().co("/monitor/Load"))
       .toMonitor();
   private final Monitor classesMonitor = Monitor.build().name(cm().co("/monitor/Classes"))
-      .icon("coffee-cup")
+      .icon("ti ti-coffee")
       .toMonitor();
   private final Monitor threadsMonitor = Monitor.build().name(cm().co("/common/Threads"))
-      .icon("analytics-graph")
+      .icon("ti ti-chart-dots")
       .toMonitor();
 
   public JvmMonitorBean() {
