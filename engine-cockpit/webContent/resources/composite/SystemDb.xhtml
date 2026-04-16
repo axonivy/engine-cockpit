@@ -195,7 +195,7 @@
             oncomplete="PF('createDatabaseDialog').hide();" />
           <p:commandButton id="confirmCreateButton" value="#{ivy.cm.co('/common/SaveAndCreate')}"
             disabled="#{systemDatabaseBean.dbCreatorRunning}"
-            icon="#{systemDatabaseBean.dbCreatorRunning ? 'button-refresh-arrows spinning' : 'database-settings'}"
+            icon="#{systemDatabaseBean.dbCreatorRunning ? 'ti ti-refresh spinning' : 'ti ti-database-cog'}"
             actionListener="#{systemDatabaseBean.createDatabase}" style="width: 170px;" update="@form"
             styleClass="modal-input-button" />
         </h:panelGroup>
