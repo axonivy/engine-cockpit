@@ -1,8 +1,8 @@
 package ch.ivyteam.enginecockpit.system;
 
 import java.lang.management.ManagementFactory;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -40,8 +40,8 @@ public class JavaBean {
     return home;
   }
 
-  public List<Object> getProperties() {
-    return Arrays.asList(System.getProperties().entrySet().toArray());
+  public List<Map.Entry<Object, Object>> getProperties() {
+    return System.getProperties().entrySet().stream().toList();
   }
 
   public List<String> getJvmArguments() {
