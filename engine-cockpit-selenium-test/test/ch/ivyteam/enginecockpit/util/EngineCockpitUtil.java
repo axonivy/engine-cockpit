@@ -276,6 +276,7 @@ public class EngineCockpitUtil {
       Selenide.open(url);
     } catch (TimeoutException ex) {
       System.out.println("Browser didn't respond in time, retry: " + retry);
+      ex.printStackTrace();
       Selenide.closeWebDriver();
       open(url, retry + 1);
     }
