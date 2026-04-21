@@ -33,7 +33,7 @@ public class WebTestVariables {
   @Test
   void testInitialVariables() {
     var table = variableTable();
-    table.firstColumnShouldBe(textsInAnyOrder("boolean", "daytime", "enum", "globVar", "number", "password",
+    table.firstColumnShouldBe(textsInAnyOrder("booleanTest", "daytime", "enumTest", "globVar", "number", "password",
         "PORTAL_DASHBOARD", "variable"));
     assertVariable("globVar", "data", true);
     assertVariable("variable", "hello", true);
@@ -53,7 +53,7 @@ public class WebTestVariables {
 
   @Test
   void testEditConfig_booleanFormat() {
-    String config = "boolean";
+    String config = "booleanTest";
     variableTable().clickButtonForEntry(config, "editConfigBtn");
     assertThatConfigEditModalIsVisible(config, "true", "test boolean");
   }
@@ -67,7 +67,7 @@ public class WebTestVariables {
 
   @Test
   void testEditConfig_enumerationFormat() {
-    String config = "enum";
+    String config = "enumTest";
     variableTable().clickButtonForEntry(config, "editConfigBtn");
     assertThatConfigEditModalIsVisible(config, "hi", "test enum");
   }
