@@ -182,6 +182,7 @@ class WebDocuScreenshot {
   private void takeTlsTesterScreeshot() {
     $(By.id("restClientConfigurationForm:url")).clear();
     $(By.id("restClientConfigurationForm:url")).sendKeys("https://test-webservices.ivyteam.io:8090/api/v3");
+    $(By.id("restClientConfigurationForm:testRestBtn")).shouldBe(visible);
     $(By.id("restClientConfigurationForm:testRestBtn")).click();
     $(By.id("connResult:connTestForm:testTlsConectionBtn")).shouldBe(visible).click();
     $(By.id("connResult:connTestForm:resultTLS")).shouldBe(visible, Duration.ofSeconds(10));

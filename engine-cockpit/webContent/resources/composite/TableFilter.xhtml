@@ -3,9 +3,9 @@
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 <cc:interface>
-  <cc:attribute name="bean" />
-  <cc:attribute name="for" />
-  <cc:attribute name="update" />
+  <cc:attribute name="bean" type="ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl"/>
+  <cc:attribute name="for" type="java.lang.String" />
+  <cc:attribute name="update" type="java.lang.String"/>
 </cc:interface>
 <cc:implementation>
   <p:overlayPanel id="filterPanel" for="#{cc.attrs.for}" widgetVar="filterPanel" 

@@ -8,26 +8,28 @@
   xmlns:jc="http://xmlns.jcp.org/jsf/composite/demo-jsfcomponents">
 <cc:interface>
   <cc:attribute name="bean" type="ch.ivyteam.enginecockpit.services.FeatureEditor"/>
-  <cc:attribute name="formName" type="String"/>
+  <cc:attribute name="formName" type="java.lang.String"/>
   <cc:attribute name="isNewFeature" type="boolean"/>
+  <cc:attribute name="feature" type ="ch.ivyteam.enginecockpit.commons.Feature"/>
 </cc:interface>
+
 <cc:implementation>
   <p:commandButton id="editFeatureBtn"
-    actionListener="#{cc.attrs.bean.setFeature(feature.clazz)}"
-    icon="ti ti-pencil" title="#{ivy.cm.co('/common/Edit')}" disabled="#{feature.default}"
+    actionListener="#{cc.attrs.bean.setEditFeature(cc.attrs.feature.clazz)}"
+    icon="ti ti-pencil" title="#{ivy.cm.co('/common/Edit')}" disabled="#{cc.attrs.feature.default}"
     update="@form" rendered="#{!cc.attrs.isNewFeature}"
     oncomplete="PF('featureModal').show();" process="@this" 
     styleClass="flex-shrink-0 ml-1 ui-button-secondary rounded-button" />
 
-  <p:commandButton id="deleteFeatureBtn" disabled="#{feature.default}"
-    actionListener="#{cc.attrs.bean.removeFeature(feature.clazz)}"
+  <p:commandButton id="deleteFeatureBtn" disabled="#{cc.attrs.feature.default}"
+    actionListener="#{cc.attrs.bean.removeFeature(cc.attrs.feature.clazz)}"
     update="#{cc.attrs.formName}" icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"
     rendered="#{!cc.attrs.isNewFeature}" process="@this"
     styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
 
   <p:commandButton id="newServiceFeatureBtn"
     oncomplete="PF('featureModal').show();" process="@this"
-    actionListener="#{cc.attrs.bean.setFeature(null)}"
+    actionListener="#{cc.attrs.bean.setEditFeature(null)}"
     update="featureModal" title="#{ivy.cm.co('/common/Add')}" icon="ti ti-plus"
     rendered="#{cc.attrs.isNewFeature}"
     styleClass="flex-shrink-0 ml-auto rounded-button" />
@@ -41,7 +43,7 @@
         <p:outputLabel for="nameInput" value="#{ivy.cm.co('/common/Name')}" />
         <h:panelGroup styleClass="md-inputfield">
           <p:inputText id="nameInput" requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}"
-            value="#{cc.attrs.bean.feature.clazz}" required="true" />
+            value="#{cc.attrs.bean.editFeature.clazz}" required="true" />
           <p:message for="nameInput" id="nameMessage" />
         </h:panelGroup>
       </p:panelGrid>
@@ -54,7 +56,7 @@
 
         <p:commandButton id="saveFeature" validateClient="true"
           onsuccess="PF('featureModal').hide()"
-          action="#{cc.attrs.bean.saveFeature(cc.attrs.isNewFeature)}" value="#{ivy.cm.co('/common/Save')}"
+          action="#{cc.attrs.bean.saveEditFeature(cc.attrs.isNewFeature)}" value="#{ivy.cm.co('/common/Save')}"
           icon="ti ti-device-floppy" update="#{cc.attrs.formName}"
           styleClass="modal-input-button" process="@form" />
       </div>

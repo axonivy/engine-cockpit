@@ -25,11 +25,13 @@
         <f:facet name="header">
           <cc:FeatureEditor id="newFeatureEditor"
             bean="#{webserviceDetailBean}" isNewFeature="true"
-            formName="webserviceAdditionalConfigForm" />
+            formName="webserviceAdditionalConfigForm"
+            feature="#{feature}" />
         </f:facet>
         <cc:FeatureEditor id="editFeatureEditor"
           bean="#{webserviceDetailBean}" isNewFeature="false"
-          formName="webserviceAdditionalConfigForm" />
+          formName="webserviceAdditionalConfigForm"
+          feature="#{feature}" />
       </p:column>
     </p:dataTable>
 
@@ -43,10 +45,12 @@
       <p:column styleClass="table-btn-2">
         <f:facet name="header">
           <cc:PropertyEditor id="newPropertyEditor" bean="#{webserviceDetailBean}" 
-            isNewProperty="true" formName="webserviceAdditionalConfigForm" />
+            isNewProperty="true" formName="webserviceAdditionalConfigForm" 
+            property="#{property}" />
         </f:facet>
         <cc:PropertyEditor id="editPropertyEditor" bean="#{webserviceDetailBean}" 
-          isNewProperty="false" formName="webserviceAdditionalConfigForm" />
+          isNewProperty="false" formName="webserviceAdditionalConfigForm" 
+          property="#{property}" />
       </p:column>
     </p:dataTable>
   

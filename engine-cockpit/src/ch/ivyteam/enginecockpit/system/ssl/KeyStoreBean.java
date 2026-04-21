@@ -61,10 +61,12 @@ public class KeyStoreBean implements SslTableStore {
     this.useCustomKeyStore = useCustomKeyStore;
   }
 
+  @Override
   public String getFile() {
     return file;
   }
 
+  @Override
   public String getPassword() {
     return String.valueOf(password);
   }
@@ -73,10 +75,12 @@ public class KeyStoreBean implements SslTableStore {
     return String.valueOf(keyPassword);
   }
 
+  @Override
   public String getProvider() {
     return provider;
   }
 
+  @Override
   @SuppressWarnings("hiding")
   public List<String> getProviders() {
     List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders()).map(Provider::getName).toList());
@@ -84,24 +88,29 @@ public class KeyStoreBean implements SslTableStore {
     return providers;
   }
 
+  @Override
   public List<String> getTypes() {
     List<String> types = new ArrayList<>(SecurityProviders.getTypes(getProvider()));
     types.add("");
     return types;
   }
 
+  @Override
   public String getAlgorithm() {
     return algorithm;
   }
 
+  @Override
   public List<String> getAlgorithms() {
     return SecurityProviders.getAlgorithms("KeyManagerFactory");
   }
 
+  @Override
   public void setFile(String file) {
     this.file = file;
   }
 
+  @Override
   public void setPassword(String password) {
     if (password.isBlank()) {
       return;
@@ -116,23 +125,28 @@ public class KeyStoreBean implements SslTableStore {
     this.keyPassword = keyPassword.toCharArray();
   }
 
+  @Override
   public void setProvider(String provider) {
     this.provider = provider;
   }
 
+  @Override
   public String getType() {
     return type;
   }
 
+  @Override
   public void setType(String type) {
     this.type = type;
   }
 
+  @Override
   public void setAlgorithm(String algorithm) {
     this.algorithm = algorithm;
   }
 
-  public void saveKeyStore() {
+  @Override
+  public void save() {
     store.setFile(file);
     store.setPassword(String.valueOf(password));
     store.setKeyPassword(String.valueOf(keyPassword));
@@ -191,6 +205,7 @@ public class KeyStoreBean implements SslTableStore {
     }
   }
 
+  @Override
   public void confirmPassword()
       throws CertificateException, KeyStoreException, IOException, UnrecoverableKeyException, NoSuchAlgorithmException {
     if (uploadedKeystore != null && importedStorePassword != null) {
@@ -204,6 +219,7 @@ public class KeyStoreBean implements SslTableStore {
     }
   }
 
+  @Override
   public String getStorePassword() {
     return "";
   }
@@ -212,6 +228,7 @@ public class KeyStoreBean implements SslTableStore {
     this.importedStorePassword = storePassword.toCharArray();
   }
   
+  @Override
   public String getStoreKeyPassword() {
     return "";
   }
@@ -220,6 +237,7 @@ public class KeyStoreBean implements SslTableStore {
     this.importedKeyPassword = keyPassword.toCharArray();
   }
 
+  @Override
   public boolean isKeystore() {
     return true;
   }
@@ -233,12 +251,13 @@ public class KeyStoreBean implements SslTableStore {
     return new KeyStoreUtils(file, type, provider, password);
   }
 
+  @Override
   public String getCertificateLoadError() {
     return certificateLoadError;
   }
 
+  @Override
   public void setCertificateLoadError(String certificateLoadError) {
     this.certificateLoadError = certificateLoadError;
   }
-
 }

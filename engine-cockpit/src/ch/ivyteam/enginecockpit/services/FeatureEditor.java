@@ -11,9 +11,13 @@ public interface FeatureEditor {
 
   List<Feature> getFeatures();
 
-  Feature getFeature();
+  void setEditFeature(String key);
 
-  void saveFeature(boolean isNewFeature);
+  Feature getEditFeature();
+
+  void saveEditFeature(boolean isNewFeature);
+
+  void removeFeature(String clazz);
 
   default Feature findFeature(String clazz) {
     return getFeatures().stream()
@@ -22,13 +26,11 @@ public interface FeatureEditor {
         .orElse(new Feature());
   }
 
-  void setFeature(String key);
-
   default boolean isExistingFeatureThrowMessage() {
     for (Feature feature : getFeatures()) {
-      if (feature.getClazz().equals(getFeature().getClazz())) {
+      if (feature.getClazz().equals(getEditFeature().getClazz())) {
         var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-            getFeature() + " couldn't be created",
+            getEditFeature() + " couldn't be created",
             "Because this Feature already exists.");
         FacesContext.getCurrentInstance().addMessage("msg", msg);
         return true;

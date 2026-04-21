@@ -34,10 +34,12 @@
         <f:facet name="header">
           <cc:PropertyEditor id="newPropertyEditor"
             bean="#{databaseDetailBean}" isNewProperty="true"
+            property="#{property}"
             formName="databasePropertiesForm" />
         </f:facet>
         <cc:PropertyEditor id="editPropertyEditor"
           bean="#{databaseDetailBean}" isNewProperty="false"
+          property="#{property}"
           formName="databasePropertiesForm" />
       </p:column>
     </p:dataTable>

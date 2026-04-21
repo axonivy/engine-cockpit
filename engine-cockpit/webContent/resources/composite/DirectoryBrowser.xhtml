@@ -3,9 +3,9 @@
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
-  <cc:attribute name="updateFields" required="true" />
-  <cc:attribute name="directoryBrowser" required="true" />
-  <cc:attribute name="returnListener" required="true" />
+  <cc:attribute name="updateFields" required="true" type="java.lang.String"/>
+  <cc:attribute name="directoryBrowser" required="true" type="ch.ivyteam.enginecockpit.security.directory.DirectoryBrowserBean"/>
+  <cc:attribute name="returnListener" required="true" method-signature="void handleEvent(javax.faces.event.FacesEvent)"/>
 </cc:interface>
 
 <cc:implementation>
@@ -16,7 +16,7 @@
         <p:autoUpdate />
       </p:messages>
       <div class="grid">
-        <p:tree id="tree" widgetVar="tree" value="#{cc.attrs.directoryBrowser.tree}" var="node" selectionMode="single"
+        <p:tree id="tree" widgetVar="tree" value="#{cc.attrs.directoryBrowser.tree}" var="node" nodeVar="treeNode" selectionMode="single"
           selection="#{cc.attrs.directoryBrowser.selectedNode}" dynamic="true" styleClass="col-6">
           <p:ajax event="expand" listener="#{cc.attrs.directoryBrowser.onNodeExpand}" update="@form:tree" />
           <p:ajax event="select" update="@form:nodeAttrTable" />
@@ -25,7 +25,7 @@
           </p:treeNode>
           <p:treeNode type="nextPage">
             <p:commandButton value="#{ivy.cm.co('/common/More')}" update="tree"
-              actionListener="#{cc.attrs.directoryBrowser.loadNextPage(node)}" />
+              actionListener="#{cc.attrs.directoryBrowser.loadNextPage(treeNode)}" />
           </p:treeNode>
         </p:tree>
         <p:dataTable id="nodeAttrTable" var="attr" value="#{cc.attrs.directoryBrowser.selectedNodeProperties}"

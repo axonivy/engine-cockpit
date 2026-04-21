@@ -25,10 +25,12 @@
         <f:facet name="header">
           <cc:FeatureEditor id="newFeatureEditor"
             bean="#{restClientDetailBean}" isNewFeature="true"
+            feature="#{feature}"
             formName="restClientAdditionalConfigForm" />
         </f:facet>
         <cc:FeatureEditor id="editFeatureEditor"
           bean="#{restClientDetailBean}" isNewFeature="false"
+          feature="#{feature}"
           formName="restClientAdditionalConfigForm" />
       </p:column>
     </p:dataTable>
@@ -43,10 +45,12 @@
       <p:column styleClass="table-btn-2">
         <f:facet name="header">
           <cc:PropertyEditor id="newPropertyEditor" bean="#{restClientDetailBean}" 
-            isNewProperty="true" formName="restClientAdditionalConfigForm" />
+            isNewProperty="true" formName="restClientAdditionalConfigForm" 
+            property="#{property}" />
         </f:facet>
         <cc:PropertyEditor id="editPropertyEditor" bean="#{restClientDetailBean}" 
-          isNewProperty="false" formName="restClientAdditionalConfigForm" />
+          isNewProperty="false" formName="restClientAdditionalConfigForm" 
+          property="#{property}" />
       </p:column>
     </p:dataTable>
   
