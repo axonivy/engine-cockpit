@@ -40,14 +40,17 @@ public final class StartEvent extends Event {
     return bean.readAttribute("processExecutionErrors").asLong();
   }
 
+  @Override
   public String getMinExecutionTime() {
     return bean.readAttribute("processExecutions").asMinExecutionTime();
   }
 
+  @Override
   public String getAvgExecutionTime() {
     return bean.readAttribute("processExecutions").asAvgExecutionTime();
   }
 
+  @Override
   public String getMaxExecutionTime() {
     return bean.readAttribute("processExecutions").asMaxExecutionTime();
   }

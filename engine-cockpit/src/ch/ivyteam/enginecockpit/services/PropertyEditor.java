@@ -40,6 +40,8 @@ public interface PropertyEditor {
 
   void setProperty(String key);
 
+  void removeProperty(String name);
+
   default boolean isSensitive() {
     if (getProperty() == null || getProperty().getName() == null || getProperties() == null) {
       return false;
