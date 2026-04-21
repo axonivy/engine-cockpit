@@ -35,6 +35,18 @@ public abstract class Event {
 
   public abstract boolean showExecutionDuration();
 
+  public String getMinExecutionTime() {
+    return null;
+  }
+
+  public String getAvgExecutionTime() {
+    return null;
+  }
+
+  public String getMaxExecutionTime() {
+    return null;
+  }
+
   public String getName() {
     return bean.getNameKeyProperty("name");
   }

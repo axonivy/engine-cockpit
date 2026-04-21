@@ -25,6 +25,7 @@ public abstract class AppTreeItem {
   public abstract String getDisplayName();
   public abstract String getDetailView();
   public abstract List<String> isDeletable();
+  public abstract String getIcon();
 
   protected List<String> projectConversionLog = new ArrayList<>();
 
