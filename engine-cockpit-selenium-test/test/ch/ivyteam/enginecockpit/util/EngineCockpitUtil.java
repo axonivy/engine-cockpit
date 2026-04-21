@@ -141,14 +141,6 @@ public class EngineCockpitUtil {
     runTestProcess("16E881C7DC458C7D/cleanupNotification.ivp");
   }
 
-  public static void createOldDb() {
-    runTestProcess("16E8EAD7CC77A0A3/createOldDatabase.ivp");
-  }
-
-  public static void deleteOldDb() {
-    runTestProcess("16E8EAD7CC77A0A3/deleteOldDatabase.ivp");
-  }
-
   public static void deleteTempDb() {
     runTestProcess("16E8EAD7CC77A0A3/deleteTempDatabase.ivp");
   }

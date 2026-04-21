@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.system;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.createOldDb;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.deleteTempDb;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetConfig;
@@ -23,7 +22,6 @@ import java.time.Duration;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -46,13 +44,7 @@ public class WebTestSystemDb {
   private static final String SYS_DB_USER = "root";
   private static final String CONNECTION_BUTTON = "#systemDb\\:systemDbForm\\:checkConnectionButton";
   private static final String CONNECTION_PANEL = "#systemDb\\:systemDbForm\\:connectionPanel";
-  private static final String OLD_DB_NAME = "old_version_150";
   private static final String TEST_DB_NAME = "temp";
-
-  @BeforeAll
-  static void setup() {
-    createOldDb();
-  }
 
   @BeforeEach
   void beforeEach() {
@@ -168,12 +160,6 @@ public class WebTestSystemDb {
     $("#systemDb\\:createDatabaseForm\\:closeCreationButton").click();
     $("#systemDb\\:createDatabaseDialog").shouldNotBe(visible);
     $(CONNECTION_PANEL).shouldBe(text("Connected"));
-  }
-
-  public static void assertSystemDbConversionDialog() {
-    insertDbConnection("MySQL", "mySQL", SYS_DB, OLD_DB_NAME, SYS_DB_USER, SYS_DB_PW);
-    $(CONNECTION_BUTTON).click();
-    $(CONNECTION_PANEL).shouldBe(text("Database too old"), text("Convert system database."));
   }
 
   public static void assertConnectionResults() {
