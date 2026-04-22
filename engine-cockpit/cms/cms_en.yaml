@@ -1105,7 +1105,7 @@ searchEngineInformation:
   FloodStage: Flood stage
   FloodStageInfo: Search Engine will put indices in read-only mode if available disk space is less than this value. This setting is a last resort to prevent nodes from running out of disk space. The index block is automatically released when the disk utilization falls below the high watermark.
   FloodStageWarning: If your available disk space is below the flood stage, the search engine will stop indexing new documents and put current indices in read-only mode
-  NotSupportESVersionMessage: This elastic search version is not supported
+  NotSupportESVersionMessage: This OpenSearch version is not supported
   WatermarkHigh: Watermark high
   WatermarkHighInfo: Search Engine will attempt to relocate shards away from a node whose available disk space is less than this value. This setting affects the allocation of all shards, whether previously allocated or not.
   WatermarkLow: Watermark low
