@@ -41,12 +41,11 @@
         <p:panelGrid columns="2" columnClasses="col-5 flex, col-7 flex" layout="flex"
           styleClass="grey-label-panel">
           <label>#{ivy.cm.co('/common/Version')}</label>
-          <h:panelGroup>
+          <h:panelGroup styleClass="flex align-items-center gap-1">
             <h:outputText id="version" value="#{searchEngineBean.searchEngine.version}" />
             <h:outputText rendered="#{searchEngineBean.searchEngine.notSupported}">
-              <i class="text-xl ti ti-alert-triangle search-machine-health-yellow"
-              style="position: relative; top: 3px; font-weight: 700;"
-              title="#{ivy.cm.co('/searchEngineInformation/NotSupportESVersionMessage')}"></i>
+              <i class="text-xl ti ti-alert-triangle search-machine-health-yellow icon-bold"
+                title="#{ivy.cm.co('/searchEngineInformation/NotSupportESVersionMessage')}"></i>
             </h:outputText>
           </h:panelGroup>
 
