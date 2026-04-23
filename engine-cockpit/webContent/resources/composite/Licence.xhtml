@@ -30,12 +30,10 @@
           <h:outputText value="#{property.key}" styleClass="licence-key" />
         </p:column>
         <p:column headerText="#{ivy.cm.co('/common/Value')}">
-          <h:outputText value="#{property.value eq '0' or '' ? ivy.cm.co('/licence/Unlimited') : property.value}" />
+          <h:outputText value="#{property.value eq '0' or property.value eq '' ? ivy.cm.co('/licence/Unlimited') : property.value}" />
         </p:column>
       </p:dataTable>
     </h:panelGroup>
   </h:form>
-
 </cc:implementation>
-
 </html>

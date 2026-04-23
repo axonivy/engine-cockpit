@@ -3,7 +3,7 @@
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
-  <cc:attribute name="log" shortDescription="Log File" />
+  <cc:attribute name="log" shortDescription="Log File" type="ch.ivyteam.enginecockpit.monitor.log.LogView"/>
 </cc:interface>
 <cc:implementation>
   <p:panel id="logPanel" widgetVar="#{cc.attrs.log.fileName}">

@@ -8,9 +8,10 @@
   xmlns:jc="http://xmlns.jcp.org/jsf/composite/demo-jsfcomponents">
 <cc:interface>
   <cc:attribute name="bean" type="ch.ivyteam.enginecockpit.services.FeatureEditor"/>
-  <cc:attribute name="formName" type="String"/>
+  <cc:attribute name="formName" type="java.lang.String"/>
   <cc:attribute name="isNewFeature" type="boolean"/>
 </cc:interface>
+<!-- feature: ch.ivyteam.enginecockpit.commons.Feature-->
 <cc:implementation>
   <p:commandButton id="editFeatureBtn"
     actionListener="#{cc.attrs.bean.setFeature(feature.clazz)}"

@@ -14,11 +14,9 @@ import ch.ivyteam.enginecockpit.commons.Feature;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.RestClientMonitor;
+import ch.ivyteam.enginecockpit.services.DetailView;
 import ch.ivyteam.enginecockpit.services.FeatureEditor;
-import ch.ivyteam.enginecockpit.services.PropertyEditor;
-import ch.ivyteam.enginecockpit.services.help.HelpServices;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
-import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.services.model.RestClientDto;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
@@ -33,7 +31,7 @@ import ch.ivyteam.ivy.rest.client.internal.RestClientExecutionManager;
 
 @ManagedBean
 @ViewScoped
-public class RestClientDetailBean extends HelpServices implements IConnectionTestResult, PropertyEditor, FeatureEditor {
+public class RestClientDetailBean extends DetailView implements FeatureEditor {
 
   private RestClientDto restClient;
   private String restClientKey;
@@ -144,6 +142,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     loadRestClient();
   }
 
+  @Override
   public void removeProperty(String name) {
     saveRestClient(restBuilder().removeProperty(name));
     loadRestClient();
@@ -251,6 +250,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     this.editFeature = findFeature(clazz);
   }
 
+  @Override
   public void removeFeature(String name) {
     saveRestClient(restBuilder().removeFeature(name));
     loadRestClient();

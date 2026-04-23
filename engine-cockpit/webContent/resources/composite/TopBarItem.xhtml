@@ -4,11 +4,11 @@
   xmlns:p="http://primefaces.org/ui">
 
 <cc:interface>
-  <cc:attribute name="styleClass" default="help-link"/>
-  <cc:attribute name="href" default="#{advisorBean.cockpitEngineGuideUrl}" />
-  <cc:attribute name="icon" default="ti ti-help-circle" />
-  <cc:attribute name="title" default="#{ivy.cm.co('/topBarItem/Help')}" />
-  <cc:attribute name="external" default="true" />
+  <cc:attribute name="styleClass" default="help-link" type="java.lang.String"/>
+  <cc:attribute name="href" default="#{advisorBean.cockpitEngineGuideUrl}" type="java.lang.String"/>
+  <cc:attribute name="icon" default="ti ti-help-circle" type="java.lang.String"/>
+  <cc:attribute name="title" default="#{ivy.cm.co('/topBarItem/Help')}" type="java.lang.String"/>
+  <cc:attribute name="external" default="true" type="boolean"/>
 </cc:interface>
 <cc:implementation>
   <li class="topbar-item #{cc.attrs.styleClass}">
