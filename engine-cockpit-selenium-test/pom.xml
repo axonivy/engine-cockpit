@@ -61,6 +61,8 @@
                       <directory>${engine.dir}/webapps/engine-cockpit/</directory>
                       <includes>
                         <include>engine-cockpit*.jar</include>
+                        <include>oshi-core*.jar</include>
+                        <include>oshi-common*.jar</include>
                       </includes>
                     </fileset>
                   </filesets>
@@ -88,6 +90,18 @@
                   <artifactId>engine-cockpit</artifactId>
                   <version>${project.version}</version>
                   <destFileName>engine-cockpit.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.github.oshi</groupId>
+                  <artifactId>oshi-core-ffm</artifactId>
+                  <version>7.0.0</version>
+                  <destFileName>oshi-core-ffm.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.github.oshi</groupId>
+                  <artifactId>oshi-common</artifactId>
+                  <version>7.0.0</version>
+                  <destFileName>oshi-common.jar</destFileName>
                 </artifactItem>
               </artifactItems>
               <outputDirectory>${engine.dir}/webapps/engine-cockpit/</outputDirectory>
