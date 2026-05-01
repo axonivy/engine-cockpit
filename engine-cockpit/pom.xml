@@ -18,22 +18,13 @@
 
   <dependencies>
     <dependency>
-      <!-- oshi needs to align it's jna dependency with the axon ivy core jna dependency -->
       <groupId>com.github.oshi</groupId>
-      <artifactId>oshi-core</artifactId>
-      <version>6.12.0</version>
+      <artifactId>oshi-core-ffm</artifactId>
+      <version>7.0.0</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
           <artifactId>slf4j-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>net.java.dev.jna</groupId>
-          <artifactId>jna</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>net.java.dev.jna</groupId>
-          <artifactId>jna-platform</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
