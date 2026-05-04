@@ -12,6 +12,13 @@
         "ch.ivyteam.maven:screenshot-html-plugin"
       ],
       "enabled": false
+    },
+    {
+      "description": "Sync updates of OSHI packages.",
+      "matchPackageNames": [
+        "com.github.oshi"
+      ],
+      "groupName": "oshi.packages"
     }
   ]
 }
