@@ -20,7 +20,7 @@
     <dependency>
       <groupId>com.github.oshi</groupId>
       <artifactId>oshi-core-ffm</artifactId>
-      <version>7.0.0</version>
+      <version>${oshi.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
