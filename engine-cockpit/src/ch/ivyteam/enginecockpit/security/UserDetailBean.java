@@ -14,7 +14,6 @@ import ch.ivyteam.enginecockpit.security.model.Role;
 import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.model.User;
-import ch.ivyteam.enginecockpit.security.model.UserProperty;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -100,7 +99,7 @@ public class UserDetailBean {
     canWorkOn = TaskQuery.create(taskQueryExecutor).where().canWorkOn(iUser).executor().count();
 
     notificationChannelDataModel = NotificationChannelDataModel.instance(iUser, securityContext);
-    userProperties = new UserProperty();
+    userProperties = new MemberProperty().new UserProperty();
     userProperties.setMemberName(userName);
   }
 
