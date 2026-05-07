@@ -19,7 +19,9 @@ import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.DatabaseMonitor;
+import ch.ivyteam.enginecockpit.services.help.HelpServices;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
+import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.services.model.DatabaseDto;
@@ -37,7 +39,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
-public class DatabaseDetailBean extends DetailView {
+public class DatabaseDetailBean extends HelpServices implements IConnectionTestResult, PropertyEditor {
 
   private DatabaseDto database;
   private List<ExecStatement> history;

@@ -15,7 +15,7 @@ public interface FeatureEditor {
 
   void saveFeature(boolean isNewFeature);
 
-  public void removeFeature(String name);
+  void removeFeature(String name);
 
   default Feature findFeature(String clazz) {
     return getFeatures().stream()
