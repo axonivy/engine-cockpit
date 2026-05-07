@@ -27,7 +27,7 @@
           <h2 class="m-0">#{ivy.cm.co('/common/NotificationChannels')}</h2>
         </div>
         <cc:SecuritySystemTabs tabChange="#{notificationChannelsBean.onload}" id="securitySystems">
-          <ui:include src="../includes/components/services/notification-channels-table.xhtml" />
+          <cc:Notification-channels-table id="channelsTable" app="#{advisorBean.applicationName}" />  
         </cc:SecuritySystemTabs>
       </div>
     </ui:define>

@@ -53,11 +53,10 @@
               icon="ti ti-pencil" title="#{ivy.cm.co('/common/Edit')}" update="propertyModalForm:propertyModal" disabled="#{property.managed}"
               styleClass="ui-button-secondary rounded-button" oncomplete="PF('propertyModal').show();"
               process="@this" />
-            <p:commandButton id="deletePropertyBtn" type="button" icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"
-              disabled="#{property.managed}" styleClass="ml-1 ui-button-danger rounded-button">
-              <p:ajax listener="#{cc.attrs.memberProperty.removeProperty(property.key)}" update="@form" />
-            </p:commandButton>
-          </p:outputLabel>
+            <p:commandButton id="deletePropertyBtn" icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"
+              disabled="#{property.managed}" styleClass="ml-1 ui-button-danger rounded-button" />
+            <p:ajax listener="#{cc.attrs.memberProperty.removeProperty(property.key)}" update="@form" />
+            </p:outputLabel>
         </p:column>
       </p:dataTable>
     </h:form>
