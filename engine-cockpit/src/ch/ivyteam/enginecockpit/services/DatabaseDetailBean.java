@@ -131,7 +131,6 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     reloadExternalDb();
   }
 
-  @Override
   public void removeProperty(String name) {
     databases.remove(database.getName() + "." + "Properties" + "." + name);
     reloadExternalDb();

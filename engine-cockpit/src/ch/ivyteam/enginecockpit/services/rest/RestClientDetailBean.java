@@ -144,7 +144,6 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     loadRestClient();
   }
 
-  @Override
   public void removeProperty(String name) {
     saveRestClient(restBuilder().removeProperty(name));
     loadRestClient();
@@ -252,7 +251,6 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     this.editFeature = findFeature(clazz);
   }
 
-  @Override
   public void removeFeature(String name) {
     saveRestClient(restBuilder().removeFeature(name));
     loadRestClient();

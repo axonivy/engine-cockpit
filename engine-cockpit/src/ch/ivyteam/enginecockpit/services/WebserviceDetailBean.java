@@ -143,7 +143,6 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     loadWebService();
   }
 
-  @Override
   public void removeProperty(String name) {
     saveWebService(wsBuilder().removeProperty(name));
     loadWebService();
@@ -312,7 +311,6 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     this.editFeature = findFeature(clazz);
   }
 
-  @Override
   public void removeFeature(String name) {
     saveWebService(wsBuilder().removeFeature(name));
     loadWebService();
