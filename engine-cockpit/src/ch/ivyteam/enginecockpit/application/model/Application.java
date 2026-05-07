@@ -86,6 +86,7 @@ public class Application extends AppTreeItem {
     return runningCasesCount;
   }
 
+  @Override
   public String getIcon() {
     return "ti ti-cube";
   }
