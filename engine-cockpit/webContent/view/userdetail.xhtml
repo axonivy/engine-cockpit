@@ -49,9 +49,7 @@
           </div>
 
           <div class="col-12 md:col-12 xl:col-6">
-            <ui:include src="../includes/components/security/member-properties.xhtml">
-              <ui:param name="memberProperty" value="#{userDetailBean.memberProperty}" />
-            </ui:include>
+            <cc:MemberProperties memberProperty="#{userDetailBean.memberProperty}" />
           </div>
 
           <div class="col-12 md:col-12 xl:col-6">
