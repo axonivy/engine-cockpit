@@ -17,6 +17,7 @@ import ch.ivyteam.enginecockpit.security.directory.DirectoryBrowserBean;
 import ch.ivyteam.enginecockpit.security.model.MemberProperty;
 import ch.ivyteam.enginecockpit.security.model.Role;
 import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
+import ch.ivyteam.enginecockpit.security.model.RoleProperty;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.model.User;
 import ch.ivyteam.enginecockpit.security.model.UserDataModel;
@@ -87,7 +88,7 @@ public class RoleDetailBean {
       return;
     }
     var securitySystem = new SecuritySystem(securityContext);
-    roleProperties = new MemberProperty().new RoleProperty();
+    roleProperties = new RoleProperty();
     usersOfRole = new UserDataModel(securitySystem);
     directoryBrowser = new DirectoryBrowserBean();
 

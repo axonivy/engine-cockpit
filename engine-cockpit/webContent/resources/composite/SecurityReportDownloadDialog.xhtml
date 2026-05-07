@@ -4,8 +4,8 @@
   xmlns:p="http://primefaces.org/ui">
 
   <cc:interface>
-    <cc:attribute name="bean" />
-    <cc:attribute name="title" />
+    <cc:attribute name="bean" type="ch.ivyteam.enginecockpit.security.export.SecurityExportBean"/>
+    <cc:attribute name="title" type="java.lang.String"/>
   </cc:interface>
   <cc:implementation>
     <p:dialog style="min-width: 400px; max-width: 600px;" header="#{cc.attrs.title}" id="securityReportDownloadModal" widgetVar="securityReportDownloadModal"

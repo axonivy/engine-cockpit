@@ -20,10 +20,8 @@ import ch.ivyteam.enginecockpit.commons.Feature;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.WebServiceMonitor;
-import ch.ivyteam.enginecockpit.services.help.HelpServices;
 import ch.ivyteam.enginecockpit.services.model.Authenticator;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
-import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.services.model.Webservice;
@@ -40,7 +38,7 @@ import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManage
 
 @ManagedBean
 @ViewScoped
-public class WebserviceDetailBean extends HelpServices implements IConnectionTestResult, PropertyEditor, FeatureEditor {
+public class WebserviceDetailBean extends DetailView implements FeatureEditor {
 
   private Webservice webservice;
   private String webserviceKey;
@@ -143,6 +141,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     loadWebService();
   }
 
+  @Override
   public void removeProperty(String name) {
     saveWebService(wsBuilder().removeProperty(name));
     loadWebService();
@@ -311,6 +310,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     this.editFeature = findFeature(clazz);
   }
 
+  @Override
   public void removeFeature(String name) {
     saveWebService(wsBuilder().removeFeature(name));
     loadWebService();

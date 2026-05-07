@@ -4,8 +4,8 @@
   xmlns:p="http://primefaces.org/ui">
 
 <cc:interface>
-  <cc:attribute name="bean" />
-  <cc:attribute name="title" />
+  <cc:attribute name="bean" type="ch.ivyteam.enginecockpit.download.AllResourcesDownload"/>
+  <cc:attribute name="title" type="java.lang.String"/>
 </cc:interface>
 <cc:implementation>
   <p:dialog style="min-width: 400px;" header="#{cc.attrs.title}" id="downloadModal" widgetVar="downloadModal"

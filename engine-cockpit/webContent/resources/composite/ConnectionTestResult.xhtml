@@ -4,12 +4,12 @@
   xmlns:p="http://primefaces.org/ui"
   xmlns:jc="http://xmlns.jcp.org/jsf/composite/demo-jsfcomponents">
 <cc:interface>
-  <cc:attribute name="url" />
-  <cc:attribute name="result" />
-  <cc:attribute name="reset" />
-  <cc:attribute name="testMethod" />
-  <cc:attribute name="bean" />
-  <cc:attribute name="saveHint" default="false" />
+  <cc:attribute name="url" type="java.lang.String" />
+  <cc:attribute name="result" type="ch.ivyteam.enginecockpit.services.model.ConnectionTestResult" />
+  <cc:attribute name="reset" method-signature="void action()"/>
+  <cc:attribute name="testMethod" type="javax.faces.event.ActionListener" method-signature="void action()" />
+  <cc:attribute name="bean" type="ch.ivyteam.enginecockpit.system.ssl.TlsTesterBean" />
+  <cc:attribute name="saveHint" default="false" type="boolean"/>
 </cc:interface>
 <cc:implementation>
   <p:dialog header="#{ivy.cm.co('/connectionTestResult/ConnectionTestDialogHeader')} #{cc.attrs.url}" id="connectionTestModel" width="70%"
@@ -40,7 +40,7 @@
            update="@form" styleClass="modal-input-button"
            actionListener="#{tlsTesterBean.testConnection(cc.attrs.url)}" />
         <p:commandButton id="testConnectionBtn" title="#{ivy.cm.co('/connectionTestResult/TestConnection')}" update="@form" value="#{ivy.cm.co('/connectionTestResult/TestConnection')}"
-           icon="ti ti-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod};"
+           icon="ti ti-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod}"
            immediate="true" process="@this" async="true" onclick="buttonAddSpinner(this);" action="#{tlsTesterBean.setTlsTestRendered(false)}"/>
       </div>
     </h:form>
