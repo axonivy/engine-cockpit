@@ -56,7 +56,6 @@ public class ProcessModelVersion extends AppTreeItem {
     return runningCasesCount;
   }
 
-  @Override
   public String getIcon() {
     return "ti ti-packages";
   }
