@@ -10,7 +10,6 @@ import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.screenshot;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,26 +34,21 @@ class WebTestRestClientDetail {
     Navigation.toRestClients();
     Tab.APP.switchToDefault();
     Navigation.toRestClientDetail(RESTCLIENT_NAME);
-    screenshot("AfterBeforeEach");
   }
 
   @Test
   void detailOpen() {
-    screenshot("detailOpen_before");
     assertCurrentUrlContains("restclientdetail.xhtml?app=" + Tab.DEFAULT_APP + "&key=" + RESTCLIENT_NAME);
     $$(".card").shouldHave(size(3));
     $("#restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
-    screenshot("detailOpen_before_click");
+
     $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
-    screenshot("detailOpen_after_click");
     $(By.id("helpRestClientDialog:helpServicesModal")).shouldBe(visible);
     $(By.id("helpRestClientDialog:helpServicesForm:codeBlock")).shouldBe(value(RESTCLIENT_NAME), value("sensitive: \"${encrypt:*****}\""));
-    screenshot("detailOpen_after");
   }
 
   @Test
   void restTestConnection() {
-    screenshot("testConnection");
     setUrl("http://localhost");
     setUserName("");
     testAndAssertConnection("Error", "Invalid Url");
@@ -80,7 +74,6 @@ class WebTestRestClientDetail {
 
   @Test
   void restTestSecondRestConnection() {
-    screenshot("restTestSecondRestConnection");
     Navigation.toRestClientDetail("second-rest");
     $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable")).shouldHave(text("MyFakeOAuthFeature"));
     testAndAssertConnection("Error", "Invalid Url");
@@ -100,7 +93,6 @@ class WebTestRestClientDetail {
 
   @Test
   void saveAndResetChanges() {
-    screenshot("saveAndResetChanges");
     setConfiguration("url", "testUser");
     Selenide.refresh();
     checkConfiguration("url", "testUser");
@@ -111,7 +103,6 @@ class WebTestRestClientDetail {
 
   @Test
   void properties() {
-    screenshot("properties");
     var table = new Table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
     table.row("PATH.host").shouldHave(text("test-webservices.ivyteam.io"));
     table.row("password").shouldHave(text("*****"));
@@ -123,7 +114,6 @@ class WebTestRestClientDetail {
 
   @Test
   void addProperty() {
-    screenshot("addProperties");
     var editor = new PropertyEditor("restClientAdditionalConfigForm:restClientPropertiesTable");
     editor.addProperty("testProperty", "testValue");
     editor.deleteProperty("testProperty");
@@ -131,7 +121,6 @@ class WebTestRestClientDetail {
 
   @Test
   void editProperty() {
-    screenshot("editProperty");
     var editor = new PropertyEditor("restClientAdditionalConfigForm:restClientPropertiesTable");
     editor.editProperty("username", "editValue");
     editor.editProperty("username", "admin");
@@ -139,7 +128,6 @@ class WebTestRestClientDetail {
 
   @Test
   void addFeature() {
-    screenshot("addFeature");
     var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable");
     editor.addFeature("TestFeature");
     editor.deleteFeature("TestFeature");
@@ -147,7 +135,6 @@ class WebTestRestClientDetail {
 
   @Test
   void editFeature() {
-    screenshot("editFeature");
     var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable");
     editor.addFeature("TestFeature");
     editor.editFeatureSave("TestFeature", "EditFeature");
@@ -156,7 +143,6 @@ class WebTestRestClientDetail {
 
   @Test
   void addExistingFeature() {
-    screenshot("addExistingFeature");
     var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable");
     editor.addFeature("TestFeature");
     editor.addFeature("TestFeature");
@@ -166,7 +152,6 @@ class WebTestRestClientDetail {
 
   @Test
   void editFeatureCancel() {
-    screenshot("editFeatureCancel");
     var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable");
     editor.addFeature("TestFeature");
     editor.editFeatureCancel("TestFeature");
