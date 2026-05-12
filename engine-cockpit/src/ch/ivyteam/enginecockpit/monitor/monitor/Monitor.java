@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.ChartModel;
 import org.primefaces.model.charts.axes.cartesian.CartesianScaleTitle;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
@@ -163,7 +164,7 @@ public class Monitor {
     return series;
   }
 
-  public LineChartModel getModel() {
+  public ChartModel getModel() {
     calcNewValues();
     return model;
   }
