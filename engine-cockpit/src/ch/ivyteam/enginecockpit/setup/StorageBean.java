@@ -49,7 +49,7 @@ public class StorageBean extends StepStatus {
     this.dataDir = dataDir;
   }
 
-  public String getDataDirHelp() {
+  public String getdataDirHelp() {
     return dataDirHelp;
   }
 
