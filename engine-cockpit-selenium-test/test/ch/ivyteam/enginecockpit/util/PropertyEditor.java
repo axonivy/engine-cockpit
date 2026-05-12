@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.util;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.screenshot;
 
 import org.openqa.selenium.By;
 
@@ -27,7 +28,9 @@ public class PropertyEditor {
 
   public void editProperty(String key, String value) {
     var editEditor = propertyTable + ":" + table.getRowNumber(key) + ":editPropertyEditor:";
+    screenshot("editProperty_table");
     table.clickButtonForEntry(key, "editPropertyEditor:editPropertyBtn");
+    screenshot("editProperty_Entry");
     $(By.id(editEditor + "propertyForm:valueInput")).clear();
     $(By.id(editEditor + "propertyForm:valueInput")).sendKeys(value);
     $(By.id(editEditor + "propertyForm:saveProperty")).click();
