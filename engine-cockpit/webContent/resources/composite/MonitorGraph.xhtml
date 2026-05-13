@@ -3,8 +3,8 @@
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
-  <cc:attribute name="monitor" shortDescription="Monitor object" />
-  <cc:attribute name="id" shortDescription="div id" />
+  <cc:attribute name="monitor" shortDescription="Monitor object" type="ch.ivyteam.enginecockpit.monitor.monitor.Monitor" />
+  <cc:attribute name="id" shortDescription="div id" type="java.lang.String" />
 </cc:interface>
 <cc:implementation>
   <div class="col-12 lg:col-6" id="#{cc.attrs.id}">

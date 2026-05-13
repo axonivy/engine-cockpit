@@ -4,19 +4,20 @@
   xmlns:p="http://primefaces.org/ui"
   xmlns:jc="http://xmlns.jcp.org/jsf/composite/demo-jsfcomponents">
 <cc:interface>
-  <cc:attribute name="bean" />
-  <cc:attribute name="formName" />
-  <cc:attribute name="isNewProperty" />
-</cc:interface>
+  <cc:attribute name="bean" type="ch.ivyteam.enginecockpit.services.DetailView"/>
+  <cc:attribute name="formName" type="java.lang.String"/>
+  <cc:attribute name="isNewProperty" type="boolean"/>
+  <cc:attribute name="property" type="ch.ivyteam.enginecockpit.commons.Property"/>
+</cc:interface> 
 <cc:implementation>
   <p:commandButton id="editPropertyBtn"
-    actionListener="#{cc.attrs.bean.setProperty(property.name)}"
+    actionListener="#{cc.attrs.bean.setProperty(cc.attrs.property.name)}"
     icon="ti ti-pencil" title="#{ivy.cm.co('/common/Edit')}"
     update="propertyModal" rendered="#{!cc.attrs.isNewProperty}"
     styleClass="flex-shrink-0 ml-1 ui-button-secondary rounded-button"
     oncomplete="PF('propertyModal').show();" process="@this" />
-  <p:commandButton id="deletePropertyBtn" disabled="#{property.default}"
-    actionListener="#{cc.attrs.bean.removeProperty(property.name)}"
+  <p:commandButton id="deletePropertyBtn" disabled="#{cc.attrs.property.default}"
+    actionListener="#{cc.attrs.bean.removeProperty(cc.attrs.property.name)}"
     update="#{cc.attrs.formName}" icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"
     rendered="#{!cc.attrs.isNewProperty}" process="@this"
     styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />

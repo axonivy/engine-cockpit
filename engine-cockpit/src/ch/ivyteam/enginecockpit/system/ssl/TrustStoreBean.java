@@ -3,8 +3,10 @@ package ch.ivyteam.enginecockpit.system.ssl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.security.Security;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -50,18 +52,22 @@ public class TrustStoreBean implements SslTableStore {
     this.enableInsecureSSL = sslClientSettings.getEnableInsecureSSL();
   }
 
+  @Override
   public String getFile() {
     return file;
   }
 
+  @Override
   public String getPassword() {
     return String.valueOf(password);
   }
 
+  @Override
   public String getProvider() {
     return provider;
   }
 
+  @Override
   @SuppressWarnings("hiding")
   public List<String> getProviders() {
     List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders())
@@ -71,28 +77,34 @@ public class TrustStoreBean implements SslTableStore {
     return providers;
   }
 
+  @Override
   public String getType() {
     return type;
   }
 
+  @Override
   public List<String> getTypes() {
     List<String> types = new ArrayList<>(SecurityProviders.getTypes(getProvider()));
     types.add("");
     return types;
   }
 
+  @Override
   public String getAlgorithm() {
     return algorithm;
   }
 
+  @Override
   public List<String> getAlgorithms() {
     return SecurityProviders.getAlgorithms("TrustManagerFactory");
   }
 
+  @Override
   public void setFile(String file) {
     this.file = file;
   }
 
+  @Override
   public void setPassword(String password) {
     if (password.isBlank()) {
       return;
@@ -100,14 +112,17 @@ public class TrustStoreBean implements SslTableStore {
     this.password = password.toCharArray();
   }
 
+  @Override
   public void setProvider(String provider) {
     this.provider = provider;
   }
 
+  @Override
   public void setType(String type) {
     this.type = type;
   }
 
+  @Override
   public void setAlgorithm(String algorithm) {
     this.algorithm = algorithm;
   }
@@ -120,7 +135,8 @@ public class TrustStoreBean implements SslTableStore {
     this.enableInsecureSSL = enableInsecureSSL;
   }
 
-  public void saveTrustStore() {
+  @Override
+  public void save() {
     store.setFile(file);
     store.setPassword(String.valueOf(password));
     store.setProvider(provider);
@@ -151,6 +167,7 @@ public class TrustStoreBean implements SslTableStore {
     }
   }
 
+  @Override
   public boolean isKeystore() {
     return false;
   }
@@ -169,6 +186,7 @@ public class TrustStoreBean implements SslTableStore {
       }
   }
 
+  @Override
   public List<StoredCert> getCertificats() {
     try {
       setCertificateLoadError(null);
@@ -192,12 +210,28 @@ public class TrustStoreBean implements SslTableStore {
     return new KeyStoreUtils(file, type, provider, password);
   }
 
+  @Override
   public String getCertificateLoadError() {
     return certificateLoadError;
   }
 
+  @Override
   public void setCertificateLoadError(String certificateLoadError) {
     this.certificateLoadError = certificateLoadError;
   }
+
+  @Override
+  public String getStorePassword() {
+    return "";
+  }
+
+  @Override
+  public String getStoreKeyPassword() {
+    return "";
+  }
+
+  @Override
+  public void confirmPassword()
+      throws CertificateException, KeyStoreException, IOException, UnrecoverableKeyException, NoSuchAlgorithmException {}
 
 }
