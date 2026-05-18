@@ -46,12 +46,6 @@
               <p:ajax update="deployOptionsPanel" event="valueChange" />
               <f:selectItems value="#{deploymentBean.deployOptions.deployTestUsersValues}" />
             </p:selectOneMenu>
-        
-            <p:outputLabel value="#{ivy.cm.co('/common/State')}" for="state" />
-            <p:selectOneMenu value="#{deploymentBean.deployOptions.state}" widgetVar="state" id="state">
-              <p:ajax update="deployOptionsPanel" event="valueChange" />
-              <f:selectItems value="#{deploymentBean.deployOptions.states}" />
-            </p:selectOneMenu>
           </p:panelGrid>
         </div>
         <div class="flex justify-content-end mt-4 pt-3" style="border-top-width: 1px; border-top-style: solid; border-color: #e5e7eb">

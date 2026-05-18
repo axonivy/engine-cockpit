@@ -105,8 +105,7 @@ public class DeploymentBean {
     var log = DeployLog.of(new Log4j2DeploymentLogger(), deploymentLogger);
 
     var deploymentOptions = DeploymentOptions.create()
-        .deployTestUsers(deployOptions.getDeployTestUsers())
-        .targetState(deployOptions.getState())
+        .deployTestUsers(deployOptions.getDeployTestUsers())        
         .toOptions();
 
     var projectDeployable = Deployable.create()
