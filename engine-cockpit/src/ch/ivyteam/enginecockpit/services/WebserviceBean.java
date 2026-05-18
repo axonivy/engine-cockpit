@@ -3,14 +3,14 @@ package ch.ivyteam.enginecockpit.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class WebserviceBean {
   private List<Webservice> webservices;

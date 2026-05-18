@@ -1,9 +1,9 @@
 package ch.ivyteam.enginecockpit.monitor.session;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class SessionBean {
 

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.ivy.application.ActivityState;

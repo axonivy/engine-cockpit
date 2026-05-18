@@ -2,8 +2,8 @@ package ch.ivyteam.enginecockpit.monitor.system.overview;
 
 import java.util.Objects;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import org.primefaces.event.ResizeEvent;
 import org.primefaces.model.diagram.Connection;
@@ -22,7 +22,7 @@ import ch.ivyteam.ivy.trace.SystemOverview.CommunicationChannel;
 import ch.ivyteam.ivy.trace.SystemOverview.SystemLink;
 import ch.ivyteam.ivy.trace.Tracer;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class TrafficGraphBean {
 

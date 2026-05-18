@@ -2,13 +2,13 @@ package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class MailClientMonitorBean {
   private static final String EXTERNAL_MAIL_SERVER = "ivy Engine:name=External Mail Server";

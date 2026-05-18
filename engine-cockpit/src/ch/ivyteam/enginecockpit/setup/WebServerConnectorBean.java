@@ -1,15 +1,15 @@
 package ch.ivyteam.enginecockpit.setup;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class WebServerConnectorBean extends StepStatus {
   private static final String ENABLED = "Enabled";
