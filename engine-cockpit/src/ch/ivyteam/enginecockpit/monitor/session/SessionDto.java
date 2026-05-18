@@ -38,9 +38,10 @@ public class SessionDto {
     this.isUserInternal = session.isSessionUserSystemUser() || session.isSessionUserUnknown() || isSecuritySystemInternal;
     this.link = SecuritySystem.link(session.getSecurityContext());
     this.authMode = StringUtils.trimToEmpty(session.getAuthenticationMode());
-    this.httpSessions = session.getHttpSessions().stream()
-        .map(HttpSessionDto::new)
-        .collect(Collectors.toSet());
+    this.httpSessions = Set.of();
+    // session.getHttpSessions().stream()
+    //     .map(HttpSessionDto::new)
+    //     .collect(Collectors.toSet());
     this.isTemporary = session.isTemporary();
   }
 
