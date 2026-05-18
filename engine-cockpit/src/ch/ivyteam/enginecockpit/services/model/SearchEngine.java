@@ -47,14 +47,15 @@ public class SearchEngine {
   }
 
   public Optional<String> executeRequest(String path) {
-    var client = ISearchEngineServer.instance().getClient().client();
-    try (var response = client.target(getServerUrl() + path).request().get()) {
-      var node = response.readEntity(JsonNode.class);
-      if (node == null) {
-        return Optional.empty();
-      }
-      return Optional.of(node.toPrettyString());
-    }
+    return Optional.empty();
+    // var client = ISearchEngineServer.instance().getClient().client();
+    // try (var response = client.target(getServerUrl() + path).request().get()) {
+    //   var node = response.readEntity(JsonNode.class);
+    //   if (node == null) {
+    //     return Optional.empty();
+    //   }
+    //   return Optional.of(node.toPrettyString());
+    // }
   }
 
   public Watermark getWatermark() {
