@@ -69,9 +69,11 @@ public class RestTestRunner {
   }
 
   private WebTarget createClient() {
-    return new ch.ivyteam.ivy.rest.client.internal.ExternalRestWebService(app, uiClient)
-        .getWebTargetFactory()
-        .create();
+    return null;
+    // FIXME:
+    // return new ch.ivyteam.ivy.rest.client.internal.ExternalRestWebService(app, uiClient)
+    //     .getWebTargetFactory()
+    //     .create();
   }
 
   static ConnectionTestResult toTestResult(StatusType status, String successMsg, String notUnderstandRequestMsg,
