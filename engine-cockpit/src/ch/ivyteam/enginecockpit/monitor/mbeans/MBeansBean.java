@@ -8,8 +8,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 import javax.management.Attribute;
 import javax.management.InstanceNotFoundException;
 import javax.management.IntrospectionException;
@@ -25,7 +25,7 @@ import org.primefaces.model.TreeNode;
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.log.Logger;
 
-@ManagedBean(name = "mBeansBean")
+@Named("mBeansBean")
 @ViewScoped
 public class MBeansBean {
 

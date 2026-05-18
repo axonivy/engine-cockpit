@@ -3,8 +3,8 @@ package ch.ivyteam.enginecockpit.application;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.ivy.application.internal.app.move.ApplicationMover;
@@ -14,7 +14,7 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISecurityManager;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class MoveApplicationBean {
 

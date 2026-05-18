@@ -4,8 +4,8 @@ import java.lang.management.ManagementFactory;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
@@ -13,7 +13,7 @@ import ch.ivyteam.enginecockpit.monitor.events.intermediate.IntermediateEvent;
 import ch.ivyteam.enginecockpit.util.ErrorHandler;
 import ch.ivyteam.log.Logger;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class IntermediateEventBean {
   private static final Logger LOGGER = Logger.getPackageLogger(StartEventBean.class);

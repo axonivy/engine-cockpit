@@ -7,10 +7,10 @@ import java.nio.file.StandardCopyOption;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
 
 import org.primefaces.model.file.UploadedFile;
 
@@ -22,7 +22,7 @@ import ch.ivyteam.ivy.deployment.DeploymentRunner;
 import ch.ivyteam.ivy.deployment.log.impl.Log4j2DeploymentLogger;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class DeploymentBean {
 

@@ -1,11 +1,11 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class SystemDatabaseMonitorBean {
   private final SystemDatabase DATABASE = new SystemDatabase();

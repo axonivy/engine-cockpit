@@ -10,15 +10,15 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 
 import java.lang.management.ManagementFactory;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class JvmMonitorBean {
   private final Monitor cpuMonitor = Monitor.build().name(cm().co("/monitor/CPULoad"))

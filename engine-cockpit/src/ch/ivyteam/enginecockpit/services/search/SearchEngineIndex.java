@@ -1,6 +1,6 @@
 package ch.ivyteam.enginecockpit.services.search;
 
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 
 import ch.ivyteam.enginecockpit.services.model.SearchEngine.SearchEngineHealth;
 import ch.ivyteam.ivy.environment.Ivy;

@@ -2,8 +2,8 @@ package ch.ivyteam.enginecockpit.profile;
 
 import java.util.Locale;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -13,7 +13,7 @@ import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.ISessionInternal;
 import ch.ivyteam.ivy.security.administrator.AdministratorService;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class ProfileBean {
 

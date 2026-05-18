@@ -2,8 +2,8 @@ package ch.ivyteam.enginecockpit.security.model;
 
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.environment.Ivy;

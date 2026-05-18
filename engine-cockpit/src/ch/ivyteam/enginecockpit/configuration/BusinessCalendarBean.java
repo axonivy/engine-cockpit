@@ -1,8 +1,8 @@
 package ch.ivyteam.enginecockpit.configuration;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.Strings;
 import org.primefaces.model.DefaultTreeNode;
@@ -14,7 +14,7 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;
 import ch.ivyteam.ivy.scripting.objects.Tree;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
 
