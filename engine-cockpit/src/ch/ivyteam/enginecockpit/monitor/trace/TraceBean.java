@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.trace;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
@@ -7,12 +8,12 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIColumn;
-import javax.faces.component.UIComponent;
-import javax.faces.component.ValueHolder;
-import javax.faces.context.FacesContext;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.component.UIColumn;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.ValueHolder;
+import jakarta.faces.context.FacesContext;
 
 import org.primefaces.util.ComponentUtils;
 
@@ -23,9 +24,9 @@ import ch.ivyteam.ivy.trace.Trace;
 import ch.ivyteam.ivy.trace.TraceSpan;
 import ch.ivyteam.ivy.trace.Tracer;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class TraceBean {
+public class TraceBean implements Serializable {
 
   private static final double ONE_MILLION = 1_000_000d;
   private final Tracer tracer = Tracer.instance();

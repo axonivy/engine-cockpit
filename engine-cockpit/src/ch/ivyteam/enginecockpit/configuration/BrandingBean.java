@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.configuration;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -13,10 +14,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
 import javax.naming.directory.InvalidAttributesException;
 
 import org.apache.commons.io.FilenameUtils;
@@ -37,9 +38,9 @@ import ch.ivyteam.ivy.application.branding.BrandingIO;
 import ch.ivyteam.ivy.application.branding.BrandingResolver;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class BrandingBean implements AllResourcesDownload {
+public class BrandingBean implements AllResourcesDownload, Serializable {
 
   private static final Map<String, String> RESOURCE_NAMES = Map.of("logo", Ivy.cm().co("/branding/LogoHelperMessage"),
       "logo_light", Ivy.cm().co("/branding/LogoLightHelperMessage"),

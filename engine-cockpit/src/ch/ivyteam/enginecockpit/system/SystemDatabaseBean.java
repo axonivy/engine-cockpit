@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -8,10 +9,10 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
 
 import org.apache.commons.lang3.Strings;
 
@@ -32,9 +33,9 @@ import ch.ivyteam.ivy.persistence.db.init.SystemDatabaseSetup;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class SystemDatabaseBean extends StepStatus {
+public class SystemDatabaseBean extends StepStatus implements Serializable {
   public static String HSQL_DB = "org.hsqldb";
 
   private DatabaseProduct product;

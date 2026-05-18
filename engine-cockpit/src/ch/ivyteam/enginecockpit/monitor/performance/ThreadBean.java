@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor.performance;
 
 import java.io.ByteArrayInputStream;
+import java.io.Serializable;
 import java.lang.Thread.State;
 import java.lang.management.LockInfo;
 import java.lang.management.ManagementFactory;
@@ -14,10 +15,10 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
 import javax.management.ObjectName;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,9 +31,9 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 import static ch.ivyteam.ivy.environment.Ivy.cm;
 
-@ManagedBean
+@Named
 @SessionScoped
-public class ThreadBean {
+public class ThreadBean implements Serializable {
 
   private List<Info> threads;
   private List<Info> filteredThreads;

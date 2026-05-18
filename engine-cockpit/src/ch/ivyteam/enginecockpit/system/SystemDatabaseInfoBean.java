@@ -1,10 +1,11 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.monitor.trace.BackgroundMeterUtil;
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
@@ -17,9 +18,9 @@ import ch.ivyteam.ivy.persistence.db.info.SystemDbInfo;
 import ch.ivyteam.ivy.persistence.db.info.SystemDbTable;
 import ch.ivyteam.ivy.persistence.db.info.SystemDbTrigger;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class SystemDatabaseInfoBean {
+public class SystemDatabaseInfoBean implements Serializable {
   private SystemDbInfo systemDbInfo;
   private List<SystemDbTable> tables;
   private List<SystemDbIndex> indexes;

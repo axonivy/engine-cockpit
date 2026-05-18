@@ -1,14 +1,16 @@
 package ch.ivyteam.enginecockpit.security;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+
+import java.io.Serializable;
 
 import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class RoleBean {
+public class RoleBean implements Serializable {
 
   private final ManagerBean managerBean;
   private RoleDataModel roleDataModel;

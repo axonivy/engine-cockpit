@@ -1,13 +1,15 @@
 package ch.ivyteam.enginecockpit.system;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+
+import java.io.Serializable;
 
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 
-@ManagedBean
+@Named
 @SessionScoped
-public class EngineModeBean {
+public class EngineModeBean implements Serializable {
   public boolean isDemo() {
     return EngineMode.is(EngineMode.DEMO);
   }

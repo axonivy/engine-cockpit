@@ -2,15 +2,16 @@ package ch.ivyteam.enginecockpit.security.system;
 
 import static ch.ivyteam.ivy.security.ISecurityContext.DEFAULT;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
@@ -22,9 +23,9 @@ import ch.ivyteam.ivy.security.identity.core.IdentityProviderRegistry;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.internal.context.SecurityContext;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class SecurityBean {
+public class SecurityBean implements Serializable {
 
   private List<SecuritySystem> systems;
   private List<SecuritySystem> filteredSystems;

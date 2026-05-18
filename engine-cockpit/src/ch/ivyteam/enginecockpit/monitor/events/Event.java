@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.management.ObjectName;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.setup.migration;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,8 +10,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.primefaces.event.FileUploadEvent;
@@ -22,9 +23,9 @@ import ch.ivyteam.ivy.engine.migration.EngineMigrator.Check;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.licence.NewLicenceFileInstaller;
 
-@ManagedBean
+@Named
 @ApplicationScoped
-public class MigrationBean {
+public class MigrationBean implements Serializable {
 
   private String pathToOldEngine;
   private EngineMigrator migrator;

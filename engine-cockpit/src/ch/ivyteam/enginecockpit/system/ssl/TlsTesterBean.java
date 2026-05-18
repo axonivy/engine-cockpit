@@ -1,19 +1,20 @@
 package ch.ivyteam.enginecockpit.system.ssl;
 
+import java.io.Serializable;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.ivy.ssl.restricted.tester.TLSTest;
 import ch.ivyteam.ivy.ssl.restricted.tester.TLSTestData;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class TlsTesterBean {
+public class TlsTesterBean implements Serializable {
 
   private String uri;
   private boolean tlsTestRendered;

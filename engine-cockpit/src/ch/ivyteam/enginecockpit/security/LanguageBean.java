@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -7,17 +8,17 @@ import java.util.Locale;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.language.LanguageManager;
 import ch.ivyteam.ivy.language.LanguageRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class LanguageBean {
+public class LanguageBean implements Serializable {
 
   public List<Locale> getContentLanguages(ISecurityContext securityContext) {
     return locales(securityContext, LanguageRepository::allContent);

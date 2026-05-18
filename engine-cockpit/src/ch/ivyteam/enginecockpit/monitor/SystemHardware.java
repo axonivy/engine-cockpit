@@ -1,8 +1,8 @@
 package ch.ivyteam.enginecockpit.monitor;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
 
 import oshi.ffm.SystemInfo;
 import oshi.hardware.CentralProcessor;
@@ -11,7 +11,7 @@ import oshi.hardware.HWDiskStore;
 import oshi.hardware.HardwareAbstractionLayer;
 import oshi.hardware.NetworkIF;
 
-@ManagedBean
+@Named
 @RequestScoped
 public class SystemHardware {
 

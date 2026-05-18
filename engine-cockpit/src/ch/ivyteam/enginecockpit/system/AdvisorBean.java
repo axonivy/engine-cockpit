@@ -1,19 +1,20 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.io.Serializable;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
 
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
-@ManagedBean
+@Named
 @SessionScoped
-public class AdvisorBean {
+public class AdvisorBean implements Serializable {
 
   public String getApplicationName() {
     return Advisor.getAdvisor().getApplicationName();

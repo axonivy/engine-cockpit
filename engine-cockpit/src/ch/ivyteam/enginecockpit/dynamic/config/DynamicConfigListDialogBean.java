@@ -1,13 +1,15 @@
 package ch.ivyteam.enginecockpit.dynamic.config;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+
+import java.io.Serializable;
 
 import ch.ivyteam.enginecockpit.dynamic.config.ConfigProperty.KeyValueProperty;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class DynamicConfigListDialogBean {
+public class DynamicConfigListDialogBean implements Serializable {
 
   private KeyValueProperty property;
 

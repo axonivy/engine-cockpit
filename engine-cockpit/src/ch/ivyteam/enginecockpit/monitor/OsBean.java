@@ -9,21 +9,22 @@ import static ch.ivyteam.ivy.environment.Ivy.cm;
 import static java.lang.String.join;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.util.function.DoubleSupplier;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class OsBean {
+public class OsBean implements Serializable {
   private final Monitor memoryMonitor = Monitor.build().name(cm().co("/monitor/Memory"))
       .icon("ti ti-chart-line")
       .yAxisLabel(cm().co("/monitor/Memory"))

@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.monitor.log;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -9,10 +10,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
@@ -25,9 +26,9 @@ import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.log.provider.LogFileRepository;
 import ch.ivyteam.ivy.log.provider.LogFileZipper;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class LogBean implements AllResourcesDownload {
+public class LogBean implements AllResourcesDownload, Serializable {
 
   private List<LogView> logs;
   private LocalDate date;

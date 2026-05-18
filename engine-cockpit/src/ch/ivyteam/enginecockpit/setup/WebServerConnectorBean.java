@@ -1,17 +1,19 @@
 package ch.ivyteam.enginecockpit.setup;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+
+import java.io.Serializable;
 
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class WebServerConnectorBean extends StepStatus {
+public class WebServerConnectorBean extends StepStatus implements Serializable {
   private static final String ENABLED = "Enabled";
   private static final String PORT = "Port";
   private static final String CONNECTOR_HTTP = "Connector.HTTP.";

@@ -1,22 +1,23 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.request.EngineUriResolver;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class WebServerBean {
+public class WebServerBean implements Serializable {
   private final static List<String> CHECK_SECURITY_HEADERS = List.of("X-Frame-Options", "Referrer-Policy", "Content-Security-Policy", "X-Content-Type-Options", "Strict-Transport-Security");
   private String baseUrl;
   private boolean showRequestHeaders = false;
