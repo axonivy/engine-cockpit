@@ -8,8 +8,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
@@ -30,7 +30,7 @@ import ch.ivyteam.enginecockpit.util.ErrorHandler;
 import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.log.Logger;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class JfrBean {
 

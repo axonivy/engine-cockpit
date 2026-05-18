@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.ws.rs.ProcessingException;
-import javax.ws.rs.client.Entity;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.ws.rs.ProcessingException;
+import jakarta.ws.rs.client.Entity;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -36,7 +36,7 @@ import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManager;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class WebserviceDetailBean extends DetailView implements FeatureEditor {
 

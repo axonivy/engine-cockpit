@@ -2,8 +2,8 @@ package ch.ivyteam.enginecockpit.services;
 
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.commons.Property;
 

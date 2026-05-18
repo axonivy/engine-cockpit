@@ -13,15 +13,15 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.util.function.DoubleSupplier;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class OsBean {
   private final Monitor memoryMonitor = Monitor.build().name(cm().co("/monitor/Memory"))

@@ -1,11 +1,11 @@
 package ch.ivyteam.enginecockpit.monitor.blob;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class BlobsBean {
 

@@ -1,15 +1,15 @@
 package ch.ivyteam.enginecockpit.security;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.security.model.UserDataModel;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class UserBean {
 

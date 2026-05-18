@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.services.model.DatabaseDto;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.db.Databases;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class DatabaseBean {
 

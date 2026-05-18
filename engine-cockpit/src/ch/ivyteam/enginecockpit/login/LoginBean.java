@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +22,7 @@ import ch.ivyteam.ivy.security.identity.spi.auth.oauth2.OAuth2Authenticator;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 
-@ManagedBean
+@Named
 @SessionScoped
 public class LoginBean {
 

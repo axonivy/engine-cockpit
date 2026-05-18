@@ -2,7 +2,7 @@ package ch.ivyteam.enginecockpit.commons;
 
 import java.util.function.Predicate;
 
-import javax.faces.model.SelectItem;
+import jakarta.faces.model.SelectItem;
 
 public class ContentFilter<T> {
 

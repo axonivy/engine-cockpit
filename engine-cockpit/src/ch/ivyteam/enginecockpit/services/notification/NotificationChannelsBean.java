@@ -3,13 +3,13 @@ package ch.ivyteam.enginecockpit.services.notification;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class NotificationChannelsBean {
 

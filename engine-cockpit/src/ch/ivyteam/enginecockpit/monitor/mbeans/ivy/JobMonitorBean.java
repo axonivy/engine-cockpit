@@ -2,8 +2,8 @@ package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
@@ -11,7 +11,7 @@ import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class JobMonitorBean {
   private static final ObjectName JOB_MANAGER;

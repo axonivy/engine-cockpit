@@ -13,8 +13,8 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
 import javax.management.MalformedObjectNameException;
@@ -29,7 +29,7 @@ import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.log.Logger;
 
-@ManagedBean
+@Named
 @SessionScoped
 public class ClassHistogramBean {
 

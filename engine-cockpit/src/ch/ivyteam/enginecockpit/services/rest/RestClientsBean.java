@@ -3,14 +3,14 @@ package ch.ivyteam.enginecockpit.services.rest;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.services.model.RestClientDto;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.rest.client.RestClients;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class RestClientsBean {
 

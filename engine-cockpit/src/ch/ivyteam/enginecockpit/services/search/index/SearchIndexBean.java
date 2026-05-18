@@ -1,14 +1,14 @@
 package ch.ivyteam.enginecockpit.services.search.index;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.services.search.SearchEngineIndex;
 import ch.ivyteam.enginecockpit.services.search.SearchEngineIndexDataModel;
 import ch.ivyteam.ivy.searchengine.ISearchEngineManager;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class SearchIndexBean {
 

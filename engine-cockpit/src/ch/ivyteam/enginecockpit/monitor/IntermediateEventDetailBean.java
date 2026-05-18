@@ -2,10 +2,10 @@ package ch.ivyteam.enginecockpit.monitor;
 
 import java.util.Hashtable;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
@@ -13,7 +13,7 @@ import ch.ivyteam.enginecockpit.monitor.events.intermediate.IntermediateEvent;
 import ch.ivyteam.enginecockpit.monitor.performance.jfr.JfrBean;
 import ch.ivyteam.log.Logger;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class IntermediateEventDetailBean {
 

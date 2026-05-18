@@ -4,10 +4,10 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -21,7 +21,7 @@ import ch.ivyteam.ivy.security.identity.core.config.IdpKey;
 import ch.ivyteam.ivy.security.internal.context.SecurityContext;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class SecurityProviderBean {
 

@@ -2,10 +2,10 @@ package ch.ivyteam.enginecockpit.application;
 
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
 
 import org.apache.commons.lang3.Strings;
 import org.primefaces.model.DefaultTreeNode;
@@ -22,7 +22,7 @@ import ch.ivyteam.ivy.application.app.NewApplication;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityManager;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class ApplicationBean extends TreeView<AppTreeItem> {
   private boolean processing;
