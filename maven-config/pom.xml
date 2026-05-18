@@ -20,6 +20,18 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.primefaces</groupId>
+      <artifactId>primefaces</artifactId>
+      <version>13.0.24-LTS</version>
+      <classifier>jakarta</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.primefaces.extensions</groupId>
+      <artifactId>primefaces-extensions</artifactId>
+      <version>13.0.21</version>
+      <classifier>jakarta</classifier>
+    </dependency>
+    <dependency>
       <groupId>com.axonivy.ivy.api</groupId>
       <artifactId>ivy-api</artifactId>
     </dependency>
