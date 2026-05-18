@@ -59,6 +59,12 @@
       <version>6.1.0</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>jakarta.xml.ws</groupId>
+      <artifactId>jakarta.xml.ws-api</artifactId>
+      <version>4.0.3</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>
