@@ -1,31 +1,34 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
-<!-- app: ch.ivyteam.enginecockpit.application.model.Application-->
-<!-- securitySystem: ch.ivyteam.enginecockpit.security.model.SecuritySystem-->
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+  xmlns:pe="http://primefaces.org/ui/extensions">
+<cc:interface>
+  <cc:attribute name="app" type="ch.ivyteam.enginecockpit.application.model.Application" required="true" /> 
+  <cc:attribute name="securitySystem" type="ch.ivyteam.enginecockpit.security.model.SecuritySystem" required="true" />
+</cc:interface>
 
+<cc:implementation>
 <h:form id="tableForm">
   <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-    var="user" value="#{userBean.userDataModel}" widgetVar="usersTable_#{app.id}" lazy="true" styleClass="userTable"
+    var="user" value="#{userBean.userDataModel}" widgetVar="usersTable_#{cc.attrs.app.id}" lazy="true" styleClass="userTable"
     id="userTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
     <f:facet name="header">
       <div class="flex">
         <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
           <i class="ti ti-search"/>
-          <p:inputText id="globalFilter" onkeyup="PF('usersTable_#{app.id}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{userBean.userDataModel.filter}" />
+          <p:inputText id="globalFilter" onkeyup="PF('usersTable_#{cc.attrs.app.id}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{userBean.userDataModel.filter}" />
         </span>
         <p:commandButton id="filterBtn" title="#{ivy.cm.co('/usersTable/Filter')} #{userBean.userDataModel.contentFilterText}" type="button" icon="ti ti-filter"
-          styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button" onclick="PF('filterPanel_#{securitySystem.id}').show();" />
-        <p:overlayPanel id="filterPanel" for="filterBtn" widgetVar="filterPanel_#{securitySystem.id}" styleClass="table-content-filter">
+          styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button" onclick="PF('filterPanel_#{cc.attrs.securitySystem.id}').show();" />
+        <p:overlayPanel id="filterPanel" for="filterBtn" widgetVar="filterPanel_#{cc.attrs.securitySystem.id}" styleClass="table-content-filter">
           <p:selectManyCheckbox id="filterCheckboxes" layout="grid" columns="1" value="#{userBean.userDataModel.selectedContentFilters}">
             <f:selectItems value="#{userBean.userDataModel.contentFilters}"/>
           </p:selectManyCheckbox>
 
           <h:panelGroup layout="block" styleClass="mt-1 flex justify-content-end">
             <p:commandButton id="cancelFilter" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-flat ui-button-secondary modal-input-button"
-              onclick="PF('filterPanel_#{securitySystem.id}').hide();" type="button" />
+              onclick="PF('filterPanel_#{cc.attrs.securitySystem.id}').hide();" type="button" />
             <p:commandButton id="resetFilterBtn" value="#{ivy.cm.co('/common/Reset')}" styleClass="ml-1 ui-button-secondary modal-input-button" icon="ti ti-circle-x"
               update="@form" actionListener="#{userBean.userDataModel.resetSelectedContentFilters()}" />
             <p:commandButton id="applyFilter" value="#{ivy.cm.co('/common/Apply')}" styleClass="ml-1 modal-input-button" icon="ti ti-check"
@@ -66,6 +69,7 @@
     </p:column>
   </p:dataTable>
 </h:form>
+</cc:implementation>
 
 </html>
 

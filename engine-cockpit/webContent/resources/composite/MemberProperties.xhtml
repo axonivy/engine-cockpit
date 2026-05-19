@@ -9,15 +9,15 @@
 </cc:interface>
 
 <cc:implementation>
-<h:form id="propertiesForm">
 <div class="card">
+  <h:form id="propertiesForm">
     <p:growl for="propertiesMessage" id="propertiesMessage" showDetail="true" />
     <div class="card-header">
       <div class="card-title flex align-items-center">
         <i class="pr-3 ti ti-settings"></i>
         <h6 class="m-0">#{ivy.cm.co('/common/Properties')}</h6>
         <p:commandButton id="newPropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
-          actionListener="#{cc.attrs.memberProperty.setProperty(null)}"  update=":#{cc.clientId}:propertiesForm:propertyModal" title="#{ivy.cm.co('/common/Add')}"
+          actionListener="#{cc.attrs.memberProperty.setProperty(null)}" update=":#{cc.clientId}:propertyModalForm:propertyModal" title="#{ivy.cm.co('/common/Add')}"
           icon="ti ti-plus" styleClass="flex-shrink-0 ml-auto rounded-button" />
       </div>
     </div>
@@ -51,7 +51,7 @@
       <p:column styleClass="table-btn-2">
         <p:outputLabel>
           <p:commandButton id="editPropertyBtn" actionListener="#{cc.attrs.memberProperty.setProperty(property)}"
-            icon="ti ti-pencil" title="#{ivy.cm.co('/common/Edit')}" update=":#{cc.clientId}:propertiesForm:propertyModal" disabled="#{property.managed}"
+            icon="ti ti-pencil" title="#{ivy.cm.co('/common/Edit')}" update=":#{cc.clientId}:propertyModalForm:propertyModal" disabled="#{property.managed}"
             styleClass="ui-button-secondary rounded-button" oncomplete="PF('propertyModal').show();"
             process="@this" />
           <p:commandButton id="deletePropertyBtn" type="button" icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"
@@ -61,7 +61,10 @@
         </p:outputLabel>
       </p:column>
     </p:dataTable>
+  </h:form>
+</div>
 
+<h:form id="propertyModalForm">
   <p:dialog width="auto" header="#{ivy.cm.co('/memberProperties/Property')}" id="propertyModal" widgetVar="propertyModal" modal="true" responsive="true"
     closeOnEscape="true">
     <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
@@ -89,7 +92,6 @@
         styleClass="modal-input-button" />
     </f:facet>
   </p:dialog>
-</div>
 </h:form>
 </cc:implementation>
 

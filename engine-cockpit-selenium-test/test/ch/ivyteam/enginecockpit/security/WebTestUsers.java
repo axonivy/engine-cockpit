@@ -157,7 +157,7 @@ class WebTestUsers {
   }
 
   private String contentFilterSelector() {
-    return SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + "\\:tableForm\\:userTable\\:";
+    return SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + "\\:usersTable\\:tableForm\\:userTable\\:";
   }
 
   @Test
