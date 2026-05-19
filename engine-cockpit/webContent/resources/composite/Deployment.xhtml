@@ -62,7 +62,7 @@
             type="button" styleClass="ui-button-secondary ui-button-outlined mr-2" />
           <p:commandButton id="uploadBtn" icon="ti ti-upload" value="#{ivy.cm.co('/deployment/Deploy')}" 
             actionListener="#{deploymentBean.uploadAndDeploy}" disabled="#{!deploymentBean.isFileSet()}"
-            update="fileUploadResponse fileUploadForm"/>
+            update=":#{cc.clientId}:fileUploadResponse :#{cc.clientId}:fileUploadForm"/>
         </div>
       </h:panelGroup>
     </h:form>
@@ -80,7 +80,7 @@
             icon="ti ti-circle-minus" styleClass="modal-input-button" />
           <p:commandButton id="backBtn" value="#{ivy.cm.co('/common/Back')}" icon="ti ti-circle-arrow-left"
             styleClass="ui-button-secondary ui-button-flat modal-input-button" actionListener="#{deploymentBean.hideDeployLogs}"
-            update="fileUploadResponse fileUploadForm"/>
+            update=":#{cc.clientId}:fileUploadResponse :#{cc.clientId}:fileUploadForm"/>
         </div>
       </h:panelGroup>
     </h:panelGroup>
