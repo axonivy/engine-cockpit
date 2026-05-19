@@ -42,7 +42,7 @@ class WebTestDeployment {
   @Test
   void noFile() {
     toAppDetailAndOpenDeployment();
-    $(By.id("fileUploadForm:uploadBtn")).shouldBe(disabled);
+    $(By.id("deployment:fileUploadForm:uploadBtn")).shouldBe(disabled);
   }
 
   @Test
@@ -50,8 +50,8 @@ class WebTestDeployment {
     toAppDetailAndOpenDeployment();
     var tempFile = tempDir.resolve("app.txt");
     Files.createFile(tempFile);
-    $(By.id("fileUploadForm:fileUpload_input")).sendKeys(tempFile.toString());
-    $(By.id("fileUploadForm:uploadBtn")).shouldBe(disabled);
+    $(By.id("deployment:fileUploadForm:fileUpload_input")).sendKeys(tempFile.toString());
+    $(By.id("deployment:fileUploadForm:uploadBtn")).shouldBe(disabled);
   }
 
   @Test
@@ -60,7 +60,7 @@ class WebTestDeployment {
     var tempFile = tempDir.resolve("app.iar");
     Files.createFile(tempFile);
     deployPath(tempFile);
-    $(By.id("uploadStatus")).shouldHave(text("Success"));
+    $(By.id("deployment:uploadStatus")).shouldHave(text("Success"));
     $(By.id("uploadLog")).shouldHave(text("No projects to deploy"), text("successfully deployed to application"));
   }
 
@@ -85,7 +85,7 @@ class WebTestDeployment {
 
   private void deployAndAssert(String expectedDeployOptionsText) {
     deployPath(findTestProject());
-    $(By.id("uploadStatus")).shouldHave(text("Success"));
+    $(By.id("deployment:uploadStatus")).shouldHave(text("Success"));
     $(By.id("uploadLog")).shouldHave(text(expectedDeployOptionsText), text("successfully deployed to application"));
   }
 
@@ -104,17 +104,17 @@ class WebTestDeployment {
   }
 
   private void deployPath(Path testDataIar) {
-    $(By.id("fileUploadForm:fileUpload_input")).sendKeys(testDataIar.toString());
-    $(By.id("fileUploadForm:uploadBtn")).shouldNotBe(disabled).click();
+    $(By.id("deployment:fileUploadForm:fileUpload_input")).sendKeys(testDataIar.toString());
+    $(By.id("deployment:fileUploadForm:uploadBtn")).shouldNotBe(disabled).click();
     $(By.id("uploadLog")).shouldNotBe(empty);
-    $(By.id("fileUploadForm")).shouldNotBe(visible);
+    $(By.id("deployment:fileUploadForm")).shouldNotBe(visible);
   }
 
   @Test
   void deployOptions() {
     toAppDetailAndOpenDeployment();
     showDeploymentOptions();
-    PrimeUi.selectOne(By.id("fileUploadForm:deployTestUsers")).selectedItemShould(exactText("AUTO"));
+    PrimeUi.selectOne(By.id("deployment:fileUploadForm:deployTestUsers")).selectedItemShould(exactText("AUTO"));
   }
 
   @Test
@@ -129,37 +129,37 @@ class WebTestDeployment {
     $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
     openDeployDialog();
     deployPath(findTestProject());
-    $(By.id("closeDeploymentBtn")).shouldBe(visible).click();
+    $(By.id("deployment:closeDeploymentBtn")).shouldBe(visible).click();
     $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "true"));
 
     $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
     openDeployDialog();
     deployPath(findTestProject());
-    $(By.id("closeDeploymentBtn")).shouldBe(visible).click();
+    $(By.id("deployment:closeDeploymentBtn")).shouldBe(visible).click();
     $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "false"));
     driver.manage().window().setSize(oldSize);
   }
 
   private void showDeploymentOptions() {
-    if (!$(By.id("fileUploadForm:deployOptionsPanel")).is(visible)) {
-      $(By.id("fileUploadForm:showDeployOptionsBtn")).click();
-      $(By.id("fileUploadForm:deployOptionsPanel")).shouldBe(visible);
+    if (!$(By.id("deployment:fileUploadForm:deployOptionsPanel")).is(visible)) {
+      $(By.id("deployment:fileUploadForm:showDeployOptionsBtn")).click();
+      $(By.id("deployment:fileUploadForm:deployOptionsPanel")).shouldBe(visible);
     }
   }
 
   private void openDeployDialog() {
     String appName = $$(".activity-name").first().shouldBe(visible).getText();
     $(By.id("form:tree:0:deployBtn")).shouldBe(visible).click();
-    $(By.id("fileUploadModal")).shouldBe(visible);
+    $(By.id("deployment:fileUploadModal")).shouldBe(visible);
     appName = org.apache.commons.lang3.StringUtils.substringBefore(appName, " (v");
-    $(By.id("fileUploadModal_title")).shouldHave(text(appName));
+    $(By.id("deployment:fileUploadModal_title")).shouldHave(text(appName));
   }
 
   private void toAppDetailAndOpenDeployment() {
     Navigation.toApplicationDetail(APP);
     $(By.id("appDetailInfoForm:showDeployment")).shouldBe(visible).click();
-    $(By.id("fileUploadModal")).shouldBe(visible);
-    $(By.id("fileUploadModal:uploadError")).shouldNotBe(visible);
-    $(By.id("fileUploadModal_title")).shouldHave(text(APP));
+    $(By.id("deployment:fileUploadModal")).shouldBe(visible);
+    $(By.id("deployment:fileUploadModal:uploadError")).shouldNotBe(visible);
+    $(By.id("deployment:fileUploadModal_title")).shouldHave(text(APP));
   }
 }

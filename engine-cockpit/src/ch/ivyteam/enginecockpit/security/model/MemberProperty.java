@@ -8,7 +8,7 @@ import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.environment.Ivy;
 
-public class MemberProperty {
+public abstract class MemberProperty {
   private String memberName;
   protected List<SecurityMemberProperty> properties;
   private List<SecurityMemberProperty> filteredProperties;
@@ -71,4 +71,8 @@ public class MemberProperty {
     FacesContext.getCurrentInstance().addMessage("propertiesMessage",
         new FacesMessage(Ivy.cm().co("/memberProperties/RemovePropertyMessage"), ""));
   }
+
+  public abstract void saveProperty();
+
+  public abstract void removeProperty(String propertyName);
 }
