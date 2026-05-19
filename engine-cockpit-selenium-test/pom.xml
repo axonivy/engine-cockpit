@@ -182,6 +182,7 @@
                 </goals>
                 <configuration>
                   <deployFile>./test-apps/test-ad/target/engine-cockpit-test-app-test-ad-${project.version}.zip</deployFile>
+                  <deployToEngineSecurityContext>test-ad</deployToEngineSecurityContext>
                   <deployToEngineApplication>test-ad</deployToEngineApplication>
                   <deployEngineDirectory>${engine.dir}</deployEngineDirectory>
                   <skipDeploy>${maven.test.skip}</skipDeploy>
