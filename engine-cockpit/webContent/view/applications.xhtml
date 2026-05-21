@@ -160,11 +160,8 @@
       </div>
 
       <h:panelGroup id="deployPanel">
-        <ui:include src="../includes/dialogs/deployment.xhtml">
-          <ui:param name="appName" value="#{applicationBean.activeActivity.name}" />
-          <ui:param name="appVersion" value="#{applicationBean.activeActivity.version}" />
-          <ui:param name="url" value="apps/#{applicationBean.activeActivity.name}" />
-        </ui:include>
+        <cc:Deployment id="deployment" appName="#{applicationBean.activeActivity.name}" appVersion="#{applicationBean.activeActivity.version}" />
+
         <p:remoteCommand name="reloadTree" update="form" action="#{applicationBean.reloadTree}"/>
         <script>
           function closeFileUpload() {

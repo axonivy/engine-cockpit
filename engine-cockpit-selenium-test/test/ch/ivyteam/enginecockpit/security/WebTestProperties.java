@@ -22,14 +22,15 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 class WebTestProperties {
 
-  private static final String PROPERTY_VALUE_MESSAGE = "#propertyModalForm\\:propertyValueMessage";
-  private static final String PROPERTY_NAME_MESSAGE = "#propertyModalForm\\:propertyNameMessage";
-  private static final String PROPERTY_MODAL = "#propertyModalForm\\:propertyModal";
-  private static final String PROPERTY_NAME_INPUT = "#propertyModalForm\\:propertyNameInput";
-  private static final String PROPERTIES_GROWL = "#propertiesForm\\:propertiesMessage_container";
-  private static final String SAVE_PROPERTY = "#propertyModalForm\\:saveProperty";
-  private static final String PROPERTY_VALUE_INPUT = "#propertyModalForm\\:propertyValueInput";
-  private static final By TABLE_ID = By.id("propertiesForm:propertiesTable");
+  private static final String PROPERTY_VALUE_MESSAGE = "#memberProperties\\:propertyModalForm\\:propertyValueMessage";
+  private static final String PROPERTY_NAME_MESSAGE = "#memberProperties\\:propertyModalForm\\:propertyNameMessage";
+  private static final String PROPERTY_MODAL = "#memberProperties\\:propertyModalForm\\:propertyModal";
+  private static final String PROPERTY_NAME_INPUT = "#memberProperties\\:propertyModalForm\\:propertyNameInput";
+  private static final String PROPERTIES_GROWL = "#memberProperties\\:propertiesForm\\:propertiesMessage_container";
+  private static final String SAVE_PROPERTY = "#memberProperties\\:propertyModalForm\\:saveProperty";
+  private static final String PROPERTY_VALUE_INPUT = "#memberProperties\\:propertyModalForm\\:propertyValueInput";
+  private static final String NEW_PROPERTY_BUTTON = "[id$='memberProperties:propertiesForm:newPropertyBtn']";
+  private static final By TABLE_ID = By.id("memberProperties:propertiesForm:propertiesTable");
 
   @BeforeEach
   void beforeEach() {
@@ -96,7 +97,7 @@ class WebTestProperties {
   private void editProperty(String key, String value) {
     new Table(TABLE_ID).clickButtonForEntry(key, "editPropertyBtn");
     $(PROPERTY_MODAL).shouldBe(visible);
-    $("#propertyModalForm\\:propertyName").shouldBe(exactText(key));
+    $("#memberProperties\\:propertyModalForm\\:propertyName").shouldBe(exactText(key));
 
     $(PROPERTY_VALUE_INPUT).clear();
     $(PROPERTY_VALUE_INPUT).sendKeys(value);
@@ -141,7 +142,7 @@ class WebTestProperties {
   }
 
   private void openAddPropertyModal() {
-    $("#propertiesForm\\:newPropertyBtn").click();
+    $(NEW_PROPERTY_BUTTON).shouldBe(visible, Condition.enabled).click();
     $(PROPERTY_MODAL).shouldBe(visible);
     $(PROPERTY_NAME_INPUT).shouldBe(Condition.exactValue(""));
     $(PROPERTY_NAME_MESSAGE).shouldBe(empty);
