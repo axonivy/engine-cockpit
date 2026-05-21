@@ -104,29 +104,29 @@ public class WebTestDashboard {
   @Test
   void sendTestMailInvalidInputs() {
     openSendMailModal();
-    $(By.id("sendTestMailForm:sendToInput")).clear();
-    $(By.id("sendTestMailForm:subjectInput")).clear();
-    $(By.id("sendTestMailForm:sendTestMailBtn"))
+    $(By.id("sendTestMail:sendTestMailForm:sendToInput")).clear();
+    $(By.id("sendTestMail:sendTestMailForm:subjectInput")).clear();
+    $(By.id("sendTestMail:sendTestMailForm:sendTestMailBtn"))
         .scrollTo()
         .click();
-    $(By.id("sendTestMailForm:sendToInput")).shouldHave(cssClass("ui-state-error"));
-    $(By.id("sendTestMailForm:subjectInput")).shouldHave(cssClass("ui-state-error"));
+    $(By.id("sendTestMail:sendTestMailForm:sendToInput")).shouldHave(cssClass("ui-state-error"));
+    $(By.id("sendTestMail:sendTestMailForm:subjectInput")).shouldHave(cssClass("ui-state-error"));
   }
 
   @Test
   void sendTestMailError() {
     openSendMailModal();
-    $(By.id("sendTestMailForm:sendToInput")).sendKeys("test@example.com");
-    $(By.id("sendTestMailForm:sendTestMailBtn"))
+    $(By.id("sendTestMail:sendTestMailForm:sendToInput")).sendKeys("test@example.com");
+    $(By.id("sendTestMail:sendTestMailForm:sendTestMailBtn"))
         .scrollTo()
         .click();
-    $(By.id("sendTestMailForm:testMailFailed"))
+    $(By.id("sendTestMail:sendTestMailForm:testMailFailed"))
         .shouldBe(visible)
         .shouldHave(Condition.text("Failed"));
   }
 
   private void openSendMailModal() {
     $("#openTestMailBtn").shouldBe(visible).click();
-    $("#sendTestMailModal").shouldBe(visible);
+    $("#sendTestMail\\:sendTestMailModal").shouldBe(visible);
   }
 }
