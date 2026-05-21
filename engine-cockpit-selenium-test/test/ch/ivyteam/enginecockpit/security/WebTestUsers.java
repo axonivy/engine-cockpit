@@ -67,9 +67,9 @@ class WebTestUsers {
     $("#form\\:syncMoreBtn_menuButton").shouldBe(visible).click();
     $("#form\\:syncNewUserBtn").shouldBe(visible).click();
 
-    $("#newUserModal").shouldBe(visible);
-    $("#newUserForm\\:newUserNameInput").sendKeys("manual");
-    $("#newUserForm\\:saveNewUser").click();
+    $("#newUser\\:newUserModal").shouldBe(visible);
+    $("#newUser\\:newUserForm\\:newUserNameInput").sendKeys("manual");
+    $("#newUser\\:newUserForm\\:saveNewUser").click();
 
     Table table = new Table(By.cssSelector(Tab.SECURITY_SYSTEM.activePanelCss + " .userTable"), true);
     table.firstColumnShouldBe(sizeGreaterThanOrEqual(4));
@@ -163,16 +163,16 @@ class WebTestUsers {
   @Test
   void newUserDialogNoUserName() {
     showNewUserDialog();
-    $("#newUserForm\\:saveNewUser").click();
-    $("#newUserForm\\:newUserNameMessage").shouldBe(visible);
+    $("#newUser\\:newUserForm\\:saveNewUser").click();
+    $("#newUser\\:newUserForm\\:newUserNameMessage").shouldBe(visible);
   }
 
   @Test
   void newUserDialogNoPasswordMatch() {
     showNewUserDialog();
-    $("#newUserForm\\:newUserNameInput").sendKeys("test");
-    $("#newUserForm\\:password1").sendKeys("password");
-    $("#newUserForm\\:saveNewUser").click();
+    $("#newUser\\:newUserForm\\:newUserNameInput").sendKeys("test");
+    $("#newUser\\:newUserForm\\:password1").sendKeys("password");
+    $("#newUser\\:newUserForm\\:saveNewUser").click();
     $("#msgs_container").shouldBe(visible);
   }
 
@@ -181,13 +181,13 @@ class WebTestUsers {
     showNewUserDialog();
     Table table = new Table(By.cssSelector(Tab.SECURITY_SYSTEM.activePanelCss + " .userTable"), true);
     int users = table.getFirstColumnEntries().size();
-    $("#newUserForm\\:newUserNameInput").sendKeys(user);
-    $("#newUserForm\\:fullName").sendKeys(fullName);
-    $("#newUserForm\\:email").sendKeys(email);
-    $("#newUserForm\\:password1").sendKeys(password);
-    $("#newUserForm\\:password2").sendKeys(password);
-    $("#newUserForm\\:saveNewUser").click();
-    $("#newUserModal").shouldNotBe(visible);
+    $("#newUser\\:newUserForm\\:newUserNameInput").sendKeys(user);
+    $("#newUser\\:newUserForm\\:fullName").sendKeys(fullName);
+    $("#newUser\\:newUserForm\\:email").sendKeys(email);
+    $("#newUser\\:newUserForm\\:password1").sendKeys(password);
+    $("#newUser\\:newUserForm\\:password2").sendKeys(password);
+    $("#newUser\\:newUserForm\\:saveNewUser").click();
+    $("#newUser\\:newUserModal").shouldNotBe(visible);
     $("#msgs_container").shouldBe(visible, text("User '" + user + "' created successfully"));
     table.firstColumnShouldBe(sizeGreaterThan(users));
     table.firstColumnShouldBe(anyMatch("User should be in table", element -> element.getText().contains(user)));
@@ -198,9 +198,9 @@ class WebTestUsers {
   @Test
   void createNewUserWithSameNameAsExisting() {
     showNewUserDialog();
-    $("#newUserForm\\:newUserNameInput").sendKeys("foo");
-    $("#newUserForm\\:saveNewUser").click();
-    $("#newUserModal").shouldNotBe(visible);
+    $("#newUser\\:newUserForm\\:newUserNameInput").sendKeys("foo");
+    $("#newUser\\:newUserForm\\:saveNewUser").click();
+    $("#newUser\\:newUserModal").shouldNotBe(visible);
     $("#msgs_container").should(visible, text("User 'foo' couldn't be created"));
   }
 
@@ -239,7 +239,7 @@ class WebTestUsers {
 
   private void showNewUserDialog() {
     $(By.id("form:newUserBtn")).click();
-    $("#newUserModal").shouldBe(visible);
+    $("#newUser\\:newUserModal").shouldBe(visible);
   }
 
   public static void triggerSync() {
