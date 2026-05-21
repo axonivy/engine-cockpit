@@ -42,7 +42,7 @@
         <cc:SecuritySystemTabs tabChange="#{userBean.reloadUsers}" id="securitySystems" update="form">
            <cc:UsersTable id="usersTable" app="#{managerBean.selectedApplication}" securitySystem="#{managerBean.selectedSecuritySystem}" />  
         </cc:SecuritySystemTabs>
-        <ui:include src="../includes/dialogs/newuser.xhtml" />
+        <cc:NewUser id="newUser" />
         <cc:UserSynch id="userSynch" userSynch="#{userBean.userSynch}" />
       </div>
     </ui:define>
