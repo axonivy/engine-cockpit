@@ -14,7 +14,7 @@ admins:
 applicationDetail:
   ProcessModels: プロセスモデル
 applications:
-  AppPmPmvHeader: アプリ／PM／PMV
+  AppPmPmvHeader: アプリ/バージョン/プロジェクト
   ApplicationConvertToLatestVersionMessage: 状態が「リリース済み」および「非推奨」の Axon Ivy プロジェクトがすべて最新バージョンに変換されます。
   ApplicationWarningMessageForNoReleasedPmv: 少なくとも 1 つのプロセスモデルにリリース済みのプロセスモデルバージョンが含まれません
   Convert: 変換
