@@ -21,6 +21,11 @@ public class ProcessModelVersion extends AppTreeItem {
   }
 
   @Override
+  public String getSecurityContextName() {
+    return pmv.getApplication().getSecurityContext().getName();
+  }
+
+  @Override
   public String getName() {
     return pmv.getName();
   }
@@ -56,6 +61,7 @@ public class ProcessModelVersion extends AppTreeItem {
     return runningCasesCount;
   }
 
+  @Override
   public String getIcon() {
     return "ti ti-packages";
   }

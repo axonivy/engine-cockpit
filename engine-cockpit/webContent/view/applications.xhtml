@@ -69,7 +69,7 @@
             <p:column styleClass="table-btn-5">              
               <h:panelGroup id="deployBtnHint">
                 <p:commandButton title="#{ivy.cm.co('/common/Deployment')}" icon="ti ti-upload" rendered="#{activity.app}"
-                  id="deployBtn" styleClass="mr-1 rounded-button" actionListener="#{deploymentBean.setAppNameAndVersion(activity.name, activity.version)}">
+                  id="deployBtn" styleClass="mr-1 rounded-button" actionListener="#{deploymentBean.setAppNameAndVersion(activity.securityContextName, activity.name, activity.version)}">
                   <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}"
                     oncomplete="PF('fileUploadModal').show()" />
                 </p:commandButton>

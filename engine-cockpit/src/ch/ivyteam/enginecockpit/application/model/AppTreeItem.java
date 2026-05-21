@@ -21,6 +21,7 @@ public abstract class AppTreeItem {
   protected final IActivity activity;
   private StateOfActivity state;
 
+  public abstract String getSecurityContextName();
   public abstract String getName();
   public abstract String getDisplayName();
   public abstract String getDetailView();

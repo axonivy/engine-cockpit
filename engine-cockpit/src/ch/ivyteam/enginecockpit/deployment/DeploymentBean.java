@@ -16,6 +16,8 @@ import org.primefaces.model.file.UploadedFile;
 
 import ch.ivyteam.io.TemporaryDirectory;
 import ch.ivyteam.ivy.deployment.DeployLog;
+import ch.ivyteam.ivy.deployment.DeployTarget;
+import ch.ivyteam.ivy.deployment.DeployTarget.DeployAppVersion;
 import ch.ivyteam.ivy.deployment.Deployable;
 import ch.ivyteam.ivy.deployment.DeploymentOptions;
 import ch.ivyteam.ivy.deployment.DeploymentRunner;
@@ -36,6 +38,7 @@ public class DeploymentBean {
   private UploadedFile file;
   private Path uploadedFile;
 
+  private String securityContextNameFromView;
   private String appNameFromView;
   private String appVersionFromView;
   private final DeploymentStatus status = new DeploymentStatus();
@@ -48,7 +51,8 @@ public class DeploymentBean {
     return uploaded.getName() + " (" + prettyFileSize(uploaded.length()) + ")";
   }
 
-  public void setAppNameAndVersion(String appName, String appVersion) {
+  public void setAppNameAndVersion(String securityContextName, String appName, String appVersion) {
+    this.securityContextNameFromView = securityContextName;
     this.appNameFromView = appName;
     this.appVersionFromView = appVersion;
   }
@@ -104,15 +108,14 @@ public class DeploymentBean {
     this.status.running();
     var log = DeployLog.of(new Log4j2DeploymentLogger(), deploymentLogger);
 
-    var deploymentOptions = DeploymentOptions.create()
+    var target = new DeployTarget(securityContextNameFromView, this.appNameFromView, DeployAppVersion.of(appVersionFromView));
+    var options = DeploymentOptions.create()
         .deployTestUsers(deployOptions.getDeployTestUsers())        
         .toOptions();
-
     var projectDeployable = Deployable.create()
-        .appName(this.appNameFromView)
-        .appVersion(Integer.parseInt(appVersionFromView))
+        .target(target)
         .fileToDeploy(this.uploadedFile)
-        .deployOptions(deploymentOptions)
+        .options(options)
         .toDeployable();
 
     try {

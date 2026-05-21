@@ -34,6 +34,11 @@ public class Application extends AppTreeItem {
   }
 
   @Override
+  public String getSecurityContextName() {
+    return secSystem;
+  }
+
+  @Override
   public String getName() {
     return name;
   }
@@ -86,6 +91,7 @@ public class Application extends AppTreeItem {
     return runningCasesCount;
   }
 
+  @Override
   public String getIcon() {
     return "ti ti-cube";
   }
