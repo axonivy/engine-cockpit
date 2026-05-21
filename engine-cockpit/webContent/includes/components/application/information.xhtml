@@ -32,7 +32,7 @@
         <p:commandButton id="showDeployment" title="#{ivy.cm.co('/common/Deployment')}" value="#{ivy.cm.co('/common/Deployment')}"
           style="margin-top: 20px; min-width: 150px;" icon="ti ti-upload"
           onclick="PF('fileUploadModal').show()" 
-          actionListener="#{deploymentBean.setAppNameAndVersion(applicationDetailBean.application.name, applicationDetailBean.appVersion)}"/>
+          actionListener="#{deploymentBean.setAppNameAndVersion(applicationDetailBean.securitySystem.securitySystemName, applicationDetailBean.application.name, applicationDetailBean.appVersion)}"/>
       </h:panelGroup>
     </p:panelGrid>
   </h:form>
