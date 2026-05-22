@@ -2,14 +2,16 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ccc="http://xmlns.jcp.org/jsf/composite/composite">
+
+<cc:implementation>
 
 <div class="card">
   <div class="card-header">
     <div class="card-title flex align-items-center">
       <i class="pr-3 ti ti-home-up"></i>
       <h6 class="m-0">#{ivy.cm.co('/common/Licence')}</h6>
-      <p:linkButton id="tasksButtonLicenceDetail" href="licence.xhtml" title="#{ivy.cm.co('/licence/ConfigureLicence')}"
+      <p:linkButton id="tasksButtonLicenceDetail" href="LicenceDashboard.xhtml" title="#{ivy.cm.co('/licence/ConfigureLicence')}"
         type="button" icon="ti ti-settings" styleClass="ml-auto ui-button-secondary rounded-button" />
       <p:commandButton id="tasksButtonLicenceEvents" onclick="PF('licenceEventsDialog').show();" title="#{ivy.cm.co('/licence/LicenceEvents')}"
         type="button" icon="ti ti-bell-plus" styleClass="ml-1 ui-button-secondary rounded-button"
@@ -46,5 +48,7 @@
       href="licence.xhtml" />
   </p:panelGrid>
 </div>
+
+</cc:implementation>
 
 </html>

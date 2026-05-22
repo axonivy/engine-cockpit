@@ -242,7 +242,7 @@ class WebDocuScreenshot {
   @Test
   void screenshotDashboard() {
     takeScreenshot("dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
-    takeDialogScreenshot("dialog-test-mail", By.id("openTestMailBtn"));
+    takeDialogScreenshot("dialog-test-mail", By.id("email:openTestMailBtn"));
   }
 
   private void takeDialogScreenshot(String screenshotName, By dialogOpenBtn) {
