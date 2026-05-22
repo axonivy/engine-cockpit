@@ -40,7 +40,7 @@ class WebTestRestClientDetail {
   void detailOpen() {
     assertCurrentUrlContains("restclientdetail.xhtml?app=" + Tab.DEFAULT_APP + "&key=" + RESTCLIENT_NAME);
     $$(".card").shouldHave(size(3));
-    $("#restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
 
     $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
     $(By.id("helpRestClientDialog:helpServicesModal")).shouldBe(visible);
@@ -75,14 +75,14 @@ class WebTestRestClientDetail {
   @Test
   void restTestSecondRestConnection() {
     Navigation.toRestClientDetail("second-rest");
-    $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable")).shouldHave(text("MyFakeOAuthFeature"));
+    $(By.id("restClientProperties:restClientAdditionalConfigForm:restClientFeaturesTable")).shouldHave(text("MyFakeOAuthFeature"));
     testAndAssertConnection("Error", "Invalid Url");
     Navigation.toRestClientDetail(RESTCLIENT_NAME);
   }
 
   private void testAndAssertConnection(String title, String msg) {
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
-    $("#restClientConfigurationForm\\:testRestBtn").shouldBe(visible).click();
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:testRestBtn").shouldBe(visible).click();
     $("#connResult\\:connectionTestModel").shouldBe(visible);
     $("#connResult\\:connTestForm\\:testConnectionBtn").click();
     $("#connResult\\:connTestForm\\:resultConnect").shouldBe(text(title));
@@ -103,7 +103,7 @@ class WebTestRestClientDetail {
 
   @Test
   void properties() {
-    var table = new Table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
+    var table = new Table(By.id("restClientProperties:restClientAdditionalConfigForm:restClientPropertiesTable"));
     table.row("PATH.host").shouldHave(text("test-webservices.ivyteam.io"));
     table.row("password").shouldHave(text("*****"));
     table.row("JSON.Deserialization.FAIL_ON_UNKNOWN_PROPERTIES").shouldHave(text("false"));
@@ -114,28 +114,28 @@ class WebTestRestClientDetail {
 
   @Test
   void addProperty() {
-    var editor = new PropertyEditor("restClientAdditionalConfigForm:restClientPropertiesTable");
+    var editor = new PropertyEditor("restClientProperties:restClientAdditionalConfigForm:restClientPropertiesTable");
     editor.addProperty("testProperty", "testValue");
     editor.deleteProperty("testProperty");
   }
 
   @Test
   void editProperty() {
-    var editor = new PropertyEditor("restClientAdditionalConfigForm:restClientPropertiesTable");
+    var editor = new PropertyEditor("restClientProperties:restClientAdditionalConfigForm:restClientPropertiesTable");
     editor.editProperty("username", "editValue");
     editor.editProperty("username", "admin");
   }
 
   @Test
   void addFeature() {
-    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable");
+    var editor = new FeatureEditor("restClientProperties:restClientAdditionalConfigForm:restClientFeaturesTable");
     editor.addFeature("TestFeature");
     editor.deleteFeature("TestFeature");
   }
 
   @Test
   void editFeature() {
-    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable");
+    var editor = new FeatureEditor("restClientProperties:restClientAdditionalConfigForm:restClientFeaturesTable");
     editor.addFeature("TestFeature");
     editor.editFeatureSave("TestFeature", "EditFeature");
     editor.deleteFeature("EditFeature");
@@ -143,16 +143,16 @@ class WebTestRestClientDetail {
 
   @Test
   void addExistingFeature() {
-    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable");
+    var editor = new FeatureEditor("restClientProperties:restClientAdditionalConfigForm:restClientFeaturesTable");
     editor.addFeature("TestFeature");
     editor.addFeature("TestFeature");
-    $(By.id("restClientAdditionalConfigForm:msg_container")).shouldHave(text("TestFeature couldn't be created"));
+    $(By.id("restClientProperties:restClientAdditionalConfigForm:msg_container")).shouldHave(text("TestFeature couldn't be created"));
     editor.deleteFeature("TestFeature");
   }
 
   @Test
   void editFeatureCancel() {
-    var editor = new FeatureEditor("restClientAdditionalConfigForm:restClientFeaturesTable");
+    var editor = new FeatureEditor("restClientProperties:restClientAdditionalConfigForm:restClientFeaturesTable");
     editor.addFeature("TestFeature");
     editor.editFeatureCancel("TestFeature");
     editor.deleteFeature("TestFeature");
@@ -161,33 +161,33 @@ class WebTestRestClientDetail {
   private void setConfiguration(String url, String username) {
     setUrl(url);
     setUserName(username);
-    $("#restClientConfigurationForm\\:saveRestConfig").click();
-    $("#restClientConfigurationForm\\:restConfigMsg_container").shouldBe(text("Rest configuration saved"));
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:saveRestConfig").click();
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:restConfigMsg_container").shouldBe(text("Rest configuration saved"));
   }
 
   private void setUrl(String url) {
-    $("#restClientConfigurationForm\\:url").shouldBe(visible).clear();
-    $("#restClientConfigurationForm\\:url").sendKeys(url);
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:url").shouldBe(visible).clear();
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:url").sendKeys(url);
   }
 
   private void setUserName(String username) {
-    $("#restClientConfigurationForm\\:username").clear();
-    $("#restClientConfigurationForm\\:username").sendKeys(username);
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:username").clear();
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:username").sendKeys(username);
   }
 
   private void setPassword(String password) {
-    $("#restClientConfigurationForm\\:password").shouldBe(visible).sendKeys(password);
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:password").shouldBe(visible).sendKeys(password);
   }
 
   private void checkConfiguration(String url, String username) {
-    $("#restClientConfigurationForm\\:url").shouldBe(exactValue(url));
-    $("#restClientConfigurationForm\\:username").shouldBe(exactValue(username));
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:url").shouldBe(exactValue(url));
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:username").shouldBe(exactValue(username));
   }
 
   private void resetConfiguration() {
-    $("#restClientConfigurationForm\\:resetConfig").click();
-    $("#restClientConfigurationForm\\:resetRestConfirmDialog").shouldBe(visible);
-    $("#restClientConfigurationForm\\:resetRestConfirmYesBtn").click();
-    $("#restClientConfigurationForm\\:restConfigMsg_container").shouldBe(text("Rest configuration reset"));
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:resetConfig").click();
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:resetRestConfirmDialog").shouldBe(visible);
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:resetRestConfirmYesBtn").click();
+    $("#restClientConfiguration\\:restClientConfigurationForm\\:restConfigMsg_container").shouldBe(text("Rest configuration reset"));
   }
 }

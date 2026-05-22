@@ -32,10 +32,10 @@
       <div class="layout-dashboard">
         <div class="grid">
           <div class="col-12 md:col-12 xl:col-6">
-            <ui:include src="../includes/components/services/restclient-configuration.xhtml" />
+            <cc:RestClientConfiguration id="restClientConfiguration" />
           </div>
           <div class="col-12 md:col-12 xl:col-6">
-            <ui:include src="../includes/components/services/restclient-properties.xhtml" />
+            <cc:RestClientProperties id="restClientProperties" />
           </div>
           <div class="col-12 md:col-12 xl:col-12">
             <cc:RestHistory bean="#{restClientDetailBean}" id="restClientHistory" />
