@@ -96,9 +96,9 @@ public class WebTestDashboard {
   @Test
   void checkJavaInfo() {
     $("#tasksButtonJavaDetail").shouldBe(visible).click();
-    $("#javaDetailDialog").shouldBe(visible);
-    new Table(By.id("javaInfoForm:javaJVMInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
-    new Table(By.id("javaInfoForm:javaPropertiesInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
+    $("#javaInfo\\:javaDetailDialog").shouldBe(visible);
+    new Table(By.id("javaInfo:javaInfoForm:javaJVMInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
+    new Table(By.id("javaInfo:javaInfoForm:javaPropertiesInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
   }
 
   @Test
