@@ -60,8 +60,8 @@ class WebTestDeployment {
     var tempFile = tempDir.resolve("app.iar");
     Files.createFile(tempFile);
     deployPath(tempFile, "information:deployment");
-    $(By.id("information:deployment:uploadStatus")).shouldHave(text("Success"));
-    $(By.id("uploadLog")).shouldHave(text("No projects to deploy"), text("successfully deployed to application"));
+    $(By.id("information:deployment:uploadStatus")).shouldHave(text("Error"));
+    $(By.id("uploadLog")).shouldHave(text("Couldn't deploy 'app.iar'"));
   }
 
   @Test

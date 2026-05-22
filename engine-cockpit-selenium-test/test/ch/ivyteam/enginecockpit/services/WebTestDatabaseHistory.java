@@ -39,9 +39,9 @@ class WebTestDatabaseHistory {
 
   @Test
   void connectionAndHistory() {
-    new Table(By.id("databaseConnectionForm:databaseConnectionsTable"))
+    new Table(By.id("databaseConnectionsCard:databaseConnectionForm:databaseConnectionsTable"))
         .firstColumnShouldBe(sizeGreaterThan(0));
-    new Table(By.id("databaseExecHistoryForm:databaseExecHistoryTable"))
+    new Table(By.id("databaseHistory:databaseExecHistoryForm:databaseExecHistoryTable"))
         .firstColumnShouldBe(sizeGreaterThan(0));
 
     $(".ti-copy").shouldBe(visible).click();

@@ -32,16 +32,16 @@
       <div class="layout-dashboard">
         <div class="grid">
           <div class="col-12 md:col-12 xl:col-6">
-            <ui:include src="../includes/components/services/database-configuration.xhtml" />
+            <cc:DatabaseConfiguration id="databaseConfiguration" />
           </div>
           <div class="col-12 md:col-12 xl:col-6">
-            <ui:include src="../includes/components/services/database-properties.xhtml" />
+            <cc:DatabaseProperties id="databaseProperties" />
           </div>
           <div class="col-12 md:col-12 xl:col-6">
-            <ui:include src="../includes/components/services/database-connections.xhtml" />
+            <cc:DatabaseConnections id="databaseConnectionsCard" />
           </div>
           <div class="col-12 md:col-12 xl:col-6">
-            <ui:include src="../includes/components/services/database-history.xhtml" />
+            <cc:DatabaseHistory id="databaseHistory" />
           </div>
         </div>
       </div>

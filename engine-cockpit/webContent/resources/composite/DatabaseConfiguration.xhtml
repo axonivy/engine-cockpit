@@ -2,7 +2,9 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ccc="http://xmlns.jcp.org/jsf/composite/composite">
+
+<cc:implementation>
 
 <div class="card">
   <h:form id="databaseConfigurationForm">
@@ -13,7 +15,7 @@
       <div class="card-title flex align-items-center">
         <i class="pr-3 ti ti-info-circle"></i>
         <h6 class="m-0">#{ivy.cm.co('/databaseConfiguration/DatabaseConfigurations')}</h6>
-        <p:commandButton id="testDatabaseBtn" title="#{ivy.cm.co('/databaseConfiguration/TestDatabaseConnection')}" update="connResult:connectionTestModel"
+        <p:commandButton id="testDatabaseBtn" title="#{ivy.cm.co('/databaseConfiguration/TestDatabaseConnection')}" update=":#{cc.clientId}:connResult:connectionTestModel"
           oncomplete="PF('connectionTestModel').show()" icon="ti ti-phone-outgoing"
           actionListener="#{tlsTesterBean.setTlsTestRendered(false)}"
           styleClass="flex-shrink-0 ml-auto ui-button-secondary rounded-button" />
@@ -29,7 +31,7 @@
         </p:confirmDialog>
         <p:commandButton id="saveDatabaseConfig" actionListener="#{databaseDetailBean.saveDbConfig}"
           title="#{ivy.cm.co('/common/SaveChanges')}" icon="ti ti-device-floppy" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button"
-          update="@form, connResult:connectionTestModel" />
+          update="@form, :#{cc.clientId}:connResult:connectionTestModel" />
       </div>
     </div>
 
@@ -63,8 +65,10 @@
   </h:form>
 </div>
 
-<cc:ConnectionTestResult id="connResult" result="#{databaseDetailBean.result}"
+<ccc:ConnectionTestResult id="connResult" result="#{databaseDetailBean.result}"
   url="#{databaseDetailBean.database.url}" testMethod="#{databaseDetailBean.testDbConnection()}"
   bean="#{tlsTesterBean}" reset="#{databaseDetailBean.reset()}" />
+
+</cc:implementation>
 
 </html>
