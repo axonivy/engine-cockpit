@@ -8,6 +8,7 @@
   <cc:attribute name="dialogTitle" default="#{ivy.cm.co('/configuration/ConfigurationDialogDefaultTitle')}" type="java.lang.String" />
   <cc:attribute name="showContentFilter" default="true" type="boolean" />
 </cc:interface>
+
 <cc:implementation>
   <h:form id="form" onkeypress="if (event.keyCode == 13) return false;">
     <p:growl id="msgs" keepAlive="true">
@@ -29,7 +30,7 @@
 
       <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{config.key}" filterBy="#{config.key}">
         <h:panelGroup styleClass="config-name table-cell-autocut">
-          <i class="{config.icon} table-icon"></i>
+          <i class="#{config.icon} table-icon"></i>
           <h:outputText value="#{config.key}" title="#{config.key} - #{config.description}" />
         </h:panelGroup>
       </p:column>
@@ -165,7 +166,7 @@
           type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
         <p:commandButton id="saveEditConfiguration" update=":#{cc.clientId}:form:configTable" partialSubmit="true"
           onsuccess="PF('editConfigurationModal').hide();" actionListener="#{cc.attrs.bean.saveConfig}" value="#{ivy.cm.co('/common/Save')}"
-          icon="ti ti-device-floppy" process="editConfigurationForm:editConfigurationValue" styleClass="modal-input-button" />
+            icon="ti ti-device-floppy" process="@form" styleClass="modal-input-button" />
       </div>
     </h:form>
   </p:dialog>
