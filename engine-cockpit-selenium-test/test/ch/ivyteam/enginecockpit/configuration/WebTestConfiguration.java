@@ -78,7 +78,7 @@ class WebTestConfiguration {
 
   @Test
   void emailUrlFilter() {
-    $("#configureEmailBtn").shouldBe(visible).click();
+    $("#email\\:configureEmailBtn").shouldBe(visible).click();
     assertCurrentUrlContains("systemconfig.xhtml?filter=EMail");
     table = new Table(TABLE_ID, "span");
     table.searchFilterShould(exactValue("EMail"));
@@ -87,7 +87,7 @@ class WebTestConfiguration {
 
   @Test
   void systemDbConfigUrl() {
-    $("#configureSystemDbBtn").shouldBe(visible).click();
+    $("#systemDatabase\\:configureSystemDbBtn").shouldBe(visible).click();
     assertCurrentUrlContains("systemdb.xhtml");
   }
 
