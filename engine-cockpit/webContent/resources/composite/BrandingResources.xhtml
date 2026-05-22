@@ -1,7 +1,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+
+<cc:implementation>
 
 <h:form id="form">
   <div class="grid branding-resources  ui-fluid">
@@ -18,9 +21,9 @@
       </div>
       <div class="col-12 md:col-4 lg:col-2 align-self-center">
         <p:splitButton id="uploadBtn" value="#{ivy.cm.co('/common/Upload')}" title="#{ivy.cm.co('/common/Upload')} #{res.label}" icon="ti ti-upload" styleClass="branding-btn"
-          actionListener="#{brandingBean.setCurrentRes(res.name)}" update="@this fileUpload" oncomplete="PF('fileUploadModal').show()" process="@this">
+          actionListener="#{brandingBean.setCurrentRes(res.name)}" update="@this :fileUpload" oncomplete="PF('fileUploadModal').show()" process="@this">
           <p:menuitem id="resetBtn" value="#{ivy.cm.co('/common/Reset')}" icon="ti ti-arrow-back-up" styleClass="ui-button-secondary" oncomplete="PF('resetBrandingConfirmDialog').show()"
-            actionListener="#{brandingBean.setCurrentRes(res.name)}" update="resetBrandingConfirmDialog" process="@this"/>
+            actionListener="#{brandingBean.setCurrentRes(res.name)}" update=":resetBrandingConfirmDialog" process="@this"/>
         </p:splitButton>
       </div>
     </ui:repeat>
@@ -29,12 +32,14 @@
     </div>
     <div class="col-12 md:col-5 lg:col-3 align-self-center"></div>
     <div class="col-12 md:col-4 lg:col-2 align-self-center">
-      <p:splitButton id="editCustomCssBtn" value="#{ivy.cm.co('/common/Edit')}" icon="ti ti-file-pencil" update="editCustomCssModal" oncomplete="PF('editCustomCssModal').show();" process="@this">
+      <p:splitButton id="editCustomCssBtn" value="#{ivy.cm.co('/common/Edit')}" icon="ti ti-file-pencil" update=":editCustomCssModal" oncomplete="PF('editCustomCssModal').show();" process="@this">
         <p:menuitem id="resetCustomCssBtn" value="#{ivy.cm.co('/common/Reset')}" icon="ti ti-arrow-back-up" styleClass="ui-button-secondary" oncomplete="PF('resetBrandingConfirmDialog').show()"
-          actionListener="#{brandingBean.setCurrentRes('custom.css')}" update="resetBrandingConfirmDialog" process="@this"/>
+          actionListener="#{brandingBean.setCurrentRes('custom.css')}" update=":resetBrandingConfirmDialog" process="@this"/>
       </p:splitButton>
     </div>
   </div>
 </h:form>
+
+</cc:implementation>
 
 </html>
