@@ -91,7 +91,7 @@ class WebTestApplicationDetail {
   @Test
   void home() {
     Navigation.toApplicationDetail("test");
-    var home = $(By.id("appDetailInfoForm:home"));
+    var home = $(By.id("information:appDetailInfoForm:home"));
     home.$("a").shouldHave(Condition.href("/test/1"));
     home.click();
     assertThat(Selenide.webdriver().driver().url()).contains("/dev-workflow-ui/");
@@ -100,7 +100,7 @@ class WebTestApplicationDetail {
   @Test
   void workflow() {
     Navigation.toApplicationDetail("test");
-    var workflow = $(By.id("appDetailInfoForm:workflow"));
+    var workflow = $(By.id("information:appDetailInfoForm:workflow"));
     workflow.$("a").shouldHave(href("/dev-workflow-ui/faces/home.xhtml"));
     workflow.click();
     assertThat(Selenide.webdriver().driver().url()).contains("/dev-workflow-ui/");
