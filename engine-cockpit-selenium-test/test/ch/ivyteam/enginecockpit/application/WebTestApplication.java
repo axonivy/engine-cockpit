@@ -171,13 +171,13 @@ class WebTestApplication {
   }
 
   private void stopAppInsideDetailView() {
-    $("#appDetailStateForm\\:deActivateApplication").click();
-    $("#appDetailStateForm\\:activateApplication").shouldBe(visible);
+    $("#state\\:appDetailStateForm\\:deActivateApplication").click();
+    $("#state\\:appDetailStateForm\\:activateApplication").shouldBe(visible);
   }
 
   private void startAppInsideDetailView() {
-    $("#appDetailStateForm\\:activateApplication").click();
-    $("#appDetailStateForm\\:deActivateApplication").shouldBe(visible);
+    $("#state\\:appDetailStateForm\\:activateApplication").click();
+    $("#state\\:appDetailStateForm\\:deActivateApplication").shouldBe(visible);
   }
 
   private void addNewAppAndNavigateToIt() {
