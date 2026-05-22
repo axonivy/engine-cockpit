@@ -1,8 +1,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:cc="http://xmlns.jcp.org/jsf/composite">
 
+<cc:implementation>
 <p:dialog id="renameRoleDialog" style="min-width: 300px;" header="#{ivy.cm.co('/renameRole/RenameRoleDialogHeader')} #{roleDetailBean.name}"
   widgetVar="renameRoleModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="renameRoleForm" styleClass="custom-dialog-form">
@@ -25,5 +26,7 @@
     </div>
   </h:form>
 </p:dialog>
+</cc:implementation>
+
 </html>
 
