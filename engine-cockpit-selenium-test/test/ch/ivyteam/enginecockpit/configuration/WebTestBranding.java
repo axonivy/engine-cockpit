@@ -177,10 +177,10 @@ public class WebTestBranding {
   }
 
   private String getResourcesFormId() {
-    return "apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":form";
+    return "apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":brandingResources:form";
   }
 
   private String getColorTableId() {
-    return "apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":colorForm:colorsTable";
+    return "apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":brandingColors:colorForm:colorsTable";
   }
 }

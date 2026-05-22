@@ -32,9 +32,9 @@
         </div>
 
         <cc:ApplicationTabs tabChange="#{brandingBean.reloadResources}" id="apps" update="downloadDialog:downloadModal">
-          <ui:include src="../includes/components/configuration/branding-resources.xhtml" />
+          <cc:BrandingResources id="brandingResources" />
           <br/>
-          <ui:include src="../includes/components/configuration/branding-colors.xhtml" />
+          <cc:BrandingColors id="brandingColors" />
         </cc:ApplicationTabs>
 
         <p:dialog styleClass="branding-custom-css" header="#{ivy.cm.content('/branding/EditCustomCSSDialogHeader').replace('customCssFile', 'custom.css').get()}" id="editCustomCssModal" appendTo="@(body)"
