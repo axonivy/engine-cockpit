@@ -109,7 +109,7 @@ class WebTestApplicationDetail {
   @Test
   void reloadConfig() {
     Navigation.toApplicationDetail("test");
-    $(By.id("reloadConfig")).shouldBe(visible).click();
-    $(By.id("config:form:msgs_container")).shouldBe(visible).should(text("Configuration of application 'test' reloaded"));
+    $(By.id("configuration:reloadConfig")).shouldBe(visible).click();
+    $(By.id("configuration:config:form:msgs_container")).shouldBe(visible).should(text("Configuration of application 'test' reloaded"));
   }
 }
