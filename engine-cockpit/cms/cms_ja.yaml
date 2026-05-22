@@ -14,7 +14,7 @@ admins:
 applicationDetail:
   ProcessModels: プロセスモデル
 applications:
-  AppPmPmvHeader: アプリ／PM／PMV
+  AppPmPmvHeader: アプリ/バージョン/プロジェクト
   ApplicationConvertToLatestVersionMessage: 状態が「リリース済み」および「非推奨」の Axon Ivy プロジェクトがすべて最新バージョンに変換されます。
   ApplicationWarningMessageForNoReleasedPmv: 少なくとも 1 つのプロセスモデルにリリース済みのプロセスモデルバージョンが含まれません
   Convert: 変換
@@ -323,6 +323,7 @@ common:
   Workflow: ワークフロー
   Write: 書き込み
   'Yes': はい
+  ConfirmPassword: パスワードの確認
 configuration:
   ApplicationConfiguration: アプリケーションの設定
   ConfigReset: '''${config}'' リセット'
@@ -1013,7 +1014,16 @@ poll:
   ScheduleToPollBean: 今すぐ Bean のポーリングをスケジュールする
   StopsBean: Bean を停止します
 profile:
-  ProfileBreadcrumb: ''
+  ProfileBreadcrumb: '管理者プロフィール'
+  CurrentContentLanguage: 現在の言語
+  CurrentContentLocale: 現在のロケール
+  CurrentFormattingLanguage: 現在のフォーマット言語
+  CurrentFormattingLocale: Locale の現在のフォーマット
+  FormattingLanguage: 言語のフォーマット
+  LanguageAndLocalization: 言語とローカリゼーション
+  NotAnAdmin: セッションユーザーのログインは管理者ではありません
+  Profile: 管理者プロフィール
+  SaveProfile: プロフィールを保存
 progressLoader:
   Loading: 読み込み中...
 renameRole:
@@ -1310,6 +1320,10 @@ template:
   SupportReport: サポートレポート
 tlsTester:
   Tests: テスト
+  Issuer: 発行者
+  PublicKeyFormat: 公開鍵形式
+  SignatureAlgorithm: シグネチャーアルゴリズム
+  Validity: バリデーション
 tlsTesterMissingCertView:
   AddCertificateToTruststoreSuccessMesage: 証明書が正常に追加されました。
   AddToTruststore: トラストストアに追加
