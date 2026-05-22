@@ -80,16 +80,16 @@ class WebTestRoleDetail {
   @Test
   void newChildRole() {
     $("#roleInformationForm\\:createNewChildRole").shouldBe(visible).click();
-    $("#newChildRoleDialog").shouldBe(visible);
+    $("#newRole\\:newChildRoleDialog").shouldBe(visible);
 
-    $("#newChildRoleForm\\:saveNewRole").click();
-    $("#newChildRoleForm\\:newRoleNameMessage").shouldBe(visible);
-    $("#newChildRoleForm\\:newRoleNameMessage").shouldBe(text("Value is required"));
+    $("#newRole\\:newChildRoleForm\\:saveNewRole").click();
+    $("#newRole\\:newChildRoleForm\\:newRoleNameMessage").shouldBe(visible);
+    $("#newRole\\:newChildRoleForm\\:newRoleNameMessage").shouldBe(text("Value is required"));
 
     String newRoleName = "testäöü";
-    $("#newChildRoleForm\\:newChildRoleNameInput").clear();
-    $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(newRoleName);
-    $("#newChildRoleForm\\:saveNewRole").click();
+    $("#newRole\\:newChildRoleForm\\:newChildRoleNameInput").clear();
+    $("#newRole\\:newChildRoleForm\\:newChildRoleNameInput").sendKeys(newRoleName);
+    $("#newRole\\:newChildRoleForm\\:saveNewRole").click();
     assertCurrentUrlContains("roledetail.xhtml?system=default&name=test");
     $("#roleInformationForm\\:name").shouldBe(exactValue(newRoleName));
 
@@ -103,19 +103,19 @@ class WebTestRoleDetail {
   @Test
   void renameRole() {
     $("#roleInformationForm\\:createNewChildRole").shouldBe(visible).click();
-    $("#newChildRoleDialog").shouldBe(visible);
+    $("#newRole\\:newChildRoleDialog").shouldBe(visible);
 
-    $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys("avengers");
-    $("#newChildRoleForm\\:saveNewRole").click();
+    $("#newRole\\:newChildRoleForm\\:newChildRoleNameInput").sendKeys("avengers");
+    $("#newRole\\:newChildRoleForm\\:saveNewRole").click();
     assertCurrentUrlContains("roledetail.xhtml?system=default&name=avengers");
     $("#roleInformationForm\\:name").shouldBe(exactValue("avengers"));
 
     $("#roleInformationForm\\:renameRole").shouldBe(visible).click();
 
-    $("#renameRoleForm\\:renameRoleNameInput").shouldBe(visible).clear();
-    $("#renameRoleForm\\:renameRoleNameInput").sendKeys("xmen");
+    $("#renameRole\\:renameRoleForm\\:renameRoleNameInput").shouldBe(visible).clear();
+    $("#renameRole\\:renameRoleForm\\:renameRoleNameInput").sendKeys("xmen");
 
-    $("#renameRoleForm\\:renameRole").click();
+    $("#renameRole\\:renameRoleForm\\:renameRole").click();
     assertCurrentUrlContains("roledetail.xhtml?system=default&name=xmen");
 
     $("#roleInformationForm\\:deleteRole").shouldBe(visible).click();
@@ -128,20 +128,20 @@ class WebTestRoleDetail {
   @Test
   void updateParent() {
     $("#roleInformationForm\\:createNewChildRole").shouldBe(visible).click();
-    $("#newChildRoleDialog").shouldBe(visible);
-    $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys("goodcops");
-    $("#newChildRoleForm\\:saveNewRole").click();
+    $("#newRole\\:newChildRoleDialog").shouldBe(visible);
+    $("#newRole\\:newChildRoleForm\\:newChildRoleNameInput").sendKeys("goodcops");
+    $("#newRole\\:newChildRoleForm\\:saveNewRole").click();
     assertCurrentUrlContains("roledetail.xhtml?system=default&name=goodcops");
     $("#roleInformationForm\\:name").shouldBe(exactValue("goodcops"));
     $("#roleInformationForm\\:parentRole").shouldBe(exactValue("boss"));
     $("#roleInformationForm\\:updateRoleParent").shouldBe(visible).click();
 
-    $(By.id("updateRoleParentForm:updateRoleParentNameInput_input")).shouldBe(visible).clear();
-    $(By.id("updateRoleParentForm:updateRoleParentNameInput_input")).sendKeys("Ever");
-    var panel = $(By.id("updateRoleParentForm:updateRoleParentNameInput_panel")).shouldBe(visible);
+    $(By.id("updateRoleParent:updateRoleParentForm:updateRoleParentNameInput_input")).shouldBe(visible).clear();
+    $(By.id("updateRoleParent:updateRoleParentForm:updateRoleParentNameInput_input")).sendKeys("Ever");
+    var panel = $(By.id("updateRoleParent:updateRoleParentForm:updateRoleParentNameInput_panel")).shouldBe(visible);
     panel.findAll(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0)).first().click();
-    $(By.id("updateRoleParentForm:updateRoleParentNameInput_input")).shouldBe(exactValue("Everybody"));
-    $(By.id("updateRoleParentForm:updateRoleParent")).click();
+    $(By.id("updateRoleParent:updateRoleParentForm:updateRoleParentNameInput_input")).shouldBe(exactValue("Everybody"));
+    $(By.id("updateRoleParent:updateRoleParentForm:updateRoleParent")).click();
     $(By.id("roleInformationForm:parentRole")).shouldBe(exactValue("Everybody"));
 
     $("#roleInformationForm\\:deleteRole").shouldBe(visible).click();
@@ -153,10 +153,10 @@ class WebTestRoleDetail {
   @Test
   void createNewChildRoleWithSameNameAsExisting() {
     $(By.id("roleInformationForm:createNewChildRole")).shouldBe(visible).click();
-    $(By.id("newChildRoleDialog")).shouldBe(visible);
-    $(By.id("newChildRoleForm:newChildRoleNameInput")).clear();
-    $(By.id("newChildRoleForm:newChildRoleNameInput")).sendKeys(DETAIL_ROLE_NAME);
-    $(By.id("newChildRoleForm:saveNewRole")).click();
+    $(By.id("newRole:newChildRoleDialog")).shouldBe(visible);
+    $(By.id("newRole:newChildRoleForm:newChildRoleNameInput")).clear();
+    $(By.id("newRole:newChildRoleForm:newChildRoleNameInput")).sendKeys(DETAIL_ROLE_NAME);
+    $(By.id("newRole:newChildRoleForm:saveNewRole")).click();
     $(By.id("msgs_container")).should(visible, text("Role '" + DETAIL_ROLE_NAME + "' couldn't be created"));
   }
 
