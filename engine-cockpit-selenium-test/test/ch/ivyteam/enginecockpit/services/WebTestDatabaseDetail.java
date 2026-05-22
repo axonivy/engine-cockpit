@@ -45,7 +45,7 @@ class WebTestDatabaseDetail {
   void detailOpen() {
     assertCurrentUrlContains("databasedetail.xhtml?app=" + Tab.DEFAULT_APP + "&name=" + DATABASE_NAME);
     $$(".card").shouldHave(size(4));
-    $("#databaseConfigurationForm\\:name").shouldBe(exactText(DATABASE_NAME));
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:name").shouldBe(exactText(DATABASE_NAME));
 
     $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
     $(By.id("helpDatabaseDialog:helpServicesModal")).shouldBe(visible);
@@ -59,18 +59,18 @@ class WebTestDatabaseDetail {
     Navigation.toDatabaseDetail("realdb");
     assertDatabaseTestConnection("Successfully connected to database");
 
-    $("#databaseConfigurationForm\\:userName").sendKeys("1");
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:userName").sendKeys("1");
     assertDatabaseTestConnection("Error");
   }
 
   private void assertDatabaseTestConnection(String expectedLog) {
-    $("#connResult\\:connectionTestModel").shouldNotBe(visible);
-    $("#databaseConfigurationForm\\:testDatabaseBtn").click();
-    $("#connResult\\:connectionTestModel").shouldBe(visible);
-    $("#connResult\\:connTestForm\\:testConnectionBtn").click();
-    $("#connResult\\:connTestForm\\:resultConnect").shouldBe(text(expectedLog));
-    $("#connResult\\:connectionTestModel .ui-dialog-titlebar-close").click();
-    $("#connResult\\:connectionTestModel").shouldNotBe(visible);
+    $("#databaseConfiguration\\:connResult\\:connectionTestModel").shouldNotBe(visible);
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:testDatabaseBtn").click();
+    $("#databaseConfiguration\\:connResult\\:connectionTestModel").shouldBe(visible);
+    $("#databaseConfiguration\\:connResult\\:connTestForm\\:testConnectionBtn").click();
+    $("#databaseConfiguration\\:connResult\\:connTestForm\\:resultConnect").shouldBe(text(expectedLog));
+    $("#databaseConfiguration\\:connResult\\:connectionTestModel .ui-dialog-titlebar-close").click();
+    $("#databaseConfiguration\\:connResult\\:connectionTestModel").shouldNotBe(visible);
   }
 
   @Test
@@ -85,14 +85,14 @@ class WebTestDatabaseDetail {
 
   @Test
   void addProperty() {
-    var editor = new PropertyEditor("databasePropertiesForm:databasePropertiesTable");
+    var editor = new PropertyEditor("databaseProperties:databasePropertiesForm:databasePropertiesTable");
     editor.addProperty("testProperty", "testValue");
     editor.deleteProperty("testProperty");
   }
 
   @Test
   void editProperty() {
-    var editor = new PropertyEditor("databasePropertiesForm:databasePropertiesTable");
+    var editor = new PropertyEditor("databaseProperties:databasePropertiesForm:databasePropertiesTable");
     editor.editProperty("test", "editValue");
     editor.editProperty("test", "testvalue");
   }
@@ -104,36 +104,36 @@ class WebTestDatabaseDetail {
   }
 
   private void setConfiguration(String url, String driverName, String username, String connections) {
-    $("#databaseConfigurationForm\\:url").shouldBe(visible).clear();
-    $("#databaseConfigurationForm\\:url").sendKeys(url);
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:url").shouldBe(visible).clear();
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:url").sendKeys(url);
 
-    $("#databaseConfigurationForm\\:driver_input").clear();
-    $("#databaseConfigurationForm\\:driver > button").click();
-    $("#databaseConfigurationForm\\:driver_panel").shouldBe(visible);
-    $x("//*[@id='databaseConfigurationForm:driver_panel']//li[text()='" + driverName + "']").click();
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:driver_input").clear();
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:driver > button").click();
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:driver_panel").shouldBe(visible);
+    $x("//*[@id='databaseConfiguration:databaseConfigurationForm:driver_panel']//li[text()='" + driverName + "']").click();
 
-    $("#databaseConfigurationForm\\:userName").clear();
-    $("#databaseConfigurationForm\\:userName").sendKeys(username);
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:userName").clear();
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:userName").sendKeys(username);
 
-    PrimeUi.inputNumber(By.id("databaseConfigurationForm:maxConnections")).setValue(connections);
+    PrimeUi.inputNumber(By.id("databaseConfiguration:databaseConfigurationForm:maxConnections")).setValue(connections);
 
-    $("#databaseConfigurationForm\\:saveDatabaseConfig").click();
-    $("#databaseConfigurationForm\\:databaseConfigMsg_container")
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:saveDatabaseConfig").click();
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:databaseConfigMsg_container")
         .shouldBe(text("Database configuration saved"));
   }
 
   private void checkConfiguration(String url, String driverName, String username, String connections) {
-    $("#databaseConfigurationForm\\:url").shouldBe(exactValue(url));
-    $("#databaseConfigurationForm\\:driver_input").shouldBe(exactValue(driverName));
-    $("#databaseConfigurationForm\\:userName").shouldBe(exactValue(username));
-    $("#databaseConfigurationForm\\:maxConnections_input").shouldBe(exactValue(connections));
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:url").shouldBe(exactValue(url));
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:driver_input").shouldBe(exactValue(driverName));
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:userName").shouldBe(exactValue(username));
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:maxConnections_input").shouldBe(exactValue(connections));
   }
 
   private void resetConfiguration() {
-    $("#databaseConfigurationForm\\:resetConfig").click();
-    $("#databaseConfigurationForm\\:resetDbConfirmDialog").shouldBe(visible);
-    $("#databaseConfigurationForm\\:resetDbConfirmYesBtn").click();
-    $("#databaseConfigurationForm\\:databaseConfigMsg_container")
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:resetConfig").click();
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:resetDbConfirmDialog").shouldBe(visible);
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:resetDbConfirmYesBtn").click();
+    $("#databaseConfiguration\\:databaseConfigurationForm\\:databaseConfigMsg_container")
         .shouldBe(text("Database configuration reset"));
   }
 
