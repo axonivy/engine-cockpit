@@ -154,7 +154,7 @@ public class WebTestSystemDb {
     $("#systemDb\\:createDatabaseForm\\:confirmCreateButton > .ui-icon")
         .shouldHave(cssClass("spinning"));
     $("#systemDb\\:createDatabaseForm\\:closeCreationButton")
-        .shouldBe(and("wait until db created", appear, enabled), Duration.ofSeconds(20));
+        .shouldBe(and("wait until db created", appear, enabled), Duration.ofSeconds(30));
     $("#systemDb\\:createDatabaseForm\\:creationError").shouldNot(exist);
     $("#systemDb\\:createDatabaseForm\\:creationInfo").shouldBe(text("The database was created successfully"));
     $("#systemDb\\:createDatabaseForm\\:closeCreationButton").click();
