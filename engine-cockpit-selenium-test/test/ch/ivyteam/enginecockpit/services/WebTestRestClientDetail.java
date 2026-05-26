@@ -81,14 +81,14 @@ class WebTestRestClientDetail {
   }
 
   private void testAndAssertConnection(String title, String msg) {
-    $("#connResult\\:connectionTestModel").shouldNotBe(visible);
+    $(By.id("restClientConfiguration:connResult:connectionTestModel")).shouldNotBe(visible);
     $("#restClientConfiguration\\:restClientConfigurationForm\\:testRestBtn").shouldBe(visible).click();
-    $("#connResult\\:connectionTestModel").shouldBe(visible);
-    $("#connResult\\:connTestForm\\:testConnectionBtn").click();
-    $("#connResult\\:connTestForm\\:resultConnect").shouldBe(text(title));
-    $("#connResult\\:connTestForm\\:resultConnect").shouldBe(text(msg));
-    $("#connResult\\:connectionTestModel > div > a").click();
-    $("#connResult\\:connectionTestModel").shouldNotBe(visible);
+    $(By.id("restClientConfiguration:connResult:connectionTestModel")).shouldBe(visible);
+    $(By.id("restClientConfiguration:connResult:connTestForm:testConnectionBtn")).click();
+    $(By.id("restClientConfiguration:connResult:connTestForm:resultConnect")).shouldBe(text(title));
+    $(By.id("restClientConfiguration:connResult:connTestForm:resultConnect")).shouldBe(text(msg));
+    $(By.id("restClientConfiguration:connResult:connTestForm:closeConTesterDialog")).click();
+    $(By.id("restClientConfiguration:connResult:connectionTestModel")).shouldNotBe(visible);
   }
 
   @Test
