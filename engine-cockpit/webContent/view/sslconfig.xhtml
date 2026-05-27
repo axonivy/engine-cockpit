@@ -26,15 +26,13 @@
       <div class="layout-dashboard">
         <div class="grid">
           <div class="col-12 md:col-12 xl:col-6">
-            <ui:include
-              src="../includes/components/configuration/ssl-truststore.xhtml" />
+            <cc:SslTruststore id="sslTruststore" />
           </div>
           <div class="col-12 md:col-12 xl:col-6">
             <cc:SslTable id="sslTrustTable" bean="#{trustStoreBean}" title="#{ivy.cm.co('/sslConfig/TrustStoreCertificates')}" />
           </div>
           <div class="col-12 md:col-12 xl:col-6">
-            <ui:include
-              src="../includes/components/configuration/ssl-keystore.xhtml" />
+            <cc:SslKeystore id="sslKeystore" />
           </div>
           <div class="col-12 md:col-12 xl:col-6">
             <cc:SslTable id="sslKeyTable" bean="#{keyStoreBean}" title="#{ivy.cm.co('/sslConfig/KeyStoreCertificates')}" />

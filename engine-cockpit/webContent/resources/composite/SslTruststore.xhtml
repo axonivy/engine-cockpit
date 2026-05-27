@@ -6,8 +6,8 @@
   xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
-
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+<cc:implementation>
 <div class="card">
   <h:form id="sslClientform">
     <p:growl id="sslTruststoreSaveSuccess"
@@ -66,5 +66,6 @@
       itemLabel="#{ivy.cm.co('/sslTrustStore/EnableInsecureSSLAndHTTPSConnections')}" />
   </h:form>
 </div>
+</cc:implementation>
 
 </html>

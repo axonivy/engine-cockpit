@@ -28,22 +28,22 @@ import ch.ivyteam.enginecockpit.util.Table;
 class WebTestSSL {
 
   private interface Key {
-    String STORE_PASSWORD = "sslClientformKey:keyStorePassword";
-    String PASSWORD = "sslClientformKey:keyPassword";
-    String FILE = "sslClientformKey:keyStoreFile";
-    String ALGORITHM = "sslClientformKey:keyStoreAlgorithm";
-    String TYPE = "sslClientformKey:keyStoreType";
-    String PROVIDER = "sslClientformKey:keyStoreProvider";
-    String USE_CUSTOM = "sslClientformKey:useCustomKeyStore";
+    String STORE_PASSWORD = "sslKeystore:sslClientformKey:keyStorePassword";
+    String PASSWORD = "sslKeystore:sslClientformKey:keyPassword";
+    String FILE = "sslKeystore:sslClientformKey:keyStoreFile";
+    String ALGORITHM = "sslKeystore:sslClientformKey:keyStoreAlgorithm";
+    String TYPE = "sslKeystore:sslClientformKey:keyStoreType";
+    String PROVIDER = "sslKeystore:sslClientformKey:keyStoreProvider";
+    String USE_CUSTOM = "sslKeystore:sslClientformKey:useCustomKeyStore";
   }
 
   private interface Trust {
-    String ENABLE_INSECURE_SSL = "sslClientform:enableInsecureSSL";
-    String ALGORITHM = "sslClientform:trustStoreAlgorithm";
-    String TYPE = "sslClientform:trustStoreType";
-    String PROVIDER = "sslClientform:trustStoreProvider";
-    String PASSWORD = "sslClientform:trustStorePassword";
-    String FILE = "sslClientform:trustStoreFile";
+    String ENABLE_INSECURE_SSL = "sslTruststore:sslClientform:enableInsecureSSL";
+    String ALGORITHM = "sslTruststore:sslClientform:trustStoreAlgorithm";
+    String TYPE = "sslTruststore:sslClientform:trustStoreType";
+    String PROVIDER = "sslTruststore:sslClientform:trustStoreProvider";
+    String PASSWORD = "sslTruststore:sslClientform:trustStorePassword";
+    String FILE = "sslTruststore:sslClientform:trustStoreFile";
   }
 
   @BeforeEach
@@ -158,8 +158,8 @@ class WebTestSSL {
   }
 
   private void saveKeyStore() {
-    $(By.id("sslClientformKey:save")).shouldBe(visible).click();
-    $(By.id("sslClientformKey:sslKeystoreSaveSuccess_container")).shouldHave(text("Key Store configurations saved"));
+    $(By.id("sslKeystore:sslClientformKey:save")).shouldBe(visible).click();
+    $(By.id("sslKeystore:sslClientformKey:sslKeystoreSaveSuccess_container")).shouldHave(text("Key Store configurations saved"));
   }
 
   @Test
@@ -232,7 +232,7 @@ class WebTestSSL {
   }
 
   private void saveTrustStore() {
-    $(By.id("sslClientform:save")).shouldBe(visible).click();
-    $(By.id("sslClientform:sslTruststoreSaveSuccess_container")).shouldHave(text("Trust Store configurations saved"));
+    $(By.id("sslTruststore:sslClientform:save")).shouldBe(visible).click();
+    $(By.id("sslTruststore:sslClientform:sslTruststoreSaveSuccess_container")).shouldHave(text("Trust Store configurations saved"));
   }
 }
