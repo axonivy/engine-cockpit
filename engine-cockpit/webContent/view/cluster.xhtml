@@ -40,7 +40,7 @@
                 <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{node.name}" filterBy="#{node.name}">
                   <p:commandLink id="clusterNode">
                     <p:ajax listener="#{clusterBean.setActiveClusterNode(node)}" process="@this"
-                      oncomplete="PF('clusterNodeDialog').show()" update="clusterNodeDialog" />
+                      oncomplete="PF('clusterNodeDialog').show()" update="clusterNodeInfo:clusterNodeDialog" />
                     <i class="ti ti-device-desktop table-icon"></i>
                     <h:outputText value="#{node.name}" styleClass="node-name" />
                   </p:commandLink>
@@ -102,7 +102,7 @@
         </p:tabView>
 
       </div>
-      <ui:include src="../includes/dialogs/clusternodeinfo.xhtml" />
+      <cc:Clusternodeinfo id="clusterNodeInfo" />
     </ui:define>
 
     <ui:define name="live-stats">
