@@ -55,13 +55,13 @@ class WebTestDeployment {
   }
 
   @Test
-  void emptyApp(@TempDir Path tempDir) throws IOException {
+  void corruptZip(@TempDir Path tempDir) throws IOException {
     toAppDetailAndOpenDeployment();
     var tempFile = tempDir.resolve("app.iar");
     Files.createFile(tempFile);
     deployPath(tempFile);
-    $(By.id("deployment:uploadStatus")).shouldHave(text("Success"));
-    $(By.id("uploadLog")).shouldHave(text("No projects to deploy"), text("successfully deployed to application"));
+    $(By.id("deployment:uploadStatus")).shouldHave(text("Error"));
+    $(By.id("uploadLog")).shouldHave(text("Couldn't deploy 'app.iar'"));
   }
 
   @Test
