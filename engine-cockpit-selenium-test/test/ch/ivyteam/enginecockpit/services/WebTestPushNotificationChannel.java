@@ -72,12 +72,12 @@ public class WebTestPushNotificationChannel {
     EngineCockpitUtil.createNotification();
     login();
     Navigation.toNotificationChannels();
-    Table table = new Table(By.id("securitySystems:securitySystemTabView:" + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":tableForm:" + WebTestNotificationChannels.TABLE_ID), true);
+    Table table = new Table(By.id("securitySystems:securitySystemTabView:" + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":notificationChannelsTable:tableForm:" + WebTestNotificationChannels.TABLE_ID), true);
 
     table.tableEntry("Email", 4, 2).$("i.ti-circle-minus").shouldBe(Condition.visible);
     table.tableEntry("Email", 4, 2).$("i.ti-clock-play").shouldBe(Condition.visible);
     table.tableEntry("Email", 4, 2).click();
-    var lockDetails = $(By.id("securitySystems:securitySystemTabView:" + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":tableForm:channelsTable:2:state:lockDetails"));
+    var lockDetails = $(By.id("securitySystems:securitySystemTabView:" + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":notificationChannelsTable:tableForm:channelsTable:2:state:lockDetails"));
     assertLockDetails(lockDetails);
 
     Navigation.toNotificationChannelDetail("mail");

@@ -49,8 +49,8 @@ class WebTestApplication {
   @Test
   void invalidInputNewApplication() {
     openNewApplicationModal();
-    $("#newApplicationForm\\:saveNewApplication").click();
-    $("#newApplicationForm\\:newApplicationNameMessage").shouldBe(visible);
+    $("#newApplication\\:newApplicationForm\\:saveNewApplication").click();
+    $("#newApplication\\:newApplicationForm\\:newApplicationNameMessage").shouldBe(visible);
   }
 
   @Test
@@ -171,13 +171,13 @@ class WebTestApplication {
   }
 
   private void stopAppInsideDetailView() {
-    $("#appDetailStateForm\\:deActivateApplication").click();
-    $("#appDetailStateForm\\:activateApplication").shouldBe(visible);
+    $("#state\\:appDetailStateForm\\:deActivateApplication").click();
+    $("#state\\:appDetailStateForm\\:activateApplication").shouldBe(visible);
   }
 
   private void startAppInsideDetailView() {
-    $("#appDetailStateForm\\:activateApplication").click();
-    $("#appDetailStateForm\\:deActivateApplication").shouldBe(visible);
+    $("#state\\:appDetailStateForm\\:activateApplication").click();
+    $("#state\\:appDetailStateForm\\:deActivateApplication").shouldBe(visible);
   }
 
   private void addNewAppAndNavigateToIt() {
@@ -212,18 +212,18 @@ class WebTestApplication {
   private void addNewApplication() {
     openNewApplicationModal();
 
-    $("#newApplicationForm\\:newApplicationNameInput").clear();
-    $("#newApplicationForm\\:newApplicationNameInput").sendKeys(NEW_TEST_APP);
-    PrimeUi.selectBooleanCheckbox(By.id("newApplicationForm:newApplicationActivate")).removeChecked();
+    $("#newApplication\\:newApplicationForm\\:newApplicationNameInput").clear();
+    $("#newApplication\\:newApplicationForm\\:newApplicationNameInput").sendKeys(NEW_TEST_APP);
+    PrimeUi.selectBooleanCheckbox(By.id("newApplication:newApplicationForm:newApplicationActivate")).removeChecked();
 
-    $("#newApplicationForm\\:saveNewApplication").click();
+    $("#newApplication\\:newApplicationForm\\:saveNewApplication").click();
 
     $$(".activity-name").find(text(NEW_TEST_APP)).shouldBe(visible);
   }
 
   private void openNewApplicationModal() {
     $("#form\\:createApplicationBtn").click();
-    $("#newApplicationModal").shouldBe(visible);
+    $("#newApplication\\:newApplicationModal").shouldBe(visible);
   }
 
   private By getNewAppId() {

@@ -2,7 +2,9 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ccc="http://xmlns.jcp.org/jsf/composite/composite">
+
+<cc:implementation>
 
 <div class="card">
   <h:form id="databasePropertiesForm">
@@ -32,18 +34,20 @@
       </p:column>
       <p:column styleClass="table-btn-2">
         <f:facet name="header">
-          <cc:PropertyEditor id="newPropertyEditor"
+          <ccc:PropertyEditor id="newPropertyEditor"
             bean="#{databaseDetailBean}" isNewProperty="true"
             property="#{property}"
-            formName="databasePropertiesForm" />
+            formName=":#{cc.clientId}:databasePropertiesForm" />
         </f:facet>
-        <cc:PropertyEditor id="editPropertyEditor"
+        <ccc:PropertyEditor id="editPropertyEditor"
           bean="#{databaseDetailBean}" isNewProperty="false"
           property="#{property}"
-          formName="databasePropertiesForm" />
+          formName=":#{cc.clientId}:databasePropertiesForm" />
       </p:column>
     </p:dataTable>
   </h:form>
 </div>
+
+</cc:implementation>
 
 </html>

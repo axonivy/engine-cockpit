@@ -156,7 +156,7 @@
               update="conversionLog convertConfirmYesBtn" oncomplete="PF('convertDialog').hide();reloadTree();" icon="ti ti-circle-check" />
           </p:confirmDialog>
         </h:form>
-        <ui:include src="../includes/dialogs/newapplication.xhtml" />
+        <cc:NewApplication id="newApplication" />
       </div>
 
       <h:panelGroup id="deployPanel">

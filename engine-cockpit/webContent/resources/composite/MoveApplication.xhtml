@@ -1,8 +1,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:cc="http://xmlns.jcp.org/jsf/composite">
 
+<cc:implementation>
 <p:dialog header="#{ivy.cm.co('/moveApplication/ChangeSecuritySystemDialogHeader')}" id="moveApplicationModal"
   widgetVar="moveApplicationModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="moveApplicationForm" styleClass="custom-dialog-form">
@@ -42,10 +43,11 @@
         icon="ti ti-check" styleClass="modal-input-button" />
       <p:commandButton id="moveApplication" disabled="#{!moveApplicationBean.isValid()}" actionListener="#{moveApplicationBean.move()}" value="#{ivy.cm.co('/moveApplication/Move')}"
         oncomplete="var button=this; buttonRemoveSpinner(button, 'ti ti-check');PF('moveApplicationModal').hide();"
-        onclick="var button=this; buttonAddSpinner(button);" update="appDetailSecurityForm"
+        onclick="var button=this; buttonAddSpinner(button);" update=":security:appDetailSecurityForm"
         icon="ti ti-arrow-big-down-lines" styleClass="modal-input-button" />
     </div>
   </h:form>
 </p:dialog>
+</cc:implementation>
 
 </html>

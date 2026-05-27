@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+
+<cc:implementation>
+  <p:dialog header="#{ivy.cm.co('/sendtestmail/SendTestMailDialogHeader')}" id="sendTestMailModal" appendTo="@(body)"
+    widgetVar="sendTestMailModal" modal="true" responsive="true" width="800px" closeOnEscape="true">
+    <h:form id="sendTestMailForm" styleClass="custom-dialog-form">
+      <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9"
+        styleClass="grey-label-panel align-items-baseline ui-fluid">
+        <p:outputLabel for="sendToInput" value="#{ivy.cm.co('/sendtestmail/To')}" />
+        <h:panelGroup styleClass="md-inputfield">
+          <p:inputText id="sendToInput" value="#{emailBean.sendTo}" required="true" requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}" />
+          <p:message for="sendToInput" id="sendToInputMessage" />
+        </h:panelGroup>
+
+        <p:outputLabel for="subjectInput" value="#{ivy.cm.co('/sendtestmail/Subject')}" />
+        <h:panelGroup styleClass="md-inputfield">
+          <p:inputText id="subjectInput" value="#{emailBean.subject}" required="true" requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}" />
+          <p:message for="subjectInput" id="subjectInputMessage" />
+        </h:panelGroup>
+
+        <p:outputLabel for="messageText" value="#{ivy.cm.co('/sendtestmail/Message')}" />
+        <p:inputTextarea id="messageText" value="#{emailBean.message}" autoResize="false" rows="5" />
+
+        <p:outputLabel for="debugLog" value="#{ivy.cm.co('/sendtestmail/Log')}" />
+        <p:scrollPanel id="debugLog" style="height:300px;">
+          <pre style="margin:0px;"><code><h:outputText id="debugLogText" value="#{emailBean.debugLog}" /></code></pre>
+        </p:scrollPanel>
+
+        <p:outputLabel for="result"/>
+        <h:panelGroup id="result">
+          <p:staticMessage severity="info" summary="#{ivy.cm.co('/common/Success')}" rendered="#{emailBean.success}"/>
+          <p:staticMessage severity="error" summary="#{ivy.cm.co('/common/Failed')}" id="testMailFailed" detail="#{emailBean.error}" rendered="#{emailBean.failed}"/>
+        </h:panelGroup>
+      </p:panelGrid>
+      <div class="custom-dialog-footer">
+        <p:commandButton id="cancelSendTestMailBtn" onclick="PF('sendTestMailModal').hide()" value="#{ivy.cm.co('/common/Cancel')}" 
+          styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+        <p:commandButton id="sendTestMailBtn" validateClient="true" update="debugLog result"
+          actionListener="#{emailBean.sendTestMail}" value="#{ivy.cm.co('/common/Send')}" icon="ti ti-mail" styleClass="modal-input-button" />
+      </div>
+    </h:form>
+  </p:dialog>
+</cc:implementation>
+
+</html>

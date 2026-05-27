@@ -71,8 +71,8 @@
 <cc:DirectoryBrowser updateFields="roleInformationForm" directoryBrowser="#{roleDetailBean.directoryBrowser}"
   returnListener="#{roleDetailBean.chooseDirectoryName()}" id="directoryBrowser" />
 
-<ui:include src="../../dialogs/newrole.xhtml" />
-<ui:include src="../../dialogs/renamerole.xhtml" />
-<ui:include src="../../dialogs/updateroleparent.xhtml" />
+<cc:NewRole id="newRole" />
+<cc:RenameRole id="renameRole" />
+<cc:UpdateRoleParent id="updateRoleParent" />
 
 </html>

@@ -56,34 +56,34 @@ class WebTestApplicationDetail {
   @Test
   void securitySystemInfo() {
     Navigation.toApplicationDetail("test-ad");
-    $(By.id("appDetailSecurityForm")).find(".ui-panelgrid-content a", 0).shouldHave(exactText("test-ad"), href("security-detail.xhtml?securitySystemName=test-ad"));
-    var userCount = $(By.id("appDetailSecurityForm")).find(".ui-panelgrid-content a", 1).shouldHave(href("users.xhtml")).text();
+    $(By.id("security:appDetailSecurityForm")).find(".ui-panelgrid-content a", 0).shouldHave(exactText("test-ad"), href("security-detail.xhtml?securitySystemName=test-ad"));
+    var userCount = $(By.id("security:appDetailSecurityForm")).find(".ui-panelgrid-content a", 1).shouldHave(href("users.xhtml")).text();
     assertThat(Integer.parseInt(userCount)).isBetween(2, 8);
-    var roleCount = $(By.id("appDetailSecurityForm")).find(".ui-panelgrid-content a", 2).shouldHave(href("roles.xhtml")).text();
+    var roleCount = $(By.id("security:appDetailSecurityForm")).find(".ui-panelgrid-content a", 2).shouldHave(href("roles.xhtml")).text();
     assertThat(Integer.parseInt(roleCount)).isBetween(3, 5);
   }
 
   @Test
   void move() {
     Navigation.toApplicationDetail("test-ad");
-    $(By.id(("appDetailSecurityForm:moveApplication"))).click();
-    $(By.id("moveApplicationModal")).shouldBe(visible);
-    $(By.id("moveApplicationForm:validateMoveApplication")).click();
-    $(By.id("moveApplicationForm:validationMessage")).should(visible).should(Condition.text("Application must be deactivated."));
-    $(By.id("moveApplicationForm:cancelMoveApplication")).click();
+    $(By.id(("security:appDetailSecurityForm:moveApplication"))).click();
+    $(By.id("security:moveApplicationComposite:moveApplicationModal")).shouldBe(visible);
+    $(By.id("security:moveApplicationComposite:moveApplicationForm:validateMoveApplication")).click();
+    $(By.id("security:moveApplicationComposite:moveApplicationForm:validationMessage")).should(visible).should(Condition.text("Application must be deactivated."));
+    $(By.id("security:moveApplicationComposite:moveApplicationForm:cancelMoveApplication")).click();
   }
 
   @Test
   void adSync() {
     Navigation.toApplicationDetail("test-ad");
     waitUntilAjaxIsFinished();
-    $("#appDetailSecurityForm\\:showAdSyncLogBtn").should(exist);
-    $("#appDetailSecurityForm\\:synchronizeSecurity").shouldBe(visible, enabled).click();
-    $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().shouldHave(cssClass("spinning"));
-    $$("#appDetailSecurityForm\\:synchronizeSecurity span").first()
+    $("#security\\:appDetailSecurityForm\\:showAdSyncLogBtn").should(exist);
+    $("#security\\:appDetailSecurityForm\\:synchronizeSecurity").shouldBe(visible, enabled).click();
+    $$("#security\\:appDetailSecurityForm\\:synchronizeSecurity span").first().shouldHave(cssClass("spinning"));
+    $$("#security\\:appDetailSecurityForm\\:synchronizeSecurity span").first()
         .shouldHave(not(cssClass("spinning")), Duration.ofSeconds(20));
 
-    $("#appDetailSecurityForm\\:showAdSyncLogBtn").click();
+    $("#security\\:appDetailSecurityForm\\:showAdSyncLogBtn").click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
         .find(".ui-panel-content").shouldBe(visible);
   }
@@ -91,7 +91,7 @@ class WebTestApplicationDetail {
   @Test
   void home() {
     Navigation.toApplicationDetail("test");
-    var home = $(By.id("appDetailInfoForm:home"));
+    var home = $(By.id("information:appDetailInfoForm:home"));
     home.$("a").shouldHave(Condition.href("/test/1"));
     home.click();
     assertThat(Selenide.webdriver().driver().url()).contains("/dev-workflow-ui/");
@@ -100,7 +100,7 @@ class WebTestApplicationDetail {
   @Test
   void workflow() {
     Navigation.toApplicationDetail("test");
-    var workflow = $(By.id("appDetailInfoForm:workflow"));
+    var workflow = $(By.id("information:appDetailInfoForm:workflow"));
     workflow.$("a").shouldHave(href("/dev-workflow-ui/faces/home.xhtml"));
     workflow.click();
     assertThat(Selenide.webdriver().driver().url()).contains("/dev-workflow-ui/");
@@ -109,7 +109,7 @@ class WebTestApplicationDetail {
   @Test
   void reloadConfig() {
     Navigation.toApplicationDetail("test");
-    $(By.id("reloadConfig")).shouldBe(visible).click();
-    $(By.id("config:form:msgs_container")).shouldBe(visible).should(text("Configuration of application 'test' reloaded"));
+    $(By.id("configuration:reloadConfig")).shouldBe(visible).click();
+    $(By.id("configuration:config:form:msgs_container")).shouldBe(visible).should(text("Configuration of application 'test' reloaded"));
   }
 }
