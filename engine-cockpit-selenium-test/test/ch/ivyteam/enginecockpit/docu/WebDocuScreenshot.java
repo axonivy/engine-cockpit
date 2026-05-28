@@ -180,12 +180,12 @@ class WebDocuScreenshot {
   }
 
   private void takeTlsTesterScreeshot() {
-    $(By.id("restClientConfigurationForm:url")).clear();
-    $(By.id("restClientConfigurationForm:url")).sendKeys("https://test-webservices.ivyteam.io:8090/api/v3");
-    $(By.id("restClientConfigurationForm:testRestBtn")).shouldBe(visible);
-    $(By.id("restClientConfigurationForm:testRestBtn")).click();
-    $(By.id("connResult:connTestForm:testTlsConectionBtn")).shouldBe(visible).click();
-    $(By.id("connResult:connTestForm:resultTLS")).shouldBe(visible, Duration.ofSeconds(10));
+    $(By.id("restClientConfiguration:restClientConfigurationForm:url")).clear();
+    $(By.id("restClientConfiguration:restClientConfigurationForm:url")).sendKeys("https://test-webservices.ivyteam.io:8090/api/v3");
+    $(By.id("restClientConfiguration:restClientConfigurationForm:testRestBtn")).shouldBe(visible);
+    $(By.id("restClientConfiguration:restClientConfigurationForm:testRestBtn")).click();
+    $(By.id("restClientConfiguration:connResult:connTestForm:testTlsConectionBtn")).shouldBe(visible).click();
+    $(By.id("restClientConfiguration:connResult:connTestForm:resultTLS")).shouldBe(visible, Duration.ofSeconds(10));
     takeDialogScreenshot("tls-tester");
   }
 
@@ -202,7 +202,7 @@ class WebDocuScreenshot {
     Navigation.toBranding();
     takeScreenshot("branding", new Dimension(SCREENSHOT_WIDTH, 800));
     takeDialogScreenshot("branding-custom-css",
-        By.id("apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":form:editCustomCssBtn"));
+      By.id("apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":brandingResources:form:editCustomCssBtn"));
   }
 
   @Test
@@ -242,7 +242,7 @@ class WebDocuScreenshot {
   @Test
   void screenshotDashboard() {
     takeScreenshot("dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
-    takeDialogScreenshot("dialog-test-mail", By.id("openTestMailBtn"));
+    takeDialogScreenshot("dialog-test-mail", By.id("email:openTestMailBtn"));
   }
 
   private void takeDialogScreenshot(String screenshotName, By dialogOpenBtn) {

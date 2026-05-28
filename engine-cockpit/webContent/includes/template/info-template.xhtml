@@ -28,7 +28,7 @@
         <div class="layout-topbar-right">
           <div class="menu-wrapper">
             <div class="layout-menu-container" style="justify-content: right;">
-              <h:form id="menuform">
+              <h:form id="menuform" styleClass="ec-menuform">
                 <pm:menu widgetVar="sidebar_menu">
                   <p:menuitem id="sr_apps" value="#{ivy.cm.co('/common/Applications')}" icon="ti ti-layout-grid" containerStyleClass="active-nav-page" />
                   <p:menuitem id="sr_cockpit" value="#{ivy.cm.co('/common/EngineCockpit')}" icon="ti ti-settings animated swing" url="#{engineInfo.engineCockpitUrl}" />

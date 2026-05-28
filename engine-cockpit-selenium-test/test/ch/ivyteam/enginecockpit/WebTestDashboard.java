@@ -55,78 +55,78 @@ public class WebTestDashboard {
 
   @Test
   void checkLicenceInfo() {
-    $("#tasksButtonLicenceDetail").shouldBe(visible).click();
+    $("#licence\\:tasksButtonLicenceDetail").shouldBe(visible).click();
     $("h2").shouldHave(text("Licence"));
     $("#licence\\:licWarnMessage").shouldHave(text("Please upload a valid licence"));
   }
 
   @Test
   void checkLicenceEvents() {
-    $("#tasksButtonLicenceEvents").shouldBe(visible);
+    $("#licence\\:tasksButtonLicenceEvents").shouldBe(visible);
     $(".licence-notification").shouldBe(visible);
 
-    $("#tasksButtonLicenceEvents").click();
-    $("#licenceEventsDialog").shouldBe(visible);
+    $("#licence\\:tasksButtonLicenceEvents").click();
+    $("#licenceEvents\\:licenceEventsDialog").shouldBe(visible);
     $$(".licence-messages li").shouldHave(size(2));
     $(".licence-messages li", 0).find(".ui-button").click();
     $$(".licence-messages li").shouldHave(size(1));
-    $("#licenceEventForm\\:closeLicenceEventsDialog").click();
-    $("#licenceEventsDialog").shouldNotBe(visible);
+    $("#licenceEvents\\:licenceEventForm\\:closeLicenceEventsDialog").click();
+    $("#licenceEvents\\:licenceEventsDialog").shouldNotBe(visible);
 
     $(".licence-notification > a").click();
-    $("#licenceEventsDialog").shouldBe(visible);
+    $("#licenceEvents\\:licenceEventsDialog").shouldBe(visible);
     $$(".licence-messages li").shouldHave(size(1));
-    $("#licenceEventForm\\:confirmAllLicenceEvents").click();
+    $("#licenceEvents\\:licenceEventForm\\:confirmAllLicenceEvents").click();
 
-    $("#tasksButtonLicenceDetail").shouldBe(visible);
-    $("#licenceEventsDialog").shouldNotBe(visible);
-    $("#tasksButtonLicenceEvents").shouldNotBe(exist);
+    $("#licence\\:tasksButtonLicenceDetail").shouldBe(visible);
+    $("#licenceEvents\\:licenceEventsDialog").shouldNotBe(visible);
+    $("#licence\\:tasksButtonLicenceEvents").shouldNotBe(exist);
     $(".licence-notification").shouldNotBe(exist);
   }
 
   @Test
   void checkHealth() {
-    $(By.id("healthForm:severity")).shouldBe(text("HIGH"));
-    $(By.id("healthForm:problems")).shouldBe(matchText("\\d{1} problems detected."));
-    $(By.id("healthForm:runCheck")).shouldBe(visible).click();
-    $(By.id("healthForm:detail")).shouldBe(visible).click();
+    $(By.id("health:healthForm:severity")).shouldBe(text("HIGH"));
+    $(By.id("health:healthForm:problems")).shouldBe(matchText("\\d{1} problems detected."));
+    $(By.id("health:healthForm:runCheck")).shouldBe(visible).click();
+    $(By.id("health:healthForm:detail")).shouldBe(visible).click();
     assertCurrentUrlContains("health.xhtml");
   }
 
   @Test
   void checkJavaInfo() {
-    $("#tasksButtonJavaDetail").shouldBe(visible).click();
-    $("#javaDetailDialog").shouldBe(visible);
-    new Table(By.id("javaInfoForm:javaJVMInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
-    new Table(By.id("javaInfoForm:javaPropertiesInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
+    $("#java\\:tasksButtonJavaDetail").shouldBe(visible).click();
+    $("#java\\:javaInfo\\:javaDetailDialog").shouldBe(visible);
+    new Table(By.id("java:javaInfo:javaInfoForm:javaJVMInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
+    new Table(By.id("java:javaInfo:javaInfoForm:javaPropertiesInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
   }
 
   @Test
   void sendTestMailInvalidInputs() {
     openSendMailModal();
-    $(By.id("sendTestMail:sendTestMailForm:sendToInput")).clear();
-    $(By.id("sendTestMail:sendTestMailForm:subjectInput")).clear();
-    $(By.id("sendTestMail:sendTestMailForm:sendTestMailBtn"))
+    $(By.id("email:sendTestMail:sendTestMailForm:sendToInput")).clear();
+    $(By.id("email:sendTestMail:sendTestMailForm:subjectInput")).clear();
+    $(By.id("email:sendTestMail:sendTestMailForm:sendTestMailBtn"))
         .scrollTo()
         .click();
-    $(By.id("sendTestMail:sendTestMailForm:sendToInput")).shouldHave(cssClass("ui-state-error"));
-    $(By.id("sendTestMail:sendTestMailForm:subjectInput")).shouldHave(cssClass("ui-state-error"));
+    $(By.id("email:sendTestMail:sendTestMailForm:sendToInput")).shouldHave(cssClass("ui-state-error"));
+    $(By.id("email:sendTestMail:sendTestMailForm:subjectInput")).shouldHave(cssClass("ui-state-error"));
   }
 
   @Test
   void sendTestMailError() {
     openSendMailModal();
-    $(By.id("sendTestMail:sendTestMailForm:sendToInput")).sendKeys("test@example.com");
-    $(By.id("sendTestMail:sendTestMailForm:sendTestMailBtn"))
+    $(By.id("email:sendTestMail:sendTestMailForm:sendToInput")).sendKeys("test@example.com");
+    $(By.id("email:sendTestMail:sendTestMailForm:sendTestMailBtn"))
         .scrollTo()
         .click();
-    $(By.id("sendTestMail:sendTestMailForm:testMailFailed"))
+    $(By.id("email:sendTestMail:sendTestMailForm:testMailFailed"))
         .shouldBe(visible)
         .shouldHave(Condition.text("Failed"));
   }
 
   private void openSendMailModal() {
-    $("#openTestMailBtn").shouldBe(visible).click();
-    $("#sendTestMail\\:sendTestMailModal").shouldBe(visible);
+    $("#email\\:openTestMailBtn").shouldBe(visible).click();
+    $("#email\\:sendTestMail\\:sendTestMailModal").shouldBe(visible);
   }
 }

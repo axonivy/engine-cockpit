@@ -1,7 +1,8 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui"
-  xmlns:pm="http://primefaces.org/freya-ivy">
+  xmlns:pm="http://primefaces.org/freya-ivy" xmlns:cc="http://xmlns.jcp.org/jsf/composite">
 
+<cc:implementation>
   <div class="menu-wrapper">
     <div class="sidebar-logo">
       <a href="dashboard.xhtml">
@@ -10,7 +11,7 @@
     </div>
 
     <div class="layout-menu-container">
-      <h:form id="menuform">
+      <h:form id="menuform" styleClass="ec-menuform">
         <pm:menu widgetVar="sidebar_menu">
           <p:menuitem id="sr_dashboard" value="#{ivy.cm.co('/sidebar/Dashboard')}" icon="ti ti-layout-dashboard" url="dashboard.xhtml" />
           <p:menuitem id="sr_applications" value="#{ivy.cm.co('/common/Applications')}" icon="ti ti-layout-grid"
@@ -102,5 +103,6 @@
       </h:form>
     </div>
   </div>
+</cc:implementation>
 
-</ui:composition>
+</html>

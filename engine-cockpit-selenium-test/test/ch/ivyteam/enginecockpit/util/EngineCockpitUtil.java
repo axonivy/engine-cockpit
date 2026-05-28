@@ -44,7 +44,7 @@ public class EngineCockpitUtil {
     if (webdriver().driver().url().endsWith(LOGIN)) {
       loginUser(username, password);
     }
-    $("#menuform").shouldBe(visible);
+    $(".ec-menuform").shouldBe(visible);
     assertCurrentUrlContains(LOGIN.equals(url) ? DASHBOARD : url);
   }
 

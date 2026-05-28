@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
-  xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui" lang="en">
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite" lang="en">
 <f:view beforePhase="#{loginBean.checkLogin()}" />
 
 <h:head>
@@ -44,7 +45,7 @@
           </ul>
         </div>
         
-        <ui:include src="./sidebar.xhtml" />
+        <cc:SidebarMenu id="sidebarMenu" />
         
         <div class="layout-topbar-right">
           <ul class="layout-topbar-actions">
@@ -162,8 +163,8 @@
       </div>
     </div>
 
-    <ui:include src="../dialogs/licenceevents.xhtml" />
-    <ui:include src="../dialogs/supportreport.xhtml" />
+    <cc:LicenceEvents id="licenceEvents" />
+    <cc:SupportReport id="supportReportDialog" />
 
     <ui:insert name="live-stats" />
     
@@ -177,7 +178,7 @@
     </div>
   </div>
 
-  <ui:include src="progress-loader.xhtml" />
+  <cc:ProgressLoader id="progressLoader" />
   <ui:include src="exception.xhtml" />
 
   <h:outputStylesheet name="css/layout-ivy-#{ivyFreyaTheme.mode}.css" library="freya-layout" />

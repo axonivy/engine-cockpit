@@ -31,44 +31,44 @@ class WebTestTlsTester {
 
   @Test
   void TestRestConnection() {
-    $(By.id("restClientConfigurationForm:testRestBtn")).click();
-    $(By.id("connResult:connTestForm:testConnectionBtn")).click();
-    $(By.id("connResult:connTestForm:resultConnect")).shouldHave(text("error"));
-    $(By.id("connResult:connTestForm:closeConTesterDialog")).click();
+    $(By.id("restClientConfiguration:restClientConfigurationForm:testRestBtn")).click();
+    $(By.id("restClientConfiguration:connResult:connTestForm:testConnectionBtn")).click();
+    $(By.id("restClientConfiguration:connResult:connTestForm:resultConnect")).shouldHave(text("error"));
+    $(By.id("restClientConfiguration:connResult:connTestForm:closeConTesterDialog")).click();
   }
 
   @Test
   void TestTLSConnection() {
-    $(By.id("restClientConfigurationForm:url")).clear();
-    $(By.id("restClientConfigurationForm:url")).setValue("https://test-webservices.ivyteam.io:8090/api/v3");
-    $(By.id("restClientConfigurationForm:saveRestConfig")).click();
-    $(By.id("restClientConfigurationForm:testRestBtn")).click();
-    $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
+    $(By.id("restClientConfiguration:restClientConfigurationForm:url")).clear();
+    $(By.id("restClientConfiguration:restClientConfigurationForm:url")).setValue("https://test-webservices.ivyteam.io:8090/api/v3");
+    $(By.id("restClientConfiguration:restClientConfigurationForm:saveRestConfig")).click();
+    $(By.id("restClientConfiguration:restClientConfigurationForm:testRestBtn")).click();
+    $(By.id("restClientConfiguration:connResult:connTestForm:testTlsConectionBtn")).click();
     try {
-      $(By.id("connResult:connTestForm:resultTLS")).shouldHave(text("Connect, with Ivy SSLContext "));
+      $(By.id("restClientConfiguration:connResult:connTestForm:resultTLS")).shouldHave(text("Connect, with Ivy SSLContext "));
     } finally {
-      $(By.id("connResult:connTestForm:closeConTesterDialog")).click();
-      $(By.id("restClientConfigurationForm:url")).setValue("http://test-webservices.ivyteam.io:8090/api/v3");
-      $(By.id("restClientConfigurationForm:saveRestConfig")).click();
+      $(By.id("restClientConfiguration:connResult:connTestForm:closeConTesterDialog")).click();
+      $(By.id("restClientConfiguration:restClientConfigurationForm:url")).setValue("http://test-webservices.ivyteam.io:8090/api/v3");
+      $(By.id("restClientConfiguration:restClientConfigurationForm:saveRestConfig")).click();
     }
   }
 
   @Test
   void TestAddToTruststore() {
-    $(By.id("restClientConfigurationForm:url")).clear();
-    $(By.id("restClientConfigurationForm:url")).setValue("https://test-webservices.ivyteam.io:8443");
-    $(By.id("restClientConfigurationForm:saveRestConfig")).click();
-    $(By.id("restClientConfigurationForm:testRestBtn")).click();
-    $(By.id("connResult:connectionTestModel")).shouldNotHave(text("Missing Certs"));
-    $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
-    $(By.id("connResult:connTestForm:resultTLS")).shouldHave(text("Connect, with Ivy SSLContext "));
+    $(By.id("restClientConfiguration:restClientConfigurationForm:url")).clear();
+    $(By.id("restClientConfiguration:restClientConfigurationForm:url")).setValue("https://test-webservices.ivyteam.io:8443");
+    $(By.id("restClientConfiguration:restClientConfigurationForm:saveRestConfig")).click();
+    $(By.id("restClientConfiguration:restClientConfigurationForm:testRestBtn")).click();
+    $(By.id("restClientConfiguration:connResult:connectionTestModel")).shouldNotHave(text("Missing Certs"));
+    $(By.id("restClientConfiguration:connResult:connTestForm:testTlsConectionBtn")).click();
+    $(By.id("restClientConfiguration:connResult:connTestForm:resultTLS")).shouldHave(text("Connect, with Ivy SSLContext "));
     try {
-      $(By.id("connResult:connTestForm:missing:missingCert:0:subject")).shouldHave(text("CN=test-webservices.ivyteam.io, OU=ivyTeam, O=AXON Ivy AG, L=Zug, ST=Zug, C=CH"));
-      $(By.id("connResult:connTestForm:missing:missingCert:0:add")).click();
-      $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
-      $(By.id("connResult:connectionTestModel")).shouldNotHave(text("CN=test-webservices.ivyteam.io, OU=ivyTeam, O=AXON Ivy AG, L=Zug, ST=Zug, C=CH"));
+      $(By.id("restClientConfiguration:connResult:connTestForm:missing:missingCert:0:subject")).shouldHave(text("CN=test-webservices.ivyteam.io, OU=ivyTeam, O=AXON Ivy AG, L=Zug, ST=Zug, C=CH"));
+      $(By.id("restClientConfiguration:connResult:connTestForm:missing:missingCert:0:add")).click();
+      $(By.id("restClientConfiguration:connResult:connTestForm:testTlsConectionBtn")).click();
+      $(By.id("restClientConfiguration:connResult:connectionTestModel")).shouldNotHave(text("CN=test-webservices.ivyteam.io, OU=ivyTeam, O=AXON Ivy AG, L=Zug, ST=Zug, C=CH"));
     } finally {
-      $(By.id("connResult:connTestForm:closeConTesterDialog")).click();
+      $(By.id("restClientConfiguration:connResult:connTestForm:closeConTesterDialog")).click();
       Navigation.toSSL();
       var table = new Table(By.id("sslTrustTable:storeTable:storeCertificates"));
       table.firstColumnShouldBe(texts("ivy"));
@@ -76,8 +76,8 @@ class WebTestTlsTester {
       $(By.id("sslKeyTable:storeTable:deleteCertDialog")).shouldBe(visible);
       $(By.id("sslKeyTable:storeTable:deleteYesBtn")).shouldBe(visible).click();
       Navigation.toRestClientDetail(RESTCLIENT_NAME);
-      $(By.id("restClientConfigurationForm:url")).setValue("http://test-webservices.ivyteam.io:8090/api/v3");
-      $(By.id("restClientConfigurationForm:saveRestConfig")).click();
+      $(By.id("restClientConfiguration:restClientConfigurationForm:url")).setValue("http://test-webservices.ivyteam.io:8090/api/v3");
+      $(By.id("restClientConfiguration:restClientConfigurationForm:saveRestConfig")).click();
     }
   }
 
