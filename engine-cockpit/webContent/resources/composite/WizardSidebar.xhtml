@@ -5,7 +5,7 @@
 <cc:implementation>
   <div class="menu-wrapper">
     <div class="sidebar-logo">
-      <a href="setup.xhtml">
+      <a href="../../view/setup.xhtml">
         <p:graphicImage name="resources/images/#{ivyFreyaTheme.logo}.svg" />
       </a>
     </div>
@@ -15,7 +15,7 @@
         <pm:menu widgetVar="menu">
           <p:menuitem id="server" value="#{ivy.cm.co('/common/Applications')}" icon="ti ti-layout-grid" url="#{wizardBean.infoPageUrl}" />
           <p:menuitem id="cockpit" value="#{ivy.cm.co('/common/Cockpit')}" icon="ti ti-settings" url="dashboard.xhtml" />
-          <p:menuitem id="setup" value="#{ivy.cm.co('/common/Setup')}" icon="ti ti-tool" url="setup.xhtml" />
+          <p:menuitem id="setup" value="#{ivy.cm.co('/common/Setup')}" icon="ti ti-tool" url="../../view/setup.xhtml" />
           <p:menuitem id="migrate" value="#{ivy.cm.co('/common/Migration')}" icon="ti ti-circle-arrow-right" url="migrate.xhtml" />
         </pm:menu>
       </h:form>
