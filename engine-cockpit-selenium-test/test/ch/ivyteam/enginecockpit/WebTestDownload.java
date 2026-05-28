@@ -40,13 +40,13 @@ class WebTestDownload {
   void errorReport() {
     $(".user-profile > a").shouldBe(visible).click();
     $("#supportReport").shouldBe(visible).click();
-    $("#supportReportModal").shouldBe(visible);
+    $("#supportReportDialog\\:supportReportModal").shouldBe(visible);
     var options = DownloadOptions.file().withTimeout(TIMEOUT).withFilter(FileFilters.withName("support-engine-report.zip"));
-    File download = $("#reportForm\\:download").shouldBe(visible).download(options);
+    File download = $("#supportReportDialog\\:reportForm\\:download").shouldBe(visible).download(options);
     assertThat(download.getName()).isEqualTo("support-engine-report.zip");
     assertThat(download.length() / 1024).isGreaterThan(10);
-    $("#reportForm\\:cancel").shouldBe(visible).click();
-    $("#supportReportModal").shouldNotBe(visible);
+    $("#supportReportDialog\\:reportForm\\:cancel").shouldBe(visible).click();
+    $("#supportReportDialog\\:supportReportModal").shouldNotBe(visible);
   }
 
   @Test
