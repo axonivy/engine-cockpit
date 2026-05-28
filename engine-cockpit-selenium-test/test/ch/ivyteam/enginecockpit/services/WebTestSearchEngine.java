@@ -65,7 +65,7 @@ class WebTestSearchEngine {
     checkIndexValues(table, DOSSIER_INDEX, "10");
     checkIndexValues(table, ADDRESS_INDEX, "1");
     $(By.id("searchEngineIndexForm:indiciesTable:indexName")).shouldBe(visible).click();
-    $(By.id("ajaxExceptionDialog")).shouldNotBe(visible);
+    $(By.id("exception:ajaxExceptionDialog")).shouldNotBe(visible);
   }
 
   @Test
