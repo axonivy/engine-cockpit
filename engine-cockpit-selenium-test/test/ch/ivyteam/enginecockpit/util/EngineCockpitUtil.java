@@ -15,6 +15,7 @@ import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -44,7 +45,7 @@ public class EngineCockpitUtil {
     if (webdriver().driver().url().endsWith(LOGIN)) {
       loginUser(username, password);
     }
-    $("#menuform").shouldBe(visible);
+    $(By.xpath("//form[@id='sidebarMenu:menuform' or @id='menuform']")).shouldBe(visible);
     assertCurrentUrlContains(LOGIN.equals(url) ? DASHBOARD : url);
   }
 

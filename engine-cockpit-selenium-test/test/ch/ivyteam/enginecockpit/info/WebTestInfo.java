@@ -39,7 +39,7 @@ class WebTestInfo {
   void navigateToCockpit_menu() {
     $(By.id("menuform:sr_cockpit")).shouldBe(visible).click();
     EngineCockpitUtil.assertCurrentUrlContains("dashboard.xhtml");
-    $(By.id("menuform:sr_dashboard")).shouldBe(visible);
+    $(By.id("sidebarMenu:menuform:sr_dashboard")).shouldBe(visible);
   }
 
   private void assertSetupPageIsVisible() {
