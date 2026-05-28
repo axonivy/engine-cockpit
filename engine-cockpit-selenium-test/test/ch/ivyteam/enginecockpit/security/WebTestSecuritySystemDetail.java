@@ -31,27 +31,27 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 public class WebTestSecuritySystemDetail {
 
-  private static final String CHANGE_PROVIDER_WARNING = "#securityProviderForm\\:providerChangeWarning";
+  private static final String CHANGE_PROVIDER_WARNING = "#securitySystemProvider\\:securityProviderForm\\:providerChangeWarning";
 
-  private static final String SAVE_LANGUAGE_BTN = "#securityLanguageForm\\:saveLanguageConfigBtn";
+  private static final String SAVE_LANGUAGE_BTN = "#securitySystemLanguage\\:securityLanguageForm\\:saveLanguageConfigBtn";
 
-  private static final String ADD_WORKFLOW_LANGUAGE_BTN = "#securityWorkflowLanguageForm\\:addBtn";
-  private static final String ADD_WORKFLOW_LANGUAGE_DIALOG = "#addWorkflowLanguageModal";
-  private static final String ADD_WORKFLOW_LANGUAGE_FROM_LANGUAGE = "#addWorkflowLanguageForm\\:language";
-  private static final String ADD_WORKFLOW_LANGUAGE_FROM_ADD_BTN = "#addWorkflowLanguageForm\\:addBtn";
-  private static final String ADD_WORKFLOW_LANGUAGE_FROM_CACNEL_BTN = "#addWorkflowLanguageForm\\:cancelBtn";
-  private static final String REMOVE_WORKFLOW_LANGUAGE_DIALOG = "#deleteWorkflowLanguageModal";
-  private static final String REMOVE_WORKFLOW_LANGUAGE_FROM_DELETE_BTN = "#deleteWorkflowLanguageForm\\:deleteBtn";
-  private static final String REMOVE_WORKFLOW_LANGUAGE_FROM_CACNEL_BTN = "#deleteWorkflowLanguageForm\\:cancelBtn";
+  private static final String ADD_WORKFLOW_LANGUAGE_BTN = "#securitySystemWorkflowLanguage\\:securityWorkflowLanguageForm\\:addBtn";
+  private static final String ADD_WORKFLOW_LANGUAGE_DIALOG = "#securitySystemWorkflowLanguage\\:addWorkflowLanguageModal";
+  private static final String ADD_WORKFLOW_LANGUAGE_FROM_LANGUAGE = "#securitySystemWorkflowLanguage\\:addWorkflowLanguageForm\\:language";
+  private static final String ADD_WORKFLOW_LANGUAGE_FROM_ADD_BTN = "#securitySystemWorkflowLanguage\\:addWorkflowLanguageForm\\:addBtn";
+  private static final String ADD_WORKFLOW_LANGUAGE_FROM_CACNEL_BTN = "#securitySystemWorkflowLanguage\\:addWorkflowLanguageForm\\:cancelBtn";
+  private static final String REMOVE_WORKFLOW_LANGUAGE_DIALOG = "#securitySystemWorkflowLanguage\\:deleteWorkflowLanguageModal";
+  private static final String REMOVE_WORKFLOW_LANGUAGE_FROM_DELETE_BTN = "#securitySystemWorkflowLanguage\\:deleteWorkflowLanguageForm\\:deleteBtn";
+  private static final String REMOVE_WORKFLOW_LANGUAGE_FROM_CACNEL_BTN = "#securitySystemWorkflowLanguage\\:deleteWorkflowLanguageForm\\:cancelBtn";
 
-  private static final String SAVE_PROVIDER_BTN = "#securityProviderForm\\:saveProviderBtn";
-  private static final String SAVE_PROVIDER_SUCCESS_GROWL = "#securityProviderForm\\:securityProviderSaveSuccess_container";
-  private static final String PROVIDER = "#securityProviderForm\\:provider";
-  private static final String SYNC_TIME = "#securityProviderForm\\:onScheduleTime";
-  private static final String SYNC_TIME_MESSAGE = "#securityProviderForm\\:onScheduleTimeMessage";
-  private static final String ON_SCHEDULE_ENABLED = "#securityProviderForm\\:onScheduleEnabled";
-  private static final String SYNCH_ON_LOGIN = "#securityProviderForm\\:synchOnLogin";
-  private static final String ON_SCHEDULE_IMPORT_USERS = "#securityProviderForm\\:onScheduleImportUsers";
+  private static final String SAVE_PROVIDER_BTN = "#securitySystemProvider\\:securityProviderForm\\:saveProviderBtn";
+  private static final String SAVE_PROVIDER_SUCCESS_GROWL = "#securitySystemProvider\\:securityProviderForm\\:securityProviderSaveSuccess_container";
+  private static final String PROVIDER = "#securitySystemProvider\\:securityProviderForm\\:provider";
+  private static final String SYNC_TIME = "#securitySystemProvider\\:securityProviderForm\\:onScheduleTime";
+  private static final String SYNC_TIME_MESSAGE = "#securitySystemProvider\\:securityProviderForm\\:onScheduleTimeMessage";
+  private static final String ON_SCHEDULE_ENABLED = "#securitySystemProvider\\:securityProviderForm\\:onScheduleEnabled";
+  private static final String SYNCH_ON_LOGIN = "#securitySystemProvider\\:securityProviderForm\\:synchOnLogin";
+  private static final String ON_SCHEDULE_IMPORT_USERS = "#securitySystemProvider\\:securityProviderForm\\:onScheduleImportUsers";
 
   @BeforeEach
   void beforeEach() {
@@ -66,14 +66,14 @@ public class WebTestSecuritySystemDetail {
 
   @Test
   void dirNotDeletableIfUsedByApp() {
-    $(By.id("securitySystemConfigForm:usedByHelp")).parent().parent().find("a").shouldHave(exactText("test-ad"));
-    $("#securitySystemConfigForm\\:deleteSecuritySystem").shouldBe(visible).click();
-    $("#securitySystemConfigForm\\:deleteSecuritySystemConfirmYesBtn").shouldBe(disabled);
+    $(By.id("securitySystemInfo:securitySystemConfigForm:usedByHelp")).parent().parent().find("a").shouldHave(exactText("test-ad"));
+    $("#securitySystemInfo\\:securitySystemConfigForm\\:deleteSecuritySystem").shouldBe(visible).click();
+    $("#securitySystemInfo\\:securitySystemConfigForm\\:deleteSecuritySystemConfirmYesBtn").shouldBe(disabled);
   }
 
   @Test
   void language() {
-    var language = PrimeUi.selectOne(By.id("securityLanguageForm:language"));
+    var language = PrimeUi.selectOne(By.id("securitySystemLanguage:securityLanguageForm:language"));
     language.selectItemByLabel("German (de)");
     saveLanguage();
     language.selectedItemShould(value("de"));
@@ -89,7 +89,7 @@ public class WebTestSecuritySystemDetail {
 
   @Test
   void formattingLanguage() {
-    var language = PrimeUi.selectOne(By.id("securityLanguageForm:formattingLanguage"));
+    var language = PrimeUi.selectOne(By.id("securitySystemLanguage:securityLanguageForm:formattingLanguage"));
     language.selectItemByLabel("Afrikaans (af_ZA)");
     saveLanguage();
     language.selectedItemShould(value("af_ZA"));
@@ -106,7 +106,7 @@ public class WebTestSecuritySystemDetail {
 
   @Test
   void mergeSecuritySystem() {
-    $(By.id("securitySystemConfigForm:compareSecuritySystemBtn")).click();
+    $(By.id("securitySystemInfo:securitySystemConfigForm:compareSecuritySystemBtn")).click();
     assertCurrentUrlContains("securitysystem-merge");
     PrimeUi.selectOne(By.id("form:targetSecuritySystem")).selectItemByLabel("default");
     $(By.id("form:compare")).click();
@@ -115,7 +115,7 @@ public class WebTestSecuritySystemDetail {
 
   @Test
   void addAndDeleteWorkflowLanguage() {
-    Table table = new Table(By.id("securityWorkflowLanguageForm:workflowLanguageTable"));
+    Table table = new Table(By.id("securitySystemWorkflowLanguage:securityWorkflowLanguageForm:workflowLanguageTable"));
     assertThat(table.getFirstColumnEntries()).containsExactlyInAnyOrder("English");
 
     $(ADD_WORKFLOW_LANGUAGE_BTN).click();
@@ -146,7 +146,7 @@ public class WebTestSecuritySystemDetail {
 
   @Test
   void changeDefaultWorkflowLanguage() {
-    Table table = new Table(By.id("securityWorkflowLanguageForm:workflowLanguageTable"));
+    Table table = new Table(By.id("securitySystemWorkflowLanguage:securityWorkflowLanguageForm:workflowLanguageTable"));
     $(ADD_WORKFLOW_LANGUAGE_BTN).click();
     PrimeUi.selectOne(By.cssSelector(ADD_WORKFLOW_LANGUAGE_FROM_LANGUAGE)).selectItemByLabel("French");
     $(ADD_WORKFLOW_LANGUAGE_FROM_ADD_BTN).click();
@@ -300,7 +300,7 @@ public class WebTestSecuritySystemDetail {
 
   private void saveLanguage() {
     $(SAVE_LANGUAGE_BTN).click();
-    $(By.id("securityLanguageForm:securityLanguageSaveSuccess_container")).find(".ui-growl-message").should(visible, Condition.text("Security System Languages saved"));
+    $(By.id("securitySystemLanguage:securityLanguageForm:securityLanguageSaveSuccess_container")).find(".ui-growl-message").should(visible, Condition.text("Security System Languages saved"));
   }
 
   private SelectBooleanCheckbox checkbox(String selector) {

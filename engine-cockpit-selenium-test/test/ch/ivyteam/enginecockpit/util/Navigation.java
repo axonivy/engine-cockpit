@@ -127,7 +127,7 @@ public class Navigation {
     $$(".security-name").find(text(secSystemName)).shouldBe(visible).click();
     assertCurrentUrlContains("security-detail.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
-    $("#securityProviderForm\\:editProviderBtn").shouldBe(visible).click();
+    $("#securitySystemProvider\\:securityProviderForm\\:editProviderBtn").shouldBe(visible).click();
     assertCurrentUrlContains("identity-provider.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }

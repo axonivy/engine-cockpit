@@ -31,22 +31,22 @@
       <div class="layout-dashboard">
         <div class="grid">
           <div class="col-12 md:col-12 xl:col-6">
-            <ui:include src="../includes/components/security/securitysystem-info.xhtml" />
+            <cc:SecuritySystemInfo id="securitySystemInfo" />
           </div>
 
           <div class="col-12 md:col-12 xl:col-6">
-            <ui:include src="../includes/components/security/securitysystem-provider.xhtml" />
+            <cc:SecuritySystemProvider id="securitySystemProvider" />
           </div>
           
           <div class="col-12 md:col-12 xl:col-6">
             <h:panelGroup>
-              <ui:include src="../includes/components/security/securitysystem-language.xhtml" />
+              <cc:SecuritySystemLanguage id="securitySystemLanguage" />
             </h:panelGroup>
           </div>
 
           <div class="col-12 md:col-12 xl:col-6">
             <h:panelGroup rendered="#{securityConfigBean.showWorkflowLanguage}">
-              <ui:include src="../includes/components/security/securitysystem-workflow-language.xhtml" />
+              <cc:SecuritySystemWorkflowLanguage id="securitySystemWorkflowLanguage" />
             </h:panelGroup>
           </div>
         </div>

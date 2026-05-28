@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+
+<cc:implementation>
+  <div class="card">
+    <h:form id="securityWorkflowLanguageForm">
+      <div class="card-header">
+        <div class="card-title flex align-items-center">
+          <i class="pr-3 ti ti-settings"></i>
+          <h6 class="m-0">#{ivy.cm.co('/securitySystemWorkflowLanguage/WorkflowLanguages')}</h6>
+          <p:commandButton id="addBtn" oncomplete="PF('addWorkflowLanguageModal').show();" process="@this"
+            update="securityWorkflowLanguageForm" title="#{ivy.cm.co('/securitySystemWorkflowLanguage/AddNewLanguage')}"
+            icon="ti ti-plus" styleClass="flex-shrink-0 ml-auto rounded-button" disabled="#{empty securityWorkflowLanguageBean.addable}"/>
+        </div>
+      </div>
+
+      <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+        value="#{securityWorkflowLanguageBean.languages}" var="language" id="workflowLanguageTable">
+        <p:column headerText="#{ivy.cm.co('/common/Language')}" >
+          <h:outputText value="#{language.displayName}" styleClass="language-displayname" />
+        </p:column>
+        <p:column headerText="#{ivy.cm.co('/common/Default')}" styleClass="language-default">
+          <i class="#{securityWorkflowLanguageBean.isDefault(language) ? 'ti ti-circle-check table-icon activity-state-active' : ''}"></i>
+        </p:column>
+        <p:column styleClass="table-btn-2">
+          <p:commandButton id="defaultBtn" actionListener="#{securityWorkflowLanguageBean.setDefault(language)}"
+            icon="ti ti-pencil" title="#{ivy.cm.co('/securitySystemWorkflowLanguage/MakeDefaultLanguage')}" update="@form"
+            styleClass="ui-button-secondary rounded-button" disabled="#{securityWorkflowLanguageBean.isDefault(language)}" />
+          <p:commandButton id="deleteBtn" actionListener="#{securityWorkflowLanguageBean.setEditLanguage(language)}" oncomplete="PF('deleteWorkflowLanguageModal').show();"
+            icon="ti ti-trash" title="#{ivy.cm.co('/securitySystemWorkflowLanguage/DeleteLanguage')}" update="@form"
+            styleClass="ml-1 ui-button-danger rounded-button"  
+            disabled="#{securityWorkflowLanguageBean.isDefault(language)}">
+          </p:commandButton>
+        </p:column>
+      </p:dataTable>
+    </h:form>
+  </div>
+
+  <p:dialog style="min-width: 300px;" header="#{ivy.cm.co('/securitySystemWorkflowLanguage/AddWorkflowLanguageDialogHeader')}" id="addWorkflowLanguageModal" widgetVar="addWorkflowLanguageModal"
+    modal="true" responsive="true" closeOnEscape="true">
+    <p:staticMessage severity="warn"
+      detail="#{ivy.cm.content('/securitySystemWorkflowLanguage/AddWorkflowLanguageWarningMessage').replace('tasks', securityWorkflowLanguageBean.tasks).replace('cases', securityWorkflowLanguageBean.cases).replace('language', securityWorkflowLanguageBean.default.displayName).get()}" />
+    <p:staticMessage severity="warn" detail="#{ivy.cm.co('/securitySystemWorkflowLanguage/AddWorkflowLanguageSystemDatabaseSpaceWarningMessage')}" />
+    <h:form id="addWorkflowLanguageForm" styleClass="custom-dialog-form">
+      <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
+        <p:outputLabel for="language" value="#{ivy.cm.co('/common/Language')}" />
+        <p:selectOneMenu id="language" value="#{securityWorkflowLanguageBean.editLanguage}" editable="true" converter="localeConverter">
+          <f:selectItems value="#{securityWorkflowLanguageBean.addable}" var="language" itemLabel="#{language.getDisplayName()}" />
+        </p:selectOneMenu>
+      </p:panelGrid>
+      <div class="custom-dialog-footer">
+        <p:commandButton id="cancelBtn" onclick="PF('addWorkflowLanguageModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
+          styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+        <p:commandButton id="addBtn" validateClient="true" ajax="false" update=":securityWorkflowLanguageForm"
+          actionListener="#{securityWorkflowLanguageBean.add(securityWorkflowLanguageBean.editLanguage)}" value="#{ivy.cm.co('/common/Add')}" icon="ti ti-plus"
+          styleClass="modal-input-button" />
+      </div>
+    </h:form>
+  </p:dialog>
+
+  <p:confirmDialog style="min-width: 300px;" header="#{ivy.cm.co('/securitySystemWorkflowLanguage/DeleteWorkflowLanguageDialogHeader')}" id="deleteWorkflowLanguageModal" widgetVar="deleteWorkflowLanguageModal"
+    responsive="true" closeOnEscape="true" severity="warn"
+    message="#{ivy.cm.content('/securitySystemWorkflowLanguage/DeleteWorkflowLanguageWarningMessage').replace('tasks', securityWorkflowLanguageBean.tasks).replace('cases', securityWorkflowLanguageBean.cases).get()}">
+    <h:form id="deleteWorkflowLanguageForm">
+      <p:commandButton id="cancelBtn" onclick="PF('deleteWorkflowLanguageModal').hide();" value="#{ivy.cm.co('/common/Cancel')}" type="button"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+      <p:commandButton id="deleteBtn" validateClient="true" ajax="false" update=":securityWorkflowLanguageForm"
+        actionListener="#{securityWorkflowLanguageBean.delete(securityWorkflowLanguageBean.editLanguage)}" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
+        styleClass="modal-input-button" />
+    </h:form>
+  </p:confirmDialog>
+</cc:implementation>
+
+</html>
