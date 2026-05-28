@@ -2,6 +2,7 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
+<cc:implementation>
 <p:dialog style="min-width: 300px; max-width: 80%;" header="#{ivy.cm.co('/common/Error')} #{errorBean.selected.message}" id="errorDialog"
     widgetVar="errorDialog" responsive="true" closeOnEscape="true">
   <h:form id="error" styleClass="custom-dialog-form">
@@ -22,4 +23,5 @@
     </div>
   </h:form>
 </p:dialog>
+</cc:implementation>
 </html>
