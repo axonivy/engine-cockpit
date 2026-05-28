@@ -1,8 +1,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite">
 
+<cc:implementation>
 <div class="card">
   <h:form id="searchEngineInfoForm">
     <p:growl id="searchEngineMessages" for="searchEngineMessages">
@@ -63,7 +65,7 @@
             <h:panelGroup id="watermarkLowHelp" styleClass="flex align-items-center ml-1">
               <i class="ti ti-help-circle"></i>
               <p:tooltip for="@parent" value="#{ivy.cm.co('/searchEngineInformation/WatermarkLowInfo')}"
-               position="top" />
+                position="top" />
             </h:panelGroup>
           </h:panelGroup>
           <h:outputText id="watermarkLow" value="#{searchEngineBean.searchEngine.watermark.low()}" />
@@ -93,5 +95,6 @@
     </p:panelGrid>
   </h:form>
 </div>
+</cc:implementation>
 
 </html>

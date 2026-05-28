@@ -23,14 +23,14 @@
         <div class="layout-dashboard">
           <div class="grid">
             <div class="col-12">
-              <ui:include src="../includes/components/searchengine/information.xhtml" />
+              <cc:SearchEngineInformation id="searchEngineInformation" />
             </div>
             <div class="col-12">
-              <ui:include src="../includes/components/searchengine/indices.xhtml" />
+              <cc:SearchEngineIndices id="searchEngineIndices" />
             </div>
           </div>
         </div>
-        <ui:include src="../includes/dialogs/searchenginetool.xhtml" />
+        <cc:SearchEngineTool id="searchEngineTool" />
       </h:panelGroup>
     </ui:define>
   </ui:composition>

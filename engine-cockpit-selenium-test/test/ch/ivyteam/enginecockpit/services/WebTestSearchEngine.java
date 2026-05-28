@@ -46,25 +46,25 @@ class WebTestSearchEngine {
   @Test
   void info() {
     $$(".card").shouldHave(size(2));
-    $(By.id("searchEngineInfoForm:name")).shouldBe(text("ivy-opensearch"));
-    $(By.id("searchEngineInfoForm:url")).shouldBe(exactText("http://localhost:19200"));
-    $(By.id("searchEngineInfoForm:version")).shouldNotBe(empty);
-    $("#searchEngineInfoForm\\:state > i").shouldHave(cssClass("ti-circle-check"));
-    $("#searchEngineInfoForm\\:health > i").shouldHave(cssClass("ti-circle-check"));
-    $(By.id("searchEngineInfoForm:diskThreshold")).shouldHave(text("true"));
-    $(By.id("searchEngineInfoForm:watermarkLow")).shouldNotBe(empty);
-    $(By.id("searchEngineInfoForm:watermarkHigh")).shouldNotBe(empty);
-    $(By.id("searchEngineInfoForm:floodStage")).shouldNotBe(empty);
+    $(By.id("searchEngineInformation:searchEngineInfoForm:name")).shouldBe(text("ivy-opensearch"));
+    $(By.id("searchEngineInformation:searchEngineInfoForm:url")).shouldBe(exactText("http://localhost:19200"));
+    $(By.id("searchEngineInformation:searchEngineInfoForm:version")).shouldNotBe(empty);
+    $("#searchEngineInformation\\:searchEngineInfoForm\\:state > i").shouldHave(cssClass("ti-circle-check"));
+    $("#searchEngineInformation\\:searchEngineInfoForm\\:health > i").shouldHave(cssClass("ti-circle-check"));
+    $(By.id("searchEngineInformation:searchEngineInfoForm:diskThreshold")).shouldHave(text("true"));
+    $(By.id("searchEngineInformation:searchEngineInfoForm:watermarkLow")).shouldNotBe(empty);
+    $(By.id("searchEngineInformation:searchEngineInfoForm:watermarkHigh")).shouldNotBe(empty);
+    $(By.id("searchEngineInformation:searchEngineInfoForm:floodStage")).shouldNotBe(empty);
   }
 
   @Test
   void indicies() {
-    Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"), true);
+    Table table = new Table(By.id("searchEngineIndices:searchEngineIndexForm:indiciesTable"), true);
     assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSizeGreaterThanOrEqualTo(2)
         .contains(DOSSIER_INDEX, ADDRESS_INDEX);
     checkIndexValues(table, DOSSIER_INDEX, "10");
     checkIndexValues(table, ADDRESS_INDEX, "1");
-    $(By.id("searchEngineIndexForm:indiciesTable:indexName")).shouldBe(visible).click();
+    $(By.id("searchEngineIndices:searchEngineIndexForm:indiciesTable:indexName")).shouldBe(visible).click();
     $(By.id("exception:ajaxExceptionDialog")).shouldNotBe(visible);
   }
 
@@ -83,49 +83,49 @@ class WebTestSearchEngine {
 
   @Test
   void configEdit() {
-    $(By.id("searchEngineInfoForm:configSearchEngine")).click();
+    $(By.id("searchEngineInformation:searchEngineInfoForm:configSearchEngine")).click();
     assertCurrentUrlContains("systemconfig.xhtml?filter=SearchEngine");
   }
 
   @Test
   void queryTool() {
-    $(By.id("searchEngineQueryToolModal")).shouldNotBe(visible);
-    $(By.id("searchEngineInfoForm:queryToolBtn")).click();
+    $(By.id("searchEngineTool:searchEngineQueryToolModal")).shouldNotBe(visible);
+    $(By.id("searchEngineInformation:searchEngineInfoForm:queryToolBtn")).click();
     assertQueryTool("GET: http://localhost:19200/", "ivy-opensearch", 3);
   }
 
   @Test
   void indexQueryTool() {
-    $(By.id("searchEngineQueryToolModal")).shouldNotBe(visible);
-    new Table(By.id("searchEngineIndexForm:indiciesTable"), true).clickButtonForEntry(ADDRESS_INDEX, "queryToolBtn");
+    $(By.id("searchEngineTool:searchEngineQueryToolModal")).shouldNotBe(visible);
+    new Table(By.id("searchEngineIndices:searchEngineIndexForm:indiciesTable"), true).clickButtonForEntry(ADDRESS_INDEX, "queryToolBtn");
     assertQueryTool("GET: http://localhost:19200/" + ADDRESS_INDEX + "/", "mappings", 1);
   }
 
   @Test
   void reindex() {
-    $(By.id("reindexSearchEngineModel")).shouldNotBe(visible);
-    new Table(By.id("searchEngineIndexForm:indiciesTable"), true).clickButtonForEntry(DOSSIER_INDEX, "reindexBtn");
-    $(By.id("reindexSearchEngineModel")).shouldBe(visible);
-    $(By.id("reindexSearchEngineModel_title")).shouldBe(text(DOSSIER_INDEX));
-    $(By.id("reindexSearchEngineBtn")).click();
-    $(By.id("reindexSearchEngineModel")).shouldNotBe(visible);
+    $(By.id("searchEngineIndices:reindexSearchEngineModel")).shouldNotBe(visible);
+    new Table(By.id("searchEngineIndices:searchEngineIndexForm:indiciesTable"), true).clickButtonForEntry(DOSSIER_INDEX, "reindexBtn");
+    $(By.id("searchEngineIndices:reindexSearchEngineModel")).shouldBe(visible);
+    $(By.id("searchEngineIndices:reindexSearchEngineModel_title")).shouldBe(text(DOSSIER_INDEX));
+    $(By.id("searchEngineIndices:reindexSearchEngineBtn")).click();
+    $(By.id("searchEngineIndices:reindexSearchEngineModel")).shouldNotBe(visible);
   }
 
   private void assertQueryTool(String url, String responseContent, int apiCount) {
-    $(By.id("searchEngineQueryToolModal")).shouldBe(visible);
+    $(By.id("searchEngineTool:searchEngineQueryToolModal")).shouldBe(visible);
     $(By.className("querytool-url")).shouldBe(exactText(url));
-    $(By.id("searchEngineQueryToolForm:query_input")).shouldBe(exactValue(""));
+    $(By.id("searchEngineTool:searchEngineQueryToolForm:query_input")).shouldBe(exactValue(""));
     assertQueryToolProposal(apiCount);
-    $(By.id("searchEngineQueryToolForm")).find("pre").shouldBe(empty);
+    $(By.id("searchEngineTool:searchEngineQueryToolForm")).find("pre").shouldBe(empty);
 
-    $(By.id("searchEngineQueryToolForm:runSearchEngineQueryBtn")).click();
-    $(By.id("searchEngineQueryToolForm")).find("pre").shouldBe(text(responseContent));
+    $(By.id("searchEngineTool:searchEngineQueryToolForm:runSearchEngineQueryBtn")).click();
+    $(By.id("searchEngineTool:searchEngineQueryToolForm")).find("pre").shouldBe(text(responseContent));
   }
 
   private void assertQueryToolProposal(int apiCount) {
-    $(By.id("searchEngineQueryToolForm:query_button")).click();
-    $(By.id("searchEngineQueryToolForm:query_panel")).shouldBe(visible);
-    $(By.id("searchEngineQueryToolForm:query_panel")).findAll("li").shouldHave(size(apiCount));
+    $(By.id("searchEngineTool:searchEngineQueryToolForm:query_button")).click();
+    $(By.id("searchEngineTool:searchEngineQueryToolForm:query_panel")).shouldBe(visible);
+    $(By.id("searchEngineTool:searchEngineQueryToolForm:query_panel")).findAll("li").shouldHave(size(apiCount));
     $(By.className("querytool-url")).click();
   }
 
