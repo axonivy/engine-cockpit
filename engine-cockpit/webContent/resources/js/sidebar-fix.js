@@ -9,7 +9,7 @@ jQuery(function () {
     $.removeCookie('freya_expandeditems', { path: '/' });
     let page = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1);
     page = searchCorrectMenuItemPage(page);
-    $("[id$='menuform']>ul>li>a").each(function () {
+    $('.ec-menuform > ul > li > a').each(function () {
       const menuItemPage = $(this).attr('href');
       const menuItemId = $(this).parent().attr('id');
       if (menuItemPage != "#") {
