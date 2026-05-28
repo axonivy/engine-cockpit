@@ -66,20 +66,20 @@ public class WebTestDashboard {
     $(".licence-notification").shouldBe(visible);
 
     $("#licence\\:tasksButtonLicenceEvents").click();
-    $("#licenceEventsDialog").shouldBe(visible);
+    $("#licenceEvents\\:licenceEventsDialog").shouldBe(visible);
     $$(".licence-messages li").shouldHave(size(2));
     $(".licence-messages li", 0).find(".ui-button").click();
     $$(".licence-messages li").shouldHave(size(1));
-    $("#licenceEventForm\\:closeLicenceEventsDialog").click();
-    $("#licenceEventsDialog").shouldNotBe(visible);
+    $("#licenceEvents\\:licenceEventForm\\:closeLicenceEventsDialog").click();
+    $("#licenceEvents\\:licenceEventsDialog").shouldNotBe(visible);
 
     $(".licence-notification > a").click();
-    $("#licenceEventsDialog").shouldBe(visible);
+    $("#licenceEvents\\:licenceEventsDialog").shouldBe(visible);
     $$(".licence-messages li").shouldHave(size(1));
-    $("#licenceEventForm\\:confirmAllLicenceEvents").click();
+    $("#licenceEvents\\:licenceEventForm\\:confirmAllLicenceEvents").click();
 
     $("#licence\\:tasksButtonLicenceDetail").shouldBe(visible);
-    $("#licenceEventsDialog").shouldNotBe(visible);
+    $("#licenceEvents\\:licenceEventsDialog").shouldNotBe(visible);
     $("#licence\\:tasksButtonLicenceEvents").shouldNotBe(exist);
     $(".licence-notification").shouldNotBe(exist);
   }
