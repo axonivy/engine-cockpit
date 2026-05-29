@@ -66,6 +66,7 @@ class WebTestApplicationDetail {
   @Test
   void move() {
     Navigation.toApplicationDetail("test-ad");
+    $(By.id(("state:appDetailStateForm:activateApplication"))).click();
     $(By.id(("security:appDetailSecurityForm:moveApplication"))).click();
     $(By.id("security:moveApplicationComposite:moveApplicationModal")).shouldBe(visible);
     $(By.id("security:moveApplicationComposite:moveApplicationForm:validateMoveApplication")).click();
