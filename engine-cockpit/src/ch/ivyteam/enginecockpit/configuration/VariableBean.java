@@ -102,6 +102,11 @@ public class VariableBean implements ConfigView {
     reloadAndUiMessage(message);
   }
 
+  @Override
+  public String getContentFilterText() {
+    return "";
+  }
+
   private void reloadAndUiMessage(String message) {
     FacesContext.getCurrentInstance().addMessage("msgs", new FacesMessage(message));
     reloadVariables();

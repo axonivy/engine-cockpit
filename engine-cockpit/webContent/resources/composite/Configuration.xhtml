@@ -35,7 +35,7 @@
         </h:panelGroup>
       </p:column>
       <p:column headerText="#{ivy.cm.co('/common/Value')}" filterBy="#{config.value}">
-        <h:outputText class="table-cell-autocut" rendered="#{!config.password}" value="#{config.value}" title="#{config.value}" />
+        <h:outputText styleClass="table-cell-autocut" rendered="#{!config.password}" value="#{config.value}" title="#{config.value}" />
         <h:outputText rendered="#{config.password}" value="******" />
       </p:column>
       <p:column headerText="#{ivy.cm.co('/common/Source')}" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}"
@@ -120,20 +120,20 @@
         <h:outputText id="editConfigurationExamples" value="#{cc.attrs.bean.activeConfig.examples}" 
           rendered="#{!cc.attrs.bean.activeConfig.exampleValues.isEmpty()}" />
 
-        <h:outputLabel for="editConfigurationValue" value="#{ivy.cm.co('/common/Value')}" />
+        <h:outputLabel value="#{ivy.cm.co('/common/Value')}" />
         <c:choose>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'DAYTIME'}">
-            <p:inputMask id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" mask="99:99" />
+            <p:inputMask id="editConfigurationValueDaytime" value="#{cc.attrs.bean.activeConfig.value}" mask="99:99" />
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'NUMBER'}">
-            <p:inputNumber id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" thousandSeparator="'"
+            <p:inputNumber id="editConfigurationValueNumber" value="#{cc.attrs.bean.activeConfig.value}" thousandSeparator="'"
               decimalPlaces="0" minValue="-1" />
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'BOOLEAN'}">
-            <p:selectBooleanCheckbox id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" />
+            <p:selectBooleanCheckbox id="editConfigurationValueBoolean" value="#{cc.attrs.bean.activeConfig.value}" />
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'PASSWORD'}">
-            <p:password id="editConfigurationValue"
+            <p:password id="editConfigurationValuePassword"
               value="#{cc.attrs.bean.activeConfig.value}"
               promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
               goodLabel="#{ivy.cm.co('/common/Good')}"
@@ -141,23 +141,23 @@
               strongLabel="#{ivy.cm.co('/common/Strong')}" />
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'ENUMERATION'}">
-            <p:selectOneMenu id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}">
+            <p:selectOneMenu id="editConfigurationValueEnumeration" value="#{cc.attrs.bean.activeConfig.value}">
               <f:selectItems value="#{cc.attrs.bean.activeConfig.enumerationValues}" />
             </p:selectOneMenu>
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'EXPRESSION'}">
-            <p:inputText id="editConfigurationValue" readonly="true" value="#{cc.attrs.bean.activeConfig.editValue}" />
+            <p:inputText id="editConfigurationValueExpression" readonly="true" value="#{cc.attrs.bean.activeConfig.editValue}" />
             <p:outputLabel value="#{ivy.cm.co('/common/Variable')}" />
             <h:outputLink onclick="PF('editConfigurationModal').hide();"
               value="variables.xhtml">#{ivy.cm.co('/configuration/GoEditVariableValueLink')}</h:outputLink>
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'FILE'}">
-            <pe:codeMirror id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}"
+            <pe:codeMirror id="editConfigurationValueFile" value="#{cc.attrs.bean.activeConfig.value}"
               mode="#{cc.attrs.bean.activeConfig.editorMode}" lineNumbers="true" matchBrackets="true"
               theme="#{ivyFreyaTheme.mode eq 'light' ? 'default' : 'dark'}" />
           </c:when>
           <c:otherwise>
-            <p:inputText id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" />
+            <p:inputText id="editConfigurationValueText" value="#{cc.attrs.bean.activeConfig.value}" />
           </c:otherwise>
         </c:choose>
       </p:panelGrid>
