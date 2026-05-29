@@ -123,7 +123,7 @@
               <a href="#">
                 <span class="profile-image-wrapper">
                   <h:outputText rendered="#{not empty loginBean.gravatarHash}">
-                    <img src="https://www.gravatar.com/avatar/#{loginBean.gravatarHash}?d=404" style="border-radius: 10px; display: none;" onload="showGravatarImg(this);"/>
+                    <img alt="avatar" src="https://www.gravatar.com/avatar/#{loginBean.gravatarHash}?d=404" style="border-radius: 10px; display: none;" onload="showGravatarImg(this);"/>
                   </h:outputText>
                   <i class="ti ti-user-circle" style="font-size: 28px; padding: 2px;"></i>
                 </span>

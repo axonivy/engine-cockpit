@@ -163,7 +163,7 @@
         <cc:Deployment id="deployment" appName="#{applicationBean.activeActivity.name}" appVersion="#{applicationBean.activeActivity.version}" />
 
         <p:remoteCommand name="reloadTree" update="form" action="#{applicationBean.reloadTree}"/>
-        <script>
+        <script type="text/javascript">
           function closeFileUpload() {
             PF('fileUploadModal').hide();
             reloadTree();

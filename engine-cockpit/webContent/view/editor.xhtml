@@ -39,7 +39,7 @@
           </h:form>
         </div>
 
-        <script>
+        <script type="text/javascript">
           function handleAutocompleteSelection() {
             var selectedValue = document.getElementById('fileChooserForm:fileDropDown_input').value
             if (selectedValue == null || selectedValue == "") {
@@ -94,7 +94,7 @@
 
         <h:panelGroup id="editorFormContainer" >
           <h:form id="editorForm" styleClass="editor-card" rendered="#{!editorBean.isBinary()}">
-            <script>
+            <script type="text/javascript">
               function waitFor(resolver) {
                 const poll = resolve => {
                   var instance = resolver();
