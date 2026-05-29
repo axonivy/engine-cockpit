@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.performance;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
@@ -26,7 +27,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 @Named
 @ViewScoped
-public final class ProcessExecutionBean {
+public final class ProcessExecutionBean implements Serializable {
 
   private final IExecutionStatistic statistic = IBpmEngineManager.instance().getExecutionStatistic();
   private String filter;

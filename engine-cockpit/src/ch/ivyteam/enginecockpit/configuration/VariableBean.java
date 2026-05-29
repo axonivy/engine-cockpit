@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.configuration;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -20,7 +21,7 @@ import ch.ivyteam.ivy.vars.Variables;
 
 @Named
 @ViewScoped
-public class VariableBean implements ConfigView {
+public class VariableBean implements ConfigView, Serializable {
   private final ManagerBean managerBean;
   private List<ConfigProperty> variables;
   private List<ConfigProperty> filteredVariables;

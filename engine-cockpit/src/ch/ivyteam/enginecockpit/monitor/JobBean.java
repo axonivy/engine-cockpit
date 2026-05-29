@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import ch.ivyteam.log.Logger;
 
 @Named
 @ViewScoped
-public class JobBean {
+public class JobBean implements Serializable {
   private static final Logger LOGGER = Logger.getPackageLogger(JobBean.class);
   private static final ErrorHandler HANDLER = new ErrorHandler("msgs", LOGGER);
 

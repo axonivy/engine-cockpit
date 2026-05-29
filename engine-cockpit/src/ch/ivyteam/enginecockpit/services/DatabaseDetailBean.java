@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +38,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 @Named
 @ViewScoped
-public class DatabaseDetailBean extends DetailView {
+public class DatabaseDetailBean extends DetailView implements Serializable {
 
   private DatabaseDto database;
   private List<ExecStatement> history;

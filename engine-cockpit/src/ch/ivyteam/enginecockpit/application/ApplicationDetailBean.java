@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.application;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
@@ -38,7 +39,7 @@ import ch.ivyteam.ivy.workflow.standard.StandardProcessStartFinder;
 
 @Named
 @ViewScoped
-public class ApplicationDetailBean {
+public class ApplicationDetailBean implements Serializable {
 
   private String appName;
   private String appVersion;

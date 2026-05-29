@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
 @Named
 @ViewScoped
-public class DatabaseMonitor {
+public class DatabaseMonitor implements Serializable {
   private AbstractDatabase database;
   private final String applicationName;
   private final int appVersion;

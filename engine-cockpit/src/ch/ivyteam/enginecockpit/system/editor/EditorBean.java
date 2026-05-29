@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.system.editor;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 @Named
 @ViewScoped
-public class EditorBean {
+public class EditorBean implements Serializable {
   private List<EditorFile> configFiles = new ArrayList<>();
 
   private EditorFile activeConfigFile;

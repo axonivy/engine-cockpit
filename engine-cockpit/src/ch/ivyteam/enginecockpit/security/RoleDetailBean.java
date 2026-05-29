@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -38,7 +39,7 @@ import ch.ivyteam.ivy.workflow.query.TaskQuery;
 
 @Named
 @ViewScoped
-public class RoleDetailBean {
+public class RoleDetailBean implements Serializable {
 
   private String securitySystemName;
   private ISecurityContext securityContext;

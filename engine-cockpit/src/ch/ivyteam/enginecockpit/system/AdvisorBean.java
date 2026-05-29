@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.io.Serializable;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,7 +14,7 @@ import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
 @Named
 @SessionScoped
-public class AdvisorBean {
+public class AdvisorBean implements Serializable {
 
   public String getApplicationName() {
     return Advisor.getAdvisor().getApplicationName();

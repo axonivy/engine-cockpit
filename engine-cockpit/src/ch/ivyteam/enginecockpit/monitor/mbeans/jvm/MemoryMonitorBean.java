@@ -8,6 +8,7 @@ import static ch.ivyteam.ivy.environment.Ivy.cm;
 import static java.lang.String.join;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 
 import jakarta.inject.Named;
@@ -22,7 +23,7 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
 @Named
 @ViewScoped
-public class MemoryMonitorBean {
+public class MemoryMonitorBean implements Serializable {
   private final Monitor heapMemoryMonitor = Monitor.build().name(cm().co("/monitor/HeapMemory"))
       .icon("ti ti-chart-line")
       .yAxisLabel(cm().co("/monitor/Memory"))

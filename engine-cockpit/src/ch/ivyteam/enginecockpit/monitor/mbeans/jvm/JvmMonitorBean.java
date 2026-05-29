@@ -8,6 +8,7 @@ import static java.lang.String.join;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 
 import jakarta.inject.Named;
@@ -20,7 +21,7 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
 @Named
 @ViewScoped
-public class JvmMonitorBean {
+public class JvmMonitorBean implements Serializable {
   private final Monitor cpuMonitor = Monitor.build().name(cm().co("/monitor/CPULoad"))
       .icon("ti ti-cpu")
       .yAxisLabel(cm().co("/monitor/Load"))

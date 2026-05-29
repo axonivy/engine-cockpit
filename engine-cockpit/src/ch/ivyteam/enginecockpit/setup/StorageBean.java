@@ -5,6 +5,8 @@ import jakarta.inject.Named;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
@@ -13,7 +15,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 @Named
 @ViewScoped
-public class StorageBean extends StepStatus {
+public class StorageBean extends StepStatus implements Serializable {
   private static final String DATA = "Data.";
   private static final String APP_DIR = DATA + "AppDirectory";
   private static final String DATA_DIR = DATA + "Directory";

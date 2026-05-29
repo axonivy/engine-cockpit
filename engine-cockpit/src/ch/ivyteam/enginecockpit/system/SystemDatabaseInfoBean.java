@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import ch.ivyteam.ivy.persistence.db.info.SystemDbTrigger;
 
 @Named
 @ViewScoped
-public class SystemDatabaseInfoBean {
+public class SystemDatabaseInfoBean implements Serializable {
   private SystemDbInfo systemDbInfo;
   private List<SystemDbTable> tables;
   private List<SystemDbIndex> indexes;

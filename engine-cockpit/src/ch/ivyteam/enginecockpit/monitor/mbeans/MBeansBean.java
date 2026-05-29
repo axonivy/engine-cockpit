@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,7 +28,7 @@ import ch.ivyteam.log.Logger;
 
 @Named("mBeansBean")
 @ViewScoped
-public class MBeansBean {
+public class MBeansBean implements Serializable {
 
   private final static Logger LOGGER = Logger.getLogger(MBeansBean.class);
 

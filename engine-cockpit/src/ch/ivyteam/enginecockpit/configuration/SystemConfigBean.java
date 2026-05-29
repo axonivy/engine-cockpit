@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.configuration;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jakarta.inject.Named;
@@ -16,7 +17,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 @Named
 @ViewScoped
-public class SystemConfigBean {
+public class SystemConfigBean implements Serializable {
   private final ConfigViewImpl configView;
 
   public SystemConfigBean() {

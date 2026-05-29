@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.services.notification;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +12,7 @@ import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 
 @Named
 @ViewScoped
-public class NotificationChannelsBean {
+public class NotificationChannelsBean implements Serializable {
 
   private List<NotificationChannelDto> channels;
   private List<NotificationChannelDto> filteredChannels;

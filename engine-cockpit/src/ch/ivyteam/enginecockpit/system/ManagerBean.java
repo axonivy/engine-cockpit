@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -26,7 +27,7 @@ import ch.ivyteam.ivy.security.ISession;
 
 @Named
 @SessionScoped
-public class ManagerBean {
+public class ManagerBean implements Serializable {
 
   private List<SecuritySystem> securitySystems = List.of();
   private int selectedSecuritSystemIndex;

@@ -5,13 +5,15 @@ import jakarta.inject.Named;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 
+import java.io.Serializable;
+
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
 
 @Named
 @ViewScoped
-public class WebServerConnectorBean extends StepStatus {
+public class WebServerConnectorBean extends StepStatus implements Serializable {
   private static final String ENABLED = "Enabled";
   private static final String PORT = "Port";
   private static final String CONNECTOR_HTTP = "Connector.HTTP.";

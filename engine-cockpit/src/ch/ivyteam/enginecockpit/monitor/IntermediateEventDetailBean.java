@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
 import jakarta.faces.application.FacesMessage;
@@ -15,7 +16,7 @@ import ch.ivyteam.log.Logger;
 
 @Named
 @ViewScoped
-public class IntermediateEventDetailBean {
+public class IntermediateEventDetailBean implements Serializable {
 
   private static final Logger LOGGER = Logger.getPackageLogger(JfrBean.class);
   private IntermediateEvent event;

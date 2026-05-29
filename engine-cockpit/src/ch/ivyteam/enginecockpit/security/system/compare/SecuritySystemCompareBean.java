@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.system.compare;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -25,7 +26,7 @@ import ch.ivyteam.ivy.security.context.compare.Solver.Type;
 
 @Named
 @ViewScoped
-public class SecuritySystemCompareBean {
+public class SecuritySystemCompareBean implements Serializable {
 
   private final Set<Issue> solved = ConcurrentHashMap.newKeySet();
   private String sourceSecuritySystem;

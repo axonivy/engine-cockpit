@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
 import jakarta.inject.Named;
@@ -13,7 +14,7 @@ import ch.ivyteam.log.Logger;
 
 @Named
 @ViewScoped
-public class StartEventDetailBean {
+public class StartEventDetailBean implements Serializable {
 
   private static final Logger LOGGER = Logger.getPackageLogger(StartEventDetailBean.class);
   private static final ErrorHandler HANDLER = new ErrorHandler("msgs", LOGGER);

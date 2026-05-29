@@ -5,6 +5,8 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 import static java.lang.String.join;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
+import java.io.Serializable;
+
 import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
 
@@ -16,7 +18,7 @@ import ch.ivyteam.enginecockpit.util.CmsUtil;
 
 @Named
 @ViewScoped
-public class SessionMonitorBean {
+public class SessionMonitorBean implements Serializable {
   private static final String SECURITY_MANAGER = "ivy Engine:type=Security Manager";
   private static final String TOMCAT_MANAGER = "ivy:type=Manager,host=*,context=*";
   private final Monitor sessionsMonitor = Monitor.build().name(CmsUtil.coWithDefault("/common/Sessions", "Sessions")).icon("person").toMonitor();

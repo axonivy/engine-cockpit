@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.system;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -24,7 +25,7 @@ import ch.ivyteam.ivy.security.ISecurityManager;
 
 @Named
 @ViewScoped
-public class SecurityConfigBean {
+public class SecurityConfigBean implements Serializable {
 
   private String name;
 

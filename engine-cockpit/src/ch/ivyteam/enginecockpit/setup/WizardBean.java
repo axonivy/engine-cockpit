@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.setup;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 @Named
 @SessionScoped
-public class WizardBean {
+public class WizardBean implements Serializable {
   private Steps activeStep;
   private List<StepStatus> steps;
 

@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.services.rest;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,7 +13,7 @@ import ch.ivyteam.ivy.rest.client.RestClients;
 
 @Named
 @ViewScoped
-public class RestClientsBean {
+public class RestClientsBean implements Serializable {
 
   private List<RestClientDto> restClients;
   private List<RestClientDto> filteredRestClients;

@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 
 import jakarta.inject.Named;
@@ -15,7 +16,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 @Named
 @ViewScoped
-public class ClusterMonitorBean {
+public class ClusterMonitorBean implements Serializable {
   private static final ObjectName CLUSTER_CHANNEL;
 
   static {

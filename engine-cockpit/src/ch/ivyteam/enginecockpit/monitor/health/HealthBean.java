@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.health;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +16,7 @@ import ch.ivyteam.ivy.health.check.HealthSeverity;
 
 @Named
 @ViewScoped
-public class HealthBean {
+public class HealthBean implements Serializable {
 
   private final HealthChecker checker = HealthChecker.instance();
   private final List<Check> checks;

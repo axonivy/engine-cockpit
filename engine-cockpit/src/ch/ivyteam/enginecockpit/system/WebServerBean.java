@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +17,7 @@ import ch.ivyteam.ivy.request.EngineUriResolver;
 
 @Named
 @ViewScoped
-public class WebServerBean {
+public class WebServerBean implements Serializable {
   private final static List<String> CHECK_SECURITY_HEADERS = List.of("X-Frame-Options", "Referrer-Policy", "Content-Security-Policy", "X-Content-Type-Options", "Strict-Transport-Security");
   private String baseUrl;
   private boolean showRequestHeaders = false;

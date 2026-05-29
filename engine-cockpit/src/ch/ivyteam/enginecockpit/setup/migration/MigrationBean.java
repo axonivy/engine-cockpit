@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.setup.migration;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,7 +25,7 @@ import ch.ivyteam.licence.NewLicenceFileInstaller;
 
 @Named
 @ApplicationScoped
-public class MigrationBean {
+public class MigrationBean implements Serializable {
 
   private String pathToOldEngine;
   private EngineMigrator migrator;

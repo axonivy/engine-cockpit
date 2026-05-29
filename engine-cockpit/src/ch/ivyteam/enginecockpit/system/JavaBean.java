@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,7 @@ import jakarta.enterprise.context.SessionScoped;
 
 @Named
 @SessionScoped
-public class JavaBean {
+public class JavaBean implements Serializable {
   private final String name;
   private final String version;
   private final String vendor;

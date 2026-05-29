@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.services.search;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ import ch.ivyteam.ivy.searchengine.server.ServerConfig;
 
 @Named
 @ViewScoped
-public class SearchEngineBean {
+public class SearchEngineBean implements Serializable {
 
   private final SearchEngineManager searchEngineManager = (SearchEngineManager) ISearchEngineManager.instance();
   private SearchEngine searchEngine;

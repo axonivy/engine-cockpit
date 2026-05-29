@@ -1,11 +1,14 @@
 package ch.ivyteam.enginecockpit.monitor.session;
 
 import jakarta.inject.Named;
+
+import java.io.Serializable;
+
 import jakarta.faces.view.ViewScoped;
 
 @Named
 @ViewScoped
-public class SessionBean {
+public class SessionBean implements Serializable {
 
   private final SessionDataModel dataModel = new SessionDataModel();
 

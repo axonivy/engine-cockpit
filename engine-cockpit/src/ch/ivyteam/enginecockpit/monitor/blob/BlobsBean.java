@@ -3,11 +3,13 @@ package ch.ivyteam.enginecockpit.monitor.blob;
 import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
 
+import java.io.Serializable;
+
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 
 @Named
 @ViewScoped
-public class BlobsBean {
+public class BlobsBean implements Serializable {
 
   private BlobsDataModel dataModel;
 

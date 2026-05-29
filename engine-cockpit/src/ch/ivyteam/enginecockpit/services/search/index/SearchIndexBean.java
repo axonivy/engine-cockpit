@@ -3,6 +3,8 @@ package ch.ivyteam.enginecockpit.services.search.index;
 import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
 
+import java.io.Serializable;
+
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.services.search.SearchEngineIndex;
 import ch.ivyteam.enginecockpit.services.search.SearchEngineIndexDataModel;
@@ -10,7 +12,7 @@ import ch.ivyteam.ivy.searchengine.ISearchEngineManager;
 
 @Named
 @ViewScoped
-public class SearchIndexBean {
+public class SearchIndexBean implements Serializable {
 
   private final ISearchEngineManager searchEngine = ISearchEngineManager.instance();
 

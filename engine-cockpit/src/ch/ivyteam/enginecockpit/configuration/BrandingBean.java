@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.configuration;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 @Named
 @ViewScoped
-public class BrandingBean implements AllResourcesDownload {
+public class BrandingBean implements AllResourcesDownload, Serializable {
 
   private static final Map<String, String> RESOURCE_NAMES = Map.of("logo", Ivy.cm().co("/branding/LogoHelperMessage"),
       "logo_light", Ivy.cm().co("/branding/LogoLightHelperMessage"),

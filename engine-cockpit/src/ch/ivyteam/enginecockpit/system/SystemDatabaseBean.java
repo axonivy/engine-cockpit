@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +35,7 @@ import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 
 @Named
 @ViewScoped
-public class SystemDatabaseBean extends StepStatus {
+public class SystemDatabaseBean extends StepStatus implements Serializable {
   public static String HSQL_DB = "org.hsqldb";
 
   private DatabaseProduct product;

@@ -3,11 +3,13 @@ package ch.ivyteam.enginecockpit.services.notification;
 import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
 
+import java.io.Serializable;
+
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 
 @Named
 @ViewScoped
-public class NotificationsBean {
+public class NotificationsBean implements Serializable {
 
   private NotificationsDataModel dataModel;
 

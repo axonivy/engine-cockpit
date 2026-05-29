@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.system.ssl;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
@@ -28,7 +29,7 @@ import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.KeyStoreConfig;
 
 @Named
 @ViewScoped
-public class KeyStoreBean implements SslTableStore {
+public class KeyStoreBean implements SslTableStore, Serializable {
 
   private final KeyStoreConfig store;
 

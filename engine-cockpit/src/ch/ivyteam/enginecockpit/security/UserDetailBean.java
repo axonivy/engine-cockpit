@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jakarta.faces.application.FacesMessage;
@@ -27,7 +28,7 @@ import ch.ivyteam.ivy.workflow.query.TaskQuery;
 
 @Named
 @ViewScoped
-public class UserDetailBean {
+public class UserDetailBean implements Serializable {
 
   private String userName;
   private User user;

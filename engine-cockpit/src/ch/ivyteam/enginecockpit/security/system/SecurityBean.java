@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security.system;
 
 import static ch.ivyteam.ivy.security.ISecurityContext.DEFAULT;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +25,7 @@ import ch.ivyteam.ivy.security.internal.context.SecurityContext;
 
 @Named
 @ViewScoped
-public class SecurityBean {
+public class SecurityBean implements Serializable {
 
   private List<SecuritySystem> systems;
   private List<SecuritySystem> filteredSystems;

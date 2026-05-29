@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.performance.jfr;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import ch.ivyteam.log.Logger;
 
 @Named
 @ViewScoped
-public class JfrBean {
+public class JfrBean implements Serializable {
 
   static final ObjectName FLIGHT_RECORDER = createFlightRecorderName();
 

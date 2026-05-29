@@ -3,13 +3,15 @@ package ch.ivyteam.enginecockpit.services.notification;
 import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
 
+import java.io.Serializable;
+
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.ivy.notification.impl.NotificationRepository;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
 @Named
 @ViewScoped
-public class NotificationBean {
+public class NotificationBean implements Serializable {
 
   private String system;
   private String id;

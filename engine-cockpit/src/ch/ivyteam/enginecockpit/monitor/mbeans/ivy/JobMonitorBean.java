@@ -2,6 +2,8 @@ package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
+import java.io.Serializable;
+
 import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
 import javax.management.MalformedObjectNameException;
@@ -13,7 +15,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 @Named
 @ViewScoped
-public class JobMonitorBean {
+public class JobMonitorBean implements Serializable {
   private static final ObjectName JOB_MANAGER;
 
   static {

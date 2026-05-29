@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -13,7 +14,7 @@ import ch.ivyteam.ivy.db.Databases;
 
 @Named
 @ViewScoped
-public class DatabaseBean {
+public class DatabaseBean implements Serializable {
 
   private List<DatabaseDto> databases;
   private List<DatabaseDto> filteredDatabases;

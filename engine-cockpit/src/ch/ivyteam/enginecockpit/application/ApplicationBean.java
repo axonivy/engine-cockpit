@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.application;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +12,10 @@ import jakarta.faces.context.FacesContext;
 
 import org.apache.commons.lang3.Strings;
 
+import ch.ivyteam.enginecockpit.application.ApplicationBean.ApplicationBean.ApplicationRow;
+import ch.ivyteam.enginecockpit.application.model.AppTreeItem;
 import ch.ivyteam.enginecockpit.application.model.Application;
+import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
@@ -21,7 +25,7 @@ import ch.ivyteam.ivy.security.ISecurityManager;
 
 @Named
 @ViewScoped
-public class ApplicationBean {
+public class ApplicationBean implements Serializable {
 
   private String nameFilter = "";
   private boolean activateOnCreate = true;

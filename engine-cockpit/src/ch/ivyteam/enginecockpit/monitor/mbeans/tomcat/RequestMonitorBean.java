@@ -5,6 +5,7 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.delta;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.derivation;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.util.Set;
 
@@ -24,7 +25,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 @Named
 @ViewScoped
-public class RequestMonitorBean {
+public class RequestMonitorBean implements Serializable {
   private final Monitor requestsMonitor =
       Monitor.build().name(Ivy.cm().co("/liveStats/Requests")).icon("ti ti-building-broadcast-tower").toMonitor();
   private final Monitor errorsMonitor =

@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.system.ssl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
@@ -27,7 +28,7 @@ import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.TrustStoreConfig;
 
 @Named
 @ViewScoped
-public class TrustStoreBean implements SslTableStore {
+public class TrustStoreBean implements SslTableStore, Serializable {
 
   private final TrustStoreConfig store;
 

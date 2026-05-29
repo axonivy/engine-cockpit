@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system.administrators;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ import ch.ivyteam.ivy.security.administrator.AdministratorService;
 
 @Named
 @ViewScoped
-public class AdministratorBean extends StepStatus {
+public class AdministratorBean extends StepStatus implements Serializable {
 
   private List<AdministratorDto> admins;
   private String filter;

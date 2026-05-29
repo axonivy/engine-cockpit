@@ -5,13 +5,15 @@ import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
 import jakarta.faces.context.FacesContext;
 
+import java.io.Serializable;
+
 import ch.ivyteam.enginecockpit.security.model.UserDataModel;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
 @Named
 @ViewScoped
-public class UserBean {
+public class UserBean implements Serializable {
 
   private final UserDataModel userDataModel;
   private final ManagerBean managerBean;

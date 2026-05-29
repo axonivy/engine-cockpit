@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.monitor.memory.histogram;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.io.UncheckedIOException;
 import java.lang.management.ManagementFactory;
 import java.nio.file.Files;
@@ -31,7 +32,7 @@ import ch.ivyteam.log.Logger;
 
 @Named
 @SessionScoped
-public class ClassHistogramBean {
+public class ClassHistogramBean implements Serializable {
 
   static final ObjectName DIAGNOSTIC_COMMAND = createDiagnosticCommand();
   static final ObjectName HOT_SPOT_DIAGNOSTIC = createHotSpotDiagnostic();

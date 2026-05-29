@@ -2,6 +2,8 @@ package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
+import java.io.Serializable;
+
 import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
 
@@ -10,7 +12,7 @@ import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 
 @Named
 @ViewScoped
-public class MailClientMonitorBean {
+public class MailClientMonitorBean implements Serializable {
   private static final String EXTERNAL_MAIL_SERVER = "ivy Engine:name=External Mail Server";
 
   private static final ExecutionCounter SENT_MAILS = new ExecutionCounter(EXTERNAL_MAIL_SERVER, "sentMails");

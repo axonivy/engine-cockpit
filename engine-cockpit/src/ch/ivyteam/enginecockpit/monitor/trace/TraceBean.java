@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.trace;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
@@ -25,7 +26,7 @@ import ch.ivyteam.ivy.trace.Tracer;
 
 @Named
 @ViewScoped
-public class TraceBean {
+public class TraceBean implements Serializable {
 
   private static final double ONE_MILLION = 1_000_000d;
   private final Tracer tracer = Tracer.instance();

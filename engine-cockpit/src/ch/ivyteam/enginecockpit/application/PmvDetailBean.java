@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.application;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +15,7 @@ import ch.ivyteam.ivy.application.app.IApplicationRepository;
 
 @Named
 @ViewScoped
-public class PmvDetailBean {
+public class PmvDetailBean implements Serializable {
 
   private String appName;
   private String appVersion;

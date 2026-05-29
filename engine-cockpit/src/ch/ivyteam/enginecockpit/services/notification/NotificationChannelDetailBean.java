@@ -3,6 +3,8 @@ package ch.ivyteam.enginecockpit.services.notification;
 import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
 
+import java.io.Serializable;
+
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.dynamic.config.DynamicConfig;
@@ -14,7 +16,7 @@ import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
 @Named
 @ViewScoped
-public class NotificationChannelDetailBean {
+public class NotificationChannelDetailBean implements Serializable {
 
   private String channelId;
   private String system;

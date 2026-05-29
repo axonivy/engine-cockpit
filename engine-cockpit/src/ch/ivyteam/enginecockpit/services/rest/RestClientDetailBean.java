@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.services.rest;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,7 @@ import ch.ivyteam.ivy.rest.client.internal.RestClientExecutionManager;
 
 @Named
 @ViewScoped
-public class RestClientDetailBean extends DetailView implements FeatureEditor {
+public class RestClientDetailBean extends DetailView implements FeatureEditor, Serializable {
 
   private RestClientDto restClient;
   private String restClientKey;

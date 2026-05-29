@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.system;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.Objects;
@@ -23,7 +24,7 @@ import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 
 @Named
 @ViewScoped
-public class SecurityProviderBean {
+public class SecurityProviderBean implements Serializable {
 
   private String name;
   private SecuritySystem securitySystem;

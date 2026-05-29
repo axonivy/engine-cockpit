@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.system.overview;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.inject.Named;
@@ -24,7 +25,7 @@ import ch.ivyteam.ivy.trace.Tracer;
 
 @Named
 @ViewScoped
-public class TrafficGraphBean {
+public class TrafficGraphBean implements Serializable {
 
   private DefaultDiagramModel model;
   private int width = 1100;

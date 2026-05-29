@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.permission;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ import ch.ivyteam.ivy.security.internal.context.SecurityContext;
 
 @Named
 @ViewScoped
-public class PermissionBean extends TreeView<AbstractPermission> {
+public class PermissionBean extends TreeView<AbstractPermission> implements Serializable {
 
   private String securitySystemName;
   private String member;

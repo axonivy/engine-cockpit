@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.application;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,7 @@ import ch.ivyteam.ivy.security.ISecurityManager;
 
 @Named
 @ViewScoped
-public class MoveApplicationBean {
+public class MoveApplicationBean implements Serializable {
 
   public enum ValidationState {
     VALID,

@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ import ch.ivyteam.log.Logger;
 
 @Named
 @ViewScoped
-public class CacheBean {
+public class CacheBean implements Serializable {
 
   private final static Logger LOGGER = Logger.getLogger(CacheBean.class);
 

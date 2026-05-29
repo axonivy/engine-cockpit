@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +14,7 @@ import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
 @Named
 @ViewScoped
-public class ClusterBean {
+public class ClusterBean implements Serializable {
 
   private final boolean isClusterServer;
   private final List<ClusterNode> clusterNodes;

@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ import ch.ivyteam.log.Logger;
 
 @Named
 @ViewScoped
-public class StartEventBean {
+public class StartEventBean implements Serializable {
   private static final Logger LOGGER = Logger.getPackageLogger(StartEventBean.class);
   private static final ErrorHandler HANDLER = new ErrorHandler("msgs", LOGGER);
 

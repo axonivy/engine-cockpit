@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.deployment;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -26,7 +27,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 @Named
 @ViewScoped
-public class DeploymentBean {
+public class DeploymentBean implements Serializable {
 
   private static final Set<String> ALLOWED_EXTENSIONS = Set.of(".iar", ".zip");
   private static final String ALLOWED_EXTENSIONS_TEXT = String.join(", ", ALLOWED_EXTENSIONS);

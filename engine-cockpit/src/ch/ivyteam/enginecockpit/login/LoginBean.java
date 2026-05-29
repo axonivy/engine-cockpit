@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.login;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
@@ -24,7 +25,7 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 
 @Named
 @SessionScoped
-public class LoginBean {
+public class LoginBean implements Serializable {
 
   private String userName;
   private String password;

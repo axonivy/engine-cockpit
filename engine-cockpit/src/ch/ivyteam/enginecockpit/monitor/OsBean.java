@@ -9,6 +9,7 @@ import static ch.ivyteam.ivy.environment.Ivy.cm;
 import static java.lang.String.join;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.util.function.DoubleSupplier;
@@ -23,7 +24,7 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
 @Named
 @ViewScoped
-public class OsBean {
+public class OsBean implements Serializable {
   private final Monitor memoryMonitor = Monitor.build().name(cm().co("/monitor/Memory"))
       .icon("ti ti-chart-line")
       .yAxisLabel(cm().co("/monitor/Memory"))

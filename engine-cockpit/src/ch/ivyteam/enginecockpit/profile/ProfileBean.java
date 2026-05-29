@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.profile;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 import jakarta.inject.Named;
@@ -15,7 +16,7 @@ import ch.ivyteam.ivy.security.administrator.AdministratorService;
 
 @Named
 @ViewScoped
-public class ProfileBean {
+public class ProfileBean implements Serializable {
 
   private ProfileDTO loggedInAdmin;
   private final AdministratorService service;

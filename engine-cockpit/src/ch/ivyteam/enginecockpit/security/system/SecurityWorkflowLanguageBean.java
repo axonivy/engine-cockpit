@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.system;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -24,7 +25,7 @@ import ch.ivyteam.ivy.workflow.query.TaskQuery;
 
 @Named
 @ViewScoped
-public class SecurityWorkflowLanguageBean {
+public class SecurityWorkflowLanguageBean implements Serializable {
 
   private String name;
 

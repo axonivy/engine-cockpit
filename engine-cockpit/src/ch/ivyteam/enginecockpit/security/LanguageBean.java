@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -17,7 +18,7 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 
 @Named
 @ViewScoped
-public class LanguageBean {
+public class LanguageBean implements Serializable {
 
   public List<Locale> getContentLanguages(ISecurityContext securityContext) {
     return locales(securityContext, LanguageRepository::allContent);

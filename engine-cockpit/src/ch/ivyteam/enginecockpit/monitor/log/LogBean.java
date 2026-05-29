@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.monitor.log;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +28,7 @@ import ch.ivyteam.ivy.log.provider.LogFileZipper;
 
 @Named
 @ViewScoped
-public class LogBean implements AllResourcesDownload {
+public class LogBean implements AllResourcesDownload, Serializable {
 
   private List<LogView> logs;
   private LocalDate date;
