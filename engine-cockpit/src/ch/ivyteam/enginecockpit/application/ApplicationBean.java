@@ -12,7 +12,6 @@ import jakarta.faces.context.FacesContext;
 
 import org.apache.commons.lang3.Strings;
 
-import ch.ivyteam.enginecockpit.application.ApplicationBean.ApplicationBean.ApplicationRow;
 import ch.ivyteam.enginecockpit.application.model.AppTreeItem;
 import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.commons.TreeView;
