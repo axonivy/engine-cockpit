@@ -8,9 +8,6 @@ import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import com.codeborne.selenide.SelenideElement;
-
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,17 +22,6 @@ import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 public class WebTestVariables {
-
-  private static final List<String> EDIT_VALUE_IDS = List.of(
-      "editConfigurationValue",
-      "editConfigurationValueDaytime",
-      "editConfigurationValueNumber",
-      "editConfigurationValueBoolean",
-      "editConfigurationValuePassword",
-      "editConfigurationValueEnumeration",
-      "editConfigurationValueExpression",
-      "editConfigurationValueFile",
-      "editConfigurationValueText");
 
   @BeforeEach
   void beforeEach() {
@@ -141,9 +127,8 @@ public class WebTestVariables {
     variableTable().clickButtonForEntry(name, "editConfigBtn");
     $(By.id(activeTabPanel() + "config:editConfigurationModal")).shouldBe(visible);
     assertEditVariableDialog(name, oldValue);
-    var editValue = editableInput(getEditValueElement());
-    editValue.clear();
-    editValue.sendKeys(value);
+    $(By.id(activeTabPanel() + "config:editConfigurationForm:editConfigurationValue")).clear();
+    $(By.id(activeTabPanel() + "config:editConfigurationForm:editConfigurationValue")).sendKeys(value);
     $(By.id(activeTabPanel() + "config:editConfigurationForm:saveEditConfiguration")).click();
     $("#msgs_container").shouldHave(text(name), text("saved"));
   }
@@ -154,23 +139,8 @@ public class WebTestVariables {
     }
     $(By.id(activeTabPanel() + "config:editConfigurationForm:editConfigurationKey"))
         .shouldBe(exactText(name));
-    editableInput(getEditValueElement()).shouldBe(exactValue(oldValue));
-  }
-
-  private SelenideElement getEditValueElement() {
-    String idPrefix = activeTabPanel() + "config:editConfigurationForm:";
-    for (String id : EDIT_VALUE_IDS) {
-      var element = $(By.id(idPrefix + id));
-      if (element.exists()) {
-        return element;
-      }
-    }
-    throw new AssertionError("No editable configuration value element found for prefix: " + idPrefix);
-  }
-
-  private SelenideElement editableInput(SelenideElement element) {
-    var input = $(By.id(element.getAttribute("id") + "_input"));
-    return input.exists() ? input : element;
+    $(By.id(activeTabPanel() + "config:editConfigurationForm:editConfigurationValue"))
+        .shouldBe(exactValue(oldValue));
   }
 
   private void assertVariable(String name, String value, boolean isDefault) {

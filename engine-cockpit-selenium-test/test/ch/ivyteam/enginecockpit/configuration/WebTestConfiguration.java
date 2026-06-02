@@ -39,7 +39,6 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.ScrollIntoViewOptions;
 import com.codeborne.selenide.ScrollIntoViewOptions.Block;
 import com.codeborne.selenide.ScrollIntoViewOptions.Inline;
-import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -47,16 +46,6 @@ import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 class WebTestConfiguration {
-
-  private static final List<String> EDIT_VALUE_IDS = List.of(
-      "editConfigurationValueDaytime",
-      "editConfigurationValueNumber",
-      "editConfigurationValueBoolean",
-      "editConfigurationValuePassword",
-      "editConfigurationValueEnumeration",
-      "editConfigurationValueExpression",
-      "editConfigurationValueFile",
-      "editConfigurationValueText");
 
   private static final By CONTENT_FILTER_BTN = By.id("config:form:configTable:filterBtn");
   private static final By TABLE_ID = By.id("config:form:configTable");
@@ -165,7 +154,7 @@ class WebTestConfiguration {
       table.row(config).shouldHave(cssClass("default-value"));
 
       table.clickButtonForEntry(config, "editConfigBtn");
-      PrimeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValueEnumeration"))
+      PrimeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue"))
           .selectItemByLabel("SSL");
       $("#config\\:editConfigurationForm\\:saveEditConfiguration").click();
         assertAndCloseGrowl(SYSTEM_CONTEXT, config);
@@ -301,7 +290,7 @@ class WebTestConfiguration {
       var config = "OverrideProject";
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(APPLICATION_CONTEXT, config, " ", "Defines a project containing overriding SubProcesses", "");
-        $(By.id(APPLICATION_CONTEXT.configPrefix + ":editConfigurationForm:editConfigurationValueEnumeration"))
+      $(By.id(APPLICATION_CONTEXT.configPrefix + ":editConfigurationForm:editConfigurationValue"))
           .shouldHave(cssClass("ui-selectonemenu"));
     }
   }
@@ -321,7 +310,7 @@ class WebTestConfiguration {
       var config = "StandardProcess.DefaultPages";
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(APPLICATION_CONTEXT, config, "com.axonivy.portal:portal", "default-pages", "auto");
-      $(By.id(APPLICATION_CONTEXT.configPrefix + ":editConfigurationForm:editConfigurationValueEnumeration")).shouldHave(cssClass("ui-selectonemenu"));
+      $(By.id(APPLICATION_CONTEXT.configPrefix + ":editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
     }
   }
 
@@ -370,12 +359,8 @@ class WebTestConfiguration {
     table.clickButtonForEntry(key, "editConfigBtn");
     assertThatConfigEditModalIsVisible(context, key, value, desc, "");
 
-    var element = getEditValue(context.configPrefix);
-    var input = $(By.id(element.getAttribute("id") + "_input"));
-    var editableElement = input.exists() ? input : element;
-    editableElement.clear();
-    editableElement.sendKeys(newValue);
-
+    $(By.id(context.configPrefix + ":editConfigurationForm:editConfigurationValue")).clear();
+    $(By.id(context.configPrefix + ":editConfigurationForm:editConfigurationValue")).sendKeys(newValue);
     $(By.id(context.configPrefix + ":editConfigurationForm:saveEditConfiguration")).click();
     assertAndCloseGrowl(context, key);
     table.valueForEntryShould(key, 2, exactText(newValue));
@@ -449,34 +434,24 @@ class WebTestConfiguration {
     }
 
     public ConfigAssert assertValue(String value) {
-      var element = getEditValue(idPrefix);
-      String classAttr = element.getAttribute("class");
+      var configValue = $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
+      String classAttr = configValue.getAttribute("class");
       if (classAttr.contains("ui-chkbox")) {
-        PrimeUi.selectBooleanCheckbox(By.id(element.getAttribute("id")))
+        PrimeUi.selectBooleanCheckbox(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"))
             .shouldBeChecked(Boolean.parseBoolean(value));
       } else if (classAttr.contains("ui-inputnumber")) {
-        $(By.id(element.getAttribute("id") + "_input"))
+        $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue_input"))
             .shouldBe(exactValue(value));
       } else if (classAttr.contains("ui-selectonemenu")) {
-        SelectOneMenu menu = PrimeUi.selectOne(By.id(element.getAttribute("id")));
+        SelectOneMenu menu = PrimeUi.selectOne(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
         menu.selectedItemShould(exactText(value));
-      } else if (element.getTagName().contains("textarea")) {
-        element.shouldNotBe(visible).shouldBe(exactValue(value));
+      } else if (configValue.getTagName().contains("textarea")) {
+        configValue.shouldNotBe(visible).shouldBe(exactValue(value));
         $(".CodeMirror").shouldBe(visible, text("this is a json file"));
       } else {
-        element.shouldBe(exactValue(value));
+        $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue")).shouldBe(exactValue(value));
       }
       return this;
     }
-  }
-
-  private static SelenideElement getEditValue(String prefix) {
-    for (String id : EDIT_VALUE_IDS) {
-      var element = $(By.id(prefix + ":editConfigurationForm:" + id));
-      if (element.exists()) {
-        return element;
-      }
-    }
-    throw new AssertionError("No editable configuration value element found for prefix: " + prefix);
   }
 }

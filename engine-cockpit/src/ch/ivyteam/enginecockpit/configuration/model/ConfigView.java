@@ -24,8 +24,6 @@ public interface ConfigView {
 
   void saveConfig();
 
-  String getContentFilterText();
-
   default void triggerTableFilter() {
     PrimeFaces.current().executeScript("PF('configTable').filter();");
   }

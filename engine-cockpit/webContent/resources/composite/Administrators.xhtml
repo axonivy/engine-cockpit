@@ -20,7 +20,7 @@
         <h:panelGroup styleClass="flex align-items-center">
           <h:outputText value="#{admin.name}" styleClass="ml-1 admin-name">
             <h:panelGroup layout="block" styleClass="user-avatar ti ti-lock-square-rounded">
-              <img alt="Gravatar" src="https://www.gravatar.com/avatar/#{admin.gravatarHash}?d=404" onload="showGravatarImg(this);"/>
+              <img src="https://www.gravatar.com/avatar/#{admin.gravatarHash}?d=404" onload="showGravatarImg(this);"/>
             </h:panelGroup>
           </h:outputText>
           <h:outputText value="[external]" title="#{admin.externalId}" rendered="#{admin.external}" styleClass="ml-1 addition-row-info table-cell-autocut" />
