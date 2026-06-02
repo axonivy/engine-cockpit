@@ -5,9 +5,11 @@ import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.not;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static org.openqa.selenium.By.id;
 
 import java.io.File;
@@ -121,7 +123,7 @@ public class WebTestJfr {
 
     $(id("form:start")).shouldBe(visible, enabled).click();
     $(id("startRecording:more_toggler")).shouldBe(visible, enabled).click();
-    $(id("startRecording:duration")).shouldBe(visible, enabled).sendKeys("10 s");
+    $$("[id$=':optionInput']").shouldBe(sizeGreaterThan(0)).first().shouldBe(visible, enabled).setValue("10 s");
     $(id("startRecording:more_toggler")).shouldBe(visible, enabled).click();
     $(id("startRecording:start")).shouldBe(visible, enabled).click();
     recordingsTable.tableEntry(1, 5).shouldBe(not(exactText("Unlimited")));

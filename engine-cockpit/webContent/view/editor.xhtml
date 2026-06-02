@@ -57,7 +57,7 @@
           }
         </script>
         <h:panelGroup id="currentFileContainer">
-          <h:panelGroup id="currentFile" styleClass="my-2" layout="block" rendered="#{editorBean.activeConfigFile != null}">
+          <h:panelGroup id="currentFilePanel" styleClass="my-2" layout="block" rendered="#{editorBean.activeConfigFile != null}">
             <p:staticMessage rendered="#{editorBean.activeConfigFile.readOnly}"
                summary="#{ivy.cm.co('/editor/ReadOnlyFileWarningMessage')}" severity="warn" />
             <b id="currentFile">#{editorBean.activeConfigFile.path}</b>

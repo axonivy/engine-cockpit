@@ -1,8 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite"
-  xmlns:c="http://java.sun.com/jsp/jstl/core">
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
   <h:body>
     <ui:composition template="../includes/template/template.xhtml">
       <ui:define name="breadcrumb">
@@ -88,13 +87,13 @@
             <p:fileUpload id="uploadConfig" widgetVar="uploadConfig" listener="#{jfrBean.addConfiguration}" style="display: none;" update="startRecording" auto="true"/>
             <p:panel id="more" toggleable="true" collapsed="true" header="#{ivy.cm.co('/common/MoreOptions')} ..." toggleTitle="#{ivy.cm.co('/common/MoreOptions')}" style="width: 600px;">
               <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-4 lg:col-2, col-12 md:col-6 lg:col-10" styleClass="grey-label-panel ui-fluid">
-                <c:forEach items="#{jfrBean.options}" var="option">
+                <ui:repeat value="#{jfrBean.options}" var="option">
                   <p:outputPanel>
-                    <p:outputLabel id="#{option.name}Label" for="#{option.name}" value="#{option.label}"/>
-                    <p:tooltip for="#{option.name}Label"><pre>#{option.description}</pre></p:tooltip>
+                    <p:outputLabel for="optionInput" value="#{option.label}"/>
+                    <p:tooltip for="@previous"><pre>#{option.description}</pre></p:tooltip>
                   </p:outputPanel>
-                  <p:inputText id="#{option.name}" value="#{option.value}"/>
-                </c:forEach>
+                  <p:inputText id="optionInput" value="#{option.value}"/>
+                </ui:repeat>
               </p:panelGrid>
             </p:panel>
             <div class="custom-dialog-footer">
