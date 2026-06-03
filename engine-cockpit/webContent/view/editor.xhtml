@@ -39,7 +39,7 @@
           </h:form>
         </div>
 
-        <script>
+        <script type="text/javascript">
           function handleAutocompleteSelection() {
             var selectedValue = document.getElementById('fileChooserForm:fileDropDown_input').value
             if (selectedValue == null || selectedValue == "") {
@@ -57,7 +57,7 @@
           }
         </script>
         <h:panelGroup id="currentFileContainer">
-          <h:panelGroup id="currentFile" styleClass="my-2" layout="block" rendered="#{editorBean.activeConfigFile != null}">
+          <h:panelGroup id="currentFilePanel" styleClass="my-2" layout="block" rendered="#{editorBean.activeConfigFile != null}">
             <p:staticMessage rendered="#{editorBean.activeConfigFile.readOnly}"
                summary="#{ivy.cm.co('/editor/ReadOnlyFileWarningMessage')}" severity="warn" />
             <b id="currentFile">#{editorBean.activeConfigFile.path}</b>
@@ -94,7 +94,7 @@
 
         <h:panelGroup id="editorFormContainer" >
           <h:form id="editorForm" styleClass="editor-card" rendered="#{!editorBean.isBinary()}">
-            <script>
+            <script type="text/javascript">
               function waitFor(resolver) {
                 const poll = resolve => {
                   var instance = resolver();

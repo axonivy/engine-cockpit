@@ -123,16 +123,20 @@
         <h:outputLabel for="editConfigurationValue" value="#{ivy.cm.co('/common/Value')}" />
         <c:choose>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'DAYTIME'}">
+            <!-- disable validator next-line: unique-id-validator -->
             <p:inputMask id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" mask="99:99" />
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'NUMBER'}">
+            <!-- disable validator next-line: unique-id-validator -->
             <p:inputNumber id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" thousandSeparator="'"
               decimalPlaces="0" minValue="-1" />
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'BOOLEAN'}">
+            <!-- disable validator next-line: unique-id-validator -->
             <p:selectBooleanCheckbox id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" />
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'PASSWORD'}">
+            <!-- disable validator next-line: unique-id-validator -->
             <p:password id="editConfigurationValue"
               value="#{cc.attrs.bean.activeConfig.value}"
               promptLabel="#{ivy.cm.co('/common/PleaseEnterPassword')}"
@@ -141,22 +145,26 @@
               strongLabel="#{ivy.cm.co('/common/Strong')}" />
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'ENUMERATION'}">
+            <!-- disable validator next-line: unique-id-validator -->
             <p:selectOneMenu id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}">
               <f:selectItems value="#{cc.attrs.bean.activeConfig.enumerationValues}" />
             </p:selectOneMenu>
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'EXPRESSION'}">
+            <!-- disable validator next-line: unique-id-validator -->
             <p:inputText id="editConfigurationValue" readonly="true" value="#{cc.attrs.bean.activeConfig.editValue}" />
             <p:outputLabel value="#{ivy.cm.co('/common/Variable')}" />
             <h:outputLink onclick="PF('editConfigurationModal').hide();"
               value="variables.xhtml">#{ivy.cm.co('/configuration/GoEditVariableValueLink')}</h:outputLink>
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'FILE'}">
+            <!-- disable validator next-line: unique-id-validator -->
             <pe:codeMirror id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}"
               mode="#{cc.attrs.bean.activeConfig.editorMode}" lineNumbers="true" matchBrackets="true"
               theme="#{ivyFreyaTheme.mode eq 'light' ? 'default' : 'dark'}" />
           </c:when>
           <c:otherwise>
+            <!-- disable validator next-line: unique-id-validator -->
             <p:inputText id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" />
           </c:otherwise>
         </c:choose>

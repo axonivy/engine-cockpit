@@ -23,7 +23,7 @@
       <h:form id="config-form">
         <p:poll widgetVar="liveStatePoll" update="charts" interval="1" autoStart="false" />
         <h:panelGroup id="charts" layout="block" class="ui-g-12">
-          <script>
+          <script type="text/javascript">
             if (!$('#layout-config').hasClass('layout-config-active')) {
               PF('liveStatePoll').stop();
             }
