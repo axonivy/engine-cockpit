@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.performance;
 
 import java.util.List;
-import java.util.Set;
 
 import jakarta.inject.Singleton;
 
@@ -15,7 +14,7 @@ import ch.ivyteam.ivy.request.IResponse;
 import ch.ivyteam.ivy.request.RequestException;
 
 @Singleton
-final class TstBpmEngineManager implements IBpmEngineManager {
+class TstBpmEngineManager implements IBpmEngineManager {
 
   private final IExecutionStatistic executionStatistic = new TstExecutionStatistic();
 
