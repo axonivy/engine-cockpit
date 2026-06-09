@@ -8,7 +8,6 @@ import jakarta.inject.Singleton;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.bpm.engine.restricted.IBpmEngine;
 import ch.ivyteam.ivy.bpm.engine.restricted.IBpmEngineManager;
-import ch.ivyteam.ivy.bpm.engine.restricted.IBpmEngineStarter;
 import ch.ivyteam.ivy.bpm.engine.restricted.event.IEventPublisher;
 import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IExecutionStatistic;
 import ch.ivyteam.ivy.request.IRequest;
@@ -35,17 +34,7 @@ final class TstBpmEngineManager implements IBpmEngineManager {
   }
 
   @Override
-  public IBpmEngine getBpmEngine(IProcessModelVersion processModelVersion) {
-    return null;
-  }
-
-  @Override
-  public IBpmEngine getBpmEngineIfExists(IProcessModelVersion pmv) {
-    return null;
-  }
-
-  @Override
-  public Set<IBpmEngine> getRequiredBpmEngines(IProcessModelVersion processModelVersion) {
+  public IBpmEngine getBpmEngine(IProcessModelVersion pmv) {
     return null;
   }
 
@@ -65,8 +54,5 @@ final class TstBpmEngineManager implements IBpmEngineManager {
   }
 
   @Override
-  public void setBpmEngineStarter(IBpmEngineStarter bpmEngineStarter) {}
-
-  @Override
-  public void requestEngineStart(IProcessModelVersion processModelVersion) {}
+  public void requestEngineStart(IProcessModelVersion pmv) {}
 }
