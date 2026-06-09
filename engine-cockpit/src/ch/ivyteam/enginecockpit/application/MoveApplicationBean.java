@@ -7,7 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import ch.ivyteam.enginecockpit.application.model.Application;
-import ch.ivyteam.ivy.application.internal.app.move.ApplicationMover;
+import ch.ivyteam.ivy.application.app.move.impl.ApplicationMover;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.security.ISecurityContext;
