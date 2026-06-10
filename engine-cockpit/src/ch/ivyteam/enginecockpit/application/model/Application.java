@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.ws.rs.core.UriBuilder;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
@@ -161,15 +159,7 @@ public class Application extends AppTreeItem {
   }
 
   public boolean isDisabled() {
-    try {
-      return !app.hasAnyActiveAndReleasedPmv();
-    } catch (Exception ex) {
-      var message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-          Ivy.cm().content("/applications/DisableErrorMessage").replace("application", app.getName()).get(),
-          ex.getMessage());
-      FacesContext.getCurrentInstance().addMessage(null, message);
-      return true;
-    }
+    return app.getReleaseState() != ReleaseState.RELEASED;
   }
 
   public String getFileDir() {
