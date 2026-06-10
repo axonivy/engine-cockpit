@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.info;
 
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
 import ch.ivyteam.log.Logger;
 
@@ -31,12 +32,7 @@ public class Application {
   }
 
   public boolean isDisabled() {
-    try {
-      return !app.hasAnyActiveAndReleasedPmv();
-    } catch (Exception ex) {
-      LOGGER.error("Error while try to evaluate the state of the applicatioon '" + name + "'", ex);
-      return true;
-    }
+    return app.getReleaseState() != ReleaseState.RELEASED;
   }
 
   public boolean isDevMode() {
