@@ -13,8 +13,8 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
-import ch.ivyteam.ivy.application.restricted.di.ApplicationContext;
-import ch.ivyteam.ivy.application.restricted.di.ProcessModelVersionContext;
+import ch.ivyteam.ivy.application.app.context.ApplicationContext;
+import ch.ivyteam.ivy.application.pmv.context.ProcessModelVersionContext;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.security.di.SecurityContextContext;
@@ -88,5 +88,4 @@ public class RestTestRunner {
     }
     return new ConnectionTestResult("HEAD", code, TestResult.ERROR, failMsg);
   }
-
 }
