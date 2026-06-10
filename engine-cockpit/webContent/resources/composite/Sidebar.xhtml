@@ -3,13 +3,12 @@
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
-  <cc:attribute name="icon" default="analytics-graph-line" />
   <cc:attribute name="jmxSource" default="" type="java.lang.String" />
 </cc:interface>
 
 <cc:implementation>
   <a href="#" id="layout-config-button" class="layout-config-button" onclick="PF('liveStatePoll').start();">
-    <i class="#{cc.attrs.icon}"></i>
+    <i class="ti ti-chart-histogram"></i>
   </a>
   
   <div id="layout-config" class="layout-config">
