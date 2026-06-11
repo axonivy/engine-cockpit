@@ -7,6 +7,7 @@ import javax.ws.rs.core.UriBuilder;
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.pmv.convert.PmvProjectConverter;
 import ch.ivyteam.ivy.application.restricted.IProcessModelVersionInternal;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
@@ -78,7 +79,7 @@ public class ProcessModelVersion extends AppTreeItem {
 
   @Override
   public boolean isNotConvertable() {
-    return !pmv.canBeConverted();
+    return !PmvProjectConverter.of(pmv).canConvert();
   }
 
   @Override
@@ -92,7 +93,7 @@ public class ProcessModelVersion extends AppTreeItem {
 
   @Override
   public void convert() {
-    execute(() -> pmv.convertProject(new ProjectConversionLog()), "convert", true);
+    execute(() -> PmvProjectConverter.of(pmv).run(new ProjectConversionLog()), "convert", true);
   }
 
   public boolean canConvert() {

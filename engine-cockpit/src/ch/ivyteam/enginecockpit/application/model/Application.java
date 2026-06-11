@@ -11,6 +11,7 @@ import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.application.app.convert.AppProjectConverter;
 import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -194,12 +195,12 @@ public class Application extends AppTreeItem {
 
   @Override
   public void convert() {
-    execute(() -> app.convertProjects(new ProjectConversionLog()), "convert", true);
+    execute(() -> AppProjectConverter.of(app).run(new ProjectConversionLog()), "convert", true);
   }
 
   public boolean canConvert() {
     if (app != null) {
-      return app.hasProjectsToConvert();
+      return AppProjectConverter.of(app).canConvert();
     }
     return true;
   }
@@ -207,7 +208,7 @@ public class Application extends AppTreeItem {
   @Override
   public boolean isNotConvertable() {
     if (app != null) {
-      return !app.hasProjectsToConvert();
+      return !AppProjectConverter.of(app).canConvert();
     }
     return true;
   }
