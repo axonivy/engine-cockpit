@@ -39,7 +39,7 @@ public class ApplicationBean {
       return List.of();
     }
     return managerBean.getApplications().stream()
-        .filter(app -> app.getSecurityContextName().equals(securityContextName))
+        .filter(app -> app.getSecSystem().equals(securityContextName))
         .filter(app -> matchesNameFilter(app.getName()))
         .collect(Collectors.groupingBy(Application::getName))
         .entrySet().stream()

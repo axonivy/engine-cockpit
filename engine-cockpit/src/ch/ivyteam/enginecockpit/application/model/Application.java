@@ -22,7 +22,7 @@ import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
 public class Application extends AppTreeItem {
 
   private String fileDir;
-  private String securityContextName = ISecurityContext.DEFAULT;
+  private String secSystem = ISecurityContext.DEFAULT;
   private long runningCasesCount = -1;
   private IApplicationInternal app;
   private List<WebServiceProcess> webServiceProcesses;
@@ -34,7 +34,7 @@ public class Application extends AppTreeItem {
 
   @Override
   public String getSecurityContextName() {
-    return securityContextName;
+    return secSystem;
   }
 
   @Override
@@ -63,8 +63,8 @@ public class Application extends AppTreeItem {
     super(bean, app);
     this.app = (IApplicationInternal) app;
     this.name = app.getName();
-    this.fileDir = this.app.getDirectory().toString();
-    this.securityContextName = app.getSecurityContext().getName();
+    fileDir = this.app.getDirectory().toString();
+    secSystem = app.getSecurityContext().getName();
   }
 
   @Override
@@ -172,11 +172,11 @@ public class Application extends AppTreeItem {
   }
 
   public void setSecSystem(String secSystem) {
-    this.securityContextName = secSystem;
+    this.secSystem = secSystem;
   }
 
   public String getSecSystem() {
-    return securityContextName;
+    return secSystem;
   }
 
   public ISecurityContext getSecurityContext() {
@@ -219,13 +219,12 @@ public class Application extends AppTreeItem {
   }
 
   public String getDeleteHint() {
-    if (runningCasesCount <= 0) {
-      return "";
+    var message = new StringBuilder();
+    if (runningCasesCount > 0) {
+      message.append(Ivy.cm().content("/applications/DeleteRunningCasesHintMessage")
+          .replace("activityType", getActivityType()).replace("runningCases", String.valueOf(runningCasesCount)).get());
     }
-    return Ivy.cm().content("/applications/DeleteRunningCasesHintMessage")
-        .replace("activityType", getActivityType())
-        .replace("runningCases", String.valueOf(runningCasesCount))
-        .get();
+    return message.toString();
   }
 
   public String getSecuritySystemName() {
@@ -255,7 +254,7 @@ public class Application extends AppTreeItem {
     return webServiceProcesses;
   }
 
-  public String getWarningMessageForNoReleasedVersion() {
+  public String getWarningMessageForNoReleasedPmv() {
     return Ivy.cm().co("/applications/ApplicationWarningMessageForNoReleasedPmv");
   }
 
@@ -266,7 +265,10 @@ public class Application extends AppTreeItem {
 
   @Override
   public String getVersion() {
-    return app == null ? "" : String.valueOf(app.getVersion());
+    if (app == null) {
+      return "";
+    }
+    return String.valueOf(app.getVersion());
   }
 
   public int version() {
