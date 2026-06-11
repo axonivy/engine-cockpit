@@ -1,14 +1,17 @@
 package ch.ivyteam.enginecockpit.application;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.Strings;
 
@@ -20,8 +23,14 @@ import ch.ivyteam.enginecockpit.configuration.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
+import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.ReleaseState;
+import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.application.app.NewApplication;
 import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
+import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.workflow.StandardProcessType;
 import ch.ivyteam.ivy.workflow.standard.DefaultPagesConfigurator;
@@ -34,8 +43,7 @@ public class ApplicationDetailBean {
   private String appName;
   private String appVersion;
 
-  private Application app;
-
+  private Application selectedVersion;
   private ConfigViewImpl configView;
 
   private final ManagerBean managerBean;
@@ -55,97 +63,180 @@ public class ApplicationDetailBean {
   public void setAppVersion(String appVersion) {
     this.appVersion = appVersion;
   }
-  
+
   public String getAppVersion() {
     return appVersion;
   }
 
   public void onload() {
     managerBean.reloadApplications();
-    app = managerBean.getApplications().stream()
-        .filter(a -> a.getName().equals(appName))
-        .filter(a -> a.version() == Integer.parseInt(appVersion))
-        .findAny()
-        .orElse(null);
-    if (app == null) {
-      ResponseHelper.notFound(Ivy.cm().content("/common/NotFoundApplication").replace("application", appName).get());
+    selectedVersion = resolveVersion();
+
+    if (selectedVersion == null) {
+      ResponseHelper.notFound(Ivy.cm().content("/common/NotFoundApplication")
+          .replace("application", appName)
+          .get());
       return;
     }
 
-    configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
-        this::enrichPmvProperties, List.of(ConfigViewImpl.defaultFilter(),
-            new ContentFilter<>("Variables", Ivy.cm().co("/configuration/ShowVariablesMessage"),
-                p -> !Strings.CI.startsWith(p.getKey(), "Variables."), true),
-            new ContentFilter<>("Databases", Ivy.cm().co("/configuration/ShowDatabasesMessage"),
-                p -> !Strings.CI.startsWith(p.getKey(), "Databases."), true),
-            new ContentFilter<>("RestClients", Ivy.cm().co("/configuration/ShowRestClientsMessage"),
-                p -> !Strings.CI.startsWith(p.getKey(), "RestClients."), true),
-            new ContentFilter<>("WebServiceClients", Ivy.cm().co("/configuration/ShowWebServiceClientsMessage"),
-                p -> !Strings.CI.startsWith(p.getKey(), "WebServiceClients."), true)));
+    appVersion = selectedVersion.getVersion();
+    configView = buildConfigView();
+  }
+
+  public List<VersionRow> getVersionRows() {
+    return managerBean.getApplications().stream()
+        .filter(app -> appName != null && appName.equals(app.getName()))
+        .sorted(Comparator.comparingInt(Application::version).reversed())
+        .map(VersionRow::new)
+        .collect(Collectors.toList());
+  }
+
+  public List<ProjectRow> getProjectRows() {
+    if (selectedVersion == null) {
+      return List.of();
+    }
+    return selectedVersion.app().getProcessModelVersions()
+        .map(pmv -> new ProjectRow(
+            pmv.getName(),
+            pmv.getLibraryVersion(),
+            DateUtil.formatDate(pmv.getLastChangeDate())))
+        .sorted(Comparator.comparing(ProjectRow::getName, String.CASE_INSENSITIVE_ORDER))
+        .collect(Collectors.toList());
   }
 
   public Application getApplication() {
-    return app;
+    return selectedVersion;
   }
 
   public SecuritySystem getSecuritySystem() {
-    return new SecuritySystem(app.getSecurityContext());
+    if (selectedVersion != null) {
+      return new SecuritySystem(selectedVersion.getSecurityContext());
+    }
+    return managerBean.getSelectedSecuritySystem();
   }
 
-  public String deleteApplication() {
-    managerBean.apps().delete(app.getName(), app.version());
-    managerBean.reloadApplications();
-    return "applications.xhtml?faces-redirect=true";
-  }
+  public void deleteProject(String projectName) {
+    if (selectedVersion == null || projectName == null || projectName.isBlank()) {
+      return;
+    }
 
-  public void reloadConfig() {
-    var app = ((IApplicationInternal) getIApplication());
-    app.reloadConfig();
-    Message.info()
-        .clientId("applicationMessage")
-        .summary(Ivy.cm().content("/configuration/ReloadApplicationConfigurationMessage")
-            .replace("application", app.getName()).get())
-        .show();
-  }
+    var project = selectedVersion.app().findProcessModelVersion(projectName);
+    if (project == null) {
+      FacesContext.getCurrentInstance().addMessage(
+          "applicationMessage",
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"),
+              "Project '" + projectName + "' not found."));
+      return;
+    }
 
-  public String getSessionCount() {
-    return managerBean.formatNumber(getIApplication().getSecurityContext().sessions().count());
-  }
-
-  public String getUsersCount() {
-    return managerBean.formatNumber(getSecuritySystem().getUsersCount());
-  }
-
-  public String getCasesCount() {
-    return managerBean.formatNumber(app.getRunningCasesCount());
-  }
-
-  public String getPmCount() {
-    return managerBean.formatNumber(getIApplication().getProcessModelVersions().count());
-  }
-
-  private IApplication getIApplication() {
-    return managerBean.getIApplication(app.getId());
+    try {
+      selectedVersion.app().delete(project);
+      managerBean.reloadApplications();
+      selectedVersion = resolveVersion();
+      configView = selectedVersion != null ? buildConfigView() : null;
+      Message.info()
+          .clientId("applicationMessage")
+          .summary(Ivy.cm().co("/common/Delete"))
+          .detail(projectName)
+          .show();
+    } catch (RuntimeException ex) {
+      FacesContext.getCurrentInstance().addMessage(
+          "applicationMessage",
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"), ex.getMessage()));
+    }
   }
 
   public ConfigViewImpl getConfigView() {
     return configView;
   }
 
-  private ConfigProperty enrichPmvProperties(ConfigProperty property) {
+  public String getLatestVersion() {
+    return managerBean.getApplications().stream()
+        .filter(app -> appName != null && appName.equals(app.getName()))
+        .map(Application::version)
+        .max(Comparator.naturalOrder())
+        .map(String::valueOf)
+        .orElse("");
+  }
+
+  public void createVersion() {
+    if (selectedVersion == null) {
+      return;
+    }
+    try {
+      IApplicationRepository
+          .of(selectedVersion.getSecurityContext())
+          .create(NewApplication.create(appName).toNewApplication());
+      managerBean.reloadApplications();
+    } catch (RuntimeException ex) {
+      FacesContext.getCurrentInstance().addMessage(
+          "applicationMessage",
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"), ex.getMessage()));
+    }
+  }
+
+
+  public void reloadConfig() {
+    var app = iApplicationInternal();
+    app.reloadConfig();
+    Message.info()
+        .clientId("applicationMessage")
+        .summary(Ivy.cm().content("/configuration/ReloadApplicationConfigurationMessage")
+            .replace("application", app.getName())
+            .get())
+        .show();
+  }
+
+  private Application resolveVersion() {
+    var candidates = managerBean.getApplications().stream()
+        .filter(app -> appName != null && appName.equals(app.getName()))
+        .collect(Collectors.toList());
+
+    if (candidates.isEmpty()) {
+      return null;
+    }
+    if (appVersion != null && appVersion.matches("\\d+")) {
+      var requested = Integer.parseInt(appVersion);
+      return candidates.stream()
+          .filter(app -> app.version() == requested)
+          .findAny()
+          .orElseGet(() -> latestOf(candidates));
+    }
+    return latestOf(candidates);
+  }
+
+  private static Application latestOf(List<Application> candidates) {
+    return candidates.stream()
+        .max(Comparator.comparingInt(Application::version))
+        .orElse(candidates.get(0));
+  }
+
+  private ConfigViewImpl buildConfigView() {
+    return new ConfigViewImpl(
+        iApplicationInternal().getConfiguration(),
+        this::enrichWithEnumerationValues,
+        List.of(
+            ConfigViewImpl.defaultFilter(),
+            hideByPrefix("Variables",         "/configuration/ShowVariablesMessage"),
+            hideByPrefix("Databases",         "/configuration/ShowDatabasesMessage"),
+            hideByPrefix("RestClients",       "/configuration/ShowRestClientsMessage"),
+            hideByPrefix("WebServiceClients", "/configuration/ShowWebServiceClientsMessage")));
+  }
+
+  private ConfigProperty enrichWithEnumerationValues(ConfigProperty property) {
     if (Strings.CS.startsWith(property.getKey(), "StandardProcess")) {
-      property.setConfigValueFormat(ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat.ENUMERATION);
-      property.setEnumerationValues(() -> availableStandardProcesses(property));
+      property.setConfigValueFormat(ConfigValueFormat.ENUMERATION);
+      property.setEnumerationValues(() -> standardProcessLibraries(property));
     }
     if (Objects.equals(property.getKey(), "OverrideProject")) {
-      property.setConfigValueFormat(ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat.ENUMERATION);
+      property.setConfigValueFormat(ConfigValueFormat.ENUMERATION);
       property.setEnumerationValues(() -> librariesOf(managerBean.getSelectedIApplication()));
     }
     return property;
   }
 
-  private List<String> availableStandardProcesses(ConfigProperty config) {
-    var configurator = DefaultPagesConfigurator.of(getIApplication());
+  private List<String> standardProcessLibraries(ConfigProperty config) {
+    var configurator = DefaultPagesConfigurator.of(iApplication());
     var libraries = new LinkedHashSet<String>();
     libraries.add("");
     libraries.add(StandardProcessStartFinder.AUTO);
@@ -156,13 +247,96 @@ public class ApplicationDetailBean {
   }
 
   private static List<String> librariesOf(IApplication app) {
-    List<String> libs = new LinkedList<>();
+    var libs = new LinkedList<String>();
     libs.add("");
-     var available = app.getProcessModelVersions()     
-     .map(pmv -> pmv.getLibraryId())
-     .distinct()
-     .collect(Collectors.toList());
-    libs.addAll(available);
+    app.getProcessModelVersions()
+        .map(pmv -> pmv.getLibraryId())
+        .distinct()
+        .forEach(libs::add);
     return libs;
+  }
+
+  private static ContentFilter<ConfigProperty> hideByPrefix(String prefix, String messageKey) {
+    return new ContentFilter<>(
+        prefix,
+        Ivy.cm().co(messageKey),
+        property -> !Strings.CI.startsWith(property.getKey(), prefix + "."),
+        true);
+  }
+
+  private IApplication iApplication() {
+    if (selectedVersion == null) {
+      return null;
+    }
+    return managerBean.getIApplication(selectedVersion.getId());
+  }
+
+  private IApplicationInternal iApplicationInternal() {
+    return (IApplicationInternal) iApplication();
+  }
+
+  public static class VersionRow {
+
+    private final Application application;
+
+    public VersionRow(Application application) {
+      this.application = application;
+    }
+
+    public Application getApplication() {
+      return application;
+    }
+
+    public String getVersion() {
+      return application.getVersion();
+    }
+
+    public String getReleaseState() {
+      return application.getReleaseState().toString();
+    }
+
+    public String getReleaseStateIcon() {
+      return application.getReleaseStateIcon();
+    }
+
+    public String getActivityState() {
+      return application.app().getActivityState().toString();
+    }
+
+    public String getActivityStateIcon() {
+      return switch (application.app().getActivityState()) {
+        case ACTIVE   -> "ti ti-player-play";
+        case INACTIVE -> "ti ti-player-stop";
+        case LOCKED   -> "ti ti-lock";
+        default       -> "ti ti-help-circle";
+      };
+    }
+
+    public long getRunningCasesCount() { return application.getRunningCasesCount(); }
+    public boolean isActive() { return application.app().getActivityState() == ActivityState.ACTIVE; }
+    public boolean isReleasable() { return application.getReleaseState() != ReleaseState.RELEASED; }
+  }
+
+  public static class ProjectRow {
+
+    private final String name;
+    private final String version;
+    private final String lastChanged;
+
+    public ProjectRow(String name, String version, String lastChanged) {
+      this.name = name;
+      this.version = version;
+      this.lastChanged = lastChanged;
+    }
+
+    public String getName() {
+      return name;
+    }
+    public String getVersion() {
+      return version;
+    }
+    public String getLastChanged() {
+      return lastChanged;
+    }
   }
 }

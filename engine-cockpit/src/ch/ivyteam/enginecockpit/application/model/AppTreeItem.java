@@ -114,11 +114,6 @@ public abstract class AppTreeItem {
       updateStats();
       return;
     }
-    if (reloadOnlyStats) {
-      bean.reloadActivityStates();
-    } else {
-      bean.reloadTree();
-    }
   }
 
   public StateOfActivity getState() {

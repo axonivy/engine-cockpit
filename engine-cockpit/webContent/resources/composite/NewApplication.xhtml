@@ -12,23 +12,23 @@
       <p:outputLabel for="newApplicationNameInput" value="#{ivy.cm.co('/common/Name')}" />
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="newApplicationNameInput" requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}"
-        value="#{applicationBean.newApplication.name}" required="true" />
+        value="#{applicationBean.applicationTemplate.name}" required="true" />
         <p:message for="newApplicationNameInput" id="newApplicationNameMessage" />
       </h:panelGroup>
       
       <p:outputLabel for="newApplicationSecSystemInput" value="#{ivy.cm.co('/common/SecuritySystem')}" />
-      <p:selectOneMenu id="newApplicationSecSystemInput" value="#{applicationBean.newApplication.secSystem}">
+      <p:selectOneMenu id="newApplicationSecSystemInput" value="#{applicationBean.applicationTemplate.secSystem}">
         <f:selectItems value="#{securityBean.availableSecuritySystems}" />
       </p:selectOneMenu>
 
       <p:outputLabel for="newApplicationActivate" value="#{ivy.cm.co('/common/Activate')}" />
-      <p:selectBooleanCheckbox id="newApplicationActivate" value="#{applicationBean.activateNewApp}" />
+      <p:selectBooleanCheckbox id="newApplicationActivate" value="#{applicationBean.activateOnCreate}" />
     </p:panelGrid>
     <div class="custom-dialog-footer">
       <p:commandButton id="cancelNewApplication" onclick="PF('newApplicationModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
         type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="saveNewApplication" validateClient="true" ajax="false"
-        actionListener="#{applicationBean.createNewApplication}" value="#{ivy.cm.co('/common/Save')}" icon="ti ti-device-floppy"
+        actionListener="#{applicationBean.createApplication}" value="#{ivy.cm.co('/common/Save')}" icon="ti ti-device-floppy"
         styleClass="modal-input-button" />
     </div>
   </h:form>

@@ -4,6 +4,11 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions" 
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ccc="http://xmlns.jcp.org/jsf/composite/composite">
 
+<cc:interface>
+  <cc:attribute name="application" type="ch.ivyteam.enginecockpit.application.model.Application" required="true" />
+  <cc:attribute name="securitySystem" type="ch.ivyteam.enginecockpit.security.model.SecuritySystem"  required="true" />
+</cc:interface>
+
 <cc:implementation>
 <div class="card">
   <h:form id="appDetailSecurityForm">
@@ -13,10 +18,11 @@
         <h6 class="m-0">#{ivy.cm.co('/common/SecuritySystem')}</h6>
         <p:commandButton id="moveApplication" title="#{ivy.cm.co('/security/ChangeSecuritySystem')}" type="button" icon="ti ti-pencil" onclick="PF('moveApplicationModal').show();"
           styleClass="flex-shrink-0 ml-auto rounded-button">
-            <p:ajax listener="#{moveApplicationBean.setApp(applicationDetailBean.application)}" update=":security:moveApplicationComposite:moveApplicationForm" />
+          <p:ajax listener="#{moveApplicationBean.setApp(cc.attrs.application)}" 
+            update=":security:moveApplicationComposite:moveApplicationForm" />
         </p:commandButton>
         <p:commandButton id="synchronizeSecurity"
-          rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
+          rendered="#{cc.attrs.securitySystem.securitySystemProvider ne 'ivy Security System'}"
           title="#{ivy.cm.co('/common/Synchronize')}" type="button"
           icon="ti ti-refresh #{securityBean.syncRunningForSelectedApp ? 'spinning' : ''}"
           styleClass="ml-1 ui-button-secondary rounded-button spin-icon" onclick="PF('logPoller').start()">
@@ -29,30 +35,30 @@
     </div>
     <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex" styleClass="grey-label-panel">
       <label>#{ivy.cm.co('/common/Name')}</label>
-      <h:outputLink value="#{applicationDetailBean.securitySystem.link}">
-        <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemName}"
-          rendered="#{not empty applicationDetailBean.securitySystem.link}">
+      <h:outputLink value="#{cc.attrs.securitySystem.link}">
+        <h:outputText value="#{cc.attrs.securitySystem.securitySystemName}"
+          rendered="#{not empty cc.attrs.securitySystem.link}">
           <i class="ti ti-lock link-icon"></i>
         </h:outputText>
       </h:outputLink>
       <label>#{ivy.cm.co('/common/Provider')}</label>
-      <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemProvider}" />
+      <h:outputText value="#{cc.attrs.securitySystem.securitySystemProvider}" />
       <label>#{ivy.cm.co('/common/Users')}</label>
       <h:outputLink value="users.xhtml">
-        <h:outputText value="#{applicationDetailBean.securitySystem.usersCount}">
+        <h:outputText value="#{cc.attrs.securitySystem.usersCount}">
           <i class="ti ti-user-check link-icon"></i>
         </h:outputText>
       </h:outputLink>
       <label>#{ivy.cm.co('/common/Roles')}</label>
       <h:outputLink value="roles.xhtml">
-        <h:outputText value="#{applicationDetailBean.securitySystem.rolesCount}">
+        <h:outputText value="#{cc.attrs.securitySystem.rolesCount}">
           <i class="ti ti-users link-icon"></i>
         </h:outputText>
       </h:outputLink>
     </p:panelGrid>
   </h:form>
 
-  <ccc:MoveApplication id="moveApplicationComposite" />
+  <ccc:MoveApplication id="moveApplicationComposite"  />
 </div>
 </cc:implementation>
 

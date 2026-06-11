@@ -18,11 +18,11 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
 import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
 
-@SuppressWarnings({"removal", "unused"})
+@SuppressWarnings("removal")
 public class Application extends AppTreeItem {
 
   private String fileDir;
-  private String secSystem = ISecurityContext.DEFAULT;
+  private String securityContextName = ISecurityContext.DEFAULT;
   private long runningCasesCount = -1;
   private IApplicationInternal app;
   private List<WebServiceProcess> webServiceProcesses;
@@ -34,7 +34,7 @@ public class Application extends AppTreeItem {
 
   @Override
   public String getSecurityContextName() {
-    return secSystem;
+    return securityContextName;
   }
 
   @Override
@@ -63,8 +63,8 @@ public class Application extends AppTreeItem {
     super(bean, app);
     this.app = (IApplicationInternal) app;
     this.name = app.getName();
-    fileDir = this.app.getDirectory().toString();
-    secSystem = app.getSecurityContext().getName();
+    this.fileDir = this.app.getDirectory().toString();
+    this.securityContextName = app.getSecurityContext().getName();
   }
 
   @Override
@@ -73,7 +73,7 @@ public class Application extends AppTreeItem {
   }
 
   public static String getDetailViewLink(String appName, int appVersion) {
-    return UriBuilder.fromPath("application-detail.xhtml")
+    return UriBuilder.fromPath("application.xhtml")
         .queryParam("appName", appName)
         .queryParam("appVersion", appVersion)
         .build()
@@ -143,11 +143,11 @@ public class Application extends AppTreeItem {
   @Override
   public String getReleaseStateIcon() {
     return switch (getReleaseState()) {
-      case RELEASED -> "ti ti-circle-check";
-      case DEPRECATED -> "ti ti-circle-half-vertical";
-      case ARCHIVED -> "ti ti-archive";
+      case RELEASED          -> "ti ti-circle-check";
+      case DEPRECATED        -> "ti ti-circle-half-vertical";
+      case ARCHIVED          -> "ti ti-archive";
       case CREATED, PREPARED -> "ti ti-speakerphone";
-      default -> "ti ti-help-circle";
+      default                -> "ti ti-help-circle";
     };
   }
 
@@ -172,11 +172,11 @@ public class Application extends AppTreeItem {
   }
 
   public void setSecSystem(String secSystem) {
-    this.secSystem = secSystem;
+    this.securityContextName = secSystem;
   }
 
   public String getSecSystem() {
-    return secSystem;
+    return securityContextName;
   }
 
   public ISecurityContext getSecurityContext() {
@@ -219,12 +219,13 @@ public class Application extends AppTreeItem {
   }
 
   public String getDeleteHint() {
-    var message = new StringBuilder();
-    if (runningCasesCount > 0) {
-      message.append(Ivy.cm().content("/applications/DeleteRunningCasesHintMessage")
-          .replace("activityType", getActivityType()).replace("runningCases", String.valueOf(runningCasesCount)).get());
+    if (runningCasesCount <= 0) {
+      return "";
     }
-    return message.toString();
+    return Ivy.cm().content("/applications/DeleteRunningCasesHintMessage")
+        .replace("activityType", getActivityType())
+        .replace("runningCases", String.valueOf(runningCasesCount))
+        .get();
   }
 
   public String getSecuritySystemName() {
@@ -245,16 +246,16 @@ public class Application extends AppTreeItem {
   public List<WebServiceProcess> getWebServiceProcesses() {
     if (webServiceProcesses == null) {
       webServiceProcesses = app.getProcessModelVersions()
-        .map(IWorkflowProcessModelVersion::of)
-        .filter(Objects::nonNull)
-        .flatMap(pmv -> pmv.getWebServiceProcesses().stream())
-        .map(WebServiceProcess::new)
-        .collect(Collectors.toList());
+          .map(IWorkflowProcessModelVersion::of)
+          .filter(Objects::nonNull)
+          .flatMap(pmv -> pmv.getWebServiceProcesses().stream())
+          .map(WebServiceProcess::new)
+          .collect(Collectors.toList());
     }
     return webServiceProcesses;
   }
 
-  public String getWarningMessageForNoReleasedPmv() {
+  public String getWarningMessageForNoReleasedVersion() {
     return Ivy.cm().co("/applications/ApplicationWarningMessageForNoReleasedPmv");
   }
 
@@ -265,10 +266,7 @@ public class Application extends AppTreeItem {
 
   @Override
   public String getVersion() {
-    if (app == null) {
-      return "";
-    }
-    return String.valueOf(app.getVersion());
+    return app == null ? "" : String.valueOf(app.getVersion());
   }
 
   public int version() {
