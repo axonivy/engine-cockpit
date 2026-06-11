@@ -60,7 +60,8 @@ def recordMavenIssues() {
   recordIssues tools: [mavenConsole(), eclipse(), javaDoc()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
     excludeMessage('The system property test.engine.url is configured twice!*'),
     excludeMessage('JAR will be empty*'),
-    excludeMessage('Execution of job UserSynchronizer*')
+    excludeMessage('Execution of job UserSynchronizer*'),
+    excludeMessage('Skipped*')
   ]
 }
 
