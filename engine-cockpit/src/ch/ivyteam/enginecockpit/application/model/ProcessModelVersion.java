@@ -9,6 +9,7 @@ import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.pmv.convert.PmvProjectConverter;
 import ch.ivyteam.ivy.application.restricted.IProcessModelVersionInternal;
+import ch.ivyteam.ivy.project.model.ProjectVersion;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
 public class ProcessModelVersion extends AppTreeItem {
@@ -143,7 +144,7 @@ public class ProcessModelVersion extends AppTreeItem {
   }
 
   public int getProjectVersion() {
-    return pmv.projectVersion();
+    return ProjectVersion.of(pmv.project()).version();
   }
 
   private void countRunningCases() {
