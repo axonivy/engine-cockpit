@@ -1,6 +1,8 @@
 package ch.ivyteam.enginecockpit.application;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -8,15 +10,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.Strings;
-import org.primefaces.model.DefaultTreeNode;
-import org.primefaces.model.TreeNode;
 
-import ch.ivyteam.enginecockpit.application.model.AppTreeItem;
 import ch.ivyteam.enginecockpit.application.model.Application;
-import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
-import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
-import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.app.NewApplication;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -24,113 +21,131 @@ import ch.ivyteam.ivy.security.ISecurityManager;
 
 @ManagedBean
 @ViewScoped
-public class ApplicationBean extends TreeView<AppTreeItem> {
-  private boolean processing;
+public class ApplicationBean {
 
-  private AppTreeItem selectedActivity;
+  private String nameFilter = "";
+  private boolean activateOnCreate = true;
 
-  private final Application newApp;
-  private boolean activateNewApp;
-
+  private final Application applicationTemplate = new Application();
   private final ManagerBean managerBean;
 
   public ApplicationBean() {
     managerBean = ManagerBean.instance();
-    newApp = new Application();
-    activateNewApp = true;
-    selectedActivity = new Application();
-    processing = false;
-    reloadTree();
   }
 
-  @Override
-  protected void buildTree() {
-    for (var app : managerBean.getIApplications()) {
-      var activity = new Application(app, this);
-      var node = new DefaultTreeNode<AppTreeItem>(activity, rootTreeNode);
-      loadPmvTree(app, node);
+  public List<ApplicationRow> getApplicationRows() {
+    var securityContextName = selectedSecurityContextName();
+    if (securityContextName == null) {
+      return List.of();
     }
+    return managerBean.getApplications().stream()
+        .filter(app -> app.getSecSystem().equals(securityContextName))
+        .filter(app -> matchesNameFilter(app.getName()))
+        .collect(Collectors.groupingBy(Application::getName))
+        .entrySet().stream()
+        .map(entry -> ApplicationRow.from(entry.getKey(), entry.getValue()))
+        .sorted(Comparator.comparing(ApplicationRow::getName, String.CASE_INSENSITIVE_ORDER))
+        .collect(Collectors.toList());
   }
 
-  private void loadPmvTree(IApplication app, TreeNode<AppTreeItem> pmNode) {
-    for (var pmv : app.getProcessModelVersions().toList()) {      
-      var activity = new ProcessModelVersion(pmv, this);
-      new DefaultTreeNode<AppTreeItem>(activity, pmNode);
-    }
-  }
-
-  @Override
-  protected void filterNode(TreeNode<AppTreeItem> node) {
-    var activity = node.getData();
-    if (Strings.CI.contains(activity.getName(), filter)) {
-      new DefaultTreeNode<>(activity, filteredTreeNode);
-    }
-  }
-
-  public void reloadActivityStates() {
-    processing = false;
-    reloadNodeState(rootTreeNode.getChildren());
-  }
-
-  private void reloadNodeState(List<TreeNode<AppTreeItem>> nodes) {
-    for (var node : nodes) {
-      var activity = node.getData();
-      activity.updateStats();
-      if (!processing) {
-        processing = activity.getState().isProcessing();
-      }
-      reloadNodeState(node.getChildren());
-    }
-  }
-
-  public boolean isProcessing() {
-    return processing;
-  }
-
-  public List<Application> getApplications() {
-    return managerBean.getApplications();
-  }
-
-  public Application getNewApplication() {
-    return newApp;
-  }
-
-  public boolean getActivateNewApp() {
-    return activateNewApp;
-  }
-
-  public void setActivateNewApp(boolean activateNewApp) {
-    this.activateNewApp = activateNewApp;
-  }
-
-  public void createNewApplication() {
+  public void createApplication() {
     try {
-      var securityContext = ISecurityManager.instance().securityContexts().get(newApp.getSecSystem());
-      var appToCreate = NewApplication.create(newApp.getName())
-          .toNewApplication();
-      IApplicationRepository.of(securityContext).create(appToCreate);
-      reloadTree();
-      managerBean.reloadApplications();
+      var securityContext = ISecurityManager.instance()
+          .securityContexts()
+          .get(applicationTemplate.getSecSystem());
+      IApplicationRepository
+          .of(securityContext)
+          .create(NewApplication.create(applicationTemplate.getName()).toNewApplication());
+      reloadApplications();
     } catch (RuntimeException ex) {
-      FacesContext.getCurrentInstance().addMessage("applicationMessage",
+      FacesContext.getCurrentInstance().addMessage(
+          "applicationMessage",
           new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"), ex.getMessage()));
     }
   }
 
-  public void setActiveActivity(AppTreeItem activity) {
-    this.selectedActivity = activity;
+  public void reloadApplications() {
+    managerBean.reloadApplications();
+    nameFilter = "";
   }
 
-  public AppTreeItem getActiveActivity() {
-    return selectedActivity;
+  public Application getApplicationTemplate() {
+    return applicationTemplate;
   }
 
-  @Override
-  protected String dataIdentifier(AppTreeItem data) {
-    var id = Long.toString(data.getApplicationId());
-    if (data.isPmv()) {
-      id += "-" + Long.toString(data.getProcessModelVersionId());
+  public boolean isActivateOnCreate() {
+    return activateOnCreate;
+  }
+
+  public void setActivateOnCreate(boolean activateOnCreate) {
+    this.activateOnCreate = activateOnCreate;
+  }
+
+  public String getNameFilter() {
+    return nameFilter;
+  }
+
+  public void setNameFilter(String nameFilter) {
+    this.nameFilter = nameFilter;
+  }
+
+  private String selectedSecurityContextName() {
+    var selected = managerBean.getSelectedSecuritySystem();
+    return selected == null ? null : selected.getSecurityContext().getName();
+  }
+
+  private boolean matchesNameFilter(String name) {
+    return nameFilter == null || nameFilter.isBlank() || Strings.CI.contains(name, nameFilter);
+  }
+
+  public static class ApplicationRow {
+
+    private final String name;
+    private final String releasedVersions;
+    private final String archivedVersions;
+
+    private ApplicationRow(String name, String releasedVersions, String archivedVersions) {
+      this.name = name;
+      this.releasedVersions = releasedVersions;
+      this.archivedVersions = archivedVersions;
     }
-    return id;
+
+    static ApplicationRow from(String name, List<Application> versions) {
+      return new ApplicationRow(
+          name,
+          versionsWithState(versions, ReleaseState.RELEASED),
+          archivedOrDeprecatedVersions(versions));
+    }
+
+    private static String versionsWithState(List<Application> apps, ReleaseState state) {
+      return apps.stream()
+          .filter(app -> app.getReleaseState() == state)
+          .map(Application::version)
+          .distinct().sorted()
+          .map(String::valueOf)
+          .collect(Collectors.joining(", "));
+    }
+
+    private static String archivedOrDeprecatedVersions(List<Application> apps) {
+      return apps.stream()
+          .filter(app -> app.getReleaseState() == ReleaseState.ARCHIVED
+              || app.getReleaseState() == ReleaseState.DEPRECATED)
+          .map(Application::version)
+          .distinct().sorted()
+          .map(String::valueOf)
+          .collect(Collectors.joining(", "));
+    }
+
+    public String getName() {
+      return name; 
+    }
+
+    public String getReleasedVersions() {
+      return releasedVersions;
+    }
+    
+    public String getArchivedVersions() {
+      return archivedVersions;
+    }
   }
 }

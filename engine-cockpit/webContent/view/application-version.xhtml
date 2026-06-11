@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
+<h:body>
+  <f:metadata>
+    <f:viewParam name="appName" value="#{applicationDetailBean.appName}" />
+    <f:viewParam name="appVersion" value="#{applicationDetailBean.appVersion}" />
+    <f:viewAction action="#{applicationDetailBean.onload}" />
+  </f:metadata>
+
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><a href="applications.xhtml">#{ivy.cm.co('/common/Applications')}</a></li>
+      <li>/</li>
+      <li><a href="application.xhtml?appName=#{applicationDetailBean.appName}">#{applicationDetailBean.appName}</a></li>
+      <li>/</li>
+      <li><a href="#">#{applicationDetailBean.appVersion}</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}applications.html#application-detail" />
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="card">
+        <h:form id="versionProjectsForm">
+          <p:growl id="applicationMessage" showDetail="true" />
+          <div class="flex align-items-center mb-3">
+            <i class="pr-3 ti ti-packages card-title-icon"></i>
+            <h2 class="m-0">Application Version</h2>
+            <h2 class="m-0 ml-2">#{applicationDetailBean.appVersion}</h2>
+          </div>
+
+          <div class="table-search flex ui-fluid">
+            <span class="ui-input-icon-left filter-container">
+              <i class="ti ti-search"/>
+              <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}">
+                <p:ajax event="keyup" delay="300" update=":versionProjectsForm:projectsTable" />
+              </p:inputText>
+            </span>
+          </div>
+
+          <p:dataTable id="projectsTable" value="#{applicationDetailBean.projectRows}" var="row">
+            <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{row.name}">
+              <h:outputText value="#{row.name}" />
+            </p:column>
+
+            <p:column headerText="#{ivy.cm.co('/common/Version')}" sortBy="#{row.version}" style="width: 180px;">
+              <h:outputText value="#{row.version}" />
+            </p:column>
+
+            <p:column headerText="#{ivy.cm.co('/applications/LastChangeDate')}" sortBy="#{row.lastChanged}" style="width: 220px;">
+              <h:outputText value="#{row.lastChanged}" />
+            </p:column>
+
+            <p:column style="text-align: center; width: 100px;">
+              <p:commandButton icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"
+                styleClass="ui-button-danger rounded-button" process="@this"
+                actionListener="#{applicationDetailBean.deleteProject(row.name)}"
+                update=":versionProjectsForm:projectsTable :versionProjectsForm:applicationMessage" />
+            </p:column>
+          </p:dataTable>
+        </h:form>
+      </div>
+      <div class="grid">          
+          <div class="col-12 md:col-12 xl:col-6">
+            <cc:Information id="information" />
+          </div>
+          <div class="col-12 md:col-12 xl:col-6">
+            <div class="grid">
+              <div class="col-12">
+                <cc:State id="state" />
+              </div>
+            </div>
+          </div>
+        </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

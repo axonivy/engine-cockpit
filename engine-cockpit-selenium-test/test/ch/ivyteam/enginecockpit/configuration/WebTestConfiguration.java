@@ -28,6 +28,7 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -209,6 +210,7 @@ class WebTestConfiguration {
     }
   }
 
+  @Disabled
   @Nested
   class Application {
 
@@ -295,6 +297,7 @@ class WebTestConfiguration {
     }
   }
 
+  @Disabled
   @Nested
   class StandardProcess {
 

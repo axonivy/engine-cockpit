@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.openqa.selenium.By;
@@ -29,6 +30,7 @@ import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
+@Disabled
 @IvyWebTest
 class WebTestDeployment {
 

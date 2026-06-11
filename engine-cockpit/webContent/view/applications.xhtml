@@ -23,153 +23,40 @@
             <p:commandButton styleClass="ml-auto" id="createApplicationBtn" widgetVar="createApplication" icon="ti ti-plus"
               value="#{ivy.cm.co('/common/Add')}" onclick="PF('newApplicationModal').show();" type="button" />
           </div>
-          <div class="table-search flex ui-fluid">
-            <span class="ui-input-icon-left filter-container">
-              <i class="ti ti-search"/>
-              <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{applicationBean.filter}">
-                <p:ajax event="keyup" delay="300" update="@form:tree" />
-              </p:inputText>
-            </span>
-            <p:commandButton id="expandAll" icon="ti ti-arrows-vertical"
-              actionListener="#{applicationBean.expandAllNodes}" update="tree" title="#{ivy.cm.co('/common/ExpandAll')}"
-              styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined expand-all" />
-            <p:commandButton id="collapseAll" icon="ti ti-arrows-minimize"
-              actionListener="#{applicationBean.collapseAllNodes}" update="tree" title="#{ivy.cm.co('/common/CollapseAll')}"
-              styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button ui-button-outlined" />
+        <cc:SecuritySystemTabs tabChange="#{applicationBean.reloadApplications}" id="tabs" update="form">
+          <div>
+            <div class="table-search flex ui-fluid">
+              <span class="ui-input-icon-left filter-container">
+                <i class="ti ti-search"/>
+                <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}"
+                  value="#{applicationBean.nameFilter}">
+                  <p:ajax event="keyup" delay="300" update="applicationsTable" />
+                </p:inputText>
+              </span>
+            </div>
+
+            <p:dataTable id="applicationsTable" value="#{applicationBean.applicationRows}" var="app" >
+              
+              <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{app.name}">
+                <h:link value="#{app.name}" outcome="application.xhtml">
+                  <i class="ti ti-cube table-icon" />
+                  <f:param name="appName" value="#{app.name}" />
+                </h:link>
+              </p:column>
+
+              <p:column headerText="Released" style="text-align: center; width: 100px;">
+                <h:outputText value="#{app.releasedVersions}" />
+              </p:column>
+
+              <p:column headerText="Archived" style="text-align: center; width: 150px;">
+                <h:outputText value="#{app.archivedVersions}" />
+              </p:column>
+            </p:dataTable>
           </div>
-
-          <p:treeTable id="tree" value="#{applicationBean.tree}" var="activity">
-            <p:ajax event="expand" listener="#{applicationBean.nodeExpand}" />
-            <p:ajax event="collapse" listener="#{applicationBean.nodeCollapse}" />
-            <p:column headerText="#{ivy.cm.co('/applications/AppPmPmvHeader')}" sortBy="#{activity.displayName}">
-              <h:outputLink rendered="#{activity.detailView != '#'}" value="#{activity.detailView}">
-                <h:outputText value="#{activity.displayName}" styleClass="activity-name"
-                  title="#{activity.activityType} #{activity.displayName}">
-                  <i class="#{activity.icon} table-icon" title="#{activity.activityType}" />
-                </h:outputText>
-              </h:outputLink>
-              <h:outputText rendered="#{activity.pmv}"
-                value=" [#{activity.version} / #{activity.lastChangeDate}]"
-                title="#{ivy.cm.co('/applications/LibraryVersion')} #{activity.version} / #{ivy.cm.co('/applications/LastChangeDate')} #{activity.lastChangeDate}"
-                style="color: grey;" class=" margin-left: 10px;" />
-            </p:column>
-
-            <p:column headerText="#{ivy.cm.co('/common/State')}" responsivePriority="2" style="text-align: center; width: 50px;">
-              <h:panelGroup styleClass="module-state">
-                  <h:outputText rendered="#{activity.app}">
-                <i class="ml-2 #{activity.releaseStateIcon} table-icon" title="#{activity.releaseState}"></i>
-              </h:outputText>
-              </h:panelGroup>
-            </p:column>
-
-            <p:column headerText="#{ivy.cm.co('/applications/RunningCasesHeader')}" responsivePriority="4" style="text-align: center; width: 110px;">
-              <h:outputText rendered="#{activity.app}" value="#{activity.runningCasesCount}" />
-            </p:column>
-
-            <p:column styleClass="table-btn-5">              
-              <h:panelGroup id="deployBtnHint">
-                <p:commandButton title="#{ivy.cm.co('/common/Deployment')}" icon="ti ti-upload" rendered="#{activity.app}"
-                  id="deployBtn" styleClass="mr-1 rounded-button" actionListener="#{deploymentBean.setAppNameAndVersion(activity.securityContextName, activity.name, activity.version)}">
-                  <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}"
-                    oncomplete="PF('fileUploadModal').show()" />
-                </p:commandButton>
-              </h:panelGroup>
-              
-              <p:commandButton id="convertButton"
-                icon="ti ti-refresh" 
-                actionListener="#{applicationBean.setActiveActivity(activity)}"
-                rendered="#{activity.canConvert()}"
-                update="form:convertDialog"
-                disabled="#{activity.notConvertable}"
-                oncomplete="PF('convertDialog').show();"
-                title="#{ivy.cm.co('/applications/ConvertButtonTitle')}"
-                styleClass="mr-1 ui-button-danger rounded-button">
-              </p:commandButton>              
-               
-              <p:commandButton title="#{ivy.cm.co('/common/Activate')}" icon="ti ti-player-play" rendered="#{activity.app}" disabled="#{activity.notStartable}"
-                type="button" styleClass="mr-1 ui-button-success rounded-button">
-                <p:ajax update="form" listener="#{activity.activate}" />
-              </p:commandButton>
-              <p:commandButton title="#{ivy.cm.co('/common/Deactivate')}" id="deactivateButton" icon="ti ti-player-stop" rendered="#{activity.app}" disabled="#{activity.notStopable}"
-                type="button" styleClass="mr-1 ui-button-danger rounded-button">
-                <p:ajax update="form" listener="#{activity.deactivate}" />
-              </p:commandButton>
-              
-              <p:commandButton title="#{ivy.cm.co('/common/More')}" id="tasksButton" type="button" icon="ti ti-menu-2"
-                styleClass="mr-1 ui-button-secondary rounded-button ui-button-outlined" />
-              <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
-                <p:menuitem value="#{ivy.cm.co('/common/Lock')}" icon="ti ti-lock" rendered="#{activity.app}" disabled="#{activity.notLockable}"
-                  actionListener="#{activity.lock}" update="form" />
-                <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" rendered="#{activity.app}" icon="ti ti-crane"
-                  disabled="#{!activity.releasable}" actionListener="#{activity.release}" update="form" />
-                <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash" disabled="#{not empty activity.isDeletable()}"
-                  actionListener="#{applicationBean.setActiveActivity(activity)}"
-                  update="form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();"
-                  title="#{activity.notDeletableMessage}" style="pointer-events: all;" />
-                <p:menuitem id="forceDeleteBtn" value="#{ivy.cm.co('/applications/ForceDeleteButtonTitle')}" rendered="#{activity.app and not empty activity.isDeletable()}" icon="ti ti-trash"
-                  actionListener="#{applicationBean.setActiveActivity(activity)}"
-                  update="form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();" />
-              </p:menu>
-            </p:column>
-          </p:treeTable>
-
-          <p:confirmDialog id="deleteConfirmDialog"
-            header="#{ivy.cm.co('/common/Delete')} '#{applicationBean.activeActivity.name}'" severity="alert"
-            widgetVar="deleteConfirmDialog">
-            <f:facet name="message">            
-              <ui:fragment rendered="#{applicationBean.activeActivity.app and applicationBean.activeActivity.runningCasesCount > 0}">
-                <cc:DeletionWarning id="deletionWarningApp" />
-              </ui:fragment>
-              <h:outputText value="#{applicationBean.activeActivity.deleteHint}"/>
-            </f:facet>
-            <ui:param name="isForceDelete" value="#{!applicationBean.activeActivity.app}" />
-            <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteConfirmDialog').hide();" type="button"
-              styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-            <p:commandButton id="deleteConfirmYesBtn" value="#{ivy.cm.co('/common/Delete')}" immediate="true" styleClass="modal-input-button"
-              actionListener="#{applicationBean.activeActivity.delete}" update="form" icon="ti ti-trash" rendered="#{not isForceDelete}" />
-            <p:commandButton id="foreceDeleteConfirmYesBtn" value="#{ivy.cm.co('/applications/ForceDeleteButtonTitle')}" immediate="true" styleClass="modal-input-button"
-              actionListener="#{applicationBean.activeActivity.forceDelete}" update="form" icon="ti ti-trash" rendered="#{isForceDelete}" />
-          </p:confirmDialog>
-
-          <p:confirmDialog id="convertDialog"
-            header="#{ivy.cm.co('/applications/Convert')} '#{applicationBean.activeActivity.name}'" severity="alert"
-            widgetVar="convertDialog" responsive="true" width="600">
-            <f:facet name="message">
-              <p>
-                <h:outputText value="#{ivy.cm.co('/applications/ApplicationConvertToLatestVersionMessage')}" rendered="#{applicationBean.activeActivity.app}"/>
-                <h:outputText value="#{ivy.cm.co('/applications/PmvConvertToLatestVersionMessage')}" rendered="#{applicationBean.activeActivity.pmv}"/>
-              </p>
-
-              <p:scrollPanel mode="native" style="height: 300px; width: 100%;">
-                <h:panelGroup id="conversionLog">
-                  <div style="padding: 5px;">
-                    <pre style="white-space: pre-wrap; margin:0px;"><code>#{applicationBean.activeActivity.projectConversionLog}</code></pre>
-                  </div>
-                </h:panelGroup>
-              </p:scrollPanel>
-            </f:facet>
-
-            <p:commandButton id="convertConfirmYesBtn" widgetVar="convertConfirmYesBtn" value="#{ivy.cm.co('/applications/Convert')}" styleClass="modal-input-button" disabled="#{applicationBean.activeActivity.notConvertable}"
-              actionListener="#{applicationBean.activeActivity.convert}" update="conversionLog convertConfirmYesBtn" oncomplete="PF('convertConfirmYesBtn').disable();PF('convertFinishBtn').enable();" icon="ti ti-refresh" />
-
-            <p:commandButton id="convertFinishBtn" widgetVar="convertFinishBtn" value="#{ivy.cm.co('/common/Finish')}" styleClass="modal-input-button" disabled="true"
-              update="conversionLog convertConfirmYesBtn" oncomplete="PF('convertDialog').hide();reloadTree();" icon="ti ti-circle-check" />
-          </p:confirmDialog>
+        </cc:SecuritySystemTabs>
         </h:form>
         <cc:NewApplication id="newApplication" />
       </div>
-
-      <h:panelGroup id="deployPanel">
-        <cc:Deployment id="deployment" appName="#{applicationBean.activeActivity.name}" appVersion="#{applicationBean.activeActivity.version}" />
-
-        <p:remoteCommand name="reloadTree" update="form" action="#{applicationBean.reloadTree}"/>
-        <script type="text/javascript">
-          function closeFileUpload() {
-            PF('fileUploadModal').hide();
-            reloadTree();
-          }
-        </script>
-      </h:panelGroup>
     </ui:define>
   </ui:composition>
 </h:body>

@@ -18,7 +18,7 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
 import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
 
-@SuppressWarnings({"removal", "unused"})
+@SuppressWarnings("removal")
 public class Application extends AppTreeItem {
 
   private String fileDir;
@@ -73,7 +73,7 @@ public class Application extends AppTreeItem {
   }
 
   public static String getDetailViewLink(String appName, int appVersion) {
-    return UriBuilder.fromPath("application-detail.xhtml")
+    return UriBuilder.fromPath("application.xhtml")
         .queryParam("appName", appName)
         .queryParam("appVersion", appVersion)
         .build()
@@ -143,11 +143,11 @@ public class Application extends AppTreeItem {
   @Override
   public String getReleaseStateIcon() {
     return switch (getReleaseState()) {
-      case RELEASED -> "ti ti-circle-check";
-      case DEPRECATED -> "ti ti-circle-half-vertical";
-      case ARCHIVED -> "ti ti-archive";
+      case RELEASED          -> "ti ti-circle-check";
+      case DEPRECATED        -> "ti ti-circle-half-vertical";
+      case ARCHIVED          -> "ti ti-archive";
       case CREATED, PREPARED -> "ti ti-speakerphone";
-      default -> "ti ti-help-circle";
+      default                -> "ti ti-help-circle";
     };
   }
 
@@ -245,11 +245,11 @@ public class Application extends AppTreeItem {
   public List<WebServiceProcess> getWebServiceProcesses() {
     if (webServiceProcesses == null) {
       webServiceProcesses = app.getProcessModelVersions()
-        .map(IWorkflowProcessModelVersion::of)
-        .filter(Objects::nonNull)
-        .flatMap(pmv -> pmv.getWebServiceProcesses().stream())
-        .map(WebServiceProcess::new)
-        .collect(Collectors.toList());
+          .map(IWorkflowProcessModelVersion::of)
+          .filter(Objects::nonNull)
+          .flatMap(pmv -> pmv.getWebServiceProcesses().stream())
+          .map(WebServiceProcess::new)
+          .collect(Collectors.toList());
     }
     return webServiceProcesses;
   }
