@@ -136,7 +136,7 @@ public class ManagerBean {
     if (selectedApplication == null) {
       return "";
     }
-    return Application.getDetailViewLink(selectedApplication.getName(), selectedApplication.version());
+    return Application.getDetailViewLink(getSelectedSecuritySystem().getSecuritySystemName(), selectedApplication.getName(), selectedApplication.version());
   }
 
   public IApplicationRepository apps() {

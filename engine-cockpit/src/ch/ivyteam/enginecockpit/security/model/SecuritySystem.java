@@ -70,7 +70,7 @@ public class SecuritySystem {
   }
 
   public String getApplicationDetailLink(App app) {
-    return Application.getDetailViewLink(app.name(), app.version());
+    return Application.getDetailViewLink(getSecuritySystemName(), app.name(), app.version());
   }
 
   public long getUsersCount() {
