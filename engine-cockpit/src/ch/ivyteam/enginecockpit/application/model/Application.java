@@ -12,7 +12,7 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.app.convert.AppProjectConverter;
-import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
+import ch.ivyteam.ivy.application.app.link.AppLink;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
@@ -24,7 +24,7 @@ public class Application extends AppTreeItem {
   private String fileDir;
   private String secSystem = ISecurityContext.DEFAULT;
   private long runningCasesCount = -1;
-  private IApplicationInternal app;
+  private IApplication app;
   private List<WebServiceProcess> webServiceProcesses;
   private String name;
 
@@ -61,7 +61,7 @@ public class Application extends AppTreeItem {
 
   public Application(IApplication app, ApplicationsBean bean) {
     super(bean, app);
-    this.app = (IApplicationInternal) app;
+    this.app = app;
     this.name = app.getName();
     fileDir = this.app.getDirectory().toString();
     secSystem = app.getSecurityContext().getName();
@@ -153,11 +153,11 @@ public class Application extends AppTreeItem {
   }
 
   public String getHomeUrl() {
-    return app.getHomeLink().getRelative();
+    return AppLink.home(app).getRelative();
   }
 
   public String getDevWorkflowUrl() {
-    return app.getDevWorkflowLink().getRelative();
+    return AppLink.devWorkflow(app).getRelative();
   }
 
   public boolean isDisabled() {
@@ -238,7 +238,7 @@ public class Application extends AppTreeItem {
     }
   }
 
-  public IApplicationInternal app() {
+  public IApplication app() {
     return app;
   }
 

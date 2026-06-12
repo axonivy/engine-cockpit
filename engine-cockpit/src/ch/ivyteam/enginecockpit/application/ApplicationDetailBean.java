@@ -29,7 +29,6 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.app.NewApplication;
-import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.workflow.StandardProcessType;
@@ -176,7 +175,7 @@ public class ApplicationDetailBean {
   }
 
   public void reloadConfig() {
-    var app = iApplicationInternal();
+    var app = iApplication();
     app.config().reload();
     Message.info()
         .clientId("applicationMessage")
@@ -212,7 +211,7 @@ public class ApplicationDetailBean {
 
   private ConfigViewImpl buildConfigView() {
     return new ConfigViewImpl(
-        iApplicationInternal().config().get(),
+        iApplication().config().get(),
         this::enrichWithEnumerationValues,
         List.of(
             ConfigViewImpl.defaultFilter(),
@@ -268,10 +267,6 @@ public class ApplicationDetailBean {
       return null;
     }
     return managerBean.getIApplication(selectedVersion.getId());
-  }
-
-  private IApplicationInternal iApplicationInternal() {
-    return (IApplicationInternal) iApplication();
   }
 
   public static class VersionRow {
