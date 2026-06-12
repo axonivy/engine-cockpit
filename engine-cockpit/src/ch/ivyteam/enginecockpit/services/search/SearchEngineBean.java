@@ -1,10 +1,11 @@
 package ch.ivyteam.enginecockpit.services.search;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -15,9 +16,9 @@ import ch.ivyteam.ivy.searchengine.ISearchEngineManager;
 import ch.ivyteam.ivy.searchengine.manager.impl.SearchEngineManager;
 import ch.ivyteam.ivy.searchengine.server.ServerConfig;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class SearchEngineBean {
+public class SearchEngineBean implements Serializable {
 
   private final SearchEngineManager searchEngineManager = (SearchEngineManager) ISearchEngineManager.instance();
   private SearchEngine searchEngine;

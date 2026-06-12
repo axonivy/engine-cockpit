@@ -1,9 +1,11 @@
 package ch.ivyteam.enginecockpit.setup;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+
+import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -11,9 +13,9 @@ import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class StorageBean extends StepStatus {
+public class StorageBean extends StepStatus implements Serializable {
   private static final String DATA = "Data.";
   private static final String APP_DIR = DATA + "AppDirectory";
   private static final String DATA_DIR = DATA + "Directory";

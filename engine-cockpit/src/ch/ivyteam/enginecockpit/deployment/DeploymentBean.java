@@ -1,16 +1,17 @@
 package ch.ivyteam.enginecockpit.deployment;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
 
 import org.primefaces.model.file.UploadedFile;
 
@@ -24,9 +25,9 @@ import ch.ivyteam.ivy.deployment.DeploymentRunner;
 import ch.ivyteam.ivy.deployment.log.impl.Log4j2DeploymentLogger;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class DeploymentBean {
+public class DeploymentBean implements Serializable {
 
   private static final Set<String> ALLOWED_EXTENSIONS = Set.of(".iar", ".zip");
   private static final String ALLOWED_EXTENSIONS_TEXT = String.join(", ", ALLOWED_EXTENSIONS);

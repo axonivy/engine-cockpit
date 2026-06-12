@@ -2,7 +2,7 @@ package ch.ivyteam.enginecockpit.commons;
 
 import java.util.List;
 
-import javax.faces.model.SelectItem;
+import jakarta.faces.model.SelectItem;
 
 public interface TableFilter {
 

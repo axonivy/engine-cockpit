@@ -1,13 +1,14 @@
 package ch.ivyteam.enginecockpit.security.system;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
 
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,9 +23,9 @@ import ch.ivyteam.ivy.language.LanguageManager;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class SecurityConfigBean {
+public class SecurityConfigBean implements Serializable {
 
   private String name;
 

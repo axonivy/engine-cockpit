@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,22 +8,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.ws.rs.ProcessingException;
-import javax.ws.rs.client.Entity;
-
-import org.apache.commons.lang3.exception.ExceptionUtils;
-
 import ch.ivyteam.enginecockpit.commons.Feature;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.WebServiceMonitor;
-import ch.ivyteam.enginecockpit.services.model.Authenticator;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
-import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
@@ -31,14 +21,17 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.environment.Ivy;
-import ch.ivyteam.ivy.ssl.restricted.SslConnectionTesterClient;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManager;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class WebserviceDetailBean extends DetailView implements FeatureEditor {
+public class WebserviceDetailBean extends DetailView implements FeatureEditor, Serializable{
 
   private Webservice webservice;
   private String webserviceKey;
@@ -188,28 +181,29 @@ public class WebserviceDetailBean extends DetailView implements FeatureEditor {
   }
 
   private ConnectionTestResult testConnection() {
-    var client = SslConnectionTesterClient.createClient();
+    return null;
+    // var client = SslConnectionTesterClient.createClient();
 
-    if (authSupportedForTesting()) {
-      client.register(new Authenticator(webservice.getUsername(), webservice.getPassword()));
-    }
-    try {
-      int status = client.target(activeEndpointUrl).request().post(Entity.json("")).getStatus();
-      if (status == 401) {
-        return new ConnectionTestResult("POST", status, TestResult.WARNING,
-            Ivy.cm().co("/webServiceEndpoints/TestConnectionAuthenticationMessage"));
-      } else if (status == 404) {
-        return new ConnectionTestResult("POST", status, TestResult.WARNING,
-            Ivy.cm().co("/webServiceEndpoints/TestConnectionNotFoundMessage"));
-      } else {
-        return new ConnectionTestResult("POST", status, TestResult.SUCCESS,
-            Ivy.cm().co("/webServiceEndpoints/TestConnectionSuccessMessage"));
-      }
-    } catch (ProcessingException ex) {
-      return new ConnectionTestResult("", 0, TestResult.ERROR,
-          Ivy.cm().content("/webServiceEndpoints/TestConnectionErrorMessage")
-              .replace("exception", ExceptionUtils.getStackTrace(ex)).get());
-    }
+    // if (authSupportedForTesting()) {
+    //   client.register(new Authenticator(webservice.getUsername(), webservice.getPassword()));
+    // }
+    // try {
+    //   int status = client.target(activeEndpointUrl).request().post(Entity.json("")).getStatus();
+    //   if (status == 401) {
+    //     return new ConnectionTestResult("POST", status, TestResult.WARNING,
+    //         Ivy.cm().co("/webServiceEndpoints/TestConnectionAuthenticationMessage"));
+    //   } else if (status == 404) {
+    //     return new ConnectionTestResult("POST", status, TestResult.WARNING,
+    //         Ivy.cm().co("/webServiceEndpoints/TestConnectionNotFoundMessage"));
+    //   } else {
+    //     return new ConnectionTestResult("POST", status, TestResult.SUCCESS,
+    //         Ivy.cm().co("/webServiceEndpoints/TestConnectionSuccessMessage"));
+    //   }
+    // } catch (ProcessingException ex) {
+    //   return new ConnectionTestResult("", 0, TestResult.ERROR,
+    //       Ivy.cm().content("/webServiceEndpoints/TestConnectionErrorMessage")
+    //           .replace("exception", ExceptionUtils.getStackTrace(ex)).get());
+    // }
   }
 
   private boolean authSupportedForTesting() {

@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.monitor.memory.histogram;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.io.UncheckedIOException;
 import java.lang.management.ManagementFactory;
 import java.nio.file.Files;
@@ -13,8 +14,8 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
 import javax.management.MalformedObjectNameException;
@@ -29,9 +30,9 @@ import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.log.Logger;
 
-@ManagedBean
+@Named
 @SessionScoped
-public class ClassHistogramBean {
+public class ClassHistogramBean implements Serializable {
 
   static final ObjectName DIAGNOSTIC_COMMAND = createDiagnosticCommand();
   static final ObjectName HOT_SPOT_DIAGNOSTIC = createHotSpotDiagnostic();

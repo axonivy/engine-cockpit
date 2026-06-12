@@ -1,18 +1,19 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.util.Set;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class DatabaseMonitor {
+public class DatabaseMonitor implements Serializable {
   private AbstractDatabase database;
   private final String applicationName;
   private final int appVersion;

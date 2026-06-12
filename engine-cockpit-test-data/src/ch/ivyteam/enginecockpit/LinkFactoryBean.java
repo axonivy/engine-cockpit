@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
 
 import ch.ivyteam.ivy.engine.cockpit.CockpitLinkFactory;
 import ch.ivyteam.ivy.model.value.WebLink;
 
-@ManagedBean
+@Named
 @RequestScoped
 public class LinkFactoryBean {
 

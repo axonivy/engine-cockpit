@@ -1,18 +1,19 @@
 package ch.ivyteam.enginecockpit.services;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class WebserviceBean {
+public class WebserviceBean implements Serializable {
   private List<Webservice> webservices;
   private List<Webservice> filteredWebservices;
   private String filter;

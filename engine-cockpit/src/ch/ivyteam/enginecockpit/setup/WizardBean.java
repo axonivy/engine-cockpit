@@ -1,17 +1,18 @@
 package ch.ivyteam.enginecockpit.setup;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
 
 import ch.ivyteam.ivy.environment.Ivy;
 
-@ManagedBean
+@Named
 @SessionScoped
-public class WizardBean {
+public class WizardBean implements Serializable {
   private Steps activeStep;
   private List<StepStatus> steps;
 

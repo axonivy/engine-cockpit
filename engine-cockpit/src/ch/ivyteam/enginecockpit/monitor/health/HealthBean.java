@@ -1,10 +1,11 @@
 package ch.ivyteam.enginecockpit.monitor.health;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.util.DurationFormat;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -13,9 +14,9 @@ import ch.ivyteam.ivy.health.check.HealthChecker;
 import ch.ivyteam.ivy.health.check.HealthMessage;
 import ch.ivyteam.ivy.health.check.HealthSeverity;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class HealthBean {
+public class HealthBean implements Serializable {
 
   private final HealthChecker checker = HealthChecker.instance();
   private final List<Check> checks;

@@ -1,11 +1,12 @@
 package ch.ivyteam.enginecockpit.monitor;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
@@ -13,9 +14,9 @@ import ch.ivyteam.enginecockpit.monitor.events.start.StartEvent;
 import ch.ivyteam.enginecockpit.util.ErrorHandler;
 import ch.ivyteam.log.Logger;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class StartEventBean {
+public class StartEventBean implements Serializable {
   private static final Logger LOGGER = Logger.getPackageLogger(StartEventBean.class);
   private static final ErrorHandler HANDLER = new ErrorHandler("msgs", LOGGER);
 

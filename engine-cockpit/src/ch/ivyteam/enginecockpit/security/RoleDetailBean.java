@@ -1,14 +1,15 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
 
 import org.apache.commons.lang3.Strings;
 
@@ -36,9 +37,9 @@ import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.TaskState;
 import ch.ivyteam.ivy.workflow.query.TaskQuery;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class RoleDetailBean {
+public class RoleDetailBean implements Serializable {
 
   private String securitySystemName;
   private ISecurityContext securityContext;

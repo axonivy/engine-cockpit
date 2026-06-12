@@ -1,13 +1,15 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+
+import java.io.Serializable;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class SystemDatabaseMonitorBean {
+public class SystemDatabaseMonitorBean implements Serializable {
   private final SystemDatabase DATABASE = new SystemDatabase();
 
   public Monitor getConnectionsMonitor() {
