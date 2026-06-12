@@ -175,7 +175,6 @@ public class ApplicationDetailBean {
     }
   }
 
-
   public void reloadConfig() {
     var app = iApplicationInternal();
     app.config().reload();

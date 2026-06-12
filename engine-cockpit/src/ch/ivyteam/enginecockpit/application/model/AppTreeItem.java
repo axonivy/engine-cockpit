@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import ch.ivyteam.enginecockpit.application.ApplicationBean;
+import ch.ivyteam.enginecockpit.application.ApplicationsBean;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.application.IActivity;
 import ch.ivyteam.ivy.application.ReleaseState;
@@ -16,7 +16,7 @@ public abstract class AppTreeItem {
   public static final String APP = "APP";
   public static final String PMV = "PMV";
 
-  private final ApplicationBean bean;
+  private final ApplicationsBean bean;
 
   protected final IActivity activity;
   private StateOfActivity state;
@@ -30,7 +30,7 @@ public abstract class AppTreeItem {
 
   protected List<String> projectConversionLog = new ArrayList<>();
 
-  public AppTreeItem(ApplicationBean bean, IActivity activity) {
+  public AppTreeItem(ApplicationsBean bean, IActivity activity) {
     this.bean = bean;
     this.activity = activity;
     updateStats();

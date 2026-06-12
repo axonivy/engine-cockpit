@@ -109,6 +109,6 @@ public class PmvDetailBean {
   }
 
   public String getApplicationDetailLink() {
-    return Application.getDetailViewLink(appName, Integer.parseInt(appVersion));
+    return Application.getDetailViewLink(managerBean.getSelectedSecuritySystem().getSecuritySystemName(), appName, Integer.parseInt(appVersion));
   }
 }

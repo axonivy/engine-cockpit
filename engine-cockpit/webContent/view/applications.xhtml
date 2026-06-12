@@ -3,6 +3,9 @@
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
 <h:body>
+  <f:metadata>
+    <f:viewAction action="#{applicationsBean.onload}" />
+  </f:metadata>
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
@@ -23,21 +26,21 @@
             <p:commandButton styleClass="ml-auto" id="createApplicationBtn" widgetVar="createApplication" icon="ti ti-plus"
               value="#{ivy.cm.co('/common/Add')}" onclick="PF('newApplicationModal').show();" type="button" />
           </div>
-        <cc:SecuritySystemTabs tabChange="#{applicationBean.reloadApplications}" id="tabs" update="form">
+        <cc:SecuritySystemTabs tabChange="#{applicationsBean.reload}" id="tabs">
           <div>
             <div class="table-search flex ui-fluid">
               <span class="ui-input-icon-left filter-container">
                 <i class="ti ti-search"/>
                 <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}"
-                  value="#{applicationBean.nameFilter}">
+                  value="#{applicationsBean.nameFilter}">
                   <p:ajax event="keyup" delay="300" update="applicationsTable" />
                 </p:inputText>
               </span>
             </div>
 
-            <p:dataTable id="applicationsTable" value="#{applicationBean.applicationRows}" var="app" >
+            <p:dataTable id="applicationsTable" value="#{applicationsBean.applications}" var="app" >
               
-              <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{app.name}">
+              <p:column headerText="#{ivy.cm.co('/common/Name')}">
                 <h:link value="#{app.name}" outcome="application.xhtml">
                   <i class="ti ti-cube table-icon" />
                   <f:param name="appName" value="#{app.name}" />
@@ -45,11 +48,18 @@
               </p:column>
 
               <p:column headerText="Released" style="text-align: center; width: 100px;">
-                <h:outputText value="#{app.releasedVersions}" />
+                <h:outputLink value="#{app.releasedVersion.link}" rendered="#{app.releasedVersion != null}">
+                  <h:outputText value="#{app.releasedVersion.version}" />
+                </h:outputLink>
               </p:column>
 
               <p:column headerText="Archived" style="text-align: center; width: 150px;">
-                <h:outputText value="#{app.archivedVersions}" />
+                <ui:repeat value="#{app.archivedVersions}" var="archivedVersion" varStatus="status">
+                  <h:outputLink value="#{archivedVersion.link}">
+                    <h:outputText value="#{archivedVersion.version}" />
+                  </h:outputLink>
+                  <h:outputText value=", " rendered="#{not status.last}" />
+                </ui:repeat>
               </p:column>
             </p:dataTable>
           </div>

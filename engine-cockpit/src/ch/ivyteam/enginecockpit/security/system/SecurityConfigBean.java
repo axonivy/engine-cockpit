@@ -84,7 +84,7 @@ public class SecurityConfigBean {
   }
 
   public String getApplicationDetailLink(App app) {
-    return Application.getDetailViewLink(app.name(), app.version());
+    return Application.getDetailViewLink(getSecuritySystemName(), app.name(), app.version());
   }
 
   public boolean isDeletable() {
