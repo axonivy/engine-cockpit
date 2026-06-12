@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.core.UriBuilder;
 
-import ch.ivyteam.enginecockpit.application.ApplicationBean;
+import ch.ivyteam.enginecockpit.application.ApplicationsBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.pmv.convert.PmvProjectConverter;
@@ -37,7 +37,7 @@ public class ProcessModelVersion extends AppTreeItem {
     return getName();
   }
 
-  public ProcessModelVersion(IProcessModelVersion pmv, ApplicationBean bean) {
+  public ProcessModelVersion(IProcessModelVersion pmv, ApplicationsBean bean) {
     super(bean, null);
     lastChangeDate = DateUtil.formatDate(pmv.getLastChangeDate());
     this.pmv = (IProcessModelVersionInternal) pmv;

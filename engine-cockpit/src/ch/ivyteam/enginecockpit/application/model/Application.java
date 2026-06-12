@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.ws.rs.core.UriBuilder;
 
-import ch.ivyteam.enginecockpit.application.ApplicationBean;
+import ch.ivyteam.enginecockpit.application.ApplicationsBean;
 import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.ReleaseState;
@@ -59,7 +59,7 @@ public class Application extends AppTreeItem {
     this(app, null);
   }
 
-  public Application(IApplication app, ApplicationBean bean) {
+  public Application(IApplication app, ApplicationsBean bean) {
     super(bean, app);
     this.app = (IApplicationInternal) app;
     this.name = app.getName();
@@ -69,11 +69,12 @@ public class Application extends AppTreeItem {
 
   @Override
   public String getDetailView() {
-    return getDetailViewLink(getName(), version());
+    return getDetailViewLink(app.getSecurityContext().getName(), getName(), version());
   }
 
-  public static String getDetailViewLink(String appName, int appVersion) {
+  public static String getDetailViewLink(String securityContextName, String appName, int appVersion) {
     return UriBuilder.fromPath("application.xhtml")
+        .queryParam("securityContextName", securityContextName)
         .queryParam("appName", appName)
         .queryParam("appVersion", appVersion)
         .build()
