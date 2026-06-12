@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.info;
 
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.ReleaseState;
+import ch.ivyteam.ivy.application.app.link.AppLink;
 
 public class Application {
 
