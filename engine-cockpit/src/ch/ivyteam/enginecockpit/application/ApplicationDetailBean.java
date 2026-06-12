@@ -178,7 +178,7 @@ public class ApplicationDetailBean {
 
   public void reloadConfig() {
     var app = iApplicationInternal();
-    app.reloadConfig();
+    app.config().reload();
     Message.info()
         .clientId("applicationMessage")
         .summary(Ivy.cm().content("/configuration/ReloadApplicationConfigurationMessage")
@@ -213,7 +213,7 @@ public class ApplicationDetailBean {
 
   private ConfigViewImpl buildConfigView() {
     return new ConfigViewImpl(
-        iApplicationInternal().getConfiguration(),
+        iApplicationInternal().config().get(),
         this::enrichWithEnumerationValues,
         List.of(
             ConfigViewImpl.defaultFilter(),

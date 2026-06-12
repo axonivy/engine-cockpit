@@ -1,12 +1,13 @@
 package ch.ivyteam.enginecockpit.testdata.businesscalendar;
 
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.restricted.IApplicationInternal;
+import ch.ivyteam.ivy.application.calendar.IDefaultBusinessCalendar;
 
 public class TestBusinessCalendarData {
 
   public static void setBusinessCalendar() {
-    var app = (IApplicationInternal) IApplication.current();
-    app.setBusinessCalendar(app.getBusinessCalendar().get("Luzern"));
+    var app = IApplication.current();
+    var calendar = IDefaultBusinessCalendar.of(app);
+    IDefaultBusinessCalendar.set(app, calendar.get("Luzern"));
   }
 }

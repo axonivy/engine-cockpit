@@ -12,6 +12,7 @@ import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.enginecockpit.configuration.model.BusinessCalendar;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;
+import ch.ivyteam.ivy.application.calendar.IBusinessCalendarSettings;
 import ch.ivyteam.ivy.scripting.objects.Tree;
 
 @ManagedBean
@@ -29,8 +30,7 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
 
   @Override
   protected void buildTree() {
-    var rootTree = managerBean.getSelectedIApplication().getBusinessCalendarSettings()
-        .getAllBusinessCalendarConfigurations();
+    var rootTree = IBusinessCalendarSettings.of(managerBean.getSelectedIApplication()).getAllBusinessCalendarConfigurations();
     var node = new DefaultTreeNode<>(findCalendar(rootTree.getInfo()), rootTreeNode);
     node.setExpanded(true);
     buildCalendarTree(rootTree, node);
@@ -76,7 +76,7 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
 
   private IBusinessCalendarConfiguration getBusinessCalendarConfiguration(String calendarName) {
     var app = managerBean.getSelectedIApplication();
-    var settings = app.getBusinessCalendarSettings();
+    var settings = IBusinessCalendarSettings.of(app);
     var calConfiguration = settings.findBusinessCalendarConfiguration(calendarName);
     if (calConfiguration == null) {
       calConfiguration = settings.getRootBusinessCalendarConfiguration();
