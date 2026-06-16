@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import ch.ivyteam.enginecockpit.application.ApplicationsBean;
 import ch.ivyteam.enginecockpit.commons.Message;
-import ch.ivyteam.ivy.application.IActivity;
+import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.environment.Ivy;
 
@@ -18,7 +18,7 @@ public abstract class AppTreeItem {
 
   private final ApplicationsBean bean;
 
-  protected final IActivity activity;
+  protected final IApplication activity;
   private StateOfActivity state;
 
   public abstract String getSecurityContextName();
@@ -30,7 +30,7 @@ public abstract class AppTreeItem {
 
   protected List<String> projectConversionLog = new ArrayList<>();
 
-  public AppTreeItem(ApplicationsBean bean, IActivity activity) {
+  public AppTreeItem(ApplicationsBean bean, IApplication activity) {
     this.bean = bean;
     this.activity = activity;
     updateStats();
@@ -61,10 +61,6 @@ public abstract class AppTreeItem {
     return true;
   }
 
-  public boolean isNotLockable() {
-    return true;
-  }
-
   public boolean isReleasable() {
     return false;
   }
@@ -74,8 +70,6 @@ public abstract class AppTreeItem {
   public void activate() {}
 
   public void deactivate() {}
-
-  public void lock() {}
 
   // PMV stuff
   public boolean isPmv() {

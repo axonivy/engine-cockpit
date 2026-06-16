@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.application.ActivityOperationState;
 import ch.ivyteam.ivy.application.ActivityState;
-import ch.ivyteam.ivy.application.IActivity;
+import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.ReleaseState;
 
 public class StateOfActivity {
@@ -27,7 +27,7 @@ public class StateOfActivity {
     updateOperation(null);
   }
 
-  public StateOfActivity(IActivity activity) {
+  public StateOfActivity(IApplication activity) {
     updateState(activity.getActivityState());
     updateOperation(activity.getActivityOperationState());
     this.errorMessage = activity.getErrorMessage();
@@ -104,8 +104,7 @@ public class StateOfActivity {
     this.operation = update.name();
     this.processing = false;
     switch (update) {
-      case ACTIVE:
-      case LOCKED:
+      case ACTIVE:      
         this.operationIcon = "ti ti-circle-check";
         break;
       case INACTIVE:
