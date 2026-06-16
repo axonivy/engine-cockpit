@@ -122,18 +122,8 @@ public class Application extends AppTreeItem {
   }
 
   @Override
-  public void lock() {
-    app.lock();
-  }
-
-  @Override
   public ReleaseState getReleaseState() {
     return app.getReleaseState();
-  }
-
-  @Override
-  public boolean isNotLockable() {
-    return app.getActivityState() == ActivityState.LOCKED;
   }
 
   @Override

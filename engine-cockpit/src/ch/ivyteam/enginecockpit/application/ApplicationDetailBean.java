@@ -301,7 +301,6 @@ public class ApplicationDetailBean {
       return switch (application.app().getActivityState()) {
         case ACTIVE   -> "ti ti-player-play";
         case INACTIVE -> "ti ti-player-stop";
-        case LOCKED   -> "ti ti-lock";
         default       -> "ti ti-help-circle";
       };
     }
