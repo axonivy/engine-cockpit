@@ -8,13 +8,12 @@ import ch.ivyteam.enginecockpit.application.ApplicationsBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.pmv.convert.PmvProjectConverter;
-import ch.ivyteam.ivy.application.restricted.IProcessModelVersionInternal;
 import ch.ivyteam.ivy.project.model.ProjectVersion;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
 public class ProcessModelVersion extends AppTreeItem {
 
-  private final IProcessModelVersionInternal pmv;
+  private final IProcessModelVersion pmv;
   private final String lastChangeDate;
   private int runningCasesCount = -1;
 
@@ -40,7 +39,7 @@ public class ProcessModelVersion extends AppTreeItem {
   public ProcessModelVersion(IProcessModelVersion pmv, ApplicationsBean bean) {
     super(bean, null);
     lastChangeDate = DateUtil.formatDate(pmv.getLastChangeDate());
-    this.pmv = (IProcessModelVersionInternal) pmv;
+    this.pmv = pmv;
     updateStats();
   }
 
