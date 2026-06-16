@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import ch.ivyteam.enginecockpit.application.model.Application;
+import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.move.ApplicationMover;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
@@ -24,7 +24,7 @@ public class MoveApplicationBean {
     UNKOWN
   }
 
-  private Application app;
+  private IApplication app;
   private ValidationState state = ValidationState.UNKOWN;
   private String validationMessage = "";
   private String targetSecuritySystem;
@@ -51,7 +51,7 @@ public class MoveApplicationBean {
 
   private ApplicationMover mover() {
     var securityContext = ISecurityContextRepository.instance().get(targetSecuritySystem);
-    return new ApplicationMover(app.app(), securityContext, ISystemDatabasePersistencyService.instance());
+    return new ApplicationMover(app, securityContext, ISystemDatabasePersistencyService.instance());
   }
 
   public String getValidationMessage() {
@@ -74,7 +74,7 @@ public class MoveApplicationBean {
     return state == ValidationState.VALID;
   }
 
-  public void setApp(Application app) {
+  public void setApp(IApplication app) {
     state = ValidationState.UNKOWN;
     validationMessage = "";
     this.app = app;
@@ -91,7 +91,7 @@ public class MoveApplicationBean {
     if (app == null) {
       return null;
     }
-    return app.getSecuritySystemName();
+    return app.getSecurityContext().getName();
   }
 
   public List<String> getSecuritySystems() {
