@@ -57,6 +57,13 @@ public class DeploymentBean {
     this.appVersionFromView = appVersion;
   }
 
+  public String getAppVersion() {
+    return appVersionFromView;
+  }
+
+  public String getAppName() {
+    return appNameFromView;
+  }
   public UploadedFile getFile() {
     return this.file;
   }

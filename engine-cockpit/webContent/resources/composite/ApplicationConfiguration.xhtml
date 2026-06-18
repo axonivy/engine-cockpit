@@ -5,7 +5,7 @@
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ccc="http://xmlns.jcp.org/jsf/composite/composite">
 
 <cc:interface>
-  <cc:attribute name="bean" type="ch.ivyteam.enginecockpit.application.applicationDetailBean" required="true" />
+  <cc:attribute name="bean" type="ch.ivyteam.enginecockpit.application.ApplicationBean" required="true" />
 </cc:interface>
 
 <cc:implementation>
@@ -16,7 +16,7 @@
       <h6 class="m-0">#{ivy.cm.co('/configuration/ApplicationConfiguration')}</h6>
 
       <p:commandButton id="reloadConfig" title="#{ivy.cm.co('/configuration/ReloadApplicationConfiguration')}" icon="ti ti-refresh"
-          actionListener="#{cc.attrs.bean.reloadConfig}" disabled="#{cc.attrs.bean.application.disabled}"
+          actionListener="#{cc.attrs.bean.reloadConfig}"
           styleClass="flex-shrink-0 ml-auto rounded-button"/>
     </div>  
   </div>

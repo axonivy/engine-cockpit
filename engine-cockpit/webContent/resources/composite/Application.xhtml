@@ -1,0 +1,88 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ccc="http://xmlns.jcp.org/jsf/composite/composite">
+
+<cc:interface>
+  <cc:attribute name="bean" type="ch.ivyteam.enginecockpit.application.ApplicationBean" required="true" />
+</cc:interface>
+
+<cc:implementation>
+  <p:growl for="applicationMessage" id="applicationMessage" showDetail="true" />
+  <div class="card mb-3">
+    <div class="flex align-items-center mb-3">
+      <i class="pr-3 ti ti-cube card-icon"></i>
+      <h6 class="m-0">Application Versions</h6>
+      <p:commandButton icon="ti ti-plus" value="Create New Version" styleClass="ml-auto ui-button-primary"
+        process="@this" actionListener="#{cc.attrs.bean.createVersion}" update="versionsForm:versionsTable" />
+    </div>
+    <h:form id="versionsForm">
+      <div class="table-search flex ui-fluid">
+        <span class="ui-input-icon-left filter-container">
+          <i class="ti ti-search" />
+          <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}">
+            <p:ajax event="keyup" delay="300" update="@form:versionsTable" />
+          </p:inputText>
+        </span>
+      </div>
+      <p:dataTable id="versionsTable" value="#{cc.attrs.bean.applicationVersions}" var="version" rowIndexVar="idx">
+        <p:column headerText="#{ivy.cm.co('/common/Version')}">
+          <h:link value="#{version.version}" outcome="application-version.xhtml">
+            <i class="ti ti-packages table-icon" />
+            <f:param name="context" value="#{cc.attrs.bean.context}" />
+            <f:param name="app" value="#{cc.attrs.bean.app}" />
+            <f:param name="version" value="#{version.version}" />
+          </h:link>
+        </p:column>
+
+        <p:column headerText="#{ivy.cm.co('/pmvDetail/ReleaseState')}" style="text-align: center; width: 100px">
+          <i class="#{version.releaseStateIcon} table-icon" title="#{version.releaseStateLabel}"></i>
+          <p>#{version.releaseStateLabel}</p>
+        </p:column>
+
+        <p:column headerText="#{ivy.cm.co('/pmvDetail/ActivityState')}" style="text-align: center; width: 100px">
+          <i class="#{version.activityStateIcon} table-icon" title="#{version.activityStateLabel}"></i>
+          <p>#{version.activityStateLabel}</p>
+        </p:column>
+
+        <p:column headerText="#{ivy.cm.co('/applications/RunningCasesHeader')}"
+          style="text-align: center; width: 150px">
+          <h:panelGroup layout="block">
+            <h:outputText value="#{version.runningCasesCount}" />
+          </h:panelGroup>
+        </p:column>
+        <p:column style="text-align: center; width: 150px">
+          <p:commandButton icon="ti ti-upload" title="#{ivy.cm.co('/common/Deployment')}"
+            styleClass="ml-1 ui-button-primary rounded-button" process="@this"
+            actionListener="#{deploymentBean.setAppNameAndVersion(cc.attrs.bean.securitySystem.securitySystemName, cc.attrs.bean.app, version.version)}"
+            update=":deployPanel" oncomplete="PF('fileUploadModal').show();" />
+          <p:commandButton icon="ti ti-player-play" title="#{ivy.cm.co('/common/Activate')}"
+            disabled="#{version.notStartable}" styleClass="ml-1 ui-button-success rounded-button">
+          <p:ajax listener="#{version.activate}" update="@form:versionsTable" />          
+          </p:commandButton>
+          <p:commandButton icon="ti ti-player-stop" title="#{ivy.cm.co('/common/Deactivate')}"
+            disabled="#{version.notStopable}" styleClass="ml-1 ui-button-danger rounded-button">
+            <p:ajax listener="#{version.deactivate}" update="@form:versionsTable" />
+          </p:commandButton>
+          <p:commandButton title="#{ivy.cm.co('/common/More')}" id="tasksButton" type="button" icon="ti ti-menu-2"
+            styleClass="ml-1 ui-button-secondary rounded-button ui-button-outlined" />
+          <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
+            <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" icon="ti ti-crane"
+              disabled="#{not version.releasable}" actionListener="#{version.release}"
+              update="@form:versionsTable" />
+            <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
+              disabled="#{not empty version.isDeletable()}" actionListener="#{version.delete}"
+              update="@form:versionsTable" title="#{version.notDeletableMessage}"
+              style="pointer-events: all" />
+            <p:menuitem id="forceDeleteBtn" value="#{ivy.cm.co('/applications/ForceDeleteButtonTitle')}"
+              rendered="#{not empty version.isDeletable()}" icon="ti ti-trash"
+              actionListener="#{version.forceDelete}" update="@form:versionsTable" />
+          </p:menu>
+        </p:column>
+      </p:dataTable>
+    </h:form>
+  </div>
+</cc:implementation>
+
+</html>

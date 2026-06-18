@@ -72,10 +72,10 @@ public class Application extends AppTreeItem {
     return getDetailViewLink(app.getSecurityContext().getName(), getName(), version());
   }
 
-  public static String getDetailViewLink(String securityContextName, String appName, int appVersion) {
+    public static String getDetailViewLink(String securityContextName, String appName, int appVersion) {
     return UriBuilder.fromPath("application.xhtml")
-        .queryParam("securityContextName", securityContextName)
-        .queryParam("appName", appName)
+      .queryParam("context", securityContextName)
+      .queryParam("app", appName)
         .queryParam("appVersion", appVersion)
         .build()
         .toString();
