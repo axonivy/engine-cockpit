@@ -3,8 +3,8 @@
   xmlns:p="http://primefaces.org/ui" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewParam name="context" value="#{applicationVersionBean.securityContextName}" />
-    <f:viewParam name="app" value="#{applicationVersionBean.appName}" />
+    <f:viewParam name="context" value="#{applicationVersionBean.context}" />
+    <f:viewParam name="app" value="#{applicationVersionBean.app}" />
     <f:viewParam name="version" value="#{applicationVersionBean.appVersion}" />
     <f:viewAction action="#{applicationVersionBean.onload}" />
   </f:metadata>
@@ -14,7 +14,7 @@
     <ui:define name="breadcrumb">
       <li><a href="applications.xhtml">#{ivy.cm.co('/common/Applications')}</a></li>
       <li>/</li>
-      <li><a href="application.xhtml?context=#{applicationVersionBean.securityContextName}&amp;app=#{applicationVersionBean.appName}">#{applicationVersionBean.appName}</a></li>
+      <li><a href="application.xhtml?context=#{applicationVersionBean.context}&amp;app=#{applicationVersionBean.app}">#{applicationVersionBean.app}</a></li>
       <li>/</li>
       <li><a href="#">#{applicationVersionBean.appVersion}</a></li>
     </ui:define>

@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
-
+import jakarta.ws.rs.core.UriBuilder;
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.system.ManagerBean;

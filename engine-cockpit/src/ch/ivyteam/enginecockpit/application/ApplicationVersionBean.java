@@ -41,19 +41,19 @@ public class ApplicationVersionBean {
     managerBean = ManagerBean.instance();
   }
 
-  public void setSecurityContextName(String securityContextName) {
+  public void setContext(String securityContextName) {
     this.securityContextName = securityContextName;
   }
 
-  public String getSecurityContextName() {
+  public String getContext() {
     return securityContextName;
   }
 
-  public void setAppName(String appName) {
+  public void setApp(String appName) {
     this.appName = appName;
   }
 
-  public String getAppName() {
+  public String getApp() {
     return appName;
   }
 
@@ -147,10 +147,6 @@ public class ApplicationVersionBean {
   }
 
   public void updateStats() {
-    if (securityContext == null || appName == null || appVersion == null) {
-      return;
-    }
-
     app = IApplicationRepository.of(securityContext).all().stream()
         .filter(app -> app.getName().equals(appName))
         .filter(app -> appVersion.equals(app.getVersion()))
@@ -170,9 +166,8 @@ public class ApplicationVersionBean {
     state.updateReleaseState(app.getReleaseState());
   }
 
-
   public void deleteProject(String projectName) {
-    if (app == null || projectName == null || projectName.isBlank()) {
+    if (projectName == null || projectName.isBlank()) {
       return;
     }
 

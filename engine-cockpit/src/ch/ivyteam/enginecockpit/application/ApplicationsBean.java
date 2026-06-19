@@ -10,10 +10,10 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.Strings;
 
-import javax.ws.rs.core.UriBuilder;
 import ch.ivyteam.enginecockpit.application.model.NewApplication;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
