@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import jakarta.faces.application.FacesMessage;
-import jakarta.inject.Named;
-import jakarta.faces.view.ViewScoped;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
@@ -32,7 +32,7 @@ public class LogBean implements AllResourcesDownload, Serializable {
 
   private List<LogView> logs;
   private LocalDate date;
-  
+
   private String fileName;
   private LogView logView;
 
@@ -101,7 +101,7 @@ public class LogBean implements AllResourcesDownload, Serializable {
       }
     }
     if (logView == null) {
-      ResponseHelper.notFound("Log with filename '"+fileName+"' not found");
+      ResponseHelper.notFound("Log with filename '" + fileName + "' not found");
     }
   }
 
@@ -109,7 +109,7 @@ public class LogBean implements AllResourcesDownload, Serializable {
     var path = LogView.uri().date(date).toUri();
     FacesContext.getCurrentInstance().getExternalContext().redirect(path);
   }
-  
+
   public void navigateFile() throws IOException {
     var path = LogView.uri().fileName(fileName).date(date).toUri();
     FacesContext.getCurrentInstance().getExternalContext().redirect(path);

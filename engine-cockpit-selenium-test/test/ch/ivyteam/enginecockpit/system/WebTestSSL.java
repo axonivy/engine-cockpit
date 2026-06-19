@@ -66,7 +66,7 @@ class WebTestSSL {
     propertyFile.shouldHave(cssClass("ui-state-disabled"));
 
     useCustom.setChecked();
-    propertyFile.shouldNotHave(cssClass("ui-state-disabled" ));
+    propertyFile.shouldNotHave(cssClass("ui-state-disabled"));
     propertyStorePassword.clear();
     propertyStorePassword.sendKeys("invalidPassword");
     saveKeyStore();

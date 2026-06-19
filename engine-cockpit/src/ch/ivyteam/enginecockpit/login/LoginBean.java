@@ -5,10 +5,10 @@ import java.io.Serializable;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -31,7 +31,7 @@ public class LoginBean implements Serializable {
   private String password;
   private String originalUrl;
   private OAuthProvider oauthProvider;
-  
+
   public LoginBean() {
     var ctx = ISecurityContext.current();
     var provider = ((ISecurityContextInternal) ctx).identityProvider();
@@ -131,7 +131,7 @@ public class LoginBean implements Serializable {
   public void setPassword(String password) {
     this.password = password;
   }
-  
+
   private String loadResource(URI uri) {
     try {
       return IOUtils.toString(uri, StandardCharsets.UTF_8);
@@ -139,7 +139,7 @@ public class LoginBean implements Serializable {
       throw new RuntimeException(ex);
     }
   }
-  
+
   public OAuthProvider getOAuthProvider() {
     return oauthProvider;
   }

@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import jakarta.faces.application.FacesMessage;
-import jakarta.inject.Named;
-import jakarta.faces.view.ViewScoped;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import org.apache.commons.lang3.Strings;
 
@@ -60,11 +60,11 @@ public class ApplicationsBean implements Serializable {
     }
 
     return IApplicationRepository.of(securityContext).all().stream()
-      .collect(Collectors.groupingBy(IApplication::getName))
-      .entrySet().stream()
-      .map(entry -> new ApplicationRowConverter(entry.getKey(), entry.getValue()).convert())
-      .sorted(Comparator.comparing(ApplicationRow::getName, String.CASE_INSENSITIVE_ORDER))
-      .collect(Collectors.toList());
+        .collect(Collectors.groupingBy(IApplication::getName))
+        .entrySet().stream()
+        .map(entry -> new ApplicationRowConverter(entry.getKey(), entry.getValue()).convert())
+        .sorted(Comparator.comparing(ApplicationRow::getName, String.CASE_INSENSITIVE_ORDER))
+        .collect(Collectors.toList());
   }
 
   public void createApplication() {
@@ -117,13 +117,13 @@ public class ApplicationsBean implements Serializable {
     }
 
     public String getName() {
-      return name; 
+      return name;
     }
 
     public ApplicationVersion getReleasedVersion() {
       return releasedVersion;
     }
-    
+
     public List<ApplicationVersion> getArchivedVersions() {
       return archivedVersions;
     }
@@ -140,7 +140,7 @@ public class ApplicationsBean implements Serializable {
       this.applicationName = applicationName;
       this.version = version;
     }
-   
+
     public String getVersion() {
       return version;
     }
@@ -167,28 +167,28 @@ public class ApplicationsBean implements Serializable {
 
     private ApplicationRow convert() {
       return new ApplicationRow(
-        name,
-        findReleasedVersion(),
-        findArchivedOrDeprecatedVersions());
+          name,
+          findReleasedVersion(),
+          findArchivedOrDeprecatedVersions());
     }
-  
+
     private ApplicationVersion findReleasedVersion() {
       return apps.stream()
-        .filter(app -> app.getReleaseState() == ReleaseState.RELEASED)
-        .findAny()
-        .map(this::toApplicationVersion)
-        .orElse(null);
-      }
-      
+          .filter(app -> app.getReleaseState() == ReleaseState.RELEASED)
+          .findAny()
+          .map(this::toApplicationVersion)
+          .orElse(null);
+    }
+
     private List<ApplicationVersion> findArchivedOrDeprecatedVersions() {
       return apps.stream()
-      .filter(app -> app.getReleaseState() == ReleaseState.ARCHIVED
-      || app.getReleaseState() == ReleaseState.DEPRECATED)
-      .sorted(Comparator.comparingInt(IApplication::getVersion))
-      .map(this::toApplicationVersion)
-      .collect(Collectors.toList());
+          .filter(app -> app.getReleaseState() == ReleaseState.ARCHIVED
+              || app.getReleaseState() == ReleaseState.DEPRECATED)
+          .sorted(Comparator.comparingInt(IApplication::getVersion))
+          .map(this::toApplicationVersion)
+          .collect(Collectors.toList());
     }
-  
+
     private ApplicationVersion toApplicationVersion(IApplication app) {
       return new ApplicationVersion(
           app.getSecurityContext().getName(),

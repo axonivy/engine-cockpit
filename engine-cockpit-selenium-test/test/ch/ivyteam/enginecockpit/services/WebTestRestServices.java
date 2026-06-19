@@ -19,7 +19,6 @@ import com.codeborne.selenide.Selenide;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-
 @IvyWebTest
 @Disabled
 class WebTestRestServices {

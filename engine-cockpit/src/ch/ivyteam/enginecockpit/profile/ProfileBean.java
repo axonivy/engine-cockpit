@@ -3,8 +3,9 @@ package ch.ivyteam.enginecockpit.profile;
 import java.io.Serializable;
 import java.util.Locale;
 
-import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -26,20 +27,19 @@ public class ProfileBean implements Serializable {
   }
 
   public void load() {
-    
+
     // Load the current logged in session username. Must match admin username
     var currentUserName = ISession.current().getSessionUserName();
-    
+
     // Try to set loggedInAdmin by comparing username
     if (currentUserName != null) {
       service.db().all().stream()
-        .filter(admin -> currentUserName.equalsIgnoreCase(admin.username())) // equalsIgnoreCase is fine, currentUserName is not-null here
-        .findAny()
-        .map(ProfileDTO::new)
-        .ifPresentOrElse(
-          adminDTO -> loggedInAdmin = adminDTO,
-          () -> ResponseHelper.notFound("Could not find admin with name " + currentUserName)
-        );
+          .filter(admin -> currentUserName.equalsIgnoreCase(admin.username())) // equalsIgnoreCase is fine, currentUserName is not-null here
+          .findAny()
+          .map(ProfileDTO::new)
+          .ifPresentOrElse(
+              adminDTO -> loggedInAdmin = adminDTO,
+              () -> ResponseHelper.notFound("Could not find admin with name " + currentUserName));
     }
   }
 

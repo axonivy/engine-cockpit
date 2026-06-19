@@ -14,10 +14,9 @@ public class WebDriverConditions {
     return new JsReturnsValueCondition(expression, expectedValue);
   }
 
-
   public static class JsReturnsValueCondition implements ObjectCondition<WebDriver> {
-    private String expression;
-    private String expectedValue;
+    private final String expression;
+    private final String expectedValue;
 
     protected JsReturnsValueCondition(String expression, String expectedValue) {
       this.expression = expression;

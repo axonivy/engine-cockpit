@@ -203,7 +203,7 @@ class WebDocuScreenshot {
     Navigation.toBranding();
     takeScreenshot("branding", new Dimension(SCREENSHOT_WIDTH, 800));
     takeDialogScreenshot("branding-custom-css",
-      By.id("apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":brandingResources:form:editCustomCssBtn"));
+        By.id("apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":brandingResources:form:editCustomCssBtn"));
   }
 
   @Test

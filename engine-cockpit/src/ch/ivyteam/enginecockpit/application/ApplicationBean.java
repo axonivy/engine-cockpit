@@ -22,6 +22,7 @@ import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.app.NewApplication;
@@ -62,7 +63,7 @@ public class ApplicationBean implements Serializable {
 
     if (app == null) {
       app = apps.all().stream()
-          .filter(app -> app.getName().equals(appName))
+          .filter(a -> a.getName().equals(appName))
           .max(Comparator.comparingInt(IApplication::getVersion))
           .orElse(null);
     }
@@ -75,7 +76,7 @@ public class ApplicationBean implements Serializable {
     configView = new ConfigViewBuilder(app).build();
 
     applicationVersions = apps.all().stream()
-        .filter(app -> app.getName().equals(appName))
+        .filter(a -> a.getName().equals(appName))
         .map(ApplicationVersionRow::new)
         .sorted(Comparator.comparing(ApplicationVersionRow::getVersion).reversed())
         .collect(Collectors.toList());
@@ -185,7 +186,7 @@ public class ApplicationBean implements Serializable {
       var libs = new LinkedList<String>();
       libs.add("");
       app.getProcessModelVersions()
-          .map(pmv -> pmv.getLibraryId())
+          .map(IProcessModelVersion::getLibraryId)
           .distinct()
           .forEach(libs::add);
       return libs;

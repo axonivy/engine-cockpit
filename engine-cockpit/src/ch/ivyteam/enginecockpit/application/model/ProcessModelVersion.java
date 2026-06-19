@@ -54,8 +54,7 @@ public class ProcessModelVersion extends AppTreeItem {
   }
 
   @Override
-  public void updateStats() {
-  }
+  public void updateStats() {}
 
   public long getRunningCasesCount() {
     countRunningCases();
@@ -83,8 +82,7 @@ public class ProcessModelVersion extends AppTreeItem {
   }
 
   @Override
-  public void release() {    
-  }
+  public void release() {}
 
   @Override
   public void delete() {
@@ -101,7 +99,7 @@ public class ProcessModelVersion extends AppTreeItem {
   }
 
   @Override
-  public boolean isReleasable() {    
+  public boolean isReleasable() {
     return false;
   }
 

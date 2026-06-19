@@ -198,9 +198,11 @@ public class ApplicationDetailBean implements Serializable {
     public String getName() {
       return name;
     }
+
     public String getVersion() {
       return version;
     }
+
     public String getLastChanged() {
       return lastChanged;
     }

@@ -13,7 +13,6 @@ import javax.management.openmbean.TabularData;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-
 public class MAttribute implements Comparable<MAttribute> {
   private final Attribute attribute;
   private final MBeanAttributeInfo info;

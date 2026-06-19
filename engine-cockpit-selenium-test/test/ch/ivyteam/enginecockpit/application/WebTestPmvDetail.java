@@ -24,7 +24,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 class WebTestPmvDetail {
 
-  private static final String APP = isDesigner() ? EngineUrl.applicationName(): "test-pmvs";
+  private static final String APP = isDesigner() ? EngineUrl.applicationName() : "test-pmvs";
   private static final String PMV = "main";
 
   @BeforeEach
@@ -45,6 +45,6 @@ class WebTestPmvDetail {
     depTable.firstColumnShouldBe(textsInAnyOrder("custom"));
 
     Table reqTable = new Table(By.id("requriedPmvTable"), true);
-    reqTable.firstColumnShouldBe(texts("core"));    
+    reqTable.firstColumnShouldBe(texts("core"));
   }
 }

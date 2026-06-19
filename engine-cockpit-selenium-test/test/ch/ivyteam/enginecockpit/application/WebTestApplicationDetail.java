@@ -108,7 +108,7 @@ class WebTestApplicationDetail {
     workflow.click();
     assertThat(Selenide.webdriver().driver().url()).contains("/dev-workflow-ui/");
   }
-  
+
   @Test
   void reloadConfig() {
     Navigation.toApplicationDetail("test");

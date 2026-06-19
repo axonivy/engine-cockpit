@@ -9,10 +9,11 @@ import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.util.Set;
 
-import jakarta.inject.Named;
-import jakarta.faces.view.ViewScoped;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
+
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;

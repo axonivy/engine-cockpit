@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
@@ -62,7 +62,7 @@ public class PmvDetailBean implements Serializable {
     if (appVersion == null) {
       ResponseHelper.notFound("appVersion not set");
       return;
-    }    
+    }
     if (pmvName == null) {
       ResponseHelper.notFound("pmvName not set");
       return;
@@ -91,7 +91,7 @@ public class PmvDetailBean implements Serializable {
     requriedPmvs = iPmv.getAllRequiredProcessModelVersions()
         .map(ProcessModelVersion::new)
         .collect(Collectors.toList());
-   }
+  }
 
   public ProcessModelVersion getPmv() {
     return pmv;

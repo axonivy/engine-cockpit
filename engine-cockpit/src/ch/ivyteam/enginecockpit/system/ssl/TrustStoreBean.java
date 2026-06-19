@@ -16,8 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import org.primefaces.event.FileUploadEvent;
 
@@ -174,17 +174,17 @@ public class TrustStoreBean implements SslTableStore, Serializable {
   }
 
   public void addToStore(Certificate cert) throws KeyStoreException {
-      getKeyStoreUtils().addNewCert(cert);
-      if ("X.509".equals(cert.getPublicKey().getFormat())) {
-        X509Certificate X509cert = (X509Certificate) cert;
-        Message.info().clientId("addMissingCertSuccess")
-            .summary(Ivy.cm().content("/tlsTesterMissingCertView/AddX509CertificateToTruststoreSuccessMesage")
-                .replace("certificate", String.valueOf(X509cert.getSubjectX500Principal())).get())
-            .show();
-      } else {
-        Message.info().clientId("addMissingCertSuccess")
-            .summary(Ivy.cm().co("/tlsTesterMissingCertView/AddCertificateToTruststoreSuccessMesage")).show();
-      }
+    getKeyStoreUtils().addNewCert(cert);
+    if ("X.509".equals(cert.getPublicKey().getFormat())) {
+      X509Certificate X509cert = (X509Certificate) cert;
+      Message.info().clientId("addMissingCertSuccess")
+          .summary(Ivy.cm().content("/tlsTesterMissingCertView/AddX509CertificateToTruststoreSuccessMesage")
+              .replace("certificate", String.valueOf(X509cert.getSubjectX500Principal())).get())
+          .show();
+    } else {
+      Message.info().clientId("addMissingCertSuccess")
+          .summary(Ivy.cm().co("/tlsTesterMissingCertView/AddCertificateToTruststoreSuccessMesage")).show();
+    }
   }
 
   @Override

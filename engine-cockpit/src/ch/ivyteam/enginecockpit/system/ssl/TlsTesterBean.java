@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import ch.ivyteam.ivy.ssl.restricted.tester.TLSTest;
 import ch.ivyteam.ivy.ssl.restricted.tester.TLSTestData;

@@ -1,8 +1,8 @@
 package ch.ivyteam.enginecockpit.monitor;
 
-import jakarta.inject.Named;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
 
 import oshi.ffm.SystemInfo;
 import oshi.hardware.CentralProcessor;

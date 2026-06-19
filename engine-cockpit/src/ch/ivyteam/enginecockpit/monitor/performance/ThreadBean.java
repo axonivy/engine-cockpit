@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor.performance;
 
+import static ch.ivyteam.ivy.environment.Ivy.cm;
+
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.lang.Thread.State;
@@ -15,11 +17,12 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.inject.Named;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.context.FacesContext;
 import javax.management.ObjectName;
+
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
@@ -28,8 +31,6 @@ import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.monitor.trace.BackgroundMeterUtil;
 import ch.ivyteam.ivy.environment.Ivy;
-
-import static ch.ivyteam.ivy.environment.Ivy.cm;
 
 @Named
 @SessionScoped

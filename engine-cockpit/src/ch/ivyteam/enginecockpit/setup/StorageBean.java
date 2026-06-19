@@ -1,11 +1,11 @@
 package ch.ivyteam.enginecockpit.setup;
 
+import java.io.Serializable;
+
 import jakarta.faces.application.FacesMessage;
-import jakarta.inject.Named;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
-
-import java.io.Serializable;
+import jakarta.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 

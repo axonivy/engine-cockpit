@@ -3,8 +3,8 @@ package ch.ivyteam.enginecockpit.monitor.system.overview;
 import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import org.primefaces.event.ResizeEvent;
 import org.primefaces.model.diagram.Connection;

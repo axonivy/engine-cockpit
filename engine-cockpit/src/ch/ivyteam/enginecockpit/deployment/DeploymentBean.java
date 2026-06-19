@@ -9,9 +9,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import jakarta.faces.application.FacesMessage;
-import jakarta.inject.Named;
-import jakarta.faces.view.ViewScoped;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import org.primefaces.model.file.UploadedFile;
 
@@ -65,6 +65,7 @@ public class DeploymentBean implements Serializable {
   public String getAppName() {
     return appNameFromView;
   }
+
   public UploadedFile getFile() {
     return this.file;
   }
@@ -118,7 +119,7 @@ public class DeploymentBean implements Serializable {
 
     var target = new DeployTarget(securityContextNameFromView, this.appNameFromView, DeployAppVersion.of(appVersionFromView));
     var options = DeploymentOptions.create()
-        .deployTestUsers(deployOptions.getDeployTestUsers())        
+        .deployTestUsers(deployOptions.getDeployTestUsers())
         .toOptions();
     var projectDeployable = Deployable.create()
         .target(target)

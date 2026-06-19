@@ -63,7 +63,7 @@ class KeyStoreUtils {
     }
   }
 
-  private void store(char[] storePassword, KeyStore importedKeystore, String alias , char[] keyPassword)
+  private void store(char[] storePassword, KeyStore importedKeystore, String alias, char[] keyPassword)
       throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException, IOException {
     var privateKey = (java.security.PrivateKey) importedKeystore.getKey(alias, keyPassword);
     var certChain = importedKeystore.getCertificateChain(alias);

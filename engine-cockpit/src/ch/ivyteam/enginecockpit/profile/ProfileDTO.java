@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.profile;
 
 import java.util.Locale;
+
 import ch.ivyteam.ivy.security.administrator.Administrator;
 
 public class ProfileDTO {
@@ -12,8 +13,7 @@ public class ProfileDTO {
   private Locale language;
   private Locale formattingLanguage;
 
-  public ProfileDTO() {
-  }
+  public ProfileDTO() {}
 
   public ProfileDTO(Administrator admin) {
     this.userName = admin.username();

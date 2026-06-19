@@ -7,8 +7,8 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 
 import java.io.Serializable;
 
-import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;

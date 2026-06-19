@@ -15,8 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
@@ -194,7 +194,7 @@ public class KeyStoreBean implements SslTableStore, Serializable {
   public void handleUploadCertificate(FileUploadEvent event)
       throws IOException, CertificateException, KeyStoreException {
     var extension = PathUtils.toExtension(event.getFile().getFileName());
-    if (extension.equalsIgnoreCase("p12")) {
+    if ("p12".equalsIgnoreCase(extension)) {
       try (InputStream is = event.getFile().getInputStream()) {
         uploadedKeystore = is.readAllBytes();
       }
@@ -228,7 +228,7 @@ public class KeyStoreBean implements SslTableStore, Serializable {
   public void setStorePassword(String storePassword) {
     this.importedStorePassword = storePassword.toCharArray();
   }
-  
+
   @Override
   public String getStoreKeyPassword() {
     return "";

@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.application.model;
 
 public class NewApplication {
-    
+
   private String securityContextName;
   private String appName;
   private boolean isActive = true;

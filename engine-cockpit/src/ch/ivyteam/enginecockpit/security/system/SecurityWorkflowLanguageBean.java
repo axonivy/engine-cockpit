@@ -9,8 +9,8 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 
