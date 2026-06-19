@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.application;
 
-import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +22,7 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 
 @Named
 @ViewScoped
-public class ApplicationDetailBean implements Serializable {
+public class ApplicationVersionBean {
 
   private String securityContextName;
   private String appName;
@@ -32,7 +31,7 @@ public class ApplicationDetailBean implements Serializable {
 
   private final ManagerBean managerBean;
 
-  public ApplicationDetailBean() {
+  public ApplicationVersionBean() {
     managerBean = ManagerBean.instance();
   }
 
