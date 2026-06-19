@@ -7,8 +7,8 @@ import java.nio.file.Files;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -19,7 +19,7 @@ import ch.ivyteam.ivy.log.provider.LogFile;
 import ch.ivyteam.ivy.log.provider.LogFileRepository;
 import ch.ivyteam.log.Logger;
 
-@ManagedBean
+@Named
 @RequestScoped
 public class SupportBean {
 

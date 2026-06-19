@@ -1,11 +1,14 @@
 package ch.ivyteam.enginecockpit.services.search.index;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
 
-@ManagedBean
+import java.io.Serializable;
+
+import jakarta.faces.view.ViewScoped;
+
+@Named
 @ViewScoped
-public class SearchDocBean {
+public class SearchDocBean implements Serializable {
 
   private SearchIndexDoc doc;
 

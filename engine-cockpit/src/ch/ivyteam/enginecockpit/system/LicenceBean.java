@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -29,7 +29,7 @@ import ch.ivyteam.licence.LicenceEventManager;
 import ch.ivyteam.licence.NewLicenceFileInstaller;
 import ch.ivyteam.licence.SystemLicence;
 
-@ManagedBean
+@Named
 @RequestScoped
 public class LicenceBean extends StepStatus {
 

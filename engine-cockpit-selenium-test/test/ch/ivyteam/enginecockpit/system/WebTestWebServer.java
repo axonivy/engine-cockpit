@@ -64,7 +64,7 @@ public class WebTestWebServer {
     $(By.id("requestForm:showRequestHeaders")).shouldNotBe(visible);
     var requestHeaderTable = new Table(By.id("requestForm:requestHeaderTable"));
     requestHeaderTable.firstColumnShouldBe(sizeGreaterThan(5));
-    requestHeaderTable.valueForEntryShould("user-agent", 2, text("Firefox"));
+    requestHeaderTable.valueForEntryShould("User-Agent", 2, text("Firefox"));
 
     $(By.id("missingSecurityHeadersInfo")).shouldHave(text("Missing Security Headers"), text("Strict-Transport-Security"));
     $(By.id("responseForm:responseHeaderTable")).shouldNot(exist);

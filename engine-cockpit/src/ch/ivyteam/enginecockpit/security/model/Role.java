@@ -2,7 +2,7 @@ package ch.ivyteam.enginecockpit.security.model;
 
 import java.util.Objects;
 
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 

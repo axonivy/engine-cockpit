@@ -2,7 +2,7 @@ package ch.ivyteam.enginecockpit.application.model;
 
 import java.util.List;
 
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 
 import ch.ivyteam.enginecockpit.application.ApplicationsBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;

@@ -1,7 +1,9 @@
 package ch.ivyteam.enginecockpit.security.identity;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+
+import java.io.Serializable;
 
 import ch.ivyteam.api.API;
 import ch.ivyteam.enginecockpit.dynamic.config.ConfigProperty;
@@ -15,9 +17,9 @@ import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.internal.context.SecurityContext;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class IdentityProviderBean {
+public class IdentityProviderBean implements Serializable {
 
   private String securitySystemName;
 

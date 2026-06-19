@@ -5,11 +5,12 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.delta;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.derivation;
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.util.Set;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
@@ -22,9 +23,9 @@ import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class RequestMonitorBean {
+public class RequestMonitorBean implements Serializable {
   private final Monitor requestsMonitor =
       Monitor.build().name(Ivy.cm().co("/liveStats/Requests")).icon("ti ti-building-broadcast-tower").toMonitor();
   private final Monitor errorsMonitor =

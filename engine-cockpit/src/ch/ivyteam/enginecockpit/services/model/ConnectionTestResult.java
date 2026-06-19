@@ -1,6 +1,6 @@
 package ch.ivyteam.enginecockpit.services.model;
 
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
 

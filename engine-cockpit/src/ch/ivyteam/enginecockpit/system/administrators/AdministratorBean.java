@@ -1,10 +1,11 @@
 package ch.ivyteam.enginecockpit.system.administrators;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.monitor.log.LogView;
@@ -15,9 +16,9 @@ import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.administrator.AdministratorService;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class AdministratorBean extends StepStatus {
+public class AdministratorBean extends StepStatus implements Serializable {
 
   private List<AdministratorDto> admins;
   private String filter;

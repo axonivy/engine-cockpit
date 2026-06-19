@@ -35,5 +35,9 @@
       <source>faces-config.xml</source>
       <outputDirectory>./META-INF/</outputDirectory>
     </file>
+    <file>
+      <source>beans.xml</source>
+      <outputDirectory>./META-INF/</outputDirectory>
+    </file>
   </files>
 </assembly>

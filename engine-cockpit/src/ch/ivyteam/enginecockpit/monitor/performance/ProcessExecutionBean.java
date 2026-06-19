@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.performance;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
@@ -8,12 +9,12 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIColumn;
-import javax.faces.component.UIComponent;
-import javax.faces.component.ValueHolder;
-import javax.faces.context.FacesContext;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.component.UIColumn;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.ValueHolder;
+import jakarta.faces.context.FacesContext;
 
 import org.ocpsoft.prettytime.PrettyTime;
 import org.primefaces.util.ComponentUtils;
@@ -24,9 +25,9 @@ import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IExecutionStatistic;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@ManagedBean
+@Named
 @ViewScoped
-public final class ProcessExecutionBean {
+public final class ProcessExecutionBean implements Serializable {
 
   private final IExecutionStatistic statistic = IBpmEngineManager.instance().getExecutionStatistic();
   private String filter;

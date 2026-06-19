@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.system.compare;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -7,10 +8,10 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -23,9 +24,9 @@ import ch.ivyteam.ivy.security.context.compare.SecurityContextComparer;
 import ch.ivyteam.ivy.security.context.compare.Solver;
 import ch.ivyteam.ivy.security.context.compare.Solver.Type;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class SecuritySystemCompareBean {
+public class SecuritySystemCompareBean implements Serializable {
 
   private final Set<Issue> solved = ConcurrentHashMap.newKeySet();
   private String sourceSecuritySystem;

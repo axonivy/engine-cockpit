@@ -3,9 +3,10 @@ package ch.ivyteam.enginecockpit.system;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.Serializable;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -14,9 +15,9 @@ import ch.ivyteam.ivy.mail.MailMessage;
 import ch.ivyteam.ivy.mail.impl.MailClientConfigProvider;
 import ch.ivyteam.ivy.mail.impl.MailClientImpl;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class EmailBean {
+public class EmailBean implements Serializable {
 
   private String host;
   private int port;

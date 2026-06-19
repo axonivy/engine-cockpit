@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.system.ssl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
@@ -14,9 +15,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
 
 import org.primefaces.event.FileUploadEvent;
 
@@ -25,9 +26,9 @@ import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.TrustStoreConfig;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class TrustStoreBean implements SslTableStore {
+public class TrustStoreBean implements SslTableStore, Serializable {
 
   private final TrustStoreConfig store;
 

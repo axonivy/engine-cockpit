@@ -1,13 +1,15 @@
 package ch.ivyteam.enginecockpit.services.notification.payload;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+
+import java.io.Serializable;
 
 import ch.ivyteam.enginecockpit.services.notification.NotificationDto;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class NotificationPayloadBean {
+public class NotificationPayloadBean implements Serializable {
 
   private NotificationDto notification;
 
