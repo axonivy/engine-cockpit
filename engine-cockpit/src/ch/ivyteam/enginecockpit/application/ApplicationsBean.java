@@ -13,7 +13,7 @@ import jakarta.inject.Named;
 
 import org.apache.commons.lang3.Strings;
 
-import ch.ivyteam.enginecockpit.application.model.Application;
+import javax.ws.rs.core.UriBuilder;
 import ch.ivyteam.enginecockpit.application.model.NewApplication;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
@@ -146,7 +146,12 @@ public class ApplicationsBean implements Serializable {
     }
 
     public String getLink() {
-      return Application.getDetailViewLink(securityContextName, applicationName, Integer.parseInt(version));
+      return UriBuilder.fromPath("application.xhtml")
+        .queryParam("context", securityContextName)
+        .queryParam("app", applicationName)
+          .queryParam("appVersion", version)
+          .build()
+          .toString();
     }
 
     @Override
