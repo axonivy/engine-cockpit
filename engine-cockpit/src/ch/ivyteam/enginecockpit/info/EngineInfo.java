@@ -5,9 +5,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.inject.Named;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.primefaces.PrimeFaces;
@@ -121,7 +121,7 @@ public class EngineInfo {
   public String getEngineCockpitUrl() {
     return EngineCockpitUrlPath.toPath();
   }
-  
+
   public String getHomeUrl() {
     return SecurityContextUrlPath.toPath(ISecurityContext.SYSTEM);
   }

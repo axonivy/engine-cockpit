@@ -20,16 +20,17 @@ public class RoleProperty extends MemberProperty {
         .collect(Collectors.toList());
   }
 
+  @Override
   public void saveProperty() {
     role.setProperty(super.property.getKey(), super.property.getValue());
     super.savePropertyMessage();
     reloadProperties();
   }
 
+  @Override
   public void removeProperty(String propertyName) {
     role.removeProperty(propertyName);
     super.removePropertyMessage();
     reloadProperties();
   }
 }
-

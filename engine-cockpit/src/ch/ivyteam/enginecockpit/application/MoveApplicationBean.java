@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.move.ApplicationMover;

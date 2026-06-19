@@ -5,8 +5,8 @@ import java.lang.management.ManagementFactory;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 
 @Named
 @SessionScoped

@@ -178,8 +178,8 @@ class WebTestWebserviceDetail {
   @Test
   void editProperty() {
     var editor = new PropertyEditor("webserviceAdditionalConfigForm:webservicePropertiesTable");
-    editor.editProperty("username","editValue");
-    editor.editProperty("username","admin");
+    editor.editProperty("username", "editValue");
+    editor.editProperty("username", "admin");
   }
 
   @Test

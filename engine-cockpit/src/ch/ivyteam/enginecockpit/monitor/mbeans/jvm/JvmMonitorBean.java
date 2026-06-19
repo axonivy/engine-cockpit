@@ -11,8 +11,8 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 
-import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
@@ -55,7 +55,7 @@ public class JvmMonitorBean implements Serializable {
   }
 
   private void setupThreadsMonitor() {
-    threadsMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/Active"), "%5d") , threadsCount()));
+    threadsMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/Active"), "%5d"), threadsCount()));
     threadsMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/Daemons"), EMPTY, "%5d"), threadsDeamonCount()));
     threadsMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/Peak"), "%5d"), threadsPeakCount()));
     threadsMonitor.addInfoValue(format(join(SPACE, cm().co("/monitor/TotalStarted"), "%5d"), threadsTotalStarted()));

@@ -24,6 +24,7 @@ public class UserProperty extends MemberProperty {
         .collect(Collectors.toList());
   }
 
+  @Override
   public void saveProperty() {
     if (user.isPropertyBacked(super.property.getKey())) {
       FacesContext.getCurrentInstance().addMessage("propertiesMessage",
@@ -37,6 +38,7 @@ public class UserProperty extends MemberProperty {
     reloadProperties();
   }
 
+  @Override
   public void removeProperty(String propertyName) {
     user.removeProperty(propertyName);
     super.removePropertyMessage();

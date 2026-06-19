@@ -72,10 +72,10 @@ public class Application extends AppTreeItem {
     return getDetailViewLink(app.getSecurityContext().getName(), getName(), version());
   }
 
-    public static String getDetailViewLink(String securityContextName, String appName, int appVersion) {
+  public static String getDetailViewLink(String securityContextName, String appName, int appVersion) {
     return UriBuilder.fromPath("application.xhtml")
-      .queryParam("context", securityContextName)
-      .queryParam("app", appName)
+        .queryParam("context", securityContextName)
+        .queryParam("app", appName)
         .queryParam("appVersion", appVersion)
         .build()
         .toString();
@@ -134,11 +134,11 @@ public class Application extends AppTreeItem {
   @Override
   public String getReleaseStateIcon() {
     return switch (getReleaseState()) {
-      case RELEASED          -> "ti ti-circle-check";
-      case DEPRECATED        -> "ti ti-circle-half-vertical";
-      case ARCHIVED          -> "ti ti-archive";
+      case RELEASED -> "ti ti-circle-check";
+      case DEPRECATED -> "ti ti-circle-half-vertical";
+      case ARCHIVED -> "ti ti-archive";
       case CREATED, PREPARED -> "ti ti-speakerphone";
-      default                -> "ti ti-help-circle";
+      default -> "ti ti-help-circle";
     };
   }
 

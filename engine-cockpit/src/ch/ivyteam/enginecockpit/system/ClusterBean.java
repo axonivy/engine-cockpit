@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import ch.ivyteam.enginecockpit.system.model.ClusterNode;
 import ch.ivyteam.ivy.cluster.restricted.IClusterManager;
@@ -72,27 +72,27 @@ public class ClusterBean implements Serializable {
     }
     return sessions;
   }
-  
+
   public static class ClusterSessionDto {
-    
+
     private final String context;
     private final String userName;
     private final String nodeName;
-    
+
     public ClusterSessionDto(String context, String userName, String nodeName) {
       this.context = context;
       this.userName = userName;
       this.nodeName = nodeName;
     }
-    
+
     public String getContext() {
       return context;
     }
-    
+
     public String getUserName() {
       return userName;
     }
-    
+
     public String getNodeName() {
       return nodeName;
     }

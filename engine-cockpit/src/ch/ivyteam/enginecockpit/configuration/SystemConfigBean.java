@@ -3,8 +3,8 @@ package ch.ivyteam.enginecockpit.configuration;
 import java.io.Serializable;
 import java.util.List;
 
-import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import org.apache.commons.lang3.Strings;
 

@@ -158,12 +158,12 @@ class WebTestConfiguration {
       PrimeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue"))
           .selectItemByLabel("SSL");
       $("#config\\:editConfigurationForm\\:saveEditConfiguration").click();
-        assertAndCloseGrowl(SYSTEM_CONTEXT, config);
+      assertAndCloseGrowl(SYSTEM_CONTEXT, config);
       table.row(config).shouldNotHave(cssClass("default-value"));
 
-        toggleDefaultFilter(SYSTEM_CONTEXT);
+      toggleDefaultFilter(SYSTEM_CONTEXT);
       table.firstColumnShouldBe(itemWithText(config));
-        assertResetConfig(SYSTEM_CONTEXT, config);
+      assertResetConfig(SYSTEM_CONTEXT, config);
       table.firstColumnShouldBe(noneMatch("Config no longer listed under defined values",
           e -> e.getText().equals(config)));
     }

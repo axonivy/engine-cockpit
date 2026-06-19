@@ -3,12 +3,13 @@ package ch.ivyteam.enginecockpit.monitor;
 import java.io.Serializable;
 import java.util.Hashtable;
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.inject.Named;
-import jakarta.faces.view.ViewScoped;
-import jakarta.faces.context.FacesContext;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
+
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import ch.ivyteam.enginecockpit.monitor.events.intermediate.IntermediateEvent;
 import ch.ivyteam.enginecockpit.monitor.performance.jfr.JfrBean;

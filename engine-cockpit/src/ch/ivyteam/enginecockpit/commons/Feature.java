@@ -28,7 +28,7 @@ public class Feature {
   public boolean isDefault() {
     return isDefault;
   }
-  
+
   @Override
   public String toString() {
     return this.clazz;

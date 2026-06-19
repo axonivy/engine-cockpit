@@ -25,9 +25,10 @@ import com.browserup.bup.util.HttpMessageContents;
 import com.browserup.bup.util.HttpMessageInfo;
 import com.codeborne.selenide.Selenide;
 
+import io.netty.handler.codec.http.HttpResponse;
+
 import ch.ivyteam.enginecockpit.test.ProxyExtension;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
-import io.netty.handler.codec.http.HttpResponse;
 
 @IvyWebTest
 @ExtendWith({ProxyExtension.class})

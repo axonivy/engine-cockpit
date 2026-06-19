@@ -7,7 +7,7 @@ public class StoredCert {
   private final String alias;
   private final X509Certificate cert;
   private final String invalidityMessage;
-  private boolean isPrivateKey;
+  private final boolean isPrivateKey;
 
   public StoredCert(String alias, X509Certificate cert, boolean isPrivateKey) {
     this.alias = alias;

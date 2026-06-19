@@ -89,12 +89,10 @@ public class StateOfActivity {
     }
     this.activityState = update.name();
     switch (update) {
-      case ACTIVE:
-        this.activityStateIcon = "ti ti-circle-check";
-        break;
-      default:
-        this.activityStateIcon = "ti ti-player-pause";
+      case ACTIVE -> this.activityStateIcon = "ti ti-circle-check";
+      default -> this.activityStateIcon = "ti ti-player-pause";
     }
+    ;
   }
 
   private void updateOperation(ActivityOperationState update) {
@@ -104,19 +102,15 @@ public class StateOfActivity {
     this.operation = update.name();
     this.processing = false;
     switch (update) {
-      case ACTIVE:      
-        this.operationIcon = "ti ti-circle-check";
-        break;
-      case INACTIVE:
-        this.operationIcon = "ti ti-player-pause";
-        break;
-      case ERROR:
-        this.operationIcon = "ti ti-circle-minus";
-        break;
-      default:
+      case ACTIVE -> this.operationIcon = "ti ti-circle-check";
+      case INACTIVE -> this.operationIcon = "ti ti-player-pause";
+      case ERROR -> this.operationIcon = "ti ti-circle-minus";
+      default -> {
         this.operationIcon = "ti ti-refresh spinning";
         this.processing = true;
+      }
     }
+    ;
   }
 
   public void updateReleaseState(ReleaseState update) {
@@ -125,22 +119,13 @@ public class StateOfActivity {
     }
     this.releaseState = update.name();
     switch (update) {
-      case RELEASED:
-        this.releaseStateIcon = "ti ti-circle-check";
-        break;
-      case DEPRECATED:
-        this.releaseStateIcon = "ti ti-circle-half-vertical";
-        break;
-      case ARCHIVED:
-        this.releaseStateIcon = "ti ti-archive";
-        break;
-      case CREATED:
-      case PREPARED:
-        this.releaseStateIcon = "ti ti-speakerphone";
-        break;
-      default:
-        this.releaseStateIcon = "ti ti-help-circle";
+      case RELEASED -> this.releaseStateIcon = "ti ti-circle-check";
+      case DEPRECATED -> this.releaseStateIcon = "ti ti-circle-half-vertical";
+      case ARCHIVED -> this.releaseStateIcon = "ti ti-archive";
+      case CREATED, PREPARED -> this.releaseStateIcon = "ti ti-speakerphone";
+      default -> this.releaseStateIcon = "ti ti-help-circle";
     }
+    ;
   }
 
   public boolean is(ActivityState... states) {

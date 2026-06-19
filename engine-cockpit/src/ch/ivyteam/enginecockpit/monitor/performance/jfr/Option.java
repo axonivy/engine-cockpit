@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor.performance.jfr;
 
 import java.util.List;
+
 import ch.ivyteam.ivy.environment.Ivy;
 
 public final class Option {

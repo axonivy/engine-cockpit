@@ -3,10 +3,11 @@ package ch.ivyteam.enginecockpit.monitor;
 import java.io.Serializable;
 import java.util.Hashtable;
 
-import jakarta.inject.Named;
-import jakarta.faces.view.ViewScoped;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
+
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import ch.ivyteam.enginecockpit.monitor.events.start.StartEvent;
 import ch.ivyteam.enginecockpit.util.ErrorHandler;

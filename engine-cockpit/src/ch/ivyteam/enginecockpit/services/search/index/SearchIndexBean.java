@@ -1,9 +1,9 @@
 package ch.ivyteam.enginecockpit.services.search.index;
 
-import jakarta.inject.Named;
-import jakarta.faces.view.ViewScoped;
-
 import java.io.Serializable;
+
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.services.search.SearchEngineIndex;

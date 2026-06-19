@@ -1,24 +1,23 @@
 package ch.ivyteam.enginecockpit.system;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.getAdminUser;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.open;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.getAdminUser;
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
-
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Condition.value;
-import org.openqa.selenium.By;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 
 @IvyWebTest
 class WebTestProfile {
-  
+
   private final String PROFILE = "profile.xhtml";
 
   private void navigateToProfilePage() {
@@ -29,7 +28,7 @@ class WebTestProfile {
   void beforeEach() {
     login();
   }
-  
+
   @Test
   void linkToProfile() {
     $("ul.layout-topbar-actions").shouldBe(visible);

@@ -45,7 +45,7 @@ class TestSslClientBean {
     TlsTesterBean bean = new TlsTesterBean();
     assertThat(bean.getSubject(
         "Cert alias found: CN=DigiCert Assured ID Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US alg=RSA, length=2048"))
-        .isEqualTo("CN=DigiCert Assured ID Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US");
+            .isEqualTo("CN=DigiCert Assured ID Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US");
     assertThat(bean.getSubject("CN=AffirmTrust Commercial,O=AffirmTrust,C=US"))
         .isEqualTo("CN=AffirmTrust Commercial,O=AffirmTrust,C=US");
     assertThat(bean.getSubject("CN=QuoVadis Root CA 2,O=QuoVadis Limited,C=BM alg=RSA"))
@@ -59,7 +59,7 @@ class TestSslClientBean {
     var bean = new KeyStoreBean();
     var keyPassword = "password";
     var storePassword = "changeit";
-    
+
     bean.setKeyPassword(keyPassword);
     var path = Paths.get(TestSslClientBean.class.getResource("keystore.p12").toURI());
     var keystore = new KeyStoreUtils(path.toString(), "PKCS12", "", storePassword.toCharArray());
@@ -72,9 +72,9 @@ class TestSslClientBean {
       assertThat(certs.size()).isEqualTo(2);
       var cert = store.getKey("test-client", keyPassword.toCharArray());
       assertThat(cert.getAlgorithm()).isEqualTo("RSA");
-      assertThatThrownBy(() ->  store.getKey("test-client", "wrongKeyPassword".toCharArray()))
-            .isInstanceOf(Exception.class)
-            .hasMessageContaining("Get Key failed");
+      assertThatThrownBy(() -> store.getKey("test-client", "wrongKeyPassword".toCharArray()))
+          .isInstanceOf(Exception.class)
+          .hasMessageContaining("Get Key failed");
     } finally {
       keystore.deleteCertificate("test-client");
     }

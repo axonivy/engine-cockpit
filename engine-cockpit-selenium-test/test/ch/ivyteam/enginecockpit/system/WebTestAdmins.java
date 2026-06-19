@@ -72,7 +72,7 @@ public class WebTestAdmins {
   void ownAdminCannotBeDeleted() {
     assertOwnAdminCannotBeDeleted();
   }
-  
+
   @Test
   void loginWithAdminWithDifferentLanguage() {
     addAdmin("support@ivyteam.ch", "support@ivyteam.ch", "password", "password", "de", "de");

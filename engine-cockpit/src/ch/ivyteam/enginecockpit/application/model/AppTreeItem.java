@@ -82,7 +82,7 @@ public abstract class AppTreeItem {
     return null;
   }
 
- public abstract String getActivityType();
+  public abstract String getActivityType();
 
   protected void execute(Runnable executor, String action, boolean reloadOnlyStats) {
     try {
@@ -134,6 +134,7 @@ public abstract class AppTreeItem {
   public abstract long getProcessModelVersionId();
 
   public void convert() {}
+
   public abstract void delete();
 
   class ProjectConversionLog implements Consumer<String> {

@@ -1,9 +1,9 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
-import jakarta.inject.Named;
-import jakarta.faces.view.ViewScoped;
-
 import java.io.Serializable;
+
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
