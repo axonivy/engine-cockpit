@@ -13,7 +13,6 @@ import jakarta.inject.Named;
 
 import org.apache.commons.lang3.Strings;
 
-import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.application.model.NewApplication;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
@@ -146,7 +145,7 @@ public class ApplicationsBean implements Serializable {
     }
 
     public String getLink() {
-      return Application.getDetailViewLink(securityContextName, applicationName, Integer.parseInt(version));
+      return ApplicationDetailLink.getApplicationDetailLink(applicationName, securityContextName);
     }
 
     @Override

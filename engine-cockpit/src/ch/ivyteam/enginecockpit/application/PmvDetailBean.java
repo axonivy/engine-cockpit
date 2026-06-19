@@ -6,8 +6,6 @@ import java.util.stream.Collectors;
 
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
-
-import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
@@ -110,6 +108,6 @@ public class PmvDetailBean implements Serializable {
   }
 
   public String getApplicationDetailLink() {
-    return Application.getDetailViewLink(managerBean.getSelectedSecuritySystem().getSecuritySystemName(), appName, Integer.parseInt(appVersion));
+    return ApplicationDetailLink.getApplicationDetailLink(appName, managerBean.getSelectedSecuritySystem().getSecuritySystemName());
   }
 }

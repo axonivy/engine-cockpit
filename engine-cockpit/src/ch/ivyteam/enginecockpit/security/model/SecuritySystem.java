@@ -10,8 +10,8 @@ import jakarta.ws.rs.core.UriBuilder;
 
 import org.apache.commons.io.IOUtils;
 
+import ch.ivyteam.enginecockpit.application.ApplicationDetailLink;
 import ch.ivyteam.enginecockpit.application.model.App;
-import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
@@ -70,7 +70,7 @@ public class SecuritySystem {
   }
 
   public String getApplicationDetailLink(App app) {
-    return Application.getDetailViewLink(getSecuritySystemName(), app.name(), app.version());
+    return ApplicationDetailLink.getApplicationDetailLink(app.name(), getSecuritySystemName());
   }
 
   public long getUsersCount() {
