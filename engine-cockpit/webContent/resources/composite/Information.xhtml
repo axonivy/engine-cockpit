@@ -12,10 +12,10 @@
         <i class="pr-3 ti ti-info-circle"></i>
         <h6 class="m-0">#{ivy.cm.co('/information/ApplicationInformation')}</h6>
         <p:linkButton id="home" title="#{ivy.cm.co('/information/ApplicationHome')}" icon="ti ti-home"
-          href="#{applicationVersionBean.application.homeUrl}" disabled="#{applicationVersionBean.application.disabled}"
+          href="#{applicationVersionBean.homeUrl}" disabled="#{applicationVersionBean.disabled}"
           styleClass="flex-shrink-0 ml-auto rounded-button"/>
         <p:linkButton id="workflow" title="#{ivy.cm.co('/information/WorkflowUI')}" icon="ti ti-list" 
-          href="#{applicationVersionBean.application.devWorkflowUrl}" disabled="#{applicationVersionBean.application.disabled}"
+          href="#{applicationVersionBean.devWorkflowUrl}" disabled="#{applicationVersionBean.disabled}"
           styleClass="flex-shrink-0 ml-1 rounded-button"/>
       </div>
     </div>
@@ -27,21 +27,21 @@
       <label>#{ivy.cm.co('/common/Version')}</label>
       <h:outputText value="#{applicationVersionBean.appVersion}" />
       <label>#{ivy.cm.co('/information/FileDirectory')}</label>
-      <h:outputText value="#{applicationVersionBean.application.fileDir}" />
+      <h:outputText value="#{applicationVersionBean.fileDir}" />
     </p:panelGrid>
     <p:panelGrid columns="1" layout="flex">
       <h:panelGroup id="deployBtnHint">
         <p:commandButton id="showDeployment" title="#{ivy.cm.co('/common/Deployment')}" value="#{ivy.cm.co('/common/Deployment')}"
           style="margin-top: 20px; min-width: 150px;" icon="ti ti-upload"
           onclick="PF('fileUploadModal').show()" 
-          actionListener="#{deploymentBean.setAppNameAndVersion(applicationVersionBean.securitySystem.securitySystemName, applicationVersionBean.application.name, applicationVersionBean.appVersion)}"/>
+          actionListener="#{deploymentBean.setAppNameAndVersion(applicationVersionBean.securitySystem, applicationVersionBean.application.name, applicationVersionBean.appVersion)}"/>
       </h:panelGroup>
     </p:panelGrid>
   </h:form>
 </div>
 
 <h:panelGroup id="deployPanel">
-  <ccc:Deployment id="deployment" appName="#{applicationVersionBean.application.name}" appVersion="#{applicationVersionBean.appVersion}" />
+  <ccc:Deployment id="deployment" />
 </h:panelGroup>
 </cc:implementation>
 

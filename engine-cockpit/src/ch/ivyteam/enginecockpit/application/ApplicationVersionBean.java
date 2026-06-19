@@ -4,21 +4,23 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
-import ch.ivyteam.enginecockpit.application.model.Application;
+import ch.ivyteam.enginecockpit.application.model.StateOfActivity;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.application.app.link.AppLink;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
 @Named
 @ViewScoped
@@ -26,10 +28,14 @@ public class ApplicationVersionBean {
 
   private String securityContextName;
   private String appName;
-  private Application selectedVersion;
-  private String appVersion;
+  private IApplication app;
+  private Integer appVersion;
 
   private final ManagerBean managerBean;
+  private List<ProjectRow> projects;
+  private String fileDir;
+  private ISecurityContext securityContext;
+  private StateOfActivity state;
 
   public ApplicationVersionBean() {
     managerBean = ManagerBean.instance();
@@ -51,78 +57,40 @@ public class ApplicationVersionBean {
     return appName;
   }
 
-  public void setAppVersion(String appVersion) {
+  public void setAppVersion(Integer appVersion) {
     this.appVersion = appVersion;
   }
 
-  public String getAppVersion() {
+  public Integer getAppVersion() {
     return appVersion;
   }
 
   public void onload() {
-    managerBean.reloadApplications();
-
-    var securityContext = selectedSecurityContext();
-    selectedVersion = resolveVersion(securityContext);
-
-    if (selectedVersion == null) {
-      ResponseHelper.notFound(Ivy.cm().content("/common/NotFoundApplication")
-          .replace("application", appName)
-          .get());
+    securityContext = ISecurityContextRepository.instance().all().stream()
+        .filter(context -> securityContextName.equals(context.getName()))
+        .findAny()
+        .orElse(null);
+    if (securityContext == null) {
+      ResponseHelper.notFound("Security context not found: " + securityContextName);
       return;
     }
 
-    appVersion = selectedVersion.getVersion();
-  }
+    app =  IApplicationRepository.of(securityContext).all().stream()
+        .filter(app -> app.getName().equals(appName))
+        .filter(app -> appVersion.equals(app.getVersion()))
+        .findAny()
+        .orElse(null);
 
-  private Application resolveVersion(ISecurityContext securityContext) {
-    if (securityContext == null || appName == null || appName.isBlank()) {
-      return null;
+    if (app == null) {
+      ResponseHelper.notFound("Application not found: " + appName);
+      return;
     }
 
-    var candidates = IApplicationRepository.of(securityContext).all().stream()
-        .filter(iapp -> appName.equals(iapp.getName()))
-        .map(Application::new)
-        .collect(Collectors.toList());
-
-    if (candidates.isEmpty()) {
-      return null;
+    if (appVersion == null) {
+      appVersion = app.getVersion();
     }
 
-    if (appVersion != null && appVersion.matches("\\d+")) {
-      var requested = Integer.parseInt(appVersion);
-      return candidates.stream()
-          .filter(app -> app.version() == requested)
-          .findAny()
-          .orElseGet(() -> latestOf(candidates));
-    }
-
-    return latestOf(candidates);
-  }
-
-  private static Application latestOf(List<Application> candidates) {
-    return candidates.stream()
-        .max(Comparator.comparingInt(Application::version))
-        .orElse(candidates.get(0));
-  }
-
-  private ISecurityContext selectedSecurityContext() {
-    if (securityContextName != null && !securityContextName.isBlank()) {
-      return managerBean.getSecuritySystems().stream()
-          .filter(system -> securityContextName.equals(system.getSecuritySystemName()))
-          .map(SecuritySystem::getSecurityContext)
-          .findFirst()
-          .orElse(null);
-    }
-    var selected = managerBean.getSelectedSecuritySystem();
-    return selected == null ? null : selected.getSecurityContext();
-  }
-
-  public List<ProjectRow> getProjectRows() {
-    if (selectedVersion == null) {
-      return List.of();
-    }
-    return selectedVersion.app().getProcessModelVersions()
+    projects = app.getProcessModelVersions()
         .map(pmv -> new ProjectRow(
             pmv.getName(),
             pmv.getLibraryVersion(),
@@ -131,26 +99,96 @@ public class ApplicationVersionBean {
         .collect(Collectors.toList());
   }
 
-  public Application getApplication() {
-    return selectedVersion;
+  public List<ProjectRow> getProjectRows() {
+    return projects;
   }
 
-  public void deleteProject(String projectName) {
-    if (selectedVersion == null || projectName == null || projectName.isBlank()) {
+  public IApplication getApplication() {
+    return app;
+  }
+
+  public String getHomeUrl() {
+    return AppLink.home(app).getRelative();
+  }
+
+  public String getDevWorkflowUrl() {
+    return AppLink.devWorkflow(app).getRelative();
+  }
+
+  public boolean isDisabled() {
+    return app.getReleaseState() != ReleaseState.RELEASED;
+  }
+
+  public String getFileDir() {
+    return fileDir;
+  }
+
+  public void setFileDir(String fileDir) {
+    this.fileDir = fileDir;
+  }
+
+  public SecuritySystem getSecuritySystem() {
+    return new SecuritySystem(securityContext);
+  }
+
+  public boolean isNotStartable() {
+    return app.getActivityState() == ActivityState.ACTIVE;
+  }
+
+  public boolean isNotStopable() {
+    return app.getActivityState() == ActivityState.INACTIVE;
+  }
+
+  public StateOfActivity getState() {
+    if (state == null) {
+      updateState();
+    }
+    return state;
+  }
+
+  public void updateStats() {
+    if (securityContext == null || appName == null || appVersion == null) {
       return;
     }
 
-    var project = selectedVersion.app().findProcessModelVersion(projectName);
+    app = IApplicationRepository.of(securityContext).all().stream()
+        .filter(app -> app.getName().equals(appName))
+        .filter(app -> appVersion.equals(app.getVersion()))
+        .findAny()
+        .orElse(app);
+
+    updateState();
+  }
+
+  private void updateState() {
+    if (app == null) {
+      state = new StateOfActivity();
+      return;
+    }
+
+    state = new StateOfActivity(app);
+    state.updateReleaseState(app.getReleaseState());
+  }
+
+
+  public void deleteProject(String projectName) {
+    if (app == null || projectName == null || projectName.isBlank()) {
+      return;
+    }
+
+    var project = app.findProcessModelVersion(projectName);
     if (project == null) {
-      FacesContext.getCurrentInstance().addMessage(
-          "applicationMessage",
-          new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"),
-              "Project '" + projectName + "' not found."));
+      Message.error()
+          .clientId("applicationMessage")
+          .summary(Ivy.cm().co("/common/Error"))
+          .detail("Project '" + projectName + "' not found.")
+          .show();
+
       return;
     }
 
     try {
-      selectedVersion.app().delete(project);
+      app.delete(project);
       managerBean.reloadApplications();
       Message.info()
           .clientId("applicationMessage")
@@ -158,28 +196,13 @@ public class ApplicationVersionBean {
           .detail(projectName)
           .show();
     } catch (RuntimeException ex) {
-      FacesContext.getCurrentInstance().addMessage(
-          "applicationMessage",
-          new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"), ex.getMessage()));
+      Message.error()
+          .clientId("applicationMessage")
+          .summary(Ivy.cm().co("/common/Error"))
+          .detail(ex.getMessage())
+          .exception(ex)
+          .show();
     }
-  }
-
-  public void reloadConfig() {
-    var app = iApplication();
-    app.config().reload();
-    Message.info()
-        .clientId("applicationMessage")
-        .summary(Ivy.cm().content("/configuration/ReloadApplicationConfigurationMessage")
-            .replace("application", app.getName())
-            .get())
-        .show();
-  }
-
-  private IApplication iApplication() {
-    if (selectedVersion == null) {
-      return null;
-    }
-    return managerBean.getIApplication(selectedVersion.getId());
   }
 
   public static class ProjectRow {
