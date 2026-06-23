@@ -23,11 +23,6 @@
       <groupId>com.axonivy.ivy.api</groupId>
       <artifactId>ivy-api</artifactId>
     </dependency>
-    <dependency>
-      <groupId>jakarta.faces</groupId>
-      <artifactId>jakarta.faces-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
 
   <build>
