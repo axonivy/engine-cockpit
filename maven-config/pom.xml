@@ -15,7 +15,7 @@
   <properties>
     <engine.page.url>https://product.ivyteam.io</engine.page.url>
     <engine.dir>../.ivy-engine</engine.dir>
-    <oshi.version>7.3.1</oshi.version>
+    <oshi.version>7.3.2</oshi.version>
   </properties>
 
   <dependencies>
