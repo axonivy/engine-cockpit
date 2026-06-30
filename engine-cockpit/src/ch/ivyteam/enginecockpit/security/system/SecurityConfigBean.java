@@ -9,12 +9,12 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.application.model.App;
-import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.application.security.SecurityContextRemovalCheck;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -85,7 +85,12 @@ public class SecurityConfigBean implements Serializable {
   }
 
   public String getApplicationDetailLink(App app) {
-    return Application.getDetailViewLink(getSecuritySystemName(), app.name(), app.version());
+    return UriBuilder.fromPath("application.xhtml")
+        .queryParam("context", getSecuritySystemName())
+        .queryParam("app", app.name())
+          .queryParam("appVersion", app.version())
+          .build()
+          .toString();
   }
 
   public boolean isDeletable() {

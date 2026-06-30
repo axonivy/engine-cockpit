@@ -6,15 +6,16 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.primefaces.event.TabChangeEvent;
 
-import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.application.model.WebServiceProcess;
 import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
@@ -24,6 +25,8 @@ import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
+import ch.ivyteam.ivy.workflow.IWorkflowContext;
+import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
 
 @Named
 @SessionScoped
@@ -32,8 +35,10 @@ public class ManagerBean implements Serializable {
   private List<SecuritySystem> securitySystems = List.of();
   private int selectedSecuritSystemIndex;
 
-  private List<Application> applications = List.of();
+  private List<IApplication> applications = List.of();
   private int selectedApplicationIndex;
+
+  private List<WebServiceProcess> webServiceProcesses;
 
   private Locale formattingLocale;
 
@@ -61,15 +66,13 @@ public class ManagerBean implements Serializable {
 
   public void reloadApplications() {
     int appCount = applications.size();
-    applications = getIApplications().stream()
-        .map(Application::new)
-        .collect(Collectors.toList());
+    applications = getIApplications();
     if (selectedApplicationIndex != 0 && appCount != applications.size()) {
       selectedApplicationIndex = 0;
     }
   }
 
-  public List<Application> getApplications() {
+  public List<IApplication> getApplications() {
     reloadApplications();
     return applications;
   }
@@ -137,14 +140,19 @@ public class ManagerBean implements Serializable {
     if (selectedApplication == null) {
       return "";
     }
-    return Application.getDetailViewLink(getSelectedSecuritySystem().getSecuritySystemName(), selectedApplication.getName(), selectedApplication.version());
+    return UriBuilder.fromPath("application.xhtml")
+        .queryParam("context", getSelectedSecuritySystem().getSecuritySystemName())
+        .queryParam("app", getSelectedApplicationName())
+          .queryParam("appVersion", getSelectedApplication().getVersion())
+          .build()
+          .toString();
   }
 
   public IApplicationRepository apps() {
     return apps;
   }
 
-  public Application getSelectedApplication() {
+  public IApplication getSelectedApplication() {
     if (applications.isEmpty()) {
       return null;
     }
@@ -156,7 +164,20 @@ public class ManagerBean implements Serializable {
     if (app == null) {
       return new ArrayList<>();
     }
-    return app.getWebServiceProcesses();
+    return getWebServiceProcesses();
+  }
+
+    @SuppressWarnings("deprecation")
+    public List<WebServiceProcess> getWebServiceProcesses() {
+    if (webServiceProcesses == null) {
+      webServiceProcesses = getSelectedApplication().getProcessModelVersions()
+          .map(IWorkflowProcessModelVersion::of)
+          .filter(Objects::nonNull)
+          .flatMap(pmv -> pmv.getWebServiceProcesses().stream())
+          .map(WebServiceProcess::new)
+          .collect(Collectors.toList());
+    }
+    return webServiceProcesses;
   }
 
   public IApplication getSelectedIApplication() {
@@ -189,7 +210,10 @@ public class ManagerBean implements Serializable {
   }
 
   public String getRunningCasesCount() {
-    return formatNumber(getApplications().stream().mapToLong(Application::getRunningCasesCount).sum());
+    long runningCases = getApplications().stream()
+        .mapToLong(app -> IWorkflowContext.of(app.getSecurityContext()).getRunningCasesCount(app))
+        .sum();
+    return formatNumber(runningCases);
   }
 
   public boolean isIvySecuritySystemForSelectedSecuritySystem() {
