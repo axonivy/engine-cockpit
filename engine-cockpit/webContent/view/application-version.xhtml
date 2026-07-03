@@ -3,10 +3,10 @@
   xmlns:p="http://primefaces.org/ui" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewParam name="context" value="#{applicationDetailBean.securityContextName}" />
-    <f:viewParam name="app" value="#{applicationDetailBean.appName}" />
-    <f:viewParam name="version" value="#{applicationDetailBean.appVersion}" />
-    <f:viewAction action="#{applicationDetailBean.onload}" />
+    <f:viewParam name="context" value="#{applicationVersionBean.context}" />
+    <f:viewParam name="app" value="#{applicationVersionBean.app}" />
+    <f:viewParam name="version" value="#{applicationVersionBean.version}" />
+    <f:viewAction action="#{applicationVersionBean.onload}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
@@ -14,9 +14,9 @@
     <ui:define name="breadcrumb">
       <li><a href="applications.xhtml">#{ivy.cm.co('/common/Applications')}</a></li>
       <li>/</li>
-      <li><a href="application.xhtml?context=#{applicationDetailBean.securityContextName}&amp;app=#{applicationDetailBean.appName}">#{applicationDetailBean.appName}</a></li>
+      <li><a href="#{applicationVersionBean.appLink}">#{applicationVersionBean.app}</a></li>
       <li>/</li>
-      <li><a href="#">#{applicationDetailBean.appVersion}</a></li>
+      <li><a href="#">#{applicationVersionBean.version}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -30,7 +30,7 @@
           <div class="flex align-items-center mb-3">
             <i class="pr-3 ti ti-packages card-title-icon"></i>
             <h2 class="m-0">Application Version</h2>
-            <h2 class="m-0 ml-2">#{applicationDetailBean.appVersion}</h2>
+            <h2 class="m-0 ml-2">#{applicationVersionBean.version}</h2>
           </div>
 
           <div class="table-search flex ui-fluid">
@@ -42,7 +42,7 @@
             </span>
           </div>
 
-          <p:dataTable id="projectsTable" value="#{applicationDetailBean.projectRows}" var="row">
+          <p:dataTable id="projectsTable" value="#{applicationVersionBean.projectRows}" var="row">
             <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{row.name}">
               <h:outputText value="#{row.name}" />
             </p:column>
@@ -58,7 +58,7 @@
             <p:column style="text-align: center; width: 100px;">
               <p:commandButton icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"
                 styleClass="ui-button-danger rounded-button" process="@this"
-                actionListener="#{applicationDetailBean.deleteProject(row.name)}"
+                actionListener="#{applicationVersionBean.deleteProject(row.name)}"
                 update=":versionProjectsForm:projectsTable :versionProjectsForm:applicationMessage" />
             </p:column>
           </p:dataTable>
