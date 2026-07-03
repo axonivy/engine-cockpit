@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
+import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.enginecockpit.application.model.StateOfActivity;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
@@ -98,10 +99,12 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public ProjectRow toProjectRow(IProcessModelVersion pmv) {
+      var detailView = new ProcessModelVersion(pmv).getDetailView();
     return new ProjectRow(
             pmv.getName(),
             pmv.getLibraryVersion(),
-            DateUtil.formatDate(pmv.getLastChangeDate()));
+        DateUtil.formatDate(pmv.getLastChangeDate()),
+        detailView);
   }
 
   public String getAppLink() {
@@ -178,7 +181,7 @@ public class ApplicationVersionBean implements Serializable {
     }
   }
 
-  public static record ProjectRow(String name, String version, String lastChanged) {
+  public static record ProjectRow(String name, String version, String lastChanged, String detailView) {
     public String getName() {
       return name; 
     }
@@ -189,6 +192,10 @@ public class ApplicationVersionBean implements Serializable {
 
     public String getLastChanged() {
       return lastChanged; 
+    }
+
+    public String getDetailView() {
+      return detailView;
     }
   }
   

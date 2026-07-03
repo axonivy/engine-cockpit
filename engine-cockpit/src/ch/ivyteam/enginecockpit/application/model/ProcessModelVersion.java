@@ -7,11 +7,10 @@ import jakarta.ws.rs.core.UriBuilder;
 import ch.ivyteam.enginecockpit.application.ApplicationsBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
-import ch.ivyteam.ivy.application.pmv.convert.PmvProjectConverter;
 import ch.ivyteam.ivy.project.model.ProjectVersion;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
-public class ProcessModelVersion extends AppTreeItem {
+public class ProcessModelVersion {
 
   private final IProcessModelVersion pmv;
   private final String lastChangeDate;
@@ -21,39 +20,34 @@ public class ProcessModelVersion extends AppTreeItem {
     this(pmv, null);
   }
 
-  @Override
   public String getSecurityContextName() {
     return pmv.getApplication().getSecurityContext().getName();
   }
 
-  @Override
   public String getName() {
     return pmv.getName();
   }
 
-  @Override
   public String getDisplayName() {
     return getName();
   }
 
   public ProcessModelVersion(IProcessModelVersion pmv, ApplicationsBean bean) {
-    super(bean, null);
     lastChangeDate = DateUtil.formatDate(pmv.getLastChangeDate());
     this.pmv = pmv;
     updateStats();
   }
 
-  @Override
   public String getDetailView() {
-    return UriBuilder.fromPath("pmv-detail.xhtml")
-        .queryParam("appName", pmv.getApplication().getName())
-        .queryParam("appVersion", pmv.getApplication().getVersion())
-        .queryParam("pmvName", pmv.getName())
+    return UriBuilder.fromPath("project.xhtml")
+        .queryParam("context", pmv.getApplication().getSecurityContext().getName())
+        .queryParam("app", pmv.getApplication().getName())
+        .queryParam("version", pmv.getApplication().getVersion())
+        .queryParam("project", pmv.getName())
         .build()
         .toString();
   }
 
-  @Override
   public void updateStats() {}
 
   public long getRunningCasesCount() {
@@ -61,73 +55,32 @@ public class ProcessModelVersion extends AppTreeItem {
     return runningCasesCount;
   }
 
-  @Override
   public String getIcon() {
     return "ti ti-packages";
   }
 
-  @Override
   public boolean isPmv() {
     return true;
   }
 
-  @Override
   public String getVersion() {
     return pmv.getLibraryVersion();
   }
 
-  @Override
-  public boolean isNotConvertable() {
-    return !PmvProjectConverter.of(pmv).canConvert();
-  }
-
-  @Override
   public void release() {}
 
-  @Override
-  public void delete() {
-    execute(() -> pmv.getApplication().delete(pmv), "delete", false);
-  }
-
-  @Override
-  public void convert() {
-    execute(() -> PmvProjectConverter.of(pmv).run(new ProjectConversionLog()), "convert", true);
-  }
-
-  public boolean canConvert() {
-    return true;
-  }
-
-  @Override
   public boolean isReleasable() {
     return false;
   }
 
-  @Override
   public List<String> isDeletable() {
     return List.of();
-  }
-
-  @Override
-  public long getApplicationId() {
-    return pmv.getApplication().getId();
-  }
-
-  @Override
-  public long getProcessModelVersionId() {
-    return pmv.getId();
-  }
-
-  @Override
-  public String getActivityType() {
-    return AppTreeItem.PMV;
   }
 
   public String getQualifiedVersion() {
     return pmv.getLibraryVersion();
   }
 
-  @Override
   public String getLastChangeDate() {
     return lastChangeDate;
   }

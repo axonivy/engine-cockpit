@@ -4,11 +4,11 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewParam name="appName" value="#{pmvDetailBean.appName}" />
-    <f:viewParam name="appName" value="#{managerBean.selectedApplicationName}" />
-    <f:viewParam name="appVersion" value="#{pmvDetailBean.appVersion}" />
-    <f:viewParam name="pmvName" value="#{pmvDetailBean.pmvName}" />
-    <f:viewAction action="#{pmvDetailBean.onload}" />
+    <f:viewParam name="context" value="#{projectBean.context}" />
+    <f:viewParam name="app" value="#{projectBean.app}" />
+    <f:viewParam name="version" value="#{projectBean.version}" />
+    <f:viewParam name="project" value="#{projectBean.project}" />
+    <f:viewAction action="#{projectBean.onload}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
@@ -16,9 +16,9 @@
     <ui:define name="breadcrumb">
       <li><a href="applications.xhtml">#{ivy.cm.co('/common/Applications')}</a></li>
       <li>/</li>
-      <li><a href="#{pmvDetailBean.applicationDetailLink}">#{pmvDetailBean.appName}</a></li>
+      <li><a href="#{projectBean.applicationDetailLink}">#{projectBean.app}</a></li>
       <li>/</li>
-      <li><a href="#{pmvDetailBean.pmv.detailView}">#{pmvDetailBean.pmv.name}</a></li>
+      <li><a href="#{projectBean.pmv.detailView}">#{projectBean.pmv.name}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -40,15 +40,15 @@
               <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
                 styleClass="grey-label-panel ui-fluid">
                 <label>#{ivy.cm.co('/common/Name')}</label>
-                <h:outputText value="#{pmvDetailBean.pmv.name}" />
+                <h:outputText value="#{projectBean.pmv.name}" />
                 <label>Library ID</label>
-                <h:outputText value="#{pmvDetailBean.pmv.libraryId}" />
+                <h:outputText value="#{projectBean.pmv.libraryId}" />
                 <label>Library #{ivy.cm.co('/common/Version')}</label>
-                <h:outputText value="#{pmvDetailBean.pmv.libraryVersion}" />
+                <h:outputText value="#{projectBean.pmv.libraryVersion}" />
                 <label>#{ivy.cm.co('/pmvDetail/LastDeployed')}</label>
-                <h:outputText value="#{pmvDetailBean.pmv.lastChangeDate}" />
+                <h:outputText value="#{projectBean.pmv.lastChangeDate}" />
                 <label>#{ivy.cm.co('/pmvDetail/ProjectVersion')}</label>
-                <h:outputText value="#{pmvDetailBean.pmv.projectVersion}" />
+                <h:outputText value="#{projectBean.pmv.projectVersion}" />
               </p:panelGrid>
             </div>
           </div>
@@ -61,8 +61,8 @@
                   <h6 class="m-0">#{ivy.cm.co('/pmvDetail/AllPMVsDependingOnPMV')}</h6>
                 </div>
               </div>
-              <p:dataTable id="dependentPmvTable" var="pmv" value="#{pmvDetailBean.dependentPmvs}"
-                emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', pmvDetailBean.pmv.name).get()}">
+              <p:dataTable id="dependentPmvTable" var="pmv" value="#{projectBean.dependentPmvs}"
+                emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', projectBean.pmv.name).get()}">
                 <p:column headerText="#{ivy.cm.co('/pmvDetail/PMV')}">
                   <h:outputLink value="#{pmv.detailView}">
                     <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
@@ -85,9 +85,8 @@
                   <h6 class="m-0">#{ivy.cm.co('/pmvDetail/AllPMVsRequiredByPMV')}</h6>
                 </div>
               </div>
-              <p:dataTable id="requriedPmvTable" var="pmv" value="#{pmvDetailBean.requiredPmvs}"
-                emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', pmvDetailBean.pmv.name).get()} 
-                  #{not empty pmvDetailBean.requiredPmvs ? ivy.cm.co('/pmvDetail/SpecifiedRequiredProjectsMessage') : ''}">
+              <p:dataTable id="requiredPmvTable" var="pmv" value="#{projectBean.requiredPmvs}"
+                emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', projectBean.pmv.name).get()}">
                 <p:column headerText="PMV">
                   <h:outputLink value="#{pmv.detailView}">
                     <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
