@@ -48,6 +48,8 @@ public class ApplicationBean implements Serializable {
 
   private List<ApplicationVersionRow> applicationVersions;
 
+  private String nameFilter = "";
+
   public void onload() {
     securityContext = ISecurityContextRepository.instance().all().stream()
         .filter(context -> securityContextName.equals(context.getName()))
@@ -83,7 +85,9 @@ public class ApplicationBean implements Serializable {
   }
 
   public List<ApplicationVersionRow> getApplicationVersions() {
-    return applicationVersions;
+    return applicationVersions.stream()
+        .filter(version -> matchesNameFilter(version.getVersion()))
+        .collect(Collectors.toList());
   }
 
   public IApplication getApplication() {
@@ -138,6 +142,22 @@ public class ApplicationBean implements Serializable {
 
   public void setContext(String securityContextName) {
     this.securityContextName = securityContextName;
+  }
+
+  public String getApplicationVersionLink(ApplicationVersionRow version) {
+    return ApplicationDetailLink.getApplicationVersionLink(appName, securityContextName, version.getVersionNumber());
+  }
+
+  public String getNameFilter() {
+    return nameFilter;
+  }
+
+  public void setNameFilter(String nameFilter) {
+    this.nameFilter = nameFilter;
+  }
+
+  private boolean matchesNameFilter(String version) {
+    return nameFilter == null || nameFilter.isBlank() || Strings.CI.contains(version, nameFilter);
   }
 
   private static class ConfigViewBuilder {
