@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
-import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.enginecockpit.application.model.StateOfActivity;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
@@ -99,7 +98,7 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public ProjectRow toProjectRow(IProcessModelVersion pmv) {
-      var detailView = new ProcessModelVersion(pmv).getDetailView();
+    var detailView = ApplicationDetailLink.getProjectLink(pmv.getApplication().getName(), pmv.getApplication().getSecurityContext().getName(), pmv.getApplication().getVersion(), pmv.getName());
     return new ProjectRow(
             pmv.getName(),
             pmv.getLibraryVersion(),

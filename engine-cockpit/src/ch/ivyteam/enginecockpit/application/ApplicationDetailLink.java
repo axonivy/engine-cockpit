@@ -20,4 +20,14 @@ public class ApplicationDetailLink {
           .build()
           .toString();
   }
+
+  public static String getProjectLink(String appName, String securitySystemName, int version, String projectName) {
+    return UriBuilder.fromPath("project.xhtml")
+        .queryParam("context", securitySystemName)
+        .queryParam("app", appName)
+        .queryParam("version", version)
+        .queryParam("project", projectName)
+          .build()
+          .toString();
+  }
 }
