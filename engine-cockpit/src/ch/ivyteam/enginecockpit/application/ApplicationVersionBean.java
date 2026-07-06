@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
+import org.apache.commons.lang3.Strings;
+
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
@@ -31,6 +33,7 @@ public class ApplicationVersionBean implements Serializable {
   private String securityContextName;
   private String appName;
   private int appVersion;
+  private String nameFilter = "";
   
   private IApplication app;
   private List<ProjectRow> projects;
@@ -111,7 +114,17 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public List<ProjectRow> getProjectRows() {
-    return projects;
+    return projects.stream()
+        .filter(row -> matchesNameFilter(row.name()))
+        .collect(Collectors.toList());
+  }
+
+  public String getNameFilter() {
+    return nameFilter;
+  }
+
+  public void setNameFilter(String nameFilter) {
+    this.nameFilter = nameFilter;
   }
 
   public IApplication getApplication() {
@@ -196,6 +209,10 @@ public class ApplicationVersionBean implements Serializable {
     public String getDetailView() {
       return detailView;
     }
+  }
+
+  private boolean matchesNameFilter(String name) {
+    return nameFilter == null || nameFilter.isBlank() || Strings.CI.contains(name, nameFilter);
   }
 
   public static class AppState {
