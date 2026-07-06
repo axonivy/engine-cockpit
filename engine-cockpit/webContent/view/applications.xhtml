@@ -50,11 +50,13 @@
 
               <p:column headerText="Released" style="text-align: center; width: 100px;">
                 <h:outputLink value="#{app.releasedVersion.link}" rendered="#{app.releasedVersion != null}">
+                  <i class="ti ti-packages table-icon" />
                   <h:outputText value="#{app.releasedVersion.version}" />
                 </h:outputLink>
               </p:column>
 
               <p:column headerText="Archived" style="text-align: center; width: 150px;">
+                <i class="ti ti-packages table-icon" />
                 <ui:repeat value="#{app.archivedVersions}" var="archivedVersion" varStatus="status">
                   <h:outputLink value="#{archivedVersion.link}">
                     <h:outputText value="#{archivedVersion.version}" />

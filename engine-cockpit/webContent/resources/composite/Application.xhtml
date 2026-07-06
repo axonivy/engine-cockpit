@@ -73,6 +73,7 @@
               update="@form:versionsTable" />
             <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
               disabled="#{not empty version.isDeletable()}" actionListener="#{version.delete}"
+              action="#{cc.attrs.bean.onload}"
               update="@form:versionsTable" title="#{version.notDeletableMessage}"
               style="pointer-events: all" />
             <p:menuitem id="forceDeleteBtn" value="#{ivy.cm.co('/applications/ForceDeleteButtonTitle')}"

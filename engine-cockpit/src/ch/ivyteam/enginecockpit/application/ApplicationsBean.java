@@ -145,7 +145,7 @@ public class ApplicationsBean implements Serializable {
     }
 
     public String getLink() {
-      return ApplicationDetailLink.getApplicationDetailLink(applicationName, securityContextName);
+      return ApplicationDetailLink.getApplicationVersionLink(applicationName, securityContextName, Integer.parseInt(version));
     }
 
     @Override
