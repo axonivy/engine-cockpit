@@ -24,61 +24,65 @@
     </ui:define>
 
     <ui:define name="content">
-      <div class="card">
-        <h:form id="versionProjectsForm">
-          <p:growl id="applicationMessage" showDetail="true" />
-          <div class="flex align-items-center mb-3">
-            <i class="pr-3 ti ti-packages card-title-icon"></i>
-            <h2 class="m-0">Application Version</h2>
-            <h2 class="m-0 ml-2">#{applicationVersionBean.version}</h2>
-          </div>
-
-          <div class="table-search flex ui-fluid">
-            <span class="ui-input-icon-left filter-container">
-              <i class="ti ti-search"/>
-              <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}">
-                <p:ajax event="keyup" delay="300" update=":versionProjectsForm:projectsTable" />
-              </p:inputText>
-            </span>
-          </div>
-
-          <p:dataTable id="projectsTable" value="#{applicationVersionBean.projectRows}" var="row">
-            <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{row.name}">
-              <h:outputLink value="#{row.detailView}">
-                <h:outputText value="#{row.name}" />
-              </h:outputLink>
-            </p:column>
-
-            <p:column headerText="#{ivy.cm.co('/common/Version')}" sortBy="#{row.version}" style="width: 180px;">
-              <h:outputText value="#{row.version}" />
-            </p:column>
-
-            <p:column headerText="#{ivy.cm.co('/applications/LastChangeDate')}" sortBy="#{row.lastChanged}" style="width: 220px;">
-              <h:outputText value="#{row.lastChanged}" />
-            </p:column>
-
-            <p:column style="text-align: center; width: 100px;">
-              <p:commandButton icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"
-                styleClass="ui-button-danger rounded-button" process="@this"
-                actionListener="#{applicationVersionBean.deleteProject(row.name)}"
-                update=":versionProjectsForm:projectsTable :versionProjectsForm:applicationMessage" />
-            </p:column>
-          </p:dataTable>
-        </h:form>
-      </div>
-      <div class="grid">          
+      <div class="layout-dashboard">
+        <div class="grid">
           <div class="col-12 md:col-12 xl:col-6">
             <cc:Information id="information" />
           </div>
           <div class="col-12 md:col-12 xl:col-6">
-            <div class="grid">
-              <div class="col-12">
-                <cc:State id="state" />
-              </div>
+            <cc:State id="state" />
+          </div>
+          <div class="col-12 md:col-12 xl:col-12">
+            <div class="card">
+              <h:form id="versionProjectsForm">
+                <p:growl id="applicationMessage" showDetail="true" />
+
+                <div class="card-header">
+                  <div class="card-title flex align-items-center">
+                    <i class="pr-3 ti ti-packages card-title-icon"></i>
+                    <h6 class="m-0">Projects</h6>
+                  </div>
+                </div>
+
+                <div class="table-search flex ui-fluid">
+                  <span class="ui-input-icon-left filter-container">
+                    <i class="ti ti-search" />
+                    <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}">
+                      <p:ajax event="keyup" delay="300" update=":versionProjectsForm:projectsTable" />
+                    </p:inputText>
+                  </span>
+                </div>
+
+                <p:dataTable id="projectsTable" value="#{applicationVersionBean.projectRows}" var="row">
+                  <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{row.name}">
+                    <h:outputLink value="#{row.detailView}">
+                      <h:outputText value="#{row.name}" />
+                    </h:outputLink>
+                  </p:column>
+
+                  <p:column headerText="#{ivy.cm.co('/common/Version')}" sortBy="#{row.version}" style="width: 180px;">
+                    <h:outputText value="#{row.version}" />
+                  </p:column>
+
+                  <p:column headerText="#{ivy.cm.co('/applications/LastChangeDate')}" sortBy="#{row.lastChanged}"
+                    style="width: 220px;">
+                    <h:outputText value="#{row.lastChanged}" />
+                  </p:column>
+
+                  <p:column style="text-align: center; width: 100px;">
+                    <p:commandButton icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"
+                      styleClass="ui-button-danger rounded-button" process="@this"
+                      actionListener="#{applicationVersionBean.deleteProject(row.name)}"
+                      update=":versionProjectsForm:projectsTable :versionProjectsForm:applicationMessage" />
+                  </p:column>
+                </p:dataTable>
+              </h:form>
             </div>
           </div>
         </div>
+      </div>
     </ui:define>
   </ui:composition>
 </h:body>
+
 </html>
