@@ -1,6 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:p="http://primefaces.org/ui" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
+  xmlns:p="http://primefaces.org/ui" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite"
+  xmlns:ccc="http://xmlns.jcp.org/jsf/composite/composite">
 <h:body>
   <f:metadata>
     <f:viewParam name="context" value="#{applicationVersionBean.context}" />
@@ -41,6 +42,10 @@
                   <div class="card-title flex align-items-center">
                     <i class="pr-3 ti ti-packages card-title-icon"></i>
                     <h6 class="m-0">Projects</h6>
+                    <p:commandButton icon="ti ti-upload" title="#{ivy.cm.co('/common/Deployment')}" value="#{ivy.cm.co('/common/Deployment')}"
+                        styleClass="ml-auto ui-button-primary" process="@this"
+                        actionListener="#{deploymentBean.setAppNameAndVersion(applicationVersionBean.context, applicationVersionBean.app, applicationVersionBean.version)}"
+                        update=":deployPanel" oncomplete="PF('fileUploadModal').show();" />
                   </div>
                 </div>
 
@@ -81,6 +86,9 @@
           </div>
         </div>
       </div>
+      <h:panelGroup id="deployPanel">
+        <cc:Deployment id="deployment" />
+      </h:panelGroup>
     </ui:define>
   </ui:composition>
 </h:body>
