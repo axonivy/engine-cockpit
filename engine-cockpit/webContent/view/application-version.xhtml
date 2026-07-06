@@ -44,7 +44,9 @@
 
           <p:dataTable id="projectsTable" value="#{applicationVersionBean.projectRows}" var="row">
             <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{row.name}">
-              <h:outputText value="#{row.name}" />
+              <h:outputLink value="#{row.detailView}">
+                <h:outputText value="#{row.name}" />
+              </h:outputLink>
             </p:column>
 
             <p:column headerText="#{ivy.cm.co('/common/Version')}" sortBy="#{row.version}" style="width: 180px;">

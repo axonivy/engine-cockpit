@@ -8,77 +8,79 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
-import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
 @Named
 @ViewScoped
-public class PmvDetailBean implements Serializable {
-
+public class ProjectBean implements Serializable {
+  
+  private String securityContextName;
   private String appName;
   private String appVersion;
-  private String pmvName;
-  private final ManagerBean managerBean;
+  private String project;
   private ProcessModelVersion pmv;
   private String deployedProject;
   private List<ProcessModelVersion> dependendPmvs;
   private List<ProcessModelVersion> requriedPmvs;
 
-  public PmvDetailBean() {
-    managerBean = ManagerBean.instance();
+
+  public void setProject(String project) {
+    this.project = project;
   }
 
-  public void setPmvName(String pmvName) {
-    this.pmvName = pmvName;
+  public String getProject() {
+    return project;
   }
 
-  public String getPmvName() {
-    return pmvName;
+  public String getContext() {
+    return securityContextName;
   }
 
-  public void setAppName(String appName) {
+  public void setContext(String securityContextName) {
+    this.securityContextName = securityContextName;
+  }
+
+  public void setApp(String appName) {
     this.appName = appName;
   }
 
-  public String getAppName() {
+  public String getApp() {
     return appName;
   }
 
-  public void setAppVersion(String appVersion) {
+  public void setVersion(String appVersion) {
     this.appVersion = appVersion;
   }
 
-  public String getAppVersion() {
+  public String getVersion() {
     return appVersion;
   }
 
   public void onload() {
-    if (appName == null) {
-      ResponseHelper.notFound("appName not set");
-      return;
-    }
-    if (appVersion == null) {
-      ResponseHelper.notFound("appVersion not set");
-      return;
-    }
-    if (pmvName == null) {
-      ResponseHelper.notFound("pmvName not set");
-      return;
-    }
-
-    managerBean.reloadApplications();
-
-    var app = IApplicationRepository.instance().findByNameAndVersion(appName, Integer.parseInt(appVersion)).stream()
+    var securityContext = ISecurityContextRepository.instance().all().stream()
+        .filter(context -> securityContextName.equals(context.getName()))
         .findAny()
         .orElse(null);
-    if (app == null) {
-      ResponseHelper.notFound("app notn found");
+    if (securityContext == null) {
+      ResponseHelper.notFound("Security context not found: " + securityContextName);
       return;
     }
 
-    var iPmv = app.findProcessModelVersion(pmvName);
+    var apps = IApplicationRepository.of(securityContext);
+    var app = apps.all().stream()
+          .filter(a -> a.getName().equals(appName))
+          .filter(a -> String.valueOf(a.getVersion()).equals(appVersion))
+          .findAny()
+          .orElse(null);
+    if (app == null) {
+      ResponseHelper.notFound("Application '" + appName + "' with version '" + appVersion + "' not found");
+      return;
+    }
+
+    var iPmv = app.findProcessModelVersion(project);
     if (iPmv == null) {
-      ResponseHelper.notFound("Process Model Version '" + pmvName + "' for version '" + appVersion + "' in app '" + appName + "' not found");
+      ResponseHelper.notFound("Process Model Version '" + project + "' for version '" + appVersion + "' in app '" + appName + "' not found");
       return;
     }
 
@@ -108,6 +110,6 @@ public class PmvDetailBean implements Serializable {
   }
 
   public String getApplicationDetailLink() {
-    return ApplicationDetailLink.getApplicationDetailLink(appName, managerBean.getSelectedSecuritySystem().getSecuritySystemName());
+    return ApplicationDetailLink.getApplicationDetailLink(appName, securityContextName);
   }
 }
