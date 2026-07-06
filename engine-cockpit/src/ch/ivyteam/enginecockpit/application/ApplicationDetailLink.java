@@ -11,4 +11,13 @@ public class ApplicationDetailLink {
           .build()
           .toString();
   }
+
+  public static String getApplicationVersionLink(String appName, String securitySystemName, int version) {
+    return UriBuilder.fromPath("application-version.xhtml")
+        .queryParam("context", securitySystemName)
+        .queryParam("app", appName)
+        .queryParam("version", version)
+          .build()
+          .toString();
+  }
 }
