@@ -3,11 +3,10 @@ package ch.ivyteam.enginecockpit.services.notification;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 import jakarta.ws.rs.core.UriBuilder;
 
-import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
+import ch.ivyteam.enginecockpit.application.ApplicationDetailLink;
 import ch.ivyteam.enginecockpit.security.model.SecurityMember;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.notification.Notification;
@@ -56,14 +55,16 @@ public class NotificationDto {
   }
 
   public String getPmvIcon() {
-    return pmv()
-        .map(ProcessModelVersion::getIcon)
-        .orElse("");
+    return "ti ti-packages";
   }
 
   public String getPmvUri() {
-    return pmv()
-        .map(ProcessModelVersion::getDetailView)
+    return notification.pmv()
+      .map(pmv -> ApplicationDetailLink.getProjectLink(
+        pmv.getApplication().getName(),
+        pmv.getApplication().getSecurityContext().getName(),
+        pmv.getApplication().getVersion(),
+        pmv.getName()))
         .orElse("");
   }
 
@@ -93,10 +94,5 @@ public class NotificationDto {
 
   public void retry() {
     notification.retry();
-  }
-
-  private Optional<ProcessModelVersion> pmv() {
-    return notification.pmv()
-        .map(ProcessModelVersion::new);
   }
 }

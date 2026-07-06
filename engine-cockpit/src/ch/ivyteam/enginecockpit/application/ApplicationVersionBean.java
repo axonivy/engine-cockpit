@@ -8,13 +8,12 @@ import java.util.stream.Collectors;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
-import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
-import ch.ivyteam.enginecockpit.application.model.StateOfActivity;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.ivy.application.ActivityOperationState;
 import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
@@ -36,7 +35,7 @@ public class ApplicationVersionBean implements Serializable {
   private IApplication app;
   private List<ProjectRow> projects;
   private ISecurityContext securityContext;
-  private StateOfActivity state;
+  private AppState state;
  
   private final ManagerBean managerBean;
 
@@ -94,12 +93,12 @@ public class ApplicationVersionBean implements Serializable {
         .sorted(Comparator.comparing(ProjectRow::name, String.CASE_INSENSITIVE_ORDER))
         .collect(Collectors.toList());
 
-    state = new StateOfActivity(app);
+    state = new AppState(app);
     state.updateReleaseState(app.getReleaseState());
   }
 
   public ProjectRow toProjectRow(IProcessModelVersion pmv) {
-      var detailView = new ProcessModelVersion(pmv).getDetailView();
+    var detailView = ApplicationDetailLink.getProjectLink(pmv.getApplication().getName(), pmv.getApplication().getSecurityContext().getName(), pmv.getApplication().getVersion(), pmv.getName());
     return new ProjectRow(
             pmv.getName(),
             pmv.getLibraryVersion(),
@@ -147,7 +146,7 @@ public class ApplicationVersionBean implements Serializable {
     return app.getActivityState() == ActivityState.INACTIVE;
   }
 
-  public StateOfActivity getState() {
+  public AppState getState() {
     return state;
   }
 
@@ -198,5 +197,102 @@ public class ApplicationVersionBean implements Serializable {
       return detailView;
     }
   }
+
+  public static class AppState {
+    private String activityState;
+    private String activityStateIcon;
+    private String operation;
+    private String operationIcon;
+    private boolean processing;
+    private String releaseStateIcon;
+
+
+    public AppState() {
+      updateState(null);
+      updateOperation(null);
+    }
+
+    public AppState(IApplication activity) {
+      updateState(activity.getActivityState());
+      updateOperation(activity.getActivityOperationState());
+    }
+
+    public String getState() {
+      return activityState;
+    }
+
+    public String getStateCssClass() {
+      return activityState.toLowerCase();
+    }
+
+    public String getStateIcon() {
+      return activityStateIcon;
+    }
+
+    public String getOperation() {
+      return operation;
+    }
+
+    public String getReleaseStateIcon() {
+      return releaseStateIcon;
+    }
+
+    public String getOperationCssClass() {
+      return operation.toLowerCase();
+    }
+
+    public String getOperationIcon() {
+      return operationIcon;
+    }
+
+    public boolean isProcessing() {
+      return processing;
+    }
+
+    private void updateState(ActivityState update) {
+      if (update == null) {
+        update = ActivityState.INACTIVE;
+      }
+      this.activityState = update.name();
+      switch (update) {
+        case ACTIVE -> this.activityStateIcon = "ti ti-circle-check";
+        default -> this.activityStateIcon = "ti ti-player-pause";
+      }
+      ;
+    }
+
+    private void updateOperation(ActivityOperationState update) {
+      if (update == null) {
+        update = ActivityOperationState.INACTIVE;
+      }
+      this.operation = update.name();
+      this.processing = false;
+      switch (update) {
+        case ACTIVE -> this.operationIcon = "ti ti-circle-check";
+        case INACTIVE -> this.operationIcon = "ti ti-player-pause";
+        case ERROR -> this.operationIcon = "ti ti-circle-minus";
+        default -> {
+          this.operationIcon = "ti ti-refresh spinning";
+          this.processing = true;
+        }
+      }
+      ;
+    }
+
+    public void updateReleaseState(ReleaseState update) {
+      if (update == null) {
+        update = ReleaseState.DELETED;
+      }
+      switch (update) {
+        case RELEASED -> this.releaseStateIcon = "ti ti-circle-check";
+        case DEPRECATED -> this.releaseStateIcon = "ti ti-circle-half-vertical";
+        case ARCHIVED -> this.releaseStateIcon = "ti ti-archive";
+        case CREATED, PREPARED -> this.releaseStateIcon = "ti ti-speakerphone";
+        default -> this.releaseStateIcon = "ti ti-help-circle";
+      }
+      ;
+    }
+  }
+
   
 }
