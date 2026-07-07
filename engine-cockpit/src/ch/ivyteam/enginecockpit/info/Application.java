@@ -1,19 +1,16 @@
 package ch.ivyteam.enginecockpit.info;
 
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.link.AppLink;
 
-public class Application {
-
-  private final IApplication app;
-  private final String name;
-  private final boolean devMode;
+public record Application(String name, boolean devMode, String homeUrl, String devWorkflowUrl) {
 
   public Application(IApplication app) {
-    this.app = app;
-    this.name = app.getName();
-    this.devMode = app.getSecurityContext().isDevMode();
+    var name = app.getName();
+    var devMode = app.getSecurityContext().isDevMode();
+    var homeUrl = AppLink.home(app).getRelative();
+    var devWorkflowUrl = AppLink.devWorkflow(app).getRelative();
+    this(name, devMode, homeUrl, devWorkflowUrl);
   }
 
   public String getName() {
@@ -21,15 +18,11 @@ public class Application {
   }
 
   public String getHomeUrl() {
-    return AppLink.home(app).getRelative();
+    return homeUrl;
   }
 
   public String getDevWorkflowUrl() {
-    return AppLink.devWorkflow(app).getRelative();
-  }
-
-  public boolean isDisabled() {
-    return app.getReleaseState() != ReleaseState.RELEASED;
+    return devWorkflowUrl;
   }
 
   public boolean isDevMode() {

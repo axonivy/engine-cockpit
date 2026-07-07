@@ -5,15 +5,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.context.FacesContext;
-import jakarta.inject.Named;
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.primefaces.PrimeFaces;
 
 import ch.ivyteam.ivy.Advisor;
+import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -22,6 +19,10 @@ import ch.ivyteam.ivy.security.context.EngineCockpitUrlPath;
 import ch.ivyteam.ivy.security.context.SecurityContextUrlPath;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Named
 @RequestScoped
@@ -32,6 +33,7 @@ public class EngineInfo {
 
   public EngineInfo() {
     applications = IApplicationRepository.instance().all().stream()
+        .filter(app -> app.getReleaseState() == ReleaseState.RELEASED && app.getActivityState() == ActivityState.ACTIVE)
         .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
         .map(Application::new)
         .filter(this::isNotInDevMode)
