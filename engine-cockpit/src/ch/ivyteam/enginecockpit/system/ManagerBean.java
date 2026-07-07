@@ -9,14 +9,10 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.context.FacesContext;
-import jakarta.inject.Named;
-
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.TabChangeEvent;
 
 import ch.ivyteam.enginecockpit.application.ApplicationDetailLink;
-import ch.ivyteam.enginecockpit.application.model.WebServiceProcess;
 import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.system.SecurityBean;
@@ -25,8 +21,13 @@ import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
+import ch.ivyteam.ivy.workflow.IWebServiceProcess;
+import ch.ivyteam.ivy.workflow.IWebServiceProcessStartElement;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
 
 @Named
 @SessionScoped
@@ -159,7 +160,7 @@ public class ManagerBean implements Serializable {
   }
 
     @SuppressWarnings("deprecation")
-    public List<WebServiceProcess> getWebServiceProcesses() {
+  public List<WebServiceProcess> getWebServiceProcesses() {
     if (webServiceProcesses == null) {
       webServiceProcesses = getSelectedApplication().getProcessModelVersions()
           .map(IWorkflowProcessModelVersion::of)
@@ -232,5 +233,42 @@ public class ManagerBean implements Serializable {
 
   public String getConfigLogUrl() {
     return LogView.uri().fileName("config").toUri();
+  }
+
+  public static class WebServiceProcess {
+
+    private final String link;
+    private final String processName;
+    private final String name;
+
+    public WebServiceProcess(IWebServiceProcess ws) {
+      link = ws.getWsdlUri().toString();
+      processName = toProcessName(ws);
+      name = ws.getName();
+    }
+
+    public String getLink() {
+      return link;
+    }
+
+    public String getProcessName() {
+      return processName;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    private static String toProcessName(IWebServiceProcess ws) {
+      var processIdentifier = ws.getProcessIdentifier();
+      return ws.getWebServiceProcessStartElements().stream().findFirst()
+          .map(start -> toProcessName(start, processIdentifier))
+          .orElse(processIdentifier);
+    }
+
+    private static String toProcessName(IWebServiceProcessStartElement start, String processIdentifier) {
+      var path = start.getUserFriendlyRequestPath();
+      return StringUtils.substring(path, 0, path.indexOf(processIdentifier) - 1);
+    }
   }
 }
