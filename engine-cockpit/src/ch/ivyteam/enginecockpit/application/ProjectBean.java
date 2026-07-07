@@ -110,6 +110,14 @@ public class ProjectBean implements Serializable {
     return getLink(context, appName, version, projectName);
   }
 
+  public String getApplicationLink() {
+    return ApplicationBean.getLink(context, appName);
+  }
+
+  public String getApplicationVersionLink() {
+    return ApplicationVersionBean.getLink(context, appName, version);
+  }
+
   public String getDeployedProject() {
     return deployedProject;
   }
