@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.Strings;
 
@@ -40,9 +41,9 @@ import ch.ivyteam.ivy.workflow.standard.StandardProcessStartFinder;
 public class ApplicationBean implements Serializable {
 
   private String appName;
-  private String securityContextName;
+  private String contextName;
 
-  private ISecurityContext securityContext;
+  private ISecurityContext context;
   private IApplication app;
   private ConfigViewImpl configView;
 
@@ -51,16 +52,16 @@ public class ApplicationBean implements Serializable {
   private String nameFilter = "";
 
   public void onload() {
-    securityContext = ISecurityContextRepository.instance().all().stream()
-        .filter(context -> securityContextName.equals(context.getName()))
+    context = ISecurityContextRepository.instance().all().stream()
+        .filter(context -> contextName.equals(context.getName()))
         .findAny()
         .orElse(null);
-    if (securityContext == null) {
-      ResponseHelper.notFound("Security context not found: " + securityContextName);
+    if (context == null) {
+      ResponseHelper.notFound("Security context not found: " + contextName);
       return;
     }
 
-    var apps = IApplicationRepository.of(securityContext);
+    var apps = IApplicationRepository.of(context);
     app = apps.findReleasedByName(appName);
 
     if (app == null) {
@@ -95,7 +96,7 @@ public class ApplicationBean implements Serializable {
   }
 
   public SecuritySystem getSecuritySystem() {
-    return new SecuritySystem(securityContext);
+    return new SecuritySystem(context);
   }
 
   public ConfigViewImpl getConfigView() {
@@ -105,7 +106,7 @@ public class ApplicationBean implements Serializable {
   public void createVersion() {
     try {
       IApplicationRepository
-          .of(securityContext)
+          .of(context)
           .create(NewApplication.create(app.getName()).toNewApplication());
       onload();
     } catch (RuntimeException ex) {
@@ -137,15 +138,23 @@ public class ApplicationBean implements Serializable {
   }
 
   public String getContext() {
-    return securityContextName;
+    return contextName;
   }
 
-  public void setContext(String securityContextName) {
-    this.securityContextName = securityContextName;
+  public void setContext(String contextName) {
+    this.contextName = contextName;
   }
 
-  public String getApplicationVersionLink(ApplicationVersionRow version) {
-    return ApplicationDetailLink.getApplicationVersionLink(appName, securityContextName, version.getVersionNumber());
+  public String getLink(ApplicationVersionRow version) {
+    return ApplicationVersionBean.getLink(contextName, appName, version.getVersionNumber());
+  }
+
+  public static String getLink(String context, String app) {
+    return UriBuilder.fromPath("application.xhtml")
+        .queryParam("context", context)
+        .queryParam("app", app)
+        .build()
+        .toString();
   }
 
   public String getNameFilter() {

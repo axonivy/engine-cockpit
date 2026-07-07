@@ -6,7 +6,7 @@ import java.util.Locale;
 
 import jakarta.ws.rs.core.UriBuilder;
 
-import ch.ivyteam.enginecockpit.application.ApplicationDetailLink;
+import ch.ivyteam.enginecockpit.application.ProjectBean;
 import ch.ivyteam.enginecockpit.security.model.SecurityMember;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.notification.Notification;
@@ -60,9 +60,9 @@ public class NotificationDto {
 
   public String getPmvUri() {
     return notification.pmv()
-      .map(pmv -> ApplicationDetailLink.getProjectLink(
-        pmv.getApplication().getName(),
+      .map(pmv -> ProjectBean.getLink(
         pmv.getApplication().getSecurityContext().getName(),
+        pmv.getApplication().getName(),
         pmv.getApplication().getVersion(),
         pmv.getName()))
         .orElse("");
