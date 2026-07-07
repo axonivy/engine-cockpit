@@ -13,7 +13,7 @@ import jakarta.inject.Named;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.application.ApplicationDetailLink;
+import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.application.model.App;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.application.security.SecurityContextRemovalCheck;
@@ -85,7 +85,7 @@ public class SecurityConfigBean implements Serializable {
   }
 
   public String getApplicationDetailLink(App app) {
-    return ApplicationDetailLink.getApplicationDetailLink(app.name(), getSecuritySystemName());
+    return ApplicationBean.getLink(getSecuritySystemName(), app.name());
   }
 
   public boolean isDeletable() {

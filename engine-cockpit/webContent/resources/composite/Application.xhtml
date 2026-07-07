@@ -29,7 +29,7 @@
       </div>
       <p:dataTable id="versionsTable" value="#{cc.attrs.bean.applicationVersions}" var="version" rowIndexVar="idx">
         <p:column headerText="#{ivy.cm.co('/common/Version')}">
-          <h:outputLink value="#{cc.attrs.bean.getApplicationVersionLink(version)}">
+          <h:outputLink value="#{cc.attrs.bean.getLink(version)}">
             <i class="ti ti-packages table-icon" />
             <h:outputText value="#{version.version}" />
           </h:outputLink>

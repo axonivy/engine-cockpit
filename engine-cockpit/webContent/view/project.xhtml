@@ -16,9 +16,9 @@
     <ui:define name="breadcrumb">
       <li><a href="applications.xhtml">#{ivy.cm.co('/common/Applications')}</a></li>
       <li>/</li>
-      <li><a href="#{projectBean.applicationDetailLink}">#{projectBean.app}</a></li>
+      <li><a href="#{projectBean.link}">#{projectBean.app}</a></li>
       <li>/</li>
-      <li><a href="#{projectBean.project.detailView}">#{projectBean.project.name}</a></li>
+      <li><a href="#{projectBean.project.link}">#{projectBean.project.name}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -64,7 +64,7 @@
               <p:dataTable id="dependentProjectsTable" var="project" value="#{projectBean.dependentProjects}"
                 emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', projectBean.project.name).get()}">
                 <p:column headerText="#{ivy.cm.co('/pmvDetail/PMV')}">
-                  <h:outputLink value="#{project.detailView}">
+                  <h:outputLink value="#{project.link}">
                     <h:outputText value="#{project.name}" title="#{project.libraryId}">
                       <i class="ti ti-packages" style="margin-right: 5px;" />
                     </h:outputText>
@@ -88,7 +88,7 @@
               <p:dataTable id="requiredPmvTable" var="project" value="#{projectBean.requiredProjects}"
                 emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', projectBean.project.name).get()}">
                 <p:column headerText="Projects">
-                  <h:outputLink value="#{project.detailView}">
+                  <h:outputLink value="#{project.link}">
                     <h:outputText value="#{project.name}" title="#{project.libraryId}">
                       <i class="ti ti-packages" style="margin-right: 5px;" />
                     </h:outputText>

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
+import jakarta.ws.rs.core.UriBuilder;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
@@ -95,6 +96,20 @@ public class ProjectBean implements Serializable {
     return project;
   }
 
+  public static String getLink(String context, String app, int version, String project) {
+    return UriBuilder.fromPath("project.xhtml")
+        .queryParam("context", context)
+        .queryParam("app", app)
+        .queryParam("version", version)
+        .queryParam("project", project)
+        .build()
+        .toString();
+  }
+
+  public String getLink() {
+    return getLink(context, appName, version, projectName);
+  }
+
   public String getDeployedProject() {
     return deployedProject;
   }
@@ -105,10 +120,6 @@ public class ProjectBean implements Serializable {
 
   public List<ProjectDto> getRequiredProjects() {
     return requiredProjects;
-  }
-
-  public String getApplicationDetailLink() {
-    return ApplicationDetailLink.getApplicationDetailLink(appName, context);
   }
 
   public static class ProjectDto {
@@ -125,9 +136,12 @@ public class ProjectBean implements Serializable {
       return project.getName();
     }
 
-    public String getDetailView() {
-      return ApplicationDetailLink.getProjectLink(project.getApplication().getName(),
-          project.getApplication().getSecurityContext().getName(), project.getApplication().getVersion(), project.getName());
+    public String getLink() {
+      return ProjectBean.getLink(
+          project.getApplication().getSecurityContext().getName(),
+          project.getApplication().getName(),
+          project.getApplication().getVersion(),
+          project.getName());
     }
 
     public String getQualifiedVersion() {

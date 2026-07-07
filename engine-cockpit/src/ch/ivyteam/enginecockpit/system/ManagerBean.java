@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.TabChangeEvent;
 
-import ch.ivyteam.enginecockpit.application.ApplicationDetailLink;
+import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.system.SecurityBean;
@@ -137,7 +137,7 @@ public class ManagerBean implements Serializable {
   }
 
   public String getSelectedApplicationDetailLink() {
-   return ApplicationDetailLink.getApplicationDetailLink(getSelectedApplication().getName(), getSelectedSecuritySystem().getSecuritySystemName());
+    return ApplicationBean.getLink(getSelectedSecuritySystem().getSecuritySystemName(), getSelectedApplicationName());
   }
 
   public IApplicationRepository apps() {

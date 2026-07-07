@@ -130,13 +130,13 @@ public class ApplicationsBean implements Serializable {
 
   public static class ApplicationVersion {
 
-    private final String securityContextName;
-    private final String applicationName;
+    private final String context;
+    private final String app;
     private final String version;
 
-    public ApplicationVersion(String securityContextName, String applicationName, String version) {
-      this.securityContextName = securityContextName;
-      this.applicationName = applicationName;
+    public ApplicationVersion(String context, String app, String version) {
+      this.context = context;
+      this.app = app;
       this.version = version;
     }
 
@@ -145,7 +145,7 @@ public class ApplicationsBean implements Serializable {
     }
 
     public String getLink() {
-      return ApplicationDetailLink.getApplicationVersionLink(applicationName, securityContextName, Integer.parseInt(version));
+      return ApplicationVersionBean.getLink(context, app, Integer.parseInt(version));
     }
 
     @Override

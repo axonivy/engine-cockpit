@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.Strings;
 
@@ -30,14 +31,14 @@ import ch.ivyteam.ivy.security.ISecurityContextRepository;
 @ViewScoped
 public class ApplicationVersionBean implements Serializable {
 
-  private String securityContextName;
+  private String contextName;
   private String appName;
   private int appVersion;
   private String nameFilter = "";
   
   private IApplication app;
   private List<ProjectRow> projects;
-  private ISecurityContext securityContext;
+  private ISecurityContext context;
   private AppState state;
  
   private final ManagerBean managerBean;
@@ -46,12 +47,12 @@ public class ApplicationVersionBean implements Serializable {
     managerBean = ManagerBean.instance();
   }
 
-  public void setContext(String securityContextName) {
-    this.securityContextName = securityContextName;
+  public void setContext(String contextName) {
+    this.contextName = contextName;
   }
 
   public String getContext() {
-    return securityContextName;
+    return contextName;
   }
 
   public void setApp(String appName) {
@@ -71,16 +72,16 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public void onload() {
-    securityContext = ISecurityContextRepository.instance().all().stream()
-        .filter(context -> securityContextName.equals(context.getName()))
+    context = ISecurityContextRepository.instance().all().stream()
+        .filter(context -> contextName.equals(context.getName()))
         .findAny()
         .orElse(null);
-    if (securityContext == null) {
-      ResponseHelper.notFound("Security context not found: " + securityContextName);
+    if (context == null) {
+      ResponseHelper.notFound("Security context not found: " + contextName);
       return;
     }
 
-    app =  IApplicationRepository.of(securityContext).all().stream()
+    app =  IApplicationRepository.of(context).all().stream()
         .filter(app -> app.getName().equals(appName))
         .filter(app -> appVersion == app.getVersion())
         .findAny()
@@ -101,16 +102,24 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public ProjectRow toProjectRow(IProcessModelVersion pmv) {
-    var detailView = ApplicationDetailLink.getProjectLink(pmv.getApplication().getName(), pmv.getApplication().getSecurityContext().getName(), pmv.getApplication().getVersion(), pmv.getName());
     return new ProjectRow(
             pmv.getName(),
             pmv.getLibraryVersion(),
         DateUtil.formatDate(pmv.getLastChangeDate()),
-        detailView);
+        ProjectBean.getLink(contextName, appName, appVersion, pmv.getName()));
   }
 
-  public String getAppLink() {
-    return ApplicationDetailLink.getApplicationDetailLink(app.getName(), securityContextName);
+  public static String getLink(String context, String app, int version) {
+    return UriBuilder.fromPath("application-version.xhtml")
+        .queryParam("context", context)
+        .queryParam("app", app)
+        .queryParam("version", version)
+        .build()
+        .toString();
+  }
+
+  public String getLink() {
+    return getLink(contextName, appName, appVersion);
   }
 
   public List<ProjectRow> getProjectRows() {
@@ -148,7 +157,7 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public SecuritySystem getSecuritySystem() {
-    return new SecuritySystem(securityContext);
+    return new SecuritySystem(context);
   }
 
   public boolean isNotStartable() {
@@ -193,7 +202,7 @@ public class ApplicationVersionBean implements Serializable {
     }
   }
 
-  public static record ProjectRow(String name, String version, String lastChanged, String detailView) {
+  public static record ProjectRow(String name, String version, String lastChanged, String link) {
     public String getName() {
       return name; 
     }
@@ -206,8 +215,8 @@ public class ApplicationVersionBean implements Serializable {
       return lastChanged; 
     }
 
-    public String getDetailView() {
-      return detailView;
+    public String getLink() {
+      return link;
     }
   }
 
