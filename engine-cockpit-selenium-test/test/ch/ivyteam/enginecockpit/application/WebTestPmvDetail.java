@@ -41,10 +41,10 @@ class WebTestPmvDetail {
 
   @Test
   void pmvDependencies() {
-    Table depTable = new Table(By.id("dependentPmvTable"), true);
+    Table depTable = new Table(By.id("dependentProjectsTable"), true);
     depTable.firstColumnShouldBe(textsInAnyOrder("custom"));
 
-    Table reqTable = new Table(By.id("requriedPmvTable"), true);
+    Table reqTable = new Table(By.id("requiredProjectsTable"), true);
     reqTable.firstColumnShouldBe(texts("core"));
   }
 }

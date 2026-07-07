@@ -985,25 +985,25 @@ permissions:
 pmvDetail:
   ActivityState: Activity state
   AllDirectIndirectRequiredLibrariesAvailableMessage: All direct and indirect required libraries are available in the system.
-  AllPMVsDependingOnPMV: All PMVs depending on this PMV
-  AllPMVsRequiredByPMV: All PMVs required by this PMV
-  DependentPMVTableEmptyMessage: The PMV '${name}' has no dependend PMVs.
+  AllPMVsDependingOnPMV: All Projects depending on this Project
+  AllPMVsRequiredByPMV: All Projects required by this Project
+  DependentPMVTableEmptyMessage: The Project '${name}' has no dependent Projects.
   Id: Id
-  LastDeployed: Last deployed
+  LastDeployed: Last changed
   NoProjectFoundForSpecificationMessage: No project could be found for this specification.
   NotAllDirectIndirectRequiredLibrariesAvailableMessage: Not all direct and indirect required libraries are available in the system.
-  PMV: PMV
-  PMVInformation: PMV information
+  PMV: Projects
+  PMVInformation: Project information
   PMVResolvedForSpecificationMessage: '''${name}'' resolved for this specification'
   Project: Project
   ProjectVersion: Project Version
   ReleaseState: Release state
-  RequriedPMVTableEmptyMessage: The PMV '${name}' has no required PMVs.
+  RequriedPMVTableEmptyMessage: The Project '${name}' has no required Projects.
   Resolved: Resolved
-  ResolvedPMV: Resolved PMV
+  ResolvedPMV: Resolved Project
   SpecifiedRequiredProjects: Specified required projects
   SpecifiedRequiredProjectsMessage: Although some required projects are specified!
-  SpecifiedTableEmptyMessage: The PMV '${name}' has no specified required projects.
+  SpecifiedTableEmptyMessage: The Project '${name}' has no specified required projects.
 poll:
   LastPollError: Last Poll Error
   NextPoll: Next Poll

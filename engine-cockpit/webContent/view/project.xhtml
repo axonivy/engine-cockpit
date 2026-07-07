@@ -7,7 +7,7 @@
     <f:viewParam name="context" value="#{projectBean.context}" />
     <f:viewParam name="app" value="#{projectBean.app}" />
     <f:viewParam name="version" value="#{projectBean.version}" />
-    <f:viewParam name="project" value="#{projectBean.project}" />
+    <f:viewParam name="project" value="#{projectBean.projectName}" />
     <f:viewAction action="#{projectBean.onload}" />
   </f:metadata>
 
@@ -18,11 +18,11 @@
       <li>/</li>
       <li><a href="#{projectBean.applicationDetailLink}">#{projectBean.app}</a></li>
       <li>/</li>
-      <li><a href="#{projectBean.pmv.detailView}">#{projectBean.pmv.name}</a></li>
+      <li><a href="#{projectBean.project.detailView}">#{projectBean.project.name}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
-      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}applications.html#pmv-detail" />
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}applications.html#project" />
     </ui:define>
 
     <ui:define name="content">
@@ -40,20 +40,20 @@
               <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
                 styleClass="grey-label-panel ui-fluid">
                 <label>#{ivy.cm.co('/common/Name')}</label>
-                <h:outputText value="#{projectBean.pmv.name}" />
+                <h:outputText value="#{projectBean.project.name}" />
                 <label>Library ID</label>
-                <h:outputText value="#{projectBean.pmv.libraryId}" />
+                <h:outputText value="#{projectBean.project.libraryId}" />
                 <label>Library #{ivy.cm.co('/common/Version')}</label>
-                <h:outputText value="#{projectBean.pmv.libraryVersion}" />
+                <h:outputText value="#{projectBean.project.libraryVersion}" />
                 <label>#{ivy.cm.co('/pmvDetail/LastDeployed')}</label>
-                <h:outputText value="#{projectBean.pmv.lastChanged}" />
+                <h:outputText value="#{projectBean.project.lastChanged}" />
                 <label>#{ivy.cm.co('/pmvDetail/ProjectVersion')}</label>
-                <h:outputText value="#{projectBean.pmv.projectVersion}" />
+                <h:outputText value="#{projectBean.project.projectVersion}" />
               </p:panelGrid>
             </div>
           </div>
 
-          <div class="col-12">
+          <div class="col-6">
             <div class="card">
               <div class="card-header">
                 <div class="card-title flex align-items-center">
@@ -61,23 +61,23 @@
                   <h6 class="m-0">#{ivy.cm.co('/pmvDetail/AllPMVsDependingOnPMV')}</h6>
                 </div>
               </div>
-              <p:dataTable id="dependentPmvTable" var="pmv" value="#{projectBean.dependentPmvs}"
-                emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', projectBean.pmv.name).get()}">
+              <p:dataTable id="dependentProjectsTable" var="project" value="#{projectBean.dependentProjects}"
+                emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', projectBean.project.name).get()}">
                 <p:column headerText="#{ivy.cm.co('/pmvDetail/PMV')}">
-                  <h:outputLink value="#{pmv.detailView}">
-                    <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
-                      <i class="#{pmv.icon}" style="margin-right: 5px;" />
+                  <h:outputLink value="#{project.detailView}">
+                    <h:outputText value="#{project.name}" title="#{project.libraryId}">
+                      <i class="ti ti-packages" style="margin-right: 5px;" />
                     </h:outputText>
                   </h:outputLink>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/Version')}">
-                  <h:outputText value="#{pmv.qualifiedVersion}" />
+                  <h:outputText value="#{project.qualifiedVersion}" />
                 </p:column>   
               </p:dataTable>
             </div>
           </div>
 
-          <div class="col-12">
+          <div class="col-6">
             <div class="card">
               <div class="card-header">
                 <div class="card-title flex align-items-center">
@@ -85,17 +85,17 @@
                   <h6 class="m-0">#{ivy.cm.co('/pmvDetail/AllPMVsRequiredByPMV')}</h6>
                 </div>
               </div>
-              <p:dataTable id="requiredPmvTable" var="pmv" value="#{projectBean.requiredPmvs}"
-                emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', projectBean.pmv.name).get()}">
-                <p:column headerText="PMV">
-                  <h:outputLink value="#{pmv.detailView}">
-                    <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
-                      <i class="#{pmv.icon}" style="margin-right: 5px;" />
+              <p:dataTable id="requiredPmvTable" var="project" value="#{projectBean.requiredProjects}"
+                emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', projectBean.project.name).get()}">
+                <p:column headerText="Projects">
+                  <h:outputLink value="#{project.detailView}">
+                    <h:outputText value="#{project.name}" title="#{project.libraryId}">
+                      <i class="ti ti-packages" style="margin-right: 5px;" />
                     </h:outputText>
                   </h:outputLink>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/Version')}">
-                  <h:outputText value="#{pmv.qualifiedVersion}" />
+                  <h:outputText value="#{project.qualifiedVersion}" />
                 </p:column>
                </p:dataTable>
             </div>
