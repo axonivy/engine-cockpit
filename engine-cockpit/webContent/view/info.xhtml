@@ -93,7 +93,7 @@
                       <i class="ti ti-layout-grid icon-app" />
                     </div>
                     <div class="flex flex-1 justify-content-end">
-                      <p:linkButton href="#{app.devWorkflowUrl}" rendered="#{!app.disabled}" icon="ti ti-settings-automation" styleClass="flex-shrink-0 ml-auto rounded-button ui-button-outlined" />
+                      <p:linkButton href="#{app.devWorkflowUrl}" icon="ti ti-settings-automation" styleClass="flex-shrink-0 ml-auto rounded-button ui-button-outlined" />
                     </div>
                   </div>
                   
@@ -102,8 +102,8 @@
                   </div>
                   <div>
                     <h:panelGroup id="action">
-                      <p:linkButton id="button" href="#{app.homeUrl}" value="#{ivy.cm.co('/info/Open')}" style="font-weight:600;" disabled="#{app.disabled}" />
-                      <p:tooltip for="action" rendered="#{app.disabled}" value="#{ivy.cm.co('/info/NoActiveProjects')}" position="bottom" />
+                      <p:linkButton id="button" href="#{app.homeUrl}" value="#{ivy.cm.co('/info/Open')}" style="font-weight:600;" />
+                      <p:tooltip for="action" value="#{ivy.cm.co('/info/NoActiveProjects')}" position="bottom" />
                     </h:panelGroup>
                   </div>
                 </div>
