@@ -55,9 +55,11 @@
                   <f:facet name="header">
                     <div class="ui-input-icon-left filter-container">
                       <i class="ti ti-search" />
-                      <p:inputText id="globalFilter" onkeyup="PF('projectsTable').filter()"
+                      <p:inputText id="globalFilter"
                         placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}"
-                        value="#{applicationVersionBean.nameFilter}" />
+                        value="#{applicationVersionBean.nameFilter}">
+                        <p:ajax event="keyup" process="@this" update="projectsTable" delay="300" />
+                      </p:inputText>
                     </div>
                   </f:facet>
                   <p:column headerText="#{ivy.cm.co('/common/Name')}">

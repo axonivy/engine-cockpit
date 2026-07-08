@@ -14,28 +14,26 @@
         
         <p:commandButton id="activateApplication" title="#{ivy.cm.co('/common/Activate')}" type="button" icon="ti ti-player-play"
           disabled="#{applicationVersionBean.notStartable}" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button">
-          <p:ajax listener="#{applicationVersionBean.application.activate}" update="@form" />
+          <p:ajax listener="#{applicationVersionBean.activate}" update="@form" />
         </p:commandButton>
         <p:commandButton id="deActivateApplication" title="#{ivy.cm.co('/common/Deactivate')}" type="button" icon="ti ti-player-stop"
           disabled="#{applicationVersionBean.notStopable}" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button">
-          <p:ajax listener="#{applicationVersionBean.application.deactivate}" update="@form" />
+          <p:ajax listener="#{applicationVersionBean.deactivate}" update="@form" />
         </p:commandButton>   
       </div>
     </div>
     <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex" styleClass="grey-label-panel">
       <label>#{ivy.cm.co('/common/State')}</label>
       <h:outputText>
-        <i class="#{applicationVersionBean.state.operationIcon} icon-bold activity-state-#{applicationVersionBean.state.operationCssClass}"
+        <i class="#{applicationVersionBean.state.operationIcon} activity-state-#{applicationVersionBean.state.operationCssClass}"
           title="#{applicationVersionBean.state.operation}" />
       </h:outputText>
       <label>#{ivy.cm.co('/common/ConfiguredState')}</label>
       <h:outputText>
-        <i class="#{applicationVersionBean.state.stateIcon} icon-bold activity-state-#{applicationVersionBean.state.stateCssClass}"
+        <i class="#{applicationVersionBean.state.stateIcon} activity-state-#{applicationVersionBean.state.stateCssClass}"
           title="#{applicationVersionBean.state.state}" />
       </h:outputText>
     </p:panelGrid>
-    <p:poll listener="#{applicationVersionBean.updateStats}" update="@form"
-      autoStart="#{applicationVersionBean.state.processing}" interval="1" />
   </h:form>
 </div>
 </cc:implementation>
