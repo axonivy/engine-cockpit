@@ -15,7 +15,7 @@
     <ui:define name="breadcrumb">
       <li><a href="applications.xhtml">#{ivy.cm.co('/common/Applications')}</a></li>
       <li>/</li>
-      <li><a href="#{applicationVersionBean.link}">#{applicationVersionBean.app}</a></li>
+      <li><a href="#{applicationVersionBean.applicationLink}">#{applicationVersionBean.app}</a></li>
       <li>/</li>
       <li><a href="#">#{applicationVersionBean.version}</a></li>
     </ui:define>
@@ -60,17 +60,17 @@
                 </div>
 
                 <p:dataTable id="projectsTable" value="#{applicationVersionBean.projectRows}" var="row">
-                  <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{row.name}">
+                  <p:column headerText="#{ivy.cm.co('/common/Name')}">
                     <h:outputLink value="#{row.link}">
                       <h:outputText value="#{row.name}" />
                     </h:outputLink>
                   </p:column>
 
-                  <p:column headerText="#{ivy.cm.co('/common/Version')}" sortBy="#{row.version}" style="width: 180px;">
+                  <p:column headerText="#{ivy.cm.co('/common/Version')}"  style="width: 180px;">
                     <h:outputText value="#{row.version}" />
                   </p:column>
 
-                  <p:column headerText="#{ivy.cm.co('/applications/LastChangeDate')}" sortBy="#{row.lastChanged}"
+                  <p:column headerText="#{ivy.cm.co('/applications/LastChangeDate')}" 
                     style="width: 220px;">
                     <h:outputText value="#{row.lastChanged}" />
                   </p:column>

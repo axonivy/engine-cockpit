@@ -16,9 +16,11 @@
     <ui:define name="breadcrumb">
       <li><a href="applications.xhtml">#{ivy.cm.co('/common/Applications')}</a></li>
       <li>/</li>
-      <li><a href="#{projectBean.link}">#{projectBean.app}</a></li>
+      <li><a href="#{projectBean.applicationLink}">#{projectBean.app}</a></li>
       <li>/</li>
-      <li><a href="#{projectBean.project.link}">#{projectBean.project.name}</a></li>
+      <li><a href="#{projectBean.applicationVersionLink}">#{projectBean.version}</a></li>
+      <li>/</li>
+      <li><a href="#">#{projectBean.project.name}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">

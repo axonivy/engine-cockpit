@@ -122,6 +122,10 @@ public class ApplicationVersionBean implements Serializable {
     return getLink(contextName, appName, appVersion);
   }
 
+  public String getApplicationLink() {
+    return ApplicationBean.getLink(contextName, appName);
+  }
+
   public List<ProjectRow> getProjectRows() {
     return projects.stream()
         .filter(row -> matchesNameFilter(row.name()))

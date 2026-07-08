@@ -27,7 +27,7 @@ applications:
   ExecutionErrorMessageSummary: Could not ${action} module
   ExecutionSuccessMessageSummary: Successfully ${action} module
   ForceDeleteButtonTitle: Force Delete
-  LastChangeDate: 'Last change date:'
+  LastChangeDate: 'Last changed:'
   LibraryVersion: 'Library version:'
   PmvConvertToLatestVersionMessage: The Axon Ivy Project will be converted to the latest version.
   ReleaseButtonTitle: Release
