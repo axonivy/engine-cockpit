@@ -69,10 +69,10 @@
             <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" icon="ti ti-crane"
               disabled="#{not version.releasable}" actionListener="#{version.release}" update="@form:versionsTable" />
             <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
-              disabled="#{not empty version.isDeletable()}" actionListener="#{version.delete}"
+              disabled="#{not empty version.isDeletable()}" action="#{applicationBean.delete(version)}"
               update="@form:versionsTable" title="#{version.notDeletableMessage}" style="pointer-events: all" />
             <p:menuitem id="forceDeleteBtn" value="#{ivy.cm.co('/applications/ForceDeleteButtonTitle')}"
-              rendered="#{not empty version.isDeletable()}" icon="ti ti-trash" actionListener="#{version.forceDelete}"
+              rendered="#{not empty version.isDeletable()}" icon="ti ti-trash" action="#{applicationBean.forceDelete(version)}"
               update="@form:versionsTable" />
           </p:menu>
         </p:column>
