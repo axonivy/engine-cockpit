@@ -14,21 +14,20 @@
     <div class="flex align-items-center mb-3">
       <i class="pr-3 ti ti-cube card-icon"></i>
       <h6 class="m-0">Application Versions</h6>
-      <p:commandButton icon="ti ti-plus" value="Create New Version" styleClass="ml-auto ui-button-primary"
-        process="@this" actionListener="#{cc.attrs.bean.createVersion}" update="versionsForm:versionsTable" />
+      <p:commandButton icon="ti ti-plus" value="Add" styleClass="ml-auto ui-button-primary" process="@this"
+        actionListener="#{cc.attrs.bean.createVersion}" update="versionsForm:versionsTable" />
     </div>
-    <h:form id="versionsForm">
-      <div class="table-search flex ui-fluid">
-        <span class="ui-input-icon-left filter-container">
-          <i class="ti ti-search" />
-          <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}"
-          value="#{cc.attrs.bean.nameFilter}">
-            <p:ajax event="keyup" delay="300" update="@form:versionsTable" />
-          </p:inputText>
-        </span>
-      </div>
-      <p:dataTable id="versionsTable" value="#{cc.attrs.bean.applicationVersions}" var="version" rowIndexVar="idx">
-        <p:column headerText="#{ivy.cm.co('/common/Version')}">
+    <h:form id="versionsForm" onkeypress="if (event.keyCode == 13) return false;">
+      <p:dataTable id="versionsTable" value="#{cc.attrs.bean.applicationVersions}" var="version" rowIndexVar="idx"
+        widgetVar="versionsTable" styleClass="ui-fluid" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+        <f:facet name="header">
+          <div class="ui-input-icon-left filter-container">
+            <i class="ti ti-search" />
+            <p:inputText id="globalFilter" onkeyup="PF('versionsTable').filter()"
+              placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{cc.attrs.bean.nameFilter}" />
+          </div>
+        </f:facet>
+        <p:column headerText="#{ivy.cm.co('/common/Version')}" filterBy="#{version.version}">
           <h:outputLink value="#{cc.attrs.bean.getLink(version)}">
             <i class="ti ti-packages table-icon" />
             <h:outputText value="#{version.version}" />
@@ -58,7 +57,7 @@
             update=":deployPanel" oncomplete="PF('fileUploadModal').show();" />
           <p:commandButton icon="ti ti-player-play" title="#{ivy.cm.co('/common/Activate')}"
             disabled="#{version.notStartable}" styleClass="ml-1 ui-button-success rounded-button">
-          <p:ajax listener="#{version.activate}" update="@form:versionsTable" />          
+            <p:ajax listener="#{version.activate}" update="@form:versionsTable" />
           </p:commandButton>
           <p:commandButton icon="ti ti-player-stop" title="#{ivy.cm.co('/common/Deactivate')}"
             disabled="#{version.notStopable}" styleClass="ml-1 ui-button-danger rounded-button">
@@ -68,15 +67,13 @@
             styleClass="ml-1 ui-button-secondary rounded-button ui-button-outlined" />
           <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
             <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" icon="ti ti-crane"
-              disabled="#{not version.releasable}" actionListener="#{version.release}"
-              update="@form:versionsTable" />
+              disabled="#{not version.releasable}" actionListener="#{version.release}" update="@form:versionsTable" />
             <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
               disabled="#{not empty version.isDeletable()}" actionListener="#{version.delete}"
-              update="@form:versionsTable" title="#{version.notDeletableMessage}"
-              style="pointer-events: all" />
+              update="@form:versionsTable" title="#{version.notDeletableMessage}" style="pointer-events: all" />
             <p:menuitem id="forceDeleteBtn" value="#{ivy.cm.co('/applications/ForceDeleteButtonTitle')}"
-              rendered="#{not empty version.isDeletable()}" icon="ti ti-trash"
-              actionListener="#{version.forceDelete}" update="@form:versionsTable" />
+              rendered="#{not empty version.isDeletable()}" icon="ti ti-trash" actionListener="#{version.forceDelete}"
+              update="@form:versionsTable" />
           </p:menu>
         </p:column>
       </p:dataTable>

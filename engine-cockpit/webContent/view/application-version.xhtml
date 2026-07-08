@@ -35,43 +35,42 @@
           </div>
           <div class="col-12 md:col-12 xl:col-12">
             <div class="card">
-              <h:form id="versionProjectsForm">
+              <h:form id="versionProjectsForm" onkeypress="if (event.keyCode == 13) return false;">
                 <p:growl id="applicationMessage" showDetail="true" />
 
                 <div class="card-header">
                   <div class="card-title flex align-items-center">
                     <i class="pr-3 ti ti-packages card-title-icon"></i>
                     <h6 class="m-0">Projects</h6>
-                    <p:commandButton icon="ti ti-upload" title="#{ivy.cm.co('/common/Deployment')}" value="#{ivy.cm.co('/common/Deployment')}"
-                        styleClass="ml-auto ui-button-primary" process="@this"
-                        actionListener="#{deploymentBean.setAppNameAndVersion(applicationVersionBean.context, applicationVersionBean.app, applicationVersionBean.version)}"
-                        update=":deployPanel" oncomplete="PF('fileUploadModal').show();" />
+                    <p:commandButton icon="ti ti-upload" title="#{ivy.cm.co('/common/Deployment')}"
+                      value="#{ivy.cm.co('/common/Deployment')}" styleClass="ml-auto ui-button-primary" process="@this"
+                      actionListener="#{deploymentBean.setAppNameAndVersion(applicationVersionBean.context, applicationVersionBean.app, applicationVersionBean.version)}"
+                      update=":deployPanel" oncomplete="PF('fileUploadModal').show();" />
                   </div>
                 </div>
 
-                <div class="table-search flex ui-fluid">
-                  <span class="ui-input-icon-left filter-container">
-                    <i class="ti ti-search" />
-                    <p:inputText id="globalFilter" value="#{applicationVersionBean.nameFilter}"
-                      placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}">
-                      <p:ajax event="keyup" delay="300" update=":versionProjectsForm:projectsTable" />
-                    </p:inputText>
-                  </span>
-                </div>
-
-                <p:dataTable id="projectsTable" value="#{applicationVersionBean.projectRows}" var="row">
+                <p:dataTable id="projectsTable" value="#{applicationVersionBean.projectRows}" var="row"
+                  rowIndexVar="idx" widgetVar="projectsTable" styleClass="ui-fluid"
+                  emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+                  <f:facet name="header">
+                    <div class="ui-input-icon-left filter-container">
+                      <i class="ti ti-search" />
+                      <p:inputText id="globalFilter" onkeyup="PF('projectsTable').filter()"
+                        placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}"
+                        value="#{applicationVersionBean.nameFilter}" />
+                    </div>
+                  </f:facet>
                   <p:column headerText="#{ivy.cm.co('/common/Name')}">
                     <h:outputLink value="#{row.link}">
                       <h:outputText value="#{row.name}" />
                     </h:outputLink>
                   </p:column>
 
-                  <p:column headerText="#{ivy.cm.co('/common/Version')}"  style="width: 180px;">
+                  <p:column headerText="#{ivy.cm.co('/common/Version')}" style="width: 180px;">
                     <h:outputText value="#{row.version}" />
                   </p:column>
 
-                  <p:column headerText="#{ivy.cm.co('/applications/LastChangeDate')}" 
-                    style="width: 220px;">
+                  <p:column headerText="#{ivy.cm.co('/applications/LastChangeDate')}" style="width: 220px;">
                     <h:outputText value="#{row.lastChanged}" />
                   </p:column>
 
