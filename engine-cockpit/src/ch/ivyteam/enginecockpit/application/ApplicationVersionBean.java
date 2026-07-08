@@ -39,7 +39,6 @@ public class ApplicationVersionBean implements Serializable {
   private IApplication app;
   private List<ProjectRow> projects;
   private ISecurityContext context;
-  private AppState state;
  
   private final ManagerBean managerBean;
 
@@ -97,8 +96,6 @@ public class ApplicationVersionBean implements Serializable {
         .sorted(Comparator.comparing(ProjectRow::name, String.CASE_INSENSITIVE_ORDER))
         .collect(Collectors.toList());
 
-    state = new AppState(app);
-    state.updateReleaseState(app.getReleaseState());
   }
 
   public ProjectRow toProjectRow(IProcessModelVersion pmv) {
@@ -173,7 +170,30 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public AppState getState() {
+    var state = new AppState(app);
+    state.updateReleaseState(app.getReleaseState());
     return state;
+  }
+
+  public void activate() {
+    execute(app::activate, "activate");
+  }
+
+  public void deactivate() {
+    execute(app::deactivate, "deactivate");
+  }
+
+  private static void execute(Runnable operation, String actionKey) {
+    try {
+      operation.run();
+    } catch (RuntimeException ex) {
+      Message.error()
+          .clientId("applicationMessage")
+          .summary(Ivy.cm().co("/common/Error"))
+          .detail(ex.getMessage())
+          .exception(ex)
+          .show();
+    }
   }
 
   public void deleteProject(String projectName) {
