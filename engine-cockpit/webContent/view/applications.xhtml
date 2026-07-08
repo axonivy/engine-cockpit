@@ -57,8 +57,8 @@
 
               <p:column headerText="Archived" style="text-align: center; width: 150px;">
                 <ui:repeat value="#{app.archivedVersions}" var="archivedVersion" varStatus="status">
-                  <i class="ti ti-packages table-icon" />
                   <h:outputLink value="#{archivedVersion.link}">
+                    <i class="ti ti-packages table-icon" />
                     <h:outputText value="#{archivedVersion.version}" />
                   </h:outputLink>
                   <h:outputText value=", " rendered="#{not status.last}" />
