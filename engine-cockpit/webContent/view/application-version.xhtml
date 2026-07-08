@@ -75,13 +75,6 @@
                   <p:column headerText="#{ivy.cm.co('/applications/LastChangeDate')}" style="width: 220px;">
                     <h:outputText value="#{row.lastChanged}" />
                   </p:column>
-
-                  <p:column style="text-align: center; width: 100px;">
-                    <p:commandButton icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"
-                      styleClass="ui-button-danger rounded-button" process="@this"
-                      actionListener="#{applicationVersionBean.deleteProject(row.name)}"
-                      update=":versionProjectsForm:projectsTable :versionProjectsForm:applicationMessage" />
-                  </p:column>
                 </p:dataTable>
               </h:form>
             </div>

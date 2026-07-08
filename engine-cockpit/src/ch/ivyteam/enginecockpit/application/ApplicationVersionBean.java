@@ -14,7 +14,6 @@ import org.apache.commons.lang3.Strings;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
-import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.ActivityOperationState;
 import ch.ivyteam.ivy.application.ActivityState;
@@ -40,12 +39,6 @@ public class ApplicationVersionBean implements Serializable {
   private List<ProjectRow> projects;
   private ISecurityContext context;
  
-  private final ManagerBean managerBean;
-
-  public ApplicationVersionBean() {
-    managerBean = ManagerBean.instance();
-  }
-
   public void setContext(String contextName) {
     this.contextName = contextName;
   }
@@ -186,36 +179,6 @@ public class ApplicationVersionBean implements Serializable {
   private static void execute(Runnable operation, String actionKey) {
     try {
       operation.run();
-    } catch (RuntimeException ex) {
-      Message.error()
-          .clientId("applicationMessage")
-          .summary(Ivy.cm().co("/common/Error"))
-          .detail(ex.getMessage())
-          .exception(ex)
-          .show();
-    }
-  }
-
-  public void deleteProject(String projectName) {
-    var project = app.findProcessModelVersion(projectName);
-    if (project == null) {
-      Message.error()
-          .clientId("applicationMessage")
-          .summary(Ivy.cm().co("/common/Error"))
-          .detail("Project '" + projectName + "' not found.")
-          .show();
-
-      return;
-    }
-
-    try {
-      app.delete(project);
-      managerBean.reloadApplications();
-      Message.info()
-          .clientId("applicationMessage")
-          .summary(Ivy.cm().co("/common/Delete"))
-          .detail(projectName)
-          .show();
     } catch (RuntimeException ex) {
       Message.error()
           .clientId("applicationMessage")
