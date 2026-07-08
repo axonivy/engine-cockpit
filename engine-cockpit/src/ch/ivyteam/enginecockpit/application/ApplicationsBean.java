@@ -107,12 +107,12 @@ public class ApplicationsBean implements Serializable {
 
     private final String name;
     private final ApplicationVersion releasedVersion;
-    private final List<ApplicationVersion> archivedVersions;
+    private final List<ApplicationVersion> deprecatedVersions;
 
-    private ApplicationRow(String name, ApplicationVersion releasedVersion, List<ApplicationVersion> archivedVersions) {
+    private ApplicationRow(String name, ApplicationVersion releasedVersion, List<ApplicationVersion> deprecatedVersions) {
       this.name = name;
       this.releasedVersion = releasedVersion;
-      this.archivedVersions = archivedVersions;
+      this.deprecatedVersions = deprecatedVersions;
     }
 
     public String getName() {
@@ -123,8 +123,8 @@ public class ApplicationsBean implements Serializable {
       return releasedVersion;
     }
 
-    public List<ApplicationVersion> getArchivedVersions() {
-      return archivedVersions;
+    public List<ApplicationVersion> getDeprecatedVersions() {
+      return deprecatedVersions;
     }
   }
 
@@ -168,7 +168,7 @@ public class ApplicationsBean implements Serializable {
       return new ApplicationRow(
           name,
           findReleasedVersion(),
-          findArchivedOrDeprecatedVersions());
+          findDeprecatedVersions());
     }
 
     private ApplicationVersion findReleasedVersion() {
@@ -179,10 +179,9 @@ public class ApplicationsBean implements Serializable {
           .orElse(null);
     }
 
-    private List<ApplicationVersion> findArchivedOrDeprecatedVersions() {
+    private List<ApplicationVersion> findDeprecatedVersions() {
       return apps.stream()
-          .filter(app -> app.getReleaseState() == ReleaseState.ARCHIVED
-              || app.getReleaseState() == ReleaseState.DEPRECATED)
+          .filter(app -> app.getReleaseState() == ReleaseState.DEPRECATED)
           .sorted(Comparator.comparingInt(IApplication::getVersion))
           .map(this::toApplicationVersion)
           .collect(Collectors.toList());

@@ -56,10 +56,10 @@
               </p:column>
 
               <p:column headerText="Deprecated" style="text-align: center; width: 150px;">
-                <ui:repeat value="#{app.archivedVersions}" var="archivedVersion" varStatus="status">
-                  <h:outputLink value="#{archivedVersion.link}">
+                <ui:repeat value="#{app.deprecatedVersions}" var="deprecatedVersion" varStatus="status">
+                  <h:outputLink value="#{deprecatedVersion.link}">
                     <i class="ti ti-packages table-icon" />
-                    <h:outputText value="#{archivedVersion.version}" />
+                    <h:outputText value="#{deprecatedVersion.version}" />
                   </h:outputLink>
                   <h:outputText value=", " rendered="#{not status.last}" />
                 </ui:repeat>
