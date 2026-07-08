@@ -145,6 +145,17 @@ public class ApplicationBean implements Serializable {
     this.contextName = contextName;
   }
 
+  public void delete(ApplicationVersionRow version) {
+    ApplicationVersionRow.execute(
+        () -> IApplicationRepository.instance().delete(app.getName(), version.getVersionNumber()),
+        "delete");
+    onload();
+  }
+
+  public void forceDelete(ApplicationVersionRow version) {
+    delete(version);
+  }
+
   public String getLink(ApplicationVersionRow version) {
     return ApplicationVersionBean.getLink(contextName, appName, version.getVersionNumber());
   }
@@ -314,16 +325,6 @@ public class ApplicationBean implements Serializable {
 
     public void release() {
       execute(app::release, "release");
-    }
-
-    public void delete() {
-      execute(
-          () -> IApplicationRepository.instance().delete(app.getName(), app.getVersion()),
-          "delete");
-    }
-
-    public void forceDelete() {
-      delete();
     }
 
     private static void execute(Runnable operation, String actionKey) {
