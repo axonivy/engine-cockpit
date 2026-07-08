@@ -27,7 +27,7 @@ applications:
   ExecutionErrorMessageSummary: Could not ${action} module
   ExecutionSuccessMessageSummary: Successfully ${action} module
   ForceDeleteButtonTitle: Force Delete
-  LastChangeDate: 'Last changed:'
+  LastChangeDate: 'Last changed'
   LibraryVersion: 'Library version:'
   PmvConvertToLatestVersionMessage: The Axon Ivy Project will be converted to the latest version.
   ReleaseButtonTitle: Release
@@ -107,7 +107,7 @@ clusterNodeInfo:
   OperatingSystemVersion: Operating System Version
 common:
   Activate: Activate
-  Activity: Activity
+  Activity: State
   Add: Add
   Administrators: Administrators
   Algorithm: Algorithm
@@ -325,7 +325,7 @@ common:
   Write: Write
   'Yes': 'Yes'
 configuration:
-  ApplicationConfiguration: Application Configuration
+  ApplicationConfiguration: Configuration
   ConfigReset: '''${config}'' reset'
   ConfigResetToDefault: '''${config}'' reset to default'
   ConfigSaved: '''${config}'' saved'
@@ -512,7 +512,7 @@ info:
   ShutdownEngineMessage: The Axon Ivy Engine is shutting down. You can close the window.
 information:
   ApplicationHome: Application Home
-  ApplicationInformation: Application information
+  ApplicationInformation: Information
   FileDirectory: File Directory
   WorkflowUI: Workflow UI
 infoTemplate:
@@ -993,7 +993,7 @@ pmvDetail:
   NoProjectFoundForSpecificationMessage: No project could be found for this specification.
   NotAllDirectIndirectRequiredLibrariesAvailableMessage: Not all direct and indirect required libraries are available in the system.
   PMV: Projects
-  PMVInformation: Project information
+  PMVInformation: Information
   PMVResolvedForSpecificationMessage: '''${name}'' resolved for this specification'
   Project: Project
   ProjectVersion: Project Version
