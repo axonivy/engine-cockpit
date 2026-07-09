@@ -21,7 +21,6 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
-import ch.ivyteam.ivy.application.app.link.AppLink;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
@@ -132,18 +131,6 @@ public class ApplicationVersionBean implements Serializable {
 
   public IApplication getApplication() {
     return app;
-  }
-
-  public String getHomeUrl() {
-    return AppLink.home(app).getRelative();
-  }
-
-  public String getDevWorkflowUrl() {
-    return AppLink.devWorkflow(app).getRelative();
-  }
-
-  public boolean isDisabled() {
-    return app.getReleaseState() != ReleaseState.RELEASED;
   }
 
   public String getFileDir() {

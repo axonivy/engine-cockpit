@@ -27,6 +27,7 @@ import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.app.NewApplication;
+import ch.ivyteam.ivy.application.app.link.AppLink;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -166,6 +167,18 @@ public class ApplicationBean implements Serializable {
         .queryParam("app", app)
         .build()
         .toString();
+  }
+
+  public String getHomeUrl() {
+    return AppLink.home(app).getRelative();
+  }
+
+  public String getDevWorkflowUrl() {
+    return AppLink.devWorkflow(app).getRelative();
+  }
+
+  public boolean isDisabled() {
+    return app.getReleaseState() != ReleaseState.RELEASED || app.getActivityState() != ActivityState.ACTIVE;
   }
 
   public String getNameFilter() {
