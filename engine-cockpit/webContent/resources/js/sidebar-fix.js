@@ -57,7 +57,7 @@ jQuery(function () {
       'database.xhtml': 'databases.xhtml',
       'restclientdetail.xhtml': 'restclients.xhtml',
       'webservicedetail.xhtml': 'webservices.xhtml',
-      'businesscalendar-detail.xhtml': 'businesscalendar.xhtml',
+      'businesscalendar.xhtml': 'businesscalendars.xhtml',
       'monitorTraceDetail.xhtml': 'monitorTraces.xhtml',
       'searchindex.xhtml': 'searchengine.xhtml',
       'monitorStartEventDetails.xhtml': 'monitorStartEvents.xhtml',
