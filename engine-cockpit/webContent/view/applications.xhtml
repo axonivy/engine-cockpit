@@ -24,7 +24,8 @@
             <i class="pr-3 ti ti-layout-grid card-title-icon"></i>
             <h2 class="m-0">#{ivy.cm.co('/common/Applications')}</h2>
             <p:commandButton styleClass="ml-auto" id="createApplicationBtn" widgetVar="createApplication" icon="ti ti-plus"
-              value="#{ivy.cm.co('/common/Add')}" onclick="PF('newApplicationModal').show();" type="button" />
+              value="#{ivy.cm.co('/common/Add')}" process="@this" actionListener="#{applicationsBean.initDefaultSecuritySystem}"
+              update=":newApplication:newApplicationForm" oncomplete="PF('newApplicationModal').show();" />
           </div>
         <cc:SecuritySystemTabs tabChange="#{applicationsBean.reload}" id="tabs">
           <div>
