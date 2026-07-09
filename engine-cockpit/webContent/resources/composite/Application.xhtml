@@ -34,14 +34,18 @@
           </h:outputLink>
         </p:column>
 
-        <p:column headerText="#{ivy.cm.co('/pmvDetail/ReleaseState')}" style="text-align: center; width: 100px">
-          <i class="#{version.releaseStateIcon} table-icon" title="#{version.releaseStateLabel}"></i>
-          <p>#{version.releaseStateLabel}</p>
+        <p:column headerText="#{ivy.cm.co('/pmvDetail/ReleaseState')}" style="text-align: center; width: 120px">
+          <div class="#{version.releaseStateStyleClass}">
+            <i class="#{version.releaseStateIcon}" title="#{version.releaseStateLabel}" ></i>
+            <h:outputText value="#{version.releaseStateLabel}"/>
+          </div>
         </p:column>
 
         <p:column headerText="#{ivy.cm.co('/pmvDetail/ActivityState')}" style="text-align: center; width: 100px">
-          <i class="#{version.activityStateIcon} table-icon" title="#{version.activityStateLabel}"></i>
-          <p>#{version.activityStateLabel}</p>
+          <div class="#{version.activityStateStyleClass}">
+            <i class="#{version.activityStateIcon}" title="#{version.activityStateLabel}"></i>
+            <h:outputText value="#{version.activityStateLabel}"/>
+          </div>
         </p:column>
 
         <p:column headerText="#{ivy.cm.co('/applications/RunningCasesHeader')}"

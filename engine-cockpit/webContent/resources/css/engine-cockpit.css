@@ -325,6 +325,41 @@ body .ui-datatable thead th[class*="table-btn"] {
   color: hsl(0, 1%, 20%);
 }
 
+/* State Badge */
+.state-badge {
+  border-radius: 4px;
+  padding: 0.25em 0.5rem;
+  text-transform: capitalize;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.state-app-released,
+.state-app-active {
+  background: #EDF9F0;
+  color: #2B7841;
+}
+
+.state-app-prepared,
+.state-app-created {
+  background: #E6F1F5;
+  color: #00445C;
+}
+
+.state-app-deprecated {
+  background: #FFF1E6;
+  color: #9C4600;
+}
+
+.state-app-inactive,
+.state-app-archived {
+  background: #F3F3F3;
+  color: #1B1B1B;
+}
+
 /* Search Engine */
 .ti.icon-bold {
   font-weight: bold;

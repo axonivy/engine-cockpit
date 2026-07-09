@@ -266,6 +266,10 @@ public class ApplicationBean implements Serializable {
       return app.getReleaseState().toString();
     }
 
+    public String getReleaseStateStyleClass() {
+      return "state-badge state-app-" + app.getReleaseState().name().toLowerCase();
+    }
+
     public String getReleaseStateIcon() {
       return switch (app.getReleaseState()) {
         case RELEASED -> "ti ti-circle-check";
@@ -278,6 +282,10 @@ public class ApplicationBean implements Serializable {
 
     public String getActivityStateLabel() {
       return app.getActivityState().toString();
+    }
+
+    public String getActivityStateStyleClass() {
+      return "state-badge state-app-" + app.getActivityState().name().toLowerCase();
     }
 
     public String getActivityStateIcon() {

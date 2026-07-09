@@ -40,7 +40,7 @@
 
                 <div class="card-header">
                   <div class="card-title flex align-items-center">
-                    <i class="pr-3 ti ti-packages card-title-icon"></i>
+                    <i class="pr-3 ti ti-cube card-title-icon"></i>
                     <h6 class="m-0">Projects</h6>
                     <p:commandButton icon="ti ti-upload" title="#{ivy.cm.co('/common/Deployment')}"
                       value="#{ivy.cm.co('/common/Deployment')}" styleClass="ml-auto ui-button-primary" process="@this"
@@ -64,7 +64,7 @@
                   </f:facet>
                   <p:column headerText="#{ivy.cm.co('/common/Name')}">
                     <h:outputLink value="#{row.link}">
-                      <i class="pr-3 ti ti-packages card-title-icon"></i>
+                      <i class="pr-3 ti ti-cube card-title-icon"></i>
                       <h:outputText value="#{row.name}" />
                     </h:outputLink>
                   </p:column>
