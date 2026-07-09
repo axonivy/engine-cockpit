@@ -23,25 +23,22 @@
           <div class="flex align-items-center mb-3">
             <i class="pr-3 ti ti-layout-grid card-title-icon"></i>
             <h2 class="m-0">#{ivy.cm.co('/common/Applications')}</h2>
-            <p:commandButton styleClass="ml-auto" id="createApplicationBtn" widgetVar="createApplication" icon="ti ti-plus"
-              value="#{ivy.cm.co('/common/Add')}" process="@this" actionListener="#{applicationsBean.initDefaultSecuritySystem}"
-              update=":newApplication:newApplicationForm" oncomplete="PF('newApplicationModal').show();" />
+            <p:commandButton styleClass="ml-auto" id="createApplicationBtn" widgetVar="createApplication"
+              icon="ti ti-plus" value="#{ivy.cm.co('/common/Add')}" process="@this"
+              actionListener="#{applicationsBean.initDefaultSecuritySystem}" update=":newApplication:newApplicationForm"
+              oncomplete="PF('newApplicationModal').show();" />
           </div>
-        <cc:SecuritySystemTabs tabChange="#{applicationsBean.reload}" id="tabs">
-          <div>
-            <div class="table-search flex ui-fluid">
-              <span class="ui-input-icon-left filter-container">
-                <i class="ti ti-search"/>
-                <p:inputText id="globalFilter" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}"
-                  value="#{applicationsBean.nameFilter}">
-                  <p:ajax event="keyup" delay="300" update="applicationsTable" />
-                </p:inputText>
-              </span>
-            </div>
-
-            <p:dataTable id="applicationsTable" value="#{applicationsBean.applications}" var="app" >
-              
-              <p:column headerText="#{ivy.cm.co('/common/Name')}">
+          <cc:SecuritySystemTabs tabChange="#{applicationsBean.reload}" id="tabs">
+            <p:dataTable id="applicationsTable" value="#{applicationsBean.applications}" var="app" rowIndexVar="idx"
+              widgetVar="applicationsTable" styleClass="ui-fluid" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+              <f:facet name="header">
+                <div class="ui-input-icon-left filter-container">
+                  <i class="ti ti-search" />
+                  <p:inputText id="globalFilter" onkeyup="PF('applicationsTable').filter()"
+                    placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{applicationsBean.nameFilter}" />
+                </div>
+              </f:facet>
+              <p:column headerText="#{ivy.cm.co('/common/Name')}" filterBy="#{app.name}">
                 <h:link value="#{app.name}" outcome="application.xhtml">
                   <i class="ti ti-layout-grid table-icon" />
                   <f:param name="context" value="#{managerBean.selectedSecuritySystem.securitySystemName}" />
@@ -66,8 +63,7 @@
                 </ui:repeat>
               </p:column>
             </p:dataTable>
-          </div>
-        </cc:SecuritySystemTabs>
+          </cc:SecuritySystemTabs>
         </h:form>
         <cc:NewApplication id="newApplication" />
       </div>
