@@ -4,9 +4,9 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="jakarta.faces.composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewParam name="app" value="#{databaseDetailBean.app}" />
-    <f:viewParam name="name" value="#{databaseDetailBean.name}" />
-    <f:viewAction action="#{databaseDetailBean.onload}" />
+    <f:viewParam name="app" value="#{databaseBean.app}" />
+    <f:viewParam name="name" value="#{databaseBean.name}" />
+    <f:viewAction action="#{databaseBean.onload}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/charts-template.xhtml">
@@ -16,7 +16,7 @@
       <li>/</li>
       <li><a href="databases.xhtml">#{ivy.cm.co('/common/Databases')}</a></li>
       <li>/</li>
-      <li><a href="#{databaseDetailBean.viewUrl}">#{databaseDetailBean.name}</a></li>
+      <li><a href="#{databaseBean.viewUrl}">#{databaseBean.name}</a></li>
       <cc:BreadcrumbInfos />
     </ui:define>
 
@@ -45,15 +45,15 @@
           </div>
         </div>
       </div>
-      <cc:HelpServiceDialog service="#{databaseDetailBean}" id="helpDatabaseDialog" />
+      <cc:HelpServiceDialog service="#{databaseBean}" id="helpDatabaseDialog" />
     </ui:define>
 
     <ui:define name="live-stats">
-      <cc:Sidebar jmxSource="#{databaseDetailBean.liveStats.database}">
-        <cc:LiveStats monitor="#{databaseDetailBean.liveStats.connectionsMonitor}"
+      <cc:Sidebar jmxSource="#{databaseBean.liveStats.database}">
+        <cc:LiveStats monitor="#{databaseBean.liveStats.connectionsMonitor}"
           id="databaseConnections" />
-        <cc:LiveStats monitor="#{databaseDetailBean.liveStats.queriesMonitor}" id="databaseQueries" />
-        <cc:LiveStats monitor="#{databaseDetailBean.liveStats.executionTimeMonitor}"
+        <cc:LiveStats monitor="#{databaseBean.liveStats.queriesMonitor}" id="databaseQueries" />
+        <cc:LiveStats monitor="#{databaseBean.liveStats.executionTimeMonitor}"
           id="databaseExecutionTime" />
       </cc:Sidebar>
     </ui:define>

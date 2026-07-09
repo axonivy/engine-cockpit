@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <p:dataTable value="#{databaseDetailBean.database.properties}"
+    <p:dataTable value="#{databaseBean.database.properties}"
       var="property" id="databasePropertiesTable"
       emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
       <p:column headerText="#{ivy.cm.co('/common/Property')}">
@@ -35,12 +35,12 @@
       <p:column styleClass="table-btn-2">
         <f:facet name="header">
           <ccc:PropertyEditor id="newPropertyEditor"
-            bean="#{databaseDetailBean}" isNewProperty="true"
+            bean="#{databaseBean}" isNewProperty="true"
             property="#{property}"
             formName=":#{cc.clientId}:databasePropertiesForm" />
         </f:facet>
         <ccc:PropertyEditor id="editPropertyEditor"
-          bean="#{databaseDetailBean}" isNewProperty="false"
+          bean="#{databaseBean}" isNewProperty="false"
           property="#{property}"
           formName=":#{cc.clientId}:databasePropertiesForm" />
       </p:column>

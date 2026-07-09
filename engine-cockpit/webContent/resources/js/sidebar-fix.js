@@ -54,7 +54,7 @@ jQuery(function () {
       'application-detail.xhtml': 'applications.xhtml',
       'pmv-detail.xhtml': 'applications.xhtml',
       'notification-channel-detail.xhtml': 'notification-channels.xhtml',
-      'databasedetail.xhtml': 'databases.xhtml',
+      'database.xhtml': 'databases.xhtml',
       'restclientdetail.xhtml': 'restclients.xhtml',
       'webservicedetail.xhtml': 'webservices.xhtml',
       'businesscalendar-detail.xhtml': 'businesscalendar.xhtml',

@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <p:dataTable value="#{databaseDetailBean.connections}" var="conn" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}"
+    <p:dataTable value="#{databaseBean.connections}" var="conn" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}"
       id="databaseConnectionsTable" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false">
       <p:column headerText="#{ivy.cm.co('/databaseConnections/InUse')}" sortBy="#{conn.inUse}">
         <h:outputText styleClass="connection">

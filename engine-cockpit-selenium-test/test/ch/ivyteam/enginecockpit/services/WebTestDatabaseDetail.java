@@ -43,7 +43,7 @@ class WebTestDatabaseDetail {
 
   @Test
   void detailOpen() {
-    assertCurrentUrlContains("databasedetail.xhtml?app=" + Tab.DEFAULT_APP + "&name=" + DATABASE_NAME);
+    assertCurrentUrlContains("database.xhtml?app=" + Tab.DEFAULT_APP + "&name=" + DATABASE_NAME);
     $$(".card").shouldHave(size(4));
     $("#databaseConfiguration\\:databaseConfigurationForm\\:name").shouldBe(exactText(DATABASE_NAME));
 

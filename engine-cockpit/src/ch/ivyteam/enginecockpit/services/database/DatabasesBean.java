@@ -1,34 +1,25 @@
-package ch.ivyteam.enginecockpit.services;
+package ch.ivyteam.enginecockpit.services.database;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import ch.ivyteam.enginecockpit.system.ManagerBean;
+import ch.ivyteam.ivy.db.Databases;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
-import ch.ivyteam.enginecockpit.services.model.DatabaseDto;
-import ch.ivyteam.enginecockpit.system.ManagerBean;
-import ch.ivyteam.ivy.db.Databases;
-
 @Named
 @ViewScoped
-public class DatabaseBean implements Serializable {
+public class DatabasesBean implements Serializable {
 
   private List<DatabaseDto> databases;
   private List<DatabaseDto> filteredDatabases;
   private String filter;
 
-  private final ManagerBean managerBean;
-
-  public DatabaseBean() {
-    managerBean = ManagerBean.instance();
-    reloadDatabases();
-  }
-
-  public void reloadDatabases() {
-    databases = Databases.of(managerBean.getSelectedIApplication())
+  public void onload() {
+    databases = Databases.of(ManagerBean.instance().getSelectedIApplication())
         .all().stream()
         .filter(db -> !Objects.equals(db.name(), "IvySystemDatabase"))
         .map(DatabaseDto::new)
@@ -54,5 +45,4 @@ public class DatabaseBean implements Serializable {
   public void setFilter(String filter) {
     this.filter = filter;
   }
-
 }

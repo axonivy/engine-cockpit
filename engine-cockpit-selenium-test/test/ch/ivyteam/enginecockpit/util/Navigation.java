@@ -242,7 +242,7 @@ public class Navigation {
   public static void toDatabaseDetail(String databaseName) {
     toDatabases();
     $$(Tab.APP.activePanelCss + " .database-name").find(text(databaseName)).shouldBe(visible).click();
-    assertCurrentUrlContains("databasedetail.xhtml?app=" + Tab.DEFAULT_APP + "&name=" + databaseName);
+    assertCurrentUrlContains("database.xhtml?app=" + Tab.DEFAULT_APP + "&name=" + databaseName);
     menuShouldBeActive(SERVICES_DATABASES_MENU);
   }
 
