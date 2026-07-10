@@ -3,6 +3,10 @@
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="jakarta.faces.composite/composite">
 <h:body>
+  <f:metadata>
+    <f:viewAction action="#{webServiceProcessesBean.onload}" />
+  </f:metadata>
+
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
@@ -23,7 +27,7 @@
         </div>
         <cc:ApplicationTabs tabChange="#{managerBean.reloadApplications}" id="tabs">
           <h:form id="form">
-            <p:dataTable value="#{managerBean.webServiceProcessesOfCurrentApp}" var="ws" widgetVar="webServicesTable"
+            <p:dataTable value="#{webServiceProcessesBean.webServiceProcesses}" var="ws" widgetVar="webServicesTable"
               id="webServiceProcessesTable" emptyMessage="#{ivy.cm.co('/webServiceProcesses/NoWebServiceProcessesFound')}"
               styleClass="ui-fluid webServiceProcessesTable">
               <p:column headerText="#{ivy.cm.co('/webServiceProcesses/WebServiceWSDL')}" filterBy="#{ws.processName}">
