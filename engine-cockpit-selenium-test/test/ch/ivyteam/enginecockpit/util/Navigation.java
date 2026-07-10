@@ -140,14 +140,14 @@ public class Navigation {
 
   public static void toBusinessCalendar() {
     toSubMenu(CONFIGURATION_MENU, BUSINESS_CALENDAR_MENU);
-    assertCurrentUrlContains("businesscalendar.xhtml");
+    assertCurrentUrlContains("businesscalendars.xhtml");
     menuShouldBeActive(BUSINESS_CALENDAR_MENU);
   }
 
   public static void toBusinessCalendarDetail(String calendarName) {
     toBusinessCalendar();
     $$(Tab.APP.activePanelCss + " .business-calendar").find(text(calendarName)).shouldBe(visible).click();
-    assertCurrentUrlContains("businesscalendar-detail.xhtml?calendarName=" + calendarName);
+    assertCurrentUrlContains("businesscalendar.xhtml?calendarName=" + calendarName);
     menuShouldBeActive(BUSINESS_CALENDAR_MENU);
   }
 
@@ -242,7 +242,7 @@ public class Navigation {
   public static void toDatabaseDetail(String databaseName) {
     toDatabases();
     $$(Tab.APP.activePanelCss + " .database-name").find(text(databaseName)).shouldBe(visible).click();
-    assertCurrentUrlContains("databasedetail.xhtml?app=" + Tab.DEFAULT_APP + "&name=" + databaseName);
+    assertCurrentUrlContains("database.xhtml?app=" + Tab.DEFAULT_APP + "&name=" + databaseName);
     menuShouldBeActive(SERVICES_DATABASES_MENU);
   }
 

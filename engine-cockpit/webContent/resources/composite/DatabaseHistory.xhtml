@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <p:dataTable value="#{databaseDetailBean.executionHistory}" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}"
+    <p:dataTable value="#{databaseBean.executionHistory}" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}"
       var="exec" id="databaseExecHistoryTable" paginator="true" rows="10" paginatorPosition="bottom"
       paginatorAlwaysVisible="false" style="min-width: 800px;">
       <p:column headerText="#{ivy.cm.co('/common/Time')}" style="width: 60px; word-wrap: anywhere;" sortBy="#{exec.time}">

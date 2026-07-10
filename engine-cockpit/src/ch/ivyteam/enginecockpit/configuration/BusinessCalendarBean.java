@@ -2,10 +2,6 @@ package ch.ivyteam.enginecockpit.configuration;
 
 import java.io.Serializable;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-import jakarta.ws.rs.core.UriBuilder;
-
 import org.apache.commons.lang3.Strings;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -16,6 +12,9 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;
 import ch.ivyteam.ivy.application.calendar.IBusinessCalendarSettings;
 import ch.ivyteam.ivy.scripting.objects.Tree;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.ws.rs.core.UriBuilder;
 
 @Named
 @ViewScoped
@@ -79,11 +78,11 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> implements 
   private IBusinessCalendarConfiguration getBusinessCalendarConfiguration(String calendarName) {
     var app = managerBean.getSelectedIApplication();
     var settings = IBusinessCalendarSettings.of(app);
-    var calConfiguration = settings.findBusinessCalendarConfiguration(calendarName);
-    if (calConfiguration == null) {
-      calConfiguration = settings.getRootBusinessCalendarConfiguration();
+    var config = settings.findBusinessCalendarConfiguration(calendarName);
+    if (config == null) {
+      config = settings.getRootBusinessCalendarConfiguration();
     }
-    return calConfiguration;
+    return config;
   }
 
   public String getEditUrl() {

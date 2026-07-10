@@ -1,14 +1,9 @@
-package ch.ivyteam.enginecockpit.services;
+package ch.ivyteam.enginecockpit.services.database;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
@@ -20,12 +15,11 @@ import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.DatabaseMonitor;
+import ch.ivyteam.enginecockpit.services.DetailView;
+import ch.ivyteam.enginecockpit.services.database.DatabaseDto.ExecStatement;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
-import ch.ivyteam.enginecockpit.services.model.DatabaseDto;
-import ch.ivyteam.enginecockpit.services.model.DatabaseDto.Connection;
-import ch.ivyteam.enginecockpit.services.model.DatabaseDto.ExecStatement;
 import ch.ivyteam.enginecockpit.system.SystemDatabaseBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
@@ -35,14 +29,18 @@ import ch.ivyteam.ivy.db.Database.Builder;
 import ch.ivyteam.ivy.db.Databases;
 import ch.ivyteam.ivy.db.IExternalDatabaseManager;
 import ch.ivyteam.ivy.environment.Ivy;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
-public class DatabaseDetailBean extends DetailView implements Serializable {
+public class DatabaseBean extends DetailView implements Serializable {
 
   private DatabaseDto database;
   private List<ExecStatement> history;
-  private List<Connection> connections;
+  private List<DatabaseDto.Connection> connections;
   private String databaseName;
 
   private String appName;
@@ -54,7 +52,7 @@ public class DatabaseDetailBean extends DetailView implements Serializable {
   private Databases databases;
   private Property activeProperty;
 
-  public DatabaseDetailBean() {
+  public DatabaseBean() {
     connectionTest = new ConnectionTestWrapper();
   }
 
@@ -109,7 +107,7 @@ public class DatabaseDetailBean extends DetailView implements Serializable {
         .map(ExecStatement::new)
         .collect(Collectors.toList());
     connections = externalDb.getConnections().stream()
-        .map(Connection::new)
+        .map(c -> new DatabaseDto.Connection(c))
         .collect(Collectors.toList());
   }
 
@@ -136,7 +134,7 @@ public class DatabaseDetailBean extends DetailView implements Serializable {
     reloadExternalDb();
   }
 
-  public List<Connection> getConnections() {
+  public List<DatabaseDto.Connection> getConnections() {
     return connections;
   }
 

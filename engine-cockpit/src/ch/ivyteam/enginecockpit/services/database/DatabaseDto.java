@@ -1,17 +1,17 @@
-package ch.ivyteam.enginecockpit.services.model;
+package ch.ivyteam.enginecockpit.services.database;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.ws.rs.core.UriBuilder;
-
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.Property;
+import ch.ivyteam.enginecockpit.services.model.IService;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.db.Database;
 import ch.ivyteam.ivy.db.IExternalDatabaseRuntimeConnection;
 import ch.ivyteam.ivy.db.IStatementExecution;
+import jakarta.ws.rs.core.UriBuilder;
 
 public class DatabaseDto implements IService {
   private final String name;
@@ -41,7 +41,7 @@ public class DatabaseDto implements IService {
   }
 
   public String getViewUrl(String app) {
-    return UriBuilder.fromPath("databasedetail.xhtml")
+    return UriBuilder.fromPath("database.xhtml")
         .queryParam("app", app)
         .queryParam("name", name)
         .build()
@@ -102,6 +102,7 @@ public class DatabaseDto implements IService {
   }
 
   public static class ExecStatement {
+
     private final String time;
     private final String execTime;
     private final String resultTime;
@@ -144,6 +145,7 @@ public class DatabaseDto implements IService {
   }
 
   public static class Connection {
+
     private final String lastUsed;
     private final boolean inUse;
 
@@ -160,5 +162,4 @@ public class DatabaseDto implements IService {
       return inUse;
     }
   }
-
 }
