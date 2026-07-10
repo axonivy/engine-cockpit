@@ -14,6 +14,7 @@ import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.system.SecurityBean;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityManager;
@@ -141,6 +142,7 @@ public class ManagerBean implements Serializable {
 
   private List<IApplication> loadApplications() {
     return apps.all().stream()
+        .filter(app -> app.getReleaseState() == ReleaseState.RELEASED)
         .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
         .collect(Collectors.toList());
   }
