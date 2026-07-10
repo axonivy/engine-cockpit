@@ -6,11 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.application.model.NewApplication;
@@ -21,6 +16,10 @@ import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -29,13 +28,8 @@ public class ApplicationsBean implements Serializable {
   private String nameFilter = "";
 
   private final NewApplication newApplication = new NewApplication();
-  private final ManagerBean managerBean;
 
   private List<ApplicationRow> applications = new ArrayList<>();
-
-  public ApplicationsBean() {
-    managerBean = ManagerBean.instance();
-  }
 
   public void onload() {
     applications = load();
@@ -99,7 +93,7 @@ public class ApplicationsBean implements Serializable {
   }
 
   private ISecurityContext selectedSecurityContext() {
-    var selected = managerBean.getSelectedSecuritySystem();
+    var selected = ManagerBean.instance().getSelectedSecuritySystem();
     return selected == null ? null : selected.getSecurityContext();
   }
 
