@@ -4,12 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import ch.ivyteam.enginecockpit.services.model.RestClientDto;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.rest.client.RestClients;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -27,7 +26,7 @@ public class RestClientsBean implements Serializable {
   }
 
   public void reloadRestClients() {
-    restClients = RestClients.of(managerBean.getSelectedIApplication())
+    restClients = RestClients.of(managerBean.getSelectedApplication())
         .all().stream()
         .map(RestClientDto::new)
         .collect(Collectors.toList());

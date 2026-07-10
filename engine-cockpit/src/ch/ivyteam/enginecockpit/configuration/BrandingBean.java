@@ -16,11 +16,6 @@ import java.util.stream.Collectors;
 
 import javax.naming.directory.InvalidAttributesException;
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -38,6 +33,10 @@ import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.branding.BrandingIO;
 import ch.ivyteam.ivy.application.branding.BrandingResolver;
 import ch.ivyteam.ivy.environment.Ivy;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -93,7 +92,7 @@ public class BrandingBean implements AllResourcesDownload, Serializable {
   }
 
   public void reloadResources() {
-    brandingIO = new BrandingIO(managerBean.getSelectedIApplication());
+    brandingIO = new BrandingIO(managerBean.getSelectedApplication());
     resources = brandingIO.findResources(List.copyOf(RESOURCE_NAMES.keySet())).entrySet().stream()
         .map(this::toBrandingResource)
         .sorted(Comparator.comparing(BrandingResource::getLabel))
@@ -218,7 +217,7 @@ public class BrandingBean implements AllResourcesDownload, Serializable {
 
   @Override
   public StreamedContent getAllResourcesDownload() {
-    var app = managerBean.getSelectedIApplication();
+    var app = managerBean.getSelectedApplication();
     try (var out = new ByteArrayOutputStream()) {
       DownloadUtil.zipDir(out, appBrandingDirs(app));
       return DefaultStreamedContent

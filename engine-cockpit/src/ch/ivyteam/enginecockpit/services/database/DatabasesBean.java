@@ -19,7 +19,7 @@ public class DatabasesBean implements Serializable {
   private String filter;
 
   public void onload() {
-    databases = Databases.of(ManagerBean.instance().getSelectedIApplication())
+    databases = Databases.of(ManagerBean.instance().getSelectedApplication())
         .all().stream()
         .filter(db -> !Objects.equals(db.name(), "IvySystemDatabase"))
         .map(DatabaseDto::new)

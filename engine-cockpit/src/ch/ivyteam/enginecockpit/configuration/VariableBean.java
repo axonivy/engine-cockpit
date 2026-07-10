@@ -5,11 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.configuration.model.ConfigProperty;
@@ -18,6 +13,10 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.vars.Variables;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -37,7 +36,7 @@ public class VariableBean implements ConfigView, Serializable {
   public void reloadVariables() {
     activeVariable = new ConfigProperty();
     if (managerBean.getApplications().size() != 0) {
-      app = managerBean.getSelectedIApplication();
+      app = managerBean.getSelectedApplication();
       variables = variables().all().stream()
           .filter(Objects::nonNull)
           .map(ConfigProperty::new)
