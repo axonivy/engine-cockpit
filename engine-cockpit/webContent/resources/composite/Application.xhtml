@@ -14,7 +14,7 @@
     <div class="flex align-items-center mb-3">
       <i class="pr-3 ti ti-packages card-icon"></i>
       <h6 class="m-0">Versions</h6>
-      <p:commandButton icon="ti ti-plus" value="Add" styleClass="ml-auto ui-button-primary" process="@this"
+      <p:commandButton id="createVersion" icon="ti ti-plus" value="Add" styleClass="ml-auto ui-button-primary" process="@this"
         actionListener="#{cc.attrs.bean.createVersion}" update="versionsForm:versionsTable" />
     </div>
     <h:form id="versionsForm" onkeypress="if (event.keyCode == 13) return false;">
@@ -30,7 +30,7 @@
         <p:column headerText="#{ivy.cm.co('/common/Version')}" filterBy="#{version.version}">
           <h:outputLink value="#{cc.attrs.bean.getLink(version)}">
             <i class="ti ti-packages table-icon" />
-            <h:outputText value="#{version.version}" />
+            <span><h:outputText value="#{version.version}" /></span>
           </h:outputLink>
         </p:column>
 
@@ -55,22 +55,22 @@
           </h:panelGroup>
         </p:column>
         <p:column style="text-align: center; width: 150px">
-          <p:commandButton icon="ti ti-upload" title="#{ivy.cm.co('/common/Deployment')}"
+          <p:commandButton id="deployBtn" icon="ti ti-upload" title="#{ivy.cm.co('/common/Deployment')}"
             styleClass="ml-1 ui-button-primary rounded-button" process="@this"
             actionListener="#{deploymentBean.setAppNameAndVersion(cc.attrs.bean.securitySystem.securitySystemName, cc.attrs.bean.app, version.version)}"
             update=":deployPanel" oncomplete="PF('fileUploadModal').show();" />
-          <p:commandButton icon="ti ti-player-play" title="#{ivy.cm.co('/common/Activate')}"
+          <p:commandButton id="activateBtn" icon="ti ti-player-play" title="#{ivy.cm.co('/common/Activate')}"
             disabled="#{version.notStartable}" styleClass="ml-1 ui-button-success rounded-button">
             <p:ajax listener="#{version.activate}" update="@form:versionsTable" />
           </p:commandButton>
-          <p:commandButton icon="ti ti-player-stop" title="#{ivy.cm.co('/common/Deactivate')}"
+          <p:commandButton id="deactivateBtn" icon="ti ti-player-stop" title="#{ivy.cm.co('/common/Deactivate')}"
             disabled="#{version.notStopable}" styleClass="ml-1 ui-button-danger rounded-button">
             <p:ajax listener="#{version.deactivate}" update="@form:versionsTable" />
           </p:commandButton>
           <p:commandButton title="#{ivy.cm.co('/common/More')}" id="tasksButton" type="button" icon="ti ti-menu-2"
             styleClass="ml-1 ui-button-secondary rounded-button ui-button-outlined" />
           <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
-            <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" icon="ti ti-crane"
+            <p:menuitem id="releaseBtn" value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" icon="ti ti-crane"
               disabled="#{not version.releasable}" actionListener="#{version.release}" update="@form:versionsTable" />
             <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
               disabled="#{not empty version.isDeletable()}" action="#{applicationBean.delete(version)}"
