@@ -31,7 +31,7 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> implements 
 
   @Override
   protected void buildTree() {
-    var rootTree = IBusinessCalendarSettings.of(managerBean.getSelectedIApplication()).getAllBusinessCalendarConfigurations();
+    var rootTree = IBusinessCalendarSettings.of(managerBean.getSelectedApplication()).getAllBusinessCalendarConfigurations();
     var node = new DefaultTreeNode<>(findCalendar(rootTree.getInfo()), rootTreeNode);
     node.setExpanded(true);
     buildCalendarTree(rootTree, node);
@@ -76,7 +76,7 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> implements 
   }
 
   private IBusinessCalendarConfiguration getBusinessCalendarConfiguration(String calendarName) {
-    var app = managerBean.getSelectedIApplication();
+    var app = managerBean.getSelectedApplication();
     var settings = IBusinessCalendarSettings.of(app);
     var config = settings.findBusinessCalendarConfiguration(calendarName);
     if (config == null) {

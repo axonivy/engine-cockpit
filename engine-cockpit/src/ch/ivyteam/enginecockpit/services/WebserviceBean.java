@@ -4,12 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -27,7 +26,7 @@ public class WebserviceBean implements Serializable {
 
   public void reloadWebservices() {
     webservices = WebServiceClients
-        .of(managerBean.getSelectedIApplication())
+        .of(managerBean.getSelectedApplication())
         .all().stream()
         .map(Webservice::new)
         .collect(Collectors.toList());

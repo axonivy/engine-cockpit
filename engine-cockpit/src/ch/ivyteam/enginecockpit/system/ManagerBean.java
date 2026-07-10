@@ -59,7 +59,7 @@ public class ManagerBean implements Serializable {
 
   public void reloadApplications() {
     int appCount = applications.size();
-    applications = getIApplications();
+    applications = loadApplications();
     if (selectedApplicationIndex != 0 && appCount != applications.size()) {
       selectedApplicationIndex = 0;
     }
@@ -132,10 +132,6 @@ public class ManagerBean implements Serializable {
     return ApplicationBean.getLink(getSelectedSecuritySystem().getSecuritySystemName(), getSelectedApplicationName());
   }
 
-  public IApplicationRepository apps() {
-    return apps;
-  }
-
   public IApplication getSelectedApplication() {
     if (applications.isEmpty()) {
       return null;
@@ -143,18 +139,7 @@ public class ManagerBean implements Serializable {
     return applications.get(selectedApplicationIndex);
   }
 
-  public IApplication getSelectedIApplication() {
-    if (applications.isEmpty()) {
-      return null;
-    }
-    return getIApplication(getSelectedApplication().getId());
-  }
-
-  private IApplication getIApplication(long id) {
-    return apps.findById(id).orElse(null);
-  }
-
-  public List<IApplication> getIApplications() {
+  private List<IApplication> loadApplications() {
     return apps.all().stream()
         .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
         .collect(Collectors.toList());
@@ -165,7 +150,7 @@ public class ManagerBean implements Serializable {
   }
 
   public String getApplicationCount() {
-    return formatNumber(getIApplications().size());
+    return formatNumber(applications.size());
   }
 
   public String getUsersCount() {
