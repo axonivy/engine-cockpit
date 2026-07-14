@@ -75,6 +75,7 @@
                       <exclude>**/engine-cockpit-monitor-notifications.png</exclude>
                       <exclude>**/engine-cockpit-monitor-logs.png</exclude>
                       <exclude>**/engine-cockpit-monitor-jobs.png</exclude>
+                      <exclude>**/engine-cockpit-monitor-traffic-graph.png</exclude>
                       <exclude>**/engine-cockpit-dashboard.png</exclude>
                       <exclude>**/engine-cockpit-pmv-detail.png</exclude>
                     </excludes>
