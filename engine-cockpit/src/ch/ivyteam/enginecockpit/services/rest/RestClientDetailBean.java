@@ -6,11 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import ch.ivyteam.enginecockpit.commons.Feature;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
@@ -22,13 +17,17 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.services.model.RestClientDto;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.RestClient.Builder;
 import ch.ivyteam.ivy.rest.client.RestClients;
 import ch.ivyteam.ivy.rest.client.internal.RestClientExecutionManager;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped

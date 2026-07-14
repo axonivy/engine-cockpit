@@ -8,13 +8,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-import jakarta.ws.rs.ProcessingException;
-import jakarta.ws.rs.client.Entity;
-
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.enginecockpit.commons.Feature;
@@ -29,13 +22,19 @@ import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.ssl.restricted.SslConnectionTesterClient;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManager;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.ws.rs.ProcessingException;
+import jakarta.ws.rs.client.Entity;
 
 @Named
 @ViewScoped
