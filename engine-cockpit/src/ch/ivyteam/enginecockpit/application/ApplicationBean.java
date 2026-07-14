@@ -9,10 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-import jakarta.ws.rs.core.UriBuilder;
-
 import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.commons.ContentFilter;
@@ -21,13 +17,13 @@ import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
-import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
-import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.app.NewApplication;
 import ch.ivyteam.ivy.application.app.link.AppLink;
+import ch.ivyteam.ivy.application.app.state.ActivityState;
+import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -36,6 +32,9 @@ import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.StandardProcessType;
 import ch.ivyteam.ivy.workflow.standard.DefaultPagesConfigurator;
 import ch.ivyteam.ivy.workflow.standard.StandardProcessStartFinder;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.ws.rs.core.UriBuilder;
 
 @Named
 @ViewScoped

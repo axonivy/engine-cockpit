@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.testdata.security;
 
 import java.util.UUID;
 
-import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -38,11 +37,10 @@ public class DynamicRoles {
   }
 
   private static ISecurityContext context() {
-    return IApplicationRepository.instance()
-        .findByName("test").stream()
-        .filter(a -> a.getReleaseState() == ReleaseState.RELEASED)
-        .findAny()
-        .orElseThrow()
-        .getSecurityContext();
+    var app = IApplicationRepository.instance().findReleasedByName("test");
+    if (app == null) {
+      throw new RuntimeException("test application not found.");
+    }
+    return app.getSecurityContext();
   }
 }

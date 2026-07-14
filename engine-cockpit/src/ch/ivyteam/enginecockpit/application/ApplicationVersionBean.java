@@ -5,25 +5,24 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-import jakarta.ws.rs.core.UriBuilder;
-
 import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.util.DateUtil;
-import ch.ivyteam.ivy.application.ActivityOperationState;
-import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
-import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.application.app.state.ActivityOperationState;
+import ch.ivyteam.ivy.application.app.state.ActivityState;
+import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.ws.rs.core.UriBuilder;
 
 @Named
 @ViewScoped
