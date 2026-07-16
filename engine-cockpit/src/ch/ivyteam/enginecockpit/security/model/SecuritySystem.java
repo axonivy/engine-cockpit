@@ -6,8 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.ws.rs.core.UriBuilder;
-
 import org.apache.commons.io.IOUtils;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
@@ -16,6 +14,7 @@ import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
+import jakarta.ws.rs.core.UriBuilder;
 
 public class SecuritySystem {
 
@@ -53,7 +52,7 @@ public class SecuritySystem {
   }
 
   public String getSecuritySystemName() {
-    return securityContext.getName();
+    return securityContext.name();
   }
 
   public long getId() {
@@ -63,7 +62,7 @@ public class SecuritySystem {
   public List<App> getApps() {
     if (apps == null) {
       apps = IApplicationRepository.of(securityContext).all().stream()
-          .map(app -> new App(app.getName(), app.getVersion()))
+          .map(app -> new App(app.name(), app.version()))
           .collect(Collectors.toList());
     }
     return apps;

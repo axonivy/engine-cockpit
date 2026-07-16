@@ -98,7 +98,7 @@ public class ManagerBean implements Serializable {
   public void updateSelectedApplication(TabChangeEvent<?> event) {
     setSelectedApplicationIndex(0);
     for (var app : applications) {
-      if (app.getName().equals(event.getTab().getTitle())) {
+      if (app.name().equals(event.getTab().getTitle())) {
         setSelectedApplicationIndex(applications.indexOf(app));
       }
     }
@@ -114,7 +114,7 @@ public class ManagerBean implements Serializable {
 
   public void setSelectedApplicationName(String appName) {
     for (int i = 0; i < applications.size(); i++) {
-      if (applications.get(i).getName().equals(appName)) {
+      if (applications.get(i).name().equals(appName)) {
         setSelectedApplicationIndex(i);
         return;
       }
@@ -126,7 +126,7 @@ public class ManagerBean implements Serializable {
     if (selectedApplication == null) {
       return "";
     }
-    return selectedApplication.getName();
+    return selectedApplication.name();
   }
 
   public String getSelectedApplicationDetailLink() {
@@ -143,7 +143,7 @@ public class ManagerBean implements Serializable {
   private List<IApplication> loadApplications() {
     return apps.all().stream()
         .filter(app -> app.state().releaseState() == ReleaseState.RELEASED)
-        .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
+        .sorted(Comparator.comparing(IApplication::name, String.CASE_INSENSITIVE_ORDER))
         .collect(Collectors.toList());
   }
 
@@ -161,7 +161,7 @@ public class ManagerBean implements Serializable {
 
   public String getRunningCasesCount() {
     long runningCases = getApplications().stream()
-        .mapToLong(app -> IWorkflowContext.of(app.getSecurityContext()).getRunningCasesCount(app))
+        .mapToLong(app -> IWorkflowContext.of(app.securityContext()).getRunningCasesCount(app))
         .sum();
     return formatNumber(runningCases);
   }
@@ -171,7 +171,7 @@ public class ManagerBean implements Serializable {
   }
 
   public boolean isIvySecuritySystemForSelectedApp() {
-    return SecuritySystem.isIvySecuritySystem(getSelectedApplication().getSecurityContext());
+    return SecuritySystem.isIvySecuritySystem(getSelectedApplication().securityContext());
   }
 
   public boolean isRestartEngine() {

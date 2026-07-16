@@ -6,8 +6,8 @@ import ch.ivyteam.ivy.application.app.link.AppLink;
 public record Application(String name, boolean devMode, String homeUrl, String devWorkflowUrl) {
 
   public Application(IApplication app) {
-    var name = app.getName();
-    var devMode = app.getSecurityContext().isDevMode();
+    var name = app.name();
+    var devMode = app.securityContext().isDevMode();
     var homeUrl = AppLink.home(app).getRelative();
     var devWorkflowUrl = AppLink.devWorkflow(app).getRelative();
     this(name, devMode, homeUrl, devWorkflowUrl);

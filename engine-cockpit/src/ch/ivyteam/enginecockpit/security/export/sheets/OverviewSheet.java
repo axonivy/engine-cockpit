@@ -7,8 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.faces.context.FacesContext;
-
 import ch.ivyteam.enginecockpit.security.export.excel.Excel;
 import ch.ivyteam.enginecockpit.security.export.excel.Row;
 import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
@@ -18,6 +16,7 @@ import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.IUser;
+import jakarta.faces.context.FacesContext;
 
 public class OverviewSheet {
 
@@ -58,7 +57,7 @@ public class OverviewSheet {
     sheet.mergeCells(0, 2);
 
     rowNr = 0;
-    rows.get(rowNr++).createResultCellWidth(1, securityContext.getName(), 5);
+    rows.get(rowNr++).createResultCellWidth(1, securityContext.name(), 5);
     rows.get(rowNr++).createResultCellWidth(1, getApplicationNames(), 5);
     var dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     rows.get(rowNr++).createResultCellWidth(1, dtf.format(LocalDateTime.now()), 5);
@@ -75,7 +74,7 @@ public class OverviewSheet {
 
   private String getApplicationNames() {
     return IApplicationRepository.of(securityContext).all().stream()
-        .map(IApplication::getName)
+        .map(IApplication::name)
         .collect(Collectors.joining(", "));
   }
 

@@ -53,7 +53,7 @@ public class ApplicationsBean implements Serializable {
     }
 
     return IApplicationRepository.of(securityContext).all().stream()
-        .collect(Collectors.groupingBy(IApplication::getName))
+        .collect(Collectors.groupingBy(IApplication::name))
         .entrySet().stream()
         .map(entry -> new ApplicationRowConverter(entry.getKey(), entry.getValue()).convert())
         .sorted(Comparator.comparing(ApplicationRow::getName, String.CASE_INSENSITIVE_ORDER))
@@ -178,16 +178,16 @@ public class ApplicationsBean implements Serializable {
     private List<ApplicationVersion> findDeprecatedVersions() {
       return apps.stream()
           .filter(app -> app.state().releaseState() == ReleaseState.DEPRECATED)
-          .sorted(Comparator.comparingInt(IApplication::getVersion))
+          .sorted(Comparator.comparingInt(IApplication::version))
           .map(this::toApplicationVersion)
           .collect(Collectors.toList());
     }
 
     private ApplicationVersion toApplicationVersion(IApplication app) {
       return new ApplicationVersion(
-          app.getSecurityContext().getName(),
-          app.getName(),
-          String.valueOf(app.getVersion()));
+          app.securityContext().name(),
+          app.name(),
+          String.valueOf(app.version()));
     }
   }
 }
