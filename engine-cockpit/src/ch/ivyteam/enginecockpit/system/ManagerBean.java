@@ -142,7 +142,7 @@ public class ManagerBean implements Serializable {
 
   private List<IApplication> loadApplications() {
     return apps.all().stream()
-        .filter(app -> app.getReleaseState() == ReleaseState.RELEASED)
+        .filter(app -> app.state().releaseState() == ReleaseState.RELEASED)
         .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
         .collect(Collectors.toList());
   }

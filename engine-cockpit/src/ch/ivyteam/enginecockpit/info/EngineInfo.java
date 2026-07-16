@@ -33,7 +33,7 @@ public class EngineInfo {
 
   public EngineInfo() {
     applications = IApplicationRepository.instance().all().stream()
-        .filter(app -> app.getReleaseState() == ReleaseState.RELEASED && app.getActivityState() == ActivityState.ACTIVE)
+        .filter(app -> app.state().releaseState() == ReleaseState.RELEASED && app.state().activityState() == ActivityState.ACTIVE)
         .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
         .map(Application::new)
         .filter(this::isNotInDevMode)

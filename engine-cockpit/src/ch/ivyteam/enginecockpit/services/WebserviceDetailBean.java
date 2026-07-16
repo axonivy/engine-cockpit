@@ -23,7 +23,6 @@ import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
-import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.ssl.restricted.SslConnectionTesterClient;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
@@ -78,10 +77,7 @@ public class WebserviceDetailBean extends DetailView implements FeatureEditor, S
   }
 
   public void onload() {
-    app = IApplicationRepository.instance().findByName(appName).stream()
-        .filter(a -> a.getReleaseState() == ReleaseState.RELEASED)
-        .findAny()
-        .orElse(null);
+    app = IApplicationRepository.instance().findReleasedByName(appName);
     if (app == null) {
       ResponseHelper.notFound(Ivy.cm().content("/common/NotFoundApplication").replace("application", appName).get());
       return;
