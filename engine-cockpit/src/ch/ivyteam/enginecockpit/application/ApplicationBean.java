@@ -180,7 +180,7 @@ public class ApplicationBean implements Serializable {
   }
 
   public boolean isDisabled() {
-    return app.getReleaseState() != ReleaseState.RELEASED || app.getActivityState() != ActivityState.ACTIVE;
+    return app.state().releaseState() != ReleaseState.RELEASED || app.state().activityState() != ActivityState.ACTIVE;
   }
 
   public String getNameFilter() {
@@ -278,19 +278,19 @@ public class ApplicationBean implements Serializable {
     }
 
     public ReleaseState getReleaseState() {
-      return app.getReleaseState();
+      return app.state().releaseState();
     }
 
     public String getReleaseStateLabel() {
-      return app.getReleaseState().toString();
+      return app.state().releaseState().toString();
     }
 
     public String getReleaseStateStyleClass() {
-      return "state-badge state-app-" + app.getReleaseState().name().toLowerCase();
+      return "state-badge state-app-" + app.state().releaseState().name().toLowerCase();
     }
 
     public String getReleaseStateIcon() {
-      return switch (app.getReleaseState()) {
+      return switch (app.state().releaseState()) {
         case RELEASED -> "ti ti-circle-check";
         case DEPRECATED -> "ti ti-circle-half-vertical";
         case ARCHIVED -> "ti ti-archive";
@@ -300,15 +300,15 @@ public class ApplicationBean implements Serializable {
     }
 
     public String getActivityStateLabel() {
-      return app.getActivityState().toString();
+      return app.state().activityState().toString();
     }
 
     public String getActivityStateStyleClass() {
-      return "state-badge state-app-" + app.getActivityState().name().toLowerCase();
+      return "state-badge state-app-" + app.state().activityState().name().toLowerCase();
     }
 
     public String getActivityStateIcon() {
-      return switch (app.getActivityState()) {
+      return switch (app.state().activityState()) {
         case ACTIVE -> "ti ti-player-play";
         case INACTIVE -> "ti ti-player-stop";
         default -> "ti ti-help-circle";
@@ -316,19 +316,19 @@ public class ApplicationBean implements Serializable {
     }
 
     public boolean isNotStartable() {
-      return app.getActivityState() == ActivityState.ACTIVE;
+      return app.state().activityState() == ActivityState.ACTIVE;
     }
 
     public boolean isNotStopable() {
-      return app.getActivityState() == ActivityState.INACTIVE;
+      return app.state().activityState() == ActivityState.INACTIVE;
     }
 
     public boolean isReleasable() {
-      return app.getReleaseState() != ReleaseState.RELEASED;
+      return app.state().releaseState() != ReleaseState.RELEASED;
     }
 
     public List<String> isDeletable() {
-      return app.isDeletable();
+      return app.state().isDeletable();
     }
 
     public String getNotDeletableMessage() {
@@ -343,15 +343,15 @@ public class ApplicationBean implements Serializable {
     }
 
     public void activate() {
-      execute(app::activate, "activate");
+      execute(() -> app.state().activate(), "activate");
     }
 
     public void deactivate() {
-      execute(app::deactivate, "deactivate");
+      execute(() -> app.state().deactivate(), "deactivate");
     }
 
     public void release() {
-      execute(app::release, "release");
+      execute(() -> app.state().release(), "release");
     }
 
     private static void execute(Runnable operation, String actionKey) {

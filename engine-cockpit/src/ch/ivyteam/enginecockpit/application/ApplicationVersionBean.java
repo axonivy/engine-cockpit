@@ -62,21 +62,13 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public void onload() {
-    context = ISecurityContextRepository.instance().all().stream()
-        .filter(context -> contextName.equals(context.getName()))
-        .findAny()
-        .orElse(null);
+    context = ISecurityContextRepository.instance().get(context.getName());
     if (context == null) {
       ResponseHelper.notFound("Security context not found: " + contextName);
       return;
     }
 
-    app =  IApplicationRepository.of(context).all().stream()
-        .filter(app -> app.getName().equals(appName))
-        .filter(app -> appVersion == app.getVersion())
-        .findAny()
-        .orElse(null);
-
+    app =  IApplicationRepository.of(context).findByNameAndVersion(appName, appVersion).orElse(null);
     if (app == null) {
       ResponseHelper.notFound("Application not found: " + appName);
       return;
@@ -141,16 +133,16 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public boolean isNotStartable() {
-    return app.getActivityState() == ActivityState.ACTIVE;
+    return app.state().activityState() == ActivityState.ACTIVE;
   }
 
   public boolean isNotStopable() {
-    return app.getActivityState() == ActivityState.INACTIVE;
+    return app.state().activityState() == ActivityState.INACTIVE;
   }
 
   public AppState getState() {
     var state = new AppState(app);
-    state.updateReleaseState(app.getReleaseState());
+    state.updateReleaseState(app.state().releaseState());
     return state;
   }
 
@@ -211,9 +203,9 @@ public class ApplicationVersionBean implements Serializable {
       updateOperation(null);
     }
 
-    public AppState(IApplication activity) {
-      updateState(activity.getActivityState());
-      updateOperation(activity.getActivityOperationState());
+    public AppState(IApplication app) {
+      updateState(app.state().activityState());
+      updateOperation(app.state().activityOperationState());
     }
 
     public String getState() {
@@ -255,9 +247,8 @@ public class ApplicationVersionBean implements Serializable {
       this.activityState = update.name();
       switch (update) {
         case ACTIVE -> this.activityStateIcon = "ti ti-circle-check";
-        default -> this.activityStateIcon = "ti ti-player-pause";
+        case INACTIVE -> this.activityStateIcon = "ti ti-player-pause";
       }
-      ;
     }
 
     private void updateOperation(ActivityOperationState update) {
@@ -289,9 +280,6 @@ public class ApplicationVersionBean implements Serializable {
         case CREATED, PREPARED -> this.releaseStateIcon = "ti ti-speakerphone";
         default -> this.releaseStateIcon = "ti ti-help-circle";
       }
-      ;
     }
   }
-
-  
 }

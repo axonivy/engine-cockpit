@@ -62,11 +62,9 @@ public class ApplicationsBean implements Serializable {
 
   public void createApplication() {
     try {
-      var securityContext = ISecurityManager.instance()
-          .securityContexts()
+      var securityContext = ISecurityManager.instance().securityContexts()
           .get(newApplication.getSecurityContextName());
-      IApplicationRepository
-          .of(securityContext)
+      IApplicationRepository.of(securityContext)
           .create(ch.ivyteam.ivy.application.app.NewApplication.create(newApplication.getAppName()).toNewApplication());
       reload();
     } catch (RuntimeException ex) {
@@ -171,7 +169,7 @@ public class ApplicationsBean implements Serializable {
 
     private ApplicationVersion findReleasedVersion() {
       return apps.stream()
-          .filter(app -> app.getReleaseState() == ReleaseState.RELEASED)
+          .filter(app -> app.state().releaseState() == ReleaseState.RELEASED)
           .findAny()
           .map(this::toApplicationVersion)
           .orElse(null);
@@ -179,7 +177,7 @@ public class ApplicationsBean implements Serializable {
 
     private List<ApplicationVersion> findDeprecatedVersions() {
       return apps.stream()
-          .filter(app -> app.getReleaseState() == ReleaseState.DEPRECATED)
+          .filter(app -> app.state().releaseState() == ReleaseState.DEPRECATED)
           .sorted(Comparator.comparingInt(IApplication::getVersion))
           .map(this::toApplicationVersion)
           .collect(Collectors.toList());

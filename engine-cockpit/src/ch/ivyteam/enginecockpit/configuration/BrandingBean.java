@@ -29,7 +29,6 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
-import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.application.branding.BrandingIO;
 import ch.ivyteam.ivy.application.branding.BrandingResolver;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -76,10 +75,7 @@ public class BrandingBean implements AllResourcesDownload, Serializable {
       if (!ALLOWED_EXTENSIONS.contains(extension)) {
         throw new InvalidAttributesException("Not supported file extension: '" + extension + "'");
       }
-      var app = IApplicationRepository.instance().findByName(managerBean.getSelectedApplicationName()).stream()
-          .filter(a -> a.getReleaseState() == ReleaseState.RELEASED)
-          .findAny()
-          .orElse(null);
+      var app = IApplicationRepository.instance().findReleasedByName(managerBean.getSelectedApplicationName());
       try (var in = uploadFile.getInputStream()) {
         var newResourceName = new BrandingIO(app).setImage(getCurrentRes(), extension, in);
         message = new FacesMessage(FacesMessage.SEVERITY_INFO, Ivy.cm().co("/common/Success"),
