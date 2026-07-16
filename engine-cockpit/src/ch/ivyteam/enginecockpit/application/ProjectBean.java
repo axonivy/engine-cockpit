@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-import jakarta.ws.rs.core.UriBuilder;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.project.model.ProjectVersion;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.ws.rs.core.UriBuilder;
 
 @Named
 @ViewScoped
@@ -61,10 +61,7 @@ public class ProjectBean implements Serializable {
   }
 
   public void onload() {
-    var securityContext = ISecurityContextRepository.instance().all().stream()
-        .filter(ctx -> ctx.getName().equals(context))
-        .findAny()
-        .orElse(null);
+    var securityContext = ISecurityContextRepository.instance().get(context);
     if (securityContext == null) {
       ResponseHelper.notFound("Security context not found: " + context);
       return;
@@ -76,7 +73,7 @@ public class ProjectBean implements Serializable {
       return;
     }
 
-    var iProject = app.findProcessModelVersion(projectName);
+    var iProject = app.projects().find(projectName);
     if (iProject == null) {
       ResponseHelper.notFound("Process Model Version '" + projectName + "' for version '" + version + "' in app '"
           + appName + "' not found");
@@ -146,9 +143,9 @@ public class ProjectBean implements Serializable {
 
     public String getLink() {
       return ProjectBean.getLink(
-          project.getApplication().getSecurityContext().getName(),
-          project.getApplication().getName(),
-          project.getApplication().getVersion(),
+          project.getApplication().securityContext().name(),
+          project.getApplication().name(),
+          project.getApplication().version(),
           project.getName());
     }
 

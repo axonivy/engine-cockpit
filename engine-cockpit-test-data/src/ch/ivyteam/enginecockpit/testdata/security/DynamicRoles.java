@@ -41,6 +41,6 @@ public class DynamicRoles {
     if (app == null) {
       throw new RuntimeException("test application not found.");
     }
-    return app.getSecurityContext();
+    return app.securityContext();
   }
 }

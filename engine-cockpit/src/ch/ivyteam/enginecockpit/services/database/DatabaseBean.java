@@ -80,7 +80,7 @@ public class DatabaseBean extends DetailView implements Serializable {
 
     databases = Databases.of(app);
     reloadExternalDb();
-    liveStats = new DatabaseMonitor(app.getName(), app.getVersion(), databaseName);
+    liveStats = new DatabaseMonitor(app.name(), app.version(), databaseName);
   }
 
   public String getViewUrl() {

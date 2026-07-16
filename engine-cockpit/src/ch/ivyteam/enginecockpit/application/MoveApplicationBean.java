@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.move.ApplicationMover;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -14,6 +11,8 @@ import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISecurityManager;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -85,19 +84,19 @@ public class MoveApplicationBean implements Serializable {
     if (app == null) {
       return null;
     }
-    return app.getName();
+    return app.name();
   }
 
   public String getSecuritySystemName() {
     if (app == null) {
       return null;
     }
-    return app.getSecurityContext().getName();
+    return app.securityContext().getName();
   }
 
   public List<String> getSecuritySystems() {
     return ISecurityManager.instance().securityContexts().all().stream()
-        .filter(s -> app != null && !s.equals(app.getSecurityContext()))
+        .filter(s -> app != null && !s.equals(app.securityContext()))
         .map(ISecurityContext::getName)
         .collect(Collectors.toList());
   }

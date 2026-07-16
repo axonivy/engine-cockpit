@@ -2,11 +2,6 @@ package ch.ivyteam.enginecockpit.services.rest;
 
 import java.util.Optional;
 
-import jakarta.ws.rs.ProcessingException;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.Response.Status.Family;
-import jakarta.ws.rs.core.Response.StatusType;
-
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
@@ -18,6 +13,10 @@ import ch.ivyteam.ivy.application.pmv.context.ProcessModelVersionContext;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.security.di.SecurityContextContext;
+import jakarta.ws.rs.ProcessingException;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Response.Status.Family;
+import jakarta.ws.rs.core.Response.StatusType;
 
 public class RestTestRunner {
 
@@ -30,7 +29,7 @@ public class RestTestRunner {
   }
 
   public ConnectionTestResult test() {
-    return new SecurityContextContext(app.getSecurityContext()).getInContext(this::testInSecurityContext);
+    return new SecurityContextContext(app.securityContext()).getInContext(this::testInSecurityContext);
   }
 
   private ConnectionTestResult testInSecurityContext() {
@@ -50,7 +49,7 @@ public class RestTestRunner {
 
   private Optional<IProcessModelVersion> findClientPmv() {
     var restManager = ch.ivyteam.ivy.rest.client.config.restricted.IRestClientsManager.instance();
-    return app.getProcessModelVersions()
+    return app.projects().all()
         .filter(pmv -> restManager.getProjectDataModelFor(pmv.project()).findRestClient(uiClient.key()).isPresent())
         .findAny();
   }

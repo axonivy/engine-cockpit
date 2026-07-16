@@ -220,7 +220,7 @@ public class BrandingBean implements AllResourcesDownload, Serializable {
           .builder()
           .stream(() -> new ByteArrayInputStream(out.toByteArray()))
           .contentType("application/zip")
-          .name("branding-" + app.getName() + ".zip")
+          .name("branding-" + app.name() + ".zip")
           .build();
     } catch (IOException ex) {
       var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/common/Error"), ex.getMessage());
@@ -232,7 +232,7 @@ public class BrandingBean implements AllResourcesDownload, Serializable {
   private static List<Path> appBrandingDirs(IApplication app) throws IOException {
     var resolver = new BrandingResolver(app);
     if (!resolver.hasBrandingResources()) {
-      throw new IOException(Ivy.cm().content("/branding/DownloadBrandingResourcesError").replace("appName", app.getName()).get());
+      throw new IOException(Ivy.cm().content("/branding/DownloadBrandingResourcesError").replace("appName", app.name()).get());
     }
     var paths = new ArrayList<Path>();
     if (Files.exists(resolver.configDir())) {

@@ -8,11 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
@@ -22,6 +17,10 @@ import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.identity.core.IdentityProviderRegistry;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.internal.context.SecurityContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -80,7 +79,7 @@ public class SecurityBean implements Serializable {
   }
 
   public void triggerSyncForSelectedApp() {
-    managerBean.getSelectedApplication().getSecurityContext().triggerSynchronization();
+    managerBean.getSelectedApplication().securityContext().triggerSynchronization();
   }
 
   public boolean isIvySecurityForSelectedApp() {
@@ -96,7 +95,7 @@ public class SecurityBean implements Serializable {
   }
 
   public boolean isSyncRunningForSelectedApp() {
-    return managerBean.getSelectedApplication().getSecurityContext().isSynchronizationRunning();
+    return managerBean.getSelectedApplication().securityContext().isSynchronizationRunning();
   }
 
   public boolean isAnySyncRunning() {

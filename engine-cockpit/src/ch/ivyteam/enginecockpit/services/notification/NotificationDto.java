@@ -4,14 +4,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import jakarta.ws.rs.core.UriBuilder;
-
 import ch.ivyteam.enginecockpit.application.ProjectBean;
 import ch.ivyteam.enginecockpit.security.model.SecurityMember;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.notification.Notification;
 import ch.ivyteam.ivy.notification.channel.Event;
 import ch.ivyteam.ivy.notification.delivery.NotificationDeliveryRepository;
+import jakarta.ws.rs.core.UriBuilder;
 
 public class NotificationDto {
 
@@ -61,9 +60,9 @@ public class NotificationDto {
   public String getPmvUri() {
     return notification.pmv()
       .map(pmv -> ProjectBean.getLink(
-        pmv.getApplication().getSecurityContext().getName(),
-        pmv.getApplication().getName(),
-        pmv.getApplication().getVersion(),
+        pmv.getApplication().securityContext().getName(),
+        pmv.getApplication().name(),
+        pmv.getApplication().version(),
         pmv.getName()))
         .orElse("");
   }

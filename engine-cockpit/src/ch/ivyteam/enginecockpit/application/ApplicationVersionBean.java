@@ -74,7 +74,7 @@ public class ApplicationVersionBean implements Serializable {
       return;
     }
 
-    projects = app.getProcessModelVersions()
+    projects = app.projects().all()
         .map(this::toProjectRow)
         .sorted(Comparator.comparing(ProjectRow::name, String.CASE_INSENSITIVE_ORDER))
         .collect(Collectors.toList());
@@ -125,7 +125,7 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public String getFileDir() {
-    return app.getDirectory().toString();
+    return app.paths().install().toString();
   }
 
   public SecuritySystem getSecuritySystem() {

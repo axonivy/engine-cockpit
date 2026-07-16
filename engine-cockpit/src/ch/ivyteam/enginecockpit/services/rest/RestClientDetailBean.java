@@ -85,7 +85,7 @@ public class RestClientDetailBean extends DetailView implements FeatureEditor, S
 
     loadRestClient();
     reloadExternalRestClient();
-    liveStats = new RestClientMonitor(app.getName(), app.getVersion(), restClient.getKey());
+    liveStats = new RestClientMonitor(app.name(), app.version(), restClient.getKey());
   }
 
   private void reloadExternalRestClient() {

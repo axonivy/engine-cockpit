@@ -67,8 +67,8 @@ public class ApplicationBean implements Serializable {
 
     if (app == null) {
       app = apps.all().stream()
-          .filter(a -> a.getName().equals(appName))
-          .max(Comparator.comparingInt(IApplication::getVersion))
+          .filter(a -> a.name().equals(appName))
+          .max(Comparator.comparingInt(IApplication::version))
           .orElse(null);
     }
 
@@ -80,7 +80,7 @@ public class ApplicationBean implements Serializable {
     configView = new ConfigViewBuilder(app).build();
 
     applicationVersions = apps.all().stream()
-        .filter(a -> a.getName().equals(appName))
+        .filter(a -> a.name().equals(appName))
         .map(ApplicationVersionRow::new)
         .sorted(Comparator.comparing(ApplicationVersionRow::getVersion).reversed())
         .collect(Collectors.toList());
@@ -108,7 +108,7 @@ public class ApplicationBean implements Serializable {
     try {
       IApplicationRepository
           .of(context)
-          .create(NewApplication.create(app.getName()).toNewApplication());
+          .create(NewApplication.create(app.name()).toNewApplication());
       onload();
     } catch (RuntimeException ex) {
       Message.error()
@@ -125,7 +125,7 @@ public class ApplicationBean implements Serializable {
     Message.info()
         .clientId("applicationMessage")
         .summary(Ivy.cm().content("/configuration/ReloadApplicationConfigurationMessage")
-            .replace("application", app.getName())
+            .replace("application", app.name())
             .get())
         .show();
   }
@@ -241,7 +241,7 @@ public class ApplicationBean implements Serializable {
     private static List<String> librariesOf(IApplication app) {
       var libs = new LinkedList<String>();
       libs.add("");
-      app.getProcessModelVersions()
+      app.projects().all()
           .map(IProcessModelVersion::getLibraryId)
           .distinct()
           .forEach(libs::add);
@@ -267,11 +267,11 @@ public class ApplicationBean implements Serializable {
     }
 
     public int getVersionNumber() {
-      return app.getVersion();
+      return app.version();
     }
 
     public String getVersion() {
-      return String.valueOf(app.getVersion());
+      return String.valueOf(app.version());
     }
 
     public IApplication getApp() {
@@ -338,7 +338,7 @@ public class ApplicationBean implements Serializable {
 
     public long getRunningCasesCount() {
       if (runningCasesCount < 0) {
-        runningCasesCount = IWorkflowContext.of(app.getSecurityContext()).getRunningCasesCount(app);
+        runningCasesCount = IWorkflowContext.of(app.securityContext()).getRunningCasesCount(app);
       }
       return runningCasesCount;
     }

@@ -34,7 +34,7 @@ public class EngineInfo {
   public EngineInfo() {
     applications = IApplicationRepository.instance().all().stream()
         .filter(app -> app.state().releaseState() == ReleaseState.RELEASED && app.state().activityState() == ActivityState.ACTIVE)
-        .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
+        .sorted(Comparator.comparing(IApplication::name, String.CASE_INSENSITIVE_ORDER))
         .map(Application::new)
         .filter(this::isNotInDevMode)
         .collect(Collectors.toList());
@@ -84,7 +84,7 @@ public class EngineInfo {
   public List<Application> getApplications() {
     if (isDemo()) {
       return applications.stream()
-          .filter(app -> !"demo-portal".equals(app.getName()))
+          .filter(app -> !"demo-portal".equals(app.name()))
           .collect(Collectors.toList());
     }
     if (isMaintenance()) {
