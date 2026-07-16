@@ -13,17 +13,17 @@
     <div class="layout-menu-container">
       <h:form id="menuform" styleClass="ec-menuform">
         <pm:menu widgetVar="sidebar_menu">
-          <p:menuitem id="sr_dashboard" value="#{ivy.cm.co('/sidebar/Dashboard')}" icon="ti ti-layout-dashboard" url="dashboard.xhtml" />
+          <p:menuitem id="sr_dashboard" value="#{ivy.cm.co('/sidebar/Dashboard')}" icon="ti ti-home" url="dashboard.xhtml" />
           <p:menuitem id="sr_applications" value="#{ivy.cm.co('/common/Applications')}" icon="ti ti-layout-grid"
             url="applications.xhtml" />
           <p:submenu id="sr_security" label="#{ivy.cm.co('/common/Security')}" icon="ti ti-shield-lock">
             <p:menuitem id="sr_security_system" value="#{ivy.cm.co('/common/SecuritySystems')}" icon="ti ti-lock"
               url="securitysystem.xhtml" />
-            <p:menuitem id="sr_users" value="#{ivy.cm.co('/common/Users')}" icon="ti ti-user-check" url="users.xhtml" />
+            <p:menuitem id="sr_users" value="#{ivy.cm.co('/common/Users')}" icon="ti ti-user" url="users.xhtml" />
             <p:menuitem id="sr_roles" value="#{ivy.cm.co('/common/Roles')}" icon="ti ti-users" url="roles.xhtml" />
           </p:submenu>
 
-          <p:submenu id="sr_configuration" label="#{ivy.cm.co('/common/Configuration')}" icon="ti ti-settings">
+          <p:submenu id="sr_configuration" label="#{ivy.cm.co('/common/Configuration')}" icon="ti ti-adjustments-alt">
             <p:menuitem id="sr_variables" value="#{ivy.cm.co('/common/Variables')}" icon="ti ti-archive"
               url="variables.xhtml" />
             <p:menuitem id="sr_business_calendar" value="#{ivy.cm.co('/common/BusinessCalendar')}" icon="ti ti-calendar-event"

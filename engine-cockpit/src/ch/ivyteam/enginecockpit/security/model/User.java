@@ -81,7 +81,7 @@ public class User implements SecurityMember {
 
   @Override
   public String getCssIconClass() {
-    return "ti ti-user-check";
+    return "ti ti-user";
   }
 
   @Override
