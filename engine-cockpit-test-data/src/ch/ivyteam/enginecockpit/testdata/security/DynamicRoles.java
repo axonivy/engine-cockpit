@@ -2,7 +2,7 @@ package ch.ivyteam.enginecockpit.testdata.security;
 
 import java.util.UUID;
 
-import ch.ivyteam.ivy.application.app.impl.ApplicationRepository;
+import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.exec.Sudo;

@@ -23,7 +23,7 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.system.SystemDatabaseBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.app.impl.ApplicationRepository;
+import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.db.Database.Builder;
 import ch.ivyteam.ivy.db.Databases;
 import ch.ivyteam.ivy.db.IExternalDatabaseManager;

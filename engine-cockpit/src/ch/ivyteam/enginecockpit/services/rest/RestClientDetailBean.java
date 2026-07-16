@@ -17,7 +17,7 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.services.model.RestClientDto;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.app.impl.ApplicationRepository;
+import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.RestClient.Builder;

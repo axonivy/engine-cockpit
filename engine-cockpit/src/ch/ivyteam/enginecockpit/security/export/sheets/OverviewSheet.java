@@ -12,7 +12,7 @@ import ch.ivyteam.enginecockpit.security.export.excel.Row;
 import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
 import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.app.impl.ApplicationRepository;
+import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.IUser;

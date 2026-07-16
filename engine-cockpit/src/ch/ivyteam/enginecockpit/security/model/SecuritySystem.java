@@ -10,7 +10,7 @@ import org.apache.commons.io.IOUtils;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.application.model.App;
-import ch.ivyteam.ivy.application.app.impl.ApplicationRepository;
+import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;

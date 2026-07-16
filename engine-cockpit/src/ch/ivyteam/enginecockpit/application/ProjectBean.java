@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
-import ch.ivyteam.ivy.application.app.impl.ApplicationRepository;
+import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.project.model.ProjectVersion;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import jakarta.faces.view.ViewScoped;

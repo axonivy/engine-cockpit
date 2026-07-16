@@ -14,7 +14,7 @@ import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.system.SecurityBean;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.app.impl.ApplicationRepository;
+import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityManager;

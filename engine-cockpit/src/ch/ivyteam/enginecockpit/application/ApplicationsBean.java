@@ -11,7 +11,7 @@ import org.apache.commons.lang3.Strings;
 import ch.ivyteam.enginecockpit.application.model.NewApplication;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.app.impl.ApplicationRepository;
+import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;

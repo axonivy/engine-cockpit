@@ -28,7 +28,7 @@ import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.app.impl.ApplicationRepository;
+import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.application.branding.BrandingIO;
 import ch.ivyteam.ivy.application.branding.BrandingResolver;
 import ch.ivyteam.ivy.environment.Ivy;
