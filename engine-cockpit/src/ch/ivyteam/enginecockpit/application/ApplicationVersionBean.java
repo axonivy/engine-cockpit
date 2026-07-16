@@ -147,11 +147,11 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public void activate() {
-    execute(app::activate, "activate");
+    execute(() -> app.state().activate(), "activate");
   }
 
   public void deactivate() {
-    execute(app::deactivate, "deactivate");
+    execute(() -> app.state().deactivate(), "deactivate");
   }
 
   private static void execute(Runnable operation, String actionKey) {
