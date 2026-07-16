@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.application;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
@@ -328,7 +329,7 @@ public class ApplicationBean implements Serializable {
     }
 
     public List<String> isDeletable() {
-      return app.state().isDeletable();
+      return new ArrayList<String>();
     }
 
     public String getNotDeletableMessage() {
