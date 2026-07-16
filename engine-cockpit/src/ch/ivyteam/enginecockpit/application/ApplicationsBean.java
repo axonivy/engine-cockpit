@@ -11,7 +11,7 @@ import org.apache.commons.lang3.Strings;
 import ch.ivyteam.enginecockpit.application.model.NewApplication;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.application.app.impl.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -52,7 +52,7 @@ public class ApplicationsBean implements Serializable {
       return List.of();
     }
 
-    return IApplicationRepository.of(securityContext).all().stream()
+    return ApplicationRepository.of(securityContext).all().stream()
         .collect(Collectors.groupingBy(IApplication::name))
         .entrySet().stream()
         .map(entry -> new ApplicationRowConverter(entry.getKey(), entry.getValue()).convert())
@@ -64,7 +64,7 @@ public class ApplicationsBean implements Serializable {
     try {
       var securityContext = ISecurityManager.instance().securityContexts()
           .get(newApplication.getSecurityContextName());
-      IApplicationRepository.of(securityContext)
+      ApplicationRepository.of(securityContext)
           .create(ch.ivyteam.ivy.application.app.NewApplication.create(newApplication.getAppName()).toNewApplication());
       reload();
     } catch (RuntimeException ex) {

@@ -9,7 +9,7 @@ import org.primefaces.PrimeFaces;
 
 import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.application.app.impl.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.state.ActivityState;
 import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -32,7 +32,7 @@ public class EngineInfo {
   private boolean isShutingDown;
 
   public EngineInfo() {
-    applications = IApplicationRepository.instance().all().stream()
+    applications = ApplicationRepository.instance().all().stream()
         .filter(app -> app.state().releaseState() == ReleaseState.RELEASED && app.state().activityState() == ActivityState.ACTIVE)
         .sorted(Comparator.comparing(IApplication::name, String.CASE_INSENSITIVE_ORDER))
         .map(Application::new)

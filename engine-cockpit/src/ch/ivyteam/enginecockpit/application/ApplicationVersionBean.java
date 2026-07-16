@@ -13,7 +13,7 @@ import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
-import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.application.app.impl.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.state.ActivityOperationState;
 import ch.ivyteam.ivy.application.app.state.ActivityState;
 import ch.ivyteam.ivy.application.app.state.ReleaseState;
@@ -68,7 +68,7 @@ public class ApplicationVersionBean implements Serializable {
       return;
     }
 
-    app =  IApplicationRepository.of(context).findByNameAndVersion(appName, appVersion).orElse(null);
+    app =  ApplicationRepository.of(context).findByNameAndVersion(appName, appVersion).orElse(null);
     if (app == null) {
       ResponseHelper.notFound("Application not found: " + appName);
       return;

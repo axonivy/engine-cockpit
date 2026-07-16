@@ -20,8 +20,8 @@ import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
-import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.app.NewApplication;
+import ch.ivyteam.ivy.application.app.impl.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.link.AppLink;
 import ch.ivyteam.ivy.application.app.state.ActivityState;
 import ch.ivyteam.ivy.application.app.state.ReleaseState;
@@ -62,7 +62,7 @@ public class ApplicationBean implements Serializable {
       return;
     }
 
-    var apps = IApplicationRepository.of(context);
+    var apps = ApplicationRepository.of(context);
     app = apps.findReleasedByName(appName);
 
     if (app == null) {
@@ -106,7 +106,7 @@ public class ApplicationBean implements Serializable {
 
   public void createVersion() {
     try {
-      IApplicationRepository
+      ApplicationRepository
           .of(context)
           .create(NewApplication.create(app.name()).toNewApplication());
       onload();
@@ -148,14 +148,14 @@ public class ApplicationBean implements Serializable {
 
   public void delete(ApplicationVersionRow version) {
     ApplicationVersionRow.execute(
-        () -> IApplicationRepository.instance().delete(version.getApp()),
+        () -> ApplicationRepository.instance().delete(version.getApp()),
         "delete");
     onload();
   }
 
   public void forceDelete(ApplicationVersionRow version) {
     ApplicationVersionRow.execute(
-        () -> IApplicationRepository.instance().forceDelete(version.getApp()),
+        () -> ApplicationRepository.instance().forceDelete(version.getApp()),
         "forceDelete");
     onload();
   }

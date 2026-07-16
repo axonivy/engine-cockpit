@@ -10,7 +10,7 @@ import org.apache.commons.io.IOUtils;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.application.model.App;
-import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.application.app.impl.ApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
@@ -61,7 +61,7 @@ public class SecuritySystem {
 
   public List<App> getApps() {
     if (apps == null) {
-      apps = IApplicationRepository.of(securityContext).all().stream()
+      apps = ApplicationRepository.of(securityContext).all().stream()
           .map(app -> new App(app.name(), app.version()))
           .collect(Collectors.toList());
     }
