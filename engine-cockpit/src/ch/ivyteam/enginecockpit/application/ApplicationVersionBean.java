@@ -62,7 +62,7 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public void onload() {
-    context = ISecurityContextRepository.instance().get(context.getName());
+    context = ISecurityContextRepository.instance().get(contextName);
     if (context == null) {
       ResponseHelper.notFound("Security context not found: " + contextName);
       return;
