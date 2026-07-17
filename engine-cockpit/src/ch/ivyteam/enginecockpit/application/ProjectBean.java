@@ -138,15 +138,15 @@ public class ProjectBean implements Serializable {
     }
 
     public String getName() {
-      return project.getName();
+      return project.name();
     }
 
     public String getLink() {
       return ProjectBean.getLink(
-          project.getApplication().securityContext().name(),
-          project.getApplication().name(),
-          project.getApplication().version(),
-          project.getName());
+          project.app().securityContext().name(),
+          project.app().name(),
+          project.app().version(),
+          project.name());
     }
 
     public String getQualifiedVersion() {
