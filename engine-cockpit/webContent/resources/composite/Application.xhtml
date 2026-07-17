@@ -59,25 +59,27 @@
             styleClass="ml-1 ui-button-primary rounded-button" process="@this"
             actionListener="#{deploymentBean.setAppNameAndVersion(cc.attrs.bean.securitySystem.securitySystemName, cc.attrs.bean.app, version.version)}"
             update=":deployPanel" oncomplete="PF('fileUploadModal').show();" />
+
           <p:commandButton icon="ti ti-player-play" title="#{ivy.cm.co('/common/Activate')}"
-            disabled="#{version.notStartable}" styleClass="ml-1 ui-button-success rounded-button">
+            disabled="#{version.stoppable}" styleClass="ml-1 ui-button-success rounded-button">
             <p:ajax listener="#{version.activate}" update="@form:versionsTable" />
           </p:commandButton>
+
           <p:commandButton icon="ti ti-player-stop" title="#{ivy.cm.co('/common/Deactivate')}"
-            disabled="#{version.notStopable}" styleClass="ml-1 ui-button-danger rounded-button">
+            disabled="#{version.startable}" styleClass="ml-1 ui-button-danger rounded-button">
             <p:ajax listener="#{version.deactivate}" update="@form:versionsTable" />
           </p:commandButton>
+
           <p:commandButton title="#{ivy.cm.co('/common/More')}" id="tasksButton" type="button" icon="ti ti-menu-2"
             styleClass="ml-1 ui-button-secondary rounded-button ui-button-outlined" />
           <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
             <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" icon="ti ti-crane"
               disabled="#{not version.releasable}" actionListener="#{version.release}" update="@form:versionsTable" />
+            <p:menuitem id="deprecateBtn" value="Deprecate" disabled="#{not version.deprecatable}" icon="ti ti-circle-half-vertical" actionListener="#{version.deprecate}" update="@form:versionsTable" />
+            <p:menuitem id="archiveBtn" value="Archive" disabled="#{not version.archiveable}" icon="ti ti-archive"  actionListener="#{version.archive}" update="@form:versionsTable" />
             <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
-              disabled="#{not empty version.isDeletable()}" action="#{applicationBean.delete(version)}"
-              update="@form:versionsTable" title="#{version.notDeletableMessage}" style="pointer-events: all" />
-            <p:menuitem id="forceDeleteBtn" value="#{ivy.cm.co('/applications/ForceDeleteButtonTitle')}"
-              rendered="#{not empty version.isDeletable()}" icon="ti ti-trash" action="#{applicationBean.forceDelete(version)}"
-              update="@form:versionsTable" />
+              disabled="#{not version.deletable}" action="#{version.delete()}"
+              update="@form:versionsTable" style="pointer-events: all" />
           </p:menu>
         </p:column>
       </p:dataTable>

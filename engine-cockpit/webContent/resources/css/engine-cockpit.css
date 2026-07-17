@@ -354,6 +354,7 @@ body .ui-datatable thead th[class*="table-btn"] {
   color: #9C4600;
 }
 
+.state-app-deleted,
 .state-app-inactive,
 .state-app-archived {
   background: #F3F3F3;

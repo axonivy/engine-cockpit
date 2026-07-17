@@ -1,13 +1,13 @@
 package ch.ivyteam.enginecockpit.application;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.Strings;
@@ -20,10 +20,11 @@ import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
-import ch.ivyteam.ivy.application.app.NewApplication;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
+import ch.ivyteam.ivy.application.app.NewApplication;
 import ch.ivyteam.ivy.application.app.link.AppLink;
 import ch.ivyteam.ivy.application.app.state.ActivityState;
+import ch.ivyteam.ivy.application.app.state.AppState;
 import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -53,10 +54,7 @@ public class ApplicationBean implements Serializable {
   private String nameFilter = "";
 
   public void onload() {
-    context = ISecurityContextRepository.instance().all().stream()
-        .filter(context -> contextName.equals(context.getName()))
-        .findAny()
-        .orElse(null);
+    context = ISecurityContextRepository.instance().get(contextName);
     if (context == null) {
       ResponseHelper.notFound("Security context not found: " + contextName);
       return;
@@ -64,14 +62,11 @@ public class ApplicationBean implements Serializable {
 
     var apps = ApplicationRepository.of(context);
     app = apps.findReleasedByName(appName);
-
     if (app == null) {
-      app = apps.all().stream()
-          .filter(a -> a.name().equals(appName))
+      app = apps.findByName(appName).stream()
           .max(Comparator.comparingInt(IApplication::version))
           .orElse(null);
     }
-
     if (app == null) {
       ResponseHelper.notFound("Application not found: " + appName);
       return;
@@ -106,9 +101,7 @@ public class ApplicationBean implements Serializable {
 
   public void createVersion() {
     try {
-      ApplicationRepository
-          .of(context)
-          .create(NewApplication.create(app.name()).toNewApplication());
+      ApplicationRepository.of(context).create(NewApplication.create(app.name()).toNewApplication());
       onload();
     } catch (RuntimeException ex) {
       Message.error()
@@ -124,9 +117,7 @@ public class ApplicationBean implements Serializable {
     app.config().reload();
     Message.info()
         .clientId("applicationMessage")
-        .summary(Ivy.cm().content("/configuration/ReloadApplicationConfigurationMessage")
-            .replace("application", app.name())
-            .get())
+        .summary(Ivy.cm().content("/configuration/ReloadApplicationConfigurationMessage").replace("application", app.name()).get())
         .show();
   }
 
@@ -144,20 +135,6 @@ public class ApplicationBean implements Serializable {
 
   public void setContext(String contextName) {
     this.contextName = contextName;
-  }
-
-  public void delete(ApplicationVersionRow version) {
-    ApplicationVersionRow.execute(
-        () -> ApplicationRepository.instance().delete(version.getApp()),
-        "delete");
-    onload();
-  }
-
-  public void forceDelete(ApplicationVersionRow version) {
-    ApplicationVersionRow.execute(
-        () -> ApplicationRepository.instance().forceDelete(version.getApp()),
-        "forceDelete");
-    onload();
   }
 
   public String getLink(ApplicationVersionRow version) {
@@ -197,6 +174,7 @@ public class ApplicationBean implements Serializable {
   }
 
   private static class ConfigViewBuilder {
+
     private final IApplication app;
 
     private ConfigViewBuilder(IApplication app) {
@@ -260,10 +238,11 @@ public class ApplicationBean implements Serializable {
   public static class ApplicationVersionRow {
 
     private final IApplication app;
-    private long runningCasesCount = -1L;
+    private final long runningCasesCount;
 
     private ApplicationVersionRow(IApplication app) {
       this.app = app;
+      this.runningCasesCount = IWorkflowContext.of(app.securityContext()).getRunningCasesCount(app);
     }
 
     public int getVersionNumber() {
@@ -296,7 +275,7 @@ public class ApplicationBean implements Serializable {
         case DEPRECATED -> "ti ti-circle-half-vertical";
         case ARCHIVED -> "ti ti-archive";
         case CREATED, PREPARED -> "ti ti-speakerphone";
-        default -> "ti ti-help-circle";
+        case DELETED -> "ti ti-trash";
       };
     }
 
@@ -312,52 +291,64 @@ public class ApplicationBean implements Serializable {
       return switch (app.state().activityState()) {
         case ACTIVE -> "ti ti-player-play";
         case INACTIVE -> "ti ti-player-stop";
-        default -> "ti ti-help-circle";
       };
     }
-
-    public boolean isNotStartable() {
-      return app.state().activityState() == ActivityState.ACTIVE;
-    }
-
-    public boolean isNotStopable() {
-      return app.state().activityState() == ActivityState.INACTIVE;
-    }
-
-    public boolean isReleasable() {
-      return app.state().releaseState() != ReleaseState.RELEASED;
-    }
-
-    public List<String> isDeletable() {
-      return new ArrayList<String>();
-    }
-
-    public String getNotDeletableMessage() {
-      return String.join("\n", isDeletable());
-    }
-
+    
     public long getRunningCasesCount() {
-      if (runningCasesCount < 0) {
-        runningCasesCount = IWorkflowContext.of(app.securityContext()).getRunningCasesCount(app);
-      }
       return runningCasesCount;
     }
 
+    public boolean isStartable() {
+      return app.state().activityState() != ActivityState.ACTIVE;
+    }
+
+    public boolean isStoppable() {
+      return app.state().activityState() != ActivityState.INACTIVE;
+    }
+
+    public boolean isReleasable() {
+      return app.state().canChangeTo(ReleaseState.RELEASED);
+    }
+
+    public boolean isArchiveable() {
+      return app.state().canChangeTo(ReleaseState.ARCHIVED);
+    }
+
+    public boolean isDeprecatable() {
+      return app.state().canChangeTo(ReleaseState.DEPRECATED);
+    }
+
+    public boolean isDeletable() {
+      return app.state().canChangeTo(ReleaseState.DELETED);
+    }
+
     public void activate() {
-      execute(() -> app.state().activate(), "activate");
+      execute(AppState::activate, "activate");
     }
 
     public void deactivate() {
-      execute(() -> app.state().deactivate(), "deactivate");
+      execute(AppState::deactivate, "deactivate");
     }
 
     public void release() {
-      execute(() -> app.state().release(), "release");
+      execute(AppState::release, "release");
+    }
+    
+    public void deprecate() {
+      execute(AppState::deprecate, "deprecate");
+    }
+    
+    public void archive() {
+      execute(AppState::archive, "archive");
     }
 
-    private static void execute(Runnable operation, String actionKey) {
+    public void delete() {
+      execute(AppState::delete, "delete");
+    }
+    
+    private void execute(Consumer<AppState> operation, String actionKey) {
       try {
-        operation.run();
+        operation.accept(app.state());
       } catch (RuntimeException ex) {
         Message.error()
             .clientId("applicationMessage")
