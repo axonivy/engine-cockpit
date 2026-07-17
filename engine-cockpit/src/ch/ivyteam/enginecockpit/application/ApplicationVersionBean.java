@@ -83,10 +83,10 @@ public class ApplicationVersionBean implements Serializable {
 
   public ProjectRow toProjectRow(IProcessModelVersion pmv) {
     return new ProjectRow(
-            pmv.getName(),
+            pmv.name(),
             pmv.getLibraryVersion(),
         DateUtil.formatDate(pmv.getLastChangeDate()),
-        ProjectBean.getLink(contextName, appName, appVersion, pmv.getName()));
+        ProjectBean.getLink(contextName, appName, appVersion, pmv.name()));
   }
 
   public static String getLink(String context, String app, int version) {

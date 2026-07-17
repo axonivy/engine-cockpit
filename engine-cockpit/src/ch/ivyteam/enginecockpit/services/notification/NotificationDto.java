@@ -49,7 +49,7 @@ public class NotificationDto {
 
   public String getPmv() {
     return notification.pmv()
-        .map(IProcessModelVersion::getName)
+        .map(IProcessModelVersion::name)
         .orElse("");
   }
 
@@ -60,10 +60,10 @@ public class NotificationDto {
   public String getPmvUri() {
     return notification.pmv()
       .map(pmv -> ProjectBean.getLink(
-        pmv.getApplication().securityContext().getName(),
-        pmv.getApplication().name(),
-        pmv.getApplication().version(),
-        pmv.getName()))
+        pmv.app().securityContext().name(),
+        pmv.app().name(),
+        pmv.app().version(),
+        pmv.name()))
         .orElse("");
   }
 
