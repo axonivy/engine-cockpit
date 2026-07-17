@@ -32,6 +32,7 @@ public class ApplicationVersionBean implements Serializable {
   private String appName;
   private int appVersion;
   private String nameFilter = "";
+  private AppState appState;
   
   private IApplication app;
   private List<ProjectRow> projects;
@@ -79,6 +80,7 @@ public class ApplicationVersionBean implements Serializable {
         .sorted(Comparator.comparing(ProjectRow::name, String.CASE_INSENSITIVE_ORDER))
         .collect(Collectors.toList());
 
+    appState = new AppState(app);
   }
 
   public ProjectRow toProjectRow(IProcessModelVersion pmv) {
@@ -141,9 +143,7 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public AppState getState() {
-    var state = new AppState(app);
-    state.updateReleaseState(app.state().releaseState());
-    return state;
+    return appState;
   }
 
   public void activate() {
@@ -197,13 +197,8 @@ public class ApplicationVersionBean implements Serializable {
     private boolean processing;
     private String releaseStateIcon;
 
-
-    public AppState() {
-      updateState(null);
-      updateOperation(null);
-    }
-
     public AppState(IApplication app) {
+      updateReleaseState(app.state().releaseState());
       updateState(app.state().activityState());
       updateOperation(app.state().activityOperationState());
     }
@@ -241,9 +236,6 @@ public class ApplicationVersionBean implements Serializable {
     }
 
     private void updateState(ActivityState update) {
-      if (update == null) {
-        update = ActivityState.INACTIVE;
-      }
       this.activityState = update.name();
       switch (update) {
         case ACTIVE -> this.activityStateIcon = "ti ti-circle-check";
@@ -252,9 +244,6 @@ public class ApplicationVersionBean implements Serializable {
     }
 
     private void updateOperation(ActivityOperationState update) {
-      if (update == null) {
-        update = ActivityOperationState.INACTIVE;
-      }
       this.operation = update.name();
       this.processing = false;
       switch (update) {
@@ -266,14 +255,10 @@ public class ApplicationVersionBean implements Serializable {
           this.processing = true;
         }
       }
-      ;
     }
 
-    public void updateReleaseState(ReleaseState update) {
-      if (update == null) {
-        update = ReleaseState.DELETED;
-      }
-      switch (update) {
+    private void updateReleaseState(ReleaseState releaseState) {      
+      switch (releaseState) {
         case RELEASED -> this.releaseStateIcon = "ti ti-circle-check";
         case DEPRECATED -> this.releaseStateIcon = "ti ti-circle-half-vertical";
         case ARCHIVED -> this.releaseStateIcon = "ti ti-archive";
