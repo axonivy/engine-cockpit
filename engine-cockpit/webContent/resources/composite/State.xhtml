@@ -4,6 +4,10 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="jakarta.faces.composite">
 
+<cc:interface>
+  <cc:attribute name="state" type="ch.ivyteam.enginecockpit.application.model.AppStateDto" required="true" />
+</cc:interface>
+
 <cc:implementation>
 <div class="card">
   <h:form id="appDetailStateForm">
@@ -13,26 +17,39 @@
         <h6 class="m-0">#{ivy.cm.co('/common/Activity')}</h6>
 
         <p:commandButton id="activateApplication" title="#{ivy.cm.co('/common/Activate')}" type="button" icon="ti ti-player-play"
-          disabled="#{not applicationVersionBean.activatable}" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button">
+          disabled="#{not cc.attrs.state.activatable}" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button">
           <p:ajax listener="#{applicationVersionBean.activate}" update="@form" />
         </p:commandButton>
 
         <p:commandButton id="deActivateApplication" title="#{ivy.cm.co('/common/Deactivate')}" type="button" icon="ti ti-player-stop"
-          disabled="#{not applicationVersionBean.deactivatable}" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button">
-          <p:ajax listener="#{applicationVersionBean.deactivate}" update="@form" />
+          disabled="#{not cc.attrs.state.deactivatable}" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button">
+          <p:ajax listener="#{cc.attrs.state.deactivate}" update="@form" />
         </p:commandButton>
       </div>
     </div>
     <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex" styleClass="grey-label-panel">
-      <label>#{ivy.cm.co('/common/State')}</label>
-      <h:outputText>
-        <i class="#{applicationVersionBean.state.operationIcon} activity-state-#{applicationVersionBean.state.operationCssClass}"
-          title="#{applicationVersionBean.state.operation}" />
-      </h:outputText>
-      <label>#{ivy.cm.co('/common/ConfiguredState')}</label>
-      <h:outputText>
-        <i class="#{applicationVersionBean.state.stateIcon} activity-state-#{applicationVersionBean.state.stateCssClass}"
-          title="#{applicationVersionBean.state.state}" />
+       <label>Release State</label>
+       <h:outputText>
+        <div class="#{cc.attrs.state.releaseStateStyleClass}" style="width:150px;">
+          <i class="#{cc.attrs.state.releaseStateIcon}" title="#{cc.attrs.state.releaseStateLabel}" ></i>
+          <h:outputText value="#{cc.attrs.state.releaseStateLabel}"/>
+         </div>
+        </h:outputText>
+
+       <label>Activity State</label>
+       <h:outputText>
+        <div class="#{cc.attrs.state.activityStateStyleClass}" style="width:150px;">
+          <i class="#{cc.attrs.state.activityStateIcon}" title="#{cc.attrs.state.activityStateLabel}"></i>
+          <h:outputText value="#{cc.attrs.state.activityStateLabel}"/>
+        </div>
+        </h:outputText>
+       
+       <label>Activity Operation State</label>
+       <h:outputText>
+        <div class="#{cc.attrs.state.activityStateStyleClass}" style="width:150px;">
+          <i class="#{cc.attrs.state.activityOperationStateIcon}" title="#{cc.attrs.state.activityOperationState}"></i>
+          <h:outputText value="#{cc.attrs.state.activityOperationState}"/>
+        </div>
       </h:outputText>
     </p:panelGrid>
   </h:form>

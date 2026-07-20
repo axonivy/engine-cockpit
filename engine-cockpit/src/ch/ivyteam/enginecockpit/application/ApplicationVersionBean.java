@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.Strings;
 
+import ch.ivyteam.enginecockpit.application.model.AppStateDto;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
@@ -14,9 +15,7 @@ import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
-import ch.ivyteam.ivy.application.app.state.ActivityOperationState;
 import ch.ivyteam.ivy.application.app.state.ActivityState;
-import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
@@ -31,8 +30,9 @@ public class ApplicationVersionBean implements Serializable {
   private String contextName;
   private String appName;
   private int appVersion;
+
   private String nameFilter = "";
-  private AppState appState;
+  private AppStateDto appState;
   
   private IApplication app;
   private List<ProjectRow> projects;
@@ -80,7 +80,7 @@ public class ApplicationVersionBean implements Serializable {
         .sorted(Comparator.comparing(ProjectRow::name, String.CASE_INSENSITIVE_ORDER))
         .collect(Collectors.toList());
 
-    appState = new AppState(app);
+    appState = new AppStateDto(app.state());
   }
 
   public ProjectRow toProjectRow(IProcessModelVersion pmv) {
@@ -126,8 +126,20 @@ public class ApplicationVersionBean implements Serializable {
     return app;
   }
 
-  public String getFileDir() {
+  public String getInstallDir() {
     return app.paths().install().toString();
+  }
+
+  public String getDataDir() {
+    return app.paths().data().toString();
+  }
+
+  public String getConfigDir() {
+    return app.paths().config().toString();
+  }
+
+  private boolean matchesNameFilter(String name) {
+    return nameFilter == null || nameFilter.isBlank() || Strings.CI.contains(name, nameFilter);
   }
 
   public SecuritySystem getSecuritySystem() {
@@ -142,7 +154,7 @@ public class ApplicationVersionBean implements Serializable {
     return app.state().canChangeTo(ActivityState.ACTIVE);
   }
 
-  public AppState getState() {
+  public AppStateDto getState() {
     return appState;
   }
 
@@ -168,6 +180,7 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public static record ProjectRow(String name, String version, String lastChanged, String link) {
+
     public String getName() {
       return name; 
     }
@@ -182,89 +195,6 @@ public class ApplicationVersionBean implements Serializable {
 
     public String getLink() {
       return link;
-    }
-  }
-
-  private boolean matchesNameFilter(String name) {
-    return nameFilter == null || nameFilter.isBlank() || Strings.CI.contains(name, nameFilter);
-  }
-
-  public static class AppState {
-    private String activityState;
-    private String activityStateIcon;
-    private String operation;
-    private String operationIcon;
-    private boolean processing;
-    private String releaseStateIcon;
-
-    public AppState(IApplication app) {
-      updateReleaseState(app.state().releaseState());
-      updateState(app.state().activityState());
-      updateOperation(app.state().activityOperationState());
-    }
-
-    public String getState() {
-      return activityState;
-    }
-
-    public String getStateCssClass() {
-      return activityState.toLowerCase();
-    }
-
-    public String getStateIcon() {
-      return activityStateIcon;
-    }
-
-    public String getOperation() {
-      return operation;
-    }
-
-    public String getReleaseStateIcon() {
-      return releaseStateIcon;
-    }
-
-    public String getOperationCssClass() {
-      return operation.toLowerCase();
-    }
-
-    public String getOperationIcon() {
-      return operationIcon;
-    }
-
-    public boolean isProcessing() {
-      return processing;
-    }
-
-    private void updateState(ActivityState update) {
-      this.activityState = update.name();
-      switch (update) {
-        case ACTIVE -> this.activityStateIcon = "ti ti-circle-check";
-        case INACTIVE -> this.activityStateIcon = "ti ti-player-pause";
-      }
-    }
-
-    private void updateOperation(ActivityOperationState update) {
-      this.operation = update.name();
-      this.processing = false;
-      switch (update) {
-        case ACTIVE -> this.operationIcon = "ti ti-circle-check";
-        case INACTIVE -> this.operationIcon = "ti ti-player-pause";
-        case ERROR -> this.operationIcon = "ti ti-circle-minus";
-        default -> {
-          this.operationIcon = "ti ti-refresh spinning";
-          this.processing = true;
-        }
-      }
-    }
-
-    private void updateReleaseState(ReleaseState releaseState) {      
-      switch (releaseState) {
-        case RELEASED -> this.releaseStateIcon = "ti ti-circle-check";
-        case DEPRECATED -> this.releaseStateIcon = "ti ti-circle-half-vertical";
-        case ARCHIVED -> this.releaseStateIcon = "ti ti-archive";
-        case CREATED, PREPARED -> this.releaseStateIcon = "ti ti-speakerphone";
-        default -> this.releaseStateIcon = "ti ti-help-circle";
-      }
     }
   }
 }
