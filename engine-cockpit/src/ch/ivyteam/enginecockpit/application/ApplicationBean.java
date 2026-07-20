@@ -275,7 +275,6 @@ public class ApplicationBean implements Serializable {
         case DEPRECATED -> "ti ti-circle-half-vertical";
         case ARCHIVED -> "ti ti-archive";
         case CREATED, PREPARED -> "ti ti-speakerphone";
-        case DELETED -> "ti ti-trash";
       };
     }
 
@@ -316,10 +315,6 @@ public class ApplicationBean implements Serializable {
 
     public boolean isDeprecatable() {
       return app.state().canChangeTo(ReleaseState.DEPRECATED);
-    }
-
-    public boolean isDeletable() {
-      return app.state().canChangeTo(ReleaseState.DELETED);
     }
 
     public void activate() {

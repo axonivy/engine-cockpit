@@ -78,8 +78,7 @@
             <p:menuitem id="deprecateBtn" value="Deprecate" disabled="#{not version.deprecatable}" icon="ti ti-circle-half-vertical" actionListener="#{version.deprecate}" update="@form:versionsTable" />
             <p:menuitem id="archiveBtn" value="Archive" disabled="#{not version.archiveable}" icon="ti ti-archive"  actionListener="#{version.archive}" update="@form:versionsTable" />
             <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
-              disabled="#{not version.deletable}" action="#{version.delete()}"
-              update="@form:versionsTable" style="pointer-events: all" />
+              action="#{version.delete()}" update="@form:versionsTable" style="pointer-events: all" />
           </p:menu>
         </p:column>
       </p:dataTable>
