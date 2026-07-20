@@ -336,10 +336,6 @@ public class ApplicationBean implements Serializable {
     public void archive() {
       execute(AppState::archive, "archive");
     }
-
-    public void delete() {
-      execute(AppState::delete, "delete");
-    }
     
     private void execute(Consumer<AppState> operation, String actionKey) {
       try {
