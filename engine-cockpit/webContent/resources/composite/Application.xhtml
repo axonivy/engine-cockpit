@@ -48,12 +48,20 @@
           </div>
         </p:column>
 
-        <p:column headerText="#{ivy.cm.co('/applications/RunningCasesHeader')}"
+        <p:column headerText="Open Cases"
           style="text-align: center; width: 150px">
           <h:panelGroup layout="block">
-            <h:outputText value="#{version.runningCasesCount}" />
+            <h:outputText value="#{version.openCases}" />
           </h:panelGroup>
         </p:column>
+
+        <p:column headerText="Done Cases"
+          style="text-align: center; width: 150px">
+          <h:panelGroup layout="block">
+            <h:outputText value="#{version.doneCases}" />
+          </h:panelGroup>
+        </p:column>
+
         <p:column style="text-align: center; width: 150px">
           <p:commandButton icon="ti ti-upload" title="#{ivy.cm.co('/common/Deployment')}"
             styleClass="ml-1 ui-button-primary rounded-button" process="@this"
