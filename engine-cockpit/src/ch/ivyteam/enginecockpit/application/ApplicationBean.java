@@ -275,7 +275,6 @@ public class ApplicationBean implements Serializable {
         case DEPRECATED -> "ti ti-circle-half-vertical";
         case ARCHIVED -> "ti ti-archive";
         case CREATED, PREPARED -> "ti ti-speakerphone";
-        case DELETED -> "ti ti-trash";
       };
     }
 
@@ -318,10 +317,6 @@ public class ApplicationBean implements Serializable {
       return app.state().canChangeTo(ReleaseState.DEPRECATED);
     }
 
-    public boolean isDeletable() {
-      return app.state().canChangeTo(ReleaseState.DELETED);
-    }
-
     public void activate() {
       execute(AppState::activate, "activate");
     }
@@ -340,10 +335,6 @@ public class ApplicationBean implements Serializable {
     
     public void archive() {
       execute(AppState::archive, "archive");
-    }
-
-    public void delete() {
-      execute(AppState::delete, "delete");
     }
     
     private void execute(Consumer<AppState> operation, String actionKey) {
