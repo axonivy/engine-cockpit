@@ -7,11 +7,11 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.Strings;
 
+import ch.ivyteam.enginecockpit.application.model.AppStateDto;
 import ch.ivyteam.enginecockpit.commons.ContentFilter;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
@@ -24,7 +24,6 @@ import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.NewApplication;
 import ch.ivyteam.ivy.application.app.link.AppLink;
 import ch.ivyteam.ivy.application.app.state.ActivityState;
-import ch.ivyteam.ivy.application.app.state.AppState;
 import ch.ivyteam.ivy.application.app.state.CasesCounter;
 import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
@@ -137,10 +136,6 @@ public class ApplicationBean implements Serializable {
     this.contextName = contextName;
   }
 
-  public String getLink(ApplicationVersionRow version) {
-    return ApplicationVersionBean.getLink(contextName, appName, version.getVersionNumber());
-  }
-
   public static String getLink(String context, String app) {
     return UriBuilder.fromPath("application.xhtml")
         .queryParam("context", context)
@@ -237,64 +232,28 @@ public class ApplicationBean implements Serializable {
 
   public static class ApplicationVersionRow {
 
-    private final IApplication app;
+    private final String version;
+    private final AppStateDto state;
     private final long openCases;
     private final long doneCases;
+    private final String link;
 
     private ApplicationVersionRow(IApplication app) {
-      this.app = app;
-      this.openCases =  CasesCounter.openOf(app);
-      this.doneCases = CasesCounter.doneOf(app);      
-    }
-
-    public int getVersionNumber() {
-      return app.version();
+      this.version = String.valueOf(app.version());
+      this.state = new AppStateDto(app.state());
+      this.openCases = CasesCounter.openOf(app);
+      this.doneCases = CasesCounter.doneOf(app);
+      this.link = ApplicationVersionBean.getLink(app.securityContext().name(), app.name(), app.version());
     }
 
     public String getVersion() {
-      return String.valueOf(app.version());
+      return version;
     }
 
-    public IApplication getApp() {
-      return app;
+    public AppStateDto getState() {
+      return state;
     }
 
-    public ReleaseState getReleaseState() {
-      return app.state().releaseState();
-    }
-
-    public String getReleaseStateLabel() {
-      return app.state().releaseState().toString();
-    }
-
-    public String getReleaseStateStyleClass() {
-      return "state-badge state-app-" + app.state().releaseState().name().toLowerCase();
-    }
-
-    public String getReleaseStateIcon() {
-      return switch (app.state().releaseState()) {
-        case RELEASED -> "ti ti-circle-check";
-        case DEPRECATED -> "ti ti-circle-half-vertical";
-        case ARCHIVED -> "ti ti-archive";
-        case CREATED, PREPARED -> "ti ti-speakerphone";
-      };
-    }
-
-    public String getActivityStateLabel() {
-      return app.state().activityState().toString();
-    }
-
-    public String getActivityStateStyleClass() {
-      return "state-badge state-app-" + app.state().activityState().name().toLowerCase();
-    }
-
-    public String getActivityStateIcon() {
-      return switch (app.state().activityState()) {
-        case ACTIVE -> "ti ti-player-play";
-        case INACTIVE -> "ti ti-player-stop";
-      };
-    }
-    
     public long getOpenCases() {
       return openCases;
     }
@@ -303,57 +262,8 @@ public class ApplicationBean implements Serializable {
       return doneCases;
     }
 
-    public boolean isDeactivatable() {
-      return app.state().canChangeTo(ActivityState.INACTIVE);
-    }
-
-    public boolean isActivatable() {
-      return app.state().canChangeTo(ActivityState.ACTIVE);
-    }
-
-    public boolean isReleasable() {
-      return app.state().canChangeTo(ReleaseState.RELEASED);
-    }
-
-    public boolean isArchiveable() {
-      return app.state().canChangeTo(ReleaseState.ARCHIVED);
-    }
-
-    public boolean isDeprecatable() {
-      return app.state().canChangeTo(ReleaseState.DEPRECATED);
-    }
-
-    public void activate() {
-      execute(AppState::activate, "activate");
-    }
-
-    public void deactivate() {
-      execute(AppState::deactivate, "deactivate");
-    }
-
-    public void release() {
-      execute(AppState::release, "release");
-    }
-    
-    public void deprecate() {
-      execute(AppState::deprecate, "deprecate");
-    }
-
-    public void archive() {
-      execute(AppState::archive, "archive");
-    }
-
-    private void execute(Consumer<AppState> operation, String actionKey) {
-      try {
-        operation.accept(app.state());
-      } catch (RuntimeException ex) {
-        Message.error()
-            .clientId("applicationMessage")
-            .summary(Ivy.cm().co("/common/Error"))
-            .detail(ex.getMessage())
-            .exception(ex)
-            .show();
-      }
+    public String getLink() {
+      return link;
     }
   }
 }

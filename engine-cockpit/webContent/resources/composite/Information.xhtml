@@ -20,8 +20,12 @@
       <h:outputText value="#{applicationVersionBean.application.name}" />
       <label>#{ivy.cm.co('/common/Version')}</label>
       <h:outputText value="#{applicationVersionBean.version}" />
-      <label>#{ivy.cm.co('/information/FileDirectory')}</label>
-      <h:outputText value="#{applicationVersionBean.fileDir}" />
+      <label>Install Directory</label>
+      <h:outputText value="#{applicationVersionBean.installDir}" />
+      <label>Data Directory</label>
+      <h:outputText value="#{applicationVersionBean.dataDir}" />
+      <label>Config Directory</label>
+      <h:outputText value="#{applicationVersionBean.configDir}" />
     </p:panelGrid>
   </h:form>
 </div>

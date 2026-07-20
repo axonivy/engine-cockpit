@@ -28,35 +28,33 @@
           </div>
         </f:facet>
         <p:column headerText="#{ivy.cm.co('/common/Version')}" filterBy="#{version.version}">
-          <h:outputLink value="#{cc.attrs.bean.getLink(version)}">
+          <h:outputLink value="#{version.link}">
             <i class="ti ti-packages table-icon" />
             <h:outputText value="#{version.version}" />
           </h:outputLink>
         </p:column>
 
-        <p:column headerText="#{ivy.cm.co('/pmvDetail/ReleaseState')}" style="text-align: center; width: 120px">
-          <div class="#{version.releaseStateStyleClass}">
-            <i class="#{version.releaseStateIcon}" title="#{version.releaseStateLabel}" ></i>
-            <h:outputText value="#{version.releaseStateLabel}"/>
+        <p:column headerText="Release State" style="text-align:center;width:100px">
+          <div class="#{version.state.releaseStateStyleClass}">
+            <i class="#{version.state.releaseStateIcon}" title="#{version.state.releaseStateLabel}" ></i>
+            <h:outputText value="#{version.state.releaseStateLabel}"/>
           </div>
         </p:column>
 
-        <p:column headerText="#{ivy.cm.co('/pmvDetail/ActivityState')}" style="text-align: center; width: 100px">
-          <div class="#{version.activityStateStyleClass}">
-            <i class="#{version.activityStateIcon}" title="#{version.activityStateLabel}"></i>
-            <h:outputText value="#{version.activityStateLabel}"/>
+        <p:column headerText="Activity State" style="text-align:center;width:100px">
+          <div class="#{version.state.activityStateStyleClass}">
+            <i class="#{version.state.activityStateIcon}" title="#{version.state.activityStateLabel}"></i>
+            <h:outputText value="#{version.state.activityStateLabel}"/>
           </div>
         </p:column>
 
-        <p:column headerText="Open Cases"
-          style="text-align: center; width: 150px">
+        <p:column headerText="Open Cases" style="text-align:center;width:100px">
           <h:panelGroup layout="block">
             <h:outputText value="#{version.openCases}" />
           </h:panelGroup>
         </p:column>
 
-        <p:column headerText="Done Cases"
-          style="text-align: center; width: 150px">
+        <p:column headerText="Done Cases" style="text-align:center;width:100px">
           <h:panelGroup layout="block">
             <h:outputText value="#{version.doneCases}" />
           </h:panelGroup>
@@ -69,24 +67,24 @@
             update=":deployPanel" oncomplete="PF('fileUploadModal').show();" />
 
           <p:commandButton icon="ti ti-player-play" title="#{ivy.cm.co('/common/Activate')}"
-            disabled="#{not version.activatable}" styleClass="ml-1 ui-button-success rounded-button">
-            <p:ajax listener="#{version.activate}" update="@form:versionsTable" />
+            disabled="#{not version.state.activatable}" styleClass="ml-1 ui-button-success rounded-button">
+            <p:ajax listener="#{version.state.activate}" update="@form:versionsTable" />
           </p:commandButton>
 
           <p:commandButton icon="ti ti-player-stop" title="#{ivy.cm.co('/common/Deactivate')}"
-            disabled="#{not version.deactivatable}" styleClass="ml-1 ui-button-danger rounded-button">
-            <p:ajax listener="#{version.deactivate}" update="@form:versionsTable" />
+            disabled="#{not version.state.deactivatable}" styleClass="ml-1 ui-button-danger rounded-button">
+            <p:ajax listener="#{version.state.deactivate}" update="@form:versionsTable" />
           </p:commandButton>
 
           <p:commandButton title="#{ivy.cm.co('/common/More')}" id="tasksButton" type="button" icon="ti ti-menu-2"
             styleClass="ml-1 ui-button-secondary rounded-button ui-button-outlined" />
           <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
             <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" icon="ti ti-crane"
-              disabled="#{not version.releasable}" actionListener="#{version.release}" update="@form:versionsTable" />
-            <p:menuitem id="deprecateBtn" value="Deprecate" disabled="#{not version.deprecatable}" icon="ti ti-circle-half-vertical" actionListener="#{version.deprecate}" update="@form:versionsTable" />
-            <p:menuitem id="archiveBtn" value="Archive" disabled="#{not version.archiveable}" icon="ti ti-archive"  actionListener="#{version.archive}" update="@form:versionsTable" />
+              disabled="#{not version.state.releasable}" actionListener="#{version.state.release}" update="@form:versionsTable" />
+            <p:menuitem id="deprecateBtn" value="Deprecate" disabled="#{not version.state.deprecatable}" icon="ti ti-circle-half-vertical" actionListener="#{version.state.deprecate}" update="@form:versionsTable" />
+            <p:menuitem id="archiveBtn" value="Archive" disabled="#{not version.state.archiveable}" icon="ti ti-archive"  actionListener="#{version.state.archive}" update="@form:versionsTable" />
             <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
-              action="#{version.archive()}" update="@form:versionsTable" style="pointer-events: all" />
+              action="#{version.state.archive()}" update="@form:versionsTable" style="pointer-events: all" />
           </p:menu>
         </p:column>
       </p:dataTable>
