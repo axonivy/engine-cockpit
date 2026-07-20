@@ -19,7 +19,7 @@ import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
-import ch.ivyteam.ivy.workflow.IWorkflowContext;
+import ch.ivyteam.ivy.workflow.IWorkflowManager;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
@@ -159,11 +159,8 @@ public class ManagerBean implements Serializable {
     return formatNumber(securityManager.getUsersCount());
   }
 
-  public String getRunningCasesCount() {
-    long runningCases = getApplications().stream()
-        .mapToLong(app -> IWorkflowContext.of(app.securityContext()).getRunningCasesCount(app))
-        .sum();
-    return formatNumber(runningCases);
+  public String getOpenCasesCount() {
+    return formatNumber(IWorkflowManager.instance().countRunningCases());
   }
 
   public boolean isIvySecuritySystemForSelectedSecuritySystem() {

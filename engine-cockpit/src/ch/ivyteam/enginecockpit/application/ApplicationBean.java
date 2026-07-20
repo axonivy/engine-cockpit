@@ -25,12 +25,12 @@ import ch.ivyteam.ivy.application.app.NewApplication;
 import ch.ivyteam.ivy.application.app.link.AppLink;
 import ch.ivyteam.ivy.application.app.state.ActivityState;
 import ch.ivyteam.ivy.application.app.state.AppState;
+import ch.ivyteam.ivy.application.app.state.CasesCounter;
 import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
-import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.StandardProcessType;
 import ch.ivyteam.ivy.workflow.standard.DefaultPagesConfigurator;
 import ch.ivyteam.ivy.workflow.standard.StandardProcessStartFinder;
@@ -238,11 +238,13 @@ public class ApplicationBean implements Serializable {
   public static class ApplicationVersionRow {
 
     private final IApplication app;
-    private final long runningCasesCount;
+    private final long openCases;
+    private final long doneCases;
 
     private ApplicationVersionRow(IApplication app) {
       this.app = app;
-      this.runningCasesCount = IWorkflowContext.of(app.securityContext()).getRunningCasesCount(app);
+      this.openCases =  CasesCounter.openOf(app);
+      this.doneCases = CasesCounter.doneOf(app);      
     }
 
     public int getVersionNumber() {
@@ -293,8 +295,12 @@ public class ApplicationBean implements Serializable {
       };
     }
     
-    public long getRunningCasesCount() {
-      return runningCasesCount;
+    public long getOpenCases() {
+      return openCases;
+    }
+
+    public long getDoneCases() {
+      return doneCases;
     }
 
     public boolean isStartable() {
@@ -332,11 +338,11 @@ public class ApplicationBean implements Serializable {
     public void deprecate() {
       execute(AppState::deprecate, "deprecate");
     }
-    
+
     public void archive() {
       execute(AppState::archive, "archive");
     }
-    
+
     private void execute(Consumer<AppState> operation, String actionKey) {
       try {
         operation.accept(app.state());
