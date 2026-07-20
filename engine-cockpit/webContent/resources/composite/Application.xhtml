@@ -69,12 +69,12 @@
             update=":deployPanel" oncomplete="PF('fileUploadModal').show();" />
 
           <p:commandButton icon="ti ti-player-play" title="#{ivy.cm.co('/common/Activate')}"
-            disabled="#{version.stoppable}" styleClass="ml-1 ui-button-success rounded-button">
+            disabled="#{not version.activatable}" styleClass="ml-1 ui-button-success rounded-button">
             <p:ajax listener="#{version.activate}" update="@form:versionsTable" />
           </p:commandButton>
 
           <p:commandButton icon="ti ti-player-stop" title="#{ivy.cm.co('/common/Deactivate')}"
-            disabled="#{version.startable}" styleClass="ml-1 ui-button-danger rounded-button">
+            disabled="#{not version.deactivatable}" styleClass="ml-1 ui-button-danger rounded-button">
             <p:ajax listener="#{version.deactivate}" update="@form:versionsTable" />
           </p:commandButton>
 

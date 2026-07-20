@@ -303,12 +303,12 @@ public class ApplicationBean implements Serializable {
       return doneCases;
     }
 
-    public boolean isStartable() {
-      return app.state().activityState() != ActivityState.ACTIVE;
+    public boolean isDeactivatable() {
+      return app.state().canChangeTo(ActivityState.INACTIVE);
     }
 
-    public boolean isStoppable() {
-      return app.state().activityState() != ActivityState.INACTIVE;
+    public boolean isActivatable() {
+      return app.state().canChangeTo(ActivityState.ACTIVE);
     }
 
     public boolean isReleasable() {

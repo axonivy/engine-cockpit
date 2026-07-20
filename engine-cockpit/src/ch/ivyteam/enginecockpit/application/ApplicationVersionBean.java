@@ -134,12 +134,12 @@ public class ApplicationVersionBean implements Serializable {
     return new SecuritySystem(context);
   }
 
-  public boolean isNotStartable() {
-    return app.state().activityState() == ActivityState.ACTIVE;
+  public boolean isDeactivatable() {
+    return app.state().canChangeTo(ActivityState.INACTIVE);
   }
 
-  public boolean isNotStopable() {
-    return app.state().activityState() == ActivityState.INACTIVE;
+  public boolean isActivatable() {
+    return app.state().canChangeTo(ActivityState.ACTIVE);
   }
 
   public AppState getState() {
