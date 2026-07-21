@@ -30,7 +30,7 @@
             <div class="card">
               <div class="card-header flex-wrap">
                 <div class="card-title flex align-items-center">
-                  <i class="pr-3 ti ti-clock-play" />
+                  <i class="pr-2 ti ti-clock-play" />
                   <h2 class="m-0">#{ivy.cm.co('/common/Threads')}</h2>
                   <p:commandButton id="refresh" icon="ti ti-refresh" action="#{threadBean.refresh()}" title="#{ivy.cm.co('/common/Refresh')}" styleClass="flex-shrink-0 ml-auto rounded-button" update="threadTable"/>
                   <p:commandButton id="dump" icon="ti ti-arrow-down" ajax="false" title="#{ivy.cm.co('/monitor/thread/SaveThreadDump')}" styleClass="flex-shrink-0 ml-1 ui-button-success rounded-button">
@@ -51,7 +51,7 @@
                 </f:facet>
                 <p:column headerText="#{ivy.cm.co('/common/ID')}" sortBy="#{thread.id}" filterBy="#{thread.id}" width="5%">
                   <p:commandLink oncomplete="PF('threadDialog').show();" title="#{ivy.cm.co('/monitor/thread/ThreadDetail')}" action="#{threadBean.setSelected(thread)}" update="threadDialog">
-                    <i class="pr-3 ti ti-clock-play" />
+                    <i class="pr-2 ti ti-clock-play" />
                     <h:outputText value="#{thread.id}"/>
                   </p:commandLink>
                 </p:column>
@@ -63,7 +63,7 @@
                     <h:outputText value="#{thread.state}" class="#{thread.stateColorClass}"/>
                     <p:tooltip for="state" value="#{thread.stateTitle}" position="right"/>
                     <h:panelGroup rendered="#{thread.deadLocked}">
-                      <i h:rendered="#{thread.deadLocked}" class="pr-3 ti ti-alert-triangle deadlocked ${thread.stateColorClass}"></i>
+                      <i h:rendered="#{thread.deadLocked}" class="pr-2 ti ti-alert-triangle deadlocked ${thread.stateColorClass}"></i>
                     </h:panelGroup>
                   </h:panelGroup>
                 </p:column>

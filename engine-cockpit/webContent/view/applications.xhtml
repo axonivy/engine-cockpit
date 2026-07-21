@@ -21,7 +21,7 @@
         <h:form id="form" onkeypress="if (event.keyCode == 13) return false;">
           <p:growl for="applicationMessage" id="applicationMessage" showDetail="true" />
           <div class="flex align-items-center mb-3">
-            <i class="pr-3 ti ti-layout-grid card-title-icon"></i>
+            <i class="pr-2 ti ti-layout-grid card-title-icon"></i>
             <h2 class="m-0">#{ivy.cm.co('/common/Applications')}</h2>
             <p:commandButton styleClass="ml-auto" id="createApplicationBtn" widgetVar="createApplication"
               icon="ti ti-plus" value="#{ivy.cm.co('/common/Add')}" process="@this"
