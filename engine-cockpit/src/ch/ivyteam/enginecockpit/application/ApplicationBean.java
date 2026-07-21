@@ -112,7 +112,7 @@ public class ApplicationBean implements Serializable {
     if (deleteApplication.isLastVersion()) {
       try {
         FacesContext.getCurrentInstance().getExternalContext().redirect("applications.xhtml");
-         FacesContext.getCurrentInstance().responseComplete();
+        FacesContext.getCurrentInstance().responseComplete();
       } catch (IOException ex) {
         throw new RuntimeException("Could not send redirect", ex);
       }      
