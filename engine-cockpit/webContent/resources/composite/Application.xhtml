@@ -78,16 +78,28 @@
 
           <p:commandButton title="#{ivy.cm.co('/common/More')}" id="tasksButton" type="button" icon="ti ti-menu-2"
             styleClass="ml-1 ui-button-secondary rounded-button ui-button-outlined" />
+
           <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
             <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" icon="ti ti-crane"
               disabled="#{not version.state.releasable}" actionListener="#{version.state.release}" update="@form:versionsTable" />
             <p:menuitem id="deprecateBtn" value="Deprecate" disabled="#{not version.state.deprecatable}" icon="ti ti-circle-half-vertical" actionListener="#{version.state.deprecate}" update="@form:versionsTable" />
             <p:menuitem id="archiveBtn" value="Archive" disabled="#{not version.state.archiveable}" icon="ti ti-archive"  actionListener="#{version.state.archive}" update="@form:versionsTable" />
             <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
-              action="#{version.state.archive()}" update="@form:versionsTable" style="pointer-events: all" />
+               update="@form:deleteVersionDialog" actionListener="#{applicationBean.prepareDelete(version)}" process="@this" style="pointer-events: all" oncomplete="PF('deleteVersionDialog').show(); return false;" />
           </p:menu>
         </p:column>
       </p:dataTable>
+
+      <p:confirmDialog id="deleteVersionDialog"
+            message="Are you sure you want to delete version #{applicationBean.deleteApplication.version}?"
+            header="Delete Application Version #{applicationBean.deleteApplication.version}" severity="alert" widgetVar="deleteVersionDialog">
+        <p:staticMessage severity="#{applicationBean.deleteApplication.existingCasesSeverity}" detail="#{applicationBean.deleteApplication.existingCasesMessage}" />
+        <p:staticMessage severity="warn" rendered="#{applicationBean.deleteApplication.lastVersion}" detail="#{applicationBean.deleteApplication.lastVersionMessage}" />
+        <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteVersionDialog').hide();" type="button"
+            styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+        <p:commandButton id="deleteVersionDialogConfirmYesBtn" value="#{ivy.cm.co('/common/Delete')}" immediate="true"
+            actionListener="#{applicationBean.deleteSelectedApplicationVersion()}" onclick="PF('deleteVersionDialog').hide();" update="@form:versionsTable" icon="ti ti-trash" styleClass="modal-input-button" />
+      </p:confirmDialog>
     </h:form>
   </div>
 </cc:implementation>

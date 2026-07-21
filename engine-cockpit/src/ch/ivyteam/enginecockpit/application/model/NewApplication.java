@@ -29,5 +29,4 @@ public class NewApplication {
   public void setActive(boolean active) {
     this.isActive = active;
   }
-
 }

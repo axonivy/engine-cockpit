@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.application;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.application.model.AppStateDto;
+import ch.ivyteam.enginecockpit.application.model.DeleteApplication;
 import ch.ivyteam.enginecockpit.commons.ContentFilter;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
@@ -33,6 +35,7 @@ import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.workflow.StandardProcessType;
 import ch.ivyteam.ivy.workflow.standard.DefaultPagesConfigurator;
 import ch.ivyteam.ivy.workflow.standard.StandardProcessStartFinder;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import jakarta.ws.rs.core.UriBuilder;
@@ -73,8 +76,7 @@ public class ApplicationBean implements Serializable {
 
     configView = new ConfigViewBuilder(app).build();
 
-    applicationVersions = apps.all().stream()
-        .filter(a -> a.name().equals(appName))
+    applicationVersions = apps.findByName(appName).stream()
         .map(ApplicationVersionRow::new)
         .sorted(Comparator.comparing(ApplicationVersionRow::getVersion).reversed())
         .collect(Collectors.toList());
@@ -96,6 +98,31 @@ public class ApplicationBean implements Serializable {
 
   public ConfigViewImpl getConfigView() {
     return configView;
+  }
+
+  private DeleteApplication deleteApplication;
+
+  public void prepareDelete(ApplicationVersionRow version) {
+    var isLastVersion = applicationVersions.size() == 1;
+    this.deleteApplication = new DeleteApplication(version, isLastVersion);
+  }
+
+  public void deleteSelectedApplicationVersion() {
+    ApplicationRepository.of(context).delete(appName, deleteApplication.getVersion());
+    if (deleteApplication.isLastVersion()) {
+      try {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("applications.xhtml");
+         FacesContext.getCurrentInstance().responseComplete();
+      } catch (IOException ex) {
+        throw new RuntimeException("Could not send redirect", ex);
+      }      
+    } else {
+      onload();
+    }
+  }
+
+  public DeleteApplication getDeleteApplication() {
+    return deleteApplication;
   }
 
   public void createVersion() {
