@@ -13,7 +13,7 @@
     </p:growl>
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 ti ti-info-circle"></i>
+        <i class="pr-2 ti ti-info-circle"></i>
         <h6 class="m-0">#{ivy.cm.co('/restClientConfiguration/RestClientConfigurations')}</h6>
         <p:commandButton id="testRestBtn" title="#{ivy.cm.co('/restClientConfiguration/TestRestConnection')}" oncomplete="PF('connectionTestModel').show()"
           icon="ti ti-phone-outgoing" update="restClientProperties:restClientAdditionalConfigForm, :#{cc.clientId}:connResult:connectionTestModel"

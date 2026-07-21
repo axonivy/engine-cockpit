@@ -14,7 +14,7 @@
     <p:growl for="propertiesMessage" id="propertiesMessage" showDetail="true" />
     <div class="card-header">
       <div class="card-title flex align-items-center">
-        <i class="pr-3 ti ti-settings"></i>
+        <i class="pr-2 ti ti-settings"></i>
         <h6 class="m-0">#{ivy.cm.co('/common/Properties')}</h6>
         <p:commandButton id="newPropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
           actionListener="#{cc.attrs.memberProperty.setProperty(null)}" update=":#{cc.clientId}:propertyModalForm:propertyModal" title="#{ivy.cm.co('/common/Add')}"
