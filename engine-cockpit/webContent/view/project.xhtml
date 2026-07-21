@@ -66,10 +66,9 @@
               <p:dataTable id="dependentProjectsTable" var="project" value="#{projectBean.dependentProjects}"
                 emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', projectBean.project.name).get()}">
                 <p:column headerText="#{ivy.cm.co('/pmvDetail/PMV')}">
-                  <h:outputLink value="#{project.link}">
-                    <h:outputText value="#{project.name}" title="#{project.libraryId}">
-                      <i class="ti ti-cube" style="margin-right: 5px;" />
-                    </h:outputText>
+                  <h:outputLink value="#{project.link}" title="#{project.libraryId}">
+                    <i class="ti ti-cube table-icon"></i>
+                    <h:outputText value="#{project.name}" />
                   </h:outputLink>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/Version')}">
@@ -90,10 +89,9 @@
               <p:dataTable id="requiredPmvTable" var="project" value="#{projectBean.requiredProjects}"
                 emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', projectBean.project.name).get()}">
                 <p:column headerText="Projects">
-                  <h:outputLink value="#{project.link}">
-                    <h:outputText value="#{project.name}" title="#{project.libraryId}">
-                      <i class="ti ti-cube" style="margin-right: 5px;" />
-                    </h:outputText>
+                  <h:outputLink value="#{project.link}" title="#{project.libraryId}">
+                    <i class="ti ti-cube table-icon"></i>
+                    <h:outputText value="#{project.name}" />
                   </h:outputLink>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/Version')}">

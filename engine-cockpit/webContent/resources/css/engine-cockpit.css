@@ -334,7 +334,8 @@ body .ui-datatable thead th[class*="table-btn"] {
   letter-spacing: 0.3px;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 0.25rem;
 }
 
 .state-app-released,
