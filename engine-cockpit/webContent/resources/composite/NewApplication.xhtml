@@ -20,9 +20,6 @@
       <p:selectOneMenu id="newApplicationSecSystemInput" value="#{applicationsBean.newApplication.securityContextName}">
         <f:selectItems value="#{securityBean.availableSecuritySystems}" />
       </p:selectOneMenu>
-
-      <p:outputLabel for="newApplicationActivate" value="#{ivy.cm.co('/common/Activate')}" />
-      <p:selectBooleanCheckbox id="newApplicationActivate" value="#{applicationsBean.newApplication.active}" />
     </p:panelGrid>
     <div class="custom-dialog-footer">
       <p:commandButton id="cancelNewApplication" onclick="PF('newApplicationModal').hide();" value="#{ivy.cm.co('/common/Cancel')}"
