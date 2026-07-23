@@ -166,6 +166,24 @@ public class ApplicationVersionBean implements Serializable {
     execute(() -> app.state().deactivate(), "deactivate");
   }
 
+  private ProjectRow deleteProject;
+
+  public void prepareDelete(ProjectRow row) {
+    this.deleteProject = row;
+  }
+  
+  public ProjectRow getDeleteProject() {
+    return deleteProject;
+  }
+
+  public void deleteSelectedProject() {
+    execute(() -> {
+      var project = app.projects().find(deleteProject.name());
+      app.projects().delete(project);      
+    }, "delete");
+    onload();
+  }
+
   private static void execute(Runnable operation, String actionKey) {
     try {
       operation.run();
