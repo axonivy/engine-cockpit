@@ -4,7 +4,6 @@ public class NewApplication {
 
   private String securityContextName;
   private String appName;
-  private boolean isActive = true;
 
   public String getSecurityContextName() {
     return securityContextName;
@@ -20,13 +19,5 @@ public class NewApplication {
 
   public void setAppName(String appName) {
     this.appName = appName;
-  }
-
-  public boolean isActive() {
-    return isActive;
-  }
-
-  public void setActive(boolean active) {
-    this.isActive = active;
   }
 }

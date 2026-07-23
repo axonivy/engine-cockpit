@@ -74,8 +74,9 @@ public class ApplicationsBean implements Serializable {
     }
   }
 
-  public void initDefaultSecuritySystem() {
+  public void initNewApplication() {
     newApplication.setSecurityContextName(selectedSecurityContext().getName());
+    newApplication.setAppName("");
   }
 
   public NewApplication getNewApplication() {
