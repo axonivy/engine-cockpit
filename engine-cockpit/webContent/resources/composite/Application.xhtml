@@ -91,8 +91,8 @@
       </p:dataTable>
 
       <p:confirmDialog id="deleteVersionDialog"
-            message="Are you sure you want to delete version #{applicationBean.deleteApplication.version}?"
-            header="Delete Application Version #{applicationBean.deleteApplication.version}" severity="alert" widgetVar="deleteVersionDialog">
+            message="Are you sure you want to delete application #{applicationBean.deleteApplication.name} in version #{applicationBean.deleteApplication.version}?"
+            header="Delete application #{applicationBean.deleteApplication.name} in version #{applicationBean.deleteApplication.version}" severity="alert" widgetVar="deleteVersionDialog">
         <p:staticMessage severity="#{applicationBean.deleteApplication.existingCasesSeverity}" detail="#{applicationBean.deleteApplication.existingCasesMessage}" />
         <p:staticMessage severity="warn" rendered="#{applicationBean.deleteApplication.lastVersion}" detail="#{applicationBean.deleteApplication.lastVersionMessage}" />
         <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteVersionDialog').hide();" type="button"
