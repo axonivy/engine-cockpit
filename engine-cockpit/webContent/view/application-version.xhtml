@@ -77,7 +77,7 @@
                     <h:outputText value="#{row.lastChanged}" />
                   </p:column>
 
-                  <p:column  style="text-align: center; width: 50px">
+                  <p:column styleClass="table-btn-1">
                     <p:commandButton id="deleteBtn" title="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
                       update="@form:deleteProjectDialog" actionListener="#{applicationVersionBean.prepareDelete(row)}" process="@this" styleClass="ml-1 ui-button-danger rounded-button" oncomplete="PF('deleteProjectDialog').show(); return false;" />
                   </p:column>
