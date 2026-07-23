@@ -76,7 +76,22 @@
                   <p:column headerText="#{ivy.cm.co('/applications/LastChangeDate')}" style="width: 220px;">
                     <h:outputText value="#{row.lastChanged}" />
                   </p:column>
+
+                  <p:column style="text-align: center; width: 150px">
+                    <p:commandButton id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
+                      update="@form:deleteProjectDialog" actionListener="#{applicationVersionBean.prepareDelete(row)}" process="@this" style="pointer-events: all" oncomplete="PF('deleteProjectDialog').show(); return false;" />
+                  </p:column>
                 </p:dataTable>
+
+                <p:confirmDialog id="deleteProjectDialog"
+                    message="Are you sure you want to delete project #{applicationVersionBean.deleteProject.name}?"
+                    header="Delete project #{applicationVersionBean.deleteProject.name}" severity="alert" widgetVar="deleteProjectDialog">
+                  <p:staticMessage severity="warn" detail="Deleting this project will permanently delete all associated cases from the database." />
+                  <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteProjectDialog').hide();" type="button"
+                      styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+                  <p:commandButton id="deleteProjectDialogConfirmYesBtn" value="#{ivy.cm.co('/common/Delete')}" immediate="true"
+                      actionListener="#{applicationVersionBean.deleteSelectedProject()}" onclick="PF('deleteProjectDialog').hide();" update="@form:projectsTable" icon="ti ti-trash" styleClass="modal-input-button" />
+                </p:confirmDialog>
               </h:form>
             </div>
           </div>
