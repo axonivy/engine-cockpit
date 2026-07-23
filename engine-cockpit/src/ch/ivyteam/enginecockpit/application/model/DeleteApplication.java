@@ -10,7 +10,11 @@ public class DeleteApplication {
   public DeleteApplication(ApplicationVersionRow app, boolean isLastVersion) {
     this.app = app;
     this.isLastVersion = isLastVersion;
-  }  
+  }
+
+  public String getName() {
+    return app.getName();
+  }
 
   public int getVersion() {
     return Integer.parseInt(app.getVersion());

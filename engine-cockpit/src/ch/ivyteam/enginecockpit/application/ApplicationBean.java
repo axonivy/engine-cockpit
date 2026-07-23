@@ -259,6 +259,7 @@ public class ApplicationBean implements Serializable {
 
   public static class ApplicationVersionRow {
 
+    private final String name;
     private final String version;
     private final AppStateDto state;
     private final long openCases;
@@ -266,11 +267,16 @@ public class ApplicationBean implements Serializable {
     private final String link;
 
     private ApplicationVersionRow(IApplication app) {
+      this.name = app.name();
       this.version = String.valueOf(app.version());
       this.state = new AppStateDto(app.state());
       this.openCases = CasesCounter.openOf(app);
       this.doneCases = CasesCounter.doneOf(app);
       this.link = ApplicationVersionBean.getLink(app.securityContext().name(), app.name(), app.version());
+    }
+
+    public String getName() {
+      return name;
     }
 
     public String getVersion() {
