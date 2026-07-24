@@ -74,11 +74,11 @@ public abstract class Event {
   }
 
   public String getPm() {
-    return bean.getNameKeyProperty("version");
+    return bean.getNameKeyProperty("project");
   }
 
   public String getPmv() {
-    return bean.getNameKeyProperty("project");
+    return bean.getNameKeyProperty("version");
   }
 
   public String getBeanClass() {
