@@ -12,11 +12,11 @@ public final class IntermediateEvent extends Event {
 
   @Override
   public String getFullRequestPath() {
-    return getApplication() +
+    return getApp() +
         "/" +
-        getPm() +
+        getProject() +
         "$" +
-        getPmv() +
+        getVersion() +
         "/" +
         getProcessElementId();
   }

@@ -69,15 +69,19 @@ public abstract class Event {
     return elementDescr + " (" + beanDescr + ")";
   }
 
-  public String getApplication() {
+  public String getContext() {
+    return bean.getNameKeyProperty("context");
+  }
+
+  public String getApp() {
     return bean.getNameKeyProperty("app");
   }
 
-  public String getPm() {
+  public String getProject() {
     return bean.getNameKeyProperty("project");
   }
 
-  public String getPmv() {
+  public String getVersion() {
     return bean.getNameKeyProperty("version");
   }
 
@@ -186,9 +190,10 @@ public abstract class Event {
 
   public String getDetailUrl() {
     return UriBuilder.fromPath(detailPage)
-        .queryParam("application", getApplication())
-        .queryParam("pm", getPm())
-        .queryParam("pmv", getPmv())
+        .queryParam("context", getContext())
+        .queryParam("app", getApp())
+        .queryParam("version", getVersion())
+        .queryParam("project", getProject())
         .queryParam("name", getName())
         .build()
         .toString();
