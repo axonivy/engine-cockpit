@@ -185,7 +185,7 @@ public class DatabaseBean extends DetailView implements Serializable {
     var dbConfig = prepareDatabaseConnection();
     String successMessage = Ivy.cm().co("/connectionTestResult/ConnectToDatabaseSuccessMessage");
     String failMessage = Ivy.cm().co("/connectionTestResult/ConnectToDatabaseFailMessage");
-    return databases.getInDeclaringPmvContext(databaseName, () -> testConnection(dbConfig, successMessage, failMessage));
+    return databases.getInDeclaringProjectContext(databaseName, () -> testConnection(dbConfig, successMessage, failMessage));
   }
 
   private ConnectionTestResult testConnection(DatabaseConnectionConfiguration dbConfig, String successMessage, String failMessage) {
