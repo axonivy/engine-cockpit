@@ -4,18 +4,17 @@ import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
 import java.io.Serializable;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
 public class MailClientMonitorBean implements Serializable {
-  private static final String EXTERNAL_MAIL_SERVER = "ivy Engine:name=External Mail Server";
 
-  private static final ExecutionCounter SENT_MAILS = new ExecutionCounter(EXTERNAL_MAIL_SERVER, "sentMails");
+  private static final String MAIL_SERVER = "ivy Engine:name=Mail Server";
+  private static final ExecutionCounter SENT_MAILS = new ExecutionCounter(MAIL_SERVER, "sentMails");
 
   private final Monitor sentMonitor = Monitor.build().name("Mails Sent").icon("email").toMonitor();
   private final Monitor executionTimeMonitor = Monitor.build().name("Execution Time")

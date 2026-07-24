@@ -64,7 +64,7 @@ public class TestEmailMonitorBean {
         .isEqualTo("Execution Time: Min 5 us Avg - Max 7 us Total 6 us");
   }
 
-  @MBean("ivy Engine:name=External Mail Server")
+  @MBean("ivy Engine:name=Mail Server")
   private static final class Mail {
     @MAttribute
     public long getSentMails() {

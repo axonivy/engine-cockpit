@@ -16,15 +16,15 @@ public class RestClientMonitor {
   private final String restClientKey;
 
   public RestClientMonitor() {
-    this("", -1, "");
+    this("", "", -1, "");
   }
 
-  public RestClientMonitor(String appName, int appVersion, String restClientKey) {
+  public RestClientMonitor(String contextName, String appName, int appVersion, String restClientKey) {
     this.applicationName = appName;
     this.appVersion = appVersion;
     this.restClientKey = restClientKey;
     try {
-      var clients = searchJmx(appName, appVersion, restClientKey);
+      var clients = searchJmx(contextName,appName, appVersion, restClientKey);
       restClient = clients.stream()
           .map(RestClient::new)
           .filter(this::isRestClient)
@@ -56,11 +56,10 @@ public class RestClientMonitor {
         client.key().equals(restClientKey);
   }
 
-  private static Set<ObjectName> searchJmx(String appName, int appVersion, String restClientKey)
+  private static Set<ObjectName> searchJmx(String contextName, String appName, int appVersion, String restClientKey)
       throws MalformedObjectNameException {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
-        new ObjectName("ivy Engine:type=External REST Web Service,application=" + appName + ",version=" + appVersion + ",name=" + restClientKey),
+        new ObjectName("ivy Engine:type=REST Web Service,context="+contextName+",app=" + appName + ",version=" + appVersion + ",name=" + restClientKey),
         null);
   }
-
 }

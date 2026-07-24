@@ -85,7 +85,7 @@ public class WebserviceDetailBean extends DetailView implements FeatureEditor, S
     webServiceClients = WebServiceClients.of(app);
     loadWebService();
     reloadExternalWebservice();
-    liveStats = new WebServiceMonitor(appName, app.version(), webserviceKey);
+    liveStats = new WebServiceMonitor(app.securityContext().name(), app.name(), app.version(), webserviceKey);
   }
 
   private void reloadExternalWebservice() {
