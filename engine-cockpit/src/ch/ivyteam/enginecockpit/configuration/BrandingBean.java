@@ -27,7 +27,7 @@ import ch.ivyteam.enginecockpit.configuration.model.CssColorDTO;
 import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
-import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.application.branding.BrandingIO;
 import ch.ivyteam.ivy.application.branding.BrandingResolver;
@@ -229,7 +229,7 @@ public class BrandingBean implements AllResourcesDownload, Serializable {
     return null;
   }
 
-  private static List<Path> appBrandingDirs(IApplication app) throws IOException {
+  private static List<Path> appBrandingDirs(Application app) throws IOException {
     var resolver = new BrandingResolver(app);
     if (!resolver.hasBrandingResources()) {
       throw new IOException(Ivy.cm().content("/branding/DownloadBrandingResourcesError").replace("appName", app.name()).get());

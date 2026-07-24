@@ -6,7 +6,7 @@ import java.util.Locale;
 
 import ch.ivyteam.enginecockpit.application.ProjectBean;
 import ch.ivyteam.enginecockpit.security.model.SecurityMember;
-import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.project.Project;
 import ch.ivyteam.ivy.notification.Notification;
 import ch.ivyteam.ivy.notification.channel.Event;
 import ch.ivyteam.ivy.notification.delivery.NotificationDeliveryRepository;
@@ -48,8 +48,8 @@ public class NotificationDto {
   }
 
   public String getPmv() {
-    return notification.pmv()
-        .map(IProcessModelVersion::name)
+    return notification.project()
+        .map(Project::name)
         .orElse("");
   }
 
@@ -58,7 +58,7 @@ public class NotificationDto {
   }
 
   public String getPmvUri() {
-    return notification.pmv()
+    return notification.project()
       .map(pmv -> ProjectBean.getLink(
         pmv.app().securityContext().name(),
         pmv.app().name(),

@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigView;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
-import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.vars.Variables;
 import jakarta.faces.application.FacesMessage;
@@ -26,7 +26,7 @@ public class VariableBean implements ConfigView, Serializable {
   private List<ConfigProperty> filteredVariables;
   private String filter;
   private ConfigProperty activeVariable;
-  private IApplication app;
+  private Application app;
 
   public VariableBean() {
     managerBean = ManagerBean.instance();

@@ -13,7 +13,7 @@ import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.system.SecurityBean;
-import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
@@ -31,7 +31,7 @@ public class ManagerBean implements Serializable {
   private List<SecuritySystem> securitySystems = List.of();
   private int selectedSecuritSystemIndex;
 
-  private List<IApplication> applications = List.of();
+  private List<Application> applications = List.of();
   private int selectedApplicationIndex;
 
   private Locale formattingLocale;
@@ -66,7 +66,7 @@ public class ManagerBean implements Serializable {
     }
   }
 
-  public List<IApplication> getApplications() {
+  public List<Application> getApplications() {
     reloadApplications();
     return applications;
   }
@@ -133,17 +133,17 @@ public class ManagerBean implements Serializable {
     return ApplicationBean.getLink(getSelectedSecuritySystem().getSecuritySystemName(), getSelectedApplicationName());
   }
 
-  public IApplication getSelectedApplication() {
+  public Application getSelectedApplication() {
     if (applications.isEmpty()) {
       return null;
     }
     return applications.get(selectedApplicationIndex);
   }
 
-  private List<IApplication> loadApplications() {
+  private List<Application> loadApplications() {
     return apps.all().stream()
         .filter(app -> app.state().releaseState() == ReleaseState.RELEASED)
-        .sorted(Comparator.comparing(IApplication::name, String.CASE_INSENSITIVE_ORDER))
+        .sorted(Comparator.comparing(Application::name, String.CASE_INSENSITIVE_ORDER))
         .collect(Collectors.toList());
   }
 

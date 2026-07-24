@@ -20,8 +20,7 @@ import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
-import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.NewApplication;
 import ch.ivyteam.ivy.application.app.link.AppLink;
@@ -48,7 +47,7 @@ public class ApplicationBean implements Serializable {
   private String contextName;
 
   private ISecurityContext context;
-  private IApplication app;
+  private Application app;
   private ConfigViewImpl configView;
 
   private List<ApplicationVersionRow> applicationVersions;
@@ -66,7 +65,7 @@ public class ApplicationBean implements Serializable {
     app = apps.findReleasedByName(appName);
     if (app == null) {
       app = apps.findByName(appName).stream()
-          .max(Comparator.comparingInt(IApplication::version))
+          .max(Comparator.comparingInt(Application::version))
           .orElse(null);
     }
     if (app == null) {
@@ -88,7 +87,7 @@ public class ApplicationBean implements Serializable {
         .collect(Collectors.toList());
   }
 
-  public IApplication getApplication() {
+  public Application getApplication() {
     return app;
   }
 
@@ -197,9 +196,9 @@ public class ApplicationBean implements Serializable {
 
   private static class ConfigViewBuilder {
 
-    private final IApplication app;
+    private final Application app;
 
-    private ConfigViewBuilder(IApplication app) {
+    private ConfigViewBuilder(Application app) {
       this.app = app;
     }
 
@@ -238,11 +237,11 @@ public class ApplicationBean implements Serializable {
       return List.copyOf(libraries);
     }
 
-    private static List<String> librariesOf(IApplication app) {
+    private static List<String> librariesOf(Application app) {
       var libs = new LinkedList<String>();
       libs.add("");
       app.projects().all()
-          .map(IProcessModelVersion::getLibraryId)
+          .map(project -> project.mavenCoordinates().id())
           .distinct()
           .forEach(libs::add);
       return libs;
@@ -266,7 +265,7 @@ public class ApplicationBean implements Serializable {
     private final long doneCases;
     private final String link;
 
-    private ApplicationVersionRow(IApplication app) {
+    private ApplicationVersionRow(Application app) {
       this.name = app.name();
       this.version = String.valueOf(app.version());
       this.state = new AppStateDto(app.state());

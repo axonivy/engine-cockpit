@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.util.DateUtil;
-import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
+import ch.ivyteam.ivy.application.project.Project;
 import ch.ivyteam.ivy.project.model.ProjectVersion;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import jakarta.faces.view.ViewScoped;
@@ -81,10 +81,10 @@ public class ProjectBean implements Serializable {
     }
 
     project = new ProjectDto(iProject);
-    dependentProjects = iProject.getAllDependentProcessModelVersions()
+    dependentProjects = iProject.allDependentProjects()
         .map(ProjectDto::new)
         .collect(Collectors.toList());
-    requiredProjects = iProject.getAllRequiredProcessModelVersions()
+    requiredProjects = iProject.allRequiredProjects()
         .map(ProjectDto::new)
         .collect(Collectors.toList());
   }
@@ -129,10 +129,10 @@ public class ProjectBean implements Serializable {
 
   public static class ProjectDto {
 
-    private final IProcessModelVersion project;
+    private final Project project;
     private final String lastChanged;
 
-    public ProjectDto(IProcessModelVersion project) {
+    public ProjectDto(Project project) {
       lastChanged = DateUtil.formatDate(project.getLastChangeDate());
       this.project = project;
     }
@@ -150,7 +150,7 @@ public class ProjectBean implements Serializable {
     }
 
     public String getQualifiedVersion() {
-      return project.getLibraryVersion();
+      return project.mavenCoordinates().version();
     }
 
     public String getLastChanged() {
@@ -158,15 +158,15 @@ public class ProjectBean implements Serializable {
     }
 
     public String getLibraryId() {
-      return project.getLibraryId();
+      return project.mavenCoordinates().id();
     }
 
     public String getLibraryVersion() {
-      return project.getLibraryVersion();
+      return project.mavenCoordinates().version();
     }
 
     public int getProjectVersion() {
-      return ProjectVersion.of(project.project()).version();
+      return ProjectVersion.of(project.model()).version();
     }
   }
 }

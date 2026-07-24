@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.move.ApplicationMover;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
@@ -24,7 +24,7 @@ public class MoveApplicationBean implements Serializable {
     UNKOWN
   }
 
-  private IApplication app;
+  private Application app;
   private ValidationState state = ValidationState.UNKOWN;
   private String validationMessage = "";
   private String targetSecuritySystem;
@@ -74,7 +74,7 @@ public class MoveApplicationBean implements Serializable {
     return state == ValidationState.VALID;
   }
 
-  public void setApp(IApplication app) {
+  public void setApp(Application app) {
     state = ValidationState.UNKOWN;
     validationMessage = "";
     this.app = app;
