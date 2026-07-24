@@ -6,10 +6,10 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
-import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.context.ApplicationContext;
-import ch.ivyteam.ivy.application.pmv.context.ProcessModelVersionContext;
+import ch.ivyteam.ivy.application.project.Project;
+import ch.ivyteam.ivy.application.project.context.ProjectContext;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.security.di.SecurityContextContext;
@@ -20,10 +20,10 @@ import jakarta.ws.rs.core.Response.StatusType;
 
 public class RestTestRunner {
 
-  private final IApplication app;
+  private final Application app;
   private final RestClient uiClient;
 
-  public RestTestRunner(IApplication app, RestClient uiClient) {
+  public RestTestRunner(Application app, RestClient uiClient) {
     this.app = app;
     this.uiClient = uiClient;
   }
@@ -37,20 +37,20 @@ public class RestTestRunner {
   }
 
   private ConnectionTestResult testInAppContext() {
-    var clientPmv = findClientPmv();
+    var clientProject = findClientProject();
     String invalidUrlMsg = Ivy.cm().co("/connectionTestResult/InvalidRestClientUrlMessage");
     String successMsg = Ivy.cm().co("/connectionTestResult/ConnectToRestServiceSuccessMessage");
     String notUnderstandRequestMsg = Ivy.cm().co("/connectionTestResult/ConnectToRestServiceSuccessMessage");
     String authMsg = Ivy.cm().co("/connectionTestResult/ConnectionTestRestClientAuthenticationMessage");
     String failMsg = Ivy.cm().co("/connectionTestResult/ConnectToRestServiceFailMessage");
-    return new ProcessModelVersionContext(clientPmv.get())
+    return new ProjectContext(clientProject.get())
         .getInContext(() -> testInPmvContext(invalidUrlMsg, successMsg, notUnderstandRequestMsg, authMsg, failMsg));
   }
 
-  private Optional<IProcessModelVersion> findClientPmv() {
+  private Optional<Project> findClientProject() {
     var restManager = ch.ivyteam.ivy.rest.client.config.restricted.IRestClientsManager.instance();
     return app.projects().all()
-        .filter(pmv -> restManager.getProjectDataModelFor(pmv.project()).findRestClient(uiClient.key()).isPresent())
+        .filter(pmv -> restManager.getProjectDataModelFor(pmv.model()).findRestClient(uiClient.key()).isPresent())
         .findAny();
   }
 

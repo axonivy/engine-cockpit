@@ -11,7 +11,7 @@ import ch.ivyteam.enginecockpit.security.export.excel.Excel;
 import ch.ivyteam.enginecockpit.security.export.excel.Row;
 import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
 import ch.ivyteam.ivy.Advisor;
-import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISession;
@@ -74,7 +74,7 @@ public class OverviewSheet {
 
   private String getApplicationNames() {
     return ApplicationRepository.of(securityContext).all().stream()
-        .map(IApplication::name)
+        .map(Application::name)
         .collect(Collectors.joining(", "));
   }
 

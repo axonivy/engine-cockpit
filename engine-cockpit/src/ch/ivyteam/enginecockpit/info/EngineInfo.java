@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.primefaces.PrimeFaces;
 
 import ch.ivyteam.ivy.Advisor;
-import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.state.ActivityState;
 import ch.ivyteam.ivy.application.app.state.ReleaseState;
@@ -28,14 +28,14 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestScoped
 public class EngineInfo {
 
-  private final List<Application> applications;
+  private final List<ch.ivyteam.enginecockpit.info.Application> applications;
   private boolean isShutingDown;
 
   public EngineInfo() {
     applications = ApplicationRepository.instance().all().stream()
         .filter(app -> app.state().releaseState() == ReleaseState.RELEASED && app.state().activityState() == ActivityState.ACTIVE)
-        .sorted(Comparator.comparing(IApplication::name, String.CASE_INSENSITIVE_ORDER))
-        .map(Application::new)
+        .sorted(Comparator.comparing(Application::name, String.CASE_INSENSITIVE_ORDER))
+        .map(ch.ivyteam.enginecockpit.info.Application::new)
         .filter(this::isNotInDevMode)
         .collect(Collectors.toList());
   }
@@ -77,11 +77,11 @@ public class EngineInfo {
     return isShutingDown;
   }
 
-  private boolean isNotInDevMode(Application app) {
+  private boolean isNotInDevMode(ch.ivyteam.enginecockpit.info.Application app) {
     return !app.isDevMode();
   }
 
-  public List<Application> getApplications() {
+  public List<ch.ivyteam.enginecockpit.info.Application> getApplications() {
     if (isDemo()) {
       return applications.stream()
           .filter(app -> !"demo-portal".equals(app.name()))

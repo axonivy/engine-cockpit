@@ -12,10 +12,10 @@ import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.util.DateUtil;
-import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.state.ActivityState;
+import ch.ivyteam.ivy.application.project.Project;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
@@ -34,7 +34,7 @@ public class ApplicationVersionBean implements Serializable {
   private String nameFilter = "";
   private AppStateDto appState;
   
-  private IApplication app;
+  private Application app;
   private List<ProjectRow> projects;
   private ISecurityContext context;
  
@@ -83,12 +83,12 @@ public class ApplicationVersionBean implements Serializable {
     appState = new AppStateDto(app.state());
   }
 
-  public ProjectRow toProjectRow(IProcessModelVersion pmv) {
+  public ProjectRow toProjectRow(Project project) {
     return new ProjectRow(
-            pmv.name(),
-            pmv.getLibraryVersion(),
-        DateUtil.formatDate(pmv.getLastChangeDate()),
-        ProjectBean.getLink(contextName, appName, appVersion, pmv.name()));
+            project.name(),
+            project.mavenCoordinates().version(),
+        DateUtil.formatDate(project.getLastChangeDate()),
+        ProjectBean.getLink(contextName, appName, appVersion, project.name()));
   }
 
   public static String getLink(String context, String app, int version) {
@@ -122,7 +122,7 @@ public class ApplicationVersionBean implements Serializable {
     this.nameFilter = nameFilter;
   }
 
-  public IApplication getApplication() {
+  public Application getApplication() {
     return app;
   }
 

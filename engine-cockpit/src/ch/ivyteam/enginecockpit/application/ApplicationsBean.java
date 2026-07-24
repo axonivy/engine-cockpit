@@ -10,7 +10,7 @@ import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.application.model.NewApplication;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
-import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.state.ReleaseState;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -53,7 +53,7 @@ public class ApplicationsBean implements Serializable {
     }
 
     return ApplicationRepository.of(securityContext).all().stream()
-        .collect(Collectors.groupingBy(IApplication::name))
+        .collect(Collectors.groupingBy(Application::name))
         .entrySet().stream()
         .map(entry -> new ApplicationRowConverter(entry.getKey(), entry.getValue()).convert())
         .sorted(Comparator.comparing(ApplicationRow::getName, String.CASE_INSENSITIVE_ORDER))
@@ -154,9 +154,9 @@ public class ApplicationsBean implements Serializable {
   private static class ApplicationRowConverter {
 
     private final String name;
-    private final List<IApplication> apps;
+    private final List<Application> apps;
 
-    public ApplicationRowConverter(String name, List<IApplication> apps) {
+    public ApplicationRowConverter(String name, List<Application> apps) {
       this.name = name;
       this.apps = apps;
     }
@@ -179,12 +179,12 @@ public class ApplicationsBean implements Serializable {
     private List<ApplicationVersion> findDeprecatedVersions() {
       return apps.stream()
           .filter(app -> app.state().releaseState() == ReleaseState.DEPRECATED)
-          .sorted(Comparator.comparingInt(IApplication::version))
+          .sorted(Comparator.comparingInt(Application::version))
           .map(this::toApplicationVersion)
           .collect(Collectors.toList());
     }
 
-    private ApplicationVersion toApplicationVersion(IApplication app) {
+    private ApplicationVersion toApplicationVersion(Application app) {
       return new ApplicationVersion(
           app.securityContext().name(),
           app.name(),

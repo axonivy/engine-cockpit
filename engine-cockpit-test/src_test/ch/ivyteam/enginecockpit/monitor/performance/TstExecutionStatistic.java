@@ -1,6 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.performance;
 
-import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.project.Project;
 import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IExecutionStatistic;
 import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IProcessElementExecutionStatistic;
 import ch.ivyteam.ivy.process.model.value.PID;
@@ -41,8 +41,7 @@ class TstExecutionStatistic implements IExecutionStatistic {
   }
 
   @Override
-  public IProcessElementExecutionStatistic getFirstProcessElementExecutionStatistic(
-      IProcessModelVersion processModelVersion, PID processElementId) {
+  public IProcessElementExecutionStatistic getFirstProcessElementExecutionStatistic(Project project, PID processElementId) {
     return null;
   }
 }

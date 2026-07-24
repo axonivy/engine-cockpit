@@ -2,9 +2,7 @@ package ch.ivyteam.enginecockpit.monitor.performance;
 
 import java.util.List;
 
-import jakarta.inject.Singleton;
-
-import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.project.Project;
 import ch.ivyteam.ivy.bpm.engine.restricted.IBpmEngine;
 import ch.ivyteam.ivy.bpm.engine.restricted.IBpmEngineManager;
 import ch.ivyteam.ivy.bpm.engine.restricted.event.IEventPublisher;
@@ -12,6 +10,7 @@ import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IExecutionStatistic;
 import ch.ivyteam.ivy.request.IRequest;
 import ch.ivyteam.ivy.request.IResponse;
 import ch.ivyteam.ivy.request.RequestException;
+import jakarta.inject.Singleton;
 
 @Singleton
 class TstBpmEngineManager implements IBpmEngineManager {
@@ -33,7 +32,7 @@ class TstBpmEngineManager implements IBpmEngineManager {
   }
 
   @Override
-  public IBpmEngine getBpmEngine(IProcessModelVersion pmv) {
+  public IBpmEngine getBpmEngine(Project project) {
     return null;
   }
 
@@ -53,5 +52,5 @@ class TstBpmEngineManager implements IBpmEngineManager {
   }
 
   @Override
-  public void requestEngineStart(IProcessModelVersion pmv) {}
+  public void requestEngineStart(Project project) {}
 }
