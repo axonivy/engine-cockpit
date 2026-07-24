@@ -33,12 +33,12 @@ class TestDatabaseMonitorBean {
   void withData() throws Exception {
     MBeans.registerMBeanFor(new Db("db1"));
     MBeans.registerMBeanFor(new Db("db2"));
-    var testee = new DatabaseMonitor("test", 1, "db1");
+    var testee = new DatabaseMonitor("default", "test", 1, "db1");
     assertThat(testee.getDatabase()).isEqualTo("test > db1");
     assertThat(testee.getQueriesMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
-    testee = new DatabaseMonitor("test", 1, "db2");
+    testee = new DatabaseMonitor("default", "test", 1, "db2");
     assertThat(testee.getDatabase()).isEqualTo("test > db2");
     assertThat(testee.getQueriesMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
@@ -48,7 +48,7 @@ class TestDatabaseMonitorBean {
   @Test
   void connectionMonitor() {
     MBeans.registerMBeanFor(new Db("db1"));
-    var testee = new DatabaseMonitor("test", 1, "db1");
+    var testee = new DatabaseMonitor("default", "test", 1, "db1");
 
     var dataSet = testee.getConnectionsMonitor().getModel().getData().getDataSet();
     assertThat(dataSet).hasSize(2);
@@ -69,7 +69,7 @@ class TestDatabaseMonitorBean {
   @Test
   void callsMonitor() {
     MBeans.registerMBeanFor(new Db("db1"));
-    var testee = new DatabaseMonitor("test", 1, "db1");
+    var testee = new DatabaseMonitor("default", "test", 1, "db1");
 
     var dataSet = testee.getQueriesMonitor().getModel().getData().getDataSet();
     assertThat(dataSet).hasSize(2);
@@ -91,7 +91,7 @@ class TestDatabaseMonitorBean {
   @Test
   void executionTimeMonitor() {
     MBeans.registerMBeanFor(new Db("db1"));
-    var testee = new DatabaseMonitor("test", 1, "db1");
+    var testee = new DatabaseMonitor("default", "test", 1, "db1");
 
     var dataSet = testee.getExecutionTimeMonitor().getModel().getData().getDataSet();
     assertThat(dataSet).hasSize(3);

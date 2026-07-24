@@ -32,11 +32,11 @@ class TestWebServiceMonitorBean {
   void withData() throws Exception {
     MBeans.registerMBeanFor(new Ws("ws1"));
     MBeans.registerMBeanFor(new Ws("ws2"));
-    var testee = new WebServiceMonitor("test", 1, "ws1");
+    var testee = new WebServiceMonitor("default", "test", 1, "ws1");
     assertThat(testee.getWebService()).isEqualTo("test > ws1");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
-    testee = new WebServiceMonitor("test", 1, "ws2");
+    testee = new WebServiceMonitor("default", "test", 1, "ws2");
     assertThat(testee.getWebService()).isEqualTo("test > ws2");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
@@ -45,7 +45,7 @@ class TestWebServiceMonitorBean {
   @Test
   void callsMonitor() {
     MBeans.registerMBeanFor(new Ws("ws1"));
-    var testee = new WebServiceMonitor("test", 1, "ws1");
+    var testee = new WebServiceMonitor("default", "test", 1, "ws1");
 
     var dataSet = testee.getCallsMonitor().getModel().getData().getDataSet();
     assertThat(dataSet).hasSize(2);
@@ -66,7 +66,7 @@ class TestWebServiceMonitorBean {
   @Test
   void executionTimeMonitor() {
     MBeans.registerMBeanFor(new Ws("ws1"));
-    var testee = new WebServiceMonitor("test", 1, "ws1");
+    var testee = new WebServiceMonitor("default", "test", 1, "ws1");
 
     var dataSet = testee.getExecutionTimeMonitor().getModel().getData().getDataSet();
     assertThat(dataSet).hasSize(3);
