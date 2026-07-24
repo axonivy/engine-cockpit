@@ -39,7 +39,7 @@ abstract class AbstractDatabase {
       return;
     }
 
-    application = extDatabase.getKeyProperty("application");
+    application = extDatabase.getKeyProperty("app");
     appVersion = extDatabase.getKeyProperty("version");
     name = extDatabase.getKeyProperty("name");
     label = toLabel(application, name);

@@ -44,7 +44,7 @@ class RestClient {
     }
     this.key = restClient.getKeyProperty("name");
 
-    application = restClient.getKeyProperty("application");
+    application = restClient.getKeyProperty("app");
     appVersion = restClient.getKeyProperty("version");
     label = toLabel(application, key);
 
