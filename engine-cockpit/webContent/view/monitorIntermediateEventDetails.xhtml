@@ -8,9 +8,10 @@
   xmlns:cc="jakarta.faces.composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewParam name="application" value="#{intermediateEventDetailBean.application}" />
-    <f:viewParam name="pm" value="#{intermediateEventDetailBean.pm}" />
-    <f:viewParam name="pmv" value="#{intermediateEventDetailBean.pmv}" />
+    <f:viewParam name="context" value="#{intermediateEventDetailBean.context}" />
+    <f:viewParam name="app" value="#{intermediateEventDetailBean.app}" />
+    <f:viewParam name="version" value="#{intermediateEventDetailBean.version}" />
+    <f:viewParam name="project" value="#{intermediateEventDetailBean.project}" />
     <f:viewParam name="name" value="#{intermediateEventDetailBean.name}" />
     <f:viewAction action="#{intermediateEventDetailBean.onLoad}" />
   </f:metadata>
