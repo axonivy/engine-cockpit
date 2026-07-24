@@ -30,7 +30,7 @@ public class NotificationChannelMonitor {
   private Set<ObjectName> searchJmx(String channelId)
       throws MalformedObjectNameException {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
-        new ObjectName("ivy Engine:type=Notification Channel,securityContext=" + securityContext.getName() + ",id=" + channelId),
+        new ObjectName("ivy Engine:type=Notification Channel,context=" + securityContext.getName() + ",id=" + channelId),
         null);
   }
 

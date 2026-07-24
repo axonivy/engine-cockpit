@@ -115,7 +115,7 @@ class TestDatabaseMonitorBean {
         .isEqualTo("Execution Time: Min 5 us, Avg -, Max 7 us, Total 6 us");
   }
 
-  @MBean("ivy Engine:type=External Database,application=test,version=1,name=#{name}")
+  @MBean("ivy Engine:type=Database,context=default,app=test,version=1,name=#{name}")
   private static final class Db {
     private final String name;
 

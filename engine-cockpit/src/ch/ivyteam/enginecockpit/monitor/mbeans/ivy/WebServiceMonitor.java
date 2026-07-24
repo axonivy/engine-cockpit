@@ -15,15 +15,15 @@ public class WebServiceMonitor {
   private final String webServiceKey;
 
   public WebServiceMonitor() {
-    this("", -1, "");
+    this("", "", -1, "");
   }
 
-  public WebServiceMonitor(String appName, int appVersion, String webServiceKey) {
+  public WebServiceMonitor(String contextName, String appName, int appVersion, String webServiceKey) {
     this.applicationName = appName;
     this.appVersion = appVersion;
     this.webServiceKey = webServiceKey;
     try {
-      var services = searchJmx(appName, appVersion, webServiceKey);
+      var services = searchJmx(contextName, appName, appVersion, webServiceKey);
       webService = services.stream()
           .map(WebService::new)
           .filter(this::isWebService)
@@ -51,10 +51,10 @@ public class WebServiceMonitor {
         service.key().equals(webServiceKey);
   }
 
-  private static Set<ObjectName> searchJmx(String appName, int appVersion, String webServiceKey)
+  private static Set<ObjectName> searchJmx(String contextName, String appName, int appVersion, String webServiceKey)
       throws MalformedObjectNameException {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
-        new ObjectName("ivy Engine:type=External Web Service,application=" + appName + ",version=" + appVersion + ",name=" + webServiceKey),
+        new ObjectName("ivy Engine:type=Web Service,context="+contextName+",app=" + appName + ",version=" + appVersion + ",name=" + webServiceKey),
         null);
   }
 }

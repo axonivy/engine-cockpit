@@ -8,12 +8,11 @@ import java.util.stream.Collectors;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import ch.ivyteam.enginecockpit.monitor.events.intermediate.IntermediateEvent;
 import ch.ivyteam.enginecockpit.util.ErrorHandler;
 import ch.ivyteam.log.Logger;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -33,7 +32,7 @@ public class IntermediateEventBean implements Serializable {
     try {
       // needs to be modifiable for sorting
       beans = ManagementFactory.getPlatformMBeanServer()
-          .queryNames(new ObjectName("ivy Engine:type=Process Intermediate Event Bean,application=*,pm=*,pmv=*,name=*"), null)
+          .queryNames(new ObjectName("ivy Engine:type=Process Intermediate Event Bean,context=*,app=*,version=*,project=*,name=*"), null)
           .stream()
           .map(IntermediateEvent::new)
           .collect(Collectors.toList());

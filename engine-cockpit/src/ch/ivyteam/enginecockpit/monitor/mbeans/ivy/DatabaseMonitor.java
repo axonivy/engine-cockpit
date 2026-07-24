@@ -7,10 +7,9 @@ import java.util.Set;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
+import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
-
-import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
 @Named
 @ViewScoped
@@ -21,15 +20,15 @@ public class DatabaseMonitor implements Serializable {
   private final String databaseName;
 
   public DatabaseMonitor() {
-    this("", -1, "");
+    this("", "", -1, "");
   }
 
-  public DatabaseMonitor(String appName, int appVersion, String databaseName) {
+  public DatabaseMonitor(String contextName, String appName, int appVersion, String databaseName) {
     this.applicationName = appName;
     this.appVersion = appVersion;
     this.databaseName = databaseName;
     try {
-      var databases = searchJmx(appName, appVersion, databaseName);
+      var databases = searchJmx(contextName, appName, appVersion, databaseName);
       database = databases.stream()
           .map(Database::new)
           .filter(this::isDatabase)
@@ -61,10 +60,10 @@ public class DatabaseMonitor implements Serializable {
         db.name().equals(databaseName);
   }
 
-  private static Set<ObjectName> searchJmx(String appName, int appVersion, String databaseName)
+  private static Set<ObjectName> searchJmx(String contextName, String appName, int appVersion, String databaseName)
       throws MalformedObjectNameException {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
-        new ObjectName("ivy Engine:type=External Database,application=" + appName + ",version=" + appVersion + ",name=" + databaseName),
+        new ObjectName("ivy Engine:type=Database,context="+contextName+",app=" + appName + ",version=" + appVersion + ",name=" + databaseName),
         null);
   }
 }
