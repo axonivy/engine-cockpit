@@ -5,14 +5,13 @@ import java.util.stream.Collectors;
 
 import javax.management.ObjectName;
 
-import jakarta.ws.rs.core.UriBuilder;
-
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.monitor.mbeans.MBean;
 import ch.ivyteam.enginecockpit.util.ErrorHandler;
 import ch.ivyteam.enginecockpit.util.ErrorValue;
 import ch.ivyteam.log.Logger;
+import jakarta.ws.rs.core.UriBuilder;
 
 public abstract class Event {
 
@@ -71,15 +70,15 @@ public abstract class Event {
   }
 
   public String getApplication() {
-    return bean.getNameKeyProperty("application");
+    return bean.getNameKeyProperty("app");
   }
 
   public String getPm() {
-    return bean.getNameKeyProperty("pm");
+    return bean.getNameKeyProperty("project");
   }
 
   public String getPmv() {
-    return bean.getNameKeyProperty("pmv");
+    return bean.getNameKeyProperty("version");
   }
 
   public String getBeanClass() {
