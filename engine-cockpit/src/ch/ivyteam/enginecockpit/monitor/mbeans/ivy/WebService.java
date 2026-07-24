@@ -38,7 +38,7 @@ class WebService {
     }
     this.key = webService.getKeyProperty("name");
 
-    application = webService.getKeyProperty("application");
+    application = webService.getKeyProperty("app");
     appVersion = webService.getKeyProperty("version");
     label = application + " > " + key;
 
