@@ -114,25 +114,25 @@ public class AppStateDto {
   }
 
   public String getActivityOperationState() {
-    return state.activityOperationState().name();
+    return state.operationState().name();
   }
 
   public String getActivityOperationStateCssClass() {
-    return state.activityOperationState().name().toLowerCase();
+    return state.operationState().name().toLowerCase();
   }
 
   public String getActivityOperationStateIcon() {
-    return switch (state.activityOperationState()) {
-      case ACTIVE -> "ti ti-circle-check";
-      case INACTIVE -> "ti ti-player-pause";
-      case ERROR -> "ti ti-circle-minus";
+    return switch (state.operationState()) {
+      case STARTED -> "ti ti-circle-check";
+      case STOPPED -> "ti ti-player-pause";
+      case FAILED -> "ti ti-circle-minus";
       default -> "ti ti-refresh spinning";
     };
   }
 
   public boolean isActivityStateProcessing() {
-    return switch (state.activityOperationState()) {
-      case ACTIVE, INACTIVE, ERROR -> false;
+    return switch (state.operationState()) {
+      case STARTED, STOPPED, FAILED -> false;
       default -> true;
     };
   }
