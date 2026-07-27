@@ -90,10 +90,10 @@ public class Navigation {
     menuShouldBeActive(APPLICATIONS_MENU);
   }
 
-  public static void toPmvDetail(String appName, String pmvName) {
+  public static void toProjectDetail(String appName, String projectName) {
     toApplications();
     openAppTreeActivity(appName);
-    clickAppTreeActivity(pmvName);
+    clickAppTreeActivity(projectName);
     menuShouldBeActive(APPLICATIONS_MENU);
   }
 

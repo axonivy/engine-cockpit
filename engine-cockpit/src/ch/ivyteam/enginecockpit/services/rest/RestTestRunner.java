@@ -44,17 +44,17 @@ public class RestTestRunner {
     String authMsg = Ivy.cm().co("/connectionTestResult/ConnectionTestRestClientAuthenticationMessage");
     String failMsg = Ivy.cm().co("/connectionTestResult/ConnectToRestServiceFailMessage");
     return new ProjectContext(clientProject.get())
-        .getInContext(() -> testInPmvContext(invalidUrlMsg, successMsg, notUnderstandRequestMsg, authMsg, failMsg));
+        .getInContext(() -> testInProjectContext(invalidUrlMsg, successMsg, notUnderstandRequestMsg, authMsg, failMsg));
   }
 
   private Optional<Project> findClientProject() {
     var restManager = ch.ivyteam.ivy.rest.client.config.restricted.IRestClientsManager.instance();
     return app.projects().all()
-        .filter(pmv -> restManager.getProjectDataModelFor(pmv.model()).findRestClient(uiClient.key()).isPresent())
+        .filter(project -> restManager.getProjectDataModelFor(project.model()).findRestClient(uiClient.key()).isPresent())
         .findAny();
   }
 
-  private ConnectionTestResult testInPmvContext(String invalidUrlMsg, String successMsg, String notUnderstandRequestMsg,
+  private ConnectionTestResult testInProjectContext(String invalidUrlMsg, String successMsg, String notUnderstandRequestMsg,
       String authMsg, String failMsg) {
     try {
       var client = createClient();

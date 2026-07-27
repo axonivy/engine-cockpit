@@ -47,23 +47,23 @@ public class NotificationDto {
     return notification.receivers().size() > 20;
   }
 
-  public String getPmv() {
+  public String getProject() {
     return notification.project()
         .map(Project::name)
         .orElse("");
   }
 
-  public String getPmvIcon() {
+  public String getProjectIcon() {
     return "ti ti-packages";
   }
 
-  public String getPmvUri() {
+  public String getProjectUri() {
     return notification.project()
-      .map(pmv -> ProjectBean.getLink(
-        pmv.app().securityContext().name(),
-        pmv.app().name(),
-        pmv.app().version(),
-        pmv.name()))
+      .map(project -> ProjectBean.getLink(
+        project.app().securityContext().name(),
+        project.app().name(),
+        project.app().version(),
+        project.name()))
         .orElse("");
   }
 

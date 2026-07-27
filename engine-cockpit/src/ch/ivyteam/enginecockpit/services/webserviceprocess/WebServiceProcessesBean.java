@@ -31,7 +31,7 @@ public class WebServiceProcessesBean implements Serializable {
    webServiceProcesses = app.getProcessModelVersions()
           .map(IWorkflowProcessModelVersion::of)
           .filter(Objects::nonNull)
-          .flatMap(pmv -> pmv.getWebServiceProcesses().stream())
+          .flatMap(wfPmv -> wfPmv.getWebServiceProcesses().stream())
           .map(WebServiceProcess::new)
           .collect(Collectors.toList());
   }

@@ -76,7 +76,7 @@
                       <exclude>**/engine-cockpit-monitor-jobs.png</exclude>
                       <exclude>**/engine-cockpit-monitor-traffic-graph.png</exclude>
                       <exclude>**/engine-cockpit-dashboard.png</exclude>
-                      <exclude>**/engine-cockpit-pmv-detail.png</exclude>
+                      <exclude>**/engine-cockpit-project-detail.png</exclude>
                     </excludes>
                   </newImagesFs>
                   <refImages>${project.build.directory}/screenshots</refImages>

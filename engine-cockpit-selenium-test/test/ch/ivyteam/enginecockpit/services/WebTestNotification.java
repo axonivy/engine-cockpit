@@ -73,7 +73,7 @@ class WebTestNotification {
   }
 
   @Test
-  void notifications_pmv() {
+  void notifications_project() {
     var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
     notifications.tableEntry(1, 5).$("a").should(text("engine-cockpit-test-data")).click();
     Selenide.webdriver().shouldHave(WebDriverConditions.urlContaining("project.xhtml"));

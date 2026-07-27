@@ -211,7 +211,7 @@ public class EngineCockpitUtil {
   public static String viewUrl(String page, Map<String, String> queryParams) {
     var urlBuilder = create();// .staticView(parts.path)
     if (isDesigner()) {
-      // test it in designer as PMV
+      // test it in designer as project
       urlBuilder = urlBuilder.staticView("engine-cockpit/" + page);
     } else {
       // test integrated jar

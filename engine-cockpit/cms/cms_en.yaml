@@ -231,7 +231,7 @@ common:
   Object: Object
   Order: Order
   PM: PM
-  PMV: PMV
+  Project: Project
   Password: Password
   Path: Path
   PleaseEnterPassword: Please enter a password
@@ -982,18 +982,18 @@ permissions:
   Permissions: Permissions
   SomePermissionDenied: Some Permission denied
   SomePermissionGranted: Some Permission granted
-pmvDetail:
+projectDetail:
   ActivityState: Activity state
   AllDirectIndirectRequiredLibrariesAvailableMessage: All direct and indirect required libraries are available in the system.
-  AllPMVsDependingOnPMV: All Projects depending on this Project
-  AllPMVsRequiredByPMV: All Projects required by this Project
-  DependentPMVTableEmptyMessage: The Project '${name}' has no dependent Projects.
+  AllProjectsDependingOnProject: All Projects depending on this Project
+  AllProjectsRequiredByProject: All Projects required by this Project
+  DependentProjectTableEmptyMessage: The Project '${name}' has no dependent Projects.
   Id: Id
   LastDeployed: Last changed
   NoProjectFoundForSpecificationMessage: No project could be found for this specification.
   NotAllDirectIndirectRequiredLibrariesAvailableMessage: Not all direct and indirect required libraries are available in the system.
   PMV: Projects
-  PMVInformation: Information
+  ProjectInformation: Information
   PMVResolvedForSpecificationMessage: '''${name}'' resolved for this specification'
   Project: Project
   ProjectVersion: Project Version

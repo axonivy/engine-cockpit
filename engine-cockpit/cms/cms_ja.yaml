@@ -230,7 +230,7 @@ common:
   Object: オブジェクト
   Order: 順序
   PM: PM
-  PMV: PMV
+  Project: Project
   Password: パスワード
   Path: パス
   PleaseEnterPassword: パスワードを入力してください
@@ -978,18 +978,18 @@ permissions:
   Permissions: 権限
   SomePermissionDenied: 一部の権限が却下されました
   SomePermissionGranted: 一部の権限が付与されました
-pmvDetail:
+projectDetail:
   ActivityState: アクティビティ状態
   AllDirectIndirectRequiredLibrariesAvailableMessage: システムでは直接的および間接的に必要なライブラリがすべて利用できます。
-  AllPMVsDependingOnPMV: この PMV に依存するすべての PMV
-  AllPMVsRequiredByPMV: この PMV に必要なすべての PMV
-  DependentPMVTableEmptyMessage: PMV '${name}' には依存する PMV が含まれません。
+  AllProjectsDependingOnProject: この PMV に依存するすべての PMV
+  AllProjectsRequiredByProject: この PMV に必要なすべての PMV
+  DependentProjectTableEmptyMessage: PMV '${name}' には依存する PMV が含まれません。
   Id: ID
   LastDeployed: 最終展開
   NoProjectFoundForSpecificationMessage: この仕様ではプロジェクトが見つかりませんでした。
   NotAllDirectIndirectRequiredLibrariesAvailableMessage: システムでは直接的および間接的に必要なライブラリをすべて利用できるとは限りません。
-  PMV: PMV
-  PMVInformation: PMV 情報
+  Project: Project
+  ProjectInformation: PMV 情報
   PMVResolvedForSpecificationMessage: この仕様に解決された '${name}'
   Project: プロジェクト
   ProjectVersion: プロジェクトバージョン

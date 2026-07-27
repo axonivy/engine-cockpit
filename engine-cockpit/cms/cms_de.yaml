@@ -231,7 +231,7 @@ common:
   Object: Objekt
   Order: Bestellung
   PM: PM
-  PMV: PMV
+  Project: Project
   Password: Passwort
   Path: Pfad
   PleaseEnterPassword: Bitte geben Sie ein Passwort ein
@@ -961,18 +961,18 @@ permissions:
   Permissions: Berechtigungen
   SomePermissionDenied: Einige Berechtigungen verweigert
   SomePermissionGranted: Einige Berechtigungen erteilt
-pmvDetail:
+projectDetail:
   ActivityState: Tätigkeitszustand
   AllDirectIndirectRequiredLibrariesAvailableMessage: Alle direkten und indirekt erforderlichen Bibliotheken sind im System verfügbar.
-  AllPMVsDependingOnPMV: Alle von diesem PMV abhängigen PMVs
-  AllPMVsRequiredByPMV: Alle von diesem PMV erforderlichen PMVs
-  DependentPMVTableEmptyMessage: Die PMV '${name}' hat keine abhängigen PMVs.
+  AllProjectsDependingOnProject: Alle von diesem PMV abhängigen PMVs
+  AllProjectsRequiredByProject: Alle von diesem PMV erforderlichen PMVs
+  DependentProjectTableEmptyMessage: Die PMV '${name}' hat keine abhängigen PMVs.
   Id: Id
   LastDeployed: Letzte Bereitstellung
   NoProjectFoundForSpecificationMessage: Für diese Spezifikation konnte kein Projekt gefunden werden.
   NotAllDirectIndirectRequiredLibrariesAvailableMessage: Nicht alle direkten und indirekt erforderlichen Bibliotheken sind im System verfügbar.
-  PMV: PMV
-  PMVInformation: PMV Information
+  Project: Project
+  ProjectInformation: PMV Information
   PMVResolvedForSpecificationMessage: '''${name}'' gefunden für diese Spezifikation'
   Project: Projekt
   ProjectVersion: Projektversion
