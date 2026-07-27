@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.model;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
@@ -9,7 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 
-@FacesConverter(value = "userConverter")
+@FacesConverter(value = "userConverter", managed = true)
+@ApplicationScoped
 public class UserConverter implements Converter<Object> {
 
   @Override

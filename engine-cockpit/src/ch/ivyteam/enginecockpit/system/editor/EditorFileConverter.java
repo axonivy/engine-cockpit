@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.system.editor;
 
 import java.util.NoSuchElementException;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -13,7 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFileRepository;
 
-@FacesConverter(value = "editorFileConverter")
+@FacesConverter(value = "editorFileConverter", managed = true)
+@ApplicationScoped
 public class EditorFileConverter implements Converter<Object> {
 
   @Override
