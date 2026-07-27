@@ -84,9 +84,11 @@ public class ApplicationVersionBean implements Serializable {
   }
 
   public ProjectRow toProjectRow(Project project) {
+    var mavenCoordinates = project.mavenCoordinates();
     return new ProjectRow(
             project.name(),
-            project.mavenCoordinates().version(),
+            mavenCoordinates.id(),
+            mavenCoordinates.version(),
         DateUtil.formatDate(project.getLastChangeDate()),
         ProjectBean.getLink(contextName, appName, appVersion, project.name()));
   }
@@ -197,14 +199,18 @@ public class ApplicationVersionBean implements Serializable {
     }
   }
 
-  public static record ProjectRow(String name, String version, String lastChanged, String link) {
+  public static record ProjectRow(String name, String mavenId, String mavenVersion, String lastChanged, String link) {
 
     public String getName() {
       return name; 
     }
 
-    public String getVersion() {
-      return version; 
+    public String getMavenId() {
+      return mavenId; 
+    }
+
+    public String getMavenVersion() {
+      return mavenVersion; 
     }
 
     public String getLastChanged() {

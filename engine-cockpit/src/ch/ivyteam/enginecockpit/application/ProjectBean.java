@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
+import ch.ivyteam.ivy.application.project.MavenCoordinates;
 import ch.ivyteam.ivy.application.project.Project;
 import ch.ivyteam.ivy.project.model.ProjectVersion;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
@@ -130,11 +131,13 @@ public class ProjectBean implements Serializable {
   public static class ProjectDto {
 
     private final Project project;
+    private final MavenCoordinates mavenCoordinates;
     private final String lastChanged;
 
     public ProjectDto(Project project) {
       lastChanged = DateUtil.formatDate(project.getLastChangeDate());
       this.project = project;
+      this.mavenCoordinates = project.mavenCoordinates();
     }
 
     public String getName() {
@@ -149,24 +152,20 @@ public class ProjectBean implements Serializable {
           project.name());
     }
 
-    public String getQualifiedVersion() {
-      return project.mavenCoordinates().version();
+    public String getMavenVersion() {
+      return mavenCoordinates.version();
     }
 
-    public String getLastChanged() {
-      return lastChanged;
-    }
-
-    public String getLibraryId() {
-      return project.mavenCoordinates().id();
-    }
-
-    public String getLibraryVersion() {
-      return project.mavenCoordinates().version();
+    public String getMavenId() {
+      return mavenCoordinates.id();
     }
 
     public int getProjectVersion() {
       return ProjectVersion.of(project.model()).version();
+    }
+
+    public String getLastChanged() {
+      return lastChanged;
     }
   }
 }
