@@ -22,25 +22,25 @@ import ch.ivyteam.enginecockpit.util.Table;
 
 @Disabled
 @IvyWebTest
-class WebTestPmvDetail {
+class WebTestProjectDetail {
 
   private static final String APP = isDesigner() ? EngineUrl.applicationName() : "test-pmvs";
-  private static final String PMV = "main";
+  private static final String PROJECT = "main";
 
   @BeforeEach
   void beforeEach() {
     login();
-    Navigation.toPmvDetail(APP, PMV);
+    Navigation.toProjectDetail(APP, PROJECT);
   }
 
   @Test
-  void pmvDetailContent() {
+  void projectDetailContent() {
     $$(".card").shouldHave(size(3));
-    $(".card", 0).shouldHave(text(PMV), text("ch.ivyteam.enginecockpit:main-pmv-test"));
+    $(".card", 0).shouldHave(text(PROJECT), text("ch.ivyteam.enginecockpit:main-pmv-test"));
   }
 
   @Test
-  void pmvDependencies() {
+  void projectDependencies() {
     Table depTable = new Table(By.id("dependentProjectsTable"), true);
     depTable.firstColumnShouldBe(textsInAnyOrder("custom"));
 

@@ -288,7 +288,7 @@ class WebTestConfiguration {
     }
 
     @Test
-    void overrideProject_pmvSelector() {
+    void overrideProject_projectSelector() {
       var config = "OverrideProject";
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(APPLICATION_CONTEXT, config, " ", "Defines a project containing overriding SubProcesses", "");

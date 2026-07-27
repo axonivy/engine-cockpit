@@ -112,9 +112,9 @@ class WebTestApplication {
   void keepExpandedState() {
     $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
     addNewApplication();
-    assertFirstPmvExpanded();
+    assertFirstProjectExpanded();
     deleteApplication(getNewAppId());
-    assertFirstPmvExpanded();
+    assertFirstProjectExpanded();
     closeGrowlMessage();
 
     $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
@@ -128,9 +128,9 @@ class WebTestApplication {
   void keepExpandedState_ExpandCollapseAll() {
     expandAppTree();
     addNewApplication();
-    assertFirstPmvExpanded();
+    assertFirstProjectExpanded();
     deleteApplication(getNewAppId());
-    assertFirstPmvExpanded();
+    assertFirstProjectExpanded();
     closeGrowlMessage();
 
     collapseAppTree();
@@ -140,7 +140,7 @@ class WebTestApplication {
     assertFirstApplicationCollapsed();
   }
 
-  private void assertFirstPmvExpanded() {
+  private void assertFirstProjectExpanded() {
     $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "true"));
   }
 

@@ -67,10 +67,10 @@
                 <h:outputText value="..." rendered="#{notification.receiversConcat}"/>
               </p:column>
 
-              <p:column headerText="#{ivy.cm.co('/common/PMV')}">
-                <p:link rendered="#{not empty notification.pmvUri}" href="#{notification.pmvUri}">
-                  <i class="#{notification.pmvIcon} table-icon"/>
-                  <h:outputText value="#{notification.pmv}" />
+              <p:column headerText="#{ivy.cm.co('/common/Project')}">
+                <p:link rendered="#{not empty notification.projectUri}" href="#{notification.projectUri}">
+                  <i class="#{notification.projectIcon} table-icon"/>
+                  <h:outputText value="#{notification.project}" />
                 </p:link>
               </p:column>
 

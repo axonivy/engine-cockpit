@@ -35,7 +35,7 @@
               <div class="card-header">
                 <div class="card-title flex align-items-center">
                   <i class="pr-2 ti ti-info-circle"></i>
-                  <h6 class="m-0">#{ivy.cm.co('/pmvDetail/PMVInformation')}</h6>
+                  <h6 class="m-0">#{ivy.cm.co('/projectDetail/ProjectInformation')}</h6>
                 </div>
               </div>
 
@@ -47,9 +47,9 @@
                 <h:outputText value="#{projectBean.project.libraryId}" />
                 <label>Library #{ivy.cm.co('/common/Version')}</label>
                 <h:outputText value="#{projectBean.project.libraryVersion}" />
-                <label>#{ivy.cm.co('/pmvDetail/LastDeployed')}</label>
+                <label>#{ivy.cm.co('/projectDetail/LastDeployed')}</label>
                 <h:outputText value="#{projectBean.project.lastChanged}" />
-                <label>#{ivy.cm.co('/pmvDetail/ProjectVersion')}</label>
+                <label>#{ivy.cm.co('/projectDetail/ProjectVersion')}</label>
                 <h:outputText value="#{projectBean.project.projectVersion}" />
               </p:panelGrid>
             </div>
@@ -60,12 +60,12 @@
               <div class="card-header">
                 <div class="card-title flex align-items-center">
                   <i class="pr-2 ti ti-circle-arrow-up"></i>
-                  <h6 class="m-0">#{ivy.cm.co('/pmvDetail/AllPMVsDependingOnPMV')}</h6>
+                  <h6 class="m-0">#{ivy.cm.co('/projectDetail/AllProjectsDependingOnProject')}</h6>
                 </div>
               </div>
               <p:dataTable id="dependentProjectsTable" var="project" value="#{projectBean.dependentProjects}"
-                emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', projectBean.project.name).get()}">
-                <p:column headerText="#{ivy.cm.co('/pmvDetail/PMV')}">
+                emptyMessage="#{ivy.cm.content('/projectDetail/DependentProjectTableEmptyMessage').replace('name', projectBean.project.name).get()}">
+                <p:column headerText="#{ivy.cm.co('/projectDetail/Project')}">
                   <h:outputLink value="#{project.link}" title="#{project.libraryId}">
                     <i class="ti ti-cube table-icon"></i>
                     <h:outputText value="#{project.name}" />
@@ -83,11 +83,11 @@
               <div class="card-header">
                 <div class="card-title flex align-items-center">
                   <i class="pr-2 ti ti-circle-arrow-down"></i>
-                  <h6 class="m-0">#{ivy.cm.co('/pmvDetail/AllPMVsRequiredByPMV')}</h6>
+                  <h6 class="m-0">#{ivy.cm.co('/projectDetail/AllProjectsRequiredByProject')}</h6>
                 </div>
               </div>
-              <p:dataTable id="requiredPmvTable" var="project" value="#{projectBean.requiredProjects}"
-                emptyMessage="#{ivy.cm.content('/pmvDetail/DependentPMVTableEmptyMessage').replace('name', projectBean.project.name).get()}">
+              <p:dataTable id="requiredProjectTable" var="project" value="#{projectBean.requiredProjects}"
+                emptyMessage="#{ivy.cm.content('/projectDetail/DependentProjectTableEmptyMessage').replace('name', projectBean.project.name).get()}">
                 <p:column headerText="Projects">
                   <h:outputLink value="#{project.link}" title="#{project.libraryId}">
                     <i class="ti ti-cube table-icon"></i>
