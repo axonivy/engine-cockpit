@@ -113,15 +113,19 @@ public class AppStateDto {
     return state.activityState().name().toLowerCase();
   }
 
-  public String getActivityOperationState() {
+  public String getOperationState() {
     return state.operationState().name();
   }
 
-  public String getActivityOperationStateCssClass() {
+   public String getOperationStateLabel() {
+    return state.operationState().name();
+  }
+
+  public String getOperationStateCssClass() {
     return state.operationState().name().toLowerCase();
   }
 
-  public String getActivityOperationStateIcon() {
+  public String getOperationStateIcon() {
     return switch (state.operationState()) {
       case STARTED -> "ti ti-circle-check";
       case STOPPED -> "ti ti-player-pause";

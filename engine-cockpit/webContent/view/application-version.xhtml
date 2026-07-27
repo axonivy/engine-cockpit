@@ -69,11 +69,15 @@
                     </h:outputLink>
                   </p:column>
 
-                  <p:column headerText="#{ivy.cm.co('/common/Version')}" style="width: 180px;">
-                    <h:outputText value="#{row.version}" />
+                  <p:column headerText="Maven ID">
+                    <h:outputText value="#{row.mavenId}" />
                   </p:column>
 
-                  <p:column headerText="#{ivy.cm.co('/applications/LastChangeDate')}" style="width: 220px;">
+                  <p:column headerText="Maven Version" style="width:180px;">
+                    <h:outputText value="#{row.mavenVersion}" />
+                  </p:column>
+
+                  <p:column headerText="#{ivy.cm.co('/applications/LastChangeDate')}" style="width:220px;">
                     <h:outputText value="#{row.lastChanged}" />
                   </p:column>
 

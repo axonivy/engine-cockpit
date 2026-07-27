@@ -34,17 +34,24 @@
           </h:outputLink>
         </p:column>
 
-        <p:column headerText="Release State" style="text-align:center;width:100px">
+        <p:column headerText="Release State" style="text-align:center;width:110px">
           <div class="#{version.state.releaseStateStyleClass}">
             <i class="#{version.state.releaseStateIcon}" title="#{version.state.releaseStateLabel}" ></i>
             <h:outputText value="#{version.state.releaseStateLabel}"/>
           </div>
         </p:column>
 
-        <p:column headerText="Activity State" style="text-align:center;width:100px">
+        <p:column headerText="Activity State" style="text-align:center;width:110px">
           <div class="#{version.state.activityStateStyleClass}">
             <i class="#{version.state.activityStateIcon}" title="#{version.state.activityStateLabel}"></i>
             <h:outputText value="#{version.state.activityStateLabel}"/>
+          </div>
+        </p:column>
+
+        <p:column headerText="Operation State" style="text-align:center;width:110px">
+          <div class="#{version.state.activityStateStyleClass}">
+            <i class="#{version.state.operationStateIcon}" title="#{version.state.operationStateLabel}"></i>
+            <h:outputText value="#{version.state.operationStateLabel}"/>
           </div>
         </p:column>
 

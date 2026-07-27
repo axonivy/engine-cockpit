@@ -43,10 +43,10 @@
                 styleClass="grey-label-panel ui-fluid">
                 <label>#{ivy.cm.co('/common/Name')}</label>
                 <h:outputText value="#{projectBean.project.name}" />
-                <label>Library ID</label>
-                <h:outputText value="#{projectBean.project.libraryId}" />
-                <label>Library #{ivy.cm.co('/common/Version')}</label>
-                <h:outputText value="#{projectBean.project.libraryVersion}" />
+                <label>Maven ID</label>
+                <h:outputText value="#{projectBean.project.mavenId}" />
+                <label>Maven #{ivy.cm.co('/common/Version')}</label>
+                <h:outputText value="#{projectBean.project.mavenVersion}" />
                 <label>#{ivy.cm.co('/projectDetail/LastDeployed')}</label>
                 <h:outputText value="#{projectBean.project.lastChanged}" />
                 <label>#{ivy.cm.co('/projectDetail/ProjectVersion')}</label>
@@ -66,13 +66,13 @@
               <p:dataTable id="dependentProjectsTable" var="project" value="#{projectBean.dependentProjects}"
                 emptyMessage="#{ivy.cm.content('/projectDetail/DependentProjectTableEmptyMessage').replace('name', projectBean.project.name).get()}">
                 <p:column headerText="#{ivy.cm.co('/projectDetail/Project')}">
-                  <h:outputLink value="#{project.link}" title="#{project.libraryId}">
+                  <h:outputLink value="#{project.link}" title="#{project.mavenId}">
                     <i class="ti ti-cube table-icon"></i>
                     <h:outputText value="#{project.name}" />
                   </h:outputLink>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/Version')}">
-                  <h:outputText value="#{project.qualifiedVersion}" />
+                  <h:outputText value="#{project.mavenVersion}" />
                 </p:column>   
               </p:dataTable>
             </div>
@@ -89,13 +89,13 @@
               <p:dataTable id="requiredProjectTable" var="project" value="#{projectBean.requiredProjects}"
                 emptyMessage="#{ivy.cm.content('/projectDetail/DependentProjectTableEmptyMessage').replace('name', projectBean.project.name).get()}">
                 <p:column headerText="Projects">
-                  <h:outputLink value="#{project.link}" title="#{project.libraryId}">
+                  <h:outputLink value="#{project.link}" title="#{project.mavenId}">
                     <i class="ti ti-cube table-icon"></i>
                     <h:outputText value="#{project.name}" />
                   </h:outputLink>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/Version')}">
-                  <h:outputText value="#{project.qualifiedVersion}" />
+                  <h:outputText value="#{project.mavenVersion}" />
                 </p:column>
                </p:dataTable>
             </div>
