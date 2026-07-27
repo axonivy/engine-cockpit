@@ -28,7 +28,7 @@ class WebTestRestServices {
   @BeforeEach
   void beforeEach() {
     login();
-    Navigation.toApplicationDetail(APP);
+    Navigation.toApplication(APP);
     Navigation.toRestServices();
   }
 

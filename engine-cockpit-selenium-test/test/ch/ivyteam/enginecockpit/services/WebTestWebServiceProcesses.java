@@ -27,7 +27,7 @@ class WebTestWebServiceProcesses {
   @BeforeEach
   void beforeEach() {
     login();
-    Navigation.toApplicationDetail(APP);
+    Navigation.toApplication(APP);
     Navigation.toWebServiceProcesses();
   }
 

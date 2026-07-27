@@ -14,6 +14,8 @@ import static com.codeborne.selenide.Selenide.$$;
 
 import java.util.Map;
 
+import org.openqa.selenium.By;
+
 import com.codeborne.selenide.ScrollIntoViewOptions;
 import com.codeborne.selenide.ScrollIntoViewOptions.Block;
 
@@ -83,11 +85,12 @@ public class Navigation {
     menuShouldBeActive(APPLICATIONS_MENU);
   }
 
-  public static void toApplicationDetail(String appName) {
+  public static void toApplication(String appName) {
     toApplications();
-    clickAppTreeActivity(appName + " (v1)");
-    assertCurrentUrlContains("application-detail.xhtml?appName=" + appName + "&appVersion=1");
-    menuShouldBeActive(APPLICATIONS_MENU);
+    var table = new Table(By.cssSelector("[id$='applicationsTable']"), true);
+    var applicationLink = table.tableEntry(1, 1).$("a");
+    applicationLink.shouldBe(visible).click();
+    assertCurrentUrlContains("application.xhtml");
   }
 
   public static void toProjectDetail(String appName, String projectName) {

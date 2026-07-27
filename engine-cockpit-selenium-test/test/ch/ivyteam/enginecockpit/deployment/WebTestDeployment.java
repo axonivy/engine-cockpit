@@ -158,7 +158,7 @@ class WebTestDeployment {
   }
 
   private void toAppDetailAndOpenDeployment() {
-    Navigation.toApplicationDetail(APP);
+    Navigation.toApplication(APP);
     $(By.id("information:appDetailInfoForm:showDeployment")).shouldBe(visible).click();
     $(By.id("information:deployment:fileUploadModal")).shouldBe(visible);
     $(By.id("information:deployment:fileUploadModal:uploadError")).shouldNotBe(visible);

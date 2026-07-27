@@ -1,8 +1,7 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
-  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
-  xmlns:c="jakarta.tags.core" xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="jakarta.faces.composite" xmlns:ccc="jakarta.faces.composite/composite">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets" xmlns:c="jakarta.tags.core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="jakarta.faces.composite"
+  xmlns:ccc="jakarta.faces.composite/composite">
 
 <cc:interface>
   <cc:attribute name="bean" type="ch.ivyteam.enginecockpit.application.ApplicationBean" required="true" />
@@ -14,8 +13,8 @@
     <div class="flex align-items-center mb-3">
       <i class="pr-2 ti ti-packages card-icon"></i>
       <h6 class="m-0">Versions</h6>
-      <p:commandButton icon="ti ti-plus" value="Add" styleClass="ml-auto ui-button-primary" process="@this"
-        actionListener="#{cc.attrs.bean.createVersion}" update="versionsForm:versionsTable" />
+      <p:commandButton id="createVersion" icon="ti ti-plus" value="Add" styleClass="ml-auto ui-button-primary"
+        process="@this" actionListener="#{cc.attrs.bean.createVersion}" update="versionsForm:versionsTable" />
     </div>
     <h:form id="versionsForm" onkeypress="if (event.keyCode == 13) return false;">
       <p:dataTable id="versionsTable" value="#{cc.attrs.bean.applicationVersions}" var="version" rowIndexVar="idx"
@@ -35,50 +34,54 @@
         </p:column>
 
         <p:column headerText="Release State" style="text-align:center;width:110px">
-          <div class="#{version.state.releaseStateStyleClass}">
-            <i class="#{version.state.releaseStateIcon}" title="#{version.state.releaseStateLabel}" ></i>
-            <h:outputText value="#{version.state.releaseStateLabel}"/>
-          </div>
+          <h:panelGroup id="releaseState" layout="block">
+            <div class="#{version.state.releaseStateStyleClass}">
+              <i class="#{version.state.releaseStateIcon}" title="#{version.state.releaseStateLabel}"></i>
+              <h:outputText value="#{version.state.releaseStateLabel}" />
+            </div>
+        </h:panelGroup>
         </p:column>
 
         <p:column headerText="Activity State" style="text-align:center;width:110px">
-          <div class="#{version.state.activityStateStyleClass}">
-            <i class="#{version.state.activityStateIcon}" title="#{version.state.activityStateLabel}"></i>
-            <h:outputText value="#{version.state.activityStateLabel}"/>
-          </div>
+          <h:panelGroup id="activityState" layout="block">
+            <div class="#{version.state.activityStateStyleClass}">
+              <i class="#{version.state.activityStateIcon}" title="#{version.state.activityStateLabel}"></i>
+              <h:outputText value="#{version.state.activityStateLabel}" />
+            </div>
+          </h:panelGroup>
         </p:column>
 
         <p:column headerText="Operation State" style="text-align:center;width:110px">
           <div class="#{version.state.activityStateStyleClass}">
             <i class="#{version.state.operationStateIcon}" title="#{version.state.operationStateLabel}"></i>
-            <h:outputText value="#{version.state.operationStateLabel}"/>
+            <h:outputText value="#{version.state.operationStateLabel}" />
           </div>
         </p:column>
 
         <p:column headerText="Open Cases" style="text-align:center;width:100px">
-          <h:panelGroup layout="block">
+          <h:panelGroup id="openCases" layout="block">
             <h:outputText value="#{version.openCases}" />
           </h:panelGroup>
         </p:column>
 
         <p:column headerText="Done Cases" style="text-align:center;width:100px">
-          <h:panelGroup layout="block">
+          <h:panelGroup id="doneCases" layout="block">
             <h:outputText value="#{version.doneCases}" />
           </h:panelGroup>
         </p:column>
 
         <p:column style="text-align: center; width: 150px">
-          <p:commandButton icon="ti ti-upload" title="#{ivy.cm.co('/common/Deployment')}"
+          <p:commandButton id="deployBtn" icon="ti ti-upload" title="#{ivy.cm.co('/common/Deployment')}"
             styleClass="ml-1 ui-button-primary rounded-button" process="@this"
             actionListener="#{deploymentBean.setAppNameAndVersion(cc.attrs.bean.securitySystem.securitySystemName, cc.attrs.bean.app, version.version)}"
             update=":deployPanel" oncomplete="PF('fileUploadModal').show();" />
 
-          <p:commandButton icon="ti ti-player-play" title="#{ivy.cm.co('/common/Activate')}"
+          <p:commandButton id="activateBtn" icon="ti ti-player-play" title="#{ivy.cm.co('/common/Activate')}"
             disabled="#{not version.state.activatable}" styleClass="ml-1 ui-button-success rounded-button">
             <p:ajax listener="#{version.state.activate}" update="@form:versionsTable" />
           </p:commandButton>
 
-          <p:commandButton icon="ti ti-player-stop" title="#{ivy.cm.co('/common/Deactivate')}"
+          <p:commandButton id="deactivateBtn" icon="ti ti-player-stop" title="#{ivy.cm.co('/common/Deactivate')}"
             disabled="#{not version.state.deactivatable}" styleClass="ml-1 ui-button-danger rounded-button">
             <p:ajax listener="#{version.state.deactivate}" update="@form:versionsTable" />
           </p:commandButton>
@@ -87,25 +90,36 @@
             styleClass="ml-1 ui-button-secondary rounded-button ui-button-outlined" />
 
           <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
-            <p:menuitem value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" icon="ti ti-crane"
-              disabled="#{not version.state.releasable}" actionListener="#{version.state.release}" update="@form:versionsTable" />
-            <p:menuitem id="deprecateBtn" value="Deprecate" disabled="#{not version.state.deprecatable}" icon="ti ti-circle-half-vertical" actionListener="#{version.state.deprecate}" update="@form:versionsTable" />
-            <p:menuitem id="archiveBtn" value="Archive" disabled="#{not version.state.archiveable}" icon="ti ti-archive"  actionListener="#{version.state.archive}" update="@form:versionsTable" />
+            <p:menuitem id="releaseBtn" value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" icon="ti ti-crane"
+              disabled="#{not version.state.releasable}" actionListener="#{version.state.release}"
+              update="@form:versionsTable" />
+            <p:menuitem id="deprecateBtn" value="Deprecate" disabled="#{not version.state.deprecatable}"
+              icon="ti ti-circle-half-vertical" actionListener="#{version.state.deprecate}"
+              update="@form:versionsTable" />
+            <p:menuitem id="archiveBtn" value="Archive" disabled="#{not version.state.archiveable}" icon="ti ti-archive"
+              actionListener="#{version.state.archive}" update="@form:versionsTable" />
             <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
-               update="@form:deleteVersionDialog" actionListener="#{applicationBean.prepareDelete(version)}" process="@this" style="pointer-events: all" oncomplete="PF('deleteVersionDialog').show(); return false;" />
+              update="@form:deleteVersionDialog" actionListener="#{applicationBean.prepareDelete(version)}"
+              process="@this" style="pointer-events: all"
+              oncomplete="PF('deleteVersionDialog').show(); return false;" />
           </p:menu>
         </p:column>
       </p:dataTable>
 
       <p:confirmDialog id="deleteVersionDialog"
-            message="Are you sure you want to delete application #{applicationBean.deleteApplication.name} in version #{applicationBean.deleteApplication.version}?"
-            header="Delete application #{applicationBean.deleteApplication.name} in version #{applicationBean.deleteApplication.version}" severity="alert" widgetVar="deleteVersionDialog">
-        <p:staticMessage severity="#{applicationBean.deleteApplication.existingCasesSeverity}" detail="#{applicationBean.deleteApplication.existingCasesMessage}" />
-        <p:staticMessage severity="warn" rendered="#{applicationBean.deleteApplication.lastVersion}" detail="#{applicationBean.deleteApplication.lastVersionMessage}" />
-        <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteVersionDialog').hide();" type="button"
-            styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+        message="Are you sure you want to delete application #{applicationBean.deleteApplication.name} in version #{applicationBean.deleteApplication.version}?"
+        header="Delete application #{applicationBean.deleteApplication.name} in version #{applicationBean.deleteApplication.version}"
+        severity="alert" widgetVar="deleteVersionDialog">
+        <p:staticMessage severity="#{applicationBean.deleteApplication.existingCasesSeverity}"
+          detail="#{applicationBean.deleteApplication.existingCasesMessage}" />
+        <p:staticMessage severity="warn" rendered="#{applicationBean.deleteApplication.lastVersion}"
+          detail="#{applicationBean.deleteApplication.lastVersionMessage}" />
+        <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteVersionDialog').hide();"
+          type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
         <p:commandButton id="deleteVersionDialogConfirmYesBtn" value="#{ivy.cm.co('/common/Delete')}" immediate="true"
-            actionListener="#{applicationBean.deleteSelectedApplicationVersion()}" onclick="PF('deleteVersionDialog').hide();" update="@form:versionsTable" icon="ti ti-trash" styleClass="modal-input-button" />
+          actionListener="#{applicationBean.deleteSelectedApplicationVersion()}"
+          onclick="PF('deleteVersionDialog').hide();" update="@form:versionsTable" icon="ti ti-trash"
+          styleClass="modal-input-button" />
       </p:confirmDialog>
     </h:form>
   </div>

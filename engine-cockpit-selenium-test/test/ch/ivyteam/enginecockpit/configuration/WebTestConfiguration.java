@@ -220,7 +220,7 @@ class WebTestConfiguration {
     }
 
     private void navigateTo(String app) {
-      Navigation.toApplicationDetail(app);
+      Navigation.toApplication(app);
       $(APPLICATION_CONTEXT.contentFilterBtn).scrollIntoView(ScrollIntoViewOptions.instant().block(Block.center).inline(Inline.center));
       table = new Table(APPLICATION_CONTEXT.tableId, "span");
     }
@@ -303,7 +303,7 @@ class WebTestConfiguration {
 
     @BeforeEach
     void beforeEach() {
-      Navigation.toApplicationDetail("demo-portal");
+      Navigation.toApplication("demo-portal");
       $(APPLICATION_CONTEXT.contentFilterBtn).scrollIntoView(ScrollIntoViewOptions.instant().block(Block.center).inline(Inline.center));
       table = new Table(APPLICATION_CONTEXT.tableId, "span");
     }
