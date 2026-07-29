@@ -65,7 +65,7 @@ public class ApplicationsBean implements Serializable {
       var securityContext = ISecurityManager.instance().securityContexts()
           .get(newApplication.getSecurityContextName());
       ApplicationRepository.of(securityContext)
-          .create(ch.ivyteam.ivy.application.app.NewApplication.create(newApplication.getAppName()).toNewApplication());
+          .create(newApplication.getAppName());
       reload();
     } catch (RuntimeException ex) {
       FacesContext.getCurrentInstance().addMessage(
