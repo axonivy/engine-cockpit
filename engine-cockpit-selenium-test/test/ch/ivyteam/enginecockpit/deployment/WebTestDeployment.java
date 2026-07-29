@@ -2,14 +2,12 @@ package ch.ivyteam.enginecockpit.deployment;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
-import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,24 +15,20 @@ import java.nio.file.Path;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.engine.EngineUrl;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
-import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-@Disabled
 @IvyWebTest
 class WebTestDeployment {
 
-  private static final String APP = isDesigner() ? EngineUrl.applicationName() : "test-ad";
+  private static final String APP = isDesigner() ? EngineUrl.applicationName() : "demo-portal";
 
   @BeforeEach
   void beforeEach() {
@@ -43,26 +37,26 @@ class WebTestDeployment {
 
   @Test
   void noFile() {
-    toAppDetailAndOpenDeployment();
-    $(By.id("information:deployment:fileUploadForm:uploadBtn")).shouldBe(disabled);
+    toApplicationAndOpenDeployment();
+    $(By.id("deployment:fileUploadForm:uploadBtn")).shouldBe(disabled);
   }
 
   @Test
   void invalidFileEnding(@TempDir Path tempDir) throws IOException {
-    toAppDetailAndOpenDeployment();
+    toApplicationAndOpenDeployment();
     var tempFile = tempDir.resolve("app.txt");
     Files.createFile(tempFile);
-    $(By.id("information:deployment:fileUploadForm:fileUpload_input")).sendKeys(tempFile.toString());
-    $(By.id("information:deployment:fileUploadForm:uploadBtn")).shouldBe(disabled);
+    $(By.id("deployment:fileUploadForm:fileUpload_input")).sendKeys(tempFile.toString());
+    $(By.id("deployment:fileUploadForm:uploadBtn")).shouldBe(disabled);
   }
 
   @Test
   void corruptZip(@TempDir Path tempDir) throws IOException {
-    toAppDetailAndOpenDeployment();
+    toApplicationAndOpenDeployment();
     var tempFile = tempDir.resolve("app.iar");
     Files.createFile(tempFile);
-    deployPath(tempFile, "information:deployment");
-    $(By.id("information:deployment:uploadStatus")).shouldHave(text("Error"));
+    deployPath(tempFile, "deployment");
+    $(By.id("deployment:uploadStatus")).shouldHave(text("Error"));
     $(By.id("uploadLog")).shouldHave(text("Couldn't deploy 'app.iar'"));
   }
 
@@ -71,7 +65,7 @@ class WebTestDeployment {
     if (isDesigner()) {
       return;
     }
-    toAppDetailAndOpenDeployment();
+    toApplicationAndOpenDeployment();
     deployAndAssert("Using options>DeploymentOptions");
   }
 
@@ -80,14 +74,14 @@ class WebTestDeployment {
     if (isDesigner()) {
       return;
     }
-    toAppDetailAndOpenDeployment();
+    toApplicationAndOpenDeployment();
     showDeploymentOptions();
     deployAndAssert("Using options>DeploymentOptions");
   }
 
   private void deployAndAssert(String expectedDeployOptionsText) {
-    deployPath(findTestProject(), "information:deployment");
-    $(By.id("information:deployment:uploadStatus")).shouldHave(text("Success"));
+    deployPath(findTestProject(), "deployment");
+    $(By.id("deployment:uploadStatus")).shouldHave(text("Success"));
     $(By.id("uploadLog")).shouldHave(text(expectedDeployOptionsText), text("successfully deployed to application"));
   }
 
@@ -114,54 +108,23 @@ class WebTestDeployment {
 
   @Test
   void deployOptions() {
-    toAppDetailAndOpenDeployment();
+    toApplicationAndOpenDeployment();
     showDeploymentOptions();
-    PrimeUi.selectOne(By.id("information:deployment:fileUploadForm:deployTestUsers")).selectedItemShould(exactText("AUTO"));
-  }
-
-  @Test
-  void keepExpandedState() {
-    if (isDesigner()) {
-      return;
-    }
-    var driver = WebDriverRunner.getWebDriver();
-    var oldSize = driver.manage().window().getSize();
-    driver.manage().window().setSize(new Dimension(1600, 1500));
-    Navigation.toApplications();
-    $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
-    openDeployDialog();
-    deployPath(findTestProject(), "deployment");
-    $(By.id("deployment:closeDeploymentBtn")).shouldBe(visible).click();
-    $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "true"));
-
-    $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
-    openDeployDialog();
-    deployPath(findTestProject(), "deployment");
-    $(By.id("deployment:closeDeploymentBtn")).shouldBe(visible).click();
-    $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "false"));
-    driver.manage().window().setSize(oldSize);
+    PrimeUi.selectOne(By.id("deployment:fileUploadForm:deployTestUsers")).selectedItemShould(exactText("AUTO"));
   }
 
   private void showDeploymentOptions() {
-    if (!$(By.id("information:deployment:fileUploadForm:deployOptionsPanel")).is(visible)) {
-      $(By.id("information:deployment:fileUploadForm:showDeployOptionsBtn")).click();
-      $(By.id("information:deployment:fileUploadForm:deployOptionsPanel")).shouldBe(visible);
+    if (!$(By.id("deployment:fileUploadForm:deployOptionsPanel")).is(visible)) {
+      $(By.id("deployment:fileUploadForm:showDeployOptionsBtn")).click();
+      $(By.id("deployment:fileUploadForm:deployOptionsPanel")).shouldBe(visible);
     }
   }
 
-  private void openDeployDialog() {
-    String appName = $$(".activity-name").first().shouldBe(visible).getText();
-    $(By.id("form:tree:0:deployBtn")).shouldBe(visible).click();
+  private void toApplicationAndOpenDeployment() {
+    Navigation.toApplicationVersion(APP , "1");
+    $(By.id("versionProjectsForm:deployButton")).shouldBe(visible).click();
     $(By.id("deployment:fileUploadModal")).shouldBe(visible);
-    appName = org.apache.commons.lang3.StringUtils.substringBefore(appName, " (v");
-    $(By.id("deployment:fileUploadModal_title")).shouldHave(text(appName));
-  }
-
-  private void toAppDetailAndOpenDeployment() {
-    Navigation.toApplication(APP);
-    $(By.id("information:appDetailInfoForm:showDeployment")).shouldBe(visible).click();
-    $(By.id("information:deployment:fileUploadModal")).shouldBe(visible);
-    $(By.id("information:deployment:fileUploadModal:uploadError")).shouldNotBe(visible);
-    $(By.id("information:deployment:fileUploadModal_title")).shouldHave(text(APP));
+    $(By.id("deployment:fileUploadModal:uploadError")).shouldNotBe(visible);
+    $(By.id("deployment:fileUploadModal_title")).shouldHave(text(APP));
   }
 }

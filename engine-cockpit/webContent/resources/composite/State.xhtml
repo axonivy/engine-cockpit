@@ -38,7 +38,7 @@
 
        <label>Activity State</label>
        <h:outputText>
-        <div class="#{cc.attrs.state.activityStateStyleClass}" style="width:120px;">
+        <div id="activityState" class="#{cc.attrs.state.activityStateStyleClass}" style="width:120px;">
           <i class="#{cc.attrs.state.activityStateIcon}" title="#{cc.attrs.state.activityStateLabel}"></i>
           <h:outputText value="#{cc.attrs.state.activityStateLabel}"/>
         </div>
@@ -46,7 +46,7 @@
        
        <label>Operation State</label>
        <h:outputText>
-        <div class="#{cc.attrs.state.activityStateStyleClass}" style="width:120px;">
+        <div id="operationState" class="#{cc.attrs.state.activityStateStyleClass}" style="width:120px;">
           <i class="#{cc.attrs.state.operationStateIcon}" title="#{cc.attrs.state.operationState}"></i>
           <h:outputText value="#{cc.attrs.state.operationState}"/>
         </div>
