@@ -30,7 +30,7 @@ class WebTestProjectDetail {
   @BeforeEach
   void beforeEach() {
     login();
-    Navigation.toProjectDetail(APP, PROJECT);
+    Navigation.toApplicationVersion(APP, PROJECT);
   }
 
   @Test
