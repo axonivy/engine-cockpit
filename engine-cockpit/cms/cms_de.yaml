@@ -974,7 +974,6 @@ projectDetail:
   Project: Project
   ProjectInformation: PMV Information
   PMVResolvedForSpecificationMessage: '''${name}'' gefunden für diese Spezifikation'
-  Project: Projekt
   ProjectVersion: Projektversion
   ReleaseState: Freigabezustand
   RequriedPMVTableEmptyMessage: Das PMV '${name}' hat keine erforderlichen PMVs.

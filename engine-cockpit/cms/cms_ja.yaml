@@ -988,7 +988,6 @@ projectDetail:
   LastDeployed: 最終展開
   NoProjectFoundForSpecificationMessage: この仕様ではプロジェクトが見つかりませんでした。
   NotAllDirectIndirectRequiredLibrariesAvailableMessage: システムでは直接的および間接的に必要なライブラリをすべて利用できるとは限りません。
-  Project: Project
   ProjectInformation: PMV 情報
   PMVResolvedForSpecificationMessage: この仕様に解決された '${name}'
   Project: プロジェクト
