@@ -1,239 +1,123 @@
 package ch.ivyteam.enginecockpit.application;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
-import static com.codeborne.selenide.CollectionCondition.sizeLessThanOrEqual;
-import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
-import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.disabled;
+import static com.codeborne.selenide.Condition.href;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
-import com.axonivy.ivy.webtest.primeui.PrimeUi;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@Disabled
 @IvyWebTest
 class WebTestApplication {
 
-  private static final String NEW_TEST_APP = "newTestApp";
+  private Table table;
+  private static final String BUTTON_ID = "application:versionsForm:versionsTable:0";
 
   @BeforeEach
-  void beforeEach() {
+  void beforeEach() { 
     login();
-    Navigation.toApplications();
+    Navigation.toApplication("demo-portal");
+    table = new Table(By.id("application:versionsForm:versionsTable"));
   }
 
   @Test
-  void applications() {
-    $("h2").shouldHave(text("Applications"));
-    Table table = new Table(By.className("ui-treetable"), true);
-    table.firstColumnShouldBe(sizeGreaterThan(0));
-    filter("eSt-A");
-    table.firstColumnShouldBe(sizeGreaterThanOrEqual(1));
+  void versionsAreListed() {
+    table.rows().shouldHave(size(1));
   }
 
   @Test
-  void invalidInputNewApplication() {
-    openNewApplicationModal();
-    $("#newApplication\\:newApplicationForm\\:saveNewApplication").click();
-    $("#newApplication\\:newApplicationForm\\:newApplicationNameMessage").shouldBe(visible);
+  void addVersion() {
+    var tableRows = table.rows().size();
+    $(By.id("application:createVersion")).shouldBe(visible).click();
+    table.rows().shouldHave(sizeGreaterThan(tableRows));
+    deleteVersion();
+    table.rows().shouldHave(size(1));
   }
 
   @Test
-  void addStartStopRemoveApplication() {
-    int appCount = $$(".activity-name").size();
-    addNewApplication();
-    $$(".activity-name").shouldBe(size(appCount + 1));
-
-    // FIX later
-    //addNewApplication();
-    //$("#form\\:applicationMessage_container .ui-growl-message")
-    //    .shouldHave(text("Application with name '" + NEW_TEST_APP + "' already exists"));
-
-    By newApp = getNewAppId();
-    //startApplication(newApp);
-    //stopApplication(newApp);
-    deleteApplication(newApp);
-    $$(".activity-name").shouldBe(size(appCount));
+  void activateAndDeactivateButton() {
+    $(By.id("application:createVersion")).shouldBe(visible).click();
+    $(By.id(BUTTON_ID + ":activateBtn")).shouldBe(visible).click();
+    $(By.id(BUTTON_ID + ":activateBtn")).shouldBe(disabled);
+    $(By.id(BUTTON_ID + ":activityState")).shouldBe(text("Active"));
+    
+    $(By.id(BUTTON_ID + ":deactivateBtn")).shouldBe(visible).click();
+    $(By.id(BUTTON_ID + ":deactivateBtn")).shouldBe(disabled);
+    $(By.id(BUTTON_ID + ":activityState")).shouldBe(text("INACTIVE"));
+    $(By.id(BUTTON_ID + ":activateBtn")).shouldBe(visible).click();
+    deleteVersion();
   }
 
   @Test
-  void startStopDeleteNewAppInsideDetailView() {
-    addNewAppAndNavigateToIt();
-
-    $$(".activity-state-inactive").shouldBe(size(2));
-    startAppInsideDetailView();
-    stopAppInsideDetailView();
-    Navigation.toApplications();
-    deleteApplication(getNewAppId());
+  void releaseMenuItemReleasesVersion() {
+    $(By.id("application:createVersion")).shouldBe(visible).click();
+    $(By.id(BUTTON_ID + ":releaseState")).shouldBe(text("CREATED"));
+    $(By.id(BUTTON_ID + ":tasksButton")).shouldBe(visible).click();
+    $(By.id(BUTTON_ID + ":activityMenu")).shouldBe(visible);
+    $(By.id(BUTTON_ID + ":releaseBtn")).shouldBe(visible).click();
+    $(By.id(BUTTON_ID + ":releaseState")).shouldBe(text("RELEASED"));
+    $(By.id(BUTTON_ID + ":tasksButton")).shouldBe(visible).click();
+    $(By.id(BUTTON_ID + ":activityMenu")).shouldBe(visible);
+    $(By.id(BUTTON_ID + ":releaseBtn")).shouldHave(cssClass("ui-state-disabled"));
+    $(By.id("application:versionsForm:versionsTable:1:tasksButton")).shouldBe(visible).click();
+    $(By.id("application:versionsForm:versionsTable:1:releaseBtn")).shouldBe(visible).click();
+    deleteVersion();
   }
 
   @Test
-  void expandCollapseTree() {
-    Table table = new Table(By.className("ui-treetable"), true);
-    table.firstColumnShouldBe(sizeLessThanOrEqual(9));
-    expandAppTree();
-    table.firstColumnShouldBe(sizeGreaterThan(9));
-    collapseAppTree();
-    table.firstColumnShouldBe(sizeLessThanOrEqual(9));
-  }
-
-  //@Test
-  // TODO implement later
-  void showOverrideProjectIconInTree() {
-    expandAppTree();
-    // project of app test has override configured
-    $$(".activity-name").find(exactText("portal-components")).parent().find(".table-icon")
-        .shouldHave(cssClass("ti-arrow-big-down-lines"))
-        .shouldHave(attribute("title", "This PM is configured as strict override project"));
-    // project of app test-ad has no override configured
-    $$(".activity-name").find(exactText("portal-user-examples")).parent().find(".table-icon")
-        .shouldHave(cssClass("ti-packages"))
-        .shouldHave(attribute("title", "PM"));
+  void deleteMenuItemRemovesVersion() {
+    $(By.id("application:createVersion")).shouldBe(visible).click();
+    table.rows().shouldHave(size(2));
+    deleteVersion();
+    table.rows().shouldHave(size(1));
   }
 
   @Test
-  void keepExpandedState() {
-    $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
-    addNewApplication();
-    assertFirstProjectExpanded();
-    deleteApplication(getNewAppId());
-    assertFirstProjectExpanded();
-    closeGrowlMessage();
-
-    $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
-    addNewApplication();
-    assertFirstApplicationCollapsed();
-    deleteApplication(getNewAppId());
-    assertFirstApplicationCollapsed();
+  void moveRequiresInactiveApplication() {
+    Navigation.toApplication("test-ad");
+    $(By.id(("security:appDetailSecurityForm:moveApplication"))).click();
+    $(By.id("security:moveApplicationComposite:moveApplicationModal")).shouldBe(visible);
+    $(By.id("security:moveApplicationComposite:moveApplicationForm:validateMoveApplication")).click();
+    $(By.id("security:moveApplicationComposite:moveApplicationForm:validationMessage")).should(visible).should(Condition.text("Application must be deactivated."));
+    $(By.id("security:moveApplicationComposite:moveApplicationForm:moveApplication")).shouldBe(disabled);
+    $(By.id("security:moveApplicationComposite:moveApplicationForm:cancelMoveApplication")).click();
   }
 
   @Test
-  void keepExpandedState_ExpandCollapseAll() {
-    expandAppTree();
-    addNewApplication();
-    assertFirstProjectExpanded();
-    deleteApplication(getNewAppId());
-    assertFirstProjectExpanded();
-    closeGrowlMessage();
-
-    collapseAppTree();
-    addNewApplication();
-    assertFirstApplicationCollapsed();
-    deleteApplication(getNewAppId());
-    assertFirstApplicationCollapsed();
+  void home() {
+    var home = $(By.id("home"));
+    home.$("a").shouldHave(Condition.href("demo-portal/1"));
+    home.click();
+    assertCurrentUrlContains("Login.xhtml");
   }
 
-  private void assertFirstProjectExpanded() {
-    $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "true"));
+  @Test
+  void workflow() {
+    var workflow = $(By.id("workflow"));
+    workflow.$("a").shouldHave(href("/dev-workflow-ui/faces/home.xhtml"));
+    workflow.click();
+    assertCurrentUrlContains("dev-workflow-ui");
   }
 
-  private void assertFirstApplicationCollapsed() {
-    $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "false"));
-  }
-
-  void notDeletableMessage() {
-    expandAppTree();
-    $$("#form:tree:0:deleteBtn").get(1)
-        .shouldHave(attribute("title", "App 'designer' can not be deleted"));
-    $$("#form:tree:0_0:deleteBtn").get(1)
-        .shouldHave(attribute("title", "'dev-workflow-ui' is required by 'dev-workflow-ui-web-test', 'dev-workflow-ui-test'"));
-  }
-
-  private void filter(String search) {
-    var filter = $(By.id("form:globalFilter"));
-    filter.shouldBe(visible).click();
-    filter.sendKeys(search);
-  }
-
-  private void expandAppTree() {
-    Selenide.executeJavaScript("scroll(0,0);");
-    $("#form\\:expandAll").shouldBe(visible).click();
-  }
-
-  private void collapseAppTree() {
-    Selenide.executeJavaScript("scroll(0,0);");
-    $("#form\\:collapseAll").shouldBe(visible).click();
-  }
-
-  private void stopAppInsideDetailView() {
-    $("#state\\:appDetailStateForm\\:deActivateApplication").click();
-    $("#state\\:appDetailStateForm\\:activateApplication").shouldBe(visible);
-  }
-
-  private void startAppInsideDetailView() {
-    $("#state\\:appDetailStateForm\\:activateApplication").click();
-    $("#state\\:appDetailStateForm\\:deActivateApplication").shouldBe(visible);
-  }
-
-  private void addNewAppAndNavigateToIt() {
-    addNewApplication();
-    Navigation.toApplicationDetail(NEW_TEST_APP);
-  }
-
-  //private void stopApplication(By appId) {
-  //  $(appId).find(By.cssSelector("td button"), 3).click();
-  //  $(appId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "INACTIVE"));
-  //}
-
-  //private void startApplication(By appId) {
-  //  $(appId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "INACTIVE"));
-  //  $(appId).find(By.cssSelector("td button"), 2).click();
-  //  $(appId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "ACTIVE"));
-  //}
-
-  private void deleteApplication(By appId) {
-    String tasksButtonId = $(appId).find(By.cssSelector("td button"), 3).getAttribute("id");
-    By activityMenu = By.id(tasksButtonId.substring(0, tasksButtonId.lastIndexOf(':')) + ":activityMenu");
-    $(By.id(tasksButtonId)).click();
-    $(activityMenu).shouldBe(visible);
-
-    $(activityMenu).findAll("li").find(text("Delete")).click();
-    $("#form\\:deleteConfirmDialog").shouldBe(visible);
-
-    $("#form\\:deleteConfirmYesBtn").click();
-    $("#form\\:applicationMessage_container").shouldBe(visible);
-  }
-
-  private void addNewApplication() {
-    openNewApplicationModal();
-
-    $("#newApplication\\:newApplicationForm\\:newApplicationNameInput").clear();
-    $("#newApplication\\:newApplicationForm\\:newApplicationNameInput").sendKeys(NEW_TEST_APP);
-    PrimeUi.selectBooleanCheckbox(By.id("newApplication:newApplicationForm:newApplicationActivate")).removeChecked();
-
-    $("#newApplication\\:newApplicationForm\\:saveNewApplication").click();
-
-    $$(".activity-name").find(text(NEW_TEST_APP)).shouldBe(visible);
-  }
-
-  private void openNewApplicationModal() {
-    $("#form\\:createApplicationBtn").click();
-    $("#newApplication\\:newApplicationModal").shouldBe(visible);
-  }
-
-  private By getNewAppId() {
-    return By.id($$(".activity-name").find(text(NEW_TEST_APP)).parent().parent().parent().getAttribute("id"));
-  }
-
-  private void closeGrowlMessage() {
-    var js = (JavascriptExecutor) WebDriverRunner.getWebDriver();
-    js.executeScript("arguments[0].click();", $(".ui-growl-icon-close"));
+  private void deleteVersion() {
+    $(By.id(BUTTON_ID + ":tasksButton")).shouldBe(visible).click();
+    $(By.id(BUTTON_ID + ":activityMenu")).shouldBe(visible);
+    $(By.id(BUTTON_ID + ":deleteBtn")).shouldBe(visible).click();
+    $(By.id("application:versionsForm:deleteVersionDialog")).shouldBe(visible);
+    $(By.id("application:versionsForm:deleteVersionDialogConfirmYesBtn")).shouldBe(visible).click();
   }
 }

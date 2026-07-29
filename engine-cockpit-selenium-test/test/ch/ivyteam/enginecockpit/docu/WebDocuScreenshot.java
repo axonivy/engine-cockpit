@@ -236,7 +236,7 @@ class WebDocuScreenshot {
     takeDialogScreenshot("dialog-new-app", By.id("form:createApplicationBtn"));
     Navigation.toProjectDetail(isDesigner() ? getAppName() : "demo-portal", "portal");
     takeScreenshot("project-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
-    Navigation.toApplicationDetail(getAppName());
+    Navigation.toApplication(getAppName());
     takeScreenshot("application-detail", new Dimension(SCREENSHOT_WIDTH, 900));
     takeDialogScreenshot("dialog-deploy-app", By.id("information:appDetailInfoForm:showDeployment"));
   }
