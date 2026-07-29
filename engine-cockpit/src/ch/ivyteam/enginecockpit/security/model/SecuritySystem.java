@@ -61,7 +61,7 @@ public class SecuritySystem {
 
   public List<App> getApps() {
     if (apps == null) {
-      apps = ApplicationRepository.of(securityContext).all().stream()
+      apps = ApplicationRepository.of(securityContext).all()
           .map(app -> new App(app.name(), app.version()))
           .collect(Collectors.toList());
     }

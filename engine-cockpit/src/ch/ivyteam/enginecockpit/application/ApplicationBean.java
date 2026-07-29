@@ -64,7 +64,7 @@ public class ApplicationBean implements Serializable {
     var apps = ApplicationRepository.of(context);
     app = apps.findReleasedByName(appName);
     if (app == null) {
-      app = apps.findByName(appName).stream()
+      app = apps.findByName(appName)
           .max(Comparator.comparingInt(Application::version))
           .orElse(null);
     }
@@ -75,7 +75,7 @@ public class ApplicationBean implements Serializable {
 
     configView = new ConfigViewBuilder(app).build();
 
-    applicationVersions = apps.findByName(appName).stream()
+    applicationVersions = apps.findByName(appName)
         .map(ApplicationVersionRow::new)
         .sorted(Comparator.comparing(ApplicationVersionRow::getVersion).reversed())
         .collect(Collectors.toList());

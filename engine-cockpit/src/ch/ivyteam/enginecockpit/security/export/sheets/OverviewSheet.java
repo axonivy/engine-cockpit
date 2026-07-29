@@ -73,7 +73,7 @@ public class OverviewSheet {
   }
 
   private String getApplicationNames() {
-    return ApplicationRepository.of(securityContext).all().stream()
+    return ApplicationRepository.of(securityContext).all()
         .map(Application::name)
         .collect(Collectors.joining(", "));
   }
