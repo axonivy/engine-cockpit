@@ -22,7 +22,6 @@ import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
-import ch.ivyteam.ivy.application.app.NewApplication;
 import ch.ivyteam.ivy.application.app.link.AppLink;
 import ch.ivyteam.ivy.application.app.state.ActivityState;
 import ch.ivyteam.ivy.application.app.state.CasesCounter;
@@ -126,7 +125,7 @@ public class ApplicationBean implements Serializable {
 
   public void createVersion() {
     try {
-      ApplicationRepository.of(context).create(NewApplication.create(app.name()).toNewApplication());
+      ApplicationRepository.of(context).create(app.name());
       onload();
     } catch (RuntimeException ex) {
       Message.error()
