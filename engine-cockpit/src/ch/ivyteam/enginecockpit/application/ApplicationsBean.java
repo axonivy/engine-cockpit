@@ -52,7 +52,7 @@ public class ApplicationsBean implements Serializable {
       return List.of();
     }
 
-    return ApplicationRepository.of(securityContext).all().stream()
+    return ApplicationRepository.of(securityContext).all()
         .collect(Collectors.groupingBy(Application::name))
         .entrySet().stream()
         .map(entry -> new ApplicationRowConverter(entry.getKey(), entry.getValue()).convert())

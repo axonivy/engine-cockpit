@@ -32,7 +32,7 @@ public class EngineInfo {
   private boolean isShutingDown;
 
   public EngineInfo() {
-    applications = ApplicationRepository.instance().all().stream()
+    applications = ApplicationRepository.instance().all()
         .filter(app -> app.state().releaseState() == ReleaseState.RELEASED && app.state().activityState() == ActivityState.ACTIVE)
         .sorted(Comparator.comparing(Application::name, String.CASE_INSENSITIVE_ORDER))
         .map(ch.ivyteam.enginecockpit.info.Application::new)
