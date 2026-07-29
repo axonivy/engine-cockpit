@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 
-@FacesConverter(value = "userConverter", managed = true)
+@FacesConverter(value = "userConverter", managed = true, managed = true)
 @ApplicationScoped
 public class UserConverter implements Converter<Object> {
 

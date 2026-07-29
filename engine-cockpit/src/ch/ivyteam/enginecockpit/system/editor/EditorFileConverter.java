@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFileRepository;
 
-@FacesConverter(value = "editorFileConverter", managed = true)
+@FacesConverter(value = "editorFileConverter", managed = true, managed = true)
 @ApplicationScoped
 public class EditorFileConverter implements Converter<Object> {
 

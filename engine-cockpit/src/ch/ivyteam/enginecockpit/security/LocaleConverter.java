@@ -11,7 +11,7 @@ import jakarta.faces.convert.FacesConverter;
 
 import org.apache.commons.lang3.LocaleUtils;
 
-@FacesConverter(value = "localeConverter", managed = true)
+@FacesConverter(value = "localeConverter", managed = true, managed = true)
 @ApplicationScoped
 public class LocaleConverter implements Converter<Object> {
 
