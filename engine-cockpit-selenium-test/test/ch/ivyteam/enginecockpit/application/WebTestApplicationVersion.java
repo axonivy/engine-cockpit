@@ -25,7 +25,7 @@ public class WebTestApplicationVersion {
   void projectsAreListed() {
     $(By.id("versionProjectsForm:projectsTable")).shouldBe(visible);
     var table = new Table(By.id("versionProjectsForm:projectsTable"));
-    table.rows().shouldHave(size(4));
+    table.rows().shouldHave(size(3));
   }
 
   @Test

@@ -86,18 +86,20 @@ public class Navigation {
 
   public static void toApplication(String appName) {
     toApplications();
-    var table = new Table(By.cssSelector("[id$='applicationsTable']"), true);
-    var applicationLink = table.tableEntry(1, 1).$("a");
-    applicationLink.shouldBe(visible).click();
+    $(By.id("form:tabs:securitySystemTabView:0:applicationsTable")).$(By.partialLinkText(appName)).shouldBe(visible).click();
     assertCurrentUrlContains("application.xhtml");
   }
 
   public static void toApplicationVersion(String appName, String version) {
     toApplication(appName);
-    var table = new Table(By.cssSelector("[id$='versionsTable']"), true);
-    var applicationLink = table.tableEntry(1, 1).$("a");
-    applicationLink.shouldBe(visible).click();
+    $(By.partialLinkText(version)).shouldBe(visible).click();
     assertCurrentUrlContains("application-version.xhtml");
+  }
+
+  public static void toProject(String appName, String version, String projectName) {
+    toApplicationVersion(appName, version);
+    $(By.partialLinkText(projectName)).shouldBe(visible).click();
+    assertCurrentUrlContains("project.xhtml");
   }
 
   public static void toSecuritySystem() {
