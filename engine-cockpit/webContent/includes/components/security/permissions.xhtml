@@ -56,7 +56,7 @@
   
       <p:column headerText="#{ivy.cm.co('/permissions/Grant')}" styleClass="table-btn-2" style="text-align: center;">
         <p:triStateCheckbox id="ajaxTriState" value="#{permission.state}">
-            <p:ajax event="change" update="@form" listener="#{permission.defineState}"/>
+          <p:ajax event="change" update="@form" listener="#{permission.defineState}" />
         </p:triStateCheckbox>
       </p:column>
   

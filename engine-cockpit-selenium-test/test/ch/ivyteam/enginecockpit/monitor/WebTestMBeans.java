@@ -87,7 +87,7 @@ public class WebTestMBeans {
   }
 
   private static SelenideElement getTreeNodeWithText(String treeNodeText) {
-    return $("#mBeans .ui-treenode-content[aria-label='" + treeNodeText + "']");
+    return $("#mBeans .ui-treenode[aria-label='" + treeNodeText + "']");
   }
 
   private static ElementsCollection mBeanNodes() {

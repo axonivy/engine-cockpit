@@ -16,7 +16,6 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
@@ -50,8 +49,6 @@ class WebTestProperties {
 
     @BeforeEach
     void beforeEach() {
-      Navigation.toUsers();
-      Tab.SECURITY_SYSTEM.switchToDefault();
       Navigation.toUserDetail("foo");
       openAddPropertyModal();
     }

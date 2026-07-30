@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.primefaces.model.charts.line.LineChartDataSet;
+import software.xdev.chartjs.model.dataset.LineDataset;
 
 import com.axonivy.jmx.MAttribute;
 import com.axonivy.jmx.MBean;
@@ -28,21 +28,21 @@ public class TestSessionMonitorBean {
   public void sessionsMonitor() {
     var testee = new SessionMonitorBean();
 
-    var dataSet = testee.getSessionsMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getSessionsMonitor().getDataSets();
     assertThat(dataSet).hasSize(3);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var licensedSessions = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var licensedSessions = (LineDataset) dataSet.get(0);
     assertThat(licensedSessions.getLabel()).isEqualTo("Licensed Sessions");
     assertThat(licensedSessions.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(5.0D));
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var sessions = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var sessions = (LineDataset) dataSet.get(1);
     assertThat(sessions.getLabel()).isEqualTo("Sessions");
     assertThat(sessions.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(7.0D));
 
-    assertThat(dataSet.get(2)).isInstanceOf(LineChartDataSet.class);
-    var httpSessions = (LineChartDataSet) dataSet.get(2);
+    assertThat(dataSet.get(2)).isInstanceOf(LineDataset.class);
+    var httpSessions = (LineDataset) dataSet.get(2);
     assertThat(httpSessions.getLabel()).isEqualTo("Http Sessions");
     assertThat(httpSessions.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(6.0D));
 

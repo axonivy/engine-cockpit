@@ -31,7 +31,7 @@
             <p:commandButton value="#{ivy.cm.co('/systemDb/CheckConnection')}" id="checkConnectionButton"
               styleClass="mr-1 wizard-top-button"
               onstart="$('#connectionIcon').attr('class', 'ti ti-refresh spinning');" async="true"
-              icon="ti ti-check" update="#{cc.attrs.updateFields}"
+              icon="ti ti-check" update="connectionPanel,#{cc.attrs.updateFields}"
               actionListener="#{systemDatabaseBean.testConnection()}" />
             <p:commandButton value="#{ivy.cm.co('/systemDb/CreateDatabase')}" id="createDatabaseButton" icon="ti ti-database-cog"
               styleClass="mr-1 wizard-top-button ui-button-secondary" actionListener="#{systemDatabaseBean.initCreator()}"
@@ -48,7 +48,7 @@
           <p:selectOneMenu id="databaseType" value="#{systemDatabaseBean.product}">
             <f:selectItems value="#{systemDatabaseBean.supporedDatabaseNames}" var="database" itemLabel="#{database}"
               itemValue="#{database}" />
-            <p:ajax update="#{cc.attrs.updateFields},@form:databaseDriver,@form:dynamicForm" process="@this"
+            <p:ajax update="#{cc.attrs.updateFields},connectionPanel,@form:databaseDriver,@form:dynamicForm" process="@this"
               listener="#{systemDatabaseBean.configChanged}" />
           </p:selectOneMenu>
 
@@ -56,7 +56,7 @@
           <p:selectOneMenu id="databaseDriver" value="#{systemDatabaseBean.driver}">
             <f:selectItems value="#{systemDatabaseBean.supportedDriverNames}" var="driver" itemLabel="#{driver}"
               itemValue="#{driver}" />
-            <p:ajax update="#{cc.attrs.updateFields},@form:dynamicForm" process="@this"
+            <p:ajax update="#{cc.attrs.updateFields},connectionPanel,@form:dynamicForm" process="@this"
               listener="#{systemDatabaseBean.configChanged}" />
           </p:selectOneMenu>
         </p:panelGrid>
@@ -67,16 +67,16 @@
               <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9"
                 styleClass="grey-label-panel ui-fluid">
                 <p:outputLabel for="numberProp" value="#{connProp.label}" />
-                <h:panelGroup>
-                  <p:inputNumber styleClass="#{connProp.cssClass}" id="numberProp" value="#{connProp.value}"
+                <h:panelGroup styleClass="inline-flex align-items-center gap-4 w-full">
+                  <p:inputNumber styleClass="#{connProp.cssClass} flex-grow-1 w-full" id="numberProp" value="#{connProp.value}"
                     required="#{connProp.required}" disabled="#{connProp.defaultValue}" thousandSeparator=""
-                    decimalPlaces="0" minValue="0" style="width: calc(100% - 105px); display: inline-block;">
-                    <p:ajax event="keyup" update="#{cc.attrs.updateFields}"
+                    decimalPlaces="0" minValue="0">
+                    <p:ajax event="keyup" update="#{cc.attrs.updateFields},connectionPanel"
                       listener="#{systemDatabaseBean.configChanged}" />
                   </p:inputNumber>
-                  <p:selectBooleanCheckbox id="defaultConnectionProperty" style="margin: 0; float: right;"
+                  <p:selectBooleanCheckbox id="defaultConnectionProperty"
                     itemLabel="#{ivy.cm.co('/common/Default')}" value="#{connProp.defaultValue}"
-                    styleClass="#{connProp.cssClass}-default-checkbox">
+                    styleClass="#{connProp.cssClass}-default-checkbox flex-grow-0 w-min white-space-nowrap">
                     <p:ajax process="@this" update="@parent:numberProp" />
                   </p:selectBooleanCheckbox>
                 </h:panelGroup>
@@ -99,7 +99,7 @@
                     weakLabel="#{ivy.cm.co('/common/Weak')}"
                     strongLabel="#{ivy.cm.co('/common/Strong')}">
                     <p:ajax event="keyup"
-                      update="#{cc.attrs.updateFields},@parent:passwordPropertyMessage"
+                      update="#{cc.attrs.updateFields},connectionPanel,@parent:passwordPropertyMessage"
                       listener="#{systemDatabaseBean.configChanged}" />
                   </p:password>
                   <p:message for="passwordProperty" id="passwordPropertyMessage" />
@@ -114,7 +114,7 @@
                 <h:panelGroup styleClass="md-inputfield">
                   <p:inputText styleClass="#{connProp.cssClass}" id="inputProperty" value="#{connProp.value}"
                     required="#{connProp.required}" autocomplete="off">
-                    <p:ajax event="keyup" update="#{cc.attrs.updateFields},@parent:inputPropertyMessage"
+                    <p:ajax event="keyup" update="#{cc.attrs.updateFields},connectionPanel,@parent:inputPropertyMessage"
                       listener="#{systemDatabaseBean.configChanged}" />
                   </p:inputText>
                   <p:message for="inputProperty" id="inputPropertyMessage" />
@@ -139,7 +139,7 @@
               <p:column styleClass="table-btn-1" style="box-sizing: content-box;">
                 <p:commandButton id="removeAdditionalProperty"
                   actionListener="#{systemDatabaseBean.removeProp(property.key)}"
-                  update="@form:additionalPropertiesTable,#{cc.attrs.updateFields}"
+                  update="@form:additionalPropertiesTable,#{cc.attrs.updateFields},connectionPanel"
                   icon="ti ti-trash"
                   title="#{ivy.cm.co('/common/Delete')}"
                   styleClass="ui-button-danger rounded-button"
@@ -202,7 +202,7 @@
         <h:panelGroup rendered="#{systemDatabaseBean.dbCreatorFinished}">
           <p:commandButton id="closeCreationButton" value="#{ivy.cm.co('/systemDb/Connect')}" icon="ti ti-check"
             actionListener="#{systemDatabaseBean.testConnection}" onclick="PF('createDatabaseDialog').hide();"
-            update="#{cc.attrs.updateFields}" styleClass="modal-input-button" />
+            update="#{cc.attrs.updateFields},systemDb:systemDbForm:connectionPanel" styleClass="modal-input-button" />
         </h:panelGroup>
       </div>
     </h:form>
@@ -210,7 +210,7 @@
 
   <p:dialog widgetVar="addAdditionalPropertyDialog" id="addAdditionalPropertyDialog" header="#{ivy.cm.co('/systemDb/AddAdditionalPropertyDialogHeader')}"
     modal="true" closeOnEscape="true" focus="addAdditionalPropertyForm:key">
-    <h:form id="addAdditionalPropertyForm" styleClass="custom-dialog-form">
+    <h:form id="addAdditionalPropertyForm" styleClass="custom-dialog-form" onsubmit="return false;">
       <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
         <p:outputLabel for="key" value="#{ivy.cm.co('/common/Key')}" />
         <h:panelGroup styleClass="md-inputfield">
@@ -229,8 +229,9 @@
       <div class="custom-dialog-footer">
         <p:commandButton id="cancelEditAdmin" onclick="PF('addAdditionalPropertyDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}"
           type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-        <p:commandButton id="saveProperty" validateClient="true"
-          update="@form,systemDb:systemDbForm:additionalPropertiesTable,#{cc.attrs.updateFields}" actionListener="#{systemDatabaseBean.saveProp()}"
+        <p:commandButton id="saveProperty"
+          update="@form,systemDb:systemDbForm:additionalPropertiesTable,systemDb:systemDbForm:connectionPanel,#{cc.attrs.updateFields}"
+          action="#{systemDatabaseBean.saveProp}" process="@form"
           value="#{ivy.cm.co('/common/Save')}" icon="ti ti-device-floppy" styleClass="modal-input-button"
           oncomplete="if (!args.validationFailed) PF('addAdditionalPropertyDialog').hide();" />
       </div>

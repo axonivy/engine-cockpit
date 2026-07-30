@@ -230,47 +230,47 @@ public class WebTestSecuritySystemDetail {
 
   @Test
   void provider_settings() {
-    checkbox(ON_SCHEDULE_ENABLED).shouldBeChecked(true);
-    checkbox(SYNCH_ON_LOGIN).shouldBeChecked(true);
-    checkbox(ON_SCHEDULE_IMPORT_USERS).shouldBeChecked(true);
+    var onScheduleEnabled = checkbox(ON_SCHEDULE_ENABLED).shouldBeChecked(true);
+    var syncOnLogin = checkbox(SYNCH_ON_LOGIN).shouldBeChecked(true);
+    var onScheduleImportUsers = checkbox(ON_SCHEDULE_IMPORT_USERS).shouldBeChecked(true);
 
-    $(ON_SCHEDULE_ENABLED).click();
-
-    saveProvider();
-    Navigation.toSecuritySystemDetail("test-ad");
-
-    checkbox(ON_SCHEDULE_ENABLED).shouldBeChecked(false);
-    checkbox(SYNCH_ON_LOGIN).shouldBeChecked(true);
-    checkbox(ON_SCHEDULE_IMPORT_USERS).shouldBeChecked(true);
-
-    $(ON_SCHEDULE_ENABLED).click();
-    $(SYNCH_ON_LOGIN).click();
+    onScheduleEnabled.removeChecked();
 
     saveProvider();
     Navigation.toSecuritySystemDetail("test-ad");
 
-    checkbox(ON_SCHEDULE_ENABLED).shouldBeChecked(true);
-    checkbox(SYNCH_ON_LOGIN).shouldBeChecked(false);
-    checkbox(ON_SCHEDULE_IMPORT_USERS).shouldBeChecked(true);
+    onScheduleEnabled.shouldBeChecked(false);
+    syncOnLogin.shouldBeChecked(true);
+    onScheduleImportUsers.shouldBeChecked(true);
 
-    $(SYNCH_ON_LOGIN).click();
-    $(ON_SCHEDULE_IMPORT_USERS).click();
-
-    saveProvider();
-    Navigation.toSecuritySystemDetail("test-ad");
-
-    checkbox(ON_SCHEDULE_ENABLED).shouldBeChecked(true);
-    checkbox(SYNCH_ON_LOGIN).shouldBeChecked(true);
-    checkbox(ON_SCHEDULE_IMPORT_USERS).shouldBeChecked(false);
-
-    $(ON_SCHEDULE_IMPORT_USERS).click();
+    onScheduleEnabled.setChecked();
+    syncOnLogin.removeChecked();
 
     saveProvider();
     Navigation.toSecuritySystemDetail("test-ad");
 
-    checkbox(ON_SCHEDULE_ENABLED).shouldBeChecked(true);
-    checkbox(SYNCH_ON_LOGIN).shouldBeChecked(true);
-    checkbox(ON_SCHEDULE_IMPORT_USERS).shouldBeChecked(true);
+    onScheduleEnabled.shouldBeChecked(true);
+    syncOnLogin.shouldBeChecked(false);
+    onScheduleImportUsers.shouldBeChecked(true);
+
+    syncOnLogin.setChecked();
+    onScheduleImportUsers.removeChecked();
+
+    saveProvider();
+    Navigation.toSecuritySystemDetail("test-ad");
+
+    onScheduleEnabled.shouldBeChecked(true);
+    syncOnLogin.shouldBeChecked(true);
+    onScheduleImportUsers.shouldBeChecked(false);
+
+    onScheduleImportUsers.setChecked();
+
+    saveProvider();
+    Navigation.toSecuritySystemDetail("test-ad");
+
+    onScheduleEnabled.shouldBeChecked(true);
+    syncOnLogin.shouldBeChecked(true);
+    onScheduleImportUsers.shouldBeChecked(true);
   }
 
   private void saveInvalidonScheduleTimeAndAssert(String time) {

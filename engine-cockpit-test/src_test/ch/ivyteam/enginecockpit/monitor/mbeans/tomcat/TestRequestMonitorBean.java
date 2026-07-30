@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.primefaces.model.charts.line.LineChartDataSet;
+import software.xdev.chartjs.model.dataset.LineDataset;
 
 import com.axonivy.jmx.MAttribute;
 import com.axonivy.jmx.MBean;
@@ -32,16 +32,16 @@ public class TestRequestMonitorBean {
   public void requestMonitor() {
     var testee = new RequestMonitorBean();
 
-    var dataSet = testee.getRequestsMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getRequestsMonitor().getDataSets();
     assertThat(dataSet).hasSize(2);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var http = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var http = (LineDataset) dataSet.get(0);
     assertThat(http.getLabel()).isEqualTo("Http");
     assertThat(http.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var https = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var https = (LineDataset) dataSet.get(1);
     assertThat(https.getLabel()).isEqualTo("Https");
     assertThat(https.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
@@ -53,16 +53,16 @@ public class TestRequestMonitorBean {
   public void errorsMonitor() {
     var testee = new RequestMonitorBean();
 
-    var dataSet = testee.getErrorsMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getErrorsMonitor().getDataSets();
     assertThat(dataSet).hasSize(2);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var http = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var http = (LineDataset) dataSet.get(0);
     assertThat(http.getLabel()).isEqualTo("Http");
     assertThat(http.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var https = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var https = (LineDataset) dataSet.get(1);
     assertThat(https.getLabel()).isEqualTo("Https");
     assertThat(https.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
@@ -74,26 +74,26 @@ public class TestRequestMonitorBean {
   public void bytesMonitor() {
     var testee = new RequestMonitorBean();
 
-    var dataSet = testee.getBytesMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getBytesMonitor().getDataSets();
     assertThat(dataSet).hasSize(4);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var httpSent = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var httpSent = (LineDataset) dataSet.get(0);
     assertThat(httpSent.getLabel()).isEqualTo("Http Sent");
     assertThat(httpSent.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var httpReceived = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var httpReceived = (LineDataset) dataSet.get(1);
     assertThat(httpReceived.getLabel()).isEqualTo("Http Received");
     assertThat(httpReceived.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(dataSet.get(2)).isInstanceOf(LineChartDataSet.class);
-    var httpsSent = (LineChartDataSet) dataSet.get(2);
+    assertThat(dataSet.get(2)).isInstanceOf(LineDataset.class);
+    var httpsSent = (LineDataset) dataSet.get(2);
     assertThat(httpsSent.getLabel()).isEqualTo("Https Sent");
     assertThat(httpsSent.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(dataSet.get(3)).isInstanceOf(LineChartDataSet.class);
-    var httpsReceived = (LineChartDataSet) dataSet.get(3);
+    assertThat(dataSet.get(3)).isInstanceOf(LineDataset.class);
+    var httpsReceived = (LineDataset) dataSet.get(3);
     assertThat(httpsReceived.getLabel()).isEqualTo("Https Received");
     assertThat(httpsReceived.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
@@ -105,16 +105,16 @@ public class TestRequestMonitorBean {
   public void processingMonitor() {
     var testee = new RequestMonitorBean();
 
-    var dataSet = testee.getProcessingTimeMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getProcessingTimeMonitor().getDataSets();
     assertThat(dataSet).hasSize(2);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var http = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var http = (LineDataset) dataSet.get(0);
     assertThat(http.getLabel()).isEqualTo("Http");
     assertThat(http.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var https = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var https = (LineDataset) dataSet.get(1);
     assertThat(https.getLabel()).isEqualTo("Https");
     assertThat(https.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
@@ -126,16 +126,16 @@ public class TestRequestMonitorBean {
   public void connectionsMonitor() {
     var testee = new RequestMonitorBean();
 
-    var dataSet = testee.getConnectionsMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getConnectionsMonitor().getDataSets();
     assertThat(dataSet).hasSize(2);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var http = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var http = (LineDataset) dataSet.get(0);
     assertThat(http.getLabel()).isEqualTo("Http");
     assertThat(http.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(2.0));
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var https = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var https = (LineDataset) dataSet.get(1);
     assertThat(https.getLabel()).isEqualTo("Https");
     assertThat(https.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(1.0));
 

@@ -17,7 +17,7 @@
         <i class="pr-2 ti ti-settings"></i>
         <h6 class="m-0">#{ivy.cm.co('/common/Properties')}</h6>
         <p:commandButton id="newPropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
-          actionListener="#{cc.attrs.memberProperty.setProperty(null)}" update=":#{cc.clientId}:propertyModalForm:propertyModal" title="#{ivy.cm.co('/common/Add')}"
+          actionListener="#{cc.attrs.memberProperty.setProperty(null)}" update="#{cc.clientId}:propertyModalForm:propertyModal" title="#{ivy.cm.co('/common/Add')}"
           icon="ti ti-plus" styleClass="flex-shrink-0 ml-auto rounded-button" />
       </div>
     </div>
@@ -51,7 +51,7 @@
       <p:column styleClass="table-btn-2">
         <p:outputLabel>
           <p:commandButton id="editPropertyBtn" actionListener="#{cc.attrs.memberProperty.setProperty(property)}"
-            icon="ti ti-pencil" title="#{ivy.cm.co('/common/Edit')}" update=":#{cc.clientId}:propertyModalForm:propertyModal" disabled="#{property.managed}"
+            icon="ti ti-pencil" title="#{ivy.cm.co('/common/Edit')}" update="#{cc.clientId}:propertyModalForm:propertyModal" disabled="#{property.managed}"
             styleClass="ui-button-secondary rounded-button" oncomplete="PF('propertyModal').show();"
             process="@this" />
           <p:commandButton id="deletePropertyBtn" type="button" icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"

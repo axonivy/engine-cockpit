@@ -34,6 +34,7 @@ public class WebTestAdmins {
   @Test
   void addEditDeleteAdmin() {
     $("h2").shouldBe(text("Administrators"));
+    openAddAdminDialog();
     testAddEditDelete();
   }
 
@@ -49,6 +50,7 @@ public class WebTestAdmins {
 
   @Test
   void loginWithNewAdmin() {
+    openAddAdminDialog();
     addAdmin("support@ivyteam.ch", "support@ivyteam.ch", "password", "password", "en", "en");
 
     forceLogin("support@ivyteam.ch", "password");
@@ -64,7 +66,9 @@ public class WebTestAdmins {
 
   @Test
   void adminDialogInvalid() {
+    openAddAdminDialog();
     testAddAdminInvalidValues();
+    openAddAdminDialog();
     testAddAdminInvalidPassword();
   }
 
@@ -75,6 +79,7 @@ public class WebTestAdmins {
 
   @Test
   void loginWithAdminWithDifferentLanguage() {
+    openAddAdminDialog();
     addAdmin("support@ivyteam.ch", "support@ivyteam.ch", "password", "password", "de", "de");
 
     forceLogin("support@ivyteam.ch", "password");
@@ -97,15 +102,13 @@ public class WebTestAdmins {
   }
 
   public static void testAddEditDelete() {
-    var table = new Table(By.id("admins:adminForm:adminTable"), "span");
-    table.firstColumnShouldBe(exactTexts("admin"));
-
     var user = "test";
     var email = "test@ivyTeam.ch";
     var password = "password";
     var language = "en";
     var formattingLanguage = "en";
     addAdmin(user, email, password, password, language, formattingLanguage);
+    var table = new Table(By.id("admins:adminForm:adminTable"), "span");
     table.firstColumnShouldBe(exactTexts("admin", user));
 
     editAdmin(table, user, "test@admin.com");
@@ -139,6 +142,11 @@ public class WebTestAdmins {
     $(".ui-growl-title").shouldBe(text("'" + user + "' " + msgPart));
   }
 
+  private static void openAddAdminDialog() {
+    $(By.id("addAdminForm:newAdminBtn_button")).shouldBe(enabled, visible).click();
+    $(By.id("admins:editAdminDialog")).shouldBe(visible);
+  }
+
   public static void testAddAdminInvalidPassword() {
     addAdmin("admin", "test@test.com", "password", "pass", "en", "en");
     $(By.id("admins:editAdminForm:nameMessage")).shouldBe(empty);
@@ -158,7 +166,6 @@ public class WebTestAdmins {
   }
 
   public static void addAdmin(String user, String email, String password, String password2, String language, String formattingLanguage) {
-    $(By.id("addAdminForm:newAdminBtn")).click();
     $(By.id("admins:editAdminDialog")).shouldBe(visible);
 
     $(By.id("admins:editAdminForm:name")).clear();
