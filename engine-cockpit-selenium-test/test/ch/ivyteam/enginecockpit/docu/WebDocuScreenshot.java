@@ -18,7 +18,6 @@ import java.time.Duration;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -228,13 +227,12 @@ class WebDocuScreenshot {
     takeScreenshot("role-detail", new Dimension(SCREENSHOT_WIDTH, 1000));
   }
 
-  @Disabled
   @Test
   void screenshotApplications() {
     Navigation.toApplications();
     takeScreenshot("applications", new Dimension(SCREENSHOT_WIDTH, 500));
     takeDialogScreenshot("dialog-new-app", By.id("form:createApplicationBtn"));
-    Navigation.toApplicationVersion(isDesigner() ? getAppName() : "demo-portal", "portal");
+    Navigation.toProject(isDesigner() ? getAppName() : "demo-portal","1", "portal");
     takeScreenshot("project-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
     Navigation.toApplication(getAppName());
     takeScreenshot("application-detail", new Dimension(SCREENSHOT_WIDTH, 900));
