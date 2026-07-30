@@ -77,12 +77,14 @@ class WebTestDeployment {
     toApplicationAndOpenDeployment();
     showDeploymentOptions();
     deployAndAssert("Using options>DeploymentOptions");
+    removeDeployedApp();
   }
 
   private void deployAndAssert(String expectedDeployOptionsText) {
     deployPath(findTestProject(), "deployment");
     $(By.id("deployment:uploadStatus")).shouldHave(text("Success"));
     $(By.id("uploadLog")).shouldHave(text(expectedDeployOptionsText), text("successfully deployed to application"));
+    $(By.id("deployment:closeDeploymentBtn")).shouldBe(visible).click();
   }
 
   private Path findTestProject() {
@@ -104,6 +106,12 @@ class WebTestDeployment {
     $(By.id(idPath + ":fileUploadForm:uploadBtn")).shouldNotBe(disabled).click();
     $(By.id("uploadLog")).shouldNotBe(empty);
     $(By.id(idPath + ":fileUploadForm")).shouldNotBe(visible);
+  }
+
+  private void removeDeployedApp() {
+    $(By.id("versionProjectsForm:projectsTable:0:deleteBtn")).shouldBe(visible).click();
+    $(By.id("versionProjectsForm:deleteProjectDialog")).shouldBe(visible);
+    $(By.id("versionProjectsForm:deleteProjectDialogConfirmYesBtn")).shouldBe(visible).click();
   }
 
   @Test
