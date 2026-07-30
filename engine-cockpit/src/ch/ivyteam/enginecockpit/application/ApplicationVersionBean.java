@@ -124,10 +124,6 @@ public class ApplicationVersionBean implements Serializable {
     this.nameFilter = nameFilter;
   }
 
-  public Application getApplication() {
-    return app;
-  }
-
   public String getInstallDir() {
     return app.paths().install().toString();
   }
