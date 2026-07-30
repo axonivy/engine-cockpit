@@ -5,18 +5,18 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:ccc="jakarta.faces.composite/composite">
 
 <cc:interface>
-  <cc:attribute name="app" type="ch.ivyteam.enginecockpit.application.model.Application" required="true" /> 
+  <cc:attribute name="app" type="ch.ivyteam.ivy.application.app.Application" required="true" /> 
 </cc:interface>
 
 <cc:implementation>
 <h:form id="tableForm">
   <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-    styleClass="ui-fluid" var="channel" value="#{notificationChannelsBean.channels}" widgetVar="channelsTable_#{cc.attrs.app.id}"
+    styleClass="ui-fluid" var="channel" value="#{notificationChannelsBean.channels}" widgetVar="channelsTable_#{cc.attrs.app.id()}"
     filteredValue="#{notificationChannelsBean.filteredChannels}" lazy="false" id="channelsTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
     <f:facet name="header">
       <div class="ui-input-icon-left filter-container">
         <i class="ti ti-search"/>
-        <p:inputText id="globalFilter" onkeyup="PF('channelsTable_#{cc.attrs.app.id}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{notificationChannelsBean.filter}" />
+        <p:inputText id="globalFilter" onkeyup="PF('channelsTable_#{cc.attrs.app.id()}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{notificationChannelsBean.filter}" />
       </div>
     </f:facet>
 
