@@ -26,18 +26,18 @@
           <h:form id="form">
             <p:dataTable paginator="true" rows="20" paginatorPosition="bottom"
               paginatorAlwaysVisible="false" emptyMessage="#{ivy.cm.co('/webServices/NoWebServicesFound')}" styleClass="ui-fluid"
-              var="webservice" value="#{webserviceBean.webservices}" widgetVar="webservicesTable_#{app.id}"
+              var="webservice" value="#{webserviceBean.webservices}" widgetVar="webservicesTable_#{app.id()}"
               filteredValue="#{webserviceBean.filteredWebservices}" lazy="false" id="webservicesTable">
               <f:facet name="header">
                 <div class="ui-input-icon-left filter-container">
                   <i class="ti ti-search"/>
-                  <p:inputText id="globalFilter" onkeyup="PF('webservicesTable_#{app.id}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{webserviceBean.filter}" />
+                  <p:inputText id="globalFilter" onkeyup="PF('webservicesTable_#{app.id()}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{webserviceBean.filter}" />
                 </div>
               </f:facet>
 
               <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{webservice.name}" filterBy="#{webservice.name}"
                 styleClass="webservice-name-column">
-                <a href="#{webservice.getViewUrl(app.name)}">
+                <a href="#{webservice.getViewUrl(app.name())}">
                   <h:outputText value="#{webservice.name}" styleClass="webservice-name">
                     <i class="ti ti-network table-icon"></i>
                   </h:outputText>
