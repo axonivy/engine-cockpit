@@ -31,7 +31,7 @@
       <p:commandButton id="roleFilterBtn" title="#{ivy.cm.co('/usersTable/Filter')} #{userDetailBean.roles.contentFilterText}" type="button" icon="ti ti-filter"
         styleClass="ml-1 flex-shrink-0 ui-button-secondary rounded-button" onclick="PF('roleFilterPanel').show();" />
       <p:overlayPanel id="roleFilterPanel" for="roleFilterBtn" widgetVar="roleFilterPanel" styleClass="table-content-filter">
-        <p:selectManyCheckbox id="filterCheckboxes" layout="grid" columns="1" value="#{userDetailBean.roles.selectedContentFilters}">
+        <p:selectManyCheckbox id="filterCheckboxes" layout="responsive" columns="1" value="#{userDetailBean.roles.selectedContentFilters}">
           <f:selectItems value="#{userDetailBean.roles.contentFilters}"/>
         </p:selectManyCheckbox>
 

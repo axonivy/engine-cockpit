@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.util;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.getAppName;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.getSecurityName;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
@@ -17,13 +18,14 @@ import com.codeborne.selenide.SelenideElement;
 public class Tab {
 
   public static String DEFAULT_APP = getAppName();
+  public static String DEFAULT_SECURITY = getSecurityName();
 
   public static final Tab SECURITY_SYSTEM = new Tab(
       "li.security-system-tab > a",
       "li.security-system-tab",
       "li.security-system-tab.ui-state-active",
       ".ui-tabs-panel:not(.ui-helper-hidden)",
-      tab -> tab.switchToTab("default"));
+      tab -> tab.switchToTab(DEFAULT_SECURITY));
 
   public static final Tab APP = new Tab(
       "li.application-tab > a",

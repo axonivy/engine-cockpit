@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.primefaces.model.charts.line.LineChartDataSet;
+import software.xdev.chartjs.model.dataset.LineDataset;
 
 import com.axonivy.jmx.MAttribute;
 import com.axonivy.jmx.MBean;
@@ -24,18 +24,21 @@ public class TestClusterMonitorBean {
     MBeans.registerMBeanFor(new Cluster());
     var testee = new ClusterMonitorBean();
 
-    var dataSet = testee.getSendMessagesMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getSendMessagesMonitor().getDataSets();
     assertThat(dataSet).hasSize(2);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var mails = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var mails = (LineDataset) dataSet.get(0);
     assertThat(mails.getLabel()).isEqualTo("Sent");
     assertThat(mails.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var errors = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var errors = (LineDataset) dataSet.get(1);
     assertThat(errors.getLabel()).isEqualTo("Errors");
     assertThat(errors.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
+    assertThat(testee.getSendMessagesMonitor().getModel())
+      .contains("\"labels\":[\"")
+      .contains("\"data\":[0.0]");
 
     assertThat(testee.getSendMessagesMonitor().getInfo())
         .isEqualTo("Sent Messages: -, Total 3, Errors -, Errors Total 4");
@@ -46,21 +49,21 @@ public class TestClusterMonitorBean {
     MBeans.registerMBeanFor(new Cluster());
     var testee = new ClusterMonitorBean();
 
-    var dataSet = testee.getSendProcessingTimeMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getSendProcessingTimeMonitor().getDataSets();
     assertThat(dataSet).hasSize(3);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var min = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var min = (LineDataset) dataSet.get(0);
     assertThat(min.getLabel()).isEqualTo("Min");
     assertThat(min.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(5.0D));
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var avg = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var avg = (LineDataset) dataSet.get(1);
     assertThat(avg.getLabel()).isEqualTo("Avg");
     assertThat(avg.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(dataSet.get(2)).isInstanceOf(LineChartDataSet.class);
-    var max = (LineChartDataSet) dataSet.get(2);
+    assertThat(dataSet.get(2)).isInstanceOf(LineDataset.class);
+    var max = (LineDataset) dataSet.get(2);
     assertThat(max.getLabel()).isEqualTo("Max");
     assertThat(max.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(7.0D));
 
@@ -73,16 +76,16 @@ public class TestClusterMonitorBean {
     MBeans.registerMBeanFor(new Cluster());
     var testee = new ClusterMonitorBean();
 
-    var dataSet = testee.getReceiveMessagesMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getReceiveMessagesMonitor().getDataSets();
     assertThat(dataSet).hasSize(2);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var mails = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var mails = (LineDataset) dataSet.get(0);
     assertThat(mails.getLabel()).isEqualTo("Received");
     assertThat(mails.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var errors = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var errors = (LineDataset) dataSet.get(1);
     assertThat(errors.getLabel()).isEqualTo("Errors");
     assertThat(errors.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
@@ -95,21 +98,21 @@ public class TestClusterMonitorBean {
     MBeans.registerMBeanFor(new Cluster());
     var testee = new ClusterMonitorBean();
 
-    var dataSet = testee.getReceiveProcessingTimeMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getReceiveProcessingTimeMonitor().getDataSets();
     assertThat(dataSet).hasSize(3);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var min = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var min = (LineDataset) dataSet.get(0);
     assertThat(min.getLabel()).isEqualTo("Min");
     assertThat(min.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(12.0D));
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var avg = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var avg = (LineDataset) dataSet.get(1);
     assertThat(avg.getLabel()).isEqualTo("Avg");
     assertThat(avg.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(dataSet.get(2)).isInstanceOf(LineChartDataSet.class);
-    var max = (LineChartDataSet) dataSet.get(2);
+    assertThat(dataSet.get(2)).isInstanceOf(LineDataset.class);
+    var max = (LineDataset) dataSet.get(2);
     assertThat(max.getLabel()).isEqualTo("Max");
     assertThat(max.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(14.0D));
 

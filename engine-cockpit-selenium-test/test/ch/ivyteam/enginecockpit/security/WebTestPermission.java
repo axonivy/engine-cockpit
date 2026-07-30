@@ -19,7 +19,6 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
 class WebTestPermission {
@@ -40,9 +39,8 @@ class WebTestPermission {
 
   @Test
   void permission() {
-    Navigation.toUsers();
-    Tab.SECURITY_SYSTEM.switchToDefault();
     Navigation.toUserDetail("foo");
+    scrollToBottom();
 
     $(Icon.someGrant).shouldHave(attribute("title", "Some Permission granted"));
 
@@ -63,31 +61,8 @@ class WebTestPermission {
 
   @Test
   void permissionWithGroup() {
-    Navigation.toUsers();
-    Tab.SECURITY_SYSTEM.switchToDefault();
     Navigation.toUserDetail("foo");
-
-    $(By.id("permissionsForm:globalFilter")).shouldBe(enabled).sendKeys("UserCreateOwnAbsence");
-
-    $(Icon.grant).shouldHave(attribute("title", "Permission granted"));
-    $(Icon.everybody).shouldHave(attribute("title", "Everybody"));
-
-    $(By.id(threeStateButton)).click();
-    $(Icon.grant).shouldHave(attribute("title", "Permission granted"));
-
-    $(By.id(threeStateButton)).click();
-    $(Icon.deny).shouldHave(attribute("title", "Permission denied"));
-
-    $(By.id(threeStateButton)).click();
-    $(Icon.grant).shouldHave(attribute("title", "Permission granted"));
-    $(Icon.everybody).shouldHave(attribute("title", "Everybody"));
-  }
-
-  @Test
-  void permissionWithNothing() {
-    Navigation.toUsers();
-    Tab.SECURITY_SYSTEM.switchToDefault();
-    Navigation.toUserDetail("foo");
+    scrollToBottom();
 
     $(By.id("permissionsForm:globalFilter")).shouldBe(enabled).sendKeys("UserCreateOwnAbsence");
 
@@ -107,11 +82,8 @@ class WebTestPermission {
 
   @Test
   void duplicatedPortalPermissions_onlyShownOnce() {
-    Navigation.toUsers();
-    Tab.SECURITY_SYSTEM.switchToDefault();
-    Navigation.toUserDetail("demo");
-
-    Selenide.executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
+    Navigation.toUserDetail("default", "demo");
+    scrollToBottom();
 
     $(By.id("permissionsForm:globalFilter")).shouldBe(enabled).sendKeys("CaseWriteName");
     $(By.id("permissionsForm:permissionTable"))
@@ -129,9 +101,8 @@ class WebTestPermission {
 
   @Test
   void collapsePermissionTree() {
-    Navigation.toRoles();
-    Tab.SECURITY_SYSTEM.switchToDefault();
     Navigation.toRoleDetail("boss");
+    scrollToBottom();
 
     getVisibleTreeNodes().shouldBe(size(1));
     $(By.id("permissionsForm:permissionTable_node_0")).find(".ui-treetable-toggler").should(exist).click();
@@ -142,5 +113,9 @@ class WebTestPermission {
 
   private ElementsCollection getVisibleTreeNodes() {
     return $$("#permissionsForm\\:permissionTable .ui-treetable-data > tr").filter(visible);
+  }
+
+  private void scrollToBottom() {
+    Selenide.executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
   }
 }

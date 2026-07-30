@@ -45,8 +45,6 @@ class WebTestRoleDetail {
   @BeforeEach
   void beforeEach() {
     login();
-    Navigation.toRoles();
-    Tab.SECURITY_SYSTEM.switchToDefault();
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
   }
 
@@ -162,8 +160,6 @@ class WebTestRoleDetail {
 
   @Test
   void userContentFilter() {
-    Navigation.toRoles();
-    Tab.SECURITY_SYSTEM.switchToDefault();
     Navigation.toRoleDetail("Everybody");
 
     var roleUsers = new Table(By.id(ROLE_USERS_TABLE), true);

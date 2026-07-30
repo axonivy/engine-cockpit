@@ -5,19 +5,11 @@ import java.util.stream.Collectors;
 import ch.ivyteam.ivy.security.IRole;
 
 public class RoleProperty extends MemberProperty {
-  private IRole role;
+  private final IRole role;
 
-  @Override
-  public void setMemberName(String memberName) {
-    super.setMemberName(memberName);
-    role = managerBean.getSelectedSecuritySystem().getSecurityContext().roles().find(memberName);
+  public RoleProperty(IRole role) {
+    this.role = role;
     reloadProperties();
-  }
-
-  private void reloadProperties() {
-    super.properties = role.getAllPropertyNames().stream()
-        .map(key -> new SecurityMemberProperty(key, role.getProperty(key), false))
-        .collect(Collectors.toList());
   }
 
   @Override
@@ -26,11 +18,17 @@ public class RoleProperty extends MemberProperty {
     super.savePropertyMessage();
     reloadProperties();
   }
-
+  
   @Override
   public void removeProperty(String propertyName) {
     role.removeProperty(propertyName);
     super.removePropertyMessage();
     reloadProperties();
+  }
+  
+  private void reloadProperties() {
+    super.properties = role.getAllPropertyNames().stream()
+        .map(key -> new SecurityMemberProperty(key, role.getProperty(key), false))
+        .collect(Collectors.toList());
   }
 }

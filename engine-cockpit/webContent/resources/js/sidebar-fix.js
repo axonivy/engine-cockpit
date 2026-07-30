@@ -6,7 +6,7 @@ jQuery(function () {
       window.setTimeout(initFix, 0);
       return;
     }
-    $.removeCookie('freya_expandeditems', { path: '/' });
+    PrimeFaces.deleteCookie('freya_expandeditems', { path: '/' });
     let page = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1);
     page = searchCorrectMenuItemPage(page);
     $('.ec-menuform > ul > li > a').each(function () {

@@ -5,30 +5,16 @@ import java.util.List;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 
-import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.environment.Ivy;
 
 public abstract class MemberProperty {
-  private String memberName;
   protected List<SecurityMemberProperty> properties;
   private List<SecurityMemberProperty> filteredProperties;
   protected SecurityMemberProperty property;
   private String filter;
-  final ManagerBean managerBean;
 
   public MemberProperty() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-        ManagerBean.class);
     property = new SecurityMemberProperty();
-  }
-
-  public String getMemberName() {
-    return memberName;
-  }
-
-  public void setMemberName(String memberName) {
-    this.memberName = memberName;
   }
 
   public List<SecurityMemberProperty> getProperties() {

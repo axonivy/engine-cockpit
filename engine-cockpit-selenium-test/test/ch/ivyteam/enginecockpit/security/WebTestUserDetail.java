@@ -55,8 +55,6 @@ class WebTestUserDetail {
   @BeforeEach
   void beforeEach() {
     login();
-    Navigation.toUsers();
-    Tab.SECURITY_SYSTEM.switchToDefault();
   }
 
   @Test
@@ -213,9 +211,10 @@ class WebTestUserDetail {
 
   @Test
   void notificationChannels_notSubscribedByDefault() {
+    Navigation.toNotificationChannels();
+    Tab.SECURITY_SYSTEM.switchToDefault();
     Navigation.toNotificationChannelDetail("web");
-    var allEventsCheckbox = PrimeUi.selectBooleanCheckbox(By.id("form:allEvents"));
-    allEventsCheckbox.removeChecked();
+    PrimeUi.selectBooleanCheckbox(By.id("form:allEvents")).removeChecked();
     $(By.id("save")).click();
     $(".ui-growl-message").shouldHave(text("Successfully saved"));
 
@@ -407,6 +406,7 @@ class WebTestUserDetail {
 
   @Test
   void synchronizeUser() {
+    Navigation.toUsers();
     WebTestUsers.triggerSync();
     Navigation.toUserDetail("test-ad", USER_AD);
     checkUserIsExternal();

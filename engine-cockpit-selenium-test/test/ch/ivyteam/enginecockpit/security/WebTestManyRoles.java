@@ -34,12 +34,12 @@ class WebTestManyRoles {
   @BeforeEach
   void beforeEach() {
     login();
-    Navigation.toRoles();
-    Tab.SECURITY_SYSTEM.switchToDefault();
   }
 
   @Test
   void manyRolesLoadLimit() {
+    Navigation.toRoles();
+    Tab.SECURITY_SYSTEM.switchToDefault();
     var treeNodes = Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treetable-data tr";
     $$(treeNodes).shouldBe(size(102));
     $$(treeNodes).last().shouldHave(text("Show more ("), text("left)"));
@@ -61,6 +61,8 @@ class WebTestManyRoles {
 
   @Test
   void showMoreRoles() {
+    Navigation.toRoles();
+    Tab.SECURITY_SYSTEM.switchToDefault();
     var treeNodes = Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treetable-data tr";
     $$(treeNodes).shouldBe(size(102));
     $$(treeNodes).last().shouldHave(text("Show more")).$("button").click();

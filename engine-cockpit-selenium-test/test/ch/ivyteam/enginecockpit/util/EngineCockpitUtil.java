@@ -231,6 +231,10 @@ public class EngineCockpitUtil {
     return isDesigner() ? EngineUrl.applicationName() : "test";
   }
 
+  public static String getSecurityName() {
+    return isDesigner() ? "~" + EngineUrl.applicationName() : "default";
+  }
+
   public static void assertLiveStats(List<String> expectedChartTitles) {
     assertLiveStats(expectedChartTitles, null, false);
   }

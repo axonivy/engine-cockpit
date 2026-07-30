@@ -89,15 +89,15 @@ public class RoleDetailBean implements Serializable {
       return;
     }
     var securitySystem = new SecuritySystem(securityContext);
-    roleProperties = new RoleProperty();
     usersOfRole = new UserDataModel(securitySystem);
     directoryBrowser = new DirectoryBrowserBean();
-
+    
     var iRole = securityContext.roles().find(roleName);
     if (iRole == null) {
       ResponseHelper.notFound("Role '" + roleName + "' not found");
       return;
     }
+    roleProperties = new RoleProperty(iRole);
 
     this.role = new Role(iRole);
     this.usersOfRole.setSecuritySystem(securitySystem);
@@ -118,7 +118,6 @@ public class RoleDetailBean implements Serializable {
         .or().state().isEqual(TaskState.RESUMED)
         .or().state().isEqual(TaskState.PARKED)
         .andOverall().activatorId().isEqual(iRole.getSecurityMemberId()).executor().count();
-    roleProperties.setMemberName(this.roleName);
     this.newRoleName = this.roleName;
     var parentRole = iRole.getParent();
     if (parentRole != null) {

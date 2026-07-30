@@ -134,6 +134,8 @@ public class WebTestSystemDb {
     $(".sysdb-dynamic-form-password").clear();
     $(".sysdb-dynamic-form-password").sendKeys(password);
     waitUntilAjaxIsFinished();
+    Selenide.sleep(1000);
+    $(CONNECTION_PANEL).shouldBe(text("Connection state unknown"));
     $(CONNECTION_BUTTON).shouldBe(enabled, visible);
   }
 
@@ -202,6 +204,7 @@ public class WebTestSystemDb {
     $("#systemDb\\:addAdditionalPropertyForm\\:valueMessage").shouldBe(empty);
 
     $("#systemDb\\:addAdditionalPropertyForm\\:saveProperty").click();
+    $("#systemDb\\:addAdditionalPropertyDialog").shouldBe(visible);
     $("#systemDb\\:addAdditionalPropertyForm\\:keyMessage").shouldBe(text("Value is required"));
     $("#systemDb\\:addAdditionalPropertyForm\\:valueMessage").shouldBe(text("Value is required"));
 
