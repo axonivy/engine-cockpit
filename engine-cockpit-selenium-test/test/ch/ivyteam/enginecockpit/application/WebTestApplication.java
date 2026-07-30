@@ -88,7 +88,6 @@ class WebTestApplication {
 
   @Test
   void moveRequiresInactiveApplication() {
-    Navigation.toApplication("test-ad");
     $(By.id(("security:appDetailSecurityForm:moveApplication"))).click();
     $(By.id("security:moveApplicationComposite:moveApplicationModal")).shouldBe(visible);
     $(By.id("security:moveApplicationComposite:moveApplicationForm:validateMoveApplication")).click();
