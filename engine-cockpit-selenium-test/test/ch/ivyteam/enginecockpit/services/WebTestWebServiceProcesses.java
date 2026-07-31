@@ -7,7 +7,6 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
@@ -17,7 +16,6 @@ import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
-@Disabled
 @IvyWebTest
 class WebTestWebServiceProcesses {
 

@@ -28,7 +28,6 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -210,17 +209,16 @@ class WebTestConfiguration {
     }
   }
 
-  @Disabled
   @Nested
   class Application {
 
     @BeforeEach
     void beforeEach() {
-      navigateTo("test-ad");
+      navigateTo("test-ad","test-ad");
     }
 
-    private void navigateTo(String app) {
-      Navigation.toApplication(app);
+    private void navigateTo(String app, String context) {
+      Navigation.toApplication(app, context);
       $(APPLICATION_CONTEXT.contentFilterBtn).scrollIntoView(ScrollIntoViewOptions.instant().block(Block.center).inline(Inline.center));
       table = new Table(APPLICATION_CONTEXT.tableId, "span");
     }
@@ -282,7 +280,7 @@ class WebTestConfiguration {
 
     @Test
     void showConfigFile() {
-      navigateTo("demo-portal");
+      navigateTo("demo-portal", "default");
       var key = "OverrideProject";
       assertShowConfigFile(APPLICATION_CONTEXT, key);
     }
@@ -297,7 +295,6 @@ class WebTestConfiguration {
     }
   }
 
-  @Disabled
   @Nested
   class StandardProcess {
 

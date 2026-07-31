@@ -85,8 +85,14 @@ public class Navigation {
   }
 
   public static void toApplication(String appName) {
+    toApplication(appName, "default");
+  }
+
+  public static void toApplication(String appName, String context) {
     toApplications();
-    $(By.id("form:tabs:securitySystemTabView:0:applicationsTable")).$(By.partialLinkText(appName)).shouldBe(visible).click();
+    Tab.SECURITY_SYSTEM.switchToTab(context);
+    int tabIndex = Tab.SECURITY_SYSTEM.getSelectedTabIndex();
+    $(By.id("form:tabs:securitySystemTabView:" + tabIndex + ":applicationsTable")).$(By.partialLinkText(appName)).shouldBe(visible).click();
     assertCurrentUrlContains("application.xhtml");
   }
 
