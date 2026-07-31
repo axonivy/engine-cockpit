@@ -140,4 +140,8 @@ public class AppStateDto {
       default -> true;
     };
   }
+
+  public String getErrorMessage() {
+    return state.errorMessage();
+  }
 }
