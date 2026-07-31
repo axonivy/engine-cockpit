@@ -40,7 +40,7 @@
               <i class="#{version.state.releaseStateIcon}" title="#{version.state.releaseStateLabel}"></i>
               <h:outputText value="#{version.state.releaseStateLabel}" />
             </div>
-        </h:panelGroup>
+          </h:panelGroup>
         </p:column>
 
         <p:column headerText="Activity State" style="text-align:center;width:110px">
@@ -53,10 +53,12 @@
         </p:column>
 
         <p:column headerText="Operation State" style="text-align:center;width:110px">
-          <div class="#{version.state.activityStateStyleClass}">
+          <h:panelGroup id="operationState" layout="block" styleClass="#{version.state.activityStateStyleClass}">
             <i class="#{version.state.operationStateIcon}" title="#{version.state.operationStateLabel}"></i>
             <h:outputText value="#{version.state.operationStateLabel}" />
-          </div>
+            <p:tooltip for="operationState" value="#{version.state.errorMessage}"
+              rendered="#{not empty version.state.errorMessage}" styleClass="pre-tooltip" position="top" />
+          </h:panelGroup>
         </p:column>
 
         <p:column headerText="Open Cases" style="text-align:center;width:100px">
