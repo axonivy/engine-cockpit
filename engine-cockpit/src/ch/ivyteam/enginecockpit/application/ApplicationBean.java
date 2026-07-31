@@ -82,7 +82,7 @@ public class ApplicationBean implements Serializable {
 
   public List<ApplicationVersionRow> getApplicationVersions() {
     return applicationVersions.stream()
-        .filter(version -> matchesNameFilter(version.getVersion()))
+        .filter(version -> matchesNameFilter(Integer.toString(version.getVersion())))
         .collect(Collectors.toList());
   }
 
@@ -258,7 +258,7 @@ public class ApplicationBean implements Serializable {
   public static class ApplicationVersionRow {
 
     private final String name;
-    private final String version;
+    private final int version;
     private final AppStateDto state;
     private final long openCases;
     private final long doneCases;
@@ -266,7 +266,7 @@ public class ApplicationBean implements Serializable {
 
     private ApplicationVersionRow(Application app) {
       this.name = app.name();
-      this.version = String.valueOf(app.version());
+      this.version = app.version();
       this.state = new AppStateDto(app.state());
       this.openCases = CasesCounter.openOf(app);
       this.doneCases = CasesCounter.doneOf(app);
@@ -277,7 +277,7 @@ public class ApplicationBean implements Serializable {
       return name;
     }
 
-    public String getVersion() {
+    public int getVersion() {
       return version;
     }
 
