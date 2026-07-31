@@ -18,6 +18,7 @@
     </div>
     <h:form id="versionsForm" onkeypress="if (event.keyCode == 13) return false;">
       <p:dataTable id="versionsTable" value="#{cc.attrs.bean.applicationVersions}" var="version" rowIndexVar="idx"
+        lazy="true" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
         widgetVar="versionsTable" styleClass="ui-fluid" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
         <f:facet name="header">
           <div class="ui-input-icon-left filter-container">
