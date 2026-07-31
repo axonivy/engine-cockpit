@@ -190,7 +190,7 @@ body .ui-dialog.ui-confirm-dialog .ui-dialog-content {
   top: 2px;
 }
 .upload-log {
-  height: 500px;
+  max-height: calc(100vh - 450px);
   overflow: auto;
 }
 
