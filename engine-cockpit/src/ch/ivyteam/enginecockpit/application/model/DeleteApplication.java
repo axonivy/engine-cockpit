@@ -17,7 +17,7 @@ public class DeleteApplication {
   }
 
   public int getVersion() {
-    return Integer.parseInt(app.getVersion());
+    return app.getVersion();
   }
 
   public long getOpenCases() {
