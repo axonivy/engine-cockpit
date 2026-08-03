@@ -338,6 +338,7 @@ body .ui-datatable thead th[class*="table-btn"] {
   gap: 0.25rem;
 }
 
+.state-project-ok,
 .state-app-released,
 .state-app-active {
   background: #EDF9F0;
@@ -350,11 +351,16 @@ body .ui-datatable thead th[class*="table-btn"] {
   color: #00445C;
 }
 
+.state-project-missing,
+.state-project-outdated,
+.state-project-too-old,
+.state-project-too-new,
 .state-app-deprecated {
   background: #FFF1E6;
   color: #9C4600;
 }
 
+.state-project-unknown,
 .state-app-deleted,
 .state-app-inactive,
 .state-app-archived {

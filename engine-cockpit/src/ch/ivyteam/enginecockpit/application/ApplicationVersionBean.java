@@ -16,6 +16,7 @@ import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.state.ActivityState;
 import ch.ivyteam.ivy.application.project.Project;
+import ch.ivyteam.ivy.application.project.ProjectState.ProjectMode;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
@@ -87,6 +88,7 @@ public class ApplicationVersionBean implements Serializable {
     var mavenCoordinates = project.mavenCoordinates();
     return new ProjectRow(
             project.name(),
+            project.state().mode(),
             mavenCoordinates.id(),
             mavenCoordinates.version(),
         DateUtil.formatDate(project.getLastChangeDate()),
@@ -195,14 +197,34 @@ public class ApplicationVersionBean implements Serializable {
     }
   }
 
-  public static record ProjectRow(String name, String mavenId, String mavenVersion, String lastChanged, String link) {
+  public static record ProjectRow(String name, ProjectMode projectMode, String mavenId, String mavenVersion, String lastChanged, String link) {
 
     public String getName() {
       return name; 
     }
 
+    public String getProjectState() {
+      return projectMode.name();
+    }
+
+    public String getProjectStateMessage() {
+      return projectMode.message();
+    }
+
     public String getMavenId() {
       return mavenId; 
+    }
+
+    public String getProjectStateStyleClass() {
+      return "state-badge state-project-" + projectMode.name().toLowerCase();
+    }
+
+    public String getProjectStateIcon() {
+      return switch (projectMode) {
+        case UNKNOWN -> "ti ti-circle-minus";
+        case OK -> "ti ti-circle-check";
+        case MISSING, OUTDATED, TOO_OLD, TOO_NEW -> "ti ti-circle-x";
+      };
     }
 
     public String getMavenVersion() {
