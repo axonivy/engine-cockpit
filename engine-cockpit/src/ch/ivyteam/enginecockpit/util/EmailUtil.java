@@ -18,7 +18,7 @@ public class EmailUtil {
 
   public static String gravatarHash(String email) {
     if (EmailUtil.validateEmailAddress(email)) {
-      return DigestUtils.md5Hex(email.toLowerCase()).toString();
+      return DigestUtils.md5Hex(email.toLowerCase());
     }
     return "";
   }

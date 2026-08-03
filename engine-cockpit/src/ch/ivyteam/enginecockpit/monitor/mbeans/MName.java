@@ -156,7 +156,7 @@ public class MName {
       return false;
     }
     MName other = (MName) obj;
-    return other.name.equals(other.name);
+    return other.name.equals(name);
   }
 
   @Override

@@ -139,7 +139,7 @@ public class LogView {
         builder.queryParam("fileName", fileName);
       }
       if (date != null) {
-        builder.queryParam("date", date.toString());
+        builder.queryParam("date", date);
       }
       return builder.toString();
     }

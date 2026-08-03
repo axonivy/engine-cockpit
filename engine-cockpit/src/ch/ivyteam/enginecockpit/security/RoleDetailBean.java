@@ -326,7 +326,7 @@ public class RoleDetailBean implements Serializable {
   }
 
   public boolean isRoleMemberOfRole(String name) {
-    return name.equals(roleName) || membersOfRole.stream().filter(r -> r.getName().equals(name)).findAny().isPresent();
+    return name.equals(roleName) || membersOfRole.stream().anyMatch(r -> r.getName().equals(name));
   }
 
   public List<Role> getFilteredMembers() {

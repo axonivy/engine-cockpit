@@ -25,7 +25,7 @@ public class WebDriverConditions {
 
     @Override
     public String expectedValue() {
-      return expectedValue.toString();
+      return expectedValue;
     }
 
     @Override

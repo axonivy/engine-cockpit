@@ -21,11 +21,6 @@ public class MBeanTreeNode extends DefaultTreeNode<MName> implements Comparable<
   }
 
   @Override
-  public void setSelected(boolean value) {
-    super.setSelected(value);
-  }
-
-  @Override
   public int compareTo(MBeanTreeNode other) {
     MName name1 = getData();
     MName name2 = other.getData();
