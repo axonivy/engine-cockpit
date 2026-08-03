@@ -38,7 +38,7 @@ class TestMName {
         MName.parse("ivy Engine:\"type\"=Periodical Job,\"name\"=sugus"),
         MName.parse("ivy Engine:\"type\"=\"Cron Job\",\"name\"=sugus"));
     assertThat(name.getDirectChildren(all)).containsExactly(
-        MName.parse("ivy Engine:\"type\"=Periodical Job,name=\"gugus [class=tata, project=gaga]\""),
-        MName.parse("ivy Engine:\"type\"=Periodical Job,\"name\"=sugus"));
+        MName.parse("ivy Engine:\"type\"=Periodical Job,\"name\"=sugus"),  
+        MName.parse("ivy Engine:\"type\"=Periodical Job,name=\"gugus [class=tata, project=gaga]\""));
   }
 }
