@@ -69,6 +69,15 @@
                     </h:outputLink>
                   </p:column>
 
+                  <p:column headerText="State" style="text-align:center;width:110px">
+                    <h:panelGroup id="projectState" layout="block" styleClass="#{row.state.projectStateStyleClass}">
+                      <i class="#{row.state.projectStateIcon}" title="#{row.state.projectState}"></i>
+                      <h:outputText value="#{row.state.projectState}" />
+                      <p:tooltip for="projectState" value="#{row.state.projectStateMessage}"
+                        styleClass="pre-tooltip" position="top" />
+                    </h:panelGroup>
+                  </p:column>
+
                   <p:column headerText="Maven ID">
                     <h:outputText value="#{row.mavenId}" />
                   </p:column>
