@@ -101,11 +101,41 @@
               update="@form:versionsTable" />
             <p:menuitem id="archiveBtn" value="Archive" disabled="#{not version.state.archiveable}" icon="ti ti-archive"
               actionListener="#{version.state.archive}" update="@form:versionsTable" />
+            <p:divider />
+            <p:menuitem id="convertBtn" disabled="#{not version.canConvert()}" value="Convert" icon="ti ti-refresh"
+              onclick="PF('convertDialog_#{version.version}').show();" />
+            <p:divider />
             <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
               update="@form:deleteVersionDialog" actionListener="#{applicationBean.prepareDelete(version)}"
               process="@this" style="pointer-events: all"
               oncomplete="PF('deleteVersionDialog').show(); return false;" />
           </p:menu>
+          <p:confirmDialog id="convertDialog" widgetVar="convertDialog_#{version.version}"
+              header="#{ivy.cm.co('/applications/Convert')} '#{version.name}'" severity="alert"
+              responsive="true" width="600">
+            <f:facet name="message">
+              <p>
+                <h:outputText value="#{ivy.cm.co('/applications/ApplicationConvertToLatestVersionMessage')}"/>
+              </p>
+              <p:scrollPanel mode="native" style="height: 300px; width: 100%;">
+                <h:panelGroup id="conversionLog">
+                  <div style="padding: 5px;">
+                    <pre style="white-space: pre-wrap; margin:0px;"><code>#{version.projectConversionLog}</code></pre>
+                  </div>
+                </h:panelGroup>
+              </p:scrollPanel>
+            </f:facet>
+            <p:commandButton id="convertConfirmYesBtn" widgetVar="convertConfirmYesBtn_#{version.version}"
+              value="#{ivy.cm.co('/applications/Convert')}" styleClass="modal-input-button"
+              disabled="#{not version.canConvert()}" process="@this" immediate="true"
+              actionListener="#{version.convert}" update="conversionLog convertConfirmYesBtn"
+              oncomplete="PF('convertConfirmYesBtn_#{version.version}').disable();PF('convertFinishBtn_#{version.version}').enable();"
+              icon="si si-button-refresh-arrows" />
+            <p:commandButton id="convertFinishBtn" widgetVar="convertFinishBtn_#{version.version}"
+              value="#{ivy.cm.co('/common/Finish')}" styleClass="modal-input-button" disabled="true"
+              oncomplete="PF('convertDialog_#{version.version}').hide();reloadTree();"
+              icon="si si-check-circle-1" />
+          </p:confirmDialog>
         </p:column>
       </p:dataTable>
 
