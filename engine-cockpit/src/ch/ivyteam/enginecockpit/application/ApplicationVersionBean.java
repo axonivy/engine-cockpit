@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.application.model.AppStateDto;
+import ch.ivyteam.enginecockpit.application.model.ProjectStateDto;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
@@ -16,7 +17,6 @@ import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.state.ActivityState;
 import ch.ivyteam.ivy.application.project.Project;
-import ch.ivyteam.ivy.application.project.ProjectState.ProjectMode;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
@@ -34,11 +34,11 @@ public class ApplicationVersionBean implements Serializable {
 
   private String nameFilter = "";
   private AppStateDto appState;
-  
+
   private Application app;
   private List<ProjectRow> projects;
   private ISecurityContext context;
- 
+
   public void setContext(String contextName) {
     this.contextName = contextName;
   }
@@ -70,7 +70,7 @@ public class ApplicationVersionBean implements Serializable {
       return;
     }
 
-    app =  ApplicationRepository.of(context).findByNameAndVersion(appName, appVersion).orElse(null);
+    app = ApplicationRepository.of(context).findByNameAndVersion(appName, appVersion).orElse(null);
     if (app == null) {
       ResponseHelper.notFound("Application not found: " + appName);
       return;
@@ -87,10 +87,10 @@ public class ApplicationVersionBean implements Serializable {
   public ProjectRow toProjectRow(Project project) {
     var mavenCoordinates = project.mavenCoordinates();
     return new ProjectRow(
-            project.name(),
-            project.state().mode(),
-            mavenCoordinates.id(),
-            mavenCoordinates.version(),
+        project.name(),
+        new ProjectStateDto(project.state()),
+        mavenCoordinates.id(),
+        mavenCoordinates.version(),
         DateUtil.formatDate(project.getLastChangeDate()),
         ProjectBean.getLink(contextName, appName, appVersion, project.name()));
   }
@@ -171,7 +171,7 @@ public class ApplicationVersionBean implements Serializable {
   public void prepareDelete(ProjectRow row) {
     this.deleteProject = row;
   }
-  
+
   public ProjectRow getDeleteProject() {
     return deleteProject;
   }
@@ -179,7 +179,7 @@ public class ApplicationVersionBean implements Serializable {
   public void deleteSelectedProject() {
     execute(() -> {
       var project = app.projects().find(deleteProject.name());
-      app.projects().delete(project);      
+      app.projects().delete(project);
     }, "delete");
     onload();
   }
@@ -197,42 +197,27 @@ public class ApplicationVersionBean implements Serializable {
     }
   }
 
-  public static record ProjectRow(String name, ProjectMode projectMode, String mavenId, String mavenVersion, String lastChanged, String link) {
+  public static record ProjectRow(String name, ProjectStateDto state, String mavenId, String mavenVersion,
+      String lastChanged, String link) {
 
     public String getName() {
-      return name; 
+      return name;
     }
 
-    public String getProjectState() {
-      return projectMode.name();
-    }
-
-    public String getProjectStateMessage() {
-      return projectMode.message();
+    public ProjectStateDto getState() {
+      return state;
     }
 
     public String getMavenId() {
-      return mavenId; 
-    }
-
-    public String getProjectStateStyleClass() {
-      return "state-badge state-project-" + projectMode.name().toLowerCase();
-    }
-
-    public String getProjectStateIcon() {
-      return switch (projectMode) {
-        case UNKNOWN -> "ti ti-circle-minus";
-        case OK -> "ti ti-circle-check";
-        case MISSING, OUTDATED, TOO_OLD, TOO_NEW -> "ti ti-circle-x";
-      };
+      return mavenId;
     }
 
     public String getMavenVersion() {
-      return mavenVersion; 
+      return mavenVersion;
     }
 
     public String getLastChanged() {
-      return lastChanged; 
+      return lastChanged;
     }
 
     public String getLink() {
