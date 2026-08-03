@@ -238,7 +238,7 @@ public class LicenceBean extends StepStatus {
         return false;
       }
       UserSession other = (UserSession) obj;
-      return other.name.equals(other.name);
+      return other.name.equals(name);
     }
 
     @Override

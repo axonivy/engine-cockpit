@@ -126,7 +126,7 @@ public class MAttribute implements Comparable<MAttribute> {
     return type
         .keySet()
         .stream()
-        .map(key -> key.toString() + "=" + getValue(value.get(key)))
+        .map(key -> key + "=" + getValue(value.get(key)))
         .collect(Collectors.joining(", "));
   }
 
