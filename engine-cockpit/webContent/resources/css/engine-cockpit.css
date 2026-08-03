@@ -336,6 +336,7 @@ body .ui-datatable thead th[class*="table-btn"] {
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
+  max-width: 10em;
 }
 
 .state-project-ok,

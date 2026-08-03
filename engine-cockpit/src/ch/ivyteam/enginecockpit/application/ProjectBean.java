@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ch.ivyteam.enginecockpit.application.model.ProjectStateDto;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
@@ -133,15 +134,21 @@ public class ProjectBean implements Serializable {
     private final Project project;
     private final MavenCoordinates mavenCoordinates;
     private final String lastChanged;
+    private final ProjectStateDto state; 
 
     public ProjectDto(Project project) {
       lastChanged = DateUtil.formatDate(project.getLastChangeDate());
       this.project = project;
       this.mavenCoordinates = project.mavenCoordinates();
+      this.state = new ProjectStateDto(project.state());
     }
 
     public String getName() {
       return project.name();
+    }
+
+    public ProjectStateDto getState() {
+      return state;
     }
 
     public String getLink() {
