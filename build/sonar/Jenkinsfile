@@ -18,14 +18,7 @@ pipeline {
       steps {
         script {          
           docker.build('maven', '-f build/Dockerfile.maven .').inside("") {
-            withCredentials([string(credentialsId: 'sonar.ivyteam.io', variable: 'token')]) {
-              maven cmd: 'package org.sonarsource.scanner.maven:sonar-maven-plugin:5.7.0.6970:sonar ' +
-                        '-Dsonar.host.url=https://sonar.ivyteam.io ' +
-                        '-Dsonar.projectKey=engine-cockpit ' +
-                        '-Dsonar.projectName=engine-cockpit ' +
-                        "-Dsonar.test.exclusions=**/*.p12 " +
-                        "-Dsonar.token=${token}"
-            }
+            sonar projectName: 'engine-cockpit', mvnArgs: "-Dsonar.test.exclusions=**/*.p12"            
           }
           recordIssues tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
             excludeMessage('Use of preview features have been detected during analysis. Enable DEBUG mode to see them.*'),
