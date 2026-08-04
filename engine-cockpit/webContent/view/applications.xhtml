@@ -46,14 +46,14 @@
                 </h:link>
               </p:column>
 
-              <p:column headerText="Released" style="text-align: center; width: 100px;">
+              <p:column headerText="#{ivy.cm.co('/applications/Released')}" style="text-align: center; width: 100px;">
                 <h:outputLink value="#{app.releasedVersion.link}" rendered="#{app.releasedVersion != null}">
                   <i class="ti ti-packages table-icon" />
                   <h:outputText value="#{app.releasedVersion.version}" />
                 </h:outputLink>
               </p:column>
 
-              <p:column headerText="Deprecated" style="text-align: center; width: 150px;">
+              <p:column headerText="#{ivy.cm.co('/applications/Deprecated')}" style="text-align: center; width: 150px;">
                 <ui:repeat value="#{app.deprecatedVersions}" var="deprecatedVersion" varStatus="status">
                   <h:outputLink value="#{deprecatedVersion.link}">
                     <i class="ti ti-packages table-icon" />

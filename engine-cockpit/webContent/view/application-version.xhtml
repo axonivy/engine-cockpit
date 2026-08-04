@@ -41,7 +41,7 @@
                 <div class="card-header">
                   <div class="card-title flex align-items-center">
                     <i class="pr-2 ti ti-cube card-title-icon"></i>
-                    <h6 class="m-0">Projects</h6>
+                    <h6 class="m-0">#{ivy.cm.co('/applicationVersion/Projects')}</h6>
                     <p:commandButton id="deployButton" icon="ti ti-upload" title="#{ivy.cm.co('/common/Deployment')}"
                       value="#{ivy.cm.co('/common/Deployment')}" styleClass="ml-auto ui-button-primary" process="@this"
                       actionListener="#{deploymentBean.setAppNameAndVersion(applicationVersionBean.context, applicationVersionBean.app, applicationVersionBean.version)}"
@@ -78,15 +78,15 @@
                     </h:panelGroup>
                   </p:column>
 
-                  <p:column headerText="Maven ID">
+                  <p:column headerText="#{ivy.cm.co('/projectDetail/MavenID')}">
                     <h:outputText value="#{row.mavenId}" />
                   </p:column>
 
-                  <p:column headerText="Maven Version" style="width:180px;">
+                  <p:column headerText="#{ivy.cm.co('/projectDetail/MavenVersion')}" style="width:180px;">
                     <h:outputText value="#{row.mavenVersion}" />
                   </p:column>
 
-                  <p:column headerText="#{ivy.cm.co('/applications/LastChangeDate')}" style="width:220px;">
+                  <p:column headerText="#{ivy.cm.co('/applicationVersion/LastChange')}" style="width:220px;">
                     <h:outputText value="#{row.lastChanged}" />
                   </p:column>
 
@@ -97,9 +97,9 @@
                 </p:dataTable>
 
                 <p:confirmDialog id="deleteProjectDialog"
-                    message="Are you sure you want to delete project #{applicationVersionBean.deleteProject.name}?"
-                    header="Delete project #{applicationVersionBean.deleteProject.name}" severity="alert" widgetVar="deleteProjectDialog">
-                  <p:staticMessage severity="warn" detail="Deleting this project will permanently delete all associated cases from the database." />
+                    message="#{ivy.cm.content('/applicationVersion/DeleteProjectDialogMessage').replace('name', applicationVersionBean.deleteProject.name).get()}"
+                    header="#{ivy.cm.content('/applicationVersion/DeleteProjectDialogHeader').replace('name', applicationVersionBean.deleteProject.name).get()}" severity="alert" widgetVar="deleteProjectDialog">
+                  <p:staticMessage severity="warn" detail="#{ivy.cm.co('/applicationVersion/DeleteProjectCasesWarning')}" />
                   <p:commandButton value="#{ivy.cm.co('/common/Cancel')}" onclick="PF('deleteProjectDialog').hide();" type="button"
                       styleClass="ui-button-secondary ui-button-flat modal-input-button" />
                   <p:commandButton id="deleteProjectDialogConfirmYesBtn" value="#{ivy.cm.co('/common/Delete')}" immediate="true"
