@@ -19,7 +19,7 @@ pipeline {
         script {          
           docker.build('maven', '-f build/Dockerfile.maven .').inside("") {
             withCredentials([string(credentialsId: 'sonar.ivyteam.io', variable: 'token')]) {
-              maven cmd: 'package -Dmaven.test.skip=true org.sonarsource.scanner.maven:sonar-maven-plugin:5.7.0.6970:sonar ' +
+              maven cmd: 'package org.sonarsource.scanner.maven:sonar-maven-plugin:5.7.0.6970:sonar ' +
                         '-Dsonar.host.url=https://sonar.ivyteam.io ' +
                         '-Dsonar.projectKey=engine-cockpit ' +
                         '-Dsonar.projectName=engine-cockpit ' +
