@@ -43,9 +43,9 @@
                 styleClass="grey-label-panel ui-fluid">
                 <label>#{ivy.cm.co('/common/Name')}</label>
                 <h:outputText value="#{projectBean.project.name}" />
-                <label>Maven ID</label>
+                <label>#{ivy.cm.co('/projectDetail/MavenID')}</label>
                 <h:outputText value="#{projectBean.project.mavenId}" />
-                <label>Maven #{ivy.cm.co('/common/Version')}</label>
+                <label>#{ivy.cm.co('/projectDetail/MavenVersion')}</label>
                 <h:outputText value="#{projectBean.project.mavenVersion}" />
                 <label>#{ivy.cm.co('/projectDetail/LastDeployed')}</label>
                 <h:outputText value="#{projectBean.project.lastChanged}" />
@@ -95,7 +95,7 @@
               </div>
               <p:dataTable id="requiredProjectTable" var="project" value="#{projectBean.requiredProjects}"
                 emptyMessage="#{ivy.cm.content('/projectDetail/DependentProjectTableEmptyMessage').replace('name', projectBean.project.name).get()}">
-                <p:column headerText="Projects">
+                <p:column headerText="#{ivy.cm.co('/projectDetail/PMV')}">
                   <h:outputLink value="#{project.link}" title="#{project.mavenId}">
                     <i class="ti ti-cube table-icon"></i>
                     <h:outputText value="#{project.name}" />

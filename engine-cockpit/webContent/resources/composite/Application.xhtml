@@ -12,8 +12,8 @@
   <div class="card mb-3">
     <div class="flex align-items-center mb-3">
       <i class="pr-2 ti ti-packages card-icon"></i>
-      <h6 class="m-0">Versions</h6>
-      <p:commandButton id="createVersion" icon="ti ti-plus" value="Add" styleClass="ml-auto ui-button-primary"
+      <h6 class="m-0">#{ivy.cm.co('/application/Versions')}</h6>
+      <p:commandButton id="createVersion" icon="ti ti-plus" value="#{ivy.cm.co('/common/Add')}" styleClass="ml-auto ui-button-primary"
         process="@this" actionListener="#{cc.attrs.bean.createVersion}" update="versionsForm:versionsTable" />
     </div>
     <h:form id="versionsForm" onkeypress="if (event.keyCode == 13) return false;">
@@ -34,7 +34,7 @@
           </h:outputLink>
         </p:column>
 
-        <p:column headerText="Release State" style="text-align:center;width:110px">
+        <p:column headerText="#{ivy.cm.co('/projectDetail/ReleaseState')}" style="text-align:center;width:110px">
           <h:panelGroup id="releaseState" layout="block">
             <div class="#{version.state.releaseStateStyleClass}">
               <i class="#{version.state.releaseStateIcon}" title="#{version.state.releaseStateLabel}"></i>
@@ -43,7 +43,7 @@
           </h:panelGroup>
         </p:column>
 
-        <p:column headerText="Activity State" style="text-align:center;width:110px">
+        <p:column headerText="#{ivy.cm.co('/projectDetail/ActivityState')}" style="text-align:center;width:110px">
           <h:panelGroup id="activityState" layout="block">
             <div class="#{version.state.activityStateStyleClass}">
               <i class="#{version.state.activityStateIcon}" title="#{version.state.activityStateLabel}"></i>
@@ -52,7 +52,7 @@
           </h:panelGroup>
         </p:column>
 
-        <p:column headerText="Operation State" style="text-align:center;width:110px">
+        <p:column headerText="#{ivy.cm.co('/projectDetail/OperationState')}" style="text-align:center;width:110px">
           <h:panelGroup id="operationState" layout="block" styleClass="#{version.state.activityStateStyleClass}">
             <i class="#{version.state.operationStateIcon}" title="#{version.state.operationStateLabel}"></i>
             <h:outputText value="#{version.state.operationStateLabel}" />
@@ -61,13 +61,13 @@
           </h:panelGroup>
         </p:column>
 
-        <p:column headerText="Open Cases" style="text-align:center;width:100px">
+        <p:column headerText="#{ivy.cm.co('/projectDetail/OpenCases')}" style="text-align:center;width:100px">
           <h:panelGroup id="openCases" layout="block">
             <h:outputText value="#{version.openCases}" />
           </h:panelGroup>
         </p:column>
 
-        <p:column headerText="Done Cases" style="text-align:center;width:100px">
+        <p:column headerText="#{ivy.cm.co('/projectDetail/DoneCases')}" style="text-align:center;width:100px">
           <h:panelGroup id="doneCases" layout="block">
             <h:outputText value="#{version.doneCases}" />
           </h:panelGroup>
@@ -96,13 +96,13 @@
             <p:menuitem id="releaseBtn" value="#{ivy.cm.co('/applications/ReleaseButtonTitle')}" icon="ti ti-crane"
               disabled="#{not version.state.releasable}" actionListener="#{version.state.release}"
               update="@form:versionsTable" />
-            <p:menuitem id="deprecateBtn" value="Deprecate" disabled="#{not version.state.deprecatable}"
+            <p:menuitem id="deprecateBtn" value="#{ivy.cm.co('/application/Deprecate')}" disabled="#{not version.state.deprecatable}"
               icon="ti ti-circle-half-vertical" actionListener="#{version.state.deprecate}"
               update="@form:versionsTable" />
-            <p:menuitem id="archiveBtn" value="Archive" disabled="#{not version.state.archiveable}" icon="ti ti-archive"
+            <p:menuitem id="archiveBtn" value="#{ivy.cm.co('/application/Archive')}" disabled="#{not version.state.archiveable}" icon="ti ti-archive"
               actionListener="#{version.state.archive}" update="@form:versionsTable" />
             <p:divider />
-            <p:menuitem id="convertBtn" disabled="#{not version.canConvert()}" value="Convert" icon="ti ti-refresh"
+            <p:menuitem id="convertBtn" disabled="#{not version.canConvert()}" value="#{ivy.cm.co('/application/Convert')}" icon="ti ti-refresh"
               onclick="PF('convertDialog_#{version.version}').show();" />
             <p:divider />
             <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
@@ -111,7 +111,7 @@
               oncomplete="PF('deleteVersionDialog').show(); return false;" />
           </p:menu>
           <p:confirmDialog id="convertDialog" widgetVar="convertDialog_#{version.version}"
-              header="#{ivy.cm.co('/applications/Convert')} '#{version.name}'" severity="alert"
+              header="#{ivy.cm.co('/application/Convert')} '#{version.name}'" severity="alert"
               responsive="true" width="600">
             <f:facet name="message">
               <p>
@@ -126,7 +126,7 @@
               </p:scrollPanel>
             </f:facet>
             <p:commandButton id="convertConfirmYesBtn" widgetVar="convertConfirmYesBtn_#{version.version}"
-              value="#{ivy.cm.co('/applications/Convert')}" styleClass="modal-input-button"
+              value="#{ivy.cm.co('/application/Convert')}" styleClass="modal-input-button"
               disabled="#{not version.canConvert()}" process="@this" immediate="true"
               actionListener="#{version.convert}" update="conversionLog convertConfirmYesBtn"
               oncomplete="PF('convertConfirmYesBtn_#{version.version}').disable();PF('convertFinishBtn_#{version.version}').enable();"
@@ -140,8 +140,14 @@
       </p:dataTable>
 
       <p:confirmDialog id="deleteVersionDialog"
-        message="Are you sure you want to delete application #{applicationBean.deleteApplication.name} in version #{applicationBean.deleteApplication.version}?"
-        header="Delete application #{applicationBean.deleteApplication.name} in version #{applicationBean.deleteApplication.version}"
+        message="#{ivy.cm.content('/application/DeleteVersionDialogMessage')
+          .replace('name', applicationBean.deleteApplication.name)
+          .replace('version', applicationBean.deleteApplication.version)
+          .get()}"
+        header="#{ivy.cm.content('/application/DeleteVersionDialogHeader')
+          .replace('name', applicationBean.deleteApplication.name)
+          .replace('version', applicationBean.deleteApplication.version)
+          .get()}"
         severity="alert" widgetVar="deleteVersionDialog">
         <p:staticMessage severity="#{applicationBean.deleteApplication.existingCasesSeverity}"
           detail="#{applicationBean.deleteApplication.existingCasesMessage}" />
