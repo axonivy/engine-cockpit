@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.application;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
@@ -22,6 +23,7 @@ import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
+import ch.ivyteam.ivy.application.app.convert.AppProjectConverter;
 import ch.ivyteam.ivy.application.app.link.AppLink;
 import ch.ivyteam.ivy.application.app.state.ActivityState;
 import ch.ivyteam.ivy.application.app.state.CasesCounter;
@@ -263,6 +265,9 @@ public class ApplicationBean implements Serializable {
     private final long openCases;
     private final long doneCases;
     private final String link;
+    private final AppProjectConverter appConverter;
+
+    protected List<String> appConversionLog = new ArrayList<>();
 
     private ApplicationVersionRow(Application app) {
       this.name = app.name();
@@ -270,6 +275,7 @@ public class ApplicationBean implements Serializable {
       this.state = new AppStateDto(app.state());
       this.openCases = CasesCounter.openOf(app);
       this.doneCases = CasesCounter.doneOf(app);
+      this.appConverter = AppProjectConverter.of(app);
       this.link = ApplicationVersionBean.getLink(app.securityContext().name(), app.name(), app.version());
     }
 
@@ -295,6 +301,18 @@ public class ApplicationBean implements Serializable {
 
     public String getLink() {
       return link;
+    }
+
+    public void convert() {
+      appConverter.run(log -> appConversionLog.add(log));
+    }
+
+    public String getAppConversionLog() {
+      return appConversionLog.stream().collect(Collectors.joining("\n"));
+    }
+
+    public boolean canConvert() {
+      return appConverter.canConvert();
     }
   }
 }
