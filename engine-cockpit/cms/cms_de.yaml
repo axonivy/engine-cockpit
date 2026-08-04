@@ -11,31 +11,27 @@ administrators:
 admins:
   AddAdministrator: Administrator hinzufügen
   DefineAtLeastOneAdministratorMessage: Sie müssen mindestens ein Administrator definieren!
-applicationDetail:
-  ProcessModels: Prozess Modelle
-applications:
-  AppPmPmvHeader: App / Version / Project
-  ApplicationConvertToLatestVersionMessage: Alle Axon Ivy Projekte im Zustand RELEASED und DEPRECATED werden in die neuste Version konvertiert.
-  ApplicationWarningMessageForNoReleasedPmv: Mindestens ein Prozess Modell hat keine freigegebene Prozess Modell Version
+application:
+  Archive: Archiviert
   Convert: Konvertieren
-  ConvertButtonTitle: Konvertiert das Project in die neuste Version
-  DeactivateButtonTitle: Deaktivieren
-  DeleteHintMessage: Sind Sie sicher, dass Sie dieses ${activityType} löschen wollen?
-  DeleteRunningCasesHintMessage: Die ${activityType} hat ${runningCases} laufende Fälle. Diese werden auch gelöscht.
-  DeploymentButtonTitle: Bereitstellen
-  DisableErrorMessage: Der Zustand der Application ${application} kann nicht evaluiert werden
-  ExecutionErrorMessageSummary: Kann Modul nicht ${action}
-  ExecutionSuccessMessageSummary: Modul erfolgreich ${action}
-  ForceDeleteButtonTitle: Löschen erzwingen
-  LastChangeDate: 'Letztes Änderungsdatum:'
-  LibraryVersion: 'Bibliotheksversion:'
-  PmvConvertToLatestVersionMessage: Das Axon Ivy Projekt wird in die neueste Version konvertiert.
+  DeleteVersionDialogHeader: Anwendung ${name} in Version ${version} löschen
+  DeleteVersionDialogMessage: Sind Sie sicher, dass Sie die Anwendung '${name}' in Version ${version} löschen möchten?
+  Deprecate: Veraltet markieren
+  Versions: Versionen
+applications:
+  ApplicationConvertToLatestVersionMessage: Alle Axon Ivy Projekte im Zustand RELEASED und DEPRECATED werden in die neuste Version konvertiert.
+  Deprecated: Veraltet
   ReleaseButtonTitle: Freigabe
-  RunningCasesHeader: Laufende Fälle
-  WarningMessageForNoReleasedPmv: Keine freigegebene Prozess Model Version
+  Released: Veröffentlicht
 applicationTabs:
   CreateApplication: ­Applikation hinzufügen
   NoConfiguredApplication: Sie haben keine Applikationen konfiguriert.
+applicationVersion:
+  DeleteProjectCasesWarning: Das Löschen dieses Projekts löscht dauerhaft alle zugehörigen Fälle aus der Datenbank.
+  DeleteProjectDialogHeader: Projekt ${name} löschen
+  DeleteProjectDialogMessage: Sind Sie sicher, dass Sie das Projekt '${name}' löschen möchten?
+  LastChange: Letzte Änderung
+  Projects: Projekte
 axonivy:
   AxonIvyAG: Axon Ivy AG
   Build: Gebaut am
@@ -231,7 +227,6 @@ common:
   Object: Objekt
   Order: Bestellung
   PM: PM
-  Project: Project
   Password: Passwort
   Path: Pfad
   PleaseEnterPassword: Bitte geben Sie ein Passwort ein
@@ -243,6 +238,7 @@ common:
   ProcessModelVersion: Prozess Modell Version
   ProcessName: Prozessname
   Product: Produkt
+  Project: Project
   Properties: Eigenschaften
   Property: Eigenschaft
   Provider: Anbieter
@@ -961,27 +957,6 @@ permissions:
   Permissions: Berechtigungen
   SomePermissionDenied: Einige Berechtigungen verweigert
   SomePermissionGranted: Einige Berechtigungen erteilt
-projectDetail:
-  ActivityState: Tätigkeitszustand
-  AllDirectIndirectRequiredLibrariesAvailableMessage: Alle direkten und indirekt erforderlichen Bibliotheken sind im System verfügbar.
-  AllProjectsDependingOnProject: Alle von diesem PMV abhängigen PMVs
-  AllProjectsRequiredByProject: Alle von diesem PMV erforderlichen PMVs
-  DependentProjectTableEmptyMessage: Die PMV '${name}' hat keine abhängigen PMVs.
-  Id: Id
-  LastDeployed: Letzte Bereitstellung
-  NoProjectFoundForSpecificationMessage: Für diese Spezifikation konnte kein Projekt gefunden werden.
-  NotAllDirectIndirectRequiredLibrariesAvailableMessage: Nicht alle direkten und indirekt erforderlichen Bibliotheken sind im System verfügbar.
-  Project: Project
-  ProjectInformation: PMV Information
-  PMVResolvedForSpecificationMessage: '''${name}'' gefunden für diese Spezifikation'
-  ProjectVersion: Projektversion
-  ReleaseState: Freigabezustand
-  RequriedPMVTableEmptyMessage: Das PMV '${name}' hat keine erforderlichen PMVs.
-  Resolved: Aufgelöst
-  ResolvedPMV: Aufgelöstes PMV
-  SpecifiedRequiredProjects: Spezifizierte benötigte Projekte
-  SpecifiedRequiredProjectsMessage: Obwohl einige benötigte Projekte spezifiziert werden!
-  SpecifiedTableEmptyMessage: Das PMV '${name}' hat keine benötigten Projekte spezifiziert.
 poll:
   LastPollError: Letzer Aufruf Fehler
   NextPoll: Nächster Aufruf
@@ -1008,9 +983,28 @@ profile:
   SaveProfile: Profil speichern
 progressLoader:
   Loading: Lade ...
+projectDetail:
+  ActivityState: Tätigkeitszustand
+  AllProjectsDependingOnProject: Alle von diesem Projekt abhängigen Projekte
+  AllProjectsRequiredByProject: Alle von diesem Projekt erforderlichen Projekte
+  DependentProjectTableEmptyMessage: Das Projekt '${name}' hat keine abhängigen Projekte.
+  DoneCases: Abgeschlossene Fälle
+  Id: Id
+  LastDeployed: Letzte Bereitstellung
+  MavenID: Maven ID
+  MavenVersion: Maven Version
+  OpenCases: Offene Fälle
+  OperationState: Betriebszustand
+  Project: Projekt
+  ProjectInformation: Information
+  ProjectVersion: Projektversion
+  ReleaseState: Freigabezustand
+  Resolved: Aufgelöst
+  projects: Projekte
 renameRole:
   RenameRoleDialogHeader: Rolle umbenennen
-  RenameRoleDialogWarningMessage: Dies ist eine kritische und gefährliche Operation, zumindest für nicht-dynamische Rollen. Diese Rolle kann in Prozessen mit ihrem alten Namen referenziert werden. Alle Referenzen in allen Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf den neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft scheitern.
+  RenameRoleDialogWarningMessage: Dies ist eine kritische und gefährliche Operation, zumindest für nicht-dynamische Rollen. Diese Rolle kann in Prozessen mit ihrem alten Namen referenziert werden. Alle Referenzen in allen Prozessen in allen eingesetzten Projekten (PMV) müssen zunächst manuell auf den
+    neuen Namen angepasst werden. Andernfalls werden die Prozesse in Zukunft scheitern.
 restClientConfiguration:
   ResetConfiguration: Konfiguration zurücksetzen
   ResetRestClientDialogHeader: Rest Client zurücksetzen

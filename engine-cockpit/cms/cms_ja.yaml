@@ -11,31 +11,28 @@ administrators:
 admins:
   AddAdministrator: 管理者の追加
   DefineAtLeastOneAdministratorMessage: 少なくとも 1 人の管理者を定義する必要があります。
-applicationDetail:
-  ProcessModels: プロセスモデル
-applications:
-  AppPmPmvHeader: アプリ/バージョン/プロジェクト
-  ApplicationConvertToLatestVersionMessage: 状態が「リリース済み」および「非推奨」の Axon Ivy プロジェクトがすべて最新バージョンに変換されます。
-  ApplicationWarningMessageForNoReleasedPmv: 少なくとも 1 つのプロセスモデルにリリース済みのプロセスモデルバージョンが含まれません
+application:
+  Archive: アーカイブ
   Convert: 変換
-  ConvertButtonTitle: プロジェクトを最新バージョンに変換します
-  DeactivateButtonTitle: 無効化
-  DeleteHintMessage: この ${activityType} を削除してもよろしいですか？
-  DeleteRunningCasesHintMessage: ${activityType} に ${runningCases} の実行中のケースが含まれます。これらも削除されます。
-  DeploymentButtonTitle: 展開
-  DisableErrorMessage: アプリケーション ${application} の状態を評価することができません
-  ExecutionErrorMessageSummary: モジュールを ${action} できませんでした
-  ExecutionSuccessMessageSummary: モジュールを正常に ${action} しました
-  ForceDeleteButtonTitle: 強制削除
+  DeleteVersionDialogHeader: アプリケーション ${name} バージョン ${version} を削除
+  DeleteVersionDialogMessage: アプリケーション '${name}' バージョン ${version} を削除してもよろしいですか？
+  Deprecate: 非推奨にマーク
+  Versions: バージョン
+applications:
+  ApplicationConvertToLatestVersionMessage: 状態が「リリース済み」および「非推奨」の Axon Ivy プロジェクトがすべて最新バージョンに変換されます。
+  Deprecated: 非推奨
   LastChangeDate: 最終変更日：
   LibraryVersion: ライブラリバージョン：
-  PmvConvertToLatestVersionMessage: Axon Ivy プロジェクトは最新バージョンに変換されます。
-  ReleaseButtonTitle: リリース
-  RunningCasesHeader: 実行中のケース
-  WarningMessageForNoReleasedPmv: リリース済みのプロセスモデルバージョンがありません
+  Released: リリース済み
 applicationTabs:
   CreateApplication: アプリケーションの作成
   NoConfiguredApplication: アプリケーションを設定していません。
+applicationVersion:
+  DeleteProjectCasesWarning: このプロジェクトを削除すると、すべての関連するケースがデータベースから永久に削除されます。
+  DeleteProjectDialogHeader: プロジェクト ${name} を削除
+  DeleteProjectDialogMessage: プロジェクト '${name}' を削除してもよろしいですか？
+  LastChange: 最終更新
+  Projects: プロジェクト
 axonivy:
   AxonIvyAG: Axon Ivy AG
   Build: ビルド
@@ -140,6 +137,7 @@ common:
   Configuration: 設定
   ConfiguredState: 設定された状態
   Confirm: 確認
+  ConfirmPassword: パスワードの確認
   Connections: 接続
   CopyToClipboard: クリップボードにコピーする
   Count: カウント
@@ -230,7 +228,6 @@ common:
   Object: オブジェクト
   Order: 順序
   PM: PM
-  Project: Project
   Password: パスワード
   Path: パス
   PleaseEnterPassword: パスワードを入力してください
@@ -242,6 +239,7 @@ common:
   ProcessModelVersion: プロセスモデルバージョン
   ProcessName: プロセス名
   Product: プロダクト
+  Project: Project
   Properties: プロパティ
   Property: プロパティ
   Provider: プロバイダー
@@ -323,7 +321,6 @@ common:
   Workflow: ワークフロー
   Write: 書き込み
   'Yes': はい
-  ConfirmPassword: パスワードの確認
 configuration:
   ApplicationConfiguration: アプリケーションの設定
   ConfigReset: '''${config}'' リセット'
@@ -978,27 +975,6 @@ permissions:
   Permissions: 権限
   SomePermissionDenied: 一部の権限が却下されました
   SomePermissionGranted: 一部の権限が付与されました
-projectDetail:
-  ActivityState: アクティビティ状態
-  AllDirectIndirectRequiredLibrariesAvailableMessage: システムでは直接的および間接的に必要なライブラリがすべて利用できます。
-  AllProjectsDependingOnProject: この PMV に依存するすべての PMV
-  AllProjectsRequiredByProject: この PMV に必要なすべての PMV
-  DependentProjectTableEmptyMessage: PMV '${name}' には依存する PMV が含まれません。
-  Id: ID
-  LastDeployed: 最終展開
-  NoProjectFoundForSpecificationMessage: この仕様ではプロジェクトが見つかりませんでした。
-  NotAllDirectIndirectRequiredLibrariesAvailableMessage: システムでは直接的および間接的に必要なライブラリをすべて利用できるとは限りません。
-  ProjectInformation: PMV 情報
-  PMVResolvedForSpecificationMessage: この仕様に解決された '${name}'
-  Project: プロジェクト
-  ProjectVersion: プロジェクトバージョン
-  ReleaseState: リリース状態
-  RequriedPMVTableEmptyMessage: PMV '${name}' には必要な PMV が含まれません。
-  Resolved: 解決済み
-  ResolvedPMV: 解決済みの PMV
-  SpecifiedRequiredProjects: 指定された必須プロジェクト
-  SpecifiedRequiredProjectsMessage: ただし、一部の必須プロジェクトが指定されています。
-  SpecifiedTableEmptyMessage: PMV '${name}' には指定された必須プロジェクトが含まれません。
 poll:
   LastPollError: 前回のポーリングエラー
   NextPoll: 次のポーリング
@@ -1013,7 +989,6 @@ poll:
   ScheduleToPollBean: 今すぐ Bean のポーリングをスケジュールする
   StopsBean: Bean を停止します
 profile:
-  ProfileBreadcrumb: '管理者プロフィール'
   CurrentContentLanguage: 現在の言語
   CurrentContentLocale: 現在のロケール
   CurrentFormattingLanguage: 現在のフォーマット言語
@@ -1022,9 +997,28 @@ profile:
   LanguageAndLocalization: 言語とローカリゼーション
   NotAnAdmin: セッションユーザーのログインは管理者ではありません
   Profile: 管理者プロフィール
+  ProfileBreadcrumb: 管理者プロフィール
   SaveProfile: プロフィールを保存
 progressLoader:
   Loading: 読み込み中...
+projectDetail:
+  ActivityState: アクティビティ状態
+  AllProjectsDependingOnProject: この PMV に依存するすべての PMV
+  AllProjectsRequiredByProject: 本プロジェクトで必要とされるすべてのプロジェクト
+  DependentProjectTableEmptyMessage: このプロジェクト '${name}' 関連するプロジェクトがありません。
+  DoneCases: 完了したケース
+  Id: ID
+  LastDeployed: 最終展開
+  MavenID: Maven ID
+  MavenVersion: Maven バージョン
+  OpenCases: 実行中のケース
+  OperationState: 操作状態
+  Project: プロジェクト
+  ProjectInformation: 情報
+  ProjectVersion: プロジェクトバージョン
+  ReleaseState: リリース状態
+  Resolved: 解決済み
+  projects: プロジェクト
 renameRole:
   RenameRoleDialogHeader: ロールの名前変更
   RenameRoleDialogWarningMessage: これは重大かつ危険な操作であり、少なくとも非ダイナミックロールに対しては特に注意が必要です。このロールは、古い名前でプロセス内から参照されている可能性があります。すべての展開済みプロジェクト（PMV）内のすべてのプロセスにおけるすべての参照を、新しい名前に手動で変更する必要があります。名前を変更しないと、将来的にプロセスで不具合が発生します。
@@ -1318,10 +1312,10 @@ template:
   ShowHealthDetails: 正常性の詳細を表示する...
   SupportReport: サポートレポート
 tlsTester:
-  Tests: テスト
   Issuer: 発行者
   PublicKeyFormat: 公開鍵形式
   SignatureAlgorithm: シグネチャーアルゴリズム
+  Tests: テスト
   Validity: バリデーション
 tlsTesterMissingCertView:
   AddCertificateToTruststoreSuccessMesage: 証明書が正常に追加されました。
