@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.services.model;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import jakarta.ws.rs.client.ClientRequestContext;
 import jakarta.ws.rs.client.ClientRequestFilter;
@@ -27,10 +27,6 @@ public class Authenticator implements ClientRequestFilter {
 
   private String getBasicAuthentication() {
     var token = this.user + ":" + this.password;
-    try {
-      return "BASIC " + DatatypeConverter.printBase64Binary(token.getBytes("UTF-8"));
-    } catch (UnsupportedEncodingException ex) {
-      throw new IllegalStateException("Cannot encode with UTF-8", ex);
-    }
+    return "BASIC " + DatatypeConverter.printBase64Binary(token.getBytes(StandardCharsets.UTF_8));
   }
 }
