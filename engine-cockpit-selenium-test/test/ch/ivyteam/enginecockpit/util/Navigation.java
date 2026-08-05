@@ -98,13 +98,13 @@ public class Navigation {
 
   public static void toApplicationVersion(String appName, String version) {
     toApplication(appName);
-    $(By.partialLinkText(version)).shouldBe(visible).click();
+    $(By.id("application:versionsForm:versionsTable")).$(By.partialLinkText(version)).shouldBe(visible).click();
     assertCurrentUrlContains("application-version.xhtml");
   }
 
   public static void toProject(String appName, String version, String projectName) {
     toApplicationVersion(appName, version);
-    $(By.partialLinkText(projectName)).shouldBe(visible).click();
+    $(By.id("versionProjectsForm:projectsTable")).$(By.partialLinkText(projectName)).shouldBe(visible).click();
     assertCurrentUrlContains("project.xhtml");
   }
 
