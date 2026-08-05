@@ -235,6 +235,7 @@ class WebDocuScreenshot {
     Navigation.toApplication(getAppName());
     takeScreenshot("application-detail", new Dimension(SCREENSHOT_WIDTH, 900));
     Navigation.toApplicationVersion(getAppName(),"1");
+    takeScreenshot("application-version-detail", new Dimension(SCREENSHOT_WIDTH, 900));
     takeDialogScreenshot("dialog-deploy-app", By.id("versionProjectsForm:deployButton"));
     Navigation.toProject(isDesigner() ? getAppName() : "test-pmvs","1", "main");
     takeScreenshot("project-detail", new Dimension(SCREENSHOT_WIDTH, 1500));
