@@ -13,7 +13,7 @@ admins:
   DefineAtLeastOneAdministratorMessage: You need to define at least one administrator!
 application:
   Archive: Archive
-  Convert: Converts all projects to the latest version
+  Convert: Convert
   DeleteVersionDialogHeader: Delete application ${name} in version ${version}
   DeleteVersionDialogMessage: Are you sure you want to delete application ${name} in version ${version}?
   Deprecate: Deprecate

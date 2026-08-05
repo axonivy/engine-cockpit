@@ -13,7 +13,7 @@ admins:
   DefineAtLeastOneAdministratorMessage: 少なくとも 1 人の管理者を定義する必要があります。
 application:
   Archive: アーカイブ
-  Convert: プロジェクトを最新バージョンに変換します
+  Convert: 変換
   DeleteVersionDialogHeader: アプリケーション ${name} バージョン ${version} を削除
   DeleteVersionDialogMessage: アプリケーション '${name}' バージョン ${version} を削除してもよろしいですか？
   Deprecate: 非推奨にマーク
