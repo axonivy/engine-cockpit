@@ -20,11 +20,6 @@ pipeline {
           docker.build('maven', '-f build/Dockerfile.maven .').inside("") {
             sonar projectName: 'engine-cockpit', mvnArgs: "-Dsonar.test.exclusions=**/*.p12"            
           }
-          recordIssues tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
-            excludeMessage('Use of preview features have been detected during analysis. Enable DEBUG mode to see them.*'),
-            excludeMessage('Unresolved imports/types have been detected during analysis. Enable DEBUG mode to see them.*'),
-            excludeMessage('JAR will be empty - no content was marked for inclusion!*'),
-          ]
         }
       }
     }
