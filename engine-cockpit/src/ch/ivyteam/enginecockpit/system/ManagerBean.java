@@ -111,15 +111,6 @@ public class ManagerBean implements Serializable {
     }
   }
 
-  public void setSelectedApplicationName(String appName) {
-    for (int i = 0; i < applications.size(); i++) {
-      if (applications.get(i).name().equals(appName)) {
-        setSelectedApplicationIndex(i);
-        return;
-      }
-    }
-  }
-
   public String getSelectedApplicationName() {
     var selectedApplication = getSelectedApplication();
     if (selectedApplication == null) {
@@ -163,10 +154,6 @@ public class ManagerBean implements Serializable {
 
   public boolean isIvySecuritySystemForSelectedSecuritySystem() {
     return SecuritySystem.isIvySecuritySystem(getSelectedSecuritySystem().getSecurityContext());
-  }
-
-  public boolean isIvySecuritySystemForSelectedApp() {
-    return SecuritySystem.isIvySecuritySystem(getSelectedApplication().securityContext());
   }
 
   public boolean isRestartEngine() {
