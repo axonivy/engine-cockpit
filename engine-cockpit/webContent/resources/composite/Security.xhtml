@@ -22,15 +22,15 @@
             update=":security:moveApplicationComposite:moveApplicationForm" />
         </p:commandButton>
         <p:commandButton id="synchronizeSecurity"
-          rendered="#{cc.attrs.securitySystem.securitySystemProvider ne 'ivy Security System'}"
+          rendered="#{!cc.attrs.securitySystem.ivySecuritySystem}"
           title="#{ivy.cm.co('/common/Synchronize')}" type="button"
-          icon="ti ti-refresh #{securityBean.syncRunningForSelectedApp ? 'spinning' : ''}"
+          icon="ti ti-refresh #{cc.attrs.securitySystem.synchronizationRunning ? 'spinning' : ''}"
           styleClass="ml-1 ui-button-secondary rounded-button spin-icon" onclick="PF('logPoller').start()">
-          <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
+          <p:ajax listener="#{cc.attrs.securitySystem.triggerSynchronization()}" update="@this" />
         </p:commandButton>
-        <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="5" update="@form" />
+        <p:poll widgetVar="logPoller" autoStart="#{cc.attrs.securitySystem.synchronizationRunning}" interval="5" update="@form" />
         <p:linkButton id="showAdSyncLogBtn" icon="ti ti-file-text" styleClass="ml-1 ui-button-secondary rounded-button"
-          href="#{securityBean.synchLogUri}" rendered="#{!securityBean.ivySecurityForSelectedApp}" />
+          href="#{cc.attrs.securitySystem.synchLogUri}" rendered="#{!cc.attrs.securitySystem.ivySecuritySystem}" />
       </div>
     </div>
     <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex" styleClass="grey-label-panel">

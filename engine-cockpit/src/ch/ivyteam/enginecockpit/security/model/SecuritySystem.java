@@ -10,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.application.model.App;
+import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
@@ -49,6 +50,14 @@ public class SecuritySystem {
     } catch (IOException ex) {
       throw new RuntimeException(ex);
     }
+  }
+
+  public boolean isSynchronizationRunning() {
+    return securityContext.isSynchronizationRunning();
+  }
+
+  public void triggerSynchronization() {
+    securityContext.triggerSynchronization();
   }
 
   public String getSecuritySystemName() {
@@ -114,5 +123,9 @@ public class SecuritySystem {
 
   public static boolean isIvySecuritySystem(ISecurityContext securityContext) {
     return !((ISecurityContextInternal) securityContext).managed();
+  }
+
+  public String getSynchLogUri() {
+    return LogView.uri().fileName("usersynch").toUri();
   }
 }
