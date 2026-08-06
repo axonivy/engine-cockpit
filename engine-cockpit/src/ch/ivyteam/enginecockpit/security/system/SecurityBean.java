@@ -60,7 +60,7 @@ public class SecurityBean implements Serializable {
     return ISecurityManager.instance().securityContexts().all().stream();
   }
 
-  public static boolean isDefaultWithNoApps(SecuritySystem system) {
+  private static boolean isDefaultWithNoApps(SecuritySystem system) {
     return DEFAULT.equals(system.getSecuritySystemName()) && system.getApps().isEmpty();
   }
 
@@ -78,29 +78,12 @@ public class SecurityBean implements Serializable {
     managerBean.getSelectedSecuritySystem().getSecurityContext().triggerSynchronization();
   }
 
-  public void triggerSyncForSelectedApp() {
-    managerBean.getSelectedApplication().securityContext().triggerSynchronization();
-  }
-
-  public boolean isIvySecurityForSelectedApp() {
-    return managerBean.isIvySecuritySystemForSelectedApp();
-  }
-
   public boolean isIvySecurityForSelectedSecuritySystem() {
     return managerBean.isIvySecuritySystemForSelectedSecuritySystem();
   }
 
   public boolean isSyncRunningForSelectedSecuritySystem() {
     return managerBean.getSelectedSecuritySystem().getSecurityContext().isSynchronizationRunning();
-  }
-
-  public boolean isSyncRunningForSelectedApp() {
-    return managerBean.getSelectedApplication().securityContext().isSynchronizationRunning();
-  }
-
-  public boolean isAnySyncRunning() {
-    return systems.stream()
-        .anyMatch(system -> system.getSecurityContext().isSynchronizationRunning());
   }
 
   public String getNewSecuritySystemName() {
