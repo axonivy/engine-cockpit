@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.services.database;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -19,8 +20,12 @@ public class DatabasesBean implements Serializable {
   private String filter;
 
   public void onload() {
-    databases = Databases.of(ManagerBean.instance().getSelectedApplication())
-        .all().stream()
+    var app = ManagerBean.instance().getSelectedApplication();
+    if (app == null) {
+      databases = new ArrayList<>();
+      return;
+    }
+    databases = Databases.of(app).all().stream()
         .filter(db -> !Objects.equals(db.name(), "IvySystemDatabase"))
         .map(DatabaseDto::new)
         .collect(Collectors.toList());

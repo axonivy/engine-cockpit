@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.services.rest;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,15 +19,17 @@ public class RestClientsBean implements Serializable {
   private List<RestClientDto> filteredRestClients;
   private String filter;
 
-  private final ManagerBean managerBean;
-
   public RestClientsBean() {
-    managerBean = ManagerBean.instance();
     reloadRestClients();
   }
 
   public void reloadRestClients() {
-    restClients = RestClients.of(managerBean.getSelectedApplication())
+    var app = ManagerBean.instance().getSelectedApplication();
+    if (app == null) {
+      restClients = new ArrayList<>();
+      return;
+    }
+    restClients = RestClients.of(app)
         .all().stream()
         .map(RestClientDto::new)
         .collect(Collectors.toList());

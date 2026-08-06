@@ -28,7 +28,6 @@ import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
 import ch.ivyteam.ivy.application.app.Application;
-import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.application.branding.BrandingIO;
 import ch.ivyteam.ivy.application.branding.BrandingResolver;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -75,7 +74,7 @@ public class BrandingBean implements AllResourcesDownload, Serializable {
       if (!ALLOWED_EXTENSIONS.contains(extension)) {
         throw new InvalidAttributesException("Not supported file extension: '" + extension + "'");
       }
-      var app = ApplicationRepository.instance().findReleasedByName(managerBean.getSelectedApplicationName());
+      var app = managerBean.getSelectedApplication();
       try (var in = uploadFile.getInputStream()) {
         var newResourceName = new BrandingIO(app).setImage(getCurrentRes(), extension, in);
         message = new FacesMessage(FacesMessage.SEVERITY_INFO, Ivy.cm().co("/common/Success"),
@@ -88,7 +87,12 @@ public class BrandingBean implements AllResourcesDownload, Serializable {
   }
 
   public void reloadResources() {
-    brandingIO = new BrandingIO(managerBean.getSelectedApplication());
+    var app = managerBean.getSelectedApplication();
+    if (app == null) {
+      resources = new ArrayList<>();
+      return;
+    }
+    brandingIO = new BrandingIO(app);
     resources = brandingIO.findResources(List.copyOf(RESOURCE_NAMES.keySet())).entrySet().stream()
         .map(this::toBrandingResource)
         .sorted(Comparator.comparing(BrandingResource::getLabel))
@@ -97,6 +101,9 @@ public class BrandingBean implements AllResourcesDownload, Serializable {
   }
 
   private void reloadCustomCssContent() {
+    if (brandingIO == null) {
+      return;
+    }
     customCssContent = brandingIO.readCustomCss();
     cssColors = brandingIO.cssColors().stream()
         .map(CssColorDTO::new)
