@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.configuration;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -21,7 +22,7 @@ import jakarta.inject.Named;
 @Named
 @ViewScoped
 public class VariableBean implements ConfigView, Serializable {
-  private final ManagerBean managerBean;
+
   private List<ConfigProperty> variables;
   private List<ConfigProperty> filteredVariables;
   private String filter;
@@ -29,20 +30,21 @@ public class VariableBean implements ConfigView, Serializable {
   private Application app;
 
   public VariableBean() {
-    managerBean = ManagerBean.instance();
     reloadVariables();
   }
 
   public void reloadVariables() {
     activeVariable = new ConfigProperty();
-    if (managerBean.getApplications().size() != 0) {
-      app = managerBean.getSelectedApplication();
-      variables = variables().all().stream()
-          .filter(Objects::nonNull)
-          .map(ConfigProperty::new)
-          .collect(Collectors.toList());
-    }
     filteredVariables = null;
+    app = ManagerBean.instance().getSelectedApplication();
+    if (app == null) {
+      variables = new ArrayList<>();
+      return;
+    }
+    variables = variables().all().stream()
+        .filter(Objects::nonNull)
+        .map(ConfigProperty::new)
+        .collect(Collectors.toList());    
   }
 
   @Override

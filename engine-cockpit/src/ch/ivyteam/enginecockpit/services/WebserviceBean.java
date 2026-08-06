@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.services;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,21 +14,22 @@ import jakarta.inject.Named;
 @Named
 @ViewScoped
 public class WebserviceBean implements Serializable {
+
   private List<Webservice> webservices;
   private List<Webservice> filteredWebservices;
   private String filter;
 
-  private final ManagerBean managerBean;
-
   public WebserviceBean() {
-    managerBean = ManagerBean.instance();
     reloadWebservices();
   }
 
   public void reloadWebservices() {
-    webservices = WebServiceClients
-        .of(managerBean.getSelectedApplication())
-        .all().stream()
+    var app = ManagerBean.instance().getSelectedApplication();
+    if (app == null) {
+      webservices = new ArrayList<>();
+      return;
+    }
+    webservices = WebServiceClients.of(app).all().stream()
         .map(Webservice::new)
         .collect(Collectors.toList());
   }
@@ -51,5 +53,4 @@ public class WebserviceBean implements Serializable {
   public void setFilter(String filter) {
     this.filter = filter;
   }
-
 }

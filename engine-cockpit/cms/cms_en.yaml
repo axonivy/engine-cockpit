@@ -25,7 +25,7 @@ applications:
   Released: Released
 applicationTabs:
   CreateApplication: Create Application
-  NoConfiguredApplication: You don't have any applications configured.
+  NoConfiguredApplication: There are no applications released.
 applicationVersion:
   DeleteProjectCasesWarning: Deleting this project will permanently delete all associated cases from the database.
   DeleteProjectDialogHeader: Delete project ${name}
