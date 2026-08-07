@@ -1,19 +1,14 @@
 package ch.ivyteam.enginecockpit.monitor.log;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
@@ -25,6 +20,10 @@ import ch.ivyteam.enginecockpit.util.DownloadUtil;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.log.provider.LogFileRepository;
 import ch.ivyteam.ivy.log.provider.LogFileZipper;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -150,13 +149,13 @@ public class LogBean implements AllResourcesDownload, Serializable {
         .build();
   }
 
-  private File writeLogsToZip() {
+  private Path writeLogsToZip() {
     try {
       var zipFile = Files.createTempFile("logs", ".zip");
       try (var out = Files.newOutputStream(zipFile)) {
         LogFileZipper.zipTo(out);
       }
-      return zipFile.toFile();
+      return zipFile;
     } catch (IOException ex) {
       var msg =
           new FacesMessage(FacesMessage.SEVERITY_ERROR, Ivy.cm().co("/logs/CouldNotZipLogsMessage"), ex.getMessage());
