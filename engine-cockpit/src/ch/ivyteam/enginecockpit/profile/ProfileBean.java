@@ -8,6 +8,7 @@ import jakarta.inject.Named;
 
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
+import ch.ivyteam.enginecockpit.system.administrators.AdministratorLanguageUpdater;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
@@ -76,7 +77,7 @@ public class ProfileBean implements Serializable {
   // Use the admin service to save changes to the loggedInAdmin, based on
   // current state from the form
   public void save() {
-    service.config().save(loggedInAdmin.toAdmin());
+    AdministratorLanguageUpdater.instance().saveLanguage(loggedInAdmin.toAdmin(), loggedInAdmin.isExternal());
     Message.info().summary(Ivy.cm().content("/administrators/AdminUpdatedMessage").replace("name", loggedInAdmin.getUserName()).get()).show();
   }
 
