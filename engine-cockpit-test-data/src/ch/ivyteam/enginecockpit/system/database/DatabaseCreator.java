@@ -1,18 +1,14 @@
 package ch.ivyteam.enginecockpit.system.database;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import ch.ivyteam.db.jdbc.DatabaseConnectionConfiguration;
 import ch.ivyteam.db.jdbc.DatabaseUtil;
 
 public class DatabaseCreator {
 
-  private static final String TEST_DB_NAME = "temp";
-
   public static void deleteTempDatabase() {
-    deleteDb(TEST_DB_NAME);
+    deleteDb();
   }
 
   private static DatabaseConnectionConfiguration getDbConfig(String dbName) {
@@ -22,10 +18,11 @@ public class DatabaseCreator {
         "com.mysql.cj.jdbc.Driver", "root", "1234");
   }
 
-  private static void deleteDb(String dbName) {
-    try (Connection connection = DatabaseUtil.openConnection(getDbConfig(dbName))) {
-      Statement stmt = connection.createStatement();
-      stmt.execute("DROP DATABASE " + dbName);
+  private static void deleteDb() {
+    try (var connection = DatabaseUtil.openConnection(getDbConfig("temp"))) {
+      try (var stmt = connection.createStatement()) {
+        stmt.execute("DROP DATABASE temp");
+      }
     } catch (SQLException ex) {}
   }
 }
