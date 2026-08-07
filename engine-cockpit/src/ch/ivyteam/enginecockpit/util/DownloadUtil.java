@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.util;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -37,16 +36,16 @@ public class DownloadUtil {
     }
   }
 
-  public static InputStream getFileStream(File file) {
+  public static InputStream getFileStream(Path file) {
     try {
-      return new FileInputStream(file){
+      return new FileInputStream(file.toFile()){
         @Override
         public void close() throws IOException {
           super.close();
           try {
-            file.delete();
+            Files.delete(file);
           } catch (Exception ex) {
-            LOGGER.info("Could not delete file '" + file.getName() + "' after closing stream : ", ex);
+            LOGGER.info("Could not delete file '" + file.getFileName() + "' after closing stream : ", ex);
           }
         }
       };

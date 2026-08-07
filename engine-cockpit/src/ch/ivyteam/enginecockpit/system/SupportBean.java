@@ -1,14 +1,10 @@
 package ch.ivyteam.enginecockpit.system;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Named;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -18,6 +14,8 @@ import ch.ivyteam.ivy.error.report.ErrorReport;
 import ch.ivyteam.ivy.log.provider.LogFile;
 import ch.ivyteam.ivy.log.provider.LogFileRepository;
 import ch.ivyteam.log.Logger;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Named;
 
 @Named
 @RequestScoped
@@ -31,10 +29,10 @@ public class SupportBean {
     return createStreamedContent(zippedFile);
   }
 
-  private File createZippedFile(String errorReport) throws IOException {
+  private Path createZippedFile(String errorReport) throws IOException {
     var tempSupportDir = Files.createTempDirectory("SupportReport");
-    var zipFile = tempSupportDir.resolve("support-engine-report.zip").toFile();
-    try (var fos = new FileOutputStream(zipFile);
+    var zipFile = tempSupportDir.resolve("support-engine-report.zip");
+    try (var fos = Files.newOutputStream(zipFile);
         var zos = new ZipOutputStream(fos)) {
       addEntryToZip(zos, "report.txt", errorReport.getBytes());
       LogFileRepository.instance().all().forEach(log -> addLogToZip(zos, log));
@@ -58,7 +56,7 @@ public class SupportBean {
     zos.closeEntry();
   }
 
-  private StreamedContent createStreamedContent(File zipFile) {
+  private StreamedContent createStreamedContent(Path zipFile) {
     return DefaultStreamedContent.builder()
         .stream(() -> DownloadUtil.getFileStream(zipFile))
         .contentType("application/zip")
