@@ -12,6 +12,7 @@ public class ProfileDTO {
   private String email;
   private Locale language;
   private Locale formattingLanguage;
+  private boolean external;
 
   public ProfileDTO() {}
 
@@ -22,6 +23,7 @@ public class ProfileDTO {
     this.email = admin.email();
     this.language = admin.language();
     this.formattingLanguage = admin.formattingLanguage();
+    this.external = admin.external();
   }
 
   public String getUserName() {
@@ -66,6 +68,10 @@ public class ProfileDTO {
 
   public void setFormattingLanguage(Locale formattingLanguage) {
     this.formattingLanguage = formattingLanguage;
+  }
+
+  public boolean isExternal() {
+    return external;
   }
 
   public Administrator toAdmin() {

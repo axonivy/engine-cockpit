@@ -82,7 +82,7 @@ public class AdministratorBean extends StepStatus implements Serializable {
   }
 
   public void updateAdmin() {
-    service.config().save(admin.toAdministrator());
+    AdministratorLanguageUpdater.instance().saveLanguage(admin.toAdministrator(), admin.isExternal());
     Message.info()
         .summary(Ivy.cm().content("/administrators/AdminUpdatedMessage").replace("name", admin.getName()).get()).show();
   }
