@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.primefaces.model.charts.line.LineChartDataSet;
+import software.xdev.chartjs.model.dataset.LineDataset;
 
 import com.axonivy.jmx.MAttribute;
 import com.axonivy.jmx.MBean;
@@ -50,16 +50,16 @@ class TestDatabaseMonitorBean {
     MBeans.registerMBeanFor(new Db("db1"));
     var testee = new DatabaseMonitor("default", "test", 1, "db1");
 
-    var dataSet = testee.getConnectionsMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getConnectionsMonitor().getDataSets();
     assertThat(dataSet).hasSize(2);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var openConnections = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var openConnections = (LineDataset) dataSet.get(0);
     assertThat(openConnections.getLabel()).isEqualTo("Open");
     assertThat(openConnections.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(2.0D));
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var usedConnections = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var usedConnections = (LineDataset) dataSet.get(1);
     assertThat(usedConnections.getLabel()).isEqualTo("Used");
     assertThat(usedConnections.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(1.0D));
 
@@ -71,16 +71,16 @@ class TestDatabaseMonitorBean {
     MBeans.registerMBeanFor(new Db("db1"));
     var testee = new DatabaseMonitor("default", "test", 1, "db1");
 
-    var dataSet = testee.getQueriesMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getQueriesMonitor().getDataSets();
     assertThat(dataSet).hasSize(2);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var queries = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var queries = (LineDataset) dataSet.get(0);
     assertThat(queries.getLabel()).isEqualTo("Queries");
     assertThat(queries.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var errors = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var errors = (LineDataset) dataSet.get(1);
     assertThat(errors.getLabel()).isEqualTo("Errors");
     assertThat(errors.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
@@ -93,21 +93,21 @@ class TestDatabaseMonitorBean {
     MBeans.registerMBeanFor(new Db("db1"));
     var testee = new DatabaseMonitor("default", "test", 1, "db1");
 
-    var dataSet = testee.getExecutionTimeMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getExecutionTimeMonitor().getDataSets();
     assertThat(dataSet).hasSize(3);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var min = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var min = (LineDataset) dataSet.get(0);
     assertThat(min.getLabel()).isEqualTo("Min");
     assertThat(min.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(5.0D));
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var avg = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var avg = (LineDataset) dataSet.get(1);
     assertThat(avg.getLabel()).isEqualTo("Avg");
     assertThat(avg.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(dataSet.get(2)).isInstanceOf(LineChartDataSet.class);
-    var max = (LineChartDataSet) dataSet.get(2);
+    assertThat(dataSet.get(2)).isInstanceOf(LineDataset.class);
+    var max = (LineDataset) dataSet.get(2);
     assertThat(max.getLabel()).isEqualTo("Max");
     assertThat(max.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(7.0D));
 

@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-import org.primefaces.model.charts.line.LineChartDataSet;
+import software.xdev.chartjs.model.dataset.LineDataset;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.Value;
@@ -13,22 +13,22 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
 public class Series {
   private final ValueProvider valueProvider;
-  private final LineChartDataSet dataSet;
+  private final LineDataset dataSet;
   private final List<Value> data = new ArrayList<>();
   private String fillColor = "";
 
   protected Series(Builder builder) {
     this.valueProvider = builder.valueProvider;
-    dataSet = new LineChartDataSet();
+    dataSet = new LineDataset();
     dataSet.setTension(builder.smoothLine ? 0.2 : 0);
     dataSet.setFill(builder.fill);
-    dataSet.setPointRadius(0);
+    dataSet.setPointRadius(List.of(0));
     dataSet.setLabel(builder.name);
     dataSet.setBorderWidth(1);
     updateColor();
   }
 
-  public LineChartDataSet getSeries() {
+  public LineDataset getSeries() {
     return dataSet;
   }
 
@@ -59,7 +59,7 @@ public class Series {
   }
 
   public void scale(Unit scaleToUnit) {
-    List<Object> scaledNumbers = new ArrayList<>(data.size());
+    List<Number> scaledNumbers = new ArrayList<>(data.size());
     data.forEach(datapoint -> {
       scaledNumbers.add(scaleTo(datapoint, scaleToUnit));
     });

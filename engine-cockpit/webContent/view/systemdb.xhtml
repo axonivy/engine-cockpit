@@ -34,7 +34,7 @@
               rendered="#{!systemDatabaseBean.connectionInfo.successful}" />
           </h:panelGroup>
         </div>
-        <cc:SystemDb id="systemDb" updateFields="systemDb:systemDbForm:connectionPanel,sysDbSaveButtons" />
+        <cc:SystemDb id="systemDb" updateFields="sysDbSaveButtons" />
       </div>
 
       <p:dialog style="min-width: 300px;" header="#{ivy.cm.co('/systemDb/NoConnection')}" id="saveUnknownConnectionModel"

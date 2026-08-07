@@ -3,7 +3,7 @@ package ch.ivyteam.enginecockpit.monitor.mbeans.jvm;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.primefaces.model.charts.line.LineChartDataSet;
+import software.xdev.chartjs.model.dataset.LineDataset;
 
 import ch.ivyteam.ivy.environment.IvyTest;
 
@@ -13,16 +13,16 @@ public class TestMemoryMonitorBean {
   public void heapMemoryMonitor() {
     var testee = new MemoryMonitorBean();
 
-    var dataSet = testee.getHeapMemoryMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getHeapMemoryMonitor().getDataSets();
     assertThat(dataSet).hasSize(2);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var calls = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var calls = (LineDataset) dataSet.get(0);
     assertThat(calls.getLabel()).isEqualTo("Used");
     assertThat(calls.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var errors = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var errors = (LineDataset) dataSet.get(1);
     assertThat(errors.getLabel()).isEqualTo("Committed");
     assertThat(errors.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
@@ -34,16 +34,16 @@ public class TestMemoryMonitorBean {
   public void nonHeapMemoryMonitor() {
     var testee = new MemoryMonitorBean();
 
-    var dataSet = testee.getNonHeapMemoryMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getNonHeapMemoryMonitor().getDataSets();
     assertThat(dataSet).hasSize(2);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var min = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var min = (LineDataset) dataSet.get(0);
     assertThat(min.getLabel()).isEqualTo("Used");
     assertThat(min.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var avg = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var avg = (LineDataset) dataSet.get(1);
     assertThat(avg.getLabel()).isEqualTo("Committed");
     assertThat(avg.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class)); // delta
 
@@ -54,21 +54,21 @@ public class TestMemoryMonitorBean {
   public void garbageCollectorsMonitor() {
     var testee = new MemoryMonitorBean();
 
-    var dataSet = testee.getGarbageCollectorsMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getGarbageCollectorsMonitor().getDataSets();
     assertThat(dataSet).hasSize(3);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var young = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var young = (LineDataset) dataSet.get(0);
     assertThat(young.getLabel()).isEqualTo("G1 Young Generation");
     assertThat(young.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var old = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var old = (LineDataset) dataSet.get(1);
     assertThat(old.getLabel()).isEqualTo("G1 Old Generation");
     assertThat(old.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
-    assertThat(dataSet.get(2)).isInstanceOf(LineChartDataSet.class);
-    var concurrent = (LineChartDataSet) dataSet.get(2);
+    assertThat(dataSet.get(2)).isInstanceOf(LineDataset.class);
+    var concurrent = (LineDataset) dataSet.get(2);
     assertThat(concurrent.getLabel()).isEqualTo("G1 Concurrent GC");
     assertThat(concurrent.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 

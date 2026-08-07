@@ -9,19 +9,11 @@ import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.IUser;
 
 public class UserProperty extends MemberProperty {
-  private IUser user;
+  private final IUser user;
 
-  @Override
-  public void setMemberName(String memberName) {
-    super.setMemberName(memberName);
-    user = managerBean.getSelectedSecuritySystem().getSecurityContext().users().find(memberName);
+  public UserProperty(IUser user) {
+    this.user = user;
     reloadProperties();
-  }
-
-  private void reloadProperties() {
-    super.properties = user.getAllPropertyNames().stream()
-        .map(key -> new SecurityMemberProperty(key, user.getProperty(key), user.isPropertyBacked(key)))
-        .collect(Collectors.toList());
   }
 
   @Override
@@ -43,5 +35,11 @@ public class UserProperty extends MemberProperty {
     user.removeProperty(propertyName);
     super.removePropertyMessage();
     reloadProperties();
+  }
+
+  private void reloadProperties() {
+    super.properties = user.getAllPropertyNames().stream()
+        .map(key -> new SecurityMemberProperty(key, user.getProperty(key), user.isPropertyBacked(key)))
+        .collect(Collectors.toList());
   }
 }

@@ -13,15 +13,22 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.primefaces.model.charts.ChartData;
-import org.primefaces.model.charts.axes.cartesian.CartesianScaleTitle;
-import org.primefaces.model.charts.axes.cartesian.CartesianScales;
-import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
-import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
-import org.primefaces.model.charts.line.LineChartModel;
-import org.primefaces.model.charts.line.LineChartOptions;
-import org.primefaces.model.charts.optionconfig.animation.Animation;
-import org.primefaces.model.charts.optionconfig.legend.Legend;
+import software.xdev.chartjs.model.charts.LineChart;
+import software.xdev.chartjs.model.data.LineData;
+import software.xdev.chartjs.model.dataset.LineDataset;
+import software.xdev.chartjs.model.options.Font;
+import software.xdev.chartjs.model.options.LegendOptions;
+import software.xdev.chartjs.model.options.LineOptions;
+import software.xdev.chartjs.model.options.Plugins;
+import software.xdev.chartjs.model.options.animation.DefaultAnimation;
+import software.xdev.chartjs.model.options.scale.Scales;
+import software.xdev.chartjs.model.options.scale.Scales.ScaleAxis;
+import software.xdev.chartjs.model.options.scale.cartesian.AbstractCartesianScaleOptions.Title;
+import software.xdev.chartjs.model.options.scale.cartesian.category.CategoryScaleOptions;
+import software.xdev.chartjs.model.options.scale.cartesian.category.CategoryTickOptions;
+import software.xdev.chartjs.model.options.scale.cartesian.linear.LinearScaleOptions;
+import software.xdev.chartjs.model.options.scale.cartesian.linear.LinearTickOptions;
+import software.xdev.chartjs.model.options.tooltip.TooltipOptions;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.Value;
@@ -30,16 +37,15 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 public class Monitor {
   private long lastTimestamp;
-  protected final LineChartModel model;
-  protected final ChartData chartData;
-  protected final LineChartOptions options;
-  protected CartesianScales scales;
-  protected CartesianLinearAxes xAxis;
-  protected CartesianLinearAxes yAxis;
-  protected CartesianLinearTicks xTicks;
-  protected CartesianLinearTicks yTicks;
-  protected CartesianScaleTitle xTitle;
-  protected CartesianScaleTitle yTitle;
+  protected final LineChart model;
+  protected final LineData chartData;
+  protected final LineOptions options;
+  protected final CategoryScaleOptions xAxis;
+  protected final LinearScaleOptions yAxis;
+  protected final CategoryTickOptions xTicks;
+  protected final LinearTickOptions yTicks;
+  protected final Title xTitle;
+  protected final Title yTitle;
   private static final Duration MAX_DURATION = Duration.ofMinutes(10);
   private static final long MAX_DATA = MAX_DURATION.toSeconds();
   private final MonitorInfo info;
@@ -51,16 +57,15 @@ public class Monitor {
 
   protected Monitor(MonitorInfo info) {
     this.info = info;
-    model = new LineChartModel();
-    options = new LineChartOptions();
-    chartData = new ChartData();
-    scales = new CartesianScales();
-    xAxis = new CartesianLinearAxes();
-    yAxis = new CartesianLinearAxes();
-    xTicks = new CartesianLinearTicks();
-    yTicks = new CartesianLinearTicks();
-    xTitle = new CartesianScaleTitle();
-    yTitle = new CartesianScaleTitle();
+    model = new LineChart();
+    options = new LineOptions();
+    chartData = new LineData();
+    xAxis = new CategoryScaleOptions();
+    yAxis = new LinearScaleOptions();
+    xTicks = new CategoryTickOptions();
+    yTicks = new LinearTickOptions();
+    xTitle = new Title();
+    yTitle = new Title();
 
     xTicks.setMaxTicksLimit(6);
     xTicks.setAutoSkip(true);
@@ -72,31 +77,24 @@ public class Monitor {
 
     xTitle.setDisplay(true);
     xTitle.setText(Ivy.cm().co("/common/Time"));
-    xTitle.setFontSize(14);
-    xAxis.setScaleTitle(xTitle);
+    xTitle.setFont(new Font().setSize(14));
+    xAxis.setTitle(xTitle);
 
     yTitle.setDisplay(true);
-    yTitle.setFontSize(14);
-    yAxis.setScaleTitle(yTitle);
+    yTitle.setFont(new Font().setSize(14));
+    yAxis.setTitle(yTitle);
 
-    scales.addXAxesData(xAxis);
-    scales.addYAxesData(yAxis);
+    Scales scales = new Scales();
+    scales.addScale(ScaleAxis.X, xAxis);
+    scales.addScale(ScaleAxis.Y, yAxis);
 
-    Animation animation = new Animation();
-    animation.setDuration(0);
-
-    Legend legend = new Legend();
-    legend.setAlign("end");
-
-    options.setShowLines(true);
+    options.setShowLine(true);
     options.setScales(scales);
-    options.setScales(scales);
-    options.setAnimation(animation);
-    options.setLegend(legend);
-    options.setTooltip(null);
-
+    options.setAnimation(new DefaultAnimation().setDuration(0));
+    options.setPlugins(new Plugins()
+      .setLegend(new LegendOptions().setAlign("end"))
+      .setTooltip(new TooltipOptions().setEnabled(false)));
     chartData.setLabels(labels);
-
     model.setOptions(options);
     model.setData(chartData);
   }
@@ -137,7 +135,7 @@ public class Monitor {
     for (int i = 0; i < series.size(); i++) {
       series.get(i).setFillColor(getColor(i));
     }
-    chartData.addChartDataSet(mSeries.getSeries());
+    chartData.addDataset(mSeries.getSeries());
   }
 
   private String getColor(int i) {
@@ -151,8 +149,7 @@ public class Monitor {
 
   public void removeSeries(Series mSeries) {
     series.remove(mSeries);
-    model.getData().getDataSet().clear();
-    series.forEach(s -> model.getData().addChartDataSet(s.getSeries()));
+    chartData.setDatasets(series.stream().map(Series::getSeries).toList());
   }
 
   public void addInfoValue(ValueProvider valueProvider) {
@@ -163,9 +160,14 @@ public class Monitor {
     return series;
   }
 
-  public LineChartModel getModel() {
+  public String getModel() {
     calcNewValues();
-    return model;
+    return model.toJson();
+  }
+
+  public List<LineDataset> getDataSets() {
+    calcNewValues();
+    return series.stream().map(Series::getSeries).toList();
   }
 
   private void calcNewValues() {
@@ -174,7 +176,6 @@ public class Monitor {
       return;
     }
     lastTimestamp = time;
-    setXAxis(lastTimestamp);
     calcNewValues(time);
   }
 
@@ -182,15 +183,12 @@ public class Monitor {
     return Calendar.getInstance().getTimeInMillis();
   }
 
-  private void setXAxis(long max) {
-    xAxis.setMax(max);
-  }
-
   private void calcNewValues(long time) {
     series.forEach(Series::calcNewValue);
     ZonedDateTime stamp = ZonedDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault());
     labels.add(stamp.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
     series.forEach(serie -> cleanUpOldData(serie.getData()));
+    chartData.setLabels(labels);
     Optional<Value> maxValue = series
         .stream()
         .map(Series::maxValue)
@@ -233,8 +231,7 @@ public class Monitor {
         value = max.unit().convertTo(value, scaleToUnit);
       }
       value = Math.floor((value + 4.0d) / 4.0d * 1.1d);
-      value = value * 4.0d;
-      yAxis.setMax(value);
+      yAxis.setMax(value * 4.0d);
       yTicks.setMaxTicksLimit(6);
     }
   }

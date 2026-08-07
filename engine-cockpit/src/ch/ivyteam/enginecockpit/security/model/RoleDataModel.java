@@ -8,6 +8,7 @@ import jakarta.faces.model.SelectItem;
 
 import org.apache.commons.lang3.Strings;
 import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.DefaultTreeNodeChildren;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.TreeNodeChildren;
 
@@ -105,9 +106,9 @@ public class RoleDataModel extends TreeView<Role> implements TableFilter {
     }
 
     @Override
-    public List<TreeNode<Role>> getChildren() {
+    public TreeNodeChildren<Role> getChildren() {
       if (isLeaf()) {
-        return new TreeNodeChildren<>(this);
+        return new DefaultTreeNodeChildren<>(this);
       }
       ensureChildrenFetched();
       return super.getChildren();

@@ -1,5 +1,8 @@
 package ch.ivyteam.enginecockpit.security.permission;
 
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.AjaxBehaviorEvent;
+
 public abstract class AbstractPermission {
 
   private final String name;
@@ -8,8 +11,8 @@ public abstract class AbstractPermission {
   private boolean someGrant;
   private boolean someDeny;
   private boolean group;
-  private Integer state;
-  private Integer initialState;
+  private Boolean state;
+  private State initialState;
   private boolean isGroup = false;
 
   protected AbstractPermission(String name, boolean grant, boolean deny) {
@@ -18,21 +21,22 @@ public abstract class AbstractPermission {
     this.deny = deny;
   }
 
-  private interface State {
-    int DEFAULT = 0;
-    int GRANTED = 1;
-    int DENIED = 2;
-    int SOMEGRANTED = 3;
-    int SOMEDENIED = 4;
-    int STATELESS = 5;
+  private enum State {
+    DEFAULT,
+    GRANTED,
+    DENIED,
+    SOMEGRANTED,
+    SOMEDENIED,
+    STATELESS;
   }
 
-  public Integer getState() {
+  public Boolean getState() {
     return state;
   }
 
-  public void setState(Integer state) {
-    this.state = state;
+  public void setState(Boolean state) {
+    // Ingore setState, will also be called with expand tree node
+    // State will be set via defineState method
   }
 
   public void initialState() {
@@ -46,7 +50,7 @@ public abstract class AbstractPermission {
       initialState = State.SOMEGRANTED;
     }
     if (isSomeDeny()) {
-      initialState = State.SOMEGRANTED;
+      initialState = State.SOMEDENIED;
     }
     if (isGroup()) {
       isGroup = true;
@@ -55,19 +59,19 @@ public abstract class AbstractPermission {
     }
   }
 
-  public void defineState() {
-    switch (state) {
-      case State.DEFAULT:
-        resetToInitialState();
-        break;
-      case State.GRANTED:
-        grant();
-        break;
-      case State.DENIED:
-        deny();
-        break;
-      default:
-        break;
+  public void defineState(AjaxBehaviorEvent event) {
+    var clientId = event.getComponent().getClientId(FacesContext.getCurrentInstance());
+    var submittedValue = FacesContext.getCurrentInstance().getExternalContext()
+        .getRequestParameterMap().get(clientId + "_input");
+    if ("0".equals(submittedValue) || submittedValue != null && submittedValue.isBlank()) {
+      state = null;
+      resetToInitialState();
+    } else if ("1".equals(submittedValue)) {
+      state = true;
+      grant();
+    } else if ("2".equals(submittedValue)) {
+      state = false;
+      deny();
     }
   }
 
@@ -76,24 +80,15 @@ public abstract class AbstractPermission {
       group();
     }
     switch (initialState) {
-      case State.GRANTED:
-        grant();
-        break;
-      case State.DENIED:
-        deny();
-        break;
-      case State.SOMEGRANTED:
-        someGrant();
-        break;
-      case State.SOMEDENIED:
-        someDeny();
-        break;
-      case State.STATELESS:
+      case State.GRANTED -> grant();
+      case State.DENIED -> deny();
+      case State.SOMEGRANTED -> someGrant();
+      case State.SOMEDENIED -> someDeny();
+      case State.STATELESS -> {
         grant();
         ungrant();
-        break;
-      default:
-        break;
+      }
+      default -> {}
     }
   }
 
