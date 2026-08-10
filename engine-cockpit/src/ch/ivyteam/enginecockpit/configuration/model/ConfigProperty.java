@@ -213,19 +213,20 @@ public class ConfigProperty {
   }
 
   public StreamedContent downloadFile() {
-    try {
-      var newInputStream = Files.newInputStream(file);
       return DefaultStreamedContent
           .builder()
-          .stream(() -> newInputStream)
+          .stream(() -> {
+            try {
+              return Files.newInputStream(file);
+            } catch (IOException ex) {
+              FacesContext.getCurrentInstance().addMessage("msgs",
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to load file: " + source));
+              throw new RuntimeException(ex);
+            }
+          })
           .contentType("application/x-yaml")
           .name(file.getFileName().toString())
           .build();
-    } catch (IOException _) {
-      FacesContext.getCurrentInstance().addMessage("msgs",
-          new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to load file: " + source));
-      return null;
-    }
   }
 
   private static Path getFile(String source) {

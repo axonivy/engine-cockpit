@@ -20,8 +20,8 @@ public class DownloadUtil {
   public static void zipDir(OutputStream out, List<Path> sources) throws IOException {
     try (var zs = new ZipOutputStream(out)) {
       for (var source : sources) {
-        Files.walk(source)
-            .filter(path -> !Files.isDirectory(path))
+        try (var walker = Files.walk(source)) {
+          walker.filter(path -> !Files.isDirectory(path))
             .forEach(path -> {
               var zipEntry = new ZipEntry(source.relativize(path).toString());
               try {
@@ -32,6 +32,7 @@ public class DownloadUtil {
                 LOGGER.info(ex);
               }
             });
+        }
       }
     }
   }
