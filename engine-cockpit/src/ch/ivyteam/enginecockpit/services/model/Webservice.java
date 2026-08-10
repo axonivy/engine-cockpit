@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import jakarta.ws.rs.core.UriBuilder;
-
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -17,6 +15,7 @@ import org.primefaces.model.TreeNode;
 import ch.ivyteam.enginecockpit.commons.Feature;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient;
+import jakarta.ws.rs.core.UriBuilder;
 
 public class Webservice implements IService {
   private final String name;
@@ -172,7 +171,7 @@ public class Webservice implements IService {
       links.add(defaultLink);
       Arrays.stream(StringUtils.split(fallbacks, "\n"))
           .map(StringUtils::trim)
-          .forEach(link -> links.add(link));
+          .forEach(links::add);
       return links;
     }
 
