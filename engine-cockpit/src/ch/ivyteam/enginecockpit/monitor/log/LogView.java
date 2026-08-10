@@ -104,9 +104,13 @@ public class LogView {
   }
 
   public StreamedContent getFile() throws IOException {
-    var newInputStream = Files.newInputStream(logFile.path());
     return DefaultStreamedContent.builder()
-        .stream(() -> newInputStream)
+        .stream(() -> { 
+          try {
+            return Files.newInputStream(logFile.path());
+          } catch (IOException ex) {
+            throw new RuntimeException(ex);
+          }})
         .contentType("text/plain")
         .name(logFile.name())
         .build();

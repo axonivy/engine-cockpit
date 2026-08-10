@@ -93,11 +93,11 @@ public class MAttribute implements Comparable<MAttribute> {
   }
 
   private static String getValue(Object value) {
-    if (value instanceof TabularData) {
-      return getTabValue((TabularData) value);
+    if (value instanceof TabularData data) {
+      return getTabValue(data);
     }
-    if (value instanceof CompositeData) {
-      return getCompositeValue((CompositeData) value);
+    if (value instanceof CompositeData data) {
+      return getCompositeValue(data);
     }
     if (value != null && value.getClass().isArray()) {
       return getArrayValue(value);
@@ -146,26 +146,26 @@ public class MAttribute implements Comparable<MAttribute> {
   }
 
   private static Object[] getEntries(Object array) {
-    if (array instanceof byte[]) {
-      return ArrayUtils.toObject((byte[]) array);
+    if (array instanceof byte[] data) {
+      return ArrayUtils.toObject(data);
     }
-    if (array instanceof short[]) {
-      return ArrayUtils.toObject((short[]) array);
+    if (array instanceof short[] data) {
+      return ArrayUtils.toObject(data);
     }
-    if (array instanceof int[]) {
-      return ArrayUtils.toObject((int[]) array);
+    if (array instanceof int[] data) {
+      return ArrayUtils.toObject(data);
     }
-    if (array instanceof long[]) {
-      return ArrayUtils.toObject((long[]) array);
+    if (array instanceof long[] data) {
+      return ArrayUtils.toObject(data);
     }
-    if (array instanceof float[]) {
-      return ArrayUtils.toObject((float[]) array);
+    if (array instanceof float[] data) {
+      return ArrayUtils.toObject(data);
     }
-    if (array instanceof double[]) {
-      return ArrayUtils.toObject((double[]) array);
+    if (array instanceof double[] data) {
+      return ArrayUtils.toObject(data);
     }
-    if (array instanceof boolean[]) {
-      return ArrayUtils.toObject((boolean[]) array);
+    if (array instanceof boolean[] data) {
+      return ArrayUtils.toObject(data);
     }
     return (Object[]) array;
   }

@@ -184,27 +184,27 @@ public class WebserviceDetailBean extends DetailView implements FeatureEditor, S
   }
 
   private ConnectionTestResult testConnection() {
-    var client = SslConnectionTesterClient.createClient();
-
-    if (authSupportedForTesting()) {
-      client.register(new Authenticator(webservice.getUsername(), webservice.getPassword()));
-    }
-    try {
-      int status = client.target(activeEndpointUrl).request().post(Entity.json("")).getStatus();
-      if (status == 401) {
-        return new ConnectionTestResult("POST", status, TestResult.WARNING,
-            Ivy.cm().co("/webServiceEndpoints/TestConnectionAuthenticationMessage"));
-      } else if (status == 404) {
-        return new ConnectionTestResult("POST", status, TestResult.WARNING,
-            Ivy.cm().co("/webServiceEndpoints/TestConnectionNotFoundMessage"));
-      } else {
-        return new ConnectionTestResult("POST", status, TestResult.SUCCESS,
-            Ivy.cm().co("/webServiceEndpoints/TestConnectionSuccessMessage"));
+    try (var client = SslConnectionTesterClient.createClient()) {
+      if (authSupportedForTesting()) {
+        client.register(new Authenticator(webservice.getUsername(), webservice.getPassword()));
       }
-    } catch (ProcessingException ex) {
-      return new ConnectionTestResult("", 0, TestResult.ERROR,
-          Ivy.cm().content("/webServiceEndpoints/TestConnectionErrorMessage")
-              .replace("exception", ExceptionUtils.getStackTrace(ex)).get());
+      try {
+        int status = client.target(activeEndpointUrl).request().post(Entity.json("")).getStatus();
+        if (status == 401) {
+          return new ConnectionTestResult("POST", status, TestResult.WARNING,
+              Ivy.cm().co("/webServiceEndpoints/TestConnectionAuthenticationMessage"));
+        } else if (status == 404) {
+          return new ConnectionTestResult("POST", status, TestResult.WARNING,
+              Ivy.cm().co("/webServiceEndpoints/TestConnectionNotFoundMessage"));
+        } else {
+          return new ConnectionTestResult("POST", status, TestResult.SUCCESS,
+              Ivy.cm().co("/webServiceEndpoints/TestConnectionSuccessMessage"));
+        }
+      } catch (ProcessingException ex) {
+        return new ConnectionTestResult("", 0, TestResult.ERROR,
+            Ivy.cm().content("/webServiceEndpoints/TestConnectionErrorMessage")
+                .replace("exception", ExceptionUtils.getStackTrace(ex)).get());
+      }
     }
   }
 
