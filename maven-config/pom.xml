@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ch.ivyteam.enginecockpit</groupId>
   <artifactId>engine-cockpit-config</artifactId>
-  <version>14.0.0-pf15-SNAPSHOT</version>
+  <version>14.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <parent>
@@ -13,7 +13,7 @@
   </parent>
 
   <properties>
-    <engine.page.url>https://jenkins.ivyteam.io/job/core_product/job/pf-15/</engine.page.url>
+    <engine.page.url>https://product.ivyteam.io</engine.page.url>
     <engine.dir>../.ivy-engine</engine.dir>
     <oshi.version>7.4.4</oshi.version>
   </properties>
