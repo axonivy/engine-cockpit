@@ -127,7 +127,7 @@ public class HttpAsserter {
     }
 
     private boolean isProcessed(String url) {
-      return processed.contains(url) || ignorePages.stream().anyMatch(p -> url.contains(p));
+      return processed.contains(url) || ignorePages.stream().anyMatch(url::contains);
     }
   }
 }

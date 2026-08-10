@@ -103,7 +103,7 @@ public class DatabaseBean extends DetailView implements Serializable {
         .map(ExecStatement::new)
         .collect(Collectors.toList());
     connections = externalDb.getConnections().stream()
-        .map(c -> new DatabaseDto.Connection(c))
+        .map(DatabaseDto.Connection::new)
         .collect(Collectors.toList());
   }
 

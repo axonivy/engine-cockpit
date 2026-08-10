@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 import org.primefaces.event.NodeExpandEvent;
@@ -21,6 +18,8 @@ import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISecurityDescriptor;
 import ch.ivyteam.ivy.security.ISecurityMember;
 import ch.ivyteam.ivy.security.internal.context.SecurityContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -169,14 +168,20 @@ public class PermissionBean extends TreeView<AbstractPermission> implements Seri
 
   private void reloadPermissionTree(Permission permission) {
     if (StringUtils.isBlank(filter)) {
-      reloadPermissionsUp(searchPermissionNode(rootTreeNode.getChildren(), permission));
+      var node = searchPermissionNode(rootTreeNode.getChildren(), permission);
+      if (node != null) {
+        reloadPermissionsUp(node);
+      }
     } else {
       reSetPermission(permission);
     }
   }
 
   private void reloadPermissionTree(PermissionGroup permissionGroup) {
-    reloadPermissionsUpAndDown(searchPermissionNode(rootTreeNode.getChildren(), permissionGroup));
+    var node = searchPermissionNode(rootTreeNode.getChildren(), permissionGroup);
+    if (node != null) {
+      reloadPermissionsUpAndDown(node);
+    }
   }
 
   private void reloadPermissionsUp(TreeNode<AbstractPermission> permissionNode) {
