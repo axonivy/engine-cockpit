@@ -42,7 +42,7 @@ public class TestDataCreator {
     while (dossierCount < count) {
       try {
         Thread.sleep(500);
-      } catch (InterruptedException e) {}
+      } catch (InterruptedException _) {}
       dossierCount = countDossier(repo);
     }
   }

@@ -23,6 +23,6 @@ public class DatabaseCreator {
       try (var stmt = connection.createStatement()) {
         stmt.execute("DROP DATABASE temp");
       }
-    } catch (SQLException ex) {}
+    } catch (SQLException _) {}
   }
 }

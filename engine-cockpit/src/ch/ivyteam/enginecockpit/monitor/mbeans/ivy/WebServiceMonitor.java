@@ -28,7 +28,7 @@ public class WebServiceMonitor {
           .map(WebService::new)
           .filter(this::isWebService)
           .findFirst().orElse(WebService.NO_DATA);
-    } catch (MalformedObjectNameException ex) {
+    } catch (MalformedObjectNameException _) {
       webService = WebService.NO_DATA;
     }
   }

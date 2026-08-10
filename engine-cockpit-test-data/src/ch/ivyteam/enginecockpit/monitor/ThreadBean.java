@@ -17,7 +17,7 @@ public class ThreadBean extends AbstractProcessStartEventBean {
       synchronized (this) {
         try {
           wait();
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException _) {}
       }
     });
   }

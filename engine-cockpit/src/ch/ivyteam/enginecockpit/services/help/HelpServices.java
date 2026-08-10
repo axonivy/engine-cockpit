@@ -30,7 +30,7 @@ public abstract class HelpServices {
   public static String readTemplateString(String fileName) {
     try (var is = HelpServices.class.getResourceAsStream(fileName)) {
       return IOUtils.toString(is, StandardCharsets.UTF_8);
-    } catch (IOException e) {
+    } catch (IOException _) {
       return "";
     }
   }

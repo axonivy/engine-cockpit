@@ -79,7 +79,7 @@ final class NotificationChannel {
       return Stream
           .of(ManagementFactory.getPlatformMBeanServer().getMBeanInfo(channel).getAttributes())
           .anyMatch(attr -> "errors".equals(attr.getName()));
-    } catch (IntrospectionException | InstanceNotFoundException | ReflectionException ex) {
+    } catch (IntrospectionException | InstanceNotFoundException | ReflectionException _) {
       return false;
     }
   }

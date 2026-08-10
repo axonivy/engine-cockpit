@@ -7,11 +7,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.inject.Named;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.primefaces.event.FileUploadEvent;
@@ -28,6 +23,10 @@ import ch.ivyteam.licence.LicenceConstants;
 import ch.ivyteam.licence.LicenceEventManager;
 import ch.ivyteam.licence.NewLicenceFileInstaller;
 import ch.ivyteam.licence.SystemLicence;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
 
 @Named
 @RequestScoped
@@ -95,7 +94,7 @@ public class LicenceBean extends StepStatus {
     var inThreeMonth = LocalDate.now().plus(3, ChronoUnit.MONTHS);
     try {
       return SystemLicence.isExpiredAt(inThreeMonth);
-    } catch (DateTimeParseException e) {
+    } catch (DateTimeParseException _) {
       return false;
     }
   }

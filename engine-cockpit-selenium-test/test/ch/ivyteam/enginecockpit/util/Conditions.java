@@ -44,7 +44,7 @@ public class Conditions {
         var i = Integer.parseInt(element.getText());
         consumer.accept(i);
         return new CheckResult(true, text);
-      } catch (AssertionError | RuntimeException ex) {
+      } catch (AssertionError | RuntimeException _) {
         return new CheckResult(false, text);
       }
     }

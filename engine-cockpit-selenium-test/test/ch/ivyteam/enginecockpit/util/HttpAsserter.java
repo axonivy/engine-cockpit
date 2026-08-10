@@ -97,7 +97,7 @@ public class HttpAsserter {
         } else {
           return URI.create(baseUrl).resolve(u).toString();
         }
-      } catch (Exception ex) {
+      } catch (Exception _) {
         System.err.println("Could not resolve URL: " + href + " from base: " + baseUrl);
         return null;
       }

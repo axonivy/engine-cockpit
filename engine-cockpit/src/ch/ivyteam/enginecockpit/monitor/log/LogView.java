@@ -10,14 +10,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.ws.rs.core.UriBuilder;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.ivy.log.provider.LogFile;
+import jakarta.ws.rs.core.UriBuilder;
 
 public class LogView {
 
@@ -83,7 +82,7 @@ public class LogView {
       if (count == LINES) {
         endReached = false;
       }
-    } catch (IOException ex) {
+    } catch (IOException _) {
       return Collections.emptyList();
     }
 

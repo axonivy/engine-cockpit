@@ -8,13 +8,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.faces.component.UIColumn;
-import jakarta.faces.component.UIComponent;
-import jakarta.faces.component.ValueHolder;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import org.primefaces.util.ComponentUtils;
 
 import ch.ivyteam.enginecockpit.util.DateUtil;
@@ -23,6 +16,12 @@ import ch.ivyteam.ivy.trace.SpanUri;
 import ch.ivyteam.ivy.trace.Trace;
 import ch.ivyteam.ivy.trace.TraceSpan;
 import ch.ivyteam.ivy.trace.Tracer;
+import jakarta.faces.component.UIColumn;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.ValueHolder;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -160,7 +159,7 @@ public class TraceBean implements Serializable {
     private static String toRelativPath(URI uri) {
       try {
         return " " + new URI(null, null, null, -1, uri.getPath(), uri.getQuery(), uri.getFragment()).toString();
-      } catch (URISyntaxException ex) {
+      } catch (URISyntaxException _) {
         return " " + uri.toString();
       }
     }
