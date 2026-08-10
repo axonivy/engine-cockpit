@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.system.WebTestAdmins;
@@ -32,10 +33,11 @@ class WebTestWizardAdmins {
 
   @Test
   void adminStep() {
-    var table = new Table(By.id("admins:adminForm:adminTable"));
+    openAddAdminDialog();
     WebTestAdmins.addAdmin("admin", "admin@ivyTeam.ch", "password", "password", "en", "en");
     $(".ui-growl-title").shouldBe(text("'admin' added"));
     Selenide.refresh();
+    var table = new Table(By.id("admins:adminForm:adminTable"));
     table.firstColumnShouldBe(exactTexts("admin"));
     $(By.id("addAdminForm:adminWarnMessage")).shouldBe(empty);
     WebTestWizard.activeStepShouldBeOk();
@@ -45,17 +47,25 @@ class WebTestWizardAdmins {
 
   @Test
   void addEditDeleteAdmin() {
+    openAddAdminDialog();
     WebTestAdmins.testAddEditDelete();
   }
 
   @Test
   void adminDialogInvalid() {
+    openAddAdminDialog();
     WebTestAdmins.testAddAdminInvalidValues();
+    openAddAdminDialog();
     WebTestAdmins.testAddAdminInvalidPassword();
   }
 
   @Test
   void ownAdminCannotBeDeleted() {
     WebTestAdmins.assertOwnAdminCannotBeDeleted();
+  }
+
+  private static void openAddAdminDialog() {
+    $(By.id("addAdminForm:newAdminBtn")).shouldBe(Condition.enabled, Condition.visible).click();
+    $(By.id("admins:editAdminDialog")).shouldBe(Condition.visible);
   }
 }

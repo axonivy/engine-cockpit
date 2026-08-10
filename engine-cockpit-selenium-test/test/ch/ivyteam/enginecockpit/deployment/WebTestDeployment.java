@@ -62,18 +62,12 @@ class WebTestDeployment {
 
   @Test
   void validApp() {
-    if (isDesigner()) {
-      return;
-    }
     toApplicationAndOpenDeployment();
     deployAndAssert("Using options>DeploymentOptions");
   }
 
   @Test
   void validAppWithDeployOptions() {
-    if (isDesigner()) {
-      return;
-    }
     toApplicationAndOpenDeployment();
     showDeploymentOptions();
     deployAndAssert("Using options>DeploymentOptions");

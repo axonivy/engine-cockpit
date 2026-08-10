@@ -85,7 +85,7 @@ public class Navigation {
   }
 
   public static void toApplication(String appName) {
-    toApplication(appName, "default");
+    toApplication(appName, Tab.DEFAULT_SECURITY);
   }
 
   public static void toApplication(String appName, String context) {
@@ -169,13 +169,13 @@ public class Navigation {
   }
 
   public static void toUserDetail(String userName) {
-    toUserDetail("default", userName);
+    toUserDetail(Tab.DEFAULT_SECURITY, userName);
   }
 
   public static void toUserDetail(String system, String userName) {
     toUsers();
     Tab.SECURITY_SYSTEM.switchToTab(system);
-    $(".ui-inputfield").sendKeys(userName);
+    $(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-inputfield").shouldBe(visible).sendKeys(userName);
     $$(Tab.SECURITY_SYSTEM.activePanelCss + " .user-name").find(text(userName)).shouldBe(visible).click();
     assertCurrentUrlContains("userdetail.xhtml?system=" + system + "&name=" + userName);
     menuShouldBeActive(SECURITY_USER_MENU);
@@ -188,11 +188,12 @@ public class Navigation {
   }
 
   public static void toRoleDetail(String roleName) {
-    toRoleDetail("default", roleName);
+    toRoleDetail(Tab.DEFAULT_SECURITY, roleName);
   }
 
   public static void toRoleDetail(String system, String roleName) {
     toRoles();
+    Tab.SECURITY_SYSTEM.switchToTab(system);
     $(Tab.SECURITY_SYSTEM.activePanelCss + " .expand-all").shouldBe(visible).click();
     $$(Tab.SECURITY_SYSTEM.activePanelCss + " .role-name").find(text(roleName)).shouldBe(visible).click();
     assertCurrentUrlContains("roledetail.xhtml?system=" + system + "&name=" + roleName);

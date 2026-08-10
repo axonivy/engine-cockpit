@@ -100,8 +100,7 @@ public class UserDetailBean implements Serializable {
     canWorkOn = TaskQuery.create(taskQueryExecutor).where().canWorkOn(iUser).executor().count();
 
     notificationChannelDataModel = NotificationChannelDataModel.instance(iUser, securityContext);
-    userProperties = new UserProperty();
-    userProperties.setMemberName(userName);
+    userProperties = new UserProperty(iUser);
   }
 
   public User getUser() {

@@ -3,7 +3,7 @@ package ch.ivyteam.enginecockpit.monitor.mbeans.jvm;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.primefaces.model.charts.line.LineChartDataSet;
+import software.xdev.chartjs.model.dataset.LineDataset;
 
 import ch.ivyteam.ivy.environment.IvyTest;
 
@@ -13,16 +13,16 @@ public class TestJvmMonitorBean {
   public void cpuMonitor() {
     var testee = new JvmMonitorBean();
 
-    var dataSet = testee.getCpuMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getCpuMonitor().getDataSets();
     assertThat(dataSet).hasSize(2);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var calls = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var calls = (LineDataset) dataSet.get(0);
     assertThat(calls.getLabel()).isEqualTo("System");
     assertThat(calls.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var errors = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var errors = (LineDataset) dataSet.get(1);
     assertThat(errors.getLabel()).isEqualTo("Process");
     assertThat(errors.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
@@ -33,16 +33,16 @@ public class TestJvmMonitorBean {
   public void threadsMonitor() {
     var testee = new JvmMonitorBean();
 
-    var dataSet = testee.getThreadsMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getThreadsMonitor().getDataSets();
     assertThat(dataSet).hasSize(2);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var active = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var active = (LineDataset) dataSet.get(0);
     assertThat(active.getLabel()).isEqualTo("Active");
     assertThat(active.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var daemons = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var daemons = (LineDataset) dataSet.get(1);
     assertThat(daemons.getLabel()).isEqualTo("Daemons");
     assertThat(daemons.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class)); // delta
 
@@ -54,16 +54,16 @@ public class TestJvmMonitorBean {
   public void classesMonitor() {
     var testee = new JvmMonitorBean();
 
-    var dataSet = testee.getClassesMonitor().getModel().getData().getDataSet();
+    var dataSet = testee.getClassesMonitor().getDataSets();
     assertThat(dataSet).hasSize(2);
 
-    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
-    var loaded = (LineChartDataSet) dataSet.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineDataset.class);
+    var loaded = (LineDataset) dataSet.get(0);
     assertThat(loaded.getLabel()).isEqualTo("Loaded");
     assertThat(loaded.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
-    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
-    var unloaded = (LineChartDataSet) dataSet.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineDataset.class);
+    var unloaded = (LineDataset) dataSet.get(1);
     assertThat(unloaded.getLabel()).isEqualTo("Unloaded");
     assertThat(unloaded.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 

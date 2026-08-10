@@ -13,8 +13,8 @@
       </p:messages>
       <h:panelGroup rendered="#{!deploymentBean.showDeployLogs}" layout="block">
         <div class="file-upload ui-fluid">
-          <p:fileUpload id="fileUpload" value="#{deploymentBean.file}" dropZone="drop_zone" style="display: none" mode="simple" 
-            widgetVar="deployUpload" update="@form" accept="#{deploymentBean.allowedExtensionsText}"/>
+          <p:fileUpload id="fileUpload" value="#{deploymentBean.file}" dropZone="drop_zone" style="display: none" mode="advanced" auto="true"
+            widgetVar="deployUpload" update="@form" accept="#{deploymentBean.allowedExtensionsText}" />
           <p:panelGrid columns="2" columnClasses="col-4, col-8" layout="flex">
             <p:button id="chooseFileBtn" icon="ti ti-plus" onclick="PF('deployUpload').show(); return false" value="#{ivy.cm.co('/fileUpload/ChooseFileButton')}"/>
             <h:panelGroup id="drop_zone" styleClass="drop-zone flex">
