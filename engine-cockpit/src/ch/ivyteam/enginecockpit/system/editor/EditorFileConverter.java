@@ -2,6 +2,9 @@ package ch.ivyteam.enginecockpit.system.editor;
 
 import java.util.NoSuchElementException;
 
+import org.apache.commons.lang3.StringUtils;
+
+import ch.ivyteam.ivy.configuration.file.provider.ConfigFileRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
@@ -9,10 +12,6 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.ConverterException;
 import jakarta.faces.convert.FacesConverter;
-
-import org.apache.commons.lang3.StringUtils;
-
-import ch.ivyteam.ivy.configuration.file.provider.ConfigFileRepository;
 
 @FacesConverter(value = "editorFileConverter", managed = true)
 @ApplicationScoped
@@ -29,7 +28,7 @@ public class EditorFileConverter implements Converter<Object> {
           .findFirst()
           .map(EditorFile::new)
           .orElseThrow();
-    } catch (NoSuchElementException e) {
+    } catch (NoSuchElementException _) {
       throw new ConverterException(
           new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid file."));
     }

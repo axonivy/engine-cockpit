@@ -3,11 +3,6 @@ package ch.ivyteam.enginecockpit.security;
 import java.io.Serializable;
 import java.util.List;
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.model.MemberProperty;
 import ch.ivyteam.enginecockpit.security.model.NotificationChannelDataModel;
@@ -25,6 +20,10 @@ import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.TaskState;
 import ch.ivyteam.ivy.workflow.query.CaseQuery;
 import ch.ivyteam.ivy.workflow.query.TaskQuery;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -164,7 +163,7 @@ public class UserDetailBean implements Serializable {
   public void addRole(String roleName) {
     try {
       getIUser().addRole(securityContext.roles().find(roleName));
-    } catch (Exception e) {
+    } catch (Exception _) {
       FacesContext.getCurrentInstance().addMessage("roleMessage",
           new FacesMessage(Ivy.cm().co("/userDetailInformation/AddRoleFailedMessage")));
     }

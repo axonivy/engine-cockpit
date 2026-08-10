@@ -15,7 +15,7 @@ public class HttpSessionDto {
       this.lastAccessedTime = httpSession.getLastAccessedTime();
       this.servletContextPath = httpSession.getServletContext().getContextPath();
       this.isValid = true;
-    } catch (RuntimeException ex) {
+    } catch (RuntimeException _) {
       this.isValid = false;
     }
 

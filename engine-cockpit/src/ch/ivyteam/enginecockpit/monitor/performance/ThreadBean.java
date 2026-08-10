@@ -19,11 +19,6 @@ import java.util.stream.Stream;
 
 import javax.management.ObjectName;
 
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.inject.Named;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 import org.primefaces.model.DefaultStreamedContent;
@@ -31,6 +26,10 @@ import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.monitor.trace.BackgroundMeterUtil;
 import ch.ivyteam.ivy.environment.Ivy;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
 
 @Named
 @SessionScoped
@@ -119,7 +118,7 @@ public class ThreadBean implements Serializable {
       try {
         var id = Long.valueOf(filter.toString());
         return info.getId() == id;
-      } catch (NumberFormatException ex) {}
+      } catch (NumberFormatException _) {}
       String name = info.getName();
       if (name != null && Strings.CI.contains(name, filter.toString())) {
         return true;

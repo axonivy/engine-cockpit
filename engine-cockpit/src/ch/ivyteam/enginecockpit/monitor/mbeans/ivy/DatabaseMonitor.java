@@ -33,7 +33,7 @@ public class DatabaseMonitor implements Serializable {
           .map(Database::new)
           .filter(this::isDatabase)
           .findFirst().orElse(Database.NO_DATA);
-    } catch (MalformedObjectNameException ex) {
+    } catch (MalformedObjectNameException _) {
       database = Database.NO_DATA;
     }
   }

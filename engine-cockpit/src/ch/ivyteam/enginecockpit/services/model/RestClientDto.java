@@ -6,14 +6,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import jakarta.ws.rs.core.UriBuilder;
-
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.Feature;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.config.restricted.ClientProperties;
+import jakarta.ws.rs.core.UriBuilder;
 
 public class RestClientDto implements IService {
   private final String key;
@@ -74,7 +73,7 @@ public class RestClientDto implements IService {
   public String getConnectionUrl() {
     try {
       return UriBuilder.fromUri(url).resolveTemplates(connectionProps).build().toASCIIString();
-    } catch (Exception ex) {
+    } catch (Exception _) {
       return url;
     }
   }

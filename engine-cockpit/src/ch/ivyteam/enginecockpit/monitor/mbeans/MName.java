@@ -57,7 +57,7 @@ public class MName {
   public String getDescription() {
     try {
       return ManagementFactory.getPlatformMBeanServer().getMBeanInfo(name).getDescription();
-    } catch (IntrospectionException | InstanceNotFoundException | ReflectionException ex) {
+    } catch (IntrospectionException | InstanceNotFoundException | ReflectionException _) {
       return "n.a.";
     }
   }

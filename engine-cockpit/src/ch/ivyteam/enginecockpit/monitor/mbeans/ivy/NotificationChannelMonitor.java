@@ -22,7 +22,7 @@ public class NotificationChannelMonitor {
           .map(name -> new NotificationChannel(name, channelName))
           .findFirst()
           .orElse(NotificationChannel.NO_DATA);
-    } catch (MalformedObjectNameException ex) {
+    } catch (MalformedObjectNameException _) {
       channel = NotificationChannel.NO_DATA;
     }
   }

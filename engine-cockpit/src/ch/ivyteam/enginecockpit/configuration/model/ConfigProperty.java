@@ -10,9 +10,6 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -21,6 +18,8 @@ import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.configuration.restricted.Property;
 import ch.ivyteam.ivy.vars.Variable;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 
 public class ConfigProperty {
   private String key;
@@ -222,7 +221,7 @@ public class ConfigProperty {
           .contentType("application/x-yaml")
           .name(file.getFileName().toString())
           .build();
-    } catch (IOException e) {
+    } catch (IOException _) {
       FacesContext.getCurrentInstance().addMessage("msgs",
           new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to load file: " + source));
       return null;
@@ -232,7 +231,7 @@ public class ConfigProperty {
   private static Path getFile(String source) {
     try {
       return Path.of(new URI(StringUtils.substring(source, 0, getIndexOfSourceSuffix(source))));
-    } catch (Exception ex) {
+    } catch (Exception _) {
       return null;
     }
   }

@@ -12,15 +12,14 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 import ch.ivyteam.log.Logger;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -39,7 +38,7 @@ public class CacheBean implements Serializable {
           .stream()
           .flatMap(Cache::toCaches)
           .collect(Collectors.toList());
-    } catch (MalformedObjectNameException ex) {}
+    } catch (MalformedObjectNameException _) {}
   }
 
   public List<Cache> getCaches() {
@@ -85,7 +84,7 @@ public class CacheBean implements Serializable {
             toAssociationCache(name, objectName),
             toBinaryCache(name, objectName),
             toCharacterCache(name, objectName));
-      } catch (MalformedObjectNameException ex) {
+      } catch (MalformedObjectNameException _) {
         return null;
       }
     }

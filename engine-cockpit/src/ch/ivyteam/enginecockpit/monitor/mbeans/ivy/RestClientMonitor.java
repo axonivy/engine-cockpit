@@ -29,7 +29,7 @@ public class RestClientMonitor {
           .map(RestClient::new)
           .filter(this::isRestClient)
           .findFirst().orElse(RestClient.NO_DATA);
-    } catch (MalformedObjectNameException ex) {
+    } catch (MalformedObjectNameException _) {
       restClient = RestClient.NO_DATA;
     }
   }

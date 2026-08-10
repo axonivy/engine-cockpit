@@ -24,7 +24,7 @@ public class Deadlock {
         Thread.sleep(5000);
         other.monitor(++count);
       }
-    } catch (InterruptedException e) {}
+    } catch (InterruptedException _) {}
   }
 
   private void reentrantLock(int count) {
@@ -34,7 +34,7 @@ public class Deadlock {
         Thread.sleep(5000);
         other.reentrantLock(++count);
       }
-    } catch (InterruptedException ex) {} finally {
+    } catch (InterruptedException _) {} finally {
       lock.unlock();
     }
   }
