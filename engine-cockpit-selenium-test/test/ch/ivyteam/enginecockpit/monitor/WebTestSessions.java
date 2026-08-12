@@ -131,6 +131,6 @@ class WebTestSessions {
   }
 
   private EngineUrl rootUri() {
-    return EngineUrl.create().app(EngineCockpitUtil.getAppName()).path("login");
+    return EngineUrl.create().app("system").path("go/login");
   }
 }
