@@ -76,7 +76,7 @@ public class ProfileBean implements Serializable {
   // Use the admin service to save changes to the loggedInAdmin, based on
   // current state from the form
   public void save() {
-    service.config().save(loggedInAdmin.toAdmin());
+    service.save(loggedInAdmin.toAdmin());
     Message.info().summary(Ivy.cm().content("/administrators/AdminUpdatedMessage").replace("name", loggedInAdmin.getUserName()).get()).show();
   }
 

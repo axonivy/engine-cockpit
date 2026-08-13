@@ -113,6 +113,7 @@ public class AdministratorDto {
         .password(password)
         .language(language)
         .formattingLanguage(formattingLanguage)
+        .externalId(externalId)
         .toAdministrator();
   }
 }

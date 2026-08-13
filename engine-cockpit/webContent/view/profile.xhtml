@@ -41,7 +41,7 @@
                 <div class="mb-3">
                   <h:outputLabel for="fullName">#{ivy.cm.co('/common/FullName')}</h:outputLabel>
                   <p:inputText id="fullName" value="#{profileBean.loggedInAdmin.fullName}"
-                    styleClass="mt-2" />
+                    disabled="#{profileBean.loggedInAdmin.external}" styleClass="mt-2" />
                 </div>
 
                 <div class="mb-3">
@@ -49,6 +49,7 @@
                   <p:inputText
                     id="email"
                     value="#{profileBean.loggedInAdmin.email}"
+                    disabled="#{profileBean.loggedInAdmin.external}"
                     styleClass="mt-2" />
                 </div>
 
@@ -57,6 +58,7 @@
                   <h:panelGroup styleClass="md-inputfield">
                     <p:password
                       id="password"
+                      disabled="#{profileBean.loggedInAdmin.external}"
                       match="passwordConfirm"
                       validatorMessage="#{ivy.cm.co('/common/NotMatchPasswordMessage')}"
                       feedback="true"
@@ -81,6 +83,7 @@
                   <h:panelGroup styleClass="md-inputfield">
                     <p:password
                       id="passwordConfirm"
+                      disabled="#{profileBean.loggedInAdmin.external}"
                       feedback="true"
                       inline="true"
                       redisplay="false"
