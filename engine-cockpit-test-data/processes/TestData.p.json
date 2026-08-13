@@ -335,8 +335,11 @@
       "config" : {
         "clientId" : "16AB1778C1FA54E5",
         "operation" : {
-          "name" : "HelloWorld",
-          "port" : "SampleWebServiceSoap"
+          "name" : "getCountryByShortName",
+          "port" : "CountryServicePort",
+          "parameters" : {
+            "parameters.shortName" : "\"CH\""
+          }
         }
       },
       "visual" : {
