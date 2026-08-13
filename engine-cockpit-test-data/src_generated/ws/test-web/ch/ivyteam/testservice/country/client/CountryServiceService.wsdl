@@ -1,0 +1,177 @@
+<wsdl:definitions xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb" xmlns:jaxws="https://jakarta.ee/xml/ns/jaxws" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:targetNamespace="http://country.testservice.ivyteam.ch/" xmlns:tns="http://country.testservice.ivyteam.ch/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="CountryServiceService" targetNamespace="http://country.testservice.ivyteam.ch/">
+<wsdl:documentation>Here to serve countries</wsdl:documentation>
+  <wsdl:types>
+<xs:schema xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb" xmlns:jaxws="https://jakarta.ee/xml/ns/jaxws" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:targetNamespace="http://country.testservice.ivyteam.ch/" xmlns:tns="http://country.testservice.ivyteam.ch/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://country.testservice.ivyteam.ch/" version="1.0">
+
+  
+  <xs:element name="getCountryByShortName" type="tns:getCountryByShortName"/>
+
+  
+  <xs:element name="getCountryByShortNameResponse" type="tns:getCountryByShortNameResponse"/>
+
+  
+  <xs:element name="longRunningOperation" type="tns:longRunningOperation"/>
+
+  
+  <xs:element name="longRunningOperationResponse" type="tns:longRunningOperationResponse"/>
+
+  
+  <xs:element name="returnSoapFault" type="tns:returnSoapFault"/>
+
+  
+  <xs:element name="returnSoapFaultResponse" type="tns:returnSoapFaultResponse"/>
+
+  
+  <xs:complexType name="getCountryByShortName">
+    
+    <xs:sequence>
+      
+      <xs:element minOccurs="0" name="shortName" type="xs:string"/>
+    
+    </xs:sequence>
+  
+  </xs:complexType>
+
+  
+  <xs:complexType name="getCountryByShortNameResponse">
+    
+    <xs:sequence>
+      
+      <xs:element minOccurs="0" name="return" type="tns:country"/>
+    
+    </xs:sequence>
+  
+  </xs:complexType>
+
+  
+  <xs:complexType name="country">
+    
+    <xs:sequence>
+      
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      
+      <xs:element minOccurs="0" name="shortName" type="xs:string"/>
+    
+    </xs:sequence>
+  
+  </xs:complexType>
+
+  
+  <xs:complexType name="longRunningOperation">
+    
+    <xs:sequence>
+      
+      <xs:element name="timeoutInMillis" type="xs:int"/>
+    
+    </xs:sequence>
+  
+  </xs:complexType>
+
+  
+  <xs:complexType name="longRunningOperationResponse">
+    
+    <xs:sequence>
+      
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    
+    </xs:sequence>
+  
+  </xs:complexType>
+
+  
+  <xs:complexType name="returnSoapFault">
+    
+    <xs:sequence/>
+  
+  </xs:complexType>
+
+  
+  <xs:complexType name="returnSoapFaultResponse">
+    
+    <xs:sequence/>
+  
+  </xs:complexType>
+
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="longRunningOperation">
+    <wsdl:part element="targetNamespace:longRunningOperation" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="returnSoapFault">
+    <wsdl:part element="targetNamespace:returnSoapFault" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="longRunningOperationResponse">
+    <wsdl:part element="targetNamespace:longRunningOperationResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCountryByShortName">
+    <wsdl:part element="targetNamespace:getCountryByShortName" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="returnSoapFaultResponse">
+    <wsdl:part element="targetNamespace:returnSoapFaultResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCountryByShortNameResponse">
+    <wsdl:part element="targetNamespace:getCountryByShortNameResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CountryService">
+    <wsdl:operation name="getCountryByShortName">
+      <wsdl:input message="targetNamespace:getCountryByShortName" name="getCountryByShortName">
+    </wsdl:input>
+      <wsdl:output message="targetNamespace:getCountryByShortNameResponse" name="getCountryByShortNameResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="longRunningOperation">
+      <wsdl:input message="targetNamespace:longRunningOperation" name="longRunningOperation">
+    </wsdl:input>
+      <wsdl:output message="targetNamespace:longRunningOperationResponse" name="longRunningOperationResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="returnSoapFault">
+      <wsdl:input message="targetNamespace:returnSoapFault" name="returnSoapFault">
+    </wsdl:input>
+      <wsdl:output message="targetNamespace:returnSoapFaultResponse" name="returnSoapFaultResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CountryServiceServiceSoapBinding" type="targetNamespace:CountryService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getCountryByShortName">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCountryByShortName">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCountryByShortNameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="longRunningOperation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="longRunningOperation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="longRunningOperationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="returnSoapFault">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="returnSoapFault">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="returnSoapFaultResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CountryServiceService">
+    <wsdl:port binding="targetNamespace:CountryServiceServiceSoapBinding" name="CountryServicePort">
+      <soap:address location="http://test-webservices.ivyteam.io:8080/country-service/webservices/country"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

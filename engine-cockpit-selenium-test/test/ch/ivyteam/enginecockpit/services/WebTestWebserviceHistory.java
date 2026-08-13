@@ -43,6 +43,6 @@ class WebTestWebserviceHistory {
   @Test
   void webServiceExecHistory() {
     Selenide.executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
-    $(By.id("webServiceHistory:execHistoryForm:execHistoryTable_data")).shouldHave(text("http://secure.smartbearsoftware.com:80/samples/testcomplete12/webservices/Service.asmx"));
+    $(By.id("webServiceHistory:execHistoryForm:execHistoryTable_data")).shouldHave(text("http://test-webservices.ivyteam.io:91/country-service/webservices/country"));
   }
 }
