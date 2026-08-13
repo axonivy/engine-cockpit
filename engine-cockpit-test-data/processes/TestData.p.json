@@ -10,7 +10,8 @@
       "name" : "addAdministrator.ivp",
       "config" : {
         "callSignature" : "addAdministrator",
-        "outLink" : "addAdministrator.ivp"
+        "outLink" : "addAdministrator.ivp",
+        "case" : { }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 },
@@ -29,7 +30,8 @@
       "name" : "createBusinessCalendar.ivp",
       "config" : {
         "callSignature" : "createBusinessCalendar",
-        "outLink" : "createBusinessCalendar.ivp"
+        "outLink" : "createBusinessCalendar.ivp",
+        "case" : { }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 160 },
@@ -81,7 +83,8 @@
       "name" : "createBusinessData.ivp",
       "config" : {
         "callSignature" : "createBusinessData",
-        "outLink" : "createBusinessData.ivp"
+        "outLink" : "createBusinessData.ivp",
+        "case" : { }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 256 },
@@ -160,7 +163,8 @@
       "name" : "runDbExecution.ivp",
       "config" : {
         "callSignature" : "runDbExecution",
-        "outLink" : "runDbExecution.ivp"
+        "outLink" : "runDbExecution.ivp",
+        "case" : { }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 352 },
@@ -197,7 +201,8 @@
       "name" : "createDisabledUser.ivp",
       "config" : {
         "callSignature" : "createDisabledUser",
-        "outLink" : "createDisabledUser.ivp"
+        "outLink" : "createDisabledUser.ivp",
+        "case" : { }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 560 },
@@ -232,7 +237,8 @@
       "name" : "createManyDynamicRoles.ivp",
       "config" : {
         "callSignature" : "createManyDynamicRoles",
-        "outLink" : "createManyDynamicRoles.ivp"
+        "outLink" : "createManyDynamicRoles.ivp",
+        "case" : { }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 672 },
@@ -260,7 +266,8 @@
       "name" : "executeRest.ivp",
       "config" : {
         "callSignature" : "executeRest",
-        "outLink" : "executeRest.ivp"
+        "outLink" : "executeRest.ivp",
+        "case" : { }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 864 },
@@ -290,7 +297,8 @@
       "name" : "executeWebService.ivp",
       "config" : {
         "callSignature" : "executeWebService",
-        "outLink" : "executeWebService.ivp"
+        "outLink" : "executeWebService.ivp",
+        "case" : { }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 960 },
@@ -302,8 +310,11 @@
       "type" : "WebServiceCall",
       "config" : {
         "clientId" : "16AB1778C1FA54E5",
-        "port" : "SampleWebServiceSoap",
-        "operation" : "HelloWorld"
+        "port" : "CountryServicePort",
+        "inputParams" : {
+          "parameters.shortName" : "\"CH\""
+        },
+        "operation" : "getCountryByShortName"
       },
       "visual" : {
         "at" : { "x" : 224, "y" : 960 }
@@ -321,7 +332,8 @@
       "name" : "cleanupDynamicRoles.ivp",
       "config" : {
         "callSignature" : "cleanupDynamicRoles",
-        "outLink" : "cleanupDynamicRoles.ivp"
+        "outLink" : "cleanupDynamicRoles.ivp",
+        "case" : { }
       },
       "visual" : {
         "at" : { "x" : 448, "y" : 672 },
@@ -356,7 +368,8 @@
       "config" : {
         "callSignature" : "create200kUsers",
         "outLink" : "create200kUsers.ivp",
-        "startName" : "create200kUsers"
+        "startName" : "create200kUsers",
+        "case" : { }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 768 },
@@ -391,7 +404,8 @@
       "config" : {
         "callSignature" : "cleanup200kUsers",
         "outLink" : "cleanup200kUsers.ivp",
-        "startName" : "cleanup200kUsers"
+        "startName" : "cleanup200kUsers",
+        "case" : { }
       },
       "visual" : {
         "at" : { "x" : 448, "y" : 768 },
