@@ -6,9 +6,6 @@ WebServiceClients:
     WsCallLibrary: CXF
     ServiceClass: ch.ivyteam.testservice.country.client.CountryServiceService
     Endpoints:
-      SampleWebServiceSoap:
+      CountryServicePort:
       - http://test-webservices.ivyteam.io:8080/country-service/webservices/country
       - test/env
-      SampleWebServiceSoap12:
-      - http://test-webservices.ivyteam.io:8080/country-service/webservices/country
-      - test.com
