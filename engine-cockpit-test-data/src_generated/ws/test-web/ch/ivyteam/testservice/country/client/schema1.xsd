@@ -1,0 +1,40 @@
+<xsd:schema xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb" xmlns:jaxws="https://jakarta.ee/xml/ns/jaxws" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:targetNamespace="http://country.testservice.ivyteam.ch/" xmlns:tns="http://country.testservice.ivyteam.ch/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://country.testservice.ivyteam.ch/" version="1.0">
+  <xsd:element name="getCountryByShortName" type="targetNamespace:getCountryByShortName"/>
+  <xsd:element name="getCountryByShortNameResponse" type="targetNamespace:getCountryByShortNameResponse"/>
+  <xsd:element name="longRunningOperation" type="targetNamespace:longRunningOperation"/>
+  <xsd:element name="longRunningOperationResponse" type="targetNamespace:longRunningOperationResponse"/>
+  <xsd:element name="returnSoapFault" type="targetNamespace:returnSoapFault"/>
+  <xsd:element name="returnSoapFaultResponse" type="targetNamespace:returnSoapFaultResponse"/>
+  <xsd:complexType name="getCountryByShortName">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="shortName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getCountryByShortNameResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="return" type="targetNamespace:country"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="country">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="name" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="shortName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="longRunningOperation">
+    <xsd:sequence>
+      <xsd:element name="timeoutInMillis" type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="longRunningOperationResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="return" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="returnSoapFault">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:complexType name="returnSoapFaultResponse">
+    <xsd:sequence/>
+  </xsd:complexType>
+</xsd:schema>
