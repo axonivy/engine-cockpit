@@ -2,13 +2,13 @@ WebServiceClients:
   test-web:
     Id: 16AB1778C1FA54E5
     Description: this is a web service
-    WsdlUrl: http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx?WSDL
+    WsdlUrl: http://test-webservices.ivyteam.io:8080/country-service/webservices/country?wsdl
     WsCallLibrary: CXF
-    ServiceClass: com.smartbear.client.SampleWebService
+    ServiceClass: ch.ivyteam.testservice.country.client.CountryServiceService
     Endpoints:
       SampleWebServiceSoap:
-      - http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx
+      - http://test-webservices.ivyteam.io:8080/country-service/webservices/country
       - test/env
       SampleWebServiceSoap12:
-      - http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx
+      - http://test-webservices.ivyteam.io:8080/country-service/webservices/country
       - test.com

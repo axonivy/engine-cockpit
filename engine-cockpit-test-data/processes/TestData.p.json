@@ -302,8 +302,8 @@
       "type" : "WebServiceCall",
       "config" : {
         "clientId" : "16AB1778C1FA54E5",
-        "port" : "SampleWebServiceSoap",
-        "operation" : "HelloWorld"
+        "port" : "CountryServicePort",
+        "operation" : "getCountryByShortName"
       },
       "visual" : {
         "at" : { "x" : 224, "y" : 960 }
