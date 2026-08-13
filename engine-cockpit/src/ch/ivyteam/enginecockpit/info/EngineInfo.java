@@ -105,7 +105,7 @@ public class EngineInfo {
   }
 
   public boolean isDemo() {
-    return EngineMode.is(EngineMode.DEMO);
+    return EngineMode.is(EngineMode.DEMO) && applications.stream().anyMatch(app -> "demo-portal".equals(app.name()));
   }
 
   public boolean isMaintenance() {
