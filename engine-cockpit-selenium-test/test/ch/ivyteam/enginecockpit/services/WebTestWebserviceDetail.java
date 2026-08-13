@@ -101,6 +101,7 @@ class WebTestWebserviceDetail {
     testAndAssertConnection("Warning", "Status 404 Not Found");
 
     setEndPoint("http://test-webservices.ivyteam.io:91");
+    setConfiguration("admin", "wrongpassword");
     testAndAssertConnection("Warning", "Status 401 Unauthorized");
 
     setConfiguration("admin", "nimda");
@@ -125,7 +126,7 @@ class WebTestWebserviceDetail {
   @Test
   void editEndpointsInvalid() {
     new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk")
-        .clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
+        .clickButtonForEntry("CountryServicePort", "editEndpointBtn");
     $("#editEndpointModalForm\\:defaultInput").clear();
     $("#editEndpointModalForm\\:saveEndpoint").click();
     $("#editEndpointModalForm\\:defaultInputMessage").shouldBe(text("Value is required"));
@@ -218,7 +219,7 @@ class WebTestWebserviceDetail {
 
   private void setEndPoint(String defaultLink, String... fallbacks) {
     new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk")
-        .clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
+        .clickButtonForEntry("CountryServicePort", "editEndpointBtn");
     $("#editEndpointModal").shouldBe(visible);
 
     $("#editEndpointModalForm\\:defaultInput").clear();
