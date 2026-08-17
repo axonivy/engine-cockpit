@@ -30,7 +30,7 @@
                 value="#{ivy.cm.co('/migrate/OldEngineLocation')}" />
               <h:panelGroup styleClass="md-inputfield">
                 <p:inputText id="oldEngineInput"
-                  requiredMessage="#{ivy.cm.co('/Labels/RequiredMessage')}"
+                  requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}"
                   value="#{migrationBean.pathToOldEngine}"
                   required="true" />
                 <p:message for="oldEngineInput"
@@ -231,7 +231,7 @@
         </h:form>
       </div>
 
-      <style>
+      <style type="text/css">
       .noHeader.ui-datatable table thead tr {
         display: none;
       }
