@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security.export.sheets;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +10,10 @@ import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
 import ch.ivyteam.ivy.security.IRole;
 
 public class RolesSheet {
-  private static final List<String> HEADERS = Arrays.asList("Name", "Displayname", "Description", "Security Member Id", "External Name");
+  private static final List<String> DEFAULT_HEADERS = List.of("Name", "Displayname", "Description", "Security Member Id", "External Name");
   private final Map<String, Integer> propertyColumns = new HashMap<>();
   private int propertyCellNr = 8;
-  private final ArrayList<String> headers = new ArrayList<>(HEADERS);
+  private final ArrayList<String> headers = new ArrayList<>(DEFAULT_HEADERS);
   private final Iterable<IRole> roles;
   private final Excel excel;
 
