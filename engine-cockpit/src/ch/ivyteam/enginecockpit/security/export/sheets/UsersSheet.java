@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security.export.sheets;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,16 +11,18 @@ import ch.ivyteam.enginecockpit.security.export.excel.Sheet.WidthProvider;
 import ch.ivyteam.ivy.security.IUser;
 
 public class UsersSheet {
-  private static final List<String> HEADERS = Arrays.asList("Name", "Displayname", "Fullname", "Email", "SecurityId", "ExternalId", "External Name");
+
+  private static final List<String> DEFAULT_HEADERS = List.of("Name", "Displayname", "Fullname", "Email", "SecurityId", "ExternalId", "External Name");
   static final WidthProvider HEADER_WITDH = header -> {
     if (header.contains("Security") || header.contains("External")) {
       return 45;
     }
     return 25;
   };
+
   private final Map<String, Integer> propertyColumns = new HashMap<>();
   private int propertyCellNr = 8;
-  private final ArrayList<String> headers = new ArrayList<>(HEADERS);
+  private final ArrayList<String> headers = new ArrayList<>(DEFAULT_HEADERS);
   private final Iterable<IUser> users;
   private final Excel excel;
 
