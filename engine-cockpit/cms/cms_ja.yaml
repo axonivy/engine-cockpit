@@ -497,8 +497,6 @@ info:
   InstallYourApplications: エンジンコックピットにアプリケーションをインストールします。
   MaintenanceMode: メンテナンスモード
   MigrationWizard: 移行ウィザード
-  NEODesigner: NEO Designer
-  NEODesignerIntroduction: NEO Designer は、ビジュアルツールとあらかじめ作成されたコンポーネントを使用して、アプリケーションの開発をスピードアップし、ビジネスユーザーと開発者のシームレスな連携を実現するローコードプラットフォームです。ビジネスタスクの自動化を簡素化し、開発プロセスを効率化し、複雑さを軽減します。効率の向上を目的に設計された NEO Designer は、スケーラブルなアプリケーションの迅速な展開をサポートし、効率的にビジネスニーズを満たします。
   NoActiveProjects: このアプリにはアクティブなプロジェクトがありません。
   NoApplications: アプリケーションなし
   Open: 開く

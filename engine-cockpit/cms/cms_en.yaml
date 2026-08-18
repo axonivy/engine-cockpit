@@ -497,9 +497,6 @@ info:
   InstallYourApplications: Install your application in the Engine Cockpit.
   MaintenanceMode: Maintenance Mode
   MigrationWizard: Migration Wizard
-  NEODesigner: NEO Designer
-  NEODesignerIntroduction: NEO Designer is a low-code platform that accelerates application development by using visual tools and pre-built components, enabling seamless collaboration between business users and developers. This platform simplifies the automation of business tasks, streamlining the development
-    process and reducing complexity. Designed to enhance efficiency, NEO Designer supports the rapid deployment of scalable applications, tailored to meet specific business needs effectively.
   NoActiveProjects: This app has no active projects.
   NoApplications: No applications
   Open: Open
