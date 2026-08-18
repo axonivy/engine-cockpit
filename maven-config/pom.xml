@@ -34,6 +34,9 @@
           <engineListPageUrl>${engine.page.url}</engineListPageUrl>
           <engineDirectory>${engine.dir}</engineDirectory>
           <osArchitecture>All_x64</osArchitecture>
+          <excludeValidators>
+            <validator>xhtml</validator>
+          </excludeValidators>
         </configuration>
       </plugin>
       <plugin>
