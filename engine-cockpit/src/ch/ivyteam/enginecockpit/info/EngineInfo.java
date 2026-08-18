@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import org.primefaces.PrimeFaces;
 
-import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
 import ch.ivyteam.ivy.application.app.state.ActivityState;
@@ -110,10 +109,6 @@ public class EngineInfo {
 
   public boolean isMaintenance() {
     return EngineMode.is(EngineMode.MAINTENANCE);
-  }
-
-  public boolean isNeo() {
-    return Advisor.instance().isNeoActive();
   }
 
   public String getMaintenanceReason() {
