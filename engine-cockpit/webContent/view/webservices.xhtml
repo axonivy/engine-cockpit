@@ -24,6 +24,7 @@
         </div>
         <cc:ApplicationTabs tabChange="#{webserviceBean.reloadWebservices}" id="tabs">
           <h:form id="form">
+            <!-- disable validator next-line: el-validator -->
             <p:dataTable paginator="true" rows="20" paginatorPosition="bottom"
               paginatorAlwaysVisible="false" emptyMessage="#{ivy.cm.co('/webServices/NoWebServicesFound')}" styleClass="ui-fluid"
               var="webservice" value="#{webserviceBean.webservices}" widgetVar="webservicesTable_#{app.id()}"
@@ -31,12 +32,14 @@
               <f:facet name="header">
                 <div class="ui-input-icon-left filter-container">
                   <i class="ti ti-search"/>
+                  <!-- disable validator next-line: el-validator -->
                   <p:inputText id="globalFilter" onkeyup="PF('webservicesTable_#{app.id()}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{webserviceBean.filter}" />
                 </div>
               </f:facet>
 
               <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{webservice.name}" filterBy="#{webservice.name}"
                 styleClass="webservice-name-column">
+                <!-- disable validator next-line: el-validator -->
                 <a href="#{webservice.getViewUrl(app.name())}">
                   <h:outputText value="#{webservice.name}" styleClass="webservice-name">
                     <i class="ti ti-network table-icon"></i>
