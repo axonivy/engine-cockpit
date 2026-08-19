@@ -24,6 +24,7 @@
         </div>
         <cc:ApplicationTabs tabChange="#{restClientsBean.reloadRestClients}" id="tabs">
           <h:form id="form">
+            <!-- disable validator next-line: el-validator -->
             <p:dataTable paginator="true" rows="20" paginatorPosition="bottom"
               paginatorAlwaysVisible="false" emptyMessage="#{ivy.cm.co('/restClients/NoRestClientsFound')}" styleClass="ui-fluid"
               var="restclient" value="#{restClientsBean.restClients}" widgetVar="restClientsTable_#{app.id()}"
@@ -31,12 +32,14 @@
               <f:facet name="header">
                 <div class="ui-input-icon-left filter-container">
                   <i class="ti ti-search"/>
+                  <!-- disable validator next-line: el-validator -->
                   <p:inputText id="globalFilter" onkeyup="PF('restClientsTable_#{app.id()}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{restClientsBean.filter}" />
                 </div>
               </f:facet>
 
               <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{restclient.name}" filterBy="#{restclient.name}"
                 styleClass="restclient-name-column">
+                <!-- disable validator next-line: el-validator -->
                 <a href="#{restclient.getViewUrl(app.name())}">
                   <h:outputText value="#{restclient.name}" styleClass="restclient-name">
                     <i class="ti ti-world table-icon"></i>

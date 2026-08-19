@@ -95,7 +95,7 @@
               </div>
               <p:dataTable id="requiredProjectTable" var="project" value="#{projectBean.requiredProjects}"
                 emptyMessage="#{ivy.cm.content('/projectDetail/DependentProjectTableEmptyMessage').replace('name', projectBean.project.name).get()}">
-                <p:column headerText="#{ivy.cm.co('/projectDetail/PMV')}">
+                <p:column headerText="#{ivy.cm.co('/projectDetail/Project')}">
                   <h:outputLink value="#{project.link}" title="#{project.mavenId}">
                     <i class="ti ti-cube table-icon"></i>
                     <h:outputText value="#{project.name}" />
