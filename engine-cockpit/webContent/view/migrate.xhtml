@@ -150,7 +150,7 @@
                 <p:rowToggler />
               </p:column>
 
-              <p:ajax event="rowToggle" listener="#{migrationBean.show(task)}" update="#{log}" />
+              <p:ajax event="rowToggle" listener="#{migrationBean.show(task)}" update="#{task.log}" />
 
               <p:rowExpansion>
                 <p class="m-0">

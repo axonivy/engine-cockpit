@@ -28,6 +28,7 @@
         </div>
         <cc:ApplicationTabs tabChange="#{databasesBean.onload}" id="tabs">
           <h:form id="form">
+            <!-- disable validator next-line: el-validator -->
             <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" 
               emptyMessage="#{ivy.cm.co('/databases/NoDatabasesFound')}" var="database" value="#{databasesBean.databases}"
               widgetVar="databasesTable_#{app.id()}" styleClass="ui-fluid"
@@ -35,12 +36,14 @@
               <f:facet name="header">
                 <div class="ui-input-icon-left filter-container">
                   <i class="ti ti-search"/>
+                  <!-- disable validator next-line: el-validator -->
                   <p:inputText id="globalFilter" onkeyup="PF('databasesTable_#{app.id()}').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{databasesBean.filter}" />
                 </div>
               </f:facet>
 
               <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{database.name}" filterBy="#{database.name}"
                 styleClass="database-name-column">
+                <!-- disable validator next-line: el-validator -->
                 <a href="#{database.getViewUrl(app.name())}">
                   <h:outputText value="#{database.name}" styleClass="database-name">
                     <i class="ti ti-database table-icon"></i>
