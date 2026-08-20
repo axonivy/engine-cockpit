@@ -137,6 +137,10 @@ public class EngineCockpitUtil {
     runTestProcess("16E881C7DC458C7D/cleanupDataDirs.ivp");
   }
 
+  public static void setPaaSMode(boolean enabled) {
+    runTestProcess("18C0A11A5EED0001/setPaaSMode" + (enabled ? "On" : "Off") + ".ivp");
+  }
+
   public static void resetNotificationConfig() {
     runTestProcess("16E881C7DC458C7D/cleanupNotification.ivp");
   }
