@@ -1,0 +1,84 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process-1.json",
+  "id" : "18C0A11A5EED0001",
+  "config" : {
+    "data" : "engine.cockpit.test.data.Data"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "setPaaSModeOn.ivp",
+      "config" : {
+        "signature" : "setPaaSModeOn"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 },
+        "labelOffset" : { "x" : 28, "y" : 40 }
+      },
+      "connect" : [
+        { "id" : "f6", "to" : "f1" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.configuration.restricted.IConfiguration;",
+            "",
+            "IConfiguration.instance().set(\"Cockpit.PaaS\", \"true\");"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f7", "to" : "f2" }
+      ]
+    }, {
+      "id" : "f2",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 64 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "RequestStart",
+      "name" : "setPaaSModeOff.ivp",
+      "config" : {
+        "signature" : "setPaaSModeOff"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 160 },
+        "labelOffset" : { "x" : 28, "y" : 40 }
+      },
+      "connect" : [
+        { "id" : "f8", "to" : "f4" }
+      ]
+    }, {
+      "id" : "f4",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.configuration.restricted.IConfiguration;",
+            "",
+            "IConfiguration.instance().remove(\"Cockpit.PaaS\");"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 160 }
+      },
+      "connect" : [
+        { "id" : "f9", "to" : "f5" }
+      ]
+    }, {
+      "id" : "f5",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 160 }
+      }
+    } ]
+}
