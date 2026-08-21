@@ -29,8 +29,8 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 class WebTestSearchEngine {
 
-  private static final String DOSSIER_INDEX = "ivy-default-businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$dossier";
-  private static final String ADDRESS_INDEX = "ivy-default-businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$address";
+  private static final String DOSSIER_INDEX = "ivy-default-businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$dossier-v1";
+  private static final String ADDRESS_INDEX = "ivy-default-businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$address-v1";
 
   @BeforeAll
   static void setup() {
