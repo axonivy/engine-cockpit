@@ -114,6 +114,9 @@ public class ThreadBean implements Serializable {
 
   @SuppressWarnings("hiding")
   public boolean filter(Object value, Object filter, @SuppressWarnings("unused") Locale locale) {
+    if (filter == null) {
+      return true;
+    }
     if (value instanceof Info info) {
       try {
         var id = Long.valueOf(filter.toString());
