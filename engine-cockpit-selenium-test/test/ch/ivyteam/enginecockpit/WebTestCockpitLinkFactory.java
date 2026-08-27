@@ -97,11 +97,6 @@ public class WebTestCockpitLinkFactory {
     }
 
     @Override
-    public String negativeDescription() {
-      return "should not have titles " + expectedTitles;
-    }
-
-    @Override
     public CheckResult check(WebDriver driver) {
       String title = driver.getTitle();
       return result(driver, expectedTitles.contains(title), title);
