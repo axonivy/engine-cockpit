@@ -1,0 +1,225 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:cc="jakarta.faces.composite/composite">
+<h:body>
+  <f:metadata>
+    <f:viewAction action="#{logConfigurationBean.onload}" />
+  </f:metadata>
+
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><span>#{ivy.cm.co('/common/System')}</span></li>
+      <li>/</li>
+      <li><a href="logs.xhtml">#{ivy.cm.co('/sidebar/Logs')}</a></li>
+      <li>/</li>
+      <li><span>#{ivy.cm.co('/sidebar/Logging')}</span></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="logs.xhtml" icon="ti ti-file-text"
+        title="#{ivy.cm.co('/logs/OpenLogFiles')}" external="false" />
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#logs" />
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="layout-dashboard">
+        <h:form id="loggingForm">
+          <p:growl id="messages" showDetail="true">
+            <p:autoUpdate />
+          </p:growl>
+
+          <div class="grid">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title flex align-items-center">
+                    <i class="pr-2 ti ti-settings"></i>
+                    <h2 class="m-0">#{ivy.cm.co('/sidebar/Logging')}</h2>
+                    <p:commandButton id="refresh" actionListener="#{logConfigurationBean.refresh}"
+                      update="@form" icon="ti ti-refresh" title="#{ivy.cm.co('/common/Refresh')}"
+                      styleClass="ml-auto rounded-button" />
+                  </div>
+                </div>
+                <p:staticMessage severity="info" detail="#{ivy.cm.co('/logs/RuntimeLevelWarning')}" />
+
+                <p:panelGrid id="configurationInfo" columns="2"
+                  columnClasses="col-12 md:col-3, col-12 md:col-9" layout="flex"
+                  styleClass="grey-label-panel ui-fluid">
+                  <p:outputLabel value="#{ivy.cm.co('/logs/ConfigurationFile')}" />
+                  <h:outputText value="#{logConfigurationBean.configurationFile}" />
+                  <p:outputLabel value="#{ivy.cm.co('/logs/LastLoadedAt')}" />
+                  <h:outputText value="#{logConfigurationBean.lastLoadedAt}" />
+                  <p:outputLabel value="#{ivy.cm.co('/logs/ConfigurationLastModified')}" />
+                  <h:outputText value="#{logConfigurationBean.configurationLastModified}" />
+                </p:panelGrid>
+
+                <h:panelGroup rendered="#{not empty logConfigurationBean.statusMessages}" layout="block"
+                  styleClass="mt-3">
+                  <div id="configurationWarningsMessage" class="ui-message ui-staticmessage ui-message-warn ui-widget ui-corner-all">
+                    <span class="ui-message-warn-icon"></span>
+                    <span class="ui-message-warn-summary">#{ivy.cm.co('/logs/ConfigurationWarnings')}</span>
+                    <span class="ui-message-warn-detail">#{ivy.cm.co('/logs/ConfigurationWarningsDetail')}
+                      <p:commandLink id="configurationWarningsDetails" type="button"
+                        value="#{ivy.cm.co('/common/More')}" onclick="PF('configurationWarningsDialog').show();" />
+                    </span>
+                  </div>
+                </h:panelGroup>
+
+                <p:dialog id="configurationWarningsDialog" widgetVar="configurationWarningsDialog"
+                  header="#{ivy.cm.co('/logs/ConfigurationWarnings')}" width="50%" modal="true"
+                  responsive="true" closeOnEscape="true">
+                  <h:panelGroup layout="block" styleClass="flex flex-column gap-2">
+                    <ui:repeat value="#{logConfigurationBean.statusMessages}" var="status">
+                      <h:outputText value="#{status}" styleClass="block" />
+                    </ui:repeat>
+                  </h:panelGroup>
+                </p:dialog>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title flex align-items-center">
+                    <i class="pr-2 ti ti-adjustments"></i>
+                    <h3 class="m-0">#{ivy.cm.co('/logs/Loggers')}</h3>
+                    <p:selectBooleanCheckbox id="showAllLoggers" value="#{logConfigurationBean.showAllLoggers}"
+                      itemLabel="#{ivy.cm.co('/logs/ShowAllLoggers')}" styleClass="ml-auto">
+                      <p:ajax process="@this loggerTable" update="loggerTable" />
+                    </p:selectBooleanCheckbox>
+                  </div>
+                </div>
+                <p:dataTable id="loggerTable" widgetVar="loggerTableWidget" value="#{logConfigurationBean.loggers}" var="logger"
+                  rowKey="#{logger.name}" paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                  styleClass="ui-fluid" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+                  <f:facet name="header">
+                    <div class="flex">
+                      <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
+                        <i class="ti ti-search" />
+                        <p:inputText id="globalFilter" onkeyup="PF('loggerTableWidget').filter()"
+                          placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" />
+                      </span>
+                    </div>
+                  </f:facet>
+                  <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{logger.name}" filterBy="#{logger.name}" style="width: 30%;">
+                    <h:panelGroup id="loggerNameHelp">
+                      <h:outputText value="#{logger.name}" style="#{logger.instantiated ? '' : 'text-decoration: line-through;'}" />
+                      <p:tooltip for="loggerNameHelp" rendered="#{!logger.instantiated}"
+                        value="#{ivy.cm.co('/logs/LoggerNotInstantiatedInfo')}" position="top" />
+                    </h:panelGroup>
+                  </p:column>
+                  <p:column headerText="#{ivy.cm.co('/logs/ConfiguredLevel')}" sortBy="#{logger.configuredLevel}" style="width: 10%;">
+                    <h:panelGroup id="configuredLevelHelp" styleClass="flex align-items-center gap-1">
+                      <h:panelGroup rendered="#{logger.configuredLevel == 'inherited'}" layout="block"
+                        styleClass="inline-flex align-items-center gap-1 text-color-secondary opacity-60 text-lowercase">
+                        <i class="ti ti-corner-down-right" aria-hidden="true"></i>
+                        <h:outputText value="#{logger.configuredLevel}" />
+                      </h:panelGroup>
+                      <h:panelGroup rendered="#{not empty logger.configuredLevel and logger.configuredLevel != 'inherited'}"
+                        styleClass="relative inline-flex align-items-center border-round px-2 py-1 text-sm">
+                        <h:panelGroup layout="block"
+                          styleClass="absolute top-0 bottom-0 left-0 right-0 bg-gray-100 border-round" />
+                        <h:panelGroup layout="block"
+                          styleClass="absolute top-0 bottom-0 left-0 right-0 bg-white-alpha-40 border-round" />
+                        <h:outputText value="#{logger.configuredLevel}" styleClass="relative" />
+                      </h:panelGroup>
+                      <p:tooltip for="configuredLevelHelp" value="#{ivy.cm.co('/logs/ConfiguredLevelInfo')}" position="top" />
+                    </h:panelGroup>
+                  </p:column>
+                  <p:column headerText="#{ivy.cm.co('/logs/EffectiveLevel')}" sortBy="#{logger.effectiveLevel}" style="width: 11%;">
+                    <h:panelGroup id="effectiveLevelHelp" styleClass="flex align-items-center gap-1">
+                      <h:panelGroup styleClass="relative inline-flex align-items-center border-round px-2 py-1 text-sm">
+                        <h:panelGroup rendered="#{not empty logger.effectiveLevel}" layout="block"
+                          styleClass="absolute top-0 bottom-0 left-0 right-0 bg-gray-100 border-round" />
+                        <h:panelGroup rendered="#{not empty logger.effectiveLevel}" layout="block"
+                          styleClass="absolute top-0 bottom-0 left-0 right-0 bg-white-alpha-40 border-round" />
+                        <h:outputText value="#{logger.effectiveLevel}" styleClass="relative" />
+                      </h:panelGroup>
+                      <p:tooltip for="effectiveLevelHelp" value="#{ivy.cm.co('/logs/EffectiveLevelInfo')}" position="top" />
+                    </h:panelGroup>
+                  </p:column>
+                  <p:column headerText="#{ivy.cm.co('/logs/Appenders')}" style="width: 20%;">
+                    <h:panelGroup rendered="#{not empty logger.appenderRoutes}" layout="block"
+                      styleClass="flex flex-wrap gap-1">
+                      <ui:repeat value="#{logger.appenderRoutes}" var="route">
+                        <h:panelGroup id="inheritedAppenderBadge" styleClass="inline-flex align-items-center gap-1">
+                          <h:outputText value="#{route.name}" />
+                          <h:outputText rendered="#{not empty route.threshold}" value=" (#{route.threshold})"
+                            styleClass="text-xs text-color-secondary" />
+                          <h:panelGroup rendered="#{route.inherited}" layout="block"
+                            styleClass="inline-flex align-items-center gap-1 text-xs text-color-secondary opacity-70 px-1">
+                            <i class="ti ti-corner-down-right" aria-hidden="true"></i>
+                            <h:outputText value="#{ivy.cm.co('/logs/Inherited')}" styleClass="text-lowercase" />
+                            <p:tooltip for="inheritedAppenderBadge"
+                              value="#{ivy.cm.content('/logs/InheritedAppenderInfo').replace('logger', route.inheritedFrom).get()}" position="top" />
+                          </h:panelGroup>
+                        </h:panelGroup>
+                      </ui:repeat>
+                    </h:panelGroup>
+                    <h:outputText rendered="#{empty logger.appenderRoutes}" value="-"
+                      styleClass="text-color-secondary" />
+                  </p:column>
+                  <p:column headerText="#{ivy.cm.co('/logs/Additive')}" styleClass="text-center" style="width: 8%;">
+                    <h:panelGroup rendered="#{logger.additive}">
+                      <i class="ti ti-check text-green-500" title="#{ivy.cm.co('/logs/AdditiveTrue')}" />
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{!logger.additive}">
+                      <i class="ti ti-x text-red-500" title="#{ivy.cm.co('/logs/AdditiveFalse')}" />
+                    </h:panelGroup>
+                  </p:column>
+                  <p:column headerText="#{ivy.cm.co('/logs/SetLevel')}" styleClass="table-btn-1"
+                    style="width: 19%; min-width: 16rem;">
+                    <h:panelGroup layout="block" styleClass="flex align-items-center gap-1">
+                      <p:selectOneMenu value="#{logger.selectedLevel}" styleClass="flex-grow-1">
+                        <f:selectItems value="#{logConfigurationBean.levels}" />
+                      </p:selectOneMenu>
+                      <p:commandButton id="saveLevel" actionListener="#{logConfigurationBean.setLevel(logger)}"
+                        update="loggerTable messages" icon="ti ti-device-floppy"
+                        title="#{ivy.cm.co('/logs/SetLevel')}" styleClass="rounded-button flex-shrink-0" />
+                      <p:commandButton id="resetLevel" rendered="#{logger.runtimeOverride}"
+                        actionListener="#{logConfigurationBean.resetLevel(logger)}" update="loggerTable messages"
+                        icon="ti ti-arrow-back-up" title="#{ivy.cm.co('/logs/ResetLevel')}"
+                        styleClass="rounded-button flex-shrink-0 ui-button-secondary" />
+                    </h:panelGroup>
+                  </p:column>
+                </p:dataTable>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title flex align-items-center">
+                    <i class="pr-2 ti ti-plug"></i>
+                    <h3 class="m-0">#{ivy.cm.co('/logs/Appenders')}</h3>
+                  </div>
+                </div>
+                <p:dataTable id="appenderTable" value="#{logConfigurationBean.appenders}" var="appender"
+                  rowKey="#{appender.name}" styleClass="ui-fluid" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+                  <p:column headerText="#{ivy.cm.co('/common/Name')}">
+                    <h:panelGroup styleClass="flex align-items-center gap-1">
+                      <h:outputText value="#{appender.name}" />
+                      <h:panelGroup id="appenderStateWarning" rendered="#{appender.unhealthy}">
+                        <i class="text-xl ti ti-alert-triangle search-machine-health-yellow icon-bold" />
+                        <p:tooltip for="appenderStateWarning" value="#{appender.stateWarning}" position="top" />
+                      </h:panelGroup>
+                    </h:panelGroup>
+                  </p:column>
+                  <p:column headerText="#{ivy.cm.co('/logs/Type')}">
+                    <h:outputText value="#{appender.type}" />
+                  </p:column>
+                  <p:column headerText="#{ivy.cm.co('/logs/Target')}">
+                    <h:outputText value="#{appender.target}" />
+                  </p:column>
+                </p:dataTable>
+              </div>
+            </div>
+          </div>
+        </h:form>
+      </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

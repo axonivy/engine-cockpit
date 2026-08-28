@@ -604,6 +604,36 @@ logs:
   DownloadLog: Log runterladen
   NoLogMessage: 'Keine Log Dateien gefunden für dieses Datum:'
   OpenLog: Öffne Log
+  OpenLogFiles: Log Dateien öffnen
+  ConfigurationFile: Konfigurationsdatei
+  LastLoadedAt: Zuletzt geladen am
+  ConfigurationLastModified: Konfiguration zuletzt geändert am
+  ConfigurationWarnings: Konfigurationswarnungen
+  ConfigurationWarningsDetail: Log4j hat beim Laden der Konfiguration Probleme gemeldet.
+  Loggers: Logger
+  ShowAllLoggers: Alle Logger anzeigen
+  LoggerNotInstantiatedInfo: Dieser Logger wurde nicht instanziiert und hat keine aktive Log4j-Logger-Instanz.
+  ConfiguredLevel: Konfigurierter Level
+  ConfiguredLevelInfo: Der für diesen Logger explizit konfigurierte Level. Geerbt bedeutet, dass die Konfiguration eines übergeordneten Loggers verwendet wird.
+  EffectiveLevel: Effektiver Level
+  EffectiveLevelInfo: Der aktuell für diesen Logger geltende Level nach Vererbung und Laufzeitänderungen. Nachrichten unterhalb dieses Levels werden von diesem Logger nicht verarbeitet.
+  Additive: Additiv
+  AdditiveTrue: Log-Ereignisse werden auch an übergeordnete Logger weitergegeben.
+  AdditiveFalse: Log-Ereignisse enden bei diesem Logger und werden nicht an übergeordnete Logger weitergegeben.
+  Appenders: Appender
+  Inherited: Geerbt
+  InheritedAppenderInfo: Dieser Appender wird vom Logger '${logger}' geerbt.
+  AppenderStateWarning: 'Dieser Appender ist nicht gestartet. Aktueller Status: ${state}.'
+  SetLevel: Level setzen
+  ResetLevel: Laufzeit-Level zurücksetzen
+  Type: Typ
+  Target: Ziel
+  RuntimeLevelWarning: Level-Änderungen gelten sofort. Einzelne Änderungen können hier zurückgesetzt werden; eine Neukonfiguration oder ein Engine-Neustart verwirft alle Änderungen.
+  LoggerLevelChanged: Logger-Level geändert
+  LoggerLevelChangedDetail: Logger '${logger}' verwendet jetzt den Level '${level}'.
+  LoggerLevelChangeFailed: Logger-Level konnte nicht geändert werden
+  LoggerLevelReset: Logger-Level zurückgesetzt
+  LoggerLevelResetDetail: Die Laufzeitänderung für Logger '${logger}' wurde entfernt.
 memberProperties:
   Property: Eigenschaft
   PropertyInExternalSecuritySystem: Die Eigenschaft ist von einem externen Securitysystem gemanaged
@@ -1208,6 +1238,7 @@ sidebar:
   LiveStats: Live Statistiken
   LiveStatsFoundFrom: Live-Statistiken gefunden aus
   Logs: Protokolle
+  Logging: Logging
   MBeans: MBeans
   Memory: Speicher
   Notifications: Benachrichtigungen
