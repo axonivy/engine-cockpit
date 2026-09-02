@@ -117,10 +117,10 @@ class WebTestSessions {
     EngineCockpitUtil.assertCurrentUrlContains("engine-cockpit/monitor.html#sessions");
     $$("h3").shouldHave(CollectionCondition.anyMatch("One title should be 'Sessions'", e -> Objects.equals(e.getText(), "Sessions")));
     openLogin();
-    $("#login\\:login-form\\:username").shouldBe(visible, Duration.ofSeconds(10)).sendKeys(SESSION_USER);
-    $("#login\\:login-form\\:password").shouldBe(visible).sendKeys(SESSION_USER);
-    $("#login\\:login-form\\:login-command").click();
-    $("#user-settings-menu").shouldHave(text(SESSION_USER));
+    $("#loginForm\\:userName").shouldBe(visible, Duration.ofSeconds(10)).sendKeys(SESSION_USER);
+    $("#loginForm\\:password").shouldBe(visible).sendKeys(SESSION_USER);
+    $("#loginForm\\:login").click();
+    $("#sessionUserName").shouldHave(text(SESSION_USER));
     Selenide.switchTo().window(0);
     Selenide.refresh();
   }
