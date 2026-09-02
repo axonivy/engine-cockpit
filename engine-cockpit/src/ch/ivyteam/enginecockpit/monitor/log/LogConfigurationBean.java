@@ -1,41 +1,33 @@
 package ch.ivyteam.enginecockpit.monitor.log;
 
-import java.io.Serializable;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
+import ch.ivyteam.enginecockpit.commons.Message;
+import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.log.admin.LogAppender;
+import ch.ivyteam.ivy.log.admin.LogAppenderRoute;
+import ch.ivyteam.ivy.log.admin.LogConfiguration;
+import ch.ivyteam.ivy.log.admin.LogConfigurationAdmin;
+import ch.ivyteam.ivy.log.admin.LogLogger;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
-import ch.ivyteam.enginecockpit.commons.Message;
-import ch.ivyteam.ivy.environment.Ivy;
-import ch.ivyteam.ivy.log.admin.LogAppender;
-import ch.ivyteam.ivy.log.admin.LogConfiguration;
-import ch.ivyteam.ivy.log.admin.LogConfigurationAdmin;
-import ch.ivyteam.ivy.log.admin.LogAppenderRoute;
-import ch.ivyteam.ivy.log.admin.LogLogger;
-
 @Named("logConfigurationBean")
 @ViewScoped
-public class LogConfigurationBean implements Serializable {
+public class LogConfigurationBean {
 
-  private static final long serialVersionUID = 1L;
-  private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-  private transient LogConfigurationAdmin admin;
+  private final LogConfigurationAdmin logConfig = new LogConfigurationAdmin();
   private List<LoggerRow> allLoggers = List.of();
   private List<LoggerRow> loggers = List.of();
   private List<AppenderRow> appenders = List.of();
   private LogConfiguration configuration;
   private boolean showAllLoggers;
-
-  public void onload() {
-    refresh();
-  }
 
   public void refresh() {
     try {
@@ -46,22 +38,18 @@ public class LogConfigurationBean implements Serializable {
   }
 
   private void refreshConfiguration() {
-    var nextConfiguration = admin().snapshot();
-    var nextLoggers = new ArrayList<LoggerRow>(nextConfiguration.loggers().stream()
+    configuration = logConfig.snapshot();
+    allLoggers = new ArrayList<>(configuration.loggers().stream()
         .map(LoggerRow::new)
         .sorted(Comparator.comparing(LoggerRow::isConfigured).reversed().thenComparing(LoggerRow::getName))
         .toList());
-    var nextAppenders = nextConfiguration.appenders().stream().map(AppenderRow::new).toList();
-
-    configuration = nextConfiguration;
-    allLoggers = nextLoggers;
-    appenders = nextAppenders;
+    appenders = configuration.appenders().stream().map(AppenderRow::new).toList();
     updateVisibleLoggers();
   }
 
   public void setLevel(LoggerRow logger) {
     try {
-      admin().setLevel(logger.getName(), logger.getSelectedLevel());
+      logConfig.setLevel(logger.getName(), logger.getSelectedLevel());
       refreshConfiguration();
       Message.info()
           .summary(Ivy.cm().co("/logs/LoggerLevelChanged"))
@@ -79,7 +67,7 @@ public class LogConfigurationBean implements Serializable {
 
   public void resetLevel(LoggerRow logger) {
     try {
-      admin().resetLevel(logger.getName());
+      logConfig.resetLevel(logger.getName());
       refreshConfiguration();
       Message.info()
           .summary(Ivy.cm().co("/logs/LoggerLevelReset"))
@@ -105,7 +93,7 @@ public class LogConfigurationBean implements Serializable {
   }
 
   public List<String> getLevels() {
-    return admin().levels();
+    return logConfig.levels();
   }
 
   public List<AppenderRow> getAppenders() {
@@ -113,26 +101,45 @@ public class LogConfigurationBean implements Serializable {
   }
 
   public String getConfigurationFile() {
-    return configuration == null ? "" : configuration.configurationFile();
+    if (configuration == null) {
+      return "";
+    }
+    return configuration.configurationFile();
   }
 
   public String getLastLoadedAt() {
-    return format(configuration == null ? null : configuration.lastLoadedAt());
+    if (configuration == null) {
+      return "-";
+    }
+    return formatPretty(configuration.lastLoadedAt());
+  }
+
+  public String getLastLoadedAtTooltip() {
+    if (configuration == null) {
+      return "";
+    }
+    return formatExact(configuration.lastLoadedAt());
   }
 
   public String getConfigurationLastModified() {
-    return format(configuration == null ? null : configuration.configurationLastModified());
+    if (configuration == null) {
+      return "-";
+    }
+    return formatPretty(configuration.configurationLastModified());
+  }
+
+  public String getConfigurationLastModifiedTooltip() {
+    if (configuration == null) {
+      return "";
+    }
+    return formatExact(configuration.configurationLastModified());
   }
 
   public List<String> getStatusMessages() {
-    return configuration == null ? List.of() : configuration.statusMessages();
-  }
-
-  private LogConfigurationAdmin admin() {
-    if (admin == null) {
-      admin = new LogConfigurationAdmin();
+    if (configuration == null) {
+      return List.of();
     }
-    return admin;
+    return configuration.statusMessages();
   }
 
   private static void showError(RuntimeException ex) {
@@ -143,19 +150,28 @@ public class LogConfigurationBean implements Serializable {
   }
 
   private void updateVisibleLoggers() {
-    loggers = showAllLoggers
-        ? allLoggers
-        : new ArrayList<>(allLoggers.stream().filter(LoggerRow::isConfigured).toList());
+    if (showAllLoggers) {
+      loggers = allLoggers;
+      return;
+    }
+    loggers = new ArrayList<>(allLoggers.stream().filter(LoggerRow::isConfigured).toList());
   }
 
-  private static String format(Instant instant) {
-    return instant == null ? "-" : DATE_TIME_FORMATTER.withZone(ZoneId.systemDefault()).format(instant);
+  private static String formatPretty(Instant instant) {
+    if (instant == null) {
+      return "-";
+    }
+    return new PrettyTime().format(instant);
   }
 
+  private static String formatExact(Instant instant) {
+    if (instant == null) {
+      return "";
+    }
+    return DateUtil.formatInstantAsDateTime(instant);
+  }
 
-  public static final class LoggerRow implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+  public static final class LoggerRow {
 
     private final String name;
     private final String parent;
@@ -167,6 +183,7 @@ public class LogConfigurationBean implements Serializable {
     private final boolean runtimeOverride;
     private final List<AppenderRouteRow> appenderRoutes;
     private String selectedLevel;
+
     private LoggerRow(LogLogger logger) {
       name = logger.name();
       parent = logger.parent();
@@ -180,7 +197,6 @@ public class LogConfigurationBean implements Serializable {
       selectedLevel = effectiveLevel;
     }
 
-
     private boolean isConfigured() {
       return explicitlyConfigured;
     }
@@ -192,7 +208,6 @@ public class LogConfigurationBean implements Serializable {
     public String getParent() {
       return parent;
     }
-
 
     public String getConfiguredLevel() {
       return configuredLevel;
@@ -227,9 +242,7 @@ public class LogConfigurationBean implements Serializable {
     }
   }
 
-  public static final class AppenderRow implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+  public static final class AppenderRow {
 
     private final String name;
     private final String type;
@@ -265,10 +278,7 @@ public class LogConfigurationBean implements Serializable {
     }
   }
 
-
-  public static final class AppenderRouteRow implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+  public static final class AppenderRouteRow {
 
     private final String name;
     private final boolean inherited;
@@ -293,6 +303,7 @@ public class LogConfigurationBean implements Serializable {
     public String getThreshold() {
       return threshold;
     }
+
     public String getInheritedFrom() {
       return inheritedFrom;
     }

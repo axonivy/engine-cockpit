@@ -4,7 +4,7 @@
   xmlns:cc="jakarta.faces.composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewAction action="#{logConfigurationBean.onload}" />
+    <f:viewAction action="#{logConfigurationBean.refresh}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
@@ -47,12 +47,14 @@
                 <p:panelGrid id="configurationInfo" columns="2"
                   columnClasses="col-12 md:col-3, col-12 md:col-9" layout="flex"
                   styleClass="grey-label-panel ui-fluid">
-                  <p:outputLabel value="#{ivy.cm.co('/logs/ConfigurationFile')}" />
-                  <h:outputText value="#{logConfigurationBean.configurationFile}" />
-                  <p:outputLabel value="#{ivy.cm.co('/logs/LastLoadedAt')}" />
-                  <h:outputText value="#{logConfigurationBean.lastLoadedAt}" />
-                  <p:outputLabel value="#{ivy.cm.co('/logs/ConfigurationLastModified')}" />
-                  <h:outputText value="#{logConfigurationBean.configurationLastModified}" />
+                  <p:outputLabel for="configurationFile" value="#{ivy.cm.co('/logs/ConfigurationFile')}" />
+                  <h:outputText id="configurationFile" value="#{logConfigurationBean.configurationFile}" />
+                  <p:outputLabel for="lastLoadedAt" value="#{ivy.cm.co('/logs/LastLoadedAt')}" />
+                  <h:outputText id="lastLoadedAt" value="#{logConfigurationBean.lastLoadedAt}"
+                    title="#{logConfigurationBean.lastLoadedAtTooltip}" />
+                  <p:outputLabel for="configurationLastModified" value="#{ivy.cm.co('/logs/ConfigurationLastModified')}" />
+                  <h:outputText id="configurationLastModified" value="#{logConfigurationBean.configurationLastModified}"
+                    title="#{logConfigurationBean.configurationLastModifiedTooltip}" />
                 </p:panelGrid>
 
                 <h:panelGroup rendered="#{not empty logConfigurationBean.statusMessages}" layout="block"
