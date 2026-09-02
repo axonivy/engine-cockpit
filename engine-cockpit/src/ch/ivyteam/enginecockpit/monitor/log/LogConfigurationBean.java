@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.log;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,7 +21,7 @@ import jakarta.inject.Named;
 
 @Named("logConfigurationBean")
 @ViewScoped
-public class LogConfigurationBean {
+public class LogConfigurationBean implements Serializable {
 
   private final LogConfigurationAdmin logConfig = new LogConfigurationAdmin();
   private List<LoggerRow> allLoggers = List.of();
