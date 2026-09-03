@@ -218,6 +218,21 @@ public class LogConfigurationBean implements Serializable {
       return effectiveLevel;
     }
 
+    public String getConfiguredLevelStyleClass() {
+      return levelStyleClass(configuredLevel);
+    }
+
+    public String getEffectiveLevelStyleClass() {
+      return levelStyleClass(effectiveLevel);
+    }
+
+    private static String levelStyleClass(String level) {
+      if (level == null) {
+        return "";
+      }
+      return "state-log-" + level.toLowerCase();
+    }
+
     public boolean isInstantiated() {
       return instantiated;
     }

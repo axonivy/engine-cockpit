@@ -341,13 +341,15 @@ body .ui-datatable thead th[class*="table-btn"] {
 
 .state-project-ok,
 .state-app-released,
-.state-app-active {
+.state-app-active,
+.state-log-info {
   background: #EDF9F0;
   color: #2B7841;
 }
 
 .state-app-prepared,
-.state-app-created {
+.state-app-created,
+.state-log-debug {
   background: #E6F1F5;
   color: #00445C;
 }
@@ -356,7 +358,8 @@ body .ui-datatable thead th[class*="table-btn"] {
 .state-project-outdated,
 .state-project-too-old,
 .state-project-too-new,
-.state-app-deprecated {
+.state-app-deprecated,
+.state-log-warn {
   background: #FFF1E6;
   color: #9C4600;
 }
@@ -364,36 +367,16 @@ body .ui-datatable thead th[class*="table-btn"] {
 .state-project-unknown,
 .state-app-deleted,
 .state-app-inactive,
-.state-app-archived {
+.state-app-archived,
+.state-log-all,
+.state-log-trace,
+.state-log-off {
   background: #F3F3F3;
   color: #1B1B1B;
 }
 
-/* Log levels */
-.log-level-ALL,
-.log-level-TRACE,
-.log-level-OFF {
-  background: #F3F3F3;
-  color: #1B1B1B;
-}
-
-.log-level-DEBUG {
-  background: #E6F1F5;
-  color: #00445C;
-}
-
-.log-level-INFO {
-  background: #EDF9F0;
-  color: #2B7841;
-}
-
-.log-level-WARN {
-  background: #FFF1E6;
-  color: #9C4600;
-}
-
-.log-level-ERROR,
-.log-level-FATAL {
+.state-log-error,
+.state-log-fatal {
   background: #FCE8E8;
   color: #8C0D11;
 }

@@ -8,6 +8,7 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -27,6 +28,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 class WebTestLogging {
 
   private static final By CONFIGURATION_INFO = By.id("loggingForm:configurationInfo");
+  private static final By CONFIGURATION_FILE = By.id("loggingForm:configurationFile");
   private static final By LOGGER_TABLE = By.id("loggingForm:loggerTable");
   private static final By APPENDER_TABLE = By.id("loggingForm:appenderTable");
   private static final By SHOW_ALL_LOGGERS = By.id("loggingForm:showAllLoggers");
@@ -49,13 +51,13 @@ class WebTestLogging {
 
   @Test
   void view() {
-    $(CONFIGURATION_INFO).shouldBe(visible)
-        .shouldHave(text("Configuration file"), text("Last loaded at"), text("Configuration last modified"));
+    $(CONFIGURATION_INFO).shouldBe(visible);
+    $(CONFIGURATION_FILE).shouldNotBe(empty);
 
     var loggerTable = new Table(LOGGER_TABLE);
     loggerTable.headerShouldBe(exactTexts("Name", "Configured level", "Effective level", "Appenders", "Additive", "Set level"));
     loggerTable.rows().shouldHave(sizeGreaterThan(0));
-    $(LOGGER_TABLE).findAll(By.className("log-level")).shouldHave(sizeGreaterThan(0));
+    $(LOGGER_TABLE).findAll(By.className("state-badge")).shouldHave(sizeGreaterThan(0));
     $(LOGGER_TABLE).shouldHave(text("root"));
 
     var appenderTable = new Table(APPENDER_TABLE);
@@ -74,10 +76,12 @@ class WebTestLogging {
   }
 
   @Test
-  void setLevelUpdatesLoggerTable() {
+  void setAndResetLevelUpdatesLoggerTable() {
     var loggerTable = new Table(LOGGER_TABLE, "span");
     loggerTable.search("root");
     var root = loggerTable.rows().filter(visible).first();
+    var initialEffectiveLevel = root.find(By.xpath("./td[3]"))
+        .find(By.className("state-badge")).getText();
     var levelMenu = root.find(By.className("ui-selectonemenu"));
 
     PrimeUi.selectOne(By.id(levelMenu.getAttribute("id"))).selectItemByLabel("TRACE");
@@ -86,16 +90,25 @@ class WebTestLogging {
 
     $(By.className("ui-growl-message")).shouldHave(text("Logger level changed"),
         text("Logger 'root' now uses level 'TRACE'."));
-    var effectiveLevel = rootLoggerRow().find(By.xpath("./td[3]"))
-        .find(By.className("log-level"));
-    effectiveLevel.shouldHave(text("TRACE"), cssClass("log-level-TRACE"));
+    var changedEffectiveLevel = rootLoggerRow().find(By.xpath("./td[3]"))
+        .find(By.className("state-badge"));
+    changedEffectiveLevel.shouldHave(text("TRACE"), cssClass("state-log-trace"));
+
+    rootLoggerRow().findAll(By.tagName("button"))
+        .findBy(attribute("title", "Reset runtime level")).click();
+    $(By.className("ui-growl-message")).shouldHave(text("Logger level reset"),
+        text("Runtime level override removed for logger 'root'."));
+    rootLoggerRow().find(By.xpath("./td[3]"))
+        .find(By.className("state-badge")).shouldHave(text(initialEffectiveLevel));
   }
 
   @Test
   void showAllLoggers() {
     var checkbox = PrimeUi.selectBooleanCheckbox(SHOW_ALL_LOGGERS);
+    var configuredLoggerCount = new Table(LOGGER_TABLE).rows().filter(visible).size();
+
     checkbox.shouldBeChecked(false).setChecked().shouldBeChecked(true);
-    new Table(LOGGER_TABLE).rows().shouldHave(sizeGreaterThan(0));
+    new Table(LOGGER_TABLE).rows().filter(visible).shouldHave(sizeGreaterThan(configuredLoggerCount));
   }
 
   private SelenideElement rootLoggerRow() {
