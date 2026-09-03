@@ -369,6 +369,35 @@ body .ui-datatable thead th[class*="table-btn"] {
   color: #1B1B1B;
 }
 
+/* Log levels */
+.log-level-ALL,
+.log-level-TRACE,
+.log-level-OFF {
+  background: #F3F3F3;
+  color: #1B1B1B;
+}
+
+.log-level-DEBUG {
+  background: #E6F1F5;
+  color: #00445C;
+}
+
+.log-level-INFO {
+  background: #EDF9F0;
+  color: #2B7841;
+}
+
+.log-level-WARN {
+  background: #FFF1E6;
+  color: #9C4600;
+}
+
+.log-level-ERROR,
+.log-level-FATAL {
+  background: #FCE8E8;
+  color: #8C0D11;
+}
+
 /* Search Engine */
 .ti.icon-bold {
   font-weight: bold;

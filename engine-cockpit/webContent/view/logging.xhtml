@@ -120,11 +120,7 @@
                         <h:outputText value="#{logger.configuredLevel}" />
                       </h:panelGroup>
                       <h:panelGroup rendered="#{not empty logger.configuredLevel and logger.configuredLevel != 'inherited'}"
-                        styleClass="relative inline-flex align-items-center border-round px-2 py-1 text-sm">
-                        <h:panelGroup layout="block"
-                          styleClass="absolute top-0 bottom-0 left-0 right-0 bg-gray-100 border-round" />
-                        <h:panelGroup layout="block"
-                          styleClass="absolute top-0 bottom-0 left-0 right-0 bg-white-alpha-40 border-round" />
+                        styleClass="relative inline-flex align-items-center border-round px-2 py-1 text-sm log-level log-level-#{logger.configuredLevel}">
                         <h:outputText value="#{logger.configuredLevel}" styleClass="relative" />
                       </h:panelGroup>
                       <p:tooltip for="configuredLevelHelp" value="#{ivy.cm.co('/logs/ConfiguredLevelInfo')}" position="top" />
@@ -132,11 +128,7 @@
                   </p:column>
                   <p:column headerText="#{ivy.cm.co('/logs/EffectiveLevel')}" sortBy="#{logger.effectiveLevel}" style="width: 11%;">
                     <h:panelGroup id="effectiveLevelHelp" styleClass="flex align-items-center gap-1">
-                      <h:panelGroup styleClass="relative inline-flex align-items-center border-round px-2 py-1 text-sm">
-                        <h:panelGroup rendered="#{not empty logger.effectiveLevel}" layout="block"
-                          styleClass="absolute top-0 bottom-0 left-0 right-0 bg-gray-100 border-round" />
-                        <h:panelGroup rendered="#{not empty logger.effectiveLevel}" layout="block"
-                          styleClass="absolute top-0 bottom-0 left-0 right-0 bg-white-alpha-40 border-round" />
+                      <h:panelGroup styleClass="relative inline-flex align-items-center border-round px-2 py-1 text-sm log-level log-level-#{logger.effectiveLevel}">
                         <h:outputText value="#{logger.effectiveLevel}" styleClass="relative" />
                       </h:panelGroup>
                       <p:tooltip for="effectiveLevelHelp" value="#{ivy.cm.co('/logs/EffectiveLevelInfo')}" position="top" />

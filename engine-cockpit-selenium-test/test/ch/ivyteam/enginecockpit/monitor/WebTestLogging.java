@@ -38,6 +38,7 @@ class WebTestLogging {
     var loggerTable = new Table(LOGGER_TABLE);
     loggerTable.headerShouldBe(exactTexts("Name", "Configured level", "Effective level", "Appenders", "Additive", "Set level"));
     loggerTable.rows().shouldHave(sizeGreaterThan(0));
+    $(LOGGER_TABLE).findAll(".log-level").shouldHave(sizeGreaterThan(0));
 
     var appenderTable = new Table(APPENDER_TABLE);
     appenderTable.headerShouldBe(exactTexts("Name", "Type", "Target"));
