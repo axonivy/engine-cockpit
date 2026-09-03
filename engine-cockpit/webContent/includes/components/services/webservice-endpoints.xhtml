@@ -46,7 +46,7 @@
       <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
         <p:outputLabel value="#{ivy.cm.co('/common/Default')}" for="defaultInput" />
         <h:panelGroup styleClass="md-inputfield">
-          <p:inputText id="defaultInput" value="#{webserviceDetailBean.activePortType.default}" required="true"
+          <p:inputText id="defaultInput" value="#{webserviceDetailBean.activePortType.getDefault()}" required="true"
             requiredMessage="#{ivy.cm.co('/common/RequiredMessage')}" />
           <p:message for="defaultInput" id="defaultInputMessage" />
         </h:panelGroup>

@@ -7,7 +7,7 @@
 <cc:implementation>
 
 <h:form id="colorForm" styleClass="ui-fluid">
-  <p:dataTable var="color" value="#{brandingBean.cssColors}" rowStyleClass="#{color.default ? 'default-value' : ''}"
+  <p:dataTable var="color" value="#{brandingBean.cssColors}" rowStyleClass="#{color.isDefault() ? 'default-value' : ''}"
     filteredValue="#{brandingBean.filteredCssColors}" widgetVar="colorsTable" id="colorsTable" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
     <f:facet name="header">
       <div class="ui-input-icon-left filter-container">
@@ -28,7 +28,7 @@
         actionListener="#{brandingBean.setSelectedCssColor(color.color)}" 
         update=":cssColorPickerForm:editCssColorModal" oncomplete="PF('editCssColorModal').show();" process="@this"/>
       <p:commandButton id="resetColor" icon="ti ti-arrow-back-up" styleClass="ml-1 ui-button-danger rounded-button"
-        actionListener="#{brandingBean.setSelectedCssColor(color.color)}" disabled="#{color.default}"
+        actionListener="#{brandingBean.setSelectedCssColor(color.color)}" disabled="#{color.isDefault()}"
         update=":resetColorConfirmDialog" oncomplete="PF('resetColorConfirmDialog').show();" process="@this"/>
     </p:column>
   </p:dataTable>
