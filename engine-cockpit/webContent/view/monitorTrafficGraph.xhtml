@@ -41,13 +41,18 @@
             </div>
             <p:diagram id="diagram" style="border-right: dotted 1px; border-bottom: dotted 1px; height: #{trafficGraphBean.height}px; width: #{trafficGraphBean.width}px; overflow: hidden;" value="#{trafficGraphBean.model}" styleClass="ui-widget-content" var="system">
               <f:facet name="element">
+                <!-- disable validator next-line: el-validator -->
                 <h:outputText value="#{system.data.name}" />
+                <!-- disable validator next-line: el-validator -->
                 <h:panelGroup rendered="#{not empty system.data.host}">
                   <br/>
+                  <!-- disable validator next-line: el-validator -->
                   <h:outputText value="#{system.data.host}"/>
                 </h:panelGroup>
+                <!-- disable validator next-line: el-validator -->
                 <h:panelGroup rendered="#{not empty system.data.protocolAndPort}">
                   <br/>
+                  <!-- disable validator next-line: el-validator -->
                   <h:outputText value="#{system.data.protocolAndPort}"/>
                 </h:panelGroup>
               </f:facet>
