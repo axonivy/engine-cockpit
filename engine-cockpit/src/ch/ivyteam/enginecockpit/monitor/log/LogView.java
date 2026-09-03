@@ -20,7 +20,7 @@ import jakarta.ws.rs.core.UriBuilder;
 
 public class LogView {
 
-  private static final int LINES = 100;
+  private static final int LINES = 1000;
 
   private final LogFile logFile;
   private final String content;
