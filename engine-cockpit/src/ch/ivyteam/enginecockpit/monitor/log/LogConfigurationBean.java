@@ -11,11 +11,11 @@ import org.ocpsoft.prettytime.PrettyTime;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.environment.Ivy;
-import ch.ivyteam.ivy.log.admin.LogAppender;
-import ch.ivyteam.ivy.log.admin.LogAppenderRoute;
-import ch.ivyteam.ivy.log.admin.LogConfiguration;
-import ch.ivyteam.ivy.log.admin.LogConfigurationAdmin;
-import ch.ivyteam.ivy.log.admin.LogLogger;
+import ch.ivyteam.ivy.log.management.LogAppender;
+import ch.ivyteam.ivy.log.management.LogAppenderRoute;
+import ch.ivyteam.ivy.log.management.LogConfiguration;
+import ch.ivyteam.ivy.log.management.LogConfigurationService;
+import ch.ivyteam.ivy.log.management.LogLogger;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
@@ -23,7 +23,7 @@ import jakarta.inject.Named;
 @ViewScoped
 public class LogConfigurationBean implements Serializable {
 
-  private final LogConfigurationAdmin logConfig = new LogConfigurationAdmin();
+  private final LogConfigurationService logConfigurationService = LogConfigurationService.instance();
   private List<LoggerRow> allLoggers = List.of();
   private List<LoggerRow> loggers = List.of();
   private List<AppenderRow> appenders = List.of();
@@ -39,7 +39,7 @@ public class LogConfigurationBean implements Serializable {
   }
 
   private void refreshConfiguration() {
-    configuration = logConfig.snapshot();
+    configuration = logConfigurationService.snapshot();
     allLoggers = new ArrayList<>(configuration.loggers().stream()
         .map(LoggerRow::new)
         .sorted(Comparator.comparing(LoggerRow::isConfigured).reversed().thenComparing(LoggerRow::getName))
@@ -50,7 +50,7 @@ public class LogConfigurationBean implements Serializable {
 
   public void setLevel(LoggerRow logger) {
     try {
-      logConfig.setLevel(logger.getName(), logger.getSelectedLevel());
+      logConfigurationService.setLevel(logger.getName(), logger.getSelectedLevel());
       refreshConfiguration();
       Message.info()
           .summary(Ivy.cm().co("/logs/LoggerLevelChanged"))
@@ -68,7 +68,7 @@ public class LogConfigurationBean implements Serializable {
 
   public void resetLevel(LoggerRow logger) {
     try {
-      logConfig.resetLevel(logger.getName());
+      logConfigurationService.resetLevel(logger.getName());
       refreshConfiguration();
       Message.info()
           .summary(Ivy.cm().co("/logs/LoggerLevelReset"))
@@ -94,7 +94,7 @@ public class LogConfigurationBean implements Serializable {
   }
 
   public List<String> getLevels() {
-    return logConfig.levels();
+    return logConfigurationService.levels();
   }
 
   public List<AppenderRow> getAppenders() {
