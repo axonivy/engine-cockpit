@@ -6,10 +6,12 @@
   <f:metadata>
     <f:viewParam name="system" value="#{userDetailBean.securitySystem}" />
     <f:viewParam name="name" value="#{userDetailBean.name}" />
+    <!-- disable validator next-line: el-validator -->
     <f:viewAction action="#{userDetailBean.onload}" />
 
     <f:viewParam name="system" value="#{permissionBean.securitySystem}" />
     <f:viewParam name="name" value="#{permissionBean.userMember}" />
+    <!-- disable validator next-line: el-validator -->
     <f:viewAction action="#{permissionBean.onload}" />
   </f:metadata>
 

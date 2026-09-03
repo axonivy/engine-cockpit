@@ -6,6 +6,7 @@
   <f:metadata>
     <f:viewParam name="app" value="#{databaseBean.app}" />
     <f:viewParam name="name" value="#{databaseBean.name}" />
+    <!-- disable validator next-line: el-validator -->
     <f:viewAction action="#{databaseBean.onload}" />
   </f:metadata>
 

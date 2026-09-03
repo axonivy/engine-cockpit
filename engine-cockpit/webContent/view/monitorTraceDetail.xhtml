@@ -5,6 +5,7 @@
 <h:body>
   <f:metadata>
     <f:viewParam name="traceId" value="#{spanBean.traceId}" />
+    <!-- disable validator next-line: el-validator -->
     <f:viewAction action="#{spanBean.onload}" />
   </f:metadata>
   

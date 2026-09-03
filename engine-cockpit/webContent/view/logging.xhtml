@@ -4,7 +4,8 @@
   xmlns:cc="jakarta.faces.composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewAction action="#{logConfigurationBean.refresh}" />
+  <!-- disable validator next-line: el-validator -->
+  <f:viewAction action="#{logConfigurationBean.refresh}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">

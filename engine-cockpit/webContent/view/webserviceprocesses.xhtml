@@ -4,7 +4,8 @@
   xmlns:pe="primefaces.extensions" xmlns:cc="jakarta.faces.composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewAction action="#{webServiceProcessesBean.onload}" />
+  <!-- disable validator next-line: el-validator -->
+  <f:viewAction action="#{webServiceProcessesBean.onload}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">

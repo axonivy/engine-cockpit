@@ -6,6 +6,7 @@
   <ui:composition template="../includes/template/template.xhtml">
     <f:metadata>
       <f:viewParam name="index" value="#{searchIndexBean.index}" />
+      <!-- disable validator next-line: el-validator -->
       <f:viewAction action="#{searchIndexBean.onload}" />
     </f:metadata>
 

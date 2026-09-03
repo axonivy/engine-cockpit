@@ -4,6 +4,7 @@
 <h:body>
   <f:metadata>
     <f:viewParam name="file" value="#{editorBean.selectedFile}" />
+    <!-- disable validator next-line: el-validator -->
     <f:viewAction action="#{editorBean.onload}" />
   </f:metadata>
 

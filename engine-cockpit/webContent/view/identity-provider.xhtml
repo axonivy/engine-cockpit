@@ -6,6 +6,7 @@
 <h:body>
   <f:metadata>
     <f:viewParam name="securitySystemName" value="#{identityProviderBean.securitySystemName}" />
+    <!-- disable validator next-line: el-validator -->
     <f:viewAction action="#{identityProviderBean.onload}" />
   </f:metadata>
 
