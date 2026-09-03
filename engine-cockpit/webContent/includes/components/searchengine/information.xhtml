@@ -16,7 +16,7 @@
           update="searchEngineQueryToolModal" actionListener="#{searchEngineBean.setActiveIndex(null)}"
           styleClass="ml-auto rounded-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
         <p:linkButton id="configSearchEngine" title="#{ivy.cm.co('/searchEngineInformation/ConfigureSearchEngineButtonTitle')}" icon="ti ti-settings" type="button"
-          styleClass="ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=SearchEngine" />
+          rendered="#{accessBean.hasAccess('system')}" styleClass="ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=SearchEngine" />
       </div>
     </div>
     <p:panelGrid columns="2" columnClasses="col-6, col-6" layout="flex">
