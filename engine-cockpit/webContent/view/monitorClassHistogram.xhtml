@@ -36,10 +36,10 @@
                       icon="ti ti-download" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button"/>
                 </div>
               </div>
-              <p:dataTable var="class" value="#{classHistogramBean.classes}" filteredValue="#{classHistogramBean.filteredClasses}"
+              <p:dataTable var="classInfo" value="#{classHistogramBean.classes}" filteredValue="#{classHistogramBean.filteredClasses}"
                 widgetVar="classesTable" styleClass="ui-fluid"
                 id="classTable" style="min-width: 950px;" emptyMessage="#{ivy.cm.co('/monitor/classHistogram/EmptyHistogramMessage')}"
-                paginator="true" rows="100" paginatorPosition="bottom" resizableColumns="true" sortBy="#{class.instances}">
+                paginator="true" rows="100" paginatorPosition="bottom" resizableColumns="true" sortBy="#{classInfo.instances}">
                 <f:facet name="header">
                   <div class="ui-input-icon-left filter-container">
                     <i class="ti ti-search"/>
@@ -48,74 +48,74 @@
                   </div>
                 </f:facet>
 
-                <p:column headerText="#{ivy.cm.co('/monitor/Class')}" sortBy="#{class.name}" filterBy="#{class.name}">
-                  <span><h:outputText value="#{class.name}"/></span>
+                <p:column headerText="#{ivy.cm.co('/monitor/Class')}" sortBy="#{classInfo.name}" filterBy="#{classInfo.name}">
+                  <span><h:outputText value="#{classInfo.name}"/></span>
                 </p:column>
-                <p:column headerText="#{ivy.cm.co('/common/Module')}" sortBy="#{class.module}" filterBy="#{class.module}" width="15%">
-                  <span><h:outputText value="#{class.module}"/></span>
+                <p:column headerText="#{ivy.cm.co('/common/Module')}" sortBy="#{classInfo.module}" filterBy="#{classInfo.module}" width="15%">
+                  <span><h:outputText value="#{classInfo.module}"/></span>
                 </p:column>
-                <p:column sortBy="#{class.instances}" width="10%" sortOrder="desc">
+                <p:column sortBy="#{classInfo.instances}" width="10%" sortOrder="desc">
                   <f:facet name="header">
                     <h:outputText value="#{ivy.cm.co('/common/Instances')}" title="#{ivy.cm.co('/monitor/classHistogram/InstancesTooltip')}"/>
                   </f:facet>
-                  <div style="background: #{class.instancesBackground};">
-                    <h:outputText id="instances" value="#{class.instances}" styleClass="gradient-text" title="#{class.instances}">
+                  <div style="background: #{classInfo.instancesBackground};">
+                    <h:outputText id="instances" value="#{classInfo.instances}" styleClass="gradient-text" title="#{classInfo.instances}">
                       <f:convertNumber/>
                     </h:outputText>
-                    <p:tooltip for="instances" value="#{class.instances}"/>
+                    <p:tooltip for="instances" value="#{classInfo.instances}"/>
                   </div>
                 </p:column>
-                <p:column sortBy="#{class.bytes}" width="10%">
+                <p:column sortBy="#{classInfo.bytes}" width="10%">
                   <f:facet name="header">
                     <h:outputText value="#{ivy.cm.co('/common/Bytes')}" title="#{ivy.cm.co('/monitor/classHistogram/BytesTooltip')}"/>
                   </f:facet>
-                  <div style="background: #{class.bytesBackground};">
-                    <h:outputText id="bytes" value="#{class.bytes}" styleClass="gradient-text" title="#{class.bytes}">
+                  <div style="background: #{classInfo.bytesBackground};">
+                    <h:outputText id="bytes" value="#{classInfo.bytes}" styleClass="gradient-text" title="#{classInfo.bytes}">
                       <f:convertNumber/>
                     </h:outputText>
-                    <p:tooltip for="bytes" value="#{class.bytes}"/>
+                    <p:tooltip for="bytes" value="#{classInfo.bytes}"/>
                   </div>
                 </p:column>
-                <p:column sortBy="#{class.deltaToMinInstances}" width="10%">
+                <p:column sortBy="#{classInfo.deltaToMinInstances}" width="10%">
                   <f:facet name="header">
                     <h:outputText value="&#x394; #{ivy.cm.co('/monitor/classHistogram/DeltaMin')}" title="#{ivy.cm.co('/monitor/classHistogram/DeltaTooltip')}" />
                   </f:facet>
-                  <div style="background: #{class.deltaMinBackground};">
+                  <div style="background: #{classInfo.deltaMinBackground};">
                     <h:panelGroup id="deltaMin" styleClass="gradient-text">
                       <h:outputText value="&#x394; " />
-                      <h:outputText value="#{class.deltaToMinInstances}">
+                      <h:outputText value="#{classInfo.deltaToMinInstances}">
                         <f:convertNumber/>
                       </h:outputText>
                       <h:outputText value=" ("/>
-                      <h:outputText value="#{class.minInstances}">
+                      <h:outputText value="#{classInfo.minInstances}">
                         <f:convertNumber/>
                       </h:outputText>
                       <h:outputText value=")"/>
                     </h:panelGroup>
                     <p:tooltip for="deltaMin">
-                      &#x394;: #{class.deltaToMinInstances}<br/>
-                      #{ivy.cm.co('/monitor/classHistogram/DeltaMinDetailTooltip')} #{class.minInstances}
+                      &#x394;: #{classInfo.deltaToMinInstances}<br/>
+                      #{ivy.cm.co('/monitor/classHistogram/DeltaMinDetailTooltip')} #{classInfo.minInstances}
                     </p:tooltip>
                   </div>
                 </p:column>
-                <p:column sortBy="#{class.deltaToMaxInstances}" width="10%">
+                <p:column sortBy="#{classInfo.deltaToMaxInstances}" width="10%">
                   <f:facet name="header">
                     <h:outputText value="&#x394; #{ivy.cm.co('/monitor/classHistogram/DeltaMax')}" title="#{ivy.cm.co('/monitor/classHistogram/DeltaMaxTooltip')}" />
                   </f:facet>
                   <h:panelGroup id="deltaMax" styleClass="gradient-text">
                     <h:outputText value="&#x394; "/>
-                    <h:outputText value="#{class.deltaToMaxInstances}">
+                    <h:outputText value="#{classInfo.deltaToMaxInstances}">
                       <f:convertNumber/>
                     </h:outputText>
                     <h:outputText value=" ("/>
-                    <h:outputText value="#{class.maxInstances}">
+                    <h:outputText value="#{classInfo.maxInstances}">
                       <f:convertNumber/>
                      </h:outputText>
                     <h:outputText value=")"/>
                   </h:panelGroup>
                   <p:tooltip for="deltaMax">
-                    &#x394;: #{class.deltaToMaxInstances}<br/>
-                    #{ivy.cm.co('/monitor/classHistogram/DeltaMaxDetailTooltip')} #{class.maxInstances}
+                    &#x394;: #{classInfo.deltaToMaxInstances}<br/>
+                    #{ivy.cm.co('/monitor/classHistogram/DeltaMaxDetailTooltip')} #{classInfo.maxInstances}
                   </p:tooltip>
                 </p:column>
               </p:dataTable>
