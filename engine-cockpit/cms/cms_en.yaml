@@ -604,6 +604,36 @@ logs:
   DownloadLog: Download log
   NoLogMessage: 'No logs found on date:'
   OpenLog: Open log
+  OpenLogFiles: Open log files
+  ConfigurationFile: Configuration file
+  LastLoadedAt: Last loaded at
+  ConfigurationLastModified: Configuration last modified
+  ConfigurationWarnings: Configuration warnings
+  ConfigurationWarningsDetail: Log4j reported problems while loading the configuration.
+  Loggers: Loggers
+  ShowAllLoggers: Show all loggers
+  LoggerNotInstantiatedInfo: This logger has not been instantiated and has no live Log4j logger instance.
+  ConfiguredLevel: Configured level
+  ConfiguredLevelInfo: The level explicitly configured for this logger. Inherited means that it uses a parent logger's configuration.
+  EffectiveLevel: Effective level
+  EffectiveLevelInfo: The level currently applied to this logger after inheritance and runtime changes. Messages below this level are not processed by this logger.
+  Additive: Additive
+  AdditiveTrue: Log events are also passed to parent loggers.
+  AdditiveFalse: Log events stop at this logger and are not passed to parent loggers.
+  Appenders: Appenders
+  Inherited: Inherited
+  InheritedAppenderInfo: This appender is inherited from logger '${logger}'.
+  AppenderStateWarning: 'This appender is not started. Current state: ${state}.'
+  SetLevel: Set level
+  ResetLevel: Reset runtime level
+  Type: Type
+  Target: Target
+  RuntimeLevelWarning: Level changes apply immediately. Reset individual overrides here; logging reconfiguration or an engine restart clears all overrides.
+  LoggerLevelChanged: Logger level changed
+  LoggerLevelChangedDetail: Logger '${logger}' now uses level '${level}'.
+  LoggerLevelChangeFailed: Could not change logger level
+  LoggerLevelReset: Logger level reset
+  LoggerLevelResetDetail: Runtime level override removed for logger '${logger}'.
 memberProperties:
   Property: Property
   PropertyInExternalSecuritySystem: Property is managed by the external security system
@@ -1222,6 +1252,7 @@ sidebar:
   LiveStats: Live Stats
   LiveStatsFoundFrom: Live stats found from
   Logs: Logs
+  Logging: Logging
   MBeans: MBeans
   Memory: Memory
   Notifications: Notifications
