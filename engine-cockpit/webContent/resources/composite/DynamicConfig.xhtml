@@ -109,7 +109,7 @@
 
               <!-- boolean -->
               <h:panelGroup styleClass="md-inputfield dynamic-config-group"
-                rendered="#{property.boolean}">
+                rendered="#{property.isBoolean()}">
                 <p:outputLabel value="#{property.label}" />
                 <p:selectBooleanCheckbox id="propertyBoolean"
                   value="#{property.value}" styleClass="dynamic-config-field"
