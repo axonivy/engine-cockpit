@@ -40,7 +40,7 @@
 <p:dialog style="min-width: 300px;" header="#{ivy.cm.co('/securitySystemWorkflowLanguage/AddWorkflowLanguageDialogHeader')}" id="addWorkflowLanguageModal" widgetVar="addWorkflowLanguageModal"
   modal="true" responsive="true" closeOnEscape="true">
   <p:staticMessage severity="warn"
-    detail="#{ivy.cm.content('/securitySystemWorkflowLanguage/AddWorkflowLanguageWarningMessage').replace('tasks', securityWorkflowLanguageBean.tasks).replace('cases', securityWorkflowLanguageBean.cases).replace('language', securityWorkflowLanguageBean.default.displayName).get()}" />
+    detail="#{ivy.cm.content('/securitySystemWorkflowLanguage/AddWorkflowLanguageWarningMessage').replace('tasks', securityWorkflowLanguageBean.tasks).replace('cases', securityWorkflowLanguageBean.cases).replace('language', securityWorkflowLanguageBean.getDefault().displayName).get()}" />
   <p:staticMessage severity="warn" detail="#{ivy.cm.co('/securitySystemWorkflowLanguage/AddWorkflowLanguageSystemDatabaseSpaceWarningMessage')}" />
   <h:form id="addWorkflowLanguageForm" styleClass="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">

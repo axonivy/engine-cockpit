@@ -91,7 +91,7 @@
                   <i class="ti ti-trash table-icon state-inactive"></i>
                   <h:outputText value="#{delivery.numberOfErrors}" />
                 </h:panelGroup>
-                <h:panelGroup rendered="#{not empty delivery.nextRetryAt}">
+                <h:panelGroup rendered="#{delivery.nextRetryAt != null}">
                   <i class="ti ti-clock-play table-icon"></i>
                   <h:outputText value="#{delivery.nextRetryIn}" />
                 </h:panelGroup>
