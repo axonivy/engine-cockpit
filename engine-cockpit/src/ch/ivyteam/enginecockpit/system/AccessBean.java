@@ -13,7 +13,8 @@ import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 public class AccessBean implements Serializable {
 
   private static final String PAAS_CONFIG_KEY = "Cockpit.PaaS";
-  private static final Set<String> PAAS_RESTRICTED_AREAS = Set.of("system", "securitySystems", "logs");
+  private static final Set<String> PAAS_RESTRICTED_AREAS = Set.of(
+      "system", "securitySystems", "setup", "licence", "systemDatabase");
 
   public boolean hasAccess(String area) {
     return !isPaaS() || !PAAS_RESTRICTED_AREAS.contains(area);

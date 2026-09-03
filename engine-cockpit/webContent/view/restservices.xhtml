@@ -29,7 +29,8 @@
                     href="#{advisorBean.apiBrowserUrl}/index.html?urls.primaryName=#{managerBean.selectedApplicationName}"
                     target="_blank" rel="noopener noreferrer" styleClass="ml-auto rounded-button" />
                   <p:linkButton id="configRestBackend" title="#{ivy.cm.co('/restServices/ConfigureRestBackendButtonTitle')}" icon="ti ti-settings" type="button"
-                    styleClass="ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=REST.Servlet" />
+                    rendered="#{accessBean.hasAccess('system')}" styleClass="ml-1 ui-button-secondary rounded-button"
+                    href="systemconfig.xhtml?filter=REST.Servlet" />
                 </div>
               </div>
               <iframe id="apiBrowser"

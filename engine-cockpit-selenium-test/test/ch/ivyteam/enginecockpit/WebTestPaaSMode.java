@@ -20,6 +20,11 @@ import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 @IvyWebTest
 class WebTestPaaSMode {
 
+  private static final String LICENCE_DETAIL_BUTTON = "#licence\\:tasksButtonLicenceDetail";
+  private static final String LICENCE_UPLOAD_BUTTON = "#licence\\:uploadLicenceBtn";
+  private static final String SYSTEM_DATABASE_BUTTON = "#systemDatabase\\:configureSystemDbBtn";
+  private static final String EMAIL_BUTTON = "#email\\:configureEmailBtn";
+  private static final String INFO_SETUP_MENU = "#menuform\\:sr_setup";
   private static final String SECURITY_MENU = "#sidebarMenu\\:menuform\\:sr_security";
   private static final String SECURITY_SYSTEM_MENU = "#sidebarMenu\\:menuform\\:sr_security_system";
   private static final String SECURITY_USER_MENU = "#sidebarMenu\\:menuform\\:sr_users";
@@ -45,7 +50,7 @@ class WebTestPaaSMode {
     $(SECURITY_SYSTEM_MENU).shouldNot(exist);
     $(SECURITY_USER_MENU).find("a").shouldBe(visible);
     openMenu(MONITOR_MENU);
-    $(MONITOR_LOGS_MENU).shouldNot(exist);
+    $(MONITOR_LOGS_MENU).find("a").shouldBe(visible);
 
     setPaaSMode(false);
     $(SYSTEM_MENU).find("a").shouldBe(visible);
@@ -53,6 +58,21 @@ class WebTestPaaSMode {
     $(SECURITY_SYSTEM_MENU).find("a").shouldBe(visible);
     openMenu(MONITOR_MENU);
     $(MONITOR_LOGS_MENU).find("a").shouldBe(visible);
+  }
+
+  @Test
+  void paasModeHidesRestrictedPageEntries() {
+    setPaaSMode(true);
+    $(LICENCE_DETAIL_BUTTON).shouldNot(exist);
+    $(LICENCE_UPLOAD_BUTTON).shouldNot(exist);
+    $(SYSTEM_DATABASE_BUTTON).shouldNot(exist);
+    $(EMAIL_BUTTON).shouldNot(exist);
+    open(viewUrl("info.xhtml"));
+    $(INFO_SETUP_MENU).shouldNot(exist);
+
+    setPaaSMode(false);
+    $(LICENCE_DETAIL_BUTTON).shouldBe(visible);
+    $(SYSTEM_DATABASE_BUTTON).shouldBe(visible);
   }
 
   private void setPaaSMode(boolean enabled) {
