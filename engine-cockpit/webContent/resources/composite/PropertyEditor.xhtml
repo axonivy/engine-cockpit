@@ -16,7 +16,7 @@
     update="#{cc.clientId}:propertyModal" rendered="#{!cc.attrs.isNewProperty}"
     styleClass="flex-shrink-0 ml-1 ui-button-secondary rounded-button"
     oncomplete="PF('propertyModal').show();" process="@this" />
-  <p:commandButton id="deletePropertyBtn" disabled="#{cc.attrs.property.default}"
+  <p:commandButton id="deletePropertyBtn" disabled="#{cc.attrs.property.isDefault()}"
     actionListener="#{cc.attrs.bean.removeProperty(cc.attrs.property.name)}"
     update="#{cc.attrs.formName}" icon="ti ti-trash" title="#{ivy.cm.co('/common/Delete')}"
     rendered="#{!cc.attrs.isNewProperty}" process="@this"
