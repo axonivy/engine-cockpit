@@ -25,7 +25,7 @@
         value=" #{errorPage.error.message}" />
     </span>
   </h3>
-  <ui:fragment rendered="#{!errorPage.error.attributeNames.isEmpty()}">
+  <ui:fragment rendered="#{not empty errorPage.error.attributeNames}">
     <h4 class="list-group-item-heading">#{ivy.cm.co('/common/Attributes')}</h4>
     <div class="table-responsive">
       <table class="table table-bordered table-striped" style="font-size: 1.0em">
@@ -59,7 +59,7 @@
   </p>
   <br />
 
-  <ui:fragment rendered="#{!errorPage.error.processCallStack.isEmpty()}">
+  <ui:fragment rendered="#{not empty errorPage.error.processCallStack}">
     <h4 class="list-group-item-heading">#{ivy.cm.co('/exceptionDetail/ProcessCallStack')}</h4>
     <!-- Don't move me: I'm a PRE!!! -->
     <pre>
@@ -69,7 +69,7 @@
     </pre>
     <br />
   </ui:fragment>
-  <ui:fragment rendered="#{!errorPage.causedBy.isEmpty()}">
+  <ui:fragment rendered="#{not empty errorPage.causedBy}">
     <h4 class="list-group-item-heading">#{ivy.cm.co('/exceptionDetail/TechnicalCause')}</h4>
     <ui:repeat value="#{errorPage.causedBy}" var="causedBy">
       <pre>
@@ -90,7 +90,7 @@
   <p>#{errorPage.applicationName}</p>
   <br />
 
-  <ui:fragment rendered="#{!errorPage.threadLocalValues.isEmpty()}">
+  <ui:fragment rendered="#{not empty errorPage.threadLocalValues}">
     <h4 class="list-group-item-heading">#{ivy.cm.co('/exceptionDetail/ThreadLocalValues')}</h4>
     <div class="table-responsive">
       <table class="table table-bordered table-striped" style="font-size: 0.9em">

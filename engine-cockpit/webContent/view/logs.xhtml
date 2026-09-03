@@ -61,7 +61,7 @@
           </div>
 
           <h:panelGroup id="logs" layout="block" styleClass="grid">
-            <h:panelGroup styleClass="col-12" rendered="#{!logBean.getLogs().isEmpty()}">
+            <h:panelGroup styleClass="col-12" rendered="#{not empty logBean.logs}">
               <cc:LogView log="#{logBean.log}" id="logView" />
             </h:panelGroup>
             <h:outputText rendered="#{empty logBean.logs}">

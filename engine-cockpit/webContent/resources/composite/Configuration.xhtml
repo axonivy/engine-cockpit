@@ -115,10 +115,10 @@
         <h:outputText id="editConfigurationDescription" value="#{cc.attrs.bean.activeConfig.htmlDescription}" 
           styleClass="config-edit-description" escape="false" rendered="#{cc.attrs.bean.activeConfig.hasDescription()}" />
           
-        <h:outputLabel for="editConfigurationExamples" rendered="#{!cc.attrs.bean.activeConfig.exampleValues.isEmpty()}"
+        <h:outputLabel for="editConfigurationExamples" rendered="#{not empty cc.attrs.bean.activeConfig.exampleValues}"
           value="#{ivy.cm.co('/configuration/Examples')}" />
         <h:outputText id="editConfigurationExamples" value="#{cc.attrs.bean.activeConfig.examples}" 
-          rendered="#{!cc.attrs.bean.activeConfig.exampleValues.isEmpty()}" />
+          rendered="#{not empty cc.attrs.bean.activeConfig.exampleValues}" />
 
         <h:outputLabel for="editConfigurationValue" value="#{ivy.cm.co('/common/Value')}" />
         <c:choose>

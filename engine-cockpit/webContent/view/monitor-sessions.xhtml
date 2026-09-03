@@ -109,7 +109,7 @@
                    <h:outputText id="httpSession" value="#{ses.httpSessionCount}"/>
                    <i class="ti ti-info-circle"/>
                 </h:panelGroup>
-                <p:tooltip for="httpSessionGrp" rendered="#{!ses.httpSessions.isEmpty()}">
+                <p:tooltip for="httpSessionGrp" rendered="#{not empty ses.httpSessions}">
                   <ui:repeat value="#{ses.httpSessions}" var="httpSession">
                     <h:panelGroup rendered="#{httpSession.valid}">
                       <h:outputLabel for="creationTime" value="#{ivy.cm.co('/monitor/session/Creation')}: "/>
