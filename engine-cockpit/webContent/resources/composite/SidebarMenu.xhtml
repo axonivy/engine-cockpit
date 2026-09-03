@@ -65,7 +65,7 @@
               rendered="#{clusterBean.clusterServer or param['cluster'] != null}" />
             <p:menuitem id="sr_editor" value="#{ivy.cm.co('/common/ConfigFileEditor')}" icon="ti ti-file-text" url="editor.xhtml" />
             <p:menuitem id="sr_logging" value="#{ivy.cm.co('/sidebar/Logging')}" icon="ti ti-adjustments"
-              url="logging.xhtml" rendered="#{accessBean.hasAccess('logs')}" />
+              url="logging.xhtml" rendered="#{accessBean.hasAccess('logging')}" />
           </p:submenu>
           <p:submenu id="sr_monitor" label="#{ivy.cm.co('/common/Monitor')}" icon="ti ti-device-analytics">
             <p:menuitem id="sr_monitor_os" value="#{ivy.cm.co('/sidebar/OS')}" icon="ti ti-database-search" url="monitorOs.xhtml" />

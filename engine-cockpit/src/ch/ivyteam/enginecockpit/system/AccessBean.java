@@ -14,7 +14,7 @@ public class AccessBean implements Serializable {
 
   private static final String PAAS_CONFIG_KEY = "Cockpit.PaaS";
   private static final Set<String> PAAS_RESTRICTED_AREAS = Set.of(
-      "system", "securitySystems", "setup", "licence", "systemDatabase");
+      "system", "securitySystems", "setup", "licence", "systemDatabase", "logging");
 
   public boolean hasAccess(String area) {
     return !isPaaS() || !PAAS_RESTRICTED_AREAS.contains(area);
