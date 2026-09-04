@@ -53,7 +53,7 @@ class TestSpanBean {
   @Test
   void depth() {
     var span = getSpan(1);
-    assertThat(span.depth()).isEqualTo(0);
+    assertThat(span.depth()).isZero();
     span = getSpan(2);
     assertThat(span.depth()).isEqualTo(1);
     span = getSpan(3);

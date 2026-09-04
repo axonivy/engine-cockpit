@@ -25,10 +25,9 @@ import com.browserup.bup.util.HttpMessageContents;
 import com.browserup.bup.util.HttpMessageInfo;
 import com.codeborne.selenide.Selenide;
 
-import io.netty.handler.codec.http.HttpResponse;
-
 import ch.ivyteam.enginecockpit.test.ProxyExtension;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
+import io.netty.handler.codec.http.HttpResponse;
 
 @IvyWebTest
 @ExtendWith({ProxyExtension.class})
@@ -57,7 +56,7 @@ public class WebTestLogin {
     var filter = addStatusFilter();
     forceLogin();
     assertThat(filter.code).isEqualTo(302);
-    assertThat(filter.isAjax).isEqualTo(false);
+    assertThat(filter.isAjax).isFalse();
     assertCurrentUrlContains(DASHBOARD);
     assertThat(Selenide.title()).startsWith("Engine Cockpit").doesNotContain("Login");
     $("#sessionUserName").shouldBe(exactText(getAdminUser()));
@@ -70,21 +69,21 @@ public class WebTestLogin {
     $("#loginForm\\:password").shouldBe(visible).clear();
     $("#loginForm\\:login").shouldBe(visible).click();
     assertThat(filter.code).isEqualTo(200);
-    assertThat(filter.isAjax).isEqualTo(false);
+    assertThat(filter.isAjax).isFalse();
     $("#loginForm\\:userName").shouldHave(cssClass("ui-state-error"));
     $("#loginForm\\:password").shouldHave(cssClass("ui-state-error"));
 
     $("#loginForm\\:userName").sendKeys(getAdminUser());
     $("#loginForm\\:login").click();
     assertThat(filter.code).isEqualTo(200);
-    assertThat(filter.isAjax).isEqualTo(false);
+    assertThat(filter.isAjax).isFalse();
     $("#loginForm\\:userName").shouldNotHave(cssClass("ui-state-error"));
     $("#loginForm\\:password").shouldHave(cssClass("ui-state-error"));
 
     $("#loginForm\\:password").sendKeys("test");
     $("#loginForm\\:login").click();
     assertThat(filter.code).isEqualTo(401);
-    assertThat(filter.isAjax).isEqualTo(false);
+    assertThat(filter.isAjax).isFalse();
     $("#loginForm\\:userName").shouldNotHave(cssClass("ui-state-error"));
     $("#loginForm\\:password").shouldNotHave(cssClass("ui-state-error"));
     $("#loginForm\\:loginMessage").shouldBe(visible);

@@ -68,7 +68,7 @@ class TestHealthBean {
 
   @Test
   void messages() {
-    assertThat(testee.getMessageCount()).isEqualTo(0);
+    assertThat(testee.getMessageCount()).isZero();
     assertThat(testee.getMessage()).isEqualTo("No problems detected. Engine is healthy.");
     assertThat(testee.getMessages()).isEmpty();
 

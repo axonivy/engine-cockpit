@@ -21,7 +21,7 @@ import jakarta.inject.Named;
 @RequestScoped
 public class SupportBean {
 
-  private final static Logger LOGGER = Logger.getLogger(SupportBean.class);
+  private static final Logger LOGGER = Logger.getLogger(SupportBean.class);
 
   public StreamedContent getSupportReport() throws IOException {
     var errorReport = ErrorReport.create().generate();

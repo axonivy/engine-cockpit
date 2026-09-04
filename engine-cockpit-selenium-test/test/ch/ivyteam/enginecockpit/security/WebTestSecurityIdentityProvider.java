@@ -32,7 +32,7 @@ class WebTestSecurityIdentityProvider {
 
   private static final String PASSWORD = "identityProvider:dynamicConfigForm:group:0:property:1:propertyPassword";
   private static final String TENANT_ID = "identityProvider:dynamicConfigForm:group:0:property:0:propertyString";
-  private final static String NAME = "test-security-system";
+  private static final String NAME = "test-security-system";
   private static final String DIRECTORY_BROWSER_FORM = "#directoryBrowser\\:directoryBrowserForm\\:";
 
   @BeforeEach
@@ -181,7 +181,8 @@ class WebTestSecurityIdentityProvider {
 
   @Test
   void numberProperty() {
-    var property = $(By.id("identityProvider:dynamicConfigForm:group:0:property:3:propertyNumber_input")).shouldBe(visible);
+    var property = $(By.id("identityProvider:dynamicConfigForm:group:0:property:3:propertyNumber_input"))
+        .shouldBe(visible);
     property.clear();
     property.sendKeys("123");
     save();
@@ -229,6 +230,7 @@ class WebTestSecurityIdentityProvider {
   }
 
   private void success() {
-    $(By.id("identityProvider:dynamicConfigForm:dynamicConfigFormSaveSuccess_container")).shouldHave(text("Successfully saved"));
+    $(By.id("identityProvider:dynamicConfigForm:dynamicConfigFormSaveSuccess_container"))
+        .shouldHave(text("Successfully saved"));
   }
 }
