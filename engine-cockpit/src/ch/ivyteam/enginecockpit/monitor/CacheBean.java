@@ -25,7 +25,7 @@ import jakarta.inject.Named;
 @ViewScoped
 public class CacheBean implements Serializable {
 
-  private final static Logger LOGGER = Logger.getLogger(CacheBean.class);
+  private static final Logger LOGGER = Logger.getLogger(CacheBean.class);
 
   private List<Cache> caches;
   private List<Cache> filteredCaches;

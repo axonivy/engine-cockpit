@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.request.EngineUriResolver;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -12,13 +14,10 @@ import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import ch.ivyteam.ivy.environment.Ivy;
-import ch.ivyteam.ivy.request.EngineUriResolver;
-
 @Named
 @ViewScoped
 public class WebServerBean implements Serializable {
-  private final static List<String> CHECK_SECURITY_HEADERS = List.of("X-Frame-Options", "Referrer-Policy", "Content-Security-Policy", "X-Content-Type-Options", "Strict-Transport-Security");
+  private static final List<String> CHECK_SECURITY_HEADERS = List.of("X-Frame-Options", "Referrer-Policy", "Content-Security-Policy", "X-Content-Type-Options", "Strict-Transport-Security");
   private String baseUrl;
   private boolean showRequestHeaders = false;
   private boolean showResponseHeaders = false;
