@@ -40,7 +40,7 @@
               </div>
               <p:dataTable var="thread" value="#{threadBean.threads}"
                 widgetVar="threadTable" styleClass="ui-fluid"
-                filteredValue="#{threadBean.filteredThreads}" globalFilterFunction="#{threadBean.filter}" globalFilter="#{threadBean.filter}"
+                filteredValue="#{threadBean.filteredThreads}" globalFilterFunction="#{threadBean.globalFilterFunction}" globalFilter="#{threadBean.filter}"
                 id="threadTable" style="min-width: 950px;"
                 emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
                 <f:facet name="header">

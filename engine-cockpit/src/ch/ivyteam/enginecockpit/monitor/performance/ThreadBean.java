@@ -113,7 +113,7 @@ public class ThreadBean implements Serializable {
   }
 
   @SuppressWarnings("hiding")
-  public boolean filter(Object value, Object filter, @SuppressWarnings("unused") Locale locale) {
+  public boolean globalFilterFunction(Object value, Object filter, @SuppressWarnings("unused") Locale locale) {
     if (filter == null) {
       return true;
     }
