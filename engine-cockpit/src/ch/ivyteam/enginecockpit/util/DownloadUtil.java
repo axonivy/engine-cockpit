@@ -15,23 +15,23 @@ import ch.ivyteam.log.Logger;
 
 public class DownloadUtil {
 
-  private final static Logger LOGGER = Logger.getLogger(DownloadUtil.class);
+  private static final Logger LOGGER = Logger.getLogger(DownloadUtil.class);
 
   public static void zipDir(OutputStream out, List<Path> sources) throws IOException {
     try (var zs = new ZipOutputStream(out)) {
       for (var source : sources) {
         try (var walker = Files.walk(source)) {
           walker.filter(path -> !Files.isDirectory(path))
-            .forEach(path -> {
-              var zipEntry = new ZipEntry(source.relativize(path).toString());
-              try {
-                zs.putNextEntry(zipEntry);
-                Files.copy(path, zs);
-                zs.closeEntry();
-              } catch (IOException ex) {
-                LOGGER.info(ex);
-              }
-            });
+              .forEach(path -> {
+                var zipEntry = new ZipEntry(source.relativize(path).toString());
+                try {
+                  zs.putNextEntry(zipEntry);
+                  Files.copy(path, zs);
+                  zs.closeEntry();
+                } catch (IOException ex) {
+                  LOGGER.info(ex);
+                }
+              });
         }
       }
     }

@@ -40,7 +40,7 @@ public class WebTestMBeans {
   void selectMBean() {
     expandMBeanNodeWithText("java.lang");
     clickMBeanNodeWithText("Runtime");
-    assertThat(attributesTableRows().size()).isGreaterThan(5);
+    assertThat(attributesTableRows()).hasSizeGreaterThan(5);
   }
 
   @Test
@@ -49,10 +49,10 @@ public class WebTestMBeans {
     clickMBeanNodeWithText("Runtime");
 
     clickTraceButtonForAttribute("Uptime");
-    assertThat(tracesTableRows().size()).isEqualTo(1);
+    assertThat(tracesTableRows()).hasSize(1);
 
     clickTraceButtonForAttribute("StartTime");
-    assertThat(tracesTableRows().size()).isEqualTo(2);
+    assertThat(tracesTableRows()).hasSize(2);
 
   }
 
@@ -61,7 +61,7 @@ public class WebTestMBeans {
     expandMBeanNodeWithText("java.lang");
     clickMBeanNodeWithText("Runtime");
     clickTraceButtonForAttribute("Uptime");
-    assertThat(tracesTableRows().size()).isEqualTo(1);
+    assertThat(tracesTableRows()).hasSize(1);
 
     clickRemoveTraceButtonForAttribute("Uptime");
     assertThat(tracesTableRows()).isEmpty();

@@ -85,7 +85,7 @@ class TestTraceBean {
     assertThat(trc.getId()).isNotBlank();
     assertThat(trc.getName()).isEqualTo("test name");
     assertThat(trc.getInfo()).contains("attr=1234").contains("\n").contains("hello=world");
-    assertThat(trc.getStatusClass()).isEqualTo("");
+    assertThat(trc.getStatusClass()).isEmpty();
     assertThat(trc.getStatusTooltip()).isEqualTo("Status not set. No result attributes available.");
     assertThat(trc.getExecutionTime()).isGreaterThan(0.0d);
     assertThat(trc.getExecutionTimeBackground()).startsWith("linear-gradient(90deg, hsl(");

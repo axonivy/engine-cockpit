@@ -43,7 +43,7 @@ class WebTestDownload {
     $("#supportReportDialog\\:supportReportModal").shouldBe(visible);
     var options = DownloadOptions.file().withTimeout(TIMEOUT).withFilter(FileFilters.withName("support-engine-report.zip"));
     File download = $("#supportReportDialog\\:reportForm\\:download").shouldBe(visible).download(options);
-    assertThat(download.getName()).isEqualTo("support-engine-report.zip");
+    assertThat(download).hasName("support-engine-report.zip");
     assertThat(download.length() / 1024).isGreaterThan(10);
     $("#supportReportDialog\\:reportForm\\:cancel").shouldBe(visible).click();
     $("#supportReportDialog\\:supportReportModal").shouldNotBe(visible);
@@ -57,7 +57,7 @@ class WebTestDownload {
     $(By.id("securityReportDownloadDialog:downloadForm:generateButton")).shouldBe(visible).click();
     var options = DownloadOptions.file().withTimeout(TIMEOUT).withFilter(FileFilters.withName("AxonIvySecurityReport.xlsx"));
     var download = $(By.id("securityReportDownloadDialog:downloadForm:downloadButton")).shouldBe(visible).download(options);
-    assertThat(download.getName()).isEqualTo("AxonIvySecurityReport.xlsx");
+    assertThat(download).hasName("AxonIvySecurityReport.xlsx");
     assertThat(download.length() / 1024).isGreaterThanOrEqualTo(2);
   }
 
@@ -68,7 +68,7 @@ class WebTestDownload {
     $(By.id("downloadDialog:downloadModal")).shouldBe(visible);
     var options = DownloadOptions.file().withTimeout(TIMEOUT).withFilter(FileFilters.withName("logs.zip"));
     var download = $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download(options);
-    assertThat(download.getName()).isEqualTo("logs.zip");
+    assertThat(download).hasName("logs.zip");
     assertThat(download.length() / 1024).isGreaterThanOrEqualTo(2);
     $(By.id("downloadDialog:downloadForm:cancel")).shouldBe(visible).click();
     $(By.id("downloadDialog:downloadModal")).shouldNotBe(visible);
@@ -95,7 +95,7 @@ class WebTestDownload {
         .shouldHave(text("Download Branding resources of '" + appName + "'"));
     var options = DownloadOptions.file().withTimeout(TIMEOUT).withFilter(FileFilters.withName("branding-" + appName + ".zip"));
     var download = $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download(options);
-    assertThat(download.getName()).isEqualTo("branding-" + appName + ".zip");
+    assertThat(download).hasName("branding-" + appName + ".zip");
     assertThat(download.length() / 1024).isGreaterThanOrEqualTo(2);
     $(By.id("downloadDialog:downloadForm:cancel")).shouldBe(visible).click();
     $(By.id("downloadDialog:downloadModal")).shouldNotBe(visible);

@@ -21,7 +21,7 @@ public class TestUnit {
     assertThat(Unit.SECONDS.symbol()).isEqualTo("s");
     assertThat(Unit.MINUTES.symbol()).isEqualTo("m");
     assertThat(Unit.MILLI_SECONDS.symbol()).isEqualTo("ms");
-    assertThat(Unit.ONE.symbol()).isEqualTo("");
+    assertThat(Unit.ONE.symbol()).isEmpty();
   }
 
   @Test
@@ -37,7 +37,7 @@ public class TestUnit {
     assertThat(Unit.SECONDS.symbolWithBracesOrEmpty()).isEqualTo("[s]");
     assertThat(Unit.MINUTES.symbolWithBracesOrEmpty()).isEqualTo("[m]");
     assertThat(Unit.MILLI_SECONDS.symbolWithBracesOrEmpty()).isEqualTo("[ms]");
-    assertThat(Unit.ONE.symbolWithBracesOrEmpty()).isEqualTo("");
+    assertThat(Unit.ONE.symbolWithBracesOrEmpty()).isEmpty();
   }
 
   @Test
@@ -47,7 +47,7 @@ public class TestUnit {
     assertThat(Unit.SECONDS.name()).isEqualTo("seconds");
     assertThat(Unit.MINUTES.name()).isEqualTo("minutes");
     assertThat(Unit.MILLI_SECONDS.name()).isEqualTo("milli seconds");
-    assertThat(Unit.ONE.name()).isEqualTo("");
+    assertThat(Unit.ONE.name()).isEmpty();
   }
 
   @Test
