@@ -18,20 +18,19 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.log.Logger;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named("mBeansBean")
 @ViewScoped
 public class MBeansBean implements Serializable {
 
-  private final static Logger LOGGER = Logger.getLogger(MBeansBean.class);
+  private static final Logger LOGGER = Logger.getLogger(MBeansBean.class);
 
   private final MBeanTreeNode root;
   private List<MAttribute> attributes = Collections.emptyList();

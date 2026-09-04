@@ -15,7 +15,7 @@ class TestDurationFormat {
   private static final Duration ONE_MILLI = Duration.ofMillis(1);
   private static final Duration THREE_HOURS = Duration.ofHours(3);
 
-  private final static Instant NOW = Instant.now();
+  private static final Instant NOW = Instant.now();
 
   @BeforeEach
   void beforeEach() {

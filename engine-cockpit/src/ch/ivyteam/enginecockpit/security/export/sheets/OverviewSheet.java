@@ -21,7 +21,7 @@ import jakarta.faces.context.FacesContext;
 public class OverviewSheet {
 
   private final ISecurityContext securityContext;
-  private final static List<String> HEADERS = new ArrayList<>(Arrays.asList("Security System Name", "Applications", "Date",
+  private static final List<String> HEADERS = new ArrayList<>(Arrays.asList("Security System Name", "Applications", "Date",
       "Axon Ivy Version", "Current User", "Hostname", "Number of Users", "Number of Roles", "File number", "First and Last User"));
   private final Excel excel;
   private final List<IUser> users;

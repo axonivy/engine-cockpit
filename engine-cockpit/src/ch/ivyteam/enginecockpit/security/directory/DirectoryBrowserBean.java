@@ -2,9 +2,6 @@ package ch.ivyteam.enginecockpit.security.directory;
 
 import java.util.List;
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-
 import org.apache.commons.lang3.Strings;
 import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.model.DefaultTreeNode;
@@ -14,10 +11,12 @@ import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryBrowser;
 import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryNode;
 import ch.ivyteam.ivy.security.identity.spi.browser.Property;
 import ch.ivyteam.log.Logger;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 
 public class DirectoryBrowserBean {
 
-  private final static Logger LOGGER = Logger.getLogger(DirectoryBrowserBean.class);
+  private static final Logger LOGGER = Logger.getLogger(DirectoryBrowserBean.class);
   private TreeNode<DirectoryNode> root;
   private TreeNode<DirectoryNode> selectedNode;
   private List<Property> selectedNodeAttributes;

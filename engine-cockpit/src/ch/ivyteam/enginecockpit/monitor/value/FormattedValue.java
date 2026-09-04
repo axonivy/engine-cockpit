@@ -133,7 +133,7 @@ class FormattedValue implements ValueProvider {
 
   private static final class TimePart implements Part {
     private final int valueIndex;
-    private final static Map<Unit, Long> MAX_VALUE_PER_UNIT = new HashMap<>();
+    private static final Map<Unit, Long> MAX_VALUE_PER_UNIT = new HashMap<>();
 
     static {
       var unit = Unit.MILLI_SECONDS;
