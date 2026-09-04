@@ -81,7 +81,7 @@ class WebTestDownload {
     var download = $(By.id("logView:fileForm:downloadLog"))
         .shouldBe(visible)
         .download(options);
-    assertThat(download.getName()).isEqualTo("ivy.log");
+    assertThat(download).hasName("ivy.log");
     assertThat(download).isNotEmpty();
   }
 
