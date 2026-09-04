@@ -60,7 +60,7 @@
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/State')}" sortBy="#{thread.state}" width="10%">
                   <h:panelGroup id="state">
-                    <h:outputText value="#{thread.state}" class="#{thread.stateColorClass}"/>
+                    <h:outputText value="#{thread.state}" styleClass="#{thread.stateColorClass}"/>
                     <p:tooltip for="state" value="#{thread.stateTitle}" position="right"/>
                     <h:panelGroup rendered="#{thread.deadLocked}">
                       <i h:rendered="#{thread.deadLocked}" class="pr-2 ti ti-alert-triangle deadlocked ${thread.stateColorClass}"></i>

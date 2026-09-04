@@ -35,8 +35,7 @@
         </h:panelGroup>
       </p:column>
       <p:column headerText="#{ivy.cm.co('/common/Value')}" filterBy="#{config.value}">
-        <h:outputText class="table-cell-autocut" rendered="#{!config.password}" value="#{config.value}" title="#{config.value}" />
-        <h:outputText rendered="#{config.password}" value="******" />
+        <h:outputText styleClass="table-cell-autocut" rendered="#{!config.password}" value="#{config.value}" title="#{config.value}" />
       </p:column>
       <p:column headerText="#{ivy.cm.co('/common/Source')}" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}"
         style="width: 6em;" responsivePriority="4">
