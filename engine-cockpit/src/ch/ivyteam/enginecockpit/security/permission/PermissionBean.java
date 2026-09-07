@@ -27,7 +27,6 @@ public class PermissionBean extends TreeView<AbstractPermission> implements Seri
 
   private String securitySystemName;
   private String member;
-  private SecurityContext securityContext;
   private ISecurityMember securityMember;
   private ISecurityDescriptor securityDescriptor;
 
@@ -56,7 +55,7 @@ public class PermissionBean extends TreeView<AbstractPermission> implements Seri
   }
 
   public void onload() {
-    securityContext = (SecurityContext) ISecurityContextRepository.instance().get(securitySystemName);
+    var securityContext = (SecurityContext) ISecurityContextRepository.instance().get(securitySystemName);
     if (securityContext == null) {
       ResponseHelper.notFound("Security System '" + securitySystemName + "' not found");
       return;

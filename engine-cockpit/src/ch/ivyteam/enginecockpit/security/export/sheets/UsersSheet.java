@@ -3,7 +3,7 @@ package ch.ivyteam.enginecockpit.security.export.sheets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import ch.ivyteam.enginecockpit.security.export.excel.Excel;
 import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
@@ -20,8 +20,6 @@ public class UsersSheet {
     return 25;
   };
 
-  private final Map<String, Integer> propertyColumns = new HashMap<>();
-  private int propertyCellNr = 8;
   private final ArrayList<String> headers = new ArrayList<>(DEFAULT_HEADERS);
   private final Iterable<IUser> users;
   private final Excel excel;
@@ -34,8 +32,9 @@ public class UsersSheet {
   public void create() {
     int rowNr = 1;
     Sheet sheet = excel.createSheet("Users");
+    var propertyColumns = new HashMap<String, Integer>();
+    var propertyCellNr = new AtomicInteger(headers.size());
     for (var user : users) {
-      propertyCellNr = headers.size();
       var row = sheet.createRow(rowNr++);
       var cellNr = 0;
       row.createResultCell(cellNr++, user.getName());
@@ -48,7 +47,7 @@ public class UsersSheet {
       for (var propertyName : user.getAllPropertyNames()) {
         cellNr = propertyColumns.computeIfAbsent(propertyName, name -> {
           headers.add(name);
-          return propertyCellNr++;
+          return propertyCellNr.getAndIncrement();
         });
         row.createResultCell(cellNr, user.getProperty(propertyName));
       }

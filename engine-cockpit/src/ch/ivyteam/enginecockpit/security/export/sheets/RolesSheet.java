@@ -3,16 +3,15 @@ package ch.ivyteam.enginecockpit.security.export.sheets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import ch.ivyteam.enginecockpit.security.export.excel.Excel;
 import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
 import ch.ivyteam.ivy.security.IRole;
 
 public class RolesSheet {
+
   private static final List<String> DEFAULT_HEADERS = List.of("Name", "Displayname", "Description", "Security Member Id", "External Name");
-  private final Map<String, Integer> propertyColumns = new HashMap<>();
-  private int propertyCellNr = 8;
   private final ArrayList<String> headers = new ArrayList<>(DEFAULT_HEADERS);
   private final Iterable<IRole> roles;
   private final Excel excel;
@@ -25,9 +24,9 @@ public class RolesSheet {
   public void create() {
     int rowNr = 1;
     Sheet sheet = excel.createSheet("Roles");
-
+    var propertyColumns = new HashMap<String, Integer>();
+    var propertyCellNr = new AtomicInteger(headers.size());
     for (var role : roles) {
-      propertyCellNr = headers.size();
       var row = sheet.createRow(rowNr++);
       var cellNr = 0;
       row.createResultCell(cellNr++, role.getName());
@@ -38,7 +37,7 @@ public class RolesSheet {
       for (var propertyName : role.getAllPropertyNames()) {
         cellNr = propertyColumns.computeIfAbsent(propertyName, name -> {
           headers.add(name);
-          return propertyCellNr++;
+          return propertyCellNr.getAndIncrement();
         });
         row.createResultCell(cellNr, role.getProperty(propertyName));
       }

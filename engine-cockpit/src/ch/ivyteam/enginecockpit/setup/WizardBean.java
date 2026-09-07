@@ -2,19 +2,17 @@ package ch.ivyteam.enginecockpit.setup;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
+import ch.ivyteam.ivy.environment.Ivy;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 
-import ch.ivyteam.ivy.environment.Ivy;
-
 @Named
 @SessionScoped
 public class WizardBean implements Serializable {
+
   private Steps activeStep;
-  private List<StepStatus> steps;
 
   public WizardBean() {
     activeStep = Steps.LICENCE;
@@ -53,7 +51,7 @@ public class WizardBean implements Serializable {
   }
 
   public Steps getFirstStepWithWarning() {
-    steps = new ArrayList<>();
+    var steps = new ArrayList<StepStatus>();
     var context = FacesContext.getCurrentInstance();
     steps.add(context.getApplication().evaluateExpressionGet(context, "#{licenceBean}", StepStatus.class));
     steps.add(context.getApplication().evaluateExpressionGet(context, "#{administratorBean}", StepStatus.class));
