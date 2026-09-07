@@ -19,7 +19,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
-public class WebTestBusinessCalendar {
+class WebTestBusinessCalendar {
 
   @BeforeEach
   void beforeEach() {

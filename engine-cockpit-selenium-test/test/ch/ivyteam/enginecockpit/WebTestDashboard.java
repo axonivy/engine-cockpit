@@ -26,7 +26,8 @@ import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestDashboard {
+class WebTestDashboard {
+
   @BeforeAll
   static void setup() {
     createLicenceEvents();

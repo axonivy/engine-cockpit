@@ -29,7 +29,7 @@ import com.codeborne.selenide.SelenideElement;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 
 @IvyWebTest
-public class WebTestCockpitLinkFactory {
+class WebTestCockpitLinkFactory {
 
   @BeforeEach
   void beforeEach() {

@@ -24,7 +24,7 @@ import com.codeborne.selenide.Selenide;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-public class WebTestSecuritySystemLdap {
+class WebTestSecuritySystemLdap {
 
   private static final String DEFAULT_CONTEXT = "identityProvider:dynamicConfigForm:group:1:property:0:propertyString";
 

@@ -29,7 +29,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 @ExtendWith(ScreenShooterExtension.class)
-public class WebTestThreads {
+class WebTestThreads {
 
   private static final Duration TWENTY_SECONDS = Duration.ofSeconds(20);
 

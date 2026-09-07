@@ -2,19 +2,20 @@ package ch.ivyteam.enginecockpit.application;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.disabled;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import ch.ivyteam.enginecockpit.util.Table;
-import ch.ivyteam.enginecockpit.util.Navigation;
 
-public class WebTestApplicationVersion {
-    
+import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
+
+class WebTestApplicationVersion {
+
   @BeforeEach
   void beforeEach() {
     login();
