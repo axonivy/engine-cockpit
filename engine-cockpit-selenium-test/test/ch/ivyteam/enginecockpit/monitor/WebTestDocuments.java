@@ -59,8 +59,9 @@ class WebTestDocuments {
     var blobs = table();
     var options = DownloadOptions.file().withTimeout(TIMEOUT);
     var download = blobs.tableEntry(1, 9).download(options);
-    assertThat(download).hasName("louis.txt");
-    assertThat(download).content().isEqualTo("louis schreibt man mit s");
+    assertThat(download)
+        .hasName("louis.txt")
+        .content().isEqualTo("louis schreibt man mit s");
   }
 
   private Table table() {
