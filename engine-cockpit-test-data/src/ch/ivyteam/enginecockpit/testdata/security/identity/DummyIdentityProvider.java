@@ -73,7 +73,7 @@ public class DummyIdentityProvider implements IdentityProvider {
             new Property("location", "Zug"),
             new Property("teamMembers", "8"));
       }
-      return null;
+      return List.of();
     }
 
     @Override

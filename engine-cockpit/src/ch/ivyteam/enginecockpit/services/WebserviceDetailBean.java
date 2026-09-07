@@ -190,16 +190,11 @@ public class WebserviceDetailBean extends DetailView implements FeatureEditor, S
       }
       try {
         int status = client.target(activeEndpointUrl).request().post(Entity.json("")).getStatus();
-        if (status == 401) {
-          return new ConnectionTestResult("POST", status, TestResult.WARNING,
-              Ivy.cm().co("/webServiceEndpoints/TestConnectionAuthenticationMessage"));
-        } else if (status == 404) {
-          return new ConnectionTestResult("POST", status, TestResult.WARNING,
-              Ivy.cm().co("/webServiceEndpoints/TestConnectionNotFoundMessage"));
-        } else {
-          return new ConnectionTestResult("POST", status, TestResult.SUCCESS,
-              Ivy.cm().co("/webServiceEndpoints/TestConnectionSuccessMessage"));
-        }
+        return switch (status) {
+          case 401 -> new ConnectionTestResult("POST", status, TestResult.WARNING, Ivy.cm().co("/webServiceEndpoints/TestConnectionAuthenticationMessage"));
+          case 404 -> new ConnectionTestResult("POST", status, TestResult.WARNING, Ivy.cm().co("/webServiceEndpoints/TestConnectionNotFoundMessage"));
+          default -> new ConnectionTestResult("POST", status, TestResult.SUCCESS, Ivy.cm().co("/webServiceEndpoints/TestConnectionSuccessMessage"));
+        };
       } catch (ProcessingException ex) {
         return new ConnectionTestResult("", 0, TestResult.ERROR,
             Ivy.cm().content("/webServiceEndpoints/TestConnectionErrorMessage")
