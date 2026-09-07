@@ -18,7 +18,7 @@ pipeline {
       steps {
         script {          
           docker.build('maven', '-f build/Dockerfile.maven .').inside("") {
-            sonar projectName: 'engine-cockpit', mvnArgs: "-Dsonar.test.exclusions=**/*.p12"            
+            sonar projectName: 'engine-cockpit', mvnArgs: "-Dsonar.src.exclusions=**/src_generated/** -Dsonar.test.exclusions=**/*.p12"
           }
         }
       }
