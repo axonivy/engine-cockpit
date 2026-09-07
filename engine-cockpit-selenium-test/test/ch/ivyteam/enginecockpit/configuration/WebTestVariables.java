@@ -21,7 +21,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestVariables {
+class WebTestVariables {
 
   @BeforeEach
   void beforeEach() {

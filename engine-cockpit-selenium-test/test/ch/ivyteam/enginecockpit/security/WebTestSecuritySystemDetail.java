@@ -29,7 +29,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestSecuritySystemDetail {
+class WebTestSecuritySystemDetail {
 
   private static final String CHANGE_PROVIDER_WARNING = "#securityProviderForm\\:providerChangeWarning";
 

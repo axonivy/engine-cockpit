@@ -17,7 +17,8 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestCache {
+class WebTestCache {
+
   private static final By TABLE_ID = By.id("form:cacheTable");
   private Table table;
 

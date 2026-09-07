@@ -15,7 +15,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestNotificationChannels {
+class WebTestNotificationChannels {
 
   static final String TABLE_ID = "channelsTable";
 

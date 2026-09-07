@@ -19,7 +19,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestHealth {
+class WebTestHealth {
 
   private Table messagesTable;
 

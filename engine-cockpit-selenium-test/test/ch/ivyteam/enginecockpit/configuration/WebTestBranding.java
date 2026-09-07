@@ -28,7 +28,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestBranding {
+class WebTestBranding {
 
   @BeforeEach
   void beforeEach() {

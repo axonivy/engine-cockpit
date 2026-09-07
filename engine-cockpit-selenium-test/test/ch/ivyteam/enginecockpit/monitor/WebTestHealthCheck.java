@@ -21,7 +21,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestHealthCheck {
+class WebTestHealthCheck {
 
   private Table checksTable;
 

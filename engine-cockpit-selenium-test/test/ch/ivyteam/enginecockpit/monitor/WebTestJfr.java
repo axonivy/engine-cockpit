@@ -26,7 +26,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestJfr {
+class WebTestJfr {
 
   private Table recordingsTable;
 

@@ -25,7 +25,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 @ExtendWith(ScreenShooterExtension.class)
-public class WebTestClassHistogram {
+class WebTestClassHistogram {
 
   private static final Duration TWENTY_SECONDS = Duration.ofSeconds(20);
 

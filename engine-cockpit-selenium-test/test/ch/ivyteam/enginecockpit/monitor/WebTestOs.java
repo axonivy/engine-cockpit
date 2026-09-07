@@ -15,7 +15,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-public class WebTestOs {
+class WebTestOs {
 
   @BeforeAll
   static void beforeAll() {

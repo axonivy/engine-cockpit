@@ -22,7 +22,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestNotificationChannelDetail {
+class WebTestNotificationChannelDetail {
 
   private static SelectBooleanCheckbox enabledCheckbox;
   private static SelectBooleanCheckbox allEventsCheckbox;
