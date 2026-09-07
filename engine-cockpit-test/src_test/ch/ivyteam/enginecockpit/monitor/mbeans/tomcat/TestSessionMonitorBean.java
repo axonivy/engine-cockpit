@@ -5,27 +5,29 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import software.xdev.chartjs.model.dataset.LineDataset;
 
 import com.axonivy.jmx.MAttribute;
 import com.axonivy.jmx.MBean;
 import com.axonivy.jmx.MBeans;
 
-public class TestSessionMonitorBean {
+import software.xdev.chartjs.model.dataset.LineDataset;
+
+class TestSessionMonitorBean {
+
   @BeforeEach
-  public void beforeEach() {
+  void beforeEach() {
     MBeans.registerMBeanFor(new Manager("app1"));
     MBeans.registerMBeanFor(new Manager("app2"));
     MBeans.registerMBeanFor(new SecurityManager());
   }
 
   @AfterEach
-  public void afterEach() {
+  void afterEach() {
     MBeans.unregisterAllMBeans();
   }
 
   @Test
-  public void sessionsMonitor() {
+  void sessionsMonitor() {
     var testee = new SessionMonitorBean();
 
     var dataSet = testee.getSessionsMonitor().getDataSets();

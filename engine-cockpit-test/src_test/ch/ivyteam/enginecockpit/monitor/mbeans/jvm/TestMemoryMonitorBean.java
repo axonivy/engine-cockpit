@@ -3,14 +3,15 @@ package ch.ivyteam.enginecockpit.monitor.mbeans.jvm;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import software.xdev.chartjs.model.dataset.LineDataset;
 
 import ch.ivyteam.ivy.environment.IvyTest;
+import software.xdev.chartjs.model.dataset.LineDataset;
 
 @IvyTest
-public class TestMemoryMonitorBean {
+class TestMemoryMonitorBean {
+
   @Test
-  public void heapMemoryMonitor() {
+  void heapMemoryMonitor() {
     var testee = new MemoryMonitorBean();
 
     var dataSet = testee.getHeapMemoryMonitor().getDataSets();
@@ -31,7 +32,7 @@ public class TestMemoryMonitorBean {
   }
 
   @Test
-  public void nonHeapMemoryMonitor() {
+  void nonHeapMemoryMonitor() {
     var testee = new MemoryMonitorBean();
 
     var dataSet = testee.getNonHeapMemoryMonitor().getDataSets();
@@ -51,7 +52,7 @@ public class TestMemoryMonitorBean {
   }
 
   @Test
-  public void garbageCollectorsMonitor() {
+  void garbageCollectorsMonitor() {
     var testee = new MemoryMonitorBean();
 
     var dataSet = testee.getGarbageCollectorsMonitor().getDataSets();

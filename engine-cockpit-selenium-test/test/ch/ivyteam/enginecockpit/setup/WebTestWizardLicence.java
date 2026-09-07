@@ -46,13 +46,13 @@ class WebTestWizardLicence {
   }
 
   @Test
-  public void testLicenceUploadInvalidFileEnding() throws IOException {
+  void testLicenceUploadInvalidFileEnding() throws IOException {
     uploadLicence(Files.createTempFile("licence", ".txt"));
     $(By.id("licence:fileUploadForm:dropZone")).shouldHave(exactText("Choose or drop a file which ends with: .lic"));
   }
 
   @Test
-  public void testLicenceUploadInvalidLicence() throws IOException {
+  void testLicenceUploadInvalidLicence() throws IOException {
     uploadLicence(Files.createTempFile("licence", ".lic"));
     $(".ui-growl-message").shouldHave(text("Licence file has a wrong format. It must have at least 6 lines"));
   }

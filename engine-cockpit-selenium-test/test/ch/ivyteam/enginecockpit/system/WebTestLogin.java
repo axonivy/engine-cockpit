@@ -31,7 +31,7 @@ import io.netty.handler.codec.http.HttpResponse;
 
 @IvyWebTest
 @ExtendWith({ProxyExtension.class})
-public class WebTestLogin {
+class WebTestLogin {
 
   @BeforeAll
   static void beforeAll() {

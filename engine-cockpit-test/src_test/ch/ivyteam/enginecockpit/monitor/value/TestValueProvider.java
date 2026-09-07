@@ -7,11 +7,12 @@ import org.junit.jupiter.api.Test;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 
-public class TestValueProvider {
+class TestValueProvider {
+
   private long counter = 0;
 
   @Test
-  public void format_integer() {
+  void format_integer() {
     assertThatNextValue(ValueProvider.format("value %d", () -> new Value(1234, Unit.BYTES)))
         .isEqualTo("value 1234 B");
     assertThatNextValue(ValueProvider.format("%d value", () -> new Value(123456789, Unit.BYTES)))
@@ -31,7 +32,7 @@ public class TestValueProvider {
   }
 
   @Test
-  public void format_decimal() {
+  void format_decimal() {
     assertThatNextValue(ValueProvider.format("value %f", () -> new Value(1.234, Unit.KILO_BYTES)))
         .isEqualTo("value 1.234000 KiB");
     assertThatNextValue(ValueProvider.format("value %.1f", () -> new Value(1.234, Unit.KILO_BYTES)))
@@ -41,7 +42,7 @@ public class TestValueProvider {
   }
 
   @Test
-  public void format_time() {
+  void format_time() {
     assertThatNextValue(ValueProvider.format("value %t", () -> new Value(1234, Unit.MICRO_SECONDS)))
         .isEqualTo("value 1234 us");
     assertThatNextValue(ValueProvider.format("value %t", () -> new Value(12345, Unit.MICRO_SECONDS)))
@@ -67,7 +68,7 @@ public class TestValueProvider {
   }
 
   @Test
-  public void cache() {
+  void cache() {
     ValueProvider cache = ValueProvider.cache(1, increase());
     assertThatNextValue(cache).isEqualTo(0L);
     assertThatNextValue(cache).isEqualTo(0L);
@@ -77,7 +78,7 @@ public class TestValueProvider {
   }
 
   @Test
-  public void difference() {
+  void difference() {
     ValueProvider difference = ValueProvider.difference(increase(), ValueProvider.value(() -> 2L, Unit.ONE));
     assertThatNextValue(difference).isEqualTo(-2L);
     assertThatNextValue(difference).isEqualTo(-1L);
@@ -87,7 +88,7 @@ public class TestValueProvider {
   }
 
   @Test
-  public void delta() {
+  void delta() {
     ValueProvider delta = ValueProvider.delta(increase());
     assertThat(delta.nextValue()).isEqualTo(Value.NO_VALUE);
     assertThatNextValue(delta).isEqualTo(1L);
@@ -97,7 +98,7 @@ public class TestValueProvider {
   }
 
   @Test
-  public void percentage() {
+  void percentage() {
     ValueProvider percentage = ValueProvider.percentage(increase());
     assertThatNextValue(percentage).isEqualTo(0L);
     assertThatNextValue(percentage).isEqualTo(100L);
@@ -107,7 +108,7 @@ public class TestValueProvider {
   }
 
   @Test
-  public void quotient() {
+  void quotient() {
     ValueProvider percentage = ValueProvider.quotient(ValueProvider.value(() -> 100, Unit.ONE), increase());
     assertThat(percentage.nextValue()).isEqualTo(Value.NO_VALUE);
     assertThatNextValue(percentage).isEqualTo(100L);
@@ -117,7 +118,7 @@ public class TestValueProvider {
   }
 
   @Test
-  public void derivation() {
+  void derivation() {
     ValueProvider derivation = ValueProvider
         .derivation(ValueProvider.value(() -> counter * counter, Unit.ONE), increase());
     assertThat(derivation.nextValue()).isEqualTo(Value.NO_VALUE);
@@ -128,21 +129,21 @@ public class TestValueProvider {
   }
 
   @Test
-  public void value() {
+  void value() {
     ValueProvider value = ValueProvider.value(() -> "hi", Unit.SECONDS);
     assertThatNextValue(value).isEqualTo("hi");
     assertThat(value.nextValue().unit()).isEqualTo(Unit.SECONDS);
   }
 
   @Test
-  public void value_integer() {
+  void value_integer() {
     ValueProvider value = ValueProvider.value(() -> 1L, Unit.SECONDS);
     assertThatNextValue(value).isEqualTo(1L);
     assertThat(value.nextValue().unit()).isEqualTo(Unit.SECONDS);
   }
 
   @Test
-  public void value_decimal() {
+  void value_decimal() {
     ValueProvider value = ValueProvider.value(() -> 1.234d, Unit.SECONDS);
     assertThatNextValue(value).isEqualTo(1.234d);
     assertThat(value.nextValue().unit()).isEqualTo(Unit.SECONDS);

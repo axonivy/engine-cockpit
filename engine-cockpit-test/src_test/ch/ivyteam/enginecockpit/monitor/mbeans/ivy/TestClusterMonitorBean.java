@@ -4,23 +4,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import software.xdev.chartjs.model.dataset.LineDataset;
 
 import com.axonivy.jmx.MAttribute;
 import com.axonivy.jmx.MBean;
 import com.axonivy.jmx.MBeans;
 
 import ch.ivyteam.ivy.environment.IvyTest;
+import software.xdev.chartjs.model.dataset.LineDataset;
 
 @IvyTest
-public class TestClusterMonitorBean {
+class TestClusterMonitorBean {
+
   @AfterEach
-  public void afterEach() {
+  void afterEach() {
     MBeans.unregisterAllMBeans();
   }
 
   @Test
-  public void sendMessages() {
+  void sendMessages() {
     MBeans.registerMBeanFor(new Cluster());
     var testee = new ClusterMonitorBean();
 
@@ -37,15 +38,15 @@ public class TestClusterMonitorBean {
     assertThat(errors.getLabel()).isEqualTo("Errors");
     assertThat(errors.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
     assertThat(testee.getSendMessagesMonitor().getModel())
-      .contains("\"labels\":[\"")
-      .contains("\"data\":[0.0]");
+        .contains("\"labels\":[\"")
+        .contains("\"data\":[0.0]");
 
     assertThat(testee.getSendMessagesMonitor().getInfo())
         .isEqualTo("Sent Messages: -, Total 3, Errors -, Errors Total 4");
   }
 
   @Test
-  public void sendProcessingTimeMonitor() {
+  void sendProcessingTimeMonitor() {
     MBeans.registerMBeanFor(new Cluster());
     var testee = new ClusterMonitorBean();
 
@@ -72,7 +73,7 @@ public class TestClusterMonitorBean {
   }
 
   @Test
-  public void receiveMessages() {
+  void receiveMessages() {
     MBeans.registerMBeanFor(new Cluster());
     var testee = new ClusterMonitorBean();
 
@@ -94,7 +95,7 @@ public class TestClusterMonitorBean {
   }
 
   @Test
-  public void receiveProcessingTimeMonitor() {
+  void receiveProcessingTimeMonitor() {
     MBeans.registerMBeanFor(new Cluster());
     var testee = new ClusterMonitorBean();
 

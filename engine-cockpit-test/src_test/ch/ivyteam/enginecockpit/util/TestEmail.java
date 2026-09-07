@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-public class TestEmail {
+class TestEmail {
+
   @Test
   void validEmailAddresses() {
     assertThat(EmailUtil.validateEmailAddress("niceandsimple@example.com")).isTrue();

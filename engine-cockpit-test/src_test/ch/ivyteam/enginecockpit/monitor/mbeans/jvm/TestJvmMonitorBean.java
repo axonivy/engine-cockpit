@@ -3,14 +3,15 @@ package ch.ivyteam.enginecockpit.monitor.mbeans.jvm;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import software.xdev.chartjs.model.dataset.LineDataset;
 
 import ch.ivyteam.ivy.environment.IvyTest;
+import software.xdev.chartjs.model.dataset.LineDataset;
 
 @IvyTest
-public class TestJvmMonitorBean {
+class TestJvmMonitorBean {
+
   @Test
-  public void cpuMonitor() {
+  void cpuMonitor() {
     var testee = new JvmMonitorBean();
 
     var dataSet = testee.getCpuMonitor().getDataSets();
@@ -30,7 +31,7 @@ public class TestJvmMonitorBean {
   }
 
   @Test
-  public void threadsMonitor() {
+  void threadsMonitor() {
     var testee = new JvmMonitorBean();
 
     var dataSet = testee.getThreadsMonitor().getDataSets();
@@ -51,7 +52,7 @@ public class TestJvmMonitorBean {
   }
 
   @Test
-  public void classesMonitor() {
+  void classesMonitor() {
     var testee = new JvmMonitorBean();
 
     var dataSet = testee.getClassesMonitor().getDataSets();
