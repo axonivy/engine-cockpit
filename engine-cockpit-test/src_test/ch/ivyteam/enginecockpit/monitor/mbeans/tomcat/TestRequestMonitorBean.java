@@ -5,18 +5,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import software.xdev.chartjs.model.dataset.LineDataset;
 
 import com.axonivy.jmx.MAttribute;
 import com.axonivy.jmx.MBean;
 import com.axonivy.jmx.MBeans;
 
 import ch.ivyteam.ivy.environment.IvyTest;
+import software.xdev.chartjs.model.dataset.LineDataset;
 
 @IvyTest
-public class TestRequestMonitorBean {
+class TestRequestMonitorBean {
+
   @BeforeEach
-  public void beforeEach() {
+  void beforeEach() {
     MBeans.registerMBeanFor(new Connector("http"));
     MBeans.registerMBeanFor(new Connector("https"));
     MBeans.registerMBeanFor(new ProtocolHandler(8080, "http"));
@@ -24,12 +25,12 @@ public class TestRequestMonitorBean {
   }
 
   @AfterEach
-  public void afterEach() {
+  void afterEach() {
     MBeans.unregisterAllMBeans();
   }
 
   @Test
-  public void requestMonitor() {
+  void requestMonitor() {
     var testee = new RequestMonitorBean();
 
     var dataSet = testee.getRequestsMonitor().getDataSets();
@@ -50,7 +51,7 @@ public class TestRequestMonitorBean {
   }
 
   @Test
-  public void errorsMonitor() {
+  void errorsMonitor() {
     var testee = new RequestMonitorBean();
 
     var dataSet = testee.getErrorsMonitor().getDataSets();
@@ -71,7 +72,7 @@ public class TestRequestMonitorBean {
   }
 
   @Test
-  public void bytesMonitor() {
+  void bytesMonitor() {
     var testee = new RequestMonitorBean();
 
     var dataSet = testee.getBytesMonitor().getDataSets();
@@ -102,7 +103,7 @@ public class TestRequestMonitorBean {
   }
 
   @Test
-  public void processingMonitor() {
+  void processingMonitor() {
     var testee = new RequestMonitorBean();
 
     var dataSet = testee.getProcessingTimeMonitor().getDataSets();
@@ -123,7 +124,7 @@ public class TestRequestMonitorBean {
   }
 
   @Test
-  public void connectionsMonitor() {
+  void connectionsMonitor() {
     var testee = new RequestMonitorBean();
 
     var dataSet = testee.getConnectionsMonitor().getDataSets();
@@ -207,5 +208,4 @@ public class TestRequestMonitorBean {
       return "http".equals(protocol) ? 8192 : 4096;
     }
   }
-
 }

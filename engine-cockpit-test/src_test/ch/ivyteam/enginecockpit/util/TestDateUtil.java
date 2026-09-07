@@ -6,7 +6,8 @@ import java.util.Calendar;
 
 import org.junit.jupiter.api.Test;
 
-public class TestDateUtil {
+class TestDateUtil {
+
   @Test
   void formatDefault() {
     var date = Calendar.getInstance();

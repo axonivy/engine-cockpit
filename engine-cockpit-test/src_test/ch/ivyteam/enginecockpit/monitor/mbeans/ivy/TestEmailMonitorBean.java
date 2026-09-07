@@ -4,20 +4,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import software.xdev.chartjs.model.dataset.LineDataset;
 
 import com.axonivy.jmx.MAttribute;
 import com.axonivy.jmx.MBean;
 import com.axonivy.jmx.MBeans;
 
-public class TestEmailMonitorBean {
+import software.xdev.chartjs.model.dataset.LineDataset;
+
+class TestEmailMonitorBean {
+
   @AfterEach
-  public void afterEach() {
+  void afterEach() {
     MBeans.unregisterAllMBeans();
   }
 
   @Test
-  public void transactionsMonitor() {
+  void transactionsMonitor() {
     MBeans.registerMBeanFor(new Mail());
     var testee = new MailClientMonitorBean();
 
@@ -38,7 +40,7 @@ public class TestEmailMonitorBean {
   }
 
   @Test
-  public void processingTimeMonitor() {
+  void processingTimeMonitor() {
     MBeans.registerMBeanFor(new Mail());
     var testee = new MailClientMonitorBean();
 
