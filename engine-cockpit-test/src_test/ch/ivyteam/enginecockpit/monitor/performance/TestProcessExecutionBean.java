@@ -191,8 +191,8 @@ class TestProcessExecutionBean {
     assertThat(uiStat.getOrder()).isEqualTo(stat.getExecutionOrder());
 
     assertThat(uiStat.getApplication()).isEqualTo(stat.getApplicationName());
-    assertThat(uiStat.getProcessModel()).isEqualTo(stat.getModelName());
-    assertThat(uiStat.getVersion()).isEqualTo(stat.getVersionName());
+    assertThat(uiStat.getProcessModel()).isEqualTo(stat.getProjectName());
+    assertThat(uiStat.getVersion()).isEqualTo(stat.getApplicationVersion());
 
     assertThat(uiStat.getProcess()).isEqualTo(stat.getProcessElement().getTopLevelProcess().getFullQualifiedName());
     assertThat(uiStat.getName()).isEqualTo(stat.getProcessElement().getName());
