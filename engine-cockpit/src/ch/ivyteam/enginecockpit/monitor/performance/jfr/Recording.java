@@ -33,19 +33,7 @@ public record Recording(long id, String name, String state, LocalDateTime startT
     return LocalDateTime.ofInstant(Instant.ofEpochMilli((Long) msSinceEpoch), ZoneId.systemDefault());
   }
 
-  public long getId() {
-    return id();
-  }
-
-  public String getName() {
-    return name();
-  }
-
-  public String getState() {
-    return state();
-  }
-
-  public String getSize() {
+  public String formattedSize() {
     var unit = Unit.BYTES;
     var value = size();
     var scaledValue = Unit.BYTES.convertTo(value, unit);
@@ -56,21 +44,21 @@ public record Recording(long id, String name, String state, LocalDateTime startT
     return scaledValue + " " + unit.symbol();
   }
 
-  public String getStartTime() {
+  public String formattedStartTime() {
     return format(startTime());
   }
 
-  public String getStopTime() {
+  public String formattedStopTime() {
     return format(stopTime());
   }
 
-  public String getDuration() {
+  public String formattedDuration() {
     var unit = Unit.SECONDS;
     var value = duration();
     if (value == 0) {
       return "Unlimited";
     }
-    if (isRunning()) {
+    if (running()) {
       value = Duration.between(LocalDateTime.now(), startTime().plus(Duration.ofSeconds(value))).getSeconds();
       if (value <= 0) {
         return "Now";
@@ -85,27 +73,27 @@ public record Recording(long id, String name, String state, LocalDateTime startT
 
   }
 
-  public boolean isCanStop() {
-    return isRunning();
+  public boolean canStop() {
+    return running();
   }
 
-  public boolean isCanClose() {
+  public boolean canClose() {
     return true;
   }
 
-  public boolean isCanDownload() {
+  public boolean canDownload() {
     return switch (state()) {
       case "STOPPED" -> true;
       default -> false;
     };
   }
 
-  public boolean isRunning() {
+  public boolean running() {
     return "RUNNING".equals(state);
   }
 
-  public boolean isNotRunning() {
-    return !isRunning();
+  public boolean notRunning() {
+    return !running();
   }
 
   private String format(LocalDateTime time) {

@@ -44,16 +44,16 @@
                   <h:outputText value="#{recording.state}"/>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/Size')}" sortBy="#{recording.size}" width="10%">
-                  <h:outputText value="#{recording.size}"/>
+                  <h:outputText value="#{recording.formattedSize}"/>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/Duration')}" sortBy="#{recording.duration}" width="10%">
-                  <h:outputText value="#{recording.duration}"/>
+                  <h:outputText value="#{recording.formattedDuration}"/>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/StartTime')}" sortBy="#{recording.startTime}" width="15%">
-                  <h:outputText value="#{recording.startTime}"/>
+                  <h:outputText value="#{recording.formattedStartTime}"/>
                 </p:column>
                 <p:column headerText="#{ivy.cm.co('/common/StopTime')}" sortBy="#{recording.stopTime}" width="15%">
-                  <h:outputText value="#{recording.stopTime}"/>
+                  <h:outputText value="#{recording.formattedStopTime}"/>
                 </p:column>
                 <p:column styleClass="table-btn-3">
                   <p:commandButton id="stop" action="#{jfrBean.stopRecording(recording)}" update="@form startRecordingDialog" title="#{ivy.cm.co('/common/StopRecording')}"
