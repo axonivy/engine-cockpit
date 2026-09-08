@@ -8,6 +8,7 @@
   <cc:attribute name="update" type="java.lang.String"/>
 </cc:interface>
 <cc:implementation>
+  <!-- disable validator next-line: el-validator -->
   <p:overlayPanel id="filterPanel" for="#{cc.attrs.for}" widgetVar="filterPanel" 
     styleClass="table-content-filter" appendTo="@(body)">
     <h:form id="filterForm">
