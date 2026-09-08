@@ -45,12 +45,12 @@ final class TstProcessElementExecStat implements IProcessElementExecutionStatist
   }
 
   @Override
-  public String getModelName() {
+  public String getProjectName() {
     return "pm";
   }
 
   @Override
-  public String getVersionName() {
+  public String getApplicationVersion() {
     return "1";
   }
 

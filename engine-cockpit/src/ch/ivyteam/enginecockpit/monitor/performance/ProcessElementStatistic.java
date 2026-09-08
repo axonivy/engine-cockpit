@@ -24,11 +24,11 @@ public final class ProcessElementStatistic {
   }
 
   public String getProcessModel() {
-    return statistic.getModelName();
+    return statistic.getProjectName();
   }
 
   public String getVersion() {
-    return statistic.getVersionName();
+    return statistic.getApplicationVersion();
   }
 
   public String getProcess() {
