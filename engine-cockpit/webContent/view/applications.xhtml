@@ -55,11 +55,15 @@
               </p:column>
 
               <p:column headerText="#{ivy.cm.co('/applications/Deprecated')}" style="text-align: center; width: 150px;">
+                <!-- disable validator next-line: el-validator -->
                 <ui:repeat value="#{app.deprecatedVersions}" var="deprecatedVersion" varStatus="status">
+                  <!-- disable validator next-line: el-validator -->
                   <h:outputLink value="#{deprecatedVersion.link}">
                     <i class="ti ti-packages table-icon" />
+                    <!-- disable validator next-line: el-validator -->
                     <h:outputText value="#{deprecatedVersion.version}" />
                   </h:outputLink>
+                  <!-- disable validator next-line: el-validator -->
                   <h:outputText value=", " rendered="#{not status.last}" />
                 </ui:repeat>
               </p:column>

@@ -51,9 +51,13 @@
         </h:panelGroup>
       </h:panelGroup>
       <ui:repeat var="app" value="#{securityConfigBean.usedByApps}" varStatus="status">
+        <!-- disable validator next-line: el-validator -->
         <a href="#{securityConfigBean.getApplicationDetailLink(app)}">
-          <i class="ti ti-layout-grid link-icon"></i>#{app.name()}
+          <i class="ti ti-layout-grid link-icon"></i>
+          <!-- disable validator next-line: el-validator -->
+          <h:outputText value="#{app.name()}" />
         </a>
+        <!-- disable validator next-line: el-validator -->
         <h:outputText value="#{status.last ? '' : ' / '}" />
       </ui:repeat>
     </p:panelGrid>

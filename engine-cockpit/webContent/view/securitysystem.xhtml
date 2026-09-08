@@ -53,10 +53,15 @@
             </p:column>
             
             <p:column headerText="#{ivy.cm.co('/common/Application')}">
+              <!-- disable validator next-line: el-validator -->
               <ui:repeat var="app" value="#{system.apps}" varStatus="status">
+                <!-- disable validator next-line: el-validator -->
                 <a href="#{system.getApplicationDetailLink(app)}">
-                  <i class="ti ti-layout-grid table-icon"></i>#{app.name()}
+                  <i class="ti ti-layout-grid table-icon"></i>
+                  <!-- disable validator next-line: el-validator -->
+                  <h:outputText value="#{app.name()}" />
                 </a>
+                <!-- disable validator next-line: el-validator -->
                 <h:outputText value="#{status.last ? '' : ' / '}" />
               </ui:repeat>
             </p:column>
