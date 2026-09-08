@@ -49,7 +49,8 @@
         <h:outputText rendered="#{!permission.deny and permission.someDeny}">
           <i id="someDeny" class="ti ti-circle-minus table-icon light" title="#{ivy.cm.co('/permissions/SomePermissionDenied')}" />
         </h:outputText>
-        <h:outputText rendered="#{!permission.group and not empty permission.permissionHolder and !permission.explicit}">
+        <!-- disable validator next-line: el-validator -->
+        <h:outputText rendered="#{(!permission.group and not empty permission.permissionHolder) and !permission.explicit}">
           <i id="everybody" class="ti ti-users table-icon" title="#{permission.permissionHolder}"></i>
         </h:outputText>
       </p:column>

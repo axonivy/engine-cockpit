@@ -136,6 +136,10 @@ public abstract class AbstractPermission {
     this.group = group;
   }
 
+  public String getPermissionHolder() {
+    return null;
+  }
+
   public abstract void someGrant();
 
   public abstract void someDeny();
