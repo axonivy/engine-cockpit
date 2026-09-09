@@ -33,7 +33,7 @@ public class RolesSheet {
       row.createResultCell(cellNr++, role.getDisplayName());
       row.createResultCell(cellNr++, role.getDescription());
       row.createResultCell(cellNr++, role.getSecurityMemberId());
-      row.createResultCell(cellNr++, role.getExternalName());
+      row.createResultCell(cellNr, role.getExternalName());
       for (var propertyName : role.getAllPropertyNames()) {
         cellNr = propertyColumns.computeIfAbsent(propertyName, name -> {
           headers.add(name);

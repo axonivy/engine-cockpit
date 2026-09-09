@@ -90,7 +90,7 @@ public class OverviewSheet {
     createLegendRow(sheet, rowNr++, "User permissions / Role permissions", "G", "Permission was granted directly");
     createLegendRow(sheet, rowNr++, "", "g", "Permission was granted indirectly");
     createLegendRow(sheet, rowNr++, "", "D", "Permission was denied directly");
-    createLegendRow(sheet, rowNr++, "", "d", "Permission was denied indirectly");
+    createLegendRow(sheet, rowNr, "", "d", "Permission was denied indirectly");
   }
 
   private String getServerName() {

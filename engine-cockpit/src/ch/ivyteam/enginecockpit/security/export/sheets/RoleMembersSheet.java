@@ -29,15 +29,13 @@ public class RoleMembersSheet {
       var row = sheet.createRow(rowNr++);
       var roleMembers = role.getRoleMembers();
       var parent = role.getParent();
-      var cellNr = 0;
-      row.createResultCell(cellNr++, role.getName());
+      row.createResultCell(0, role.getName());
       for (var roleSecond : roles) {
         var index = headers.indexOf(roleSecond.getName()) + 1;
         String value = getMarker(roleMembers, parent, roleSecond);
         if (value != null) {
           row.createResultCell(index, value);
         }
-        index++;
       }
     }
 
