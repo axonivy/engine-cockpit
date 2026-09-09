@@ -52,6 +52,11 @@ public class PermissionGroup extends AbstractPermission {
   }
 
   @Override
+  public String getPermissionHolder() {
+    return null;
+  }
+
+  @Override
   public void ungrant() {
     bean.ungrant(this);
   }

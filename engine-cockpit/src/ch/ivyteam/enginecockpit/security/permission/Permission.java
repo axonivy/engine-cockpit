@@ -32,6 +32,7 @@ public class Permission extends AbstractPermission {
     return explicit;
   }
 
+  @Override
   public String getPermissionHolder() {
     return permissionHolder;
   }

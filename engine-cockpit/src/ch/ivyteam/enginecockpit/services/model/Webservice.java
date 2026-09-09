@@ -128,7 +128,7 @@ public class Webservice implements IService {
   }
 
   public String getEndpoints() {
-    return getPortTypeMap().values().stream().map(PortType::getDefault).collect(Collectors.joining(", "));
+    return getPortTypeMap().values().stream().map(PortType::getDefaultLink).collect(Collectors.joining(", "));
   }
 
   public static class EndPoint {
@@ -175,11 +175,11 @@ public class Webservice implements IService {
       return links;
     }
 
-    public String getDefault() {
+    public String getDefaultLink() {
       return defaultLink;
     }
 
-    public void setDefault(String defaultLink) {
+    public void setDefaultLink(String defaultLink) {
       this.defaultLink = defaultLink;
     }
 
