@@ -13,6 +13,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import ch.ivyteam.enginecockpit.monitor.unit.Unit;
+import ch.ivyteam.enginecockpit.monitor.value.Value;
+import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
+import ch.ivyteam.ivy.environment.Ivy;
 import software.xdev.chartjs.model.charts.LineChart;
 import software.xdev.chartjs.model.data.LineData;
 import software.xdev.chartjs.model.dataset.LineDataset;
@@ -29,11 +33,6 @@ import software.xdev.chartjs.model.options.scale.cartesian.category.CategoryTick
 import software.xdev.chartjs.model.options.scale.cartesian.linear.LinearScaleOptions;
 import software.xdev.chartjs.model.options.scale.cartesian.linear.LinearTickOptions;
 import software.xdev.chartjs.model.options.tooltip.TooltipOptions;
-
-import ch.ivyteam.enginecockpit.monitor.unit.Unit;
-import ch.ivyteam.enginecockpit.monitor.value.Value;
-import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
-import ch.ivyteam.ivy.environment.Ivy;
 
 public class Monitor {
   private long lastTimestamp;
@@ -92,8 +91,8 @@ public class Monitor {
     options.setScales(scales);
     options.setAnimation(new DefaultAnimation().setDuration(0));
     options.setPlugins(new Plugins()
-      .setLegend(new LegendOptions().setAlign("end"))
-      .setTooltip(new TooltipOptions().setEnabled(false)));
+        .setLegend(new LegendOptions().setAlign("end"))
+        .setTooltip(new TooltipOptions().setEnabled(false)));
     chartData.setLabels(labels);
     model.setOptions(options);
     model.setData(chartData);
@@ -206,7 +205,6 @@ public class Monitor {
       return null;
     }
     long origValue = maxValue.get().longValue();
-    long scaleValue = origValue;
     Unit origUnit = maxValue.get().unit();
     Unit scaleUnit = origUnit;
     do {
@@ -214,7 +212,7 @@ public class Monitor {
       if (unit == null) {
         return scaleUnit;
       }
-      scaleValue = origUnit.convertTo(origValue, unit);
+      var scaleValue = origUnit.convertTo(origValue, unit);
       if (scaleValue == 0) {
         return scaleUnit;
       }

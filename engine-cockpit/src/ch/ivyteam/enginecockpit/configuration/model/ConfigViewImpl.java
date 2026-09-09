@@ -3,12 +3,8 @@ package ch.ivyteam.enginecockpit.configuration.model;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
-
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.model.SelectItem;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,6 +13,9 @@ import ch.ivyteam.enginecockpit.commons.TableFilter;
 import ch.ivyteam.ivy.configuration.internal.Configuration;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.model.SelectItem;
 
 public class ConfigViewImpl implements TableFilter, ConfigView {
   private static final String DEFINED_FILTER = "defined";
@@ -26,7 +25,7 @@ public class ConfigViewImpl implements TableFilter, ConfigView {
   private ConfigProperty activeConfig;
   private final IConfiguration configuration;
   private List<String> selectedContentFilters;
-  private final Function<ConfigProperty, ConfigProperty> propertyEnricher;
+  private final UnaryOperator<ConfigProperty> propertyEnricher;
   private final List<ContentFilter<ConfigProperty>> contentFilters;
 
   public ConfigViewImpl(List<ContentFilter<ConfigProperty>> contentFilters) {
@@ -34,7 +33,7 @@ public class ConfigViewImpl implements TableFilter, ConfigView {
   }
 
   public ConfigViewImpl(IConfiguration configuration,
-      Function<ConfigProperty, ConfigProperty> propertyEnricher,
+      UnaryOperator<ConfigProperty> propertyEnricher,
       List<ContentFilter<ConfigProperty>> contentFilters) {
     this.configuration = configuration;
     this.propertyEnricher = propertyEnricher;

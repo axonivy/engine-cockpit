@@ -43,7 +43,7 @@ public class UsersSheet {
       row.createResultCell(cellNr++, user.getEMailAddress());
       row.createResultCell(cellNr++, user.getSecurityMemberId());
       row.createResultCell(cellNr++, user.getExternalId());
-      row.createResultCell(cellNr++, user.getExternalName());
+      row.createResultCell(cellNr, user.getExternalName());
       for (var propertyName : user.getAllPropertyNames()) {
         cellNr = propertyColumns.computeIfAbsent(propertyName, name -> {
           headers.add(name);
