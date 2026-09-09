@@ -16,9 +16,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.webtest.IvyWebTest;
+
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
+@IvyWebTest
 class WebTestApplicationVersion {
 
   @BeforeEach
