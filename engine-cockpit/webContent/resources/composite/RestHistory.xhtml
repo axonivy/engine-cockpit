@@ -20,7 +20,7 @@
         paginatorPosition="bottom" paginatorAlwaysVisible="false">
 
         <p:column headerText="#{ivy.cm.co('/common/Timestamp')}" width="10em" sortBy="#{exec.timestamp()}">
-          <h:outputText value="#{exec.prettyTime}" title="#{exec.formattedTime}"/>
+          <h:outputText value="#{exec.getPrettyTime()}" title="#{exec.getFormattedTime()}"/>
         </p:column>
 
         <p:column headerText="#{ivy.cm.co('/common/ExecTime')}"

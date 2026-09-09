@@ -102,11 +102,11 @@ public class JfrBean implements Serializable {
   }
 
   public boolean isHasRunningRecordings() {
-    return recordings.stream().anyMatch(Recording::isRunning);
+    return recordings.stream().anyMatch(Recording::running);
   }
 
   public boolean isHasNotRunningRecordings() {
-    return recordings.stream().anyMatch(Recording::isNotRunning);
+    return recordings.stream().anyMatch(Recording::notRunning);
   }
 
   public void refresh() {
