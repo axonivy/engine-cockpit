@@ -35,7 +35,6 @@ public class EngineInfo {
         .filter(app -> app.state().releaseState() == ReleaseState.RELEASED && app.state().activityState() == ActivityState.ACTIVE)
         .sorted(Comparator.comparing(Application::name, String.CASE_INSENSITIVE_ORDER))
         .map(ch.ivyteam.enginecockpit.info.Application::new)
-        .filter(this::isNotInDevMode)
         .collect(Collectors.toList());
   }
 
@@ -74,10 +73,6 @@ public class EngineInfo {
 
   public boolean isShutdownButtonsDisabled() {
     return isShutingDown;
-  }
-
-  private boolean isNotInDevMode(ch.ivyteam.enginecockpit.info.Application app) {
-    return !app.isDevMode();
   }
 
   public List<ch.ivyteam.enginecockpit.info.Application> getApplications() {
