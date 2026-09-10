@@ -112,16 +112,14 @@
           </p:menu>
           <p:confirmDialog id="convertDialog" widgetVar="convertDialog_#{version.version}"
               header="#{ivy.cm.co('/application/Convert')} '#{version.name}'" severity="alert"
-              responsive="true" width="600">
+              responsive="true" width="600" appendTo="@(body)">
             <f:facet name="message">
               <p>
                 <h:outputText value="#{ivy.cm.co('/applications/ApplicationConvertToLatestVersionMessage')}"/>
               </p>
               <p:scrollPanel mode="native" style="height: 300px; width: 100%;">
                 <h:panelGroup id="conversionLog">
-                  <div style="padding: 5px;">
-                    <pre style="white-space: pre-wrap; margin:0px;"><code>#{version.appConversionLog}</code></pre>
-                  </div>
+                  <pre style="white-space: pre-wrap; margin:0px;"><code>#{version.appConversionLog}</code></pre>
                 </h:panelGroup>
               </p:scrollPanel>
             </f:facet>
