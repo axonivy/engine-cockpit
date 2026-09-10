@@ -2,14 +2,13 @@ package ch.ivyteam.enginecockpit.info;
 
 import ch.ivyteam.ivy.application.app.link.AppLink;
 
-public record Application(String name, boolean devMode, String homeUrl, String devWorkflowUrl) {
+public record Application(String name, String homeUrl, String devWorkflowUrl) {
 
   public Application(ch.ivyteam.ivy.application.app.Application app) {
     var name = app.name();
-    var devMode = app.securityContext().isDevMode();
     var homeUrl = AppLink.home(app).getRelative();
     var devWorkflowUrl = AppLink.devWorkflow(app).getRelative();
-    this(name, devMode, homeUrl, devWorkflowUrl);
+    this(name, homeUrl, devWorkflowUrl);
   }
 
   public String getName() {
@@ -22,9 +21,5 @@ public record Application(String name, boolean devMode, String homeUrl, String d
 
   public String getDevWorkflowUrl() {
     return devWorkflowUrl;
-  }
-
-  public boolean isDevMode() {
-    return devMode;
   }
 }
