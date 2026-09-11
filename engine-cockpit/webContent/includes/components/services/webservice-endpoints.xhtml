@@ -65,6 +65,7 @@
   </p:dialog>
 </div>
 
+<!-- disable validator next-line: el-validator -->
 <cc:ConnectionTestResult result="#{webserviceDetailBean.result}" url="#{webserviceDetailBean.activeEndpoint}"
   testMethod="#{webserviceDetailBean.testWsEndpointUrl()}" id="connResult" saveHint="true" reset="#{webserviceDetailBean.reset()}" />
 

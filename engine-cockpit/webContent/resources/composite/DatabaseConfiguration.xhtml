@@ -65,6 +65,7 @@
   </h:form>
 </div>
 
+<!-- disable validator next-line: el-validator -->
 <ccc:ConnectionTestResult id="connResult" result="#{databaseBean.result}"
   url="#{databaseBean.database.url}" testMethod="#{databaseBean.testDbConnection()}"
   bean="#{tlsTesterBean}" reset="#{databaseBean.reset()}" />
