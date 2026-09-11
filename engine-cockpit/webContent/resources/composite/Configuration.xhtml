@@ -7,6 +7,7 @@
   <cc:attribute name="bean" type="ch.ivyteam.enginecockpit.configuration.model.ConfigView"/>
   <cc:attribute name="dialogTitle" default="#{ivy.cm.co('/configuration/ConfigurationDialogDefaultTitle')}" type="java.lang.String" />
   <cc:attribute name="showContentFilter" default="true" type="boolean" />
+  <cc:attribute name="contentFilterText" default="" type="java.lang.String" />
 </cc:interface>
 
 <cc:implementation>
@@ -22,7 +23,7 @@
             <i class="ti ti-search"/>
             <p:inputText id="globalFilter" onkeyup="PF('configTable').filter()" placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" value="#{cc.attrs.bean.filter}" />
           </span>
-          <p:commandButton id="filterBtn" title="#{ivy.cm.co('/configuration/Filter')} #{cc.attrs.bean.contentFilterText}" type="button" icon="ti ti-filter"
+          <p:commandButton id="filterBtn" title="#{ivy.cm.co('/configuration/Filter')} #{cc.attrs.contentFilterText}" type="button" icon="ti ti-filter"
             styleClass="ui-button-secondary rounded-button ml-1 flex-shrink-0" onclick="PF('filterPanel').show();"
             rendered="#{cc.attrs.showContentFilter}" />
         </div>
