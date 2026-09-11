@@ -33,7 +33,8 @@
             actionListener="#{systemConfigBean.reloadConfig()}"
             styleClass="flex-shrink-0 ml-auto rounded-button"/>
         </div>
-        <cc:Configuration id="config" bean="#{systemConfigBean.configView}" />
+        <cc:Configuration id="config" bean="#{systemConfigBean.configView}"
+          contentFilterText="#{systemConfigBean.configView.contentFilterText}" />
         <cc:TableFilter id="contentFilter" bean="#{systemConfigBean.configView}" 
           for="config:form:configTable:filterBtn" update="config:form contentFilter:filterPanel" />
       </div>
