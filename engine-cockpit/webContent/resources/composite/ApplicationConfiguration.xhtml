@@ -21,7 +21,8 @@
     </div>  
   </div>
   
-  <ccc:Configuration id="config" bean="#{cc.attrs.bean.configView}" />
+  <ccc:Configuration id="config" bean="#{cc.attrs.bean.configView}"
+    contentFilterText="#{cc.attrs.bean.configView.contentFilterText}" />
   <ccc:TableFilter
     id="contentFilter"
     bean="#{cc.attrs.bean.configView}"
