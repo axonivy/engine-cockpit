@@ -12,6 +12,9 @@
       <div class="card-title flex align-items-center">
         <i class="pr-2 ti ti-file-text"></i>
         <h6 class="m-0">#{ivy.cm.co('/indices/Indices')}</h6>
+        <p:commandButton id="reindexAllBtn" title="#{ivy.cm.co('/indices/Reindex')}" icon="ti ti-refresh spin-icon"
+          update="indiciesTable" actionListener="#{searchEngineBean.reindexAll()}"
+          styleClass="ml-auto rounded-button" />
       </div>
     </div>
 

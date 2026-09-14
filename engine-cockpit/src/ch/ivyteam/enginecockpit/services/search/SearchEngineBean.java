@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-
 import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -15,6 +12,8 @@ import ch.ivyteam.enginecockpit.services.model.SearchEngine.SearchEngineHealth;
 import ch.ivyteam.ivy.searchengine.ISearchEngineManager;
 import ch.ivyteam.ivy.searchengine.manager.impl.SearchEngineManager;
 import ch.ivyteam.ivy.searchengine.server.ServerConfig;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -158,5 +157,9 @@ public class SearchEngineBean implements Serializable {
 
   public boolean isReindexing(SearchEngineIndex index) {
     return searchEngineManager.isReindexing(index.getIndexName());
+  }
+
+  public void reindexAll() {
+    searchEngineManager.reindex();
   }
 }
