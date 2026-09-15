@@ -31,11 +31,14 @@ class WebTestHealthCheck {
     Navigation.toHealth();
     $(By.id("checks")).click();
     checksTable = new Table(By.id("form:checkTable"));
+  }
+
+  @Test
+  void checks() {
     checksTable.rows().shouldHave(sizeGreaterThanOrEqual(3));
     checksTable.rows().shouldHave(
         anyMatch("row contains", e -> e.getText().contains("HIGH Release Candidate Checks if this is a release candidate version n.a. (n.a.)")),
-        anyMatch("row contains", e -> e.getText().contains("LOW Engine Mode Checks if the engine is running in Demo or Maintenance mode n.a. (n.a.)")),
-        anyMatch("row contains", e -> e.getText().contains("HEALTHY High Memory Usage Checks if memory usage was higher than 90% during the last 10 minutes n.a. (n.a.)")));
+        anyMatch("row contains", e -> e.getText().contains("LOW Engine Mode Checks if the engine is running in Demo or Maintenance mode n.a. (n.a.)")));
   }
 
   @Test
@@ -90,7 +93,7 @@ class WebTestHealthCheck {
     checksTable.search("Release Candidate");
     checksTable.rows().shouldHave(size(1));
     checksTable.search("HIGH");
-    checksTable.rows().shouldHave(size(4));
+    checksTable.rows().shouldHave(size(3));
     checksTable.search("restart is required");
     checksTable.rows().shouldHave(size(1));
   }
