@@ -17,7 +17,7 @@
         <h6 class="m-0">#{ivy.cm.co('/restClientConfiguration/RestClientConfigurations')}</h6>
         <p:commandButton id="testRestBtn" title="#{ivy.cm.co('/restClientConfiguration/TestRestConnection')}" oncomplete="PF('connectionTestModel').show()"
           icon="ti ti-phone-outgoing" update="restClientProperties:restClientAdditionalConfigForm, :#{cc.clientId}:connResult:connectionTestModel"
-          actionListener="#{tlsTesterBean.setTlsTestRendered(false)}"
+          actionListener="#{tlsTesterBean.setTlsTestRendered(false)}" action="#{restClientDetailBean.reset}"
           styleClass="flex-shrink-0 ml-auto ui-button-secondary rounded-button" />
         <p:commandButton id="resetConfig" type="button" onclick="PF('resetRestConfirmDialog').show()"
           title="#{ivy.cm.co('/restClientConfiguration/ResetConfiguration')}" icon="ti ti-arrow-back-up" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button" />
@@ -71,8 +71,7 @@
   result="#{restClientDetailBean.result}"
   url="#{restClientDetailBean.restClient.connectionUrl}"
   testMethod="#{restClientDetailBean.testRestConnection()}"
-  bean="#{tlsTesterBean}"
-  reset="#{restClientDetailBean.reset()}" />
+  bean="#{tlsTesterBean}" />
 
 </cc:implementation>
 

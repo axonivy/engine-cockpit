@@ -24,7 +24,7 @@
 
     <h:panelGroup id="licenceOverview">
       <p:dataTable id="licenceInfoTable" var="property" rendered="#{!licenceBean.demo}"
-        value="#{licenceBean.licenceProperties.entrySet().toArray()}"
+        value="#{licenceBean.licenceProperties.entrySet()}"
         style="width: 100%; overflow-y: auto; min-height: 200px; max-height: calc(100vh - 510px);">
         <p:column headerText="#{ivy.cm.co('/common/Name')}">
           <h:outputText value="#{property.key}" styleClass="licence-key" />
