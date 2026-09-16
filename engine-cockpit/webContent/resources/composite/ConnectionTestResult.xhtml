@@ -6,7 +6,7 @@
 <cc:interface>
   <cc:attribute name="url" type="java.lang.String" />
   <cc:attribute name="result" type="ch.ivyteam.enginecockpit.services.model.ConnectionTestResult"/>
-  <cc:attribute name="reset"/>
+  <cc:attribute name="reset" method-signature="void reset()" required="true"/>
   <cc:attribute name="testMethod" method-signature="void action(jakarta.faces.event.ActionEvent)"/>
   <cc:attribute name="bean" type="ch.ivyteam.enginecockpit.system.ssl.TlsTesterBean"/>
   <cc:attribute name="saveHint" default="false" type="boolean"/>
@@ -14,6 +14,7 @@
 <cc:implementation>
   <p:dialog header="#{ivy.cm.co('/connectionTestResult/ConnectionTestDialogHeader')} #{cc.attrs.url}" id="connectionTestModel" width="70%"
     widgetVar="connectionTestModel" modal="true" responsive="false" closeOnEscape="true" >
+    <p:ajax event="close" listener="#{cc.attrs.reset}" />
     <p:staticMessage rendered="#{cc.attrs.saveHint}" severity="info"
       summary="#{ivy.cm.co('/common/Info')}"
       detail="#{ivy.cm.co('/connectionTestResult/ConnectionTestDialogHintMessage')}" />
