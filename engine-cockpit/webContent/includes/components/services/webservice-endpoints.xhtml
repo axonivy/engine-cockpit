@@ -31,6 +31,7 @@
           update="connResult:connectionTestModel" icon="ti ti-phone-outgoing"
           styleClass="ui-button-secondary rounded-button" process="@this"
           actionListener="#{webserviceDetailBean.setActiveEndpoint(endpoint.name)}"
+          action="#{webserviceDetailBean.reset}"
           rendered="#{endpoint.type eq 'link'}" oncomplete="PF('connectionTestModel').show()" async="true" />
       </p:column>
     </p:treeTable>
@@ -66,6 +67,6 @@
 </div>
 
 <cc:ConnectionTestResult result="#{webserviceDetailBean.result}" url="#{webserviceDetailBean.activeEndpoint}"
-  testMethod="#{webserviceDetailBean.testWsEndpointUrl()}" id="connResult" saveHint="true" reset="#{webserviceDetailBean.reset}" />
+  testMethod="#{webserviceDetailBean.testWsEndpointUrl()}" id="connResult" saveHint="true" />
 
 </html>
