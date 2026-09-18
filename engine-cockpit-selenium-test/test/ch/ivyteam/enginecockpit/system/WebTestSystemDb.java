@@ -5,8 +5,6 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetConfig;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.waitUntilAjaxIsFinished;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
-import static com.codeborne.selenide.Condition.and;
-import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.enabled;
@@ -155,11 +153,17 @@ public class WebTestSystemDb {
     $(By.id("systemDb:createDatabaseForm:confirmCreateButton")).shouldNotBe(enabled);
     $("#systemDb\\:createDatabaseForm\\:confirmCreateButton > .ui-icon")
         .shouldHave(cssClass("spinning"));
-    $("#systemDb\\:createDatabaseForm\\:closeCreationButton")
-        .shouldBe(and("wait until db created", appear, enabled), Duration.ofSeconds(30));
-    $("#systemDb\\:createDatabaseForm\\:creationError").shouldNot(exist);
+
+    var creationError = $("#systemDb\\:createDatabaseForm\\:creationError");
+    var closeCreationButton = $("#systemDb\\:createDatabaseForm\\:closeCreationButton");
+    Selenide.Wait()
+        .withTimeout(Duration.ofSeconds(30))
+        .withMessage("Database creation should finish with success or error")
+        .until(_ -> closeCreationButton.exists() || creationError.exists());
+
+    creationError.shouldNot(exist);
     $("#systemDb\\:createDatabaseForm\\:creationInfo").shouldBe(text("The database was created successfully"));
-    $("#systemDb\\:createDatabaseForm\\:closeCreationButton").click();
+    closeCreationButton.shouldBe(enabled).click();
     $("#systemDb\\:createDatabaseDialog").shouldNotBe(visible);
     $(CONNECTION_PANEL).shouldBe(text("Connected"));
   }
