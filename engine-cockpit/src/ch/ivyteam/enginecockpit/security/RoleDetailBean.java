@@ -91,7 +91,7 @@ public class RoleDetailBean implements Serializable {
     var securitySystem = new SecuritySystem(securityContext);
     usersOfRole = new UserDataModel(securitySystem);
     directoryBrowser = new DirectoryBrowserBean();
-    
+
     var iRole = securityContext.roles().find(roleName);
     if (iRole == null) {
       ResponseHelper.notFound("Role '" + roleName + "' not found");
@@ -112,12 +112,12 @@ public class RoleDetailBean implements Serializable {
     runningTaskCount = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
         .or().state().isEqual(TaskState.RESUMED)
         .or().state().isEqual(TaskState.PARKED)
-        .andOverall().activatorId().isEqual(iRole.getSecurityMemberId()).executor().count();
+        .andOverall().responsibleId().isEqual(iRole.getSecurityMemberId()).executor().count();
     directTaskCount = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
         .or().state().isEqual(TaskState.SUSPENDED)
         .or().state().isEqual(TaskState.RESUMED)
         .or().state().isEqual(TaskState.PARKED)
-        .andOverall().activatorId().isEqual(iRole.getSecurityMemberId()).executor().count();
+        .andOverall().responsibleId().isEqual(iRole.getSecurityMemberId()).executor().count();
     this.newRoleName = this.roleName;
     var parentRole = iRole.getParent();
     if (parentRole != null) {

@@ -96,7 +96,7 @@ public class UserDetailBean implements Serializable {
         .or().state().isEqual(TaskState.SUSPENDED)
         .or().state().isEqual(TaskState.RESUMED)
         .or().state().isEqual(TaskState.PARKED)
-        .andOverall().activatorId().isEqual(iUser.getSecurityMemberId()).executor().count();
+        .andOverall().responsibleId().isEqual(iUser.getSecurityMemberId()).executor().count();
     canWorkOn = TaskQuery.create(taskQueryExecutor).where().canWorkOn(iUser).executor().count();
 
     notificationChannelDataModel = NotificationChannelDataModel.instance(iUser, securityContext);
