@@ -1,1 +1,1 @@
-FROM mstruebing/editorconfig-checker:4.0.1
+FROM mstruebing/editorconfig-checker:4.0.2
