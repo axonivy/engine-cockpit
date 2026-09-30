@@ -96,11 +96,13 @@ class WebTestApplication {
     expandAppTree();
 
     var appName = isDesigner() ? DESIGNER : "test";
-    var app = $$(".activity-name").find(text(appName)).parent().parent().parent();
-    var pm = $$(".activity-name").find(text("engine-cockpit-test-data")).parent().parent();
+    var app = $$(".activity-name").find(exactText(appName)).parent().parent().parent();
+    var pm = $$(".activity-name").find(exactText("engine-cockpit-test-data")).parent().parent();
     app.find(".module-state").shouldBe(attribute("title", "ACTIVE"))
             .findAll("i").shouldHave(size(1));
-    pm.find("button", 1).click();
+    pm.find(".module-state").shouldBe(attribute("title", "ACTIVE"))
+            .findAll("i").shouldHave(size(1));
+    pm.find("button[title='Deactivate']").click();
     pm.find(".module-state").shouldBe(attribute("title", "INACTIVE"))
             .findAll("i").shouldHave(size(1));
     app.find(".module-state").shouldBe(attribute("title", "ACTIVE\n" +
@@ -108,7 +110,7 @@ class WebTestApplication {
             "engine-cockpit-test-data$1: INACTIVE"))
             .findAll("i").shouldHave(size(2));
 
-    pm.find("button", 0).click();
+    pm.find("button[title='Activate']").click();
     pm.find(".module-state").shouldBe(attribute("title", "ACTIVE"))
             .findAll("i").shouldHave(size(1));
     app.find(".module-state").shouldBe(attribute("title", "ACTIVE"))
