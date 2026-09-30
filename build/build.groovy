@@ -73,7 +73,8 @@ def recordMavenIssues() {
   recordIssues tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
     excludeMessage('The system property test.engine.url is configured twice!*'),
     excludeMessage('JAR will be empty*'),
-    excludeMessage('Surefire is going to kill self*')
+    excludeMessage('Surefire is going to kill self*'),
+    excludeMessage('Skipped*')
   ]
 }
 

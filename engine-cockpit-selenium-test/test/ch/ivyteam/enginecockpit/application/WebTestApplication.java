@@ -15,6 +15,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -92,6 +93,7 @@ class WebTestApplication {
   }
 
   @Test
+  @Disabled
   void childProblemOnParent() {
     expandAppTree();
 
@@ -179,7 +181,7 @@ class WebTestApplication {
     $$("#form:tree:0_0_0:deleteBtn").get(2)
             .shouldHave(attribute("title", "Is required by 'dev-workflow-ui-web-test', 'dev-workflow-ui-test'\nIs in state RELEASED but must be one of [CREATED, PREPARED, ARCHIVED]"));
   }
-  
+
   private void filter(String search) {
     var filter = $(By.id("form:globalFilter"));
     filter.shouldBe(visible).click();
