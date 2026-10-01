@@ -2,11 +2,17 @@
   xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
   xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="primefaces">
+<cc:interface>
+  <cc:attribute name="onClose" method-signature="void handleEvent()" required="true"
+    shortDescription="Refreshes the containing page after the deployment dialog closes." />
+  <cc:attribute name="update" default="" type="java.lang.String" />
+</cc:interface>
 <cc:implementation>
   <p:dialog style="margin-left: 120px; min-width: 550px; max-width: 700px;" header="#{ivy.cm.co('/deployment/DeployToApp')} '#{deploymentBean.appName} (v#{deploymentBean.appVersion})'"
     id="fileUploadModal" resizable="false" widgetVar="fileUploadModal" modal="true" responsive="true"
     closeOnEscape="true">
-    <p:ajax event="close" listener="#{deploymentBean.onDialogClose}" update="fileUploadForm fileUploadResponse"/>
+    <p:ajax event="close" listener="#{deploymentBean.onDialogClose}" />
+    <p:ajax event="close" listener="#{cc.attrs.onClose}" update="fileUploadForm fileUploadResponse #{cc.attrs.update}" />
     <h:form id="fileUploadForm" enctype="multipart/form-data">
       <p:messages id="deploymentMessages" showDetail="true" closable="true">
         <p:autoUpdate />

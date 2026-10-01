@@ -111,7 +111,7 @@
         </div>
       </div>
       <h:panelGroup id="deployPanel">
-        <cc:Deployment id="deployment" />
+        <cc:Deployment id="deployment" onClose="#{applicationVersionBean.onload}" update=":versionProjectsForm:projectsTable" />
       </h:panelGroup>
     </ui:define>
   </ui:composition>
