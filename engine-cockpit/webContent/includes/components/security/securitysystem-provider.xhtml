@@ -41,17 +41,10 @@
 
       <p:outputLabel for="onScheduleEnabled" value="Synchronize users on schedule" />
       <p:selectBooleanCheckbox id="onScheduleEnabled" value="#{securityProviderBean.onScheduleEnabled}" />
-      
-      <p:outputLabel for="onScheduleCronEnabled" value="Use cron expression configuration" />
-      <p:selectBooleanCheckbox id="onScheduleCronEnabled" value="#{securityProviderBean.useCron}" >
-        <p:ajax update="@form" />
-      </p:selectBooleanCheckbox>
 
       <p:outputLabel for="onScheduleCron" value="Synchronization schedule time" />
       <h:panelGroup>
-        <p:inputMask id="onScheduleTime" value="#{securityProviderBean.onScheduleTime}" mask="99:99"
-          placeholder="00:00" rendered="#{!securityProviderBean.useCron}"/>
-        <h:panelGroup rendered="#{securityProviderBean.useCron}">
+        <h:panelGroup>
           <p:inputText id="onScheduleCron" value="#{securityProviderBean.onScheduleCron}"
             placeholder="0 0 0 * * ?"/>
           <br/>
