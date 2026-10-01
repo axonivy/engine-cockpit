@@ -599,41 +599,41 @@ login:
   SignInButton: サインイン
   UserNamePlaceholder: ユーザー名／メール
 logs:
-  CouldNotZipLogsMessage: ログを圧縮できませんでした
-  DownloadAllLogFiles: すべてのログファイルをダウンロードする
-  DownloadLog: ログをダウンロードする
-  NoLogMessage: 次の日付のログが見つかりません：
-  OpenLog: ログを開く
-  OpenLogFiles: ログファイルを開く
+  Additive: 加算性
+  AdditiveFalse: ログイベントはこのロガーで停止し、親ロガーには渡されません。
+  AdditiveTrue: ログイベントは親ロガーにも渡されます。
+  AppenderStateWarning: 'このアペンダーは開始されていません。現在の状態: ${state}。'
+  Appenders: アペンダー
   ConfigurationFile: 設定ファイル
-  LastLoadedAt: 最終読み込み日時
   ConfigurationLastModified: 設定の最終変更日時
   ConfigurationWarnings: 設定の警告
   ConfigurationWarningsDetail: Log4j は設定の読み込み中に問題を報告しました。
-  Loggers: ロガー
-  ShowAllLoggers: すべてのロガーを表示
-  LoggerNotInstantiatedInfo: このロガーはインスタンス化されておらず、アクティブなLog4jロガーインスタンスがありません。
   ConfiguredLevel: 設定レベル
   ConfiguredLevelInfo: このロガーに明示的に設定されたレベルです。「継承」は親ロガーの設定を使用していることを示します。
+  CouldNotZipLogsMessage: ログを圧縮できませんでした
+  DownloadAllLogFiles: すべてのログファイルをダウンロードする
+  DownloadLog: ログをダウンロードする
   EffectiveLevel: 有効レベル
   EffectiveLevelInfo: 継承と実行時変更を反映した、このロガーに現在適用されているレベルです。このレベル未満のメッセージは処理されません。
-  Additive: 加算性
-  AdditiveTrue: ログイベントは親ロガーにも渡されます。
-  AdditiveFalse: ログイベントはこのロガーで停止し、親ロガーには渡されません。
-  Appenders: アペンダー
   Inherited: 継承
   InheritedAppenderInfo: このアペンダーはロガー「${logger}」から継承されています。
-  AppenderStateWarning: 'このアペンダーは開始されていません。現在の状態: ${state}。'
-  SetLevel: レベルを設定
-  ResetLevel: 実行時レベルをリセット
-  Type: 種類
-  Target: 出力先
-  RuntimeLevelWarning: レベル変更は直ちに適用されます。個別にリセットできます。ロギングの再設定またはエンジンの再起動ですべての変更が解除されます。
+  LastLoadedAt: 最終読み込み日時
+  LoggerLevelChangeFailed: ロガーレベルを変更できませんでした
   LoggerLevelChanged: ロガーレベルを変更しました
   LoggerLevelChangedDetail: ロガー '${logger}' はレベル '${level}' を使用しています。
-  LoggerLevelChangeFailed: ロガーレベルを変更できませんでした
   LoggerLevelReset: ロガーレベルをリセットしました
   LoggerLevelResetDetail: ロガー '${logger}' の実行時レベル変更を解除しました。
+  LoggerNotInstantiatedInfo: このロガーはインスタンス化されておらず、アクティブなLog4jロガーインスタンスがありません。
+  Loggers: ロガー
+  NoLogMessage: 次の日付のログが見つかりません：
+  OpenLog: ログを開く
+  OpenLogFiles: ログファイルを開く
+  ResetLevel: 実行時レベルをリセット
+  RuntimeLevelWarning: レベル変更は直ちに適用されます。個別にリセットできます。ロギングの再設定またはエンジンの再起動ですべての変更が解除されます。
+  SetLevel: レベルを設定
+  ShowAllLoggers: すべてのロガーを表示
+  Target: 出力先
+  Type: 種類
 memberProperties:
   Property: プロパティ
   PropertyInExternalSecuritySystem: プロパティは外部セキュリティシステムによって管理されます
@@ -1191,7 +1191,6 @@ securitySystemProvider:
   SynchronizationScheduleTime: 同期スケジュール時間
   SynchronizeUsersOnLogin: ログイン時にユーザーを同期する
   SynchronizeUsersOnSchedule: スケジュール通りにユーザーを同期する
-  UseCronExpressionConfiguration: CRON 式の設定を使用する
 securitySystemWorkflowLanguage:
   AddNewLanguage: 新しい言語を追加する
   AddWorkflowLanguageDialogHeader: ワークフロー言語を追加
@@ -1246,8 +1245,8 @@ sidebar:
   Licence: ライセンス
   LiveStats: ライブ統計
   LiveStatsFoundFrom: ライブ統計の検出元
-  Logs: ログ
   Logging: ロギング
+  Logs: ログ
   MBeans: MBean
   Memory: メモリ
   Notifications: 通知

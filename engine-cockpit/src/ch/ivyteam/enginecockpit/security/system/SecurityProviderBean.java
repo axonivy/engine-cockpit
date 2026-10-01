@@ -1,14 +1,7 @@
 package ch.ivyteam.enginecockpit.security.system;
 
 import java.io.Serializable;
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.Objects;
-
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -21,6 +14,10 @@ import ch.ivyteam.ivy.security.external.SecuritySystemConfig;
 import ch.ivyteam.ivy.security.identity.core.config.IdpKey;
 import ch.ivyteam.ivy.security.internal.context.SecurityContext;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
@@ -34,7 +31,6 @@ public class SecurityProviderBean implements Serializable {
 
   private String onScheduleTime;
   private CronExpression onScheduleCron;
-  private boolean useCron;
   private boolean onScheduleEnabled;
   private boolean synchOnLogin;
   private boolean onScheduleImportUsers;
@@ -47,7 +43,8 @@ public class SecurityProviderBean implements Serializable {
   public void setSecuritySystemName(String secSystemName) {
     if (StringUtils.isBlank(name)) {
       name = secSystemName;
-      var securityContext = (ISecurityContextInternal) ISecurityManager.instance().securityContexts().get(secSystemName);
+      var securityContext = (ISecurityContextInternal) ISecurityManager.instance().securityContexts()
+          .get(secSystemName);
       if (securityContext != null) {
         systemConfig = securityContext.config();
       }
@@ -66,20 +63,19 @@ public class SecurityProviderBean implements Serializable {
     var synch = systemConfig.userSynch();
     onScheduleEnabled = synch.onSchedule().enabled();
     onScheduleCron = synch.onSchedule().executeAt();
-    useCron = !onScheduleCron.isDaily();
     synchOnLogin = synch.onLogin();
     onScheduleImportUsers = synch.onSchedule().importUsers();
   }
 
   public String getCronHelp() {
     return """
-      Legend<br/>
-      1st - second (optional)(0 - 59)<br/>
-      2nd - minute           (0 - 59)<br/>
-      3rd - hour             (0 - 23)<br/>
-      4th - day of the month (1 - 31)<br/>
-      5th - month            (1 - 12)<br/>
-      6th - day of the week  (1 - 7)""";
+        Legend<br/>
+        1st - second (optional)(0 - 59)<br/>
+        2nd - minute           (0 - 59)<br/>
+        3rd - hour             (0 - 23)<br/>
+        4th - day of the month (1 - 31)<br/>
+        5th - month            (1 - 12)<br/>
+        6th - day of the week  (1 - 7)""";
   }
 
   public boolean isNotIvySecuritySystem() {
@@ -150,10 +146,8 @@ public class SecurityProviderBean implements Serializable {
     var synch = systemConfig.userSynch();
     if (StringUtils.isBlank(onScheduleTime)) {
       this.onScheduleCron = synch.onSchedule().defaultExecuteAt();
-    } else if (useCron) {
-      this.onScheduleCron = CronExpression.parse(onScheduleTime);
     } else {
-      this.onScheduleCron = CronExpression.dailyAt(LocalTime.parse(onScheduleTime));
+      this.onScheduleCron = CronExpression.parse(onScheduleTime);
     }
     synch.onLogin(synchOnLogin);
     synch.onSchedule().enabled(onScheduleEnabled);
@@ -169,32 +163,24 @@ public class SecurityProviderBean implements Serializable {
     if (StringUtils.isEmpty(onScheduleTime)) {
       return true;
     }
-    if (useCron) {
-      try {
-        CronExpression.parse(onScheduleTime);
-      } catch (IllegalArgumentException ex) {
-        var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ExceptionUtils.getRootCauseMessage(ex));
-        FacesContext.getCurrentInstance().addMessage("onScheduleTime", msg);
-        return false;
-      }
-    } else {
-      try {
-        LocalTime.parse(onScheduleTime);
-      } catch (DateTimeParseException ex) {
-        var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ExceptionUtils.getRootCauseMessage(ex));
-        FacesContext.getCurrentInstance().addMessage("onScheduleTime", msg);
-        return false;
-      }
+    try {
+      CronExpression.parse(onScheduleTime);
+    } catch (IllegalArgumentException ex) {
+      var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ExceptionUtils.getRootCauseMessage(ex));
+      FacesContext.getCurrentInstance().addMessage("onScheduleTime", msg);
+      return false;
     }
     return true;
   }
 
   /**
    * Deleting all root keys of known identity providers.
-   * Later we have these settings in an own sub-node and we only need to delete the sub-node.
+   * Later we have these settings in an own sub-node and we only need to delete
+   * the sub-node.
    */
   private void deleteProvider() {
-    var key = ch.ivyteam.ivy.configuration.restricted.ConfigKey.create("SecuritySystems").append(securitySystem.getSecuritySystemName());
+    var key = ch.ivyteam.ivy.configuration.restricted.ConfigKey.create("SecuritySystems")
+        .append(securitySystem.getSecuritySystemName());
     var cfg = IConfiguration.instance();
     cfg.remove(key.append(IdpKey.IDENTITY_PROVIDER));
   }
@@ -206,13 +192,4 @@ public class SecurityProviderBean implements Serializable {
   public void setShowWarningMessage(boolean showWarningMessage) {
     this.showWarningMessage = showWarningMessage;
   }
-
-  public boolean isUseCron() {
-    return useCron;
-  }
-
-  public void setUseCron(boolean onScheduleUseCron) {
-    this.useCron = onScheduleUseCron;
-  }
-
 }

@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.security;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -47,7 +46,7 @@ class WebTestSecuritySystemDetail {
   private static final String SAVE_PROVIDER_BTN = "#securityProviderForm\\:saveProviderBtn";
   private static final String SAVE_PROVIDER_SUCCESS_GROWL = "#securityProviderForm\\:securityProviderSaveSuccess_container";
   private static final String PROVIDER = "#securityProviderForm\\:provider";
-  private static final String SYNC_TIME = "#securityProviderForm\\:onScheduleTime";
+  private static final String SYNC_TIME = "#securityProviderForm\\:onScheduleCron";
   private static final String SYNC_TIME_MESSAGE = "#securityProviderForm\\:onScheduleTimeMessage";
   private static final String ON_SCHEDULE_ENABLED = "#securityProviderForm\\:onScheduleEnabled";
   private static final String SYNCH_ON_LOGIN = "#securityProviderForm\\:synchOnLogin";
@@ -171,17 +170,16 @@ class WebTestSecuritySystemDetail {
 
   @Test
   void invalidAndValidonScheduleTimes() {
-    $(SYNC_TIME).shouldBe(exactValue("00:00"));
-    $(SYNC_TIME).shouldBe(attribute("placeholder", "00:00"));
+    $(SYNC_TIME).shouldBe(exactValue("0 0 * * *"));
     $(SYNC_TIME_MESSAGE).shouldNotBe(visible);
 
     saveInvalidonScheduleTimeAndAssert("32:23");
     saveInvalidonScheduleTimeAndAssert("12:95");
 
-    setonScheduleTime("16:47");
+    setOnScheduleTime("47 16 * * *");
     saveProvider();
 
-    clearonScheduleTime();
+    clearOnScheduleTime();
   }
 
   @Test
@@ -274,18 +272,18 @@ class WebTestSecuritySystemDetail {
   }
 
   private void saveInvalidonScheduleTimeAndAssert(String time) {
-    setonScheduleTime(time);
+    setOnScheduleTime(time);
     $(SAVE_PROVIDER_BTN).click();
     $(SYNC_TIME_MESSAGE).shouldBe(visible);
   }
 
-  private void setonScheduleTime(String time) {
-    clearonScheduleTime();
+  private void setOnScheduleTime(String time) {
+    clearOnScheduleTime();
     $(SYNC_TIME).sendKeys(time);
     $(SYNC_TIME).shouldBe(exactValue(time));
   }
 
-  private void clearonScheduleTime() {
+  private void clearOnScheduleTime() {
     while (StringUtils.isNotEmpty($(SYNC_TIME).getValue())) {
       $(SYNC_TIME).sendKeys(Keys.BACK_SPACE);
     }
@@ -300,7 +298,8 @@ class WebTestSecuritySystemDetail {
 
   private void saveLanguage() {
     $(SAVE_LANGUAGE_BTN).click();
-    $(By.id("securityLanguageForm:securityLanguageSaveSuccess_container")).find(".ui-growl-message").should(visible, Condition.text("Security System Languages saved"));
+    $(By.id("securityLanguageForm:securityLanguageSaveSuccess_container")).find(".ui-growl-message").should(visible,
+        Condition.text("Security System Languages saved"));
   }
 
   private SelectBooleanCheckbox checkbox(String selector) {

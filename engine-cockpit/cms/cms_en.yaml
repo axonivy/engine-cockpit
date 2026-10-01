@@ -599,41 +599,41 @@ login:
   SignInButton: Sign In
   UserNamePlaceholder: Username / Email
 logs:
-  CouldNotZipLogsMessage: Could not zip logs
-  DownloadAllLogFiles: Download all log files
-  DownloadLog: Download log
-  NoLogMessage: 'No logs found on date:'
-  OpenLog: Open log
-  OpenLogFiles: Open log files
+  Additive: Additive
+  AdditiveFalse: Log events stop at this logger and are not passed to parent loggers.
+  AdditiveTrue: Log events are also passed to parent loggers.
+  AppenderStateWarning: 'This appender is not started. Current state: ${state}.'
+  Appenders: Appenders
   ConfigurationFile: Configuration file
-  LastLoadedAt: Last loaded at
   ConfigurationLastModified: Configuration last modified
   ConfigurationWarnings: Configuration warnings
   ConfigurationWarningsDetail: Log4j reported problems while loading the configuration.
-  Loggers: Loggers
-  ShowAllLoggers: Show all loggers
-  LoggerNotInstantiatedInfo: This logger has not been instantiated and has no live Log4j logger instance.
   ConfiguredLevel: Configured level
   ConfiguredLevelInfo: The level explicitly configured for this logger. Inherited means that it uses a parent logger's configuration.
+  CouldNotZipLogsMessage: Could not zip logs
+  DownloadAllLogFiles: Download all log files
+  DownloadLog: Download log
   EffectiveLevel: Effective level
   EffectiveLevelInfo: The level currently applied to this logger after inheritance and runtime changes. Messages below this level are not processed by this logger.
-  Additive: Additive
-  AdditiveTrue: Log events are also passed to parent loggers.
-  AdditiveFalse: Log events stop at this logger and are not passed to parent loggers.
-  Appenders: Appenders
   Inherited: Inherited
   InheritedAppenderInfo: This appender is inherited from logger '${logger}'.
-  AppenderStateWarning: 'This appender is not started. Current state: ${state}.'
-  SetLevel: Set level
-  ResetLevel: Reset runtime level
-  Type: Type
-  Target: Target
-  RuntimeLevelWarning: Level changes apply immediately. Reset individual overrides here; logging reconfiguration or an engine restart clears all overrides.
+  LastLoadedAt: Last loaded at
+  LoggerLevelChangeFailed: Could not change logger level
   LoggerLevelChanged: Logger level changed
   LoggerLevelChangedDetail: Logger '${logger}' now uses level '${level}'.
-  LoggerLevelChangeFailed: Could not change logger level
   LoggerLevelReset: Logger level reset
   LoggerLevelResetDetail: Runtime level override removed for logger '${logger}'.
+  LoggerNotInstantiatedInfo: This logger has not been instantiated and has no live Log4j logger instance.
+  Loggers: Loggers
+  NoLogMessage: 'No logs found on date:'
+  OpenLog: Open log
+  OpenLogFiles: Open log files
+  ResetLevel: Reset runtime level
+  RuntimeLevelWarning: Level changes apply immediately. Reset individual overrides here; logging reconfiguration or an engine restart clears all overrides.
+  SetLevel: Set level
+  ShowAllLoggers: Show all loggers
+  Target: Target
+  Type: Type
 memberProperties:
   Property: Property
   PropertyInExternalSecuritySystem: Property is managed by the external security system
@@ -1196,7 +1196,6 @@ securitySystemProvider:
   SynchronizationScheduleTime: Synchronization schedule time
   SynchronizeUsersOnLogin: Synchronize users on login
   SynchronizeUsersOnSchedule: Synchronize users on schedule
-  UseCronExpressionConfiguration: Use cron expression configuration
 securitySystemWorkflowLanguage:
   AddNewLanguage: Add a new language
   AddWorkflowLanguageDialogHeader: Add Workflow Language
@@ -1251,8 +1250,8 @@ sidebar:
   Licence: Licence
   LiveStats: Live Stats
   LiveStatsFoundFrom: Live stats found from
-  Logs: Logs
   Logging: Logging
+  Logs: Logs
   MBeans: MBeans
   Memory: Memory
   Notifications: Notifications
