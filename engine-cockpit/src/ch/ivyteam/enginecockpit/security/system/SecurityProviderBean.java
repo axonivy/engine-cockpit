@@ -1,7 +1,5 @@
 package ch.ivyteam.enginecockpit.security.system;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 import javax.faces.application.FacesMessage;
@@ -34,7 +32,6 @@ public class SecurityProviderBean {
 
   private String onScheduleTime;
   private CronExpression onScheduleCron;
-  private boolean useCron;
   private boolean onScheduleEnabled;
   private boolean synchOnLogin;
   private boolean onScheduleImportUsers;
@@ -66,7 +63,6 @@ public class SecurityProviderBean {
     var synch = systemConfig.userSynch();
     onScheduleEnabled = synch.onSchedule().enabled();
     onScheduleCron = synch.onSchedule().executeAt();
-    useCron = !onScheduleCron.isDaily();
     synchOnLogin = synch.onLogin();
     onScheduleImportUsers = synch.onSchedule().importUsers();
   }
@@ -150,10 +146,8 @@ public class SecurityProviderBean {
     var synch = systemConfig.userSynch();
     if (StringUtils.isBlank(onScheduleTime)) {
       this.onScheduleCron = synch.onSchedule().defaultExecuteAt();
-    } else if (useCron) {
-      this.onScheduleCron = CronExpression.parse(onScheduleTime);
     } else {
-      this.onScheduleCron = CronExpression.dailyAt(LocalTime.parse(onScheduleTime));
+      this.onScheduleCron = CronExpression.parse(onScheduleTime);
     }
     synch.onLogin(synchOnLogin);
     synch.onSchedule().enabled(onScheduleEnabled);
@@ -169,22 +163,12 @@ public class SecurityProviderBean {
     if (StringUtils.isEmpty(onScheduleTime)) {
       return true;
     }
-    if (useCron) {
-      try {
-        CronExpression.parse(onScheduleTime);
-      } catch (IllegalArgumentException ex) {
-        var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ExceptionUtils.getRootCauseMessage(ex));
-        FacesContext.getCurrentInstance().addMessage("onScheduleTime", msg);
-        return false;
-      }
-    } else {
-      try {
-        LocalTime.parse(onScheduleTime);
-      } catch (DateTimeParseException ex) {
-        var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ExceptionUtils.getRootCauseMessage(ex));
-        FacesContext.getCurrentInstance().addMessage("onScheduleTime", msg);
-        return false;
-      }
+    try {
+      CronExpression.parse(onScheduleTime);
+    } catch (IllegalArgumentException ex) {
+      var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ExceptionUtils.getRootCauseMessage(ex));
+      FacesContext.getCurrentInstance().addMessage("onScheduleTime", msg);
+      return false;
     }
     return true;
   }
@@ -206,13 +190,4 @@ public class SecurityProviderBean {
   public void setShowWarningMessage(boolean showWarningMessage) {
     this.showWarningMessage = showWarningMessage;
   }
-
-  public boolean isUseCron() {
-    return useCron;
-  }
-
-  public void setUseCron(boolean onScheduleUseCron) {
-    this.useCron = onScheduleUseCron;
-  }
-
 }
