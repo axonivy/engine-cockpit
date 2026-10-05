@@ -342,6 +342,7 @@ body .ui-datatable thead th[class*="table-btn"] {
 .state-project-ok,
 .state-app-released,
 .state-app-active,
+.state-app-started,
 .state-log-info {
   background: #EDF9F0;
   color: #2B7841;
@@ -349,6 +350,8 @@ body .ui-datatable thead th[class*="table-btn"] {
 
 .state-app-prepared,
 .state-app-created,
+.state-app-starting,
+.state-app-stopping,
 .state-log-debug {
   background: #E6F1F5;
   color: #00445C;
@@ -356,8 +359,8 @@ body .ui-datatable thead th[class*="table-btn"] {
 
 .state-project-missing,
 .state-project-outdated,
-.state-project-too-old,
-.state-project-too-new,
+.state-project-too_old,
+.state-project-too_new,
 .state-app-deprecated,
 .state-log-warn {
   background: #FFF1E6;
@@ -368,6 +371,7 @@ body .ui-datatable thead th[class*="table-btn"] {
 .state-app-deleted,
 .state-app-inactive,
 .state-app-archived,
+.state-app-stopped,
 .state-log-all,
 .state-log-trace,
 .state-log-off {
@@ -375,6 +379,7 @@ body .ui-datatable thead th[class*="table-btn"] {
   color: #1B1B1B;
 }
 
+.state-app-failed,
 .state-log-error,
 .state-log-fatal {
   background: #FCE8E8;
