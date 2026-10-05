@@ -105,24 +105,12 @@ public class AppStateDto {
     }
   }
 
-  public String getActivityState() {
-    return state.activityState().name();
-  }
-
-  public String getActivityStateCssClass() {
-    return state.activityState().name().toLowerCase();
-  }
-
-  public String getOperationState() {
+  public String getOperationStateLabel() {
     return state.operationState().name();
   }
 
-   public String getOperationStateLabel() {
-    return state.operationState().name();
-  }
-
-  public String getOperationStateCssClass() {
-    return state.operationState().name().toLowerCase();
+  public String getOperationStateStyleClass() {
+    return "state-badge state-app-" + state.operationState().name().toLowerCase();
   }
 
   public String getOperationStateIcon() {

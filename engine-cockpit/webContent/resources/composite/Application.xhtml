@@ -53,7 +53,7 @@
         </p:column>
 
         <p:column headerText="#{ivy.cm.co('/projectDetail/OperationState')}" style="text-align:center;width:110px">
-          <h:panelGroup id="operationState" layout="block" styleClass="#{version.state.activityStateStyleClass}">
+          <h:panelGroup id="operationState" layout="block" styleClass="#{version.state.operationStateStyleClass}">
             <i class="#{version.state.operationStateIcon}" title="#{version.state.operationStateLabel}"></i>
             <h:outputText value="#{version.state.operationStateLabel}" />
             <p:tooltip for="operationState" value="#{version.state.errorMessage}"
