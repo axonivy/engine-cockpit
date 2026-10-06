@@ -8,7 +8,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -45,7 +44,7 @@ class WebTestApplications {
   }
 
   @Test
-  void newAppDialog_validate() {    
+  void newAppDialog_validate() {
     $(By.id("form:createApplicationBtn")).click();
     $(By.id("newApplication:newApplicationModal")).shouldBe(visible);
     $(By.id("newApplication:newApplicationForm:saveNewApplication")).click();
@@ -56,14 +55,11 @@ class WebTestApplications {
 
   @Test
   void searchApplication() {
-    applicationsTable().rows().shouldHave(size(3));
+    var table = applicationsTable();
+    table.rows().shouldHave(size(3));
 
-    $(By.id("form:tabs:securitySystemTabView:0:applicationsTable:globalFilter")).sendKeys("demo-portal");
-    applicationsTable().rows().shouldHave(size(1));
-
-    $(By.id("form:tabs:securitySystemTabView:0:applicationsTable:globalFilter")).clear();
-    applicationsTable().rows().shouldHave(size(3)); 
-
+    table.search("demo-portal");
+    table.rows().shouldHave(size(1));
   }
 
   private Table applicationsTable() {
