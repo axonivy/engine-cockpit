@@ -16,24 +16,24 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 class WebTestRestServices {
 
-  private static final String APP = "test";
-
   @BeforeEach
   void beforeEach() {
     login();
-    Navigation.toApplication(APP);
+    Navigation.toRestClients();
+    Tab.APP.switchToDefault();
     Navigation.toRestServices();
   }
 
   @Test
   void restSwaggerUi() {
     Selenide.switchTo().frame("apiBrowser");
-    $("#select").shouldBe(visible, value(APP));
+    $("#select").shouldBe(visible, value("test"));
     $$(".opblock-summary")
         .shouldBe(sizeGreaterThanOrEqual(1));
 
