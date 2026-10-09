@@ -28,7 +28,7 @@ class WebTestApplication {
   private static final String BUTTON_ID = "application:versionsForm:versionsTable:0";
 
   @BeforeEach
-  void beforeEach() { 
+  void beforeEach() {
     login();
     Navigation.toApplication("demo-portal");
     table = new Table(By.id("application:versionsForm:versionsTable"));
@@ -49,12 +49,29 @@ class WebTestApplication {
   }
 
   @Test
-  void activateAndDeactivateButton() {
+  void activateAndDeactivateButtonAreDisabledOnNewVersion() {
     $(By.id("application:createVersion")).shouldBe(visible).click();
+    $(By.id(BUTTON_ID + ":activateBtn"))
+        .shouldBe(visible)
+        .shouldBe(disabled);
+    $(By.id(BUTTON_ID + ":deactivateBtn"))
+        .shouldBe(visible)
+        .shouldBe(disabled);
+    $(By.id(BUTTON_ID + ":activityState")).shouldBe(text("INACTIVE"));
+    deleteVersion();
+  }
+
+  @Test
+  void activateAndDeactivateButtonAreEnabledOnReleasedVesion() {
+    $(By.id("application:createVersion")).shouldBe(visible).click();
+    $(By.id(BUTTON_ID + ":tasksButton")).shouldBe(visible).click();
+    $(By.id(BUTTON_ID + ":activityMenu")).shouldBe(visible);
+    $(By.id(BUTTON_ID + ":releaseBtn")).shouldBe(visible).click();
+
     $(By.id(BUTTON_ID + ":activateBtn")).shouldBe(visible).click();
     $(By.id(BUTTON_ID + ":activateBtn")).shouldBe(disabled);
     $(By.id(BUTTON_ID + ":activityState")).shouldBe(text("Active"));
-    
+
     $(By.id(BUTTON_ID + ":deactivateBtn")).shouldBe(visible).click();
     $(By.id(BUTTON_ID + ":deactivateBtn")).shouldBe(disabled);
     $(By.id(BUTTON_ID + ":activityState")).shouldBe(text("INACTIVE"));
@@ -91,7 +108,8 @@ class WebTestApplication {
     $(By.id(("security:appDetailSecurityForm:moveApplication"))).click();
     $(By.id("security:moveApplicationComposite:moveApplicationModal")).shouldBe(visible);
     $(By.id("security:moveApplicationComposite:moveApplicationForm:validateMoveApplication")).click();
-    $(By.id("security:moveApplicationComposite:moveApplicationForm:validationMessage")).should(visible).should(Condition.text("Application must be deactivated."));
+    $(By.id("security:moveApplicationComposite:moveApplicationForm:validationMessage")).should(visible)
+        .should(Condition.text("Application must be deactivated."));
     $(By.id("security:moveApplicationComposite:moveApplicationForm:moveApplication")).shouldBe(disabled);
     $(By.id("security:moveApplicationComposite:moveApplicationForm:cancelMoveApplication")).click();
   }
