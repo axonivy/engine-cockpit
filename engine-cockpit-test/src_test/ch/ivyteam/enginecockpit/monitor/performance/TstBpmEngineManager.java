@@ -18,13 +18,16 @@ class TstBpmEngineManager implements IBpmEngineManager {
   private final IExecutionStatistic executionStatistic = new TstExecutionStatistic();
 
   @Override
-  public void handleRequest(IRequest request, IResponse response) throws RequestException {}
+  public void handleRequest(IRequest request, IResponse response) throws RequestException {
+  }
 
   @Override
-  public void start() {}
+  public void start() {
+  }
 
   @Override
-  public void stop() {}
+  public void stop() {
+  }
 
   @Override
   public String getName() {
@@ -50,7 +53,4 @@ class TstBpmEngineManager implements IBpmEngineManager {
   public IExecutionStatistic getExecutionStatistic() {
     return executionStatistic;
   }
-
-  @Override
-  public void requestEngineStart(Project project) {}
 }
