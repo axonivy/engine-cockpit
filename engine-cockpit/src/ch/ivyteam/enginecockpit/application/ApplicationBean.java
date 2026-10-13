@@ -108,14 +108,19 @@ public class ApplicationBean implements Serializable {
   }
 
   public void deleteSelectedApplicationVersion() {
-    ApplicationRepository.of(context).delete(appName, deleteApplication.getVersion());
+    var apps = ApplicationRepository.of(context);
+    var appToDelete = apps.findByNameAndVersion(appName, deleteApplication.getVersion()).orElse(null);
+    if (appToDelete == null) {
+      return;
+    }
+    apps.delete(appToDelete);
     if (deleteApplication.isLastVersion()) {
       try {
         FacesContext.getCurrentInstance().getExternalContext().redirect("applications.xhtml");
         FacesContext.getCurrentInstance().responseComplete();
       } catch (IOException ex) {
         throw new RuntimeException("Could not send redirect", ex);
-      }      
+      }
     } else {
       onload();
     }
@@ -143,7 +148,8 @@ public class ApplicationBean implements Serializable {
     app.config().reload();
     Message.info()
         .clientId("applicationMessage")
-        .summary(Ivy.cm().content("/configuration/ReloadApplicationConfigurationMessage").replace("application", app.name()).get())
+        .summary(Ivy.cm().content("/configuration/ReloadApplicationConfigurationMessage")
+            .replace("application", app.name()).get())
         .show();
   }
 
