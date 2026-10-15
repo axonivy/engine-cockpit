@@ -106,6 +106,7 @@
               onclick="PF('convertDialog_#{version.version}').show();" />
             <p:divider />
             <p:menuitem id="deleteBtn" value="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
+              disabled="#{not version.state.deleteable}"
               update="@form:deleteVersionDialog" actionListener="#{applicationBean.prepareDelete(version)}"
               process="@this" style="pointer-events: all"
               oncomplete="PF('deleteVersionDialog').show(); return false;" />

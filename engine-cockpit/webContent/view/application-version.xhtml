@@ -31,7 +31,7 @@
             <cc:Information id="information" />
           </div>
           <div class="col-12 md:col-12 xl:col-6">
-            <cc:State id="state" state="#{applicationVersionBean.state}" />
+            <cc:State id="state" state="#{applicationVersionBean.state}" updateId="versionProjectsForm" />
           </div>
           <div class="col-12 md:col-12 xl:col-12">
             <div class="card">
@@ -91,7 +91,7 @@
                   </p:column>
 
                   <p:column styleClass="table-btn-1">
-                    <p:commandButton id="deleteBtn" title="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash"
+                    <p:commandButton id="deleteBtn" title="#{ivy.cm.co('/common/Delete')}" icon="ti ti-trash" disabled="#{not applicationVersionBean.canDeletedProjects()}"
                       update="@form:deleteProjectDialog" actionListener="#{applicationVersionBean.prepareDelete(row)}" process="@this" styleClass="ml-1 ui-button-danger rounded-button" oncomplete="PF('deleteProjectDialog').show(); return false;" />
                   </p:column>
                 </p:dataTable>
