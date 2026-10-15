@@ -72,6 +72,10 @@ public class AppStateDto {
     return state.canChangeTo(ReleaseState.DEPRECATED);
   }
 
+  public boolean isDeleteable() {
+    return state.inactive();
+  }
+
   public void activate() {
     execute(AppState::activate, "activate");
   }

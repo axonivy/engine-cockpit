@@ -82,7 +82,8 @@ class WebTestDeployment {
   }
 
   private Path findTestProject() {
-    var targetDir = Path.of(System.getProperty("basedir")).getParent().resolve("engine-cockpit-test-data").resolve("target");
+    var targetDir = Path.of(System.getProperty("basedir")).getParent().resolve("engine-cockpit-test-data")
+        .resolve("target");
     try (var walker = Files.walk(targetDir, 1)) {
       return walker.filter(Files::isRegularFile)
           .filter(f -> {
@@ -103,6 +104,7 @@ class WebTestDeployment {
   }
 
   private void removeDeployedApp() {
+    $(By.id("state:appDetailStateForm:deActivateApplication")).shouldBe(visible).click();
     $(By.id("versionProjectsForm:projectsTable:0:deleteBtn")).shouldBe(visible).click();
     $(By.id("versionProjectsForm:deleteProjectDialog")).shouldBe(visible);
     $(By.id("versionProjectsForm:deleteProjectDialogConfirmYesBtn")).shouldBe(visible).click();
@@ -123,7 +125,7 @@ class WebTestDeployment {
   }
 
   private void toApplicationAndOpenDeployment() {
-    Navigation.toApplicationVersion(APP , "1");
+    Navigation.toApplicationVersion(APP, "1");
     $(By.id("versionProjectsForm:deployButton")).shouldBe(visible).click();
     $(By.id("deployment:fileUploadModal")).shouldBe(visible);
     $(By.id("deployment:fileUploadModal:uploadError")).shouldNotBe(visible);

@@ -75,7 +75,7 @@ class WebTestApplication {
     $(By.id(BUTTON_ID + ":deactivateBtn")).shouldBe(visible).click();
     $(By.id(BUTTON_ID + ":deactivateBtn")).shouldBe(disabled);
     $(By.id(BUTTON_ID + ":activityState")).shouldBe(text("INACTIVE"));
-    $(By.id(BUTTON_ID + ":activateBtn")).shouldBe(visible).click();
+    $(By.id(BUTTON_ID + ":activateBtn")).shouldBe(visible);
     deleteVersion();
   }
 
@@ -131,6 +131,11 @@ class WebTestApplication {
   }
 
   private void deleteVersion() {
+    var deactivateButton = $(By.id(BUTTON_ID + ":deactivateBtn"));
+    deactivateButton.shouldBe(visible);
+    if (deactivateButton.isEnabled()) {
+      deactivateButton.click();
+    }
     $(By.id(BUTTON_ID + ":tasksButton")).shouldBe(visible).click();
     $(By.id(BUTTON_ID + ":activityMenu")).shouldBe(visible);
     $(By.id(BUTTON_ID + ":deleteBtn")).shouldBe(visible).click();

@@ -176,6 +176,10 @@ public class ApplicationVersionBean implements Serializable {
     return deleteProject;
   }
 
+  public boolean canDeletedProjects() {
+    return app.state().inactive();
+  }
+
   public void deleteSelectedProject() {
     execute(() -> {
       var project = app.projects().find(deleteProject.name());

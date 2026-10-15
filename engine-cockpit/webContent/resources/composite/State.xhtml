@@ -6,6 +6,7 @@
 
 <cc:interface>
   <cc:attribute name="state" type="ch.ivyteam.enginecockpit.application.model.AppStateDto" required="true" />
+  <cc:attribute name="updateId" />
 </cc:interface>
 
 <cc:implementation>
@@ -18,12 +19,12 @@
 
         <p:commandButton id="activateApplication" title="#{ivy.cm.co('/common/Activate')}" type="button" icon="ti ti-player-play"
           disabled="#{not cc.attrs.state.activatable}" styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button">
-          <p:ajax listener="#{applicationVersionBean.activate}" update="@form" />
+          <p:ajax listener="#{applicationVersionBean.activate}" update="@form #{cc.attrs.updateId}" />
         </p:commandButton>
 
         <p:commandButton id="deActivateApplication" title="#{ivy.cm.co('/common/Deactivate')}" type="button" icon="ti ti-player-stop"
           disabled="#{not cc.attrs.state.deactivatable}" styleClass="flex-shrink-0 ml-1 ui-button-danger rounded-button">
-          <p:ajax listener="#{cc.attrs.state.deactivate}" update="@form" />
+          <p:ajax listener="#{cc.attrs.state.deactivate}" update="@form #{cc.attrs.updateId}" />
         </p:commandButton>
       </div>
     </div>
