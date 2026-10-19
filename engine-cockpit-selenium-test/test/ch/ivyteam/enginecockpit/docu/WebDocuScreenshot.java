@@ -89,10 +89,10 @@ public class WebDocuScreenshot {
 
   @Test
   void screenshotMonitor() {
-    Navigation.toLogs();
-    takeScreenshot("monitor-logs", new Dimension(SCREENSHOT_WIDTH, 900));
     WebTestMBeans.toMBeans();
     takeScreenshot("monitor-mbeans", new Dimension(SCREENSHOT_WIDTH, 1000));
+    Navigation.toLogs();
+    takeScreenshot("monitor-logs", new Dimension(SCREENSHOT_WIDTH, 900));
     Navigation.toJvm();
     takeScreenshot("monitor-jvm", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toOs();
@@ -169,10 +169,11 @@ public class WebDocuScreenshot {
     takeScreenshot("configuration-businesscalendar", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toBusinessCalendarDetail("Luzern");
     takeScreenshot("configuration-businesscalendar-detail",
-            new Dimension(SCREENSHOT_WIDTH, 550));
+        new Dimension(SCREENSHOT_WIDTH, 550));
     Navigation.toBranding();
     takeScreenshot("branding", new Dimension(SCREENSHOT_WIDTH, 800));
-    takeDialogScreenshot("branding-custom-css", By.id("apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":form:editCustomCssBtn"));
+    takeDialogScreenshot("branding-custom-css",
+        By.id("apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":form:editCustomCssBtn"));
   }
 
   @Test
@@ -185,7 +186,7 @@ public class WebDocuScreenshot {
     Navigation.toSecuritySystemLdap("test-ad");
     takeScreenshot("security-system-ldap", new Dimension(SCREENSHOT_WIDTH, 900));
     takeDialogScreenshot("dialog-ldap-browser",
-            By.id("securityLdapBindingForm:browseDefaultContext"));
+        By.id("securityLdapBindingForm:browseDefaultContext"));
     Navigation.toUsers();
     Tab.SECURITY_SYSTEM.switchToDefault();
     takeScreenshot("users", new Dimension(SCREENSHOT_WIDTH, 600));
