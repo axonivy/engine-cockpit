@@ -56,7 +56,7 @@ public class WebTestSearchEngine {
   public void testElasticSearchIndices() {
     Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"));
     assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSize(2)
-            .contains(dossierIndex, addressIndex);
+        .contains(dossierIndex, addressIndex);
     checkIndexValues(table, dossierIndex, "10");
     checkIndexValues(table, addressIndex, "1");
   }
@@ -78,7 +78,7 @@ public class WebTestSearchEngine {
   public void testElasticSearchIndexQueryTool() {
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
     new Table(By.id("searchEngineIndexForm:indiciesTable"))
-            .clickButtonForEntry(dossierIndex, "queryToolBtn");
+        .clickButtonForEntry(dossierIndex, "queryToolBtn");
     assertQueryTool("GET: http://localhost:19200/" + dossierIndex + "/", "mappings", 1);
   }
 
@@ -107,7 +107,7 @@ public class WebTestSearchEngine {
     $("#searchEngineQueryToolForm\\:query > button").click();
     $("#searchEngineQueryToolForm\\:query_panel").shouldBe(visible);
     $$("#searchEngineQueryToolForm\\:query_panel li").shouldHave(size(apiCount));
-    $("#searchEngineQueryToolForm\\:query_input").click();
+    $(By.className("querytool-url")).click();
   }
 
   private void checkIndexValues(Table table, String tableRow, String count) {
