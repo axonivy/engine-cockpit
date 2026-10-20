@@ -48,22 +48,23 @@
               url="searchengine.xhtml" />
           </p:submenu>
           <p:submenu id="sr_system" label="#{ivy.cm.co('/common/System')}" icon="ti ti-settings"
-            rendered="#{accessBean.hasAccess('system')}">
+            rendered="#{accessBean.hasAccess('system') or accessBean.hasAccess('administrators')}">
             <p:menuitem id="sr_admins" value="#{ivy.cm.co('/common/Administrators')}" icon="ti ti-lock-square-rounded"
-              url="admins.xhtml" />
+              url="admins.xhtml" rendered="#{accessBean.hasAccess('administrators')}" />
             <p:menuitem id="sr_systemdb" value="#{ivy.cm.co('/common/SystemDatabase')}" icon="ti ti-database-cog"
-              url="systemdb.xhtml" />
+              url="systemdb.xhtml" rendered="#{accessBean.hasAccess('system')}" />
             <p:menuitem id="sr_licence" value="#{ivy.cm.co('/common/Licence')}" icon="ti ti-home-up"
-              url="licence.xhtml" />
+              url="licence.xhtml" rendered="#{accessBean.hasAccess('system')}" />
             <p:menuitem id="sr_web_server" value="#{ivy.cm.co('/common/WebServer')}" icon="ti ti-building-broadcast-tower"
-              url="webserver.xhtml" />
+              url="webserver.xhtml" rendered="#{accessBean.hasAccess('system')}" />
             <p:menuitem id="sr_system_config" value="#{ivy.cm.co('/common/SystemConfiguration')}" icon="ti ti-settings"
-              url="systemconfig.xhtml" />
+              url="systemconfig.xhtml" rendered="#{accessBean.hasAccess('system')}" />
             <p:menuitem id="sr_ssl" value="#{ivy.cm.co('/common/SSL')}" icon="ti ti-lock"
-              url="sslconfig.xhtml" />
+              url="sslconfig.xhtml" rendered="#{accessBean.hasAccess('system')}" />
             <p:menuitem id="sr_cluster" value="#{ivy.cm.co('/common/Cluster')}" icon="ti ti-topology-star" url="cluster.xhtml"
-              rendered="#{clusterBean.clusterServer or param['cluster'] != null}" />
-            <p:menuitem id="sr_editor" value="#{ivy.cm.co('/common/ConfigFileEditor')}" icon="ti ti-file-text" url="editor.xhtml" />
+              rendered="#{accessBean.hasAccess('system') and (clusterBean.clusterServer or param['cluster'] != null)}" />
+            <p:menuitem id="sr_editor" value="#{ivy.cm.co('/common/ConfigFileEditor')}" icon="ti ti-file-text" url="editor.xhtml"
+              rendered="#{accessBean.hasAccess('system')}" />
             <p:menuitem id="sr_logging" value="#{ivy.cm.co('/sidebar/Logging')}" icon="ti ti-adjustments"
               url="logging.xhtml" rendered="#{accessBean.hasAccess('logging')}" />
           </p:submenu>

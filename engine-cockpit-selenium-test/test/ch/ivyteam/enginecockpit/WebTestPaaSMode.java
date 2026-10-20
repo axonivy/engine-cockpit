@@ -29,6 +29,8 @@ class WebTestPaaSMode {
   private static final String SECURITY_SYSTEM_MENU = "#sidebarMenu\\:menuform\\:sr_security_system";
   private static final String SECURITY_USER_MENU = "#sidebarMenu\\:menuform\\:sr_users";
   private static final String SYSTEM_MENU = "#sidebarMenu\\:menuform\\:sr_system";
+  private static final String SYSTEM_ADMINS_MENU = "#sidebarMenu\\:menuform\\:sr_admins";
+  private static final String SYSTEM_DATABASE_MENU = "#sidebarMenu\\:menuform\\:sr_systemdb";
   private static final String MONITOR_MENU = "#sidebarMenu\\:menuform\\:sr_monitor";
   private static final String MONITOR_LOGS_MENU = "#sidebarMenu\\:menuform\\:sr_logs";
 
@@ -45,9 +47,12 @@ class WebTestPaaSMode {
   @Test
   void paasModeHidesRestrictedMenuEntries() {
     setPaaSMode(true);
-    $(SYSTEM_MENU).shouldNot(exist);
+    $(SYSTEM_MENU).shouldBe(visible);
+    openMenu(SYSTEM_MENU);
+    $(SYSTEM_ADMINS_MENU).find("a").shouldBe(visible);
+    $(SYSTEM_DATABASE_MENU).shouldNot(exist);
     openMenu(SECURITY_MENU);
-    $(SECURITY_SYSTEM_MENU).shouldNot(exist);
+    $(SECURITY_SYSTEM_MENU).find("a").shouldBe(visible);
     $(SECURITY_USER_MENU).find("a").shouldBe(visible);
     openMenu(MONITOR_MENU);
     $(MONITOR_LOGS_MENU).find("a").shouldBe(visible);
