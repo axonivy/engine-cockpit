@@ -4,6 +4,24 @@
   xmlns:p="primefaces" xmlns:pe="primefaces.extensions">
 
 <div class="card">
+  <script type="text/javascript">
+    let userRolesTreeScrollTop = 0;
+    let userRolesWindowScrollTop = 0;
+
+    function saveUserRolesScrollPosition() {
+      const tree = document.getElementById('rolesOfUserForm:rolesTree');
+      userRolesTreeScrollTop = tree ? tree.scrollTop : 0;
+      userRolesWindowScrollTop = window.scrollY;
+    }
+
+    function restoreUserRolesScrollPosition() {
+      const tree = document.getElementById('rolesOfUserForm:rolesTree');
+      if (tree) {
+        tree.scrollTop = userRolesTreeScrollTop;
+      }
+      window.scrollTo(window.scrollX, userRolesWindowScrollTop);
+    }
+  </script>
   <h:form id="rolesOfUserForm">
     <p:growl for="roleMessage">
       <p:autoUpdate />
@@ -63,7 +81,8 @@
         </p:treeNode>
         <p:treeNode type="dummy" rendered="#{node.type == 'dummy'}">
           <p:commandButton value="#{ivy.cm.content('/common/ShowMoreRoleLeftMessage').replace('role', role.name).get()}" update="rolesTree"
-            actionListener="#{userDetailBean.increaseShowChildLimitAndReloadTree(100)}" />
+            actionListener="#{userDetailBean.increaseShowChildLimitAndReloadTree(100)}"
+            onstart="saveUserRolesScrollPosition()" oncomplete="restoreUserRolesScrollPosition()" />
           </p:treeNode>
         <p:treeNode type="searchDummy" rendered="#{node.type == 'searchDummy'}">
           <h:outputText value="#{role.name}"
@@ -86,11 +105,13 @@
 
       <p:column styleClass="table-btn-2">
         <h:panelGroup rendered="#{node.type == 'role'}">
-          <p:commandButton id="addRoleToUserBtn" update="@form" actionListener="#{userDetailBean.addRole(role.name)}"
+          <p:commandButton id="addRoleToUserBtn" update="rolesTree" actionListener="#{userDetailBean.addRole(role.name)}"
+            onstart="saveUserRolesScrollPosition()" oncomplete="restoreUserRolesScrollPosition()"
             icon="ti ti-plus" title="#{ivy.cm.co('/common/Add')}" styleClass="rounded-button"
             disabled="#{userDetailBean.isAddRoleButtonDisabled(role)}" />
-          <p:commandButton id="removeRoleFromUserBtn" update="@form"
-            actionListener="#{userDetailBean.removeRole(role.name)}" icon="ti ti-minus" title="#{ivy.cm.co('/common/Remove')}"
+          <p:commandButton id="removeRoleFromUserBtn" update="rolesTree"
+            actionListener="#{userDetailBean.removeRole(role.name)}"
+            onstart="saveUserRolesScrollPosition()" oncomplete="restoreUserRolesScrollPosition()" icon="ti ti-minus" title="#{ivy.cm.co('/common/Remove')}"
             styleClass="ml-1 ui-button-secondary rounded-button"
             disabled="#{userDetailBean.isRemoveRoleButtonDisabled(role)}" />
         </h:panelGroup>
