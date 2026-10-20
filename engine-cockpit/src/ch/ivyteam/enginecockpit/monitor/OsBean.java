@@ -14,7 +14,9 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.util.function.DoubleSupplier;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
@@ -25,6 +27,9 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 @Named
 @ViewScoped
 public class OsBean implements Serializable {
+  @Inject
+  private SystemHardware systemHardware;
+
   private final Monitor memoryMonitor = Monitor.build().name(cm().co("/monitor/Memory"))
       .icon("ti ti-chart-line")
       .yAxisLabel(cm().co("/monitor/Memory"))
@@ -46,7 +51,8 @@ public class OsBean implements Serializable {
   private long[] oldTicks;
   private double cpuLoad;
 
-  public OsBean() {
+  @PostConstruct
+  public void init() {
     setupCpuMonitor();
     setupMemoryMonitor();
     setupNetworkMonitor();
@@ -112,11 +118,10 @@ public class OsBean implements Serializable {
   }
 
   private double processorLoad() {
-    var hardware = SystemHardware.current();
     if (oldTicks == null) {
-      oldTicks = hardware.cpuTicks();
+      oldTicks = systemHardware.cpuTicks();
     }
-    var currentLoad = hardware.processorLoad(oldTicks);
+    var currentLoad = systemHardware.processorLoad(oldTicks);
     if (currentLoad != 0) {
       // sometimes 0, false-positive
       cpuLoad = currentLoad;
@@ -125,11 +130,11 @@ public class OsBean implements Serializable {
   }
 
   private ValueProvider cpuCores() {
-    return value(() -> SystemHardware.current().processorPhysicalCount(), Unit.ONE);
+    return value(() -> systemHardware.processorPhysicalCount(), Unit.ONE);
   }
 
   private ValueProvider cpuThreads() {
-    return value(() -> SystemHardware.current().processorLogicalCount(), Unit.ONE);
+    return value(() -> systemHardware.processorLogicalCount(), Unit.ONE);
   }
 
   private ValueProvider memoryUsed() {
@@ -137,11 +142,11 @@ public class OsBean implements Serializable {
   }
 
   private ValueProvider memoryMax() {
-    return value(() -> SystemHardware.current().memoryTotal(), Unit.BYTES);
+    return value(() -> systemHardware.memoryTotal(), Unit.BYTES);
   }
 
   private ValueProvider memoryAvailable() {
-    return value(() -> SystemHardware.current().memoryAvailable(), Unit.BYTES);
+    return value(() -> systemHardware.memoryAvailable(), Unit.BYTES);
   }
 
   private ValueProvider memoryUsage() {
@@ -167,7 +172,7 @@ public class OsBean implements Serializable {
   }
 
   private ValueProvider networkSendTotal() {
-    return value(() -> SystemHardware.current().networkSendTotal(), Unit.BYTES);
+    return value(() -> systemHardware.networkSendTotal(), Unit.BYTES);
   }
 
   private ValueProvider networkReceive() {
@@ -175,7 +180,7 @@ public class OsBean implements Serializable {
   }
 
   private ValueProvider networkReceiveTotal() {
-    return value(() -> SystemHardware.current().networkReceiveTotal(), Unit.BYTES);
+    return value(() -> systemHardware.networkReceiveTotal(), Unit.BYTES);
   }
 
   private ValueProvider ioWrite() {
@@ -183,7 +188,7 @@ public class OsBean implements Serializable {
   }
 
   private ValueProvider ioWriteTotal() {
-    return value(() -> SystemHardware.current().ioWriteTotal(), Unit.BYTES);
+    return value(() -> systemHardware.ioWriteTotal(), Unit.BYTES);
   }
 
   private ValueProvider ioRead() {
@@ -191,6 +196,6 @@ public class OsBean implements Serializable {
   }
 
   private ValueProvider ioReadTotal() {
-    return value(() -> SystemHardware.current().ioReadTotal(), Unit.BYTES);
+    return value(() -> systemHardware.ioReadTotal(), Unit.BYTES);
   }
 }

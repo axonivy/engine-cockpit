@@ -31,9 +31,11 @@ import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.branding.BrandingIO;
 import ch.ivyteam.ivy.application.branding.BrandingResolver;
 import ch.ivyteam.ivy.environment.Ivy;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named
@@ -47,7 +49,8 @@ public class BrandingBean implements AllResourcesDownload, Serializable {
       "favicon", Ivy.cm().co("/branding/FaviconHelperMessage"));
   private static final Set<String> ALLOWED_EXTENSIONS = Set.of("png", "jpg", "jpeg", "svg", "webp", "gif");
 
-  private final ManagerBean managerBean;
+  @Inject
+  private ManagerBean managerBean;
   private BrandingIO brandingIO;
 
   private List<BrandingResource> resources;
@@ -61,8 +64,8 @@ public class BrandingBean implements AllResourcesDownload, Serializable {
   private String filter;
   private UploadedFile file;
 
-  public BrandingBean() {
-    managerBean = ManagerBean.instance();
+  @PostConstruct
+  public void init() {
     reloadResources();
   }
 

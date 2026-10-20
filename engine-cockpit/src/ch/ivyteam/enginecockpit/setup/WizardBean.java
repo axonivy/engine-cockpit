@@ -1,20 +1,37 @@
 package ch.ivyteam.enginecockpit.setup;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
+import ch.ivyteam.enginecockpit.system.LicenceBean;
+import ch.ivyteam.enginecockpit.system.SystemDatabaseBean;
+import ch.ivyteam.enginecockpit.system.administrators.AdministratorBean;
 import ch.ivyteam.ivy.environment.Ivy;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named
 @SessionScoped
 public class WizardBean implements Serializable {
 
+  @Inject
+  private LicenceBean licenceBean;
+  @Inject
+  private AdministratorBean administratorBean;
+  @Inject
+  private WebServerConnectorBean webServerConnectorBean;
+  @Inject
+  private StorageBean storageBean;
+  @Inject
+  private SystemDatabaseBean systemDatabaseBean;
+
   private Steps activeStep;
 
-  public WizardBean() {
+  @PostConstruct
+  public void init() {
     activeStep = Steps.LICENCE;
     Steps firstStep = getFirstStepWithWarning();
     if (firstStep != null) {
@@ -51,13 +68,7 @@ public class WizardBean implements Serializable {
   }
 
   public Steps getFirstStepWithWarning() {
-    var steps = new ArrayList<StepStatus>();
-    var context = FacesContext.getCurrentInstance();
-    steps.add(context.getApplication().evaluateExpressionGet(context, "#{licenceBean}", StepStatus.class));
-    steps.add(context.getApplication().evaluateExpressionGet(context, "#{administratorBean}", StepStatus.class));
-    steps.add(context.getApplication().evaluateExpressionGet(context, "#{webServerConnectorBean}", StepStatus.class));
-    steps.add(context.getApplication().evaluateExpressionGet(context, "#{storageBean}", StepStatus.class));
-    steps.add(context.getApplication().evaluateExpressionGet(context, "#{systemDatabaseBean}", StepStatus.class));
+    var steps = List.of(licenceBean, administratorBean, webServerConnectorBean, storageBean, systemDatabaseBean);
     for (StepStatus step : steps) {
       if (!step.isStepOk()) {
         return Steps.valueOf(steps.indexOf(step));

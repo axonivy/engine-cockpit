@@ -19,6 +19,7 @@ import ch.ivyteam.ivy.security.ISecurityManager;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named
@@ -26,6 +27,9 @@ import jakarta.inject.Named;
 public class ApplicationsBean implements Serializable {
 
   private String nameFilter = "";
+
+  @Inject
+  private ManagerBean managerBean;
 
   private final NewApplication newApplication = new NewApplication();
 
@@ -97,7 +101,7 @@ public class ApplicationsBean implements Serializable {
   }
 
   private ISecurityContext selectedSecurityContext() {
-    var selected = ManagerBean.instance().getSelectedSecuritySystem();
+    var selected = managerBean.getSelectedSecuritySystem();
     return selected == null ? null : selected.getSecurityContext();
   }
 

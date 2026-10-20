@@ -20,7 +20,6 @@ import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.workflow.IWorkflowManager;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 
 @Named
@@ -162,13 +161,6 @@ public class ManagerBean implements Serializable {
 
   public String formatNumber(long count) {
     return NumberFormat.getInstance(formattingLocale).format(count);
-  }
-
-  public static ManagerBean instance() {
-    var context = FacesContext.getCurrentInstance();
-    return context
-        .getApplication()
-        .evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
   }
 
   public String getConfigLogUrl() {

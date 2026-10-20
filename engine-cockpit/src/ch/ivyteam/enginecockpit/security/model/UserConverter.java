@@ -5,6 +5,7 @@ import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,12 +15,13 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 @ApplicationScoped
 public class UserConverter implements Converter<Object> {
 
+  @Inject
+  private ManagerBean managerBean;
+
   @Override
   public User getAsObject(FacesContext context, UIComponent component, String value) {
     if (StringUtils.isNotBlank(value)) {
-      var managebean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-          ManagerBean.class);
-      var user = managebean.getSelectedSecuritySystem().getSecurityContext().users().query().where()
+      var user = managerBean.getSelectedSecuritySystem().getSecurityContext().users().query().where()
           .securityMemberId().isEqual(value).executor().firstResult();
       if (user != null) {
         return new User(user);

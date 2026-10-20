@@ -12,7 +12,9 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;
 import ch.ivyteam.ivy.application.calendar.IBusinessCalendarSettings;
 import ch.ivyteam.ivy.scripting.objects.Tree;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.ws.rs.core.UriBuilder;
 
@@ -20,12 +22,13 @@ import jakarta.ws.rs.core.UriBuilder;
 @ViewScoped
 public class BusinessCalendarBean extends TreeView<BusinessCalendar> implements Serializable {
 
-  private final ManagerBean managerBean;
+  @Inject
+  private ManagerBean managerBean;
   private BusinessCalendar activeCalendar;
   private String calendarSelection;
 
-  public BusinessCalendarBean() {
-    managerBean = ManagerBean.instance();
+  @PostConstruct
+  public void init() {
     reloadTree();
   }
 

@@ -8,23 +8,29 @@ import java.util.stream.Collectors;
 import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named
 @ViewScoped
 public class WebserviceBean implements Serializable {
 
+  @Inject
+  private ManagerBean managerBean;
+
   private List<Webservice> webservices;
   private List<Webservice> filteredWebservices;
   private String filter;
 
-  public WebserviceBean() {
+  @PostConstruct
+  public void init() {
     reloadWebservices();
   }
 
   public void reloadWebservices() {
-    var app = ManagerBean.instance().getSelectedApplication();
+    var app = managerBean.getSelectedApplication();
     if (app == null) {
       webservices = new ArrayList<>();
       return;

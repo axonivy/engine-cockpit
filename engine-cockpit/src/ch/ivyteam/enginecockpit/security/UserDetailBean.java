@@ -23,11 +23,15 @@ import ch.ivyteam.ivy.workflow.query.TaskQuery;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named
 @ViewScoped
 public class UserDetailBean implements Serializable {
+
+  @Inject
+  private ManagerBean managerBean;
 
   private String userName;
   private User user;
@@ -197,19 +201,19 @@ public class UserDetailBean implements Serializable {
   }
 
   public String getCanWorkOn() {
-    return ManagerBean.instance().formatNumber(canWorkOn);
+    return managerBean.formatNumber(canWorkOn);
   }
 
   public String getPersonalTasks() {
-    return ManagerBean.instance().formatNumber(personalTasks);
+    return managerBean.formatNumber(personalTasks);
   }
 
   public String getStartedCases() {
-    return ManagerBean.instance().formatNumber(startedCases);
+    return managerBean.formatNumber(startedCases);
   }
 
   public String getWorkingOn() {
-    return ManagerBean.instance().formatNumber(workingOn);
+    return managerBean.formatNumber(workingOn);
   }
 
   public ISecurityContext getSecurityContext() {

@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor;
 
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 
 import oshi.ffm.SystemInfo;
@@ -44,11 +43,6 @@ public class SystemHardware {
     memoryTotal = MEMORY.getTotal();
     processorLogicalCount = PROCESSOR.getLogicalProcessorCount();
     processorPhysicalCount = PROCESSOR.getPhysicalProcessorCount();
-  }
-
-  static SystemHardware current() {
-    var context = FacesContext.getCurrentInstance();
-    return context.getApplication().evaluateExpressionGet(context, "#{systemHardware}", SystemHardware.class);
   }
 
   long ioWriteTotal() {

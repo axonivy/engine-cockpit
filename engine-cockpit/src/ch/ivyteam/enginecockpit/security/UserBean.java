@@ -2,9 +2,11 @@ package ch.ivyteam.enginecockpit.security;
 
 import java.io.Serializable;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import ch.ivyteam.enginecockpit.security.model.UserDataModel;
@@ -15,13 +17,14 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 @ViewScoped
 public class UserBean implements Serializable {
 
-  private final UserDataModel userDataModel;
-  private final ManagerBean managerBean;
+  private UserDataModel userDataModel;
+  @Inject
+  private ManagerBean managerBean;
   private NewUser newUser;
   private UserSynch userSynch;
 
-  public UserBean() {
-    managerBean = ManagerBean.instance();
+  @PostConstruct
+  public void init() {
     userDataModel = new UserDataModel(managerBean.getSelectedSecuritySystem());
     reloadUsers();
   }

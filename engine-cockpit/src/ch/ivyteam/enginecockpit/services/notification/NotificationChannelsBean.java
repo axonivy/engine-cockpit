@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import ch.ivyteam.enginecockpit.system.ManagerBean;
@@ -18,11 +19,8 @@ public class NotificationChannelsBean implements Serializable {
   private List<NotificationChannelDto> filteredChannels;
   private String filter;
 
+  @Inject
   private ManagerBean managerBean;
-
-  public NotificationChannelsBean() {
-    managerBean = ManagerBean.instance();
-  }
 
   public void onload() {
     var securityContext = managerBean.getSelectedSecuritySystem().getSecurityContext();

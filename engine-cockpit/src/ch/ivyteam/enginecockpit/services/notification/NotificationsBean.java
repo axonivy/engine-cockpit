@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.services.notification;
 import java.io.Serializable;
 
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import ch.ivyteam.enginecockpit.system.ManagerBean;
@@ -11,6 +12,9 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 @ViewScoped
 public class NotificationsBean implements Serializable {
 
+  @Inject
+  private ManagerBean managerBean;
+
   private NotificationsDataModel dataModel;
 
   public NotificationsDataModel getDataModel() {
@@ -18,6 +22,6 @@ public class NotificationsBean implements Serializable {
   }
 
   public void onload() {
-    dataModel = new NotificationsDataModel(ManagerBean.instance().getSelectedSecuritySystem());
+    dataModel = new NotificationsDataModel(managerBean.getSelectedSecuritySystem());
   }
 }

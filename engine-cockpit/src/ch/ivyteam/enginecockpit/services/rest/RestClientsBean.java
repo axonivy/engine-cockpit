@@ -8,23 +8,29 @@ import java.util.stream.Collectors;
 import ch.ivyteam.enginecockpit.services.model.RestClientDto;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.rest.client.RestClients;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named
 @ViewScoped
 public class RestClientsBean implements Serializable {
 
+  @Inject
+  private ManagerBean managerBean;
+
   private List<RestClientDto> restClients;
   private List<RestClientDto> filteredRestClients;
   private String filter;
 
-  public RestClientsBean() {
+  @PostConstruct
+  public void init() {
     reloadRestClients();
   }
 
   public void reloadRestClients() {
-    var app = ManagerBean.instance().getSelectedApplication();
+    var app = managerBean.getSelectedApplication();
     if (app == null) {
       restClients = new ArrayList<>();
       return;
