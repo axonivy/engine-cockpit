@@ -2,7 +2,8 @@
     "axonivy.process.animation.animate": false,
     "java.test.config": {
         "vmArgs": [
-            "-Dtest.engine.url=http://localhost:8080/~Developer-engine-cockpit",
+            "-Dtest.engine.url=http://localhost:8080/",
+            "-Dtest.engine.context=~Developer-engine-cockpit",
             "-Dtest.engine.app=Developer-engine-cockpit",
             "-Divy.selenide.headless=false"
         ]
