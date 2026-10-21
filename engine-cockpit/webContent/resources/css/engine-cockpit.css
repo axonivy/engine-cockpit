@@ -340,6 +340,7 @@ body .ui-datatable thead th[class*="table-btn"] {
 }
 
 .state-project-ok,
+.state-project-runnable,
 .state-app-released,
 .state-app-active,
 .state-app-started,

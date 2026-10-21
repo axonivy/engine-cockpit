@@ -25,7 +25,7 @@ public class ProjectStateDto {
   public String getProjectStateIcon() {
     return switch (state.mode()) {
       case UNKNOWN -> "ti ti-circle-minus";
-      case OK -> "ti ti-circle-check";
+      case OK, RUNNABLE -> "ti ti-circle-check";
       case MISSING, OUTDATED, TOO_OLD, TOO_NEW -> "ti ti-circle-x";
     };
   }
