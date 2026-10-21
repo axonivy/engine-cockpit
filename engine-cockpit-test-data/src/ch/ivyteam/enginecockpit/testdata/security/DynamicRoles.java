@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.testdata.security;
 
 import java.util.UUID;
 
-import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.exec.Sudo;
@@ -12,7 +11,7 @@ public class DynamicRoles {
 
   public static void createRoles() {
     Sudo.run(() -> {
-      var roles = context().roles();
+      var roles = ISecurityContext.current().roles();
       for (var i = 0; i < 110; i++) {
         var newRole = NewRole.create("role-" + UUID.randomUUID())
             .displayName("dynamic role")
@@ -33,12 +32,7 @@ public class DynamicRoles {
   }
 
   private static IRole getEverybody() {
-    return context().roles().topLevel();
+    return ISecurityContext.current().roles().topLevel();
   }
 
-  private static ISecurityContext context() {
-    return IApplicationRepository.instance()
-        .findByName("test").orElseThrow()
-        .getSecurityContext();
-  }
 }
