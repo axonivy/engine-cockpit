@@ -1,12 +1,14 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.util.List;
+import java.util.function.LongSupplier;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import ch.ivyteam.enginecockpit.commons.LazyCount;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.model.MemberProperty;
 import ch.ivyteam.enginecockpit.security.model.Role;
@@ -37,10 +39,10 @@ public class UserDetailBean {
 
   private String securitySystemName;
   private ISecurityContext securityContext;
-  private long canWorkOn;
-  private long personalTasks;
-  private long startedCases;
-  private long workingOn;
+  private final LazyCount canWorkOn = new LazyCount();
+  private final LazyCount personalTasks = new LazyCount();
+  private final LazyCount startedCases = new LazyCount();
+  private final LazyCount workingOn = new LazyCount();
   private RoleDataModel roleDataModel;
 
   private UserSynch userSynch;
@@ -86,20 +88,7 @@ public class UserDetailBean {
     this.user = new User(iUser);
     this.emailSettings = new EmailSettings(iUser, new EmailNotificationConfigurator(securityContext).settings());
     roleDataModel = new RoleDataModel(new SecuritySystem(securityContext), false, 20);
-    var caseQueryExecutor = IWorkflowContext.of(securityContext).getCaseQueryExecutor();
-    startedCases = CaseQuery.create(caseQueryExecutor).where().isBusinessCase().and().creatorId()
-            .isEqual(iUser.getSecurityMemberId()).executor().count();
-    var taskQueryExecutor = IWorkflowContext.of(securityContext).getTaskQueryExecutor();
-    workingOn = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
-            .or().state().isEqual(TaskState.RESUMED)
-            .or().state().isEqual(TaskState.PARKED)
-            .andOverall().workerId().isEqual(iUser.getSecurityMemberId()).executor().count();
-    personalTasks = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
-            .or().state().isEqual(TaskState.SUSPENDED)
-            .or().state().isEqual(TaskState.RESUMED)
-            .or().state().isEqual(TaskState.PARKED)
-            .andOverall().activatorId().isEqual(iUser.getSecurityMemberId()).executor().count();
-    canWorkOn = TaskQuery.create(taskQueryExecutor).where().canWorkOn(iUser).executor().count();
+
   }
 
   public User getUser() {
@@ -191,8 +180,11 @@ public class UserDetailBean {
 
   public String userDeleteHint() {
     var message = "";
-    if (personalTasks != 0) {
-      message += "The user '" + userName + "' has " + getPersonalTasks() + " personal tasks. "
+    var taskCount = getPersonalTasks();
+    if ("-".equals(taskCount)) {
+      message += "Could not load the user's personal task count. Deleting this user may affect personal tasks. ";
+    } else if (!ManagerBean.instance().formatNumber(0).equals(taskCount)) {
+      message += "The user '" + userName + "' has " + taskCount + " personal tasks. "
               + "If you delete this user, no other user can work on these tasks. ";
     }
     return message
@@ -204,19 +196,44 @@ public class UserDetailBean {
   }
 
   public String getCanWorkOn() {
-    return ManagerBean.instance().formatNumber(canWorkOn);
+    return formatCount(canWorkOn, "available task count", () -> {
+      var taskQueryExecutor = IWorkflowContext.of(securityContext).getTaskQueryExecutor();
+      return TaskQuery.create(taskQueryExecutor).where().canWorkOn(getIUser()).executor().count();
+    });
   }
 
   public String getPersonalTasks() {
-    return ManagerBean.instance().formatNumber(personalTasks);
+    return formatCount(personalTasks, "personal task count", () -> {
+      var taskQueryExecutor = IWorkflowContext.of(securityContext).getTaskQueryExecutor();
+      return TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
+          .or().state().isEqual(TaskState.SUSPENDED)
+          .or().state().isEqual(TaskState.RESUMED)
+          .or().state().isEqual(TaskState.PARKED)
+          .andOverall().activatorId().isEqual(getIUser().getSecurityMemberId()).executor().count();
+    });
   }
 
   public String getStartedCases() {
-    return ManagerBean.instance().formatNumber(startedCases);
+    return formatCount(startedCases, "started case count", () -> {
+      var caseQueryExecutor = IWorkflowContext.of(securityContext).getCaseQueryExecutor();
+      return CaseQuery.create(caseQueryExecutor).where().isBusinessCase().and().creatorId()
+          .isEqual(getIUser().getSecurityMemberId()).executor().count();
+    });
   }
 
   public String getWorkingOn() {
-    return ManagerBean.instance().formatNumber(workingOn);
+    return formatCount(workingOn, "working task count", () -> {
+      var taskQueryExecutor = IWorkflowContext.of(securityContext).getTaskQueryExecutor();
+      return TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
+          .or().state().isEqual(TaskState.RESUMED)
+          .or().state().isEqual(TaskState.PARKED)
+          .andOverall().workerId().isEqual(getIUser().getSecurityMemberId()).executor().count();
+    });
+  }
+
+  private String formatCount(LazyCount count, String description, LongSupplier query) {
+    var value = count.getCount(description + " for user '" + userName + "'", query);
+    return value == null ? "-" : ManagerBean.instance().formatNumber(value);
   }
 
   public ISecurityContext getSecurityContext() {

@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.LongSupplier;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.Strings;
 
+import ch.ivyteam.enginecockpit.commons.LazyCount;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.ldapbrowser.LdapBrowser;
 import ch.ivyteam.enginecockpit.security.model.MemberProperty;
@@ -55,10 +57,10 @@ public class RoleDetailBean {
   private MemberProperty roleProperties;
 
   private LdapBrowser ldapBrowser;
-  private long userCount;
-  private long runningTaskCount;
-  private long directTaskCount;
-  private long userInheritCount;
+  private final LazyCount userCount = new LazyCount();
+  private final LazyCount runningTaskCount = new LazyCount();
+  private final LazyCount directTaskCount = new LazyCount();
+  private final LazyCount userInheritCount = new LazyCount();
 
   public String getSecuritySystem() {
     return securitySystemName;
@@ -100,18 +102,6 @@ public class RoleDetailBean {
     this.usersOfRole.loadContentFilters(SecuritySystem.isIvySecuritySystem(securityContext));
     this.roleDataModel = new RoleDataModel(securitySystem, false);
     loadMembersOfRole();
-    userCount = securityContext.users().query().where().hasRoleAssigned(iRole).executor().count();
-    userInheritCount = securityContext.users().query().where().hasRole(iRole).executor().count();
-    var taskQueryExecutor = IWorkflowContext.of(securityContext).getTaskQueryExecutor();
-    runningTaskCount = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
-        .or().state().isEqual(TaskState.RESUMED)
-        .or().state().isEqual(TaskState.PARKED)
-        .andOverall().activatorId().isEqual(iRole.getSecurityMemberId()).executor().count();
-    directTaskCount = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
-        .or().state().isEqual(TaskState.SUSPENDED)
-        .or().state().isEqual(TaskState.RESUMED)
-        .or().state().isEqual(TaskState.PARKED)
-        .andOverall().activatorId().isEqual(iRole.getSecurityMemberId()).executor().count();
     roleProperties.setMemberName(this.roleName);
     this.newRoleName = this.roleName;
     var parentRole = iRole.getParent();
@@ -380,19 +370,39 @@ public class RoleDetailBean {
   }
 
   public String getUserCount() {
-    return ManagerBean.instance().formatNumber(userCount);
+    return getCount(userCount, "direct user count",
+        () -> securityContext.users().query().where().hasRoleAssigned(getIRole()).executor().count());
   }
 
   public String getUserInheritCount() {
-    return ManagerBean.instance().formatNumber(userInheritCount);
+    return getCount(userInheritCount, "inherited user count",
+        () -> securityContext.users().query().where().hasRole(getIRole()).executor().count());
   }
 
   public String getRunningTaskCount() {
-    return ManagerBean.instance().formatNumber(runningTaskCount);
+    return getCount(runningTaskCount, "running task count", () -> {
+      var taskQueryExecutor = IWorkflowContext.of(securityContext).getTaskQueryExecutor();
+      return TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
+          .or().state().isEqual(TaskState.RESUMED)
+          .or().state().isEqual(TaskState.PARKED)
+          .andOverall().activatorId().isEqual(getIRole().getSecurityMemberId()).executor().count();
+    });
   }
 
   public String getDirectTaskCount() {
-    return ManagerBean.instance().formatNumber(directTaskCount);
+    return getCount(directTaskCount, "direct open task count", () -> {
+      var taskQueryExecutor = IWorkflowContext.of(securityContext).getTaskQueryExecutor();
+      return TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
+          .or().state().isEqual(TaskState.SUSPENDED)
+          .or().state().isEqual(TaskState.RESUMED)
+          .or().state().isEqual(TaskState.PARKED)
+          .andOverall().activatorId().isEqual(getIRole().getSecurityMemberId()).executor().count();
+    });
+  }
+
+  private String getCount(LazyCount count, String description, LongSupplier query) {
+    var value = count.getCount(description + " for role '" + roleName + "'", query);
+    return value == null ? "-" : ManagerBean.instance().formatNumber(value);
   }
 
   public boolean isLdapBrowserDisabled() {
