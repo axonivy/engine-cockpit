@@ -1384,6 +1384,7 @@ userDetailInformation:
   Synch: Synchronisieren
   UserDeleteHintMessage: Anstatt diesen Benutzer zu löschen, können Sie ihn auch deaktivieren, damit Sie nicht seine Workflow-Geschichte verlieren.
   UserDeleteHintMessageWithPersonalTasks: Der Benutzer '${user}' hat ${tasks} persönliche Aufgaben. Wenn Sie diesen Benutzer löschen, kann kein anderer Benutzer an diesen Aufgaben arbeiten. Anstatt den Benutzer zu löschen, können Sie ihn deaktivieren, damit Sie seine Workflow-Geschichte nicht verlieren.
+  UserDeleteHintMessagePersonalTasksCountUnavailable: Die Anzahl der persönlichen Aufgaben dieses Benutzers konnte nicht geladen werden. Das Löschen dieses Benutzers kann persönliche Aufgaben betreffen.
   UserInExternalSecuritySystemMessage: Dieser Benutzer wird von einem externen Sicherheitssystem verwaltet
   UserInformation: Benutzerinformationen
   UserInformationChangesSavedMessage: Benutzerinformationsänderungen gespeichert

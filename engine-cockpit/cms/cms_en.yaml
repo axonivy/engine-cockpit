@@ -1398,6 +1398,7 @@ userDetailInformation:
   Synch: Synch
   UserDeleteHintMessage: You may want to disable this user instead of deleting it, you could lose part of the workflow history.
   UserDeleteHintMessageWithPersonalTasks: The user '${user}' has ${tasks} personal tasks. If you delete this user, no other user can work on these tasks. You may want to disable this user instead of deleting it, you could lose part of the workflow history.
+  UserDeleteHintMessagePersonalTasksCountUnavailable: Could not load this user's personal task count. Deleting this user may affect personal tasks.
   UserInExternalSecuritySystemMessage: This user is managed by the external security system
   UserInformation: User information
   UserInformationChangesSavedMessage: User information changes saved
