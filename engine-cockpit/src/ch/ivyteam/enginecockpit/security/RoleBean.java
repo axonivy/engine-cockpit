@@ -2,7 +2,9 @@ package ch.ivyteam.enginecockpit.security;
 
 import java.io.Serializable;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
@@ -12,11 +14,12 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 @ViewScoped
 public class RoleBean implements Serializable {
 
-  private final ManagerBean managerBean;
+  @Inject
+  private ManagerBean managerBean;
   private RoleDataModel roleDataModel;
 
-  public RoleBean() {
-    managerBean = ManagerBean.instance();
+  @PostConstruct
+  public void init() {
     reloadRoles();
   }
 

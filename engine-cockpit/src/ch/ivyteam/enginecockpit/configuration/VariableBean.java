@@ -17,6 +17,8 @@ import ch.ivyteam.ivy.vars.Variables;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named
@@ -28,15 +30,18 @@ public class VariableBean implements ConfigView, Serializable {
   private String filter;
   private ConfigProperty activeVariable;
   private Application app;
+  @Inject
+  private ManagerBean managerBean;
 
-  public VariableBean() {
+  @PostConstruct
+  public void init() {
     reloadVariables();
   }
 
   public void reloadVariables() {
     activeVariable = new ConfigProperty();
     filteredVariables = null;
-    app = ManagerBean.instance().getSelectedApplication();
+    app = managerBean.getSelectedApplication();
     if (app == null) {
       variables = new ArrayList<>();
       return;

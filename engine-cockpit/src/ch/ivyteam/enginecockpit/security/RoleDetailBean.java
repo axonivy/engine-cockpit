@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import org.apache.commons.lang3.Strings;
@@ -40,6 +41,9 @@ import ch.ivyteam.ivy.workflow.query.TaskQuery;
 @Named
 @ViewScoped
 public class RoleDetailBean implements Serializable {
+
+  @Inject
+  private ManagerBean managerBean;
 
   private String securitySystemName;
   private ISecurityContext securityContext;
@@ -397,19 +401,19 @@ public class RoleDetailBean implements Serializable {
   }
 
   public String getUserCount() {
-    return ManagerBean.instance().formatNumber(userCount);
+    return managerBean.formatNumber(userCount);
   }
 
   public String getUserInheritCount() {
-    return ManagerBean.instance().formatNumber(userInheritCount);
+    return managerBean.formatNumber(userInheritCount);
   }
 
   public String getRunningTaskCount() {
-    return ManagerBean.instance().formatNumber(runningTaskCount);
+    return managerBean.formatNumber(runningTaskCount);
   }
 
   public String getDirectTaskCount() {
-    return ManagerBean.instance().formatNumber(directTaskCount);
+    return managerBean.formatNumber(directTaskCount);
   }
 
   public boolean isDirectoryBrowserDisabled() {

@@ -17,9 +17,11 @@ import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.identity.core.IdentityProviderRegistry;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.internal.context.SecurityContext;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named
@@ -33,10 +35,11 @@ public class SecurityBean implements Serializable {
   private String newSecuritySystemName;
   private String newSecuritySystemProvider;
 
-  private final ManagerBean managerBean;
+  @Inject
+  private ManagerBean managerBean;
 
-  public SecurityBean() {
-    managerBean = ManagerBean.instance();
+  @PostConstruct
+  public void init() {
     loadSecuritySystems();
   }
 

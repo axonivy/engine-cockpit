@@ -9,18 +9,22 @@ import java.util.stream.Collectors;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.db.Databases;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named
 @ViewScoped
 public class DatabasesBean implements Serializable {
 
+  @Inject
+  private ManagerBean managerBean;
+
   private List<DatabaseDto> databases;
   private List<DatabaseDto> filteredDatabases;
   private String filter;
 
   public void onload() {
-    var app = ManagerBean.instance().getSelectedApplication();
+    var app = managerBean.getSelectedApplication();
     if (app == null) {
       databases = new ArrayList<>();
       return;

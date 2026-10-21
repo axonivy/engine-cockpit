@@ -12,17 +12,21 @@ import ch.ivyteam.ivy.workflow.IWebServiceProcess;
 import ch.ivyteam.ivy.workflow.IWebServiceProcessStartElement;
 import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named
 @ViewScoped
 public class WebServiceProcessesBean implements Serializable {
 
+  @Inject
+  private ManagerBean managerBean;
+
   private List<WebServiceProcess> webServiceProcesses;
 
   @SuppressWarnings("deprecation")
   public void onload() {
-   var app = ManagerBean.instance().getSelectedApplication();
+   var app = managerBean.getSelectedApplication();
    if (app == null) {
      webServiceProcesses = new ArrayList<>();
      return;
