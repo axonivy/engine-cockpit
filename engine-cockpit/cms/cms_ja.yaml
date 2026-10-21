@@ -1393,6 +1393,7 @@ userDetailInformation:
   Synch: 同期
   UserDeleteHintMessage: このユーザーを削除するのではなく無効にすることを検討してください。削除すると、ワークフロー履歴の一部が失われる可能性があります。
   UserDeleteHintMessageWithPersonalTasks: ユーザー '${user}' には ${tasks} 件の個人タスクがあります。このユーザーを削除すると、他のユーザーはこれらのタスクを処理できなくなります。削除するのではなく、このユーザーを無効にすることを検討してください。削除すると、ワークフロー履歴の一部が失われる可能性があります。
+  UserDeleteHintMessagePersonalTasksCountUnavailable: このユーザーの個人タスク数を読み込めませんでした。このユーザーを削除すると、個人タスクに影響する可能性があります。
   UserInExternalSecuritySystemMessage: このユーザーは外部セキュリティシステムによって管理されています
   UserInformation: ユーザー情報
   UserInformationChangesSavedMessage: ユーザー情報の変更を保存しました
