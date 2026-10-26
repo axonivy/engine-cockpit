@@ -211,7 +211,7 @@ public class ApplicationBean implements Serializable {
 
     private ConfigViewImpl build() {
       return new ConfigViewImpl(
-          app.config().get(),
+          app.config(),
           this::enrichWithEnumerationValues,
           List.of(
               ConfigViewImpl.defaultFilter(),
