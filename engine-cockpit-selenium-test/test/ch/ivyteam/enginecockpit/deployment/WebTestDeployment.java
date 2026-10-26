@@ -4,13 +4,16 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.Wait;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.Duration;
 import java.nio.file.Path;
 import java.util.NoSuchElementException;
 
@@ -108,6 +111,19 @@ class WebTestDeployment {
     $(By.id("versionProjectsForm:projectsTable:0:deleteBtn")).shouldBe(visible).click();
     $(By.id("versionProjectsForm:deleteProjectDialog")).shouldBe(visible);
     $(By.id("versionProjectsForm:deleteProjectDialogConfirmYesBtn")).shouldBe(visible).click();
+    $(By.id("state:appDetailStateForm:activateApplication")).shouldBe(visible, enabled).click();
+    $(By.id("activityState")).shouldHave(text("ACTIVE"));
+    waitForOperationState("STARTED");
+  }
+
+  private void waitForOperationState(String state) {
+    Wait()
+        .withTimeout(Duration.ofSeconds(10))
+        .withMessage("Application operation state should be " + state)
+        .until(webDriver -> {
+          webDriver.navigate().refresh();
+          return $(By.id("operationState")).is(exactText(state));
+        });
   }
 
   @Test
