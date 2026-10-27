@@ -443,8 +443,12 @@ class WebTestConfiguration {
         $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue_input"))
             .shouldBe(exactValue(value));
       } else if (classAttr.contains("ui-selectonemenu")) {
-        SelectOneMenu menu = PrimeUi.selectOne(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
-        menu.selectedItemShould(exactText(value));
+        if (StringUtils.isBlank(value)) {
+          $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue_input")).shouldHave(exactValue(""));
+        } else {
+          SelectOneMenu menu = PrimeUi.selectOne(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
+          menu.selectedItemShould(exactText(value));
+        }
       } else if (configValue.getTagName().contains("textarea")) {
         configValue.shouldNotBe(visible).shouldBe(exactValue(value));
         $(".CodeMirror").shouldBe(visible, text("this is a json file"));

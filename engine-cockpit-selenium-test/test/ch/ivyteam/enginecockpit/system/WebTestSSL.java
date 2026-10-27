@@ -149,7 +149,7 @@ class WebTestSSL {
     storePassword.sendKeys("changeit");
     password.clear();
     password.sendKeys("changeit");
-    provider.selectItemByLabel("");
+    provider.selectItemByValue("");
     type.selectItemByLabel("PKCS12");
     algorithm.selectItemByLabel("SunX509");
     saveKeyStore();
@@ -223,7 +223,7 @@ class WebTestSSL {
     file.sendKeys("configuration/truststore.p12");
     password.clear();
     password.sendKeys("changeit");
-    provider.selectItemByLabel("");
+    provider.selectItemByValue("");
     type.selectItemByLabel("PKCS12");
     algorithm.selectItemByLabel("PKIX");
 
