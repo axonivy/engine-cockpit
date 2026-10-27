@@ -75,7 +75,7 @@ class WebTestUserDetail {
   void saveUserInformation() {
     Navigation.toUserDetail(USER_FOO);
     clearUserInfoInputs();
-    $("#userInformationForm\\:fullName").sendKeys("Foo User");
+    $("#userInformationForm\\:fullName").sendKeys("Foo User <%=bla%>");
     $("#userInformationForm\\:email").sendKeys("foo@ivyteam.ch");
     $("#userInformationForm\\:password1").sendKeys("foo");
     $("#userInformationForm\\:password2").sendKeys("foo");
@@ -84,7 +84,7 @@ class WebTestUserDetail {
     $("#userInformationForm\\:informationSaveSuccess_container").shouldBe(visible);
     Selenide.refresh();
     $("#userInformationForm\\:name").shouldBe(exactText(USER_FOO));
-    $("#userInformationForm\\:fullName").shouldBe(exactValue("Foo User"));
+    $("#userInformationForm\\:fullName").shouldBe(exactValue("Foo User <_%=bla%_>"));
     $("#userInformationForm\\:email").shouldBe(exactValue("foo@ivyteam.ch"));
     $("#userInformationForm\\:password1").shouldBe(exactValue(""));
     $("#userInformationForm\\:password2").shouldBe(exactValue(""));
@@ -174,7 +174,8 @@ class WebTestUserDetail {
 
     Table table = new Table(By.id("notificationsForm:notificationChannelsTable"));
     var webNewTaskIcon = $(By.className("subscription-icon"));
-    var webNewTaskCheckbox = $(By.id("notificationsForm:notificationChannelsTable:0:channels:0:subscriptionCheckbox")).lastChild().lastChild();
+    var webNewTaskCheckbox = $(By.id("notificationsForm:notificationChannelsTable:0:channels:0:subscriptionCheckbox"))
+        .lastChild().lastChild();
 
     table.headerShouldBe(size(2));
     table.headerShouldBe(exactTexts("Event", "Web"));
@@ -222,7 +223,8 @@ class WebTestUserDetail {
     Navigation.toUserDetail(USER_FOO);
 
     var webNewTaskIcon = $(By.className("subscription-icon"));
-    var webNewTaskCheckbox = $(By.id("notificationsForm:notificationChannelsTable:0:channels:0:subscriptionCheckbox")).lastChild().lastChild();
+    var webNewTaskCheckbox = $(By.id("notificationsForm:notificationChannelsTable:0:channels:0:subscriptionCheckbox"))
+        .lastChild().lastChild();
 
     shouldHaveNotSubscribedByDefaultState(webNewTaskIcon, webNewTaskCheckbox);
 
