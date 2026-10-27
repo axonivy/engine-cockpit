@@ -72,7 +72,7 @@ class WebTestUserDetail {
   void saveUserInformation() {
     Navigation.toUserDetail(USER_FOO);
     clearUserInfoInputs();
-    $("#userInformationForm\\:fullName").sendKeys("Foo User");
+    $("#userInformationForm\\:fullName").sendKeys("Foo User <%=bla%>");
     $("#userInformationForm\\:email").sendKeys("foo@ivyteam.ch");
     $("#userInformationForm\\:password1").sendKeys("foo");
     $("#userInformationForm\\:password2").sendKeys("foo");
@@ -81,7 +81,7 @@ class WebTestUserDetail {
     $("#userInformationForm\\:informationSaveSuccess_container").shouldBe(visible);
     Selenide.refresh();
     $("#userInformationForm\\:name").shouldBe(exactText(USER_FOO));
-    $("#userInformationForm\\:fullName").shouldBe(exactValue("Foo User"));
+    $("#userInformationForm\\:fullName").shouldBe(exactValue("Foo User <_%=bla%_>"));
     $("#userInformationForm\\:email").shouldBe(exactValue("foo@ivyteam.ch"));
     $("#userInformationForm\\:password1").shouldBe(exactValue(""));
     $("#userInformationForm\\:password2").shouldBe(exactValue(""));
@@ -170,11 +170,11 @@ class WebTestUserDetail {
     Navigation.toUserDetail(USER_FOO);
     SelectOneRadio radioSettings = PrimeUi.selectOneRadio(By.id("userEmailForm:emailSettings:radioSettings"));
     SelectBooleanCheckbox neverCheckbox = PrimeUi
-            .selectBooleanCheckbox(By.id("userEmailForm:emailSettings:neverCheckbox"));
+        .selectBooleanCheckbox(By.id("userEmailForm:emailSettings:neverCheckbox"));
     SelectBooleanCheckbox taskCheckbox = PrimeUi
-            .selectBooleanCheckbox(By.id("userEmailForm:emailSettings:taskCheckbox"));
+        .selectBooleanCheckbox(By.id("userEmailForm:emailSettings:taskCheckbox"));
     SelectManyCheckbox dailyCheckbox = PrimeUi
-            .selectManyCheckbox(By.id("userEmailForm:emailSettings:radioDailyNotification"));
+        .selectManyCheckbox(By.id("userEmailForm:emailSettings:radioDailyNotification"));
     radioSettings.selectedValueShouldBe(exactValue("Application"));
     neverCheckbox.shouldBeChecked(false);
     neverCheckbox.shouldBeDisabled(true);
@@ -207,7 +207,7 @@ class WebTestUserDetail {
   void rolesAddRemove() {
     Navigation.toUserDetail(USER_FOO);
     String boss = Selenide.$$(".role-name").find(Condition.text("boss")).parent().parent().parent()
-            .getAttribute("id");
+        .getAttribute("id");
     By bossId = By.id(boss);
     $(bossId).find(ROLE_EXPANDER).click();
     By managerId = By.id(boss + "_0");
