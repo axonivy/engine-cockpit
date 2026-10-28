@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:cc="jakarta.faces.composite/composite">
+<h:body>
+  <f:metadata>
+    <f:viewAction action="#{webAppBean.refresh}" />
+  </f:metadata>
+
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><span>#{ivy.cm.co('/common/Monitor')}</span></li>
+      <li>/</li>
+      <li><span>#{ivy.cm.co('/sidebar/Engine')}</span></li>
+      <li>/</li>
+      <li><a href="monitor-webapps.xhtml">#{ivy.cm.co('/sidebar/WebApps')}</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#web-apps" />
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="card">
+        <h:form id="form" style="overflow: auto;">
+          <div class="flex align-items-center mb-3">
+            <i class="pr-2 ti ti-world-www card-title-icon"></i>
+            <h2 class="m-0">#{ivy.cm.co('/sidebar/WebApps')}</h2>
+            <p:commandButton id="refresh" actionListener="#{webAppBean.refresh}" update="contextTable"
+              title="#{ivy.cm.co('/common/Refresh')}" icon="ti ti-refresh"
+              styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button" />
+          </div>
+          <p:dataTable id="contextTable" widgetVar="contextTable" var="webContext" value="#{webAppBean.contexts}"
+            rowKey="#{webContext.path}" styleClass="ui-fluid" style="min-width: 950px;"
+            emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+            <f:facet name="header">
+              <div class="ui-input-icon-left filter-container">
+                <i class="ti ti-search" />
+                <p:inputText id="globalFilter" onkeyup="PF('contextTable').filter()"
+                  placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" />
+              </div>
+            </f:facet>
+
+            <p:column headerText="#{ivy.cm.co('/common/Path')}" sortBy="#{webContext.path}" filterBy="#{webContext.path}">
+              <h:outputLink value="#{webAppBean.link(webContext)}">#{webAppBean.displayPath(webContext)}</h:outputLink>
+            </p:column>
+            <p:column headerText="#{ivy.cm.co('/monitor/webApp/Kind')}" sortBy="#{webContext.kind}"
+              filterBy="#{webAppBean.kindLabel(webContext.kind)}">
+              <i class="pr-1 ti #{webAppBean.kindIcon(webContext.kind)}" />
+              <h:outputText value="#{webAppBean.kindLabel(webContext.kind)}" />
+            </p:column>
+            <p:column headerText="#{ivy.cm.co('/common/Application')}" sortBy="#{webContext.app}" filterBy="#{webContext.app}">
+              <h:outputLink value="#{webAppBean.appLink(webContext)}" rendered="#{not empty webContext.app}">#{webContext.app}</h:outputLink>
+            </p:column>
+            <p:column headerText="#{ivy.cm.co('/common/Version')}" sortBy="#{webContext.version}" style="width: 90px;">
+              <h:outputText value="#{webContext.version}" />
+            </p:column>
+            <p:column headerText="#{ivy.cm.co('/common/SecuritySystem')}" sortBy="#{webContext.securitySystem}"
+              filterBy="#{webContext.securitySystem}">
+              <h:outputLink value="#{webAppBean.securitySystemLink(webContext)}" rendered="#{not empty webContext.securitySystem}">#{webContext.securitySystem}</h:outputLink>
+            </p:column>
+            <p:column headerText="#{ivy.cm.co('/common/State')}" sortBy="#{webContext.state}" style="width: 120px;">
+              <h:outputText value="#{webContext.state}" styleClass="state-badge #{webAppBean.stateClass(webContext)}" />
+            </p:column>
+            <p:column headerText="#{ivy.cm.co('/monitor/webApp/Servlets')}" sortBy="#{webContext.servlets.size()}" style="width: 90px;">
+              <h:outputText value="#{webContext.servlets.size()}" />
+            </p:column>
+            <p:column headerText="#{ivy.cm.co('/monitor/webApp/Filters')}" sortBy="#{webContext.filters.size()}" style="width: 90px;">
+              <h:outputText value="#{webContext.filters.size()}" />
+            </p:column>
+          </p:dataTable>
+        </h:form>
+      </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

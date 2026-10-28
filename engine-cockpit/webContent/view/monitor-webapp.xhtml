@@ -1,0 +1,143 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:cc="jakarta.faces.composite/composite">
+<h:body>
+  <f:metadata>
+    <f:viewParam name="path" value="#{webAppBean.path}" />
+    <f:viewAction action="#{webAppBean.onload}" />
+  </f:metadata>
+
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><span>#{ivy.cm.co('/common/Monitor')}</span></li>
+      <li>/</li>
+      <li><span>#{ivy.cm.co('/sidebar/Engine')}</span></li>
+      <li>/</li>
+      <li><a href="monitor-webapps.xhtml">#{ivy.cm.co('/sidebar/WebApps')}</a></li>
+      <li>/</li>
+      <li><a href="#{webAppBean.link(webAppBean.context)}">#{webAppBean.path}</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#web-apps" />
+    </ui:define>
+
+    <ui:define name="content">
+      <h:form id="form">
+        <div class="card">
+          <div class="flex align-items-center mb-3">
+            <i class="pr-2 ti #{webAppBean.kindIcon(webAppBean.context.kind)} card-title-icon"></i>
+            <h2 class="m-0">#{webAppBean.path}</h2>
+            <p:commandButton id="refresh" actionListener="#{webAppBean.onload}" update="@form"
+              title="#{ivy.cm.co('/common/Refresh')}" icon="ti ti-refresh"
+              styleClass="flex-shrink-0 ml-auto ui-button-success rounded-button" />
+          </div>
+          <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-3 lg:col-2, col-12 md:col-9 lg:col-10"
+            styleClass="grey-label-panel">
+            <p:outputLabel for="kind" value="#{ivy.cm.co('/monitor/webApp/Kind')}" />
+            <h:outputText id="kind" value="#{webAppBean.kindLabel(webAppBean.context.kind)}" />
+
+            <p:outputLabel for="state" value="#{ivy.cm.co('/common/State')}" />
+            <h:outputText id="state" value="#{webAppBean.context.state}"
+              styleClass="state-badge #{webAppBean.stateClass(webAppBean.context)}" />
+
+            <p:outputLabel for="app" value="#{ivy.cm.co('/common/Application')}" rendered="#{not empty webAppBean.context.app}" />
+            <h:outputLink id="app" value="#{webAppBean.appLink(webAppBean.context)}" rendered="#{not empty webAppBean.context.app}">
+              #{webAppBean.context.app}<h:outputText value=" (#{ivy.cm.co('/common/Version')} #{webAppBean.context.version})"
+                rendered="#{not empty webAppBean.context.version}" />
+            </h:outputLink>
+
+            <p:outputLabel for="securitySystem" value="#{ivy.cm.co('/common/SecuritySystem')}"
+              rendered="#{not empty webAppBean.context.securitySystem}" />
+            <h:outputLink id="securitySystem" value="#{webAppBean.securitySystemLink(webAppBean.context)}"
+              rendered="#{not empty webAppBean.context.securitySystem}">#{webAppBean.context.securitySystem}</h:outputLink>
+          </p:panelGrid>
+        </div>
+
+        <p:tabView id="tabs" styleClass="tab-view-card">
+          <p:tab id="servletsTab" title="#{ivy.cm.co('/monitor/webApp/Servlets')} (#{webAppBean.context.servlets.size()})">
+            <p:dataTable id="servletTable" widgetVar="servletTable" var="servlet" value="#{webAppBean.servlets}"
+              rowKey="#{servlet.name}" styleClass="ui-fluid" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+              <f:facet name="header">
+                <div class="ui-input-icon-left filter-container">
+                  <i class="ti ti-search" />
+                  <p:inputText id="globalFilter" onkeyup="PF('servletTable').filter()"
+                    placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" />
+                </div>
+              </f:facet>
+
+              <p:column headerText="#{ivy.cm.co('/common/Name')}" sortBy="#{servlet.name}"
+                filterBy="#{servlet.name} #{servlet.className}">
+                <div>#{webAppBean.shortName(servlet.name)}</div>
+                <div class="text-sm text-color-secondary">#{servlet.className}</div>
+              </p:column>
+              <p:column headerText="#{ivy.cm.co('/monitor/webApp/Mappings')}" filterBy="#{servlet.mappings}">
+                <h:outputText value="#{webAppBean.join(servlet.mappings)}" />
+              </p:column>
+              <p:column sortBy="#{servlet.loaded}" style="width: 90px;">
+                <f:facet name="header">
+                  <h:outputText value="#{ivy.cm.co('/monitor/Loaded')}" title="#{ivy.cm.co('/monitor/webApp/LoadedTooltip')}" />
+                </f:facet>
+                <h:panelGroup rendered="#{servlet.loaded}">
+                  <i class="ti ti-check" title="#{ivy.cm.co('/monitor/Loaded')}" />
+                </h:panelGroup>
+              </p:column>
+              <p:column sortBy="#{servlet.requestCount}" style="width: 110px;">
+                <f:facet name="header">
+                  <h:outputText value="#{ivy.cm.co('/monitor/webApp/Requests')}" title="#{ivy.cm.co('/monitor/webApp/RequestsTooltip')}" />
+                </f:facet>
+                <h:outputText value="#{servlet.requestCount}">
+                  <f:convertNumber />
+                </h:outputText>
+              </p:column>
+              <p:column sortBy="#{servlet.processingTimeMillis}" style="width: 170px;">
+                <f:facet name="header">
+                  <h:outputText value="#{ivy.cm.co('/monitor/webApp/ProcessingTime')}"
+                    title="#{ivy.cm.co('/monitor/webApp/ProcessingTimeTooltip')}" />
+                </f:facet>
+                <h:outputText value="#{servlet.processingTimeMillis}">
+                  <f:convertNumber />
+                </h:outputText>
+              </p:column>
+            </p:dataTable>
+          </p:tab>
+
+          <p:tab id="filtersTab" title="#{ivy.cm.co('/monitor/webApp/Filters')} (#{webAppBean.context.filters.size()})">
+            <p:dataTable id="filterTable" widgetVar="filterTable" var="filter" value="#{webAppBean.context.filters}"
+              rowIndexVar="index" styleClass="ui-fluid" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+              <f:facet name="header">
+                <div class="ui-input-icon-left filter-container">
+                  <i class="ti ti-search" />
+                  <p:inputText id="globalFilter" onkeyup="PF('filterTable').filter()"
+                    placeholder="#{ivy.cm.co('/common/SearchPlaceholder')}" />
+                </div>
+              </f:facet>
+
+              <p:column headerText="#" style="width: 50px;">
+                <h:outputText value="#{index + 1}" />
+              </p:column>
+              <p:column headerText="#{ivy.cm.co('/common/Name')}" filterBy="#{filter.name} #{filter.className}">
+                <div>#{webAppBean.shortName(filter.name)}</div>
+                <div class="text-sm text-color-secondary">#{filter.className}</div>
+              </p:column>
+              <p:column headerText="#{ivy.cm.co('/monitor/webApp/UrlPatterns')}" filterBy="#{filter.urlPatterns}">
+                <h:outputText value="#{webAppBean.join(filter.urlPatterns)}" />
+              </p:column>
+              <p:column headerText="#{ivy.cm.co('/monitor/webApp/Servlets')}" filterBy="#{filter.servletNames}">
+                <h:outputText value="#{webAppBean.joinShortNames(filter.servletNames)}" />
+              </p:column>
+              <p:column headerText="#{ivy.cm.co('/monitor/webApp/Dispatchers')}" filterBy="#{filter.dispatchers}">
+                <h:outputText value="#{webAppBean.join(filter.dispatchers)}" />
+              </p:column>
+            </p:dataTable>
+          </p:tab>
+        </p:tabView>
+      </h:form>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

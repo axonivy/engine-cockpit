@@ -938,6 +938,27 @@ monitor:
     ExportTraces: Export traces
     StartTracesHelpText: Start the recording of the slow requests can have a negative impact on the performance of the engine.
     Traces: Traces
+  webApp:
+    Dispatchers: Dispatchers
+    Filters: Filters
+    Kind: Kind
+    LoadedTooltip: Servlets are instantiated on their first request unless they are loaded on startup
+    Mappings: Mappings
+    ProcessingTime: Processing Time [ms]
+    ProcessingTimeTooltip: Total time spent in this servlet including its filters since the web context was started
+    Requests: Requests
+    RequestsTooltip: Number of times this servlet was invoked since the web context was started, including forwards and includes
+    Servlets: Servlets
+    UrlPatterns: URL Patterns
+    kind:
+      APP: Application
+      APP_REDIRECT: Application Redirect
+      BASE: Base
+      DESIGNER: Designer
+      DEV_WORKFLOW_UI: Dev Workflow UI
+      ENGINE_COCKPIT: Engine Cockpit
+      OTHER: Other
+      SECURITY_SYSTEM: Security System
 monitorStartEventDetails:
   ProcessModels: Process Models
 monitorTraceDetail:
@@ -1262,6 +1283,7 @@ sidebar:
   Sessions: Sessions
   SlowRequests: Slow Requests
   TrafficGraph: Traffic Graph
+  WebApps: Web Apps
 soapHistory:
   Endpoint: Endpoint
   Operation: Operation
