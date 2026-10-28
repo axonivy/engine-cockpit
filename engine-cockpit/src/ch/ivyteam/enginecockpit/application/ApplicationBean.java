@@ -177,6 +177,10 @@ public class ApplicationBean implements Serializable {
         .toString();
   }
 
+  public String getLink() {
+    return getLink(contextName, appName);
+  }
+
   public String getHomeUrl() {
     return AppLink.home(app).getRelative();
   }
