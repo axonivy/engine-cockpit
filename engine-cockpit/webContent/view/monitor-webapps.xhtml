@@ -45,7 +45,7 @@
             </f:facet>
 
             <p:column headerText="#{ivy.cm.co('/common/Path')}" sortBy="#{webContext.path}" filterBy="#{webContext.path}">
-              <h:outputLink value="#{webAppBean.link(webContext)}">#{webAppBean.displayPath(webContext)}</h:outputLink>
+              <h:outputLink value="#{webAppBean.link(webContext)}"><span>#{webAppBean.displayPath(webContext)}</span></h:outputLink>
             </p:column>
             <p:column headerText="#{ivy.cm.co('/monitor/webApp/Kind')}" sortBy="#{webContext.kind}"
               filterBy="#{webAppBean.kindLabel(webContext.kind)}">
