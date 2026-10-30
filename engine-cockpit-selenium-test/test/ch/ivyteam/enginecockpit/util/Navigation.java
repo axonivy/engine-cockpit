@@ -63,6 +63,7 @@ public class Navigation {
   private static final String MONITOR_ENGINE_NOTIFICATION_MENU = "#sidebarMenu\\:menuform\\:sr_monitor_engine_notification";
   private static final String MONITOR_ENGINE_JOBS_MENU = "#sidebarMenu\\:menuform\\:sr_monitor_engine_jobs";
   private static final String MONITOR_ENGINE_HEALTH_MENU = "#sidebarMenu\\:menuform\\:sr_monitor_engine_health";
+  private static final String MONITOR_ENGINE_WEBAPPS_MENU = "#sidebarMenu\\:menuform\\:sr_monitor_engine_webapps";
   private static final String MONITOR_WORKFLOW_MENU = "#sidebarMenu\\:menuform\\:sr_monitor_workflow";
   private static final String MONITOR_WORKFLOW_DOCUMENTS_MENU = "#sidebarMenu\\:menuform\\:sr_monitor_workflow_documents";
   private static final String MONITOR_WORKFLOW_START_EVENTS_MENU = "#sidebarMenu\\:menuform\\:sr_monitor_workflow_start_events";
@@ -376,6 +377,12 @@ public class Navigation {
 
   public static void toHealth() {
     toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_HEALTH_MENU);
+  }
+
+  public static void toWebApps() {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_WEBAPPS_MENU);
+    assertCurrentUrlContains("monitor-webapps.xhtml");
+    menuShouldBeActive(MONITOR_ENGINE_WEBAPPS_MENU);
   }
 
   public static void toMBeans() {

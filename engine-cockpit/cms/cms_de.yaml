@@ -922,6 +922,32 @@ monitor:
     ExportTraces: Datenpunkte exportieren
     StartTracesHelpText: Das Starten der Aufnahme der langsamen Anfragen kann einen negativen Einfluss auf die Leistung der Engine haben.
     Traces: Datenpunkte
+  webApp:
+    AllDispatchers: Alle
+    AvgTime: Ø Zeit [ms]
+    AvgTimeTooltip: Durchschnittliche Verarbeitungszeit pro Anfrage seit dem Start des Web-Kontexts
+    ContextProcessingTimeTooltip: Gesamte Zeit in allen Servlets dieses Web-Kontexts seit seinem Start
+    ContextRequestsTooltip: Anzahl Servlet-Aufrufe in diesem Web-Kontext seit seinem Start, inklusive Forwards und Includes
+    Dispatchers: Dispatcher
+    Filters: Filter
+    Kind: Art
+    LoadedTooltip: Servlets werden bei der ersten Anfrage instanziert, ausser sie werden beim Start geladen
+    Mappings: Zuordnungen
+    ProcessingTime: Verarbeitungszeit [ms]
+    ProcessingTimeTooltip: Gesamte Zeit in diesem Servlet inklusive seiner Filter seit dem Start des Web-Kontexts
+    Requests: Anfragen
+    RequestsTooltip: Anzahl Aufrufe dieses Servlets seit dem Start des Web-Kontexts, inklusive Forwards und Includes
+    Servlets: Servlets
+    UrlPatterns: URL-Muster
+    kind:
+      APP: Applikation
+      APP_REDIRECT: Applikations-Weiterleitung
+      BASE: Basis
+      DESIGNER: Designer
+      DEV_WORKFLOW_UI: Dev Workflow UI
+      ENGINE_COCKPIT: Engine Cockpit
+      OTHER: Andere
+      SECURITY_SYSTEM: Sicherheitssystem
 monitorStartEventDetails:
   ProcessModels: Prozess Model
 monitorTraceDetail:
@@ -1248,6 +1274,7 @@ sidebar:
   Sessions: Sitzungen
   SlowRequests: Langsame Anfragen
   TrafficGraph: Verbindungen
+  WebApps: Web-Apps
 soapHistory:
   Endpoint: Endpunkt
   Operation: Betrieb
