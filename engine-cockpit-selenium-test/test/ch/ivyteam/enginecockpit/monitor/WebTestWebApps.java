@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.monitor;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.getAppName;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.Condition.attributeMatching;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
@@ -53,17 +54,31 @@ class WebTestWebApps {
   }
 
   @Test
-  void appContext() {
-    $x("//div[@id='form:contextTable']//tbody/tr[normalize-space(td[2])='Application' and td[3]/a[text()='"
-        + getAppName() + "']]/td[1]/a").click();
-    assertCurrentUrlContains("monitor-webapp.xhtml");
-
+  void appContextFilters() {
+    openAppContext();
     $(By.partialLinkText("Filters")).click();
     $(By.id("form:tabs:filterTable")).shouldHave(text("All"));
+  }
 
-    $(By.partialLinkText("Servlets")).click();
+  @Test
+  void webServicesLink() {
+    openAppContext();
     $(By.linkText("/ws/*")).click();
     assertCurrentUrlContains("webserviceprocesses.xhtml");
     assertThat(Tab.APP.getSelectedTab()).isEqualTo(getAppName());
+  }
+
+  @Test
+  void restServicesLink() {
+    openAppContext();
+    $(By.linkText("/api/*")).click();
+    assertCurrentUrlContains("restservices.xhtml");
+    $("#apiBrowser").shouldHave(attributeMatching("src", ".*primaryName=" + getAppName()));
+  }
+
+  private static void openAppContext() {
+    $x("//div[@id='form:contextTable']//tbody/tr[normalize-space(td[2])='Application' and td[3]/a[text()='"
+        + getAppName() + "']]/td[1]/a").click();
+    assertCurrentUrlContains("monitor-webapp.xhtml");
   }
 }
