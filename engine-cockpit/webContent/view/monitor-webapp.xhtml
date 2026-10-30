@@ -108,7 +108,7 @@
 
           <p:tab id="filtersTab" title="#{ivy.cm.co('/monitor/webApp/Filters')} (#{webAppBean.context.filters.size()})">
             <p:dataTable id="filterTable" widgetVar="filterTable" var="filter" value="#{webAppBean.context.filters}"
-              rowIndexVar="index" styleClass="ui-fluid" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
+              styleClass="ui-fluid" emptyMessage="#{ivy.cm.co('/common/NoRecordsFound')}">
               <f:facet name="header">
                 <div class="ui-input-icon-left filter-container">
                   <i class="ti ti-search" />
@@ -118,7 +118,7 @@
               </f:facet>
 
               <p:column headerText="#" style="width: 50px;">
-                <h:outputText value="#{index + 1}" />
+                <h:outputText value="#{webAppBean.context.filters.indexOf(filter) + 1}" />
               </p:column>
               <p:column headerText="#{ivy.cm.co('/common/Name')}" filterBy="#{filter.name} #{filter.className}">
                 <div>#{webAppBean.shortName(filter.name)}</div>
