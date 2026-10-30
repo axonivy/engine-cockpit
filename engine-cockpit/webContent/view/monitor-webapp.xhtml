@@ -74,6 +74,10 @@
                 filterBy="#{servlet.name} #{servlet.className}">
                 <div>#{webAppBean.shortName(servlet.name)}</div>
                 <div class="text-sm text-color-secondary">#{servlet.className}</div>
+                <p:commandLink rendered="#{not empty webAppBean.servicesPage(servlet)}" action="#{webAppBean.showServices(servlet)}"
+                  ajax="false" styleClass="text-sm">
+                  <i class="ti ti-external-link pr-1" />#{ivy.cm.co(webAppBean.servicesPage(servlet).label)}
+                </p:commandLink>
               </p:column>
               <p:column headerText="#{ivy.cm.co('/monitor/webApp/Mappings')}" filterBy="#{servlet.mappings}">
                 <h:outputText value="#{webAppBean.join(servlet.mappings)}" />
@@ -101,6 +105,14 @@
                 </f:facet>
                 <h:outputText value="#{servlet.processingTimeMillis}">
                   <f:convertNumber />
+                </h:outputText>
+              </p:column>
+              <p:column sortBy="#{webAppBean.avgTimeMillis(servlet)}" style="width: 150px;">
+                <f:facet name="header">
+                  <h:outputText value="#{ivy.cm.co('/monitor/webApp/AvgTime')}" title="#{ivy.cm.co('/monitor/webApp/AvgTimeTooltip')}" />
+                </f:facet>
+                <h:outputText value="#{webAppBean.avgTimeMillis(servlet)}">
+                  <f:convertNumber maxFractionDigits="1" />
                 </h:outputText>
               </p:column>
             </p:dataTable>
@@ -131,7 +143,9 @@
                 <h:outputText value="#{webAppBean.joinShortNames(filter.servletNames)}" />
               </p:column>
               <p:column headerText="#{ivy.cm.co('/monitor/webApp/Dispatchers')}" filterBy="#{filter.dispatchers}">
-                <h:outputText value="#{webAppBean.join(filter.dispatchers)}" />
+                <h:outputText value="#{ivy.cm.co('/monitor/webApp/AllDispatchers')}" title="#{webAppBean.join(filter.dispatchers)}"
+                  rendered="#{webAppBean.allDispatchers(filter.dispatchers)}" />
+                <h:outputText value="#{webAppBean.join(filter.dispatchers)}" rendered="#{not webAppBean.allDispatchers(filter.dispatchers)}" />
               </p:column>
             </p:dataTable>
           </p:tab>

@@ -1,9 +1,12 @@
 package ch.ivyteam.enginecockpit.monitor;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.getAppName;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +16,7 @@ import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
@@ -46,5 +50,20 @@ class WebTestWebApps {
 
     $(By.partialLinkText("Filters")).click();
     $(By.id("form:tabs:filterTable")).shouldHave(text("SecurityContextFilter"));
+  }
+
+  @Test
+  void appContext() {
+    $x("//div[@id='form:contextTable']//tbody/tr[normalize-space(td[2])='Application' and td[3]/a[text()='"
+        + getAppName() + "']]/td[1]/a").click();
+    assertCurrentUrlContains("monitor-webapp.xhtml");
+
+    $(By.partialLinkText("Filters")).click();
+    $(By.id("form:tabs:filterTable")).shouldHave(text("All"));
+
+    $(By.partialLinkText("Servlets")).click();
+    $(By.linkText("Web Service Processes")).click();
+    assertCurrentUrlContains("webserviceprocesses.xhtml");
+    assertThat(Tab.APP.getSelectedTab()).isEqualTo(getAppName());
   }
 }

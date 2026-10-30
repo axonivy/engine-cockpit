@@ -71,6 +71,23 @@
             <p:column headerText="#{ivy.cm.co('/monitor/webApp/Filters')}" sortBy="#{webContext.filters.size()}" style="width: 90px;">
               <h:outputText value="#{webContext.filters.size()}" />
             </p:column>
+            <p:column sortBy="#{webAppBean.requestCount(webContext)}" style="width: 110px;">
+              <f:facet name="header">
+                <h:outputText value="#{ivy.cm.co('/monitor/webApp/Requests')}" title="#{ivy.cm.co('/monitor/webApp/ContextRequestsTooltip')}" />
+              </f:facet>
+              <h:outputText value="#{webAppBean.requestCount(webContext)}">
+                <f:convertNumber />
+              </h:outputText>
+            </p:column>
+            <p:column sortBy="#{webAppBean.processingTimeMillis(webContext)}" style="width: 170px;">
+              <f:facet name="header">
+                <h:outputText value="#{ivy.cm.co('/monitor/webApp/ProcessingTime')}"
+                  title="#{ivy.cm.co('/monitor/webApp/ContextProcessingTimeTooltip')}" />
+              </f:facet>
+              <h:outputText value="#{webAppBean.processingTimeMillis(webContext)}">
+                <f:convertNumber />
+              </h:outputText>
+            </p:column>
           </p:dataTable>
         </h:form>
       </div>

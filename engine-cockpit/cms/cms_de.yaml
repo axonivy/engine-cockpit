@@ -923,6 +923,11 @@ monitor:
     StartTracesHelpText: Das Starten der Aufnahme der langsamen Anfragen kann einen negativen Einfluss auf die Leistung der Engine haben.
     Traces: Datenpunkte
   webApp:
+    AllDispatchers: Alle
+    AvgTime: Ø Zeit [ms]
+    AvgTimeTooltip: Durchschnittliche Verarbeitungszeit pro Anfrage seit dem Start des Web-Kontexts
+    ContextProcessingTimeTooltip: Gesamte Zeit in allen Servlets dieses Web-Kontexts seit seinem Start
+    ContextRequestsTooltip: Anzahl Servlet-Aufrufe in diesem Web-Kontext seit seinem Start, inklusive Forwards und Includes
     Dispatchers: Dispatcher
     Filters: Filter
     Kind: Art

@@ -938,6 +938,11 @@ monitor:
     StartTracesHelpText: 遅いリクエストの記録を開始すると、エンジンのパフォーマンスに悪影響を及ぼす可能性があります。
     Traces: トレース
   webApp:
+    AllDispatchers: すべて
+    AvgTime: 平均時間 [ms]
+    AvgTimeTooltip: Webコンテキスト開始以降のリクエストあたりの平均処理時間
+    ContextProcessingTimeTooltip: Webコンテキスト開始以降にこのコンテキストの全サーブレットで費やされた合計時間
+    ContextRequestsTooltip: Webコンテキスト開始以降のサーブレット呼び出し回数（フォワードとインクルードを含む）
     Dispatchers: ディスパッチャー
     Filters: フィルター
     Kind: 種類

@@ -3,24 +3,37 @@ package ch.ivyteam.enginecockpit.monitor.webapp;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.ClassUtils;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.application.ApplicationVersionBean;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
+import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.webserver.monitor.WebAppMonitor;
 import ch.ivyteam.ivy.webserver.monitor.WebContext;
 import ch.ivyteam.ivy.webserver.monitor.WebContext.Kind;
 import ch.ivyteam.ivy.webserver.monitor.WebServlet;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.DispatcherType;
 import jakarta.ws.rs.core.UriBuilder;
 
 @Named
 @ViewScoped
 public class WebAppBean implements Serializable {
+
+  private static final Map<String, ServicesPage> SERVICES_PAGES = Map.of(
+      "ch.ivyteam.ivy.webserver.internal.jaxws.IvyWebServiceServlet",
+      new ServicesPage("webserviceprocesses.xhtml", "/common/WebServiceProcesses"),
+      "org.glassfish.jersey.servlet.ServletContainer",
+      new ServicesPage("restservices.xhtml", "/common/RestServices"));
+
+  @Inject
+  private ManagerBean managerBean;
 
   private List<WebContext> contexts = List.of();
   private String path;
@@ -123,4 +136,41 @@ public class WebAppBean implements Serializable {
   public String joinShortNames(List<String> names) {
     return join(names.stream().map(ClassUtils::getShortClassName).toList());
   }
+
+  public boolean allDispatchers(List<String> dispatchers) {
+    return dispatchers.size() == DispatcherType.values().length;
+  }
+
+  public long requestCount(WebContext webContext) {
+    return webContext.servlets().stream().mapToLong(WebServlet::requestCount).sum();
+  }
+
+  public long processingTimeMillis(WebContext webContext) {
+    return webContext.servlets().stream().mapToLong(WebServlet::processingTimeMillis).sum();
+  }
+
+  public double avgTimeMillis(WebServlet servlet) {
+    if (servlet.requestCount() == 0) {
+      return 0;
+    }
+    return (double) servlet.processingTimeMillis() / servlet.requestCount();
+  }
+
+  public ServicesPage servicesPage(WebServlet servlet) {
+    if (context.kind() != Kind.APP) {
+      return null;
+    }
+    return SERVICES_PAGES.get(servlet.className());
+  }
+
+  public String showServices(WebServlet servlet) {
+    var apps = managerBean.getApplications();
+    apps.stream()
+        .filter(app -> app.name().equals(context.app()))
+        .findFirst()
+        .ifPresent(app -> managerBean.setSelectedApplicationIndex(apps.indexOf(app)));
+    return servicesPage(servlet).url() + "?faces-redirect=true";
+  }
+
+  public record ServicesPage(String url, String label) implements Serializable {}
 }

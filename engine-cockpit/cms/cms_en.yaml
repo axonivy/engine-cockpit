@@ -939,6 +939,11 @@ monitor:
     StartTracesHelpText: Start the recording of the slow requests can have a negative impact on the performance of the engine.
     Traces: Traces
   webApp:
+    AllDispatchers: All
+    AvgTime: Avg. Time [ms]
+    AvgTimeTooltip: Average processing time per request since the web context was started
+    ContextProcessingTimeTooltip: Total time spent in all servlets of this web context since it was started
+    ContextRequestsTooltip: Number of servlet invocations in this web context since it was started, including forwards and includes
     Dispatchers: Dispatchers
     Filters: Filters
     Kind: Kind
