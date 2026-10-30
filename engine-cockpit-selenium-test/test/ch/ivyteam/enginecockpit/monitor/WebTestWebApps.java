@@ -62,7 +62,7 @@ class WebTestWebApps {
     $(By.id("form:tabs:filterTable")).shouldHave(text("All"));
 
     $(By.partialLinkText("Servlets")).click();
-    $(By.linkText("Web Service Processes")).click();
+    $(By.linkText("/ws/*")).click();
     assertCurrentUrlContains("webserviceprocesses.xhtml");
     assertThat(Tab.APP.getSelectedTab()).isEqualTo(getAppName());
   }

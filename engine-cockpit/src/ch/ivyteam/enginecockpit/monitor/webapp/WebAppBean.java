@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.monitor.webapp;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.ClassUtils;
 
@@ -26,11 +25,8 @@ import jakarta.ws.rs.core.UriBuilder;
 @ViewScoped
 public class WebAppBean implements Serializable {
 
-  private static final Map<String, ServicesPage> SERVICES_PAGES = Map.of(
-      "ch.ivyteam.ivy.webserver.internal.jaxws.IvyWebServiceServlet",
-      new ServicesPage("webserviceprocesses.xhtml", "/common/WebServiceProcesses"),
-      "org.glassfish.jersey.servlet.ServletContainer",
-      new ServicesPage("restservices.xhtml", "/common/RestServices"));
+  private static final String WEB_SERVICE_SERVLET = "ch.ivyteam.ivy.webserver.internal.jaxws.IvyWebServiceServlet";
+  private static final String REST_SERVLET = "org.glassfish.jersey.servlet.ServletContainer";
 
   @Inject
   private ManagerBean managerBean;
@@ -156,21 +152,24 @@ public class WebAppBean implements Serializable {
     return (double) servlet.processingTimeMillis() / servlet.requestCount();
   }
 
-  public ServicesPage servicesPage(WebServlet servlet) {
+  public String servicesPage(WebServlet servlet) {
     if (context.kind() != Kind.APP) {
       return null;
     }
-    return SERVICES_PAGES.get(servlet.className());
+    return switch (servlet.className()) {
+      case WEB_SERVICE_SERVLET -> "webserviceprocesses.xhtml";
+      case REST_SERVLET -> "restservices.xhtml";
+      default -> null;
+    };
   }
 
   public String showServices(WebServlet servlet) {
     var apps = managerBean.getApplications();
-    apps.stream()
-        .filter(app -> app.name().equals(context.app()))
-        .findFirst()
-        .ifPresent(app -> managerBean.setSelectedApplicationIndex(apps.indexOf(app)));
-    return servicesPage(servlet).url() + "?faces-redirect=true";
+    for (var app : apps) {
+      if (app.name().equals(context.app())) {
+        managerBean.setSelectedApplicationIndex(apps.indexOf(app));
+      }
+    }
+    return servicesPage(servlet) + "?faces-redirect=true";
   }
-
-  public record ServicesPage(String url, String label) implements Serializable {}
 }
