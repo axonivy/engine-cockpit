@@ -13,7 +13,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.webserver.monitor.WebAppMonitor;
 import ch.ivyteam.ivy.webserver.monitor.WebContext;
 import ch.ivyteam.ivy.webserver.monitor.WebContext.Kind;
-import ch.ivyteam.ivy.webserver.monitor.WebContext.Servlet;
+import ch.ivyteam.ivy.webserver.monitor.WebServlet;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import jakarta.ws.rs.core.UriBuilder;
@@ -25,7 +25,7 @@ public class WebAppBean implements Serializable {
   private List<WebContext> contexts = List.of();
   private String path;
   private WebContext context;
-  private List<Servlet> servlets = List.of();
+  private List<WebServlet> servlets = List.of();
 
   public void refresh() {
     contexts = new ArrayList<>(WebAppMonitor.instance().contexts());
@@ -51,7 +51,7 @@ public class WebAppBean implements Serializable {
     return context;
   }
 
-  public List<Servlet> getServlets() {
+  public List<WebServlet> getServlets() {
     return servlets;
   }
 
