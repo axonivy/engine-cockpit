@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.monitor.webapp;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.ClassUtils;
 
@@ -156,20 +157,31 @@ public class WebAppBean implements Serializable {
     if (context.kind() != Kind.APP) {
       return null;
     }
-    return switch (servlet.className()) {
+    var page = switch (servlet.className()) {
       case WEB_SERVICE_SERVLET -> "webserviceprocesses.xhtml";
       case REST_SERVLET -> "restservices.xhtml";
       default -> null;
     };
+    if (page == null || servicesAppIndex() < 0) {
+      return null;
+    }
+    return page;
   }
 
   public String showServices(WebServlet servlet) {
+    managerBean.setSelectedApplicationIndex(servicesAppIndex());
+    return servicesPage(servlet) + "?faces-redirect=true";
+  }
+
+  private int servicesAppIndex() {
     var apps = managerBean.getApplications();
     for (var app : apps) {
-      if (app.name().equals(context.app())) {
-        managerBean.setSelectedApplicationIndex(apps.indexOf(app));
+      if (app.name().equals(context.app())
+          && app.securityContext().name().equals(context.securitySystem())
+          && Objects.equals(context.version(), app.version())) {
+        return apps.indexOf(app);
       }
     }
-    return servicesPage(servlet) + "?faces-redirect=true";
+    return -1;
   }
 }
