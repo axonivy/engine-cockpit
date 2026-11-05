@@ -323,10 +323,13 @@ common:
 configuration:
   ApplicationConfiguration: Applikationskonfiguration
   ConfigReset: '''${config} zurücksetzen'
+  ConfigResetOverridden: '''${config}'' aus ''${target}'' entfernt, aber der Wert aus ''${source}'' ist weiterhin wirksam'
   ConfigResetToDefault: '''${config}'' zurücksetzen auf standard'
   ConfigSaved: '''${config} gespeichert'
+  ConfigSavedOverridden: '''${config}'' in ''${target}'' gespeichert, aber nicht wirksam, weil ''${source}'' den Wert überschreibt'
   ConfigurationDialogDefaultTitle: Konfiguration
   EditConfigurationInfoMessage: Wenn Sie diese Eigenschaft ändern, müssen Sie Ihre Engine neu starten
+  EditConfigurationOverriddenMessage: 'Überschrieben durch ''${source}''. Änderungen werden in ''${target}'' gespeichert, sind aber nicht wirksam.'
   Examples: Beispiele
   Filter: 'Filter:'
   GoEditVariableValueLink: Bearbeiten Sie den Variablewert

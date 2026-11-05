@@ -1,7 +1,9 @@
 package ch.ivyteam.enginecockpit.configuration.model;
 
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -145,21 +147,64 @@ public class ConfigViewImpl implements TableFilter, ConfigView {
     if (filteredConfigs != null) {
       filteredConfigs.remove(activeConfig);
     }
-    String resetMessage = Ivy.cm().content("/configuration/ConfigReset").replace("config", activeConfig.getKey()).get();
-    reloadAndUiMessage(resetMessage);
+    reloadAndUiMessage("/configuration/ConfigReset", "/configuration/ConfigResetOverridden");
   }
 
   @Override
   public void saveConfig() {
     configuration.set(activeConfig.getKey(), activeConfig.getValue());
-    String savedMessage = Ivy.cm().content("/configuration/ConfigSaved").replace("config", activeConfig.getKey()).get();
-    reloadAndUiMessage(savedMessage);
+    reloadAndUiMessage("/configuration/ConfigSaved", "/configuration/ConfigSavedOverridden");
   }
 
-  private void reloadAndUiMessage(String message) {
+  public String getActiveConfigOverriddenMessage() {
+    if (activeConfig == null) {
+      return null;
+    }
+    return overriddenMessage("/configuration/EditConfigurationOverriddenMessage", activeConfig.getKey());
+  }
+
+  private void reloadAndUiMessage(String messageUri, String overriddenMessageUri) {
     reloadConfigs();
-    FacesContext.getCurrentInstance().addMessage("msgs", new FacesMessage(message));
+    var key = activeConfig.getKey();
+    var message = new FacesMessage(Ivy.cm().content(messageUri).replace("config", key).get());
+    var overridden = overriddenMessage(overriddenMessageUri, key);
+    if (overridden != null) {
+      message = new FacesMessage(FacesMessage.SEVERITY_WARN, overridden, null);
+    }
+    FacesContext.getCurrentInstance().addMessage("msgs", message);
     triggerTableFilter();
+  }
+
+  private String overriddenMessage(String messageUri, String key) {
+    if (!isOverridden(key)) {
+      return null;
+    }
+    return Ivy.cm().content(messageUri)
+        .replace("config", key)
+        .replace("target", writeTarget(key).getFileName().toString())
+        .replace("source", config(key).getShortSource())
+        .get();
+  }
+
+  public boolean isOverridden(String key) {
+    var config = config(key);
+    if (config == null || config.isDefault()) {
+      return false;
+    }
+    var target = writeTarget(key);
+    return target != null && !target.equals(config.getFile());
+  }
+
+  private ConfigProperty config(String key) {
+    return configs.stream().filter(c -> Objects.equals(c.getKey(), key)).findFirst().orElse(null);
+  }
+
+  private Path writeTarget(String key) {
+    try {
+      return configuration.topSource(key).file().toAbsolutePath();
+    } catch (NoSuchElementException _) {
+      return null;
+    }
   }
 
   public static ContentFilter<ConfigProperty> defaultFilter() {
