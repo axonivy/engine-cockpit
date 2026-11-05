@@ -385,8 +385,8 @@ deployment:
   DeployTestUsers: Test-Benutzer bereitstellen
   DeployToApp: Bereitstellen in App
   FileFormat: Datei Format
-  Options: Optionen
   RedeploymentWarning: Bei der Bereitstellung kann die Ziel-Anwendungsversion gestoppt und neu gestartet werden. Aktive Benutzersitzungen können beendet werden und nicht gespeicherte Änderungen können verloren gehen.
+  TestUsersDescription: Test-Benutzer, die in den hochgeladenen Projekten definiert sind.
   VersionRange: Versionsbereich
   errors:
     InvalidFile:
@@ -395,6 +395,10 @@ deployment:
     UploadError:
       detail: 'Beim Hochladen der Datei ist ein Fehler aufgetreten: '
       title: Upload Fehler
+  testUsers:
+    AUTO: Test-Benutzer nur bereitstellen, wenn die Engine im Demo-Modus läuft.
+    'FALSE': Keine Test-Benutzer bereitstellen.
+    'TRUE': Test-Benutzer unabhängig vom Engine-Modus bereitstellen.
 directoryBrowser:
   DirectoryBrowserDialogHeader: Verzeichnis Browser
   NodePropertiesEmptyMessage: Wählen Sie einen Knoten aus, um seine Attribute zu sehen

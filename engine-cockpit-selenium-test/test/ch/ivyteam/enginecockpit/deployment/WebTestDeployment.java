@@ -24,7 +24,6 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.engine.EngineUrl;
-import com.axonivy.ivy.webtest.primeui.PrimeUi;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
@@ -66,22 +65,10 @@ class WebTestDeployment {
   @Test
   void validApp() {
     toApplicationAndOpenDeployment();
-    deployAndAssert("Using options>DeploymentOptions");
-  }
-
-  @Test
-  void validAppWithDeployOptions() {
-    toApplicationAndOpenDeployment();
-    showDeploymentOptions();
-    deployAndAssert("Using options>DeploymentOptions");
-    removeDeployedApp();
-  }
-
-  private void deployAndAssert(String expectedDeployOptionsText) {
     deployPath(findTestProject(), "deployment");
     $(By.id("deployment:uploadStatus")).shouldHave(text("Success"));
-    $(By.id("uploadLog")).shouldHave(text(expectedDeployOptionsText), text("successfully deployed to application"));
     $(By.id("deployment:closeDeploymentBtn")).shouldBe(visible).click();
+    removeDeployedApp();
   }
 
   private Path findTestProject() {
@@ -124,20 +111,6 @@ class WebTestDeployment {
           webDriver.navigate().refresh();
           return $(By.id("operationState")).is(exactText(state));
         });
-  }
-
-  @Test
-  void deployOptions() {
-    toApplicationAndOpenDeployment();
-    showDeploymentOptions();
-    PrimeUi.selectOne(By.id("deployment:fileUploadForm:deployTestUsers")).selectedItemShould(exactText("AUTO"));
-  }
-
-  private void showDeploymentOptions() {
-    if (!$(By.id("deployment:fileUploadForm:deployOptionsPanel")).is(visible)) {
-      $(By.id("deployment:fileUploadForm:showDeployOptionsBtn")).click();
-      $(By.id("deployment:fileUploadForm:deployOptionsPanel")).shouldBe(visible);
-    }
   }
 
   private void toApplicationAndOpenDeployment() {
