@@ -42,12 +42,12 @@
                   itemLabel="#{testUser}" itemValue="#{testUser}"
                   itemDescription="#{ivy.cm.co('/deployment/testUsers/'.concat(testUser.name()))}" />
               </p:selectOneMenu>
-              <small class="block">
+              <small class="flex align-items-center gap-1">
                 #{ivy.cm.co('/deployment/TestUsersDescription')}
-                <p:link id="testUsersHelp" styleClass="label-help-icon" title="#{ivy.cm.co('/common/Help')}"
+                <p:link id="testUsersHelp" styleClass="inline-flex align-items-center" title="#{ivy.cm.co('/common/Help')}"
                   href="#{advisorBean.engineGuideBaseUrl}/deployment/prepare/deployment-options/index.html" target="_blank" rel="noopener noreferrer">
                   <f:passThroughAttribute name="aria-label" value="#{ivy.cm.co('/common/Help')}" />
-                  <i class="ti ti-help-circle"></i>
+                  <i class="ti ti-help-circle" style="font-size: 1.1rem"></i>
                 </p:link>
                 <p:tooltip for="testUsersHelp" position="top" showEvent="mouseenter focus" hideEvent="mouseleave blur">
                   <ui:repeat value="#{deploymentBean.deployOptions.deployTestUsersValues}" var="testUser">
