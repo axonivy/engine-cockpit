@@ -937,6 +937,32 @@ monitor:
     ExportTraces: エクスポートトレース
     StartTracesHelpText: 遅いリクエストの記録を開始すると、エンジンのパフォーマンスに悪影響を及ぼす可能性があります。
     Traces: トレース
+  webApp:
+    AllDispatchers: すべて
+    AvgTime: 平均時間 [ms]
+    AvgTimeTooltip: Webコンテキスト開始以降のリクエストあたりの平均処理時間
+    ContextProcessingTimeTooltip: Webコンテキスト開始以降にこのコンテキストの全サーブレットで費やされた合計時間
+    ContextRequestsTooltip: Webコンテキスト開始以降のサーブレット呼び出し回数（フォワードとインクルードを含む）
+    Dispatchers: ディスパッチャー
+    Filters: フィルター
+    Kind: 種類
+    LoadedTooltip: サーブレットは、起動時にロードされない限り、最初のリクエスト時にインスタンス化されます
+    Mappings: マッピング
+    ProcessingTime: 処理時間 [ms]
+    ProcessingTimeTooltip: Webコンテキストの開始以降、フィルターを含めこのサーブレットで費やされた合計時間
+    Requests: リクエスト
+    RequestsTooltip: Webコンテキストの開始以降にこのサーブレットが呼び出された回数（フォワードとインクルードを含む）
+    Servlets: サーブレット
+    UrlPatterns: URLパターン
+    kind:
+      APP: アプリケーション
+      APP_REDIRECT: アプリケーションリダイレクト
+      BASE: ベース
+      DESIGNER: デザイナー
+      DEV_WORKFLOW_UI: Dev Workflow UI
+      ENGINE_COCKPIT: Engine Cockpit
+      OTHER: その他
+      SECURITY_SYSTEM: セキュリティシステム
 monitorStartEventDetails:
   ProcessModels: プロセスモデル
 monitorTraceDetail:
@@ -1257,6 +1283,7 @@ sidebar:
   Sessions: セッション
   SlowRequests: 遅いリクエスト
   TrafficGraph: トラフィックグラフ
+  WebApps: Webアプリ
 soapHistory:
   Endpoint: エンドポイント
   Operation: オペレーション
