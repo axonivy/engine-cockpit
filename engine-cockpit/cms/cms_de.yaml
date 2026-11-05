@@ -386,6 +386,7 @@ deployment:
   DeployToApp: Bereitstellen in App
   FileFormat: Datei Format
   Options: Optionen
+  RedeploymentWarning: Bei der Bereitstellung kann die Ziel-Anwendungsversion gestoppt und neu gestartet werden. Aktive Benutzersitzungen können beendet werden und nicht gespeicherte Änderungen können verloren gehen.
   VersionRange: Versionsbereich
   errors:
     InvalidFile:

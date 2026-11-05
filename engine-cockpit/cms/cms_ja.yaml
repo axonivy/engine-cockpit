@@ -387,6 +387,7 @@ deployment:
   DeployToApp: アプリに展開
   FileFormat: ファイル形式
   Options: オプション
+  RedeploymentWarning: デプロイにより、対象のアプリケーションバージョンが停止して再起動される場合があります。アクティブなユーザーセッションが終了し、保存されていない作業内容が失われる可能性があります。
   VersionRange: バージョン範囲
   errors:
     InvalidFile:

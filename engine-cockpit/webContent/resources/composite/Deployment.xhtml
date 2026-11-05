@@ -18,6 +18,8 @@
         <p:autoUpdate />
       </p:messages>
       <h:panelGroup rendered="#{!deploymentBean.showDeployLogs}" layout="block">
+        <p:staticMessage id="redeploymentWarning" severity="warn" styleClass="w-full mb-3"
+          detail="#{ivy.cm.co('/deployment/RedeploymentWarning')}" />
         <div class="file-upload ui-fluid">
           <p:fileUpload id="fileUpload" value="#{deploymentBean.file}" dropZone="drop_zone" style="display: none" mode="advanced" auto="true"
             widgetVar="deployUpload" update="@form" accept="#{deploymentBean.allowedExtensionsText}" />

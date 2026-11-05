@@ -386,6 +386,7 @@ deployment:
   DeployToApp: Deploy to App
   FileFormat: File Format
   Options: Options
+  RedeploymentWarning: Deployment can stop and restart the target application version. Active user sessions may be terminated and unsaved work may be lost.
   VersionRange: Version Range
   errors:
     InvalidFile:
