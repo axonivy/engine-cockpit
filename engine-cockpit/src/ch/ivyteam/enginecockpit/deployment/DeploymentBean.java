@@ -18,6 +18,7 @@ import org.primefaces.model.file.UploadedFile;
 import ch.ivyteam.io.TemporaryDirectory;
 import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.application.app.ApplicationRepository;
+import ch.ivyteam.ivy.application.app.state.ActivityState;
 import ch.ivyteam.ivy.deployment.DeployLog;
 import ch.ivyteam.ivy.deployment.DeployTarget;
 import ch.ivyteam.ivy.deployment.DeployTarget.DeployAppVersion;
@@ -65,8 +66,12 @@ public class DeploymentBean implements Serializable {
         .findByNameAndVersion(appName, Integer.parseInt(appVersion)).orElseThrow();
   }
 
-  public boolean isRedeployment() {
-    return targetApplication != null && targetApplication.projects().all().findAny().isPresent();
+  public boolean isApplicationRestartRequired() {
+    if (targetApplication == null) {
+      return false;
+    }
+    var state = targetApplication.state();
+    return state.active() || state.canChangeTo(ActivityState.ACTIVE);
   }
 
   public String getAppVersion() {
