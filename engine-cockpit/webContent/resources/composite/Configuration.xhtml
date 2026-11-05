@@ -8,6 +8,7 @@
   <cc:attribute name="dialogTitle" default="#{ivy.cm.co('/configuration/ConfigurationDialogDefaultTitle')}" type="java.lang.String" />
   <cc:attribute name="showContentFilter" default="true" type="boolean" />
   <cc:attribute name="contentFilterText" default="" type="java.lang.String" />
+  <cc:attribute name="showOverriddenWarning" default="false" type="boolean" />
 </cc:interface>
 
 <cc:implementation>
@@ -98,6 +99,8 @@
     <h:form id="editConfigurationForm" styleClass="custom-dialog-form">
       <p:staticMessage severity="info" summary="#{ivy.cm.co('/configuration/EditConfigurationInfoMessage')}"
         rendered="#{cc.attrs.bean.activeConfig.restartRequired}" />
+      <p:staticMessage severity="warn" summary="#{cc.attrs.bean.activeConfigOverriddenMessage}"
+        rendered="#{cc.attrs.showOverriddenWarning and not empty cc.attrs.bean.activeConfigOverriddenMessage}" />
 
       <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9"
         styleClass="grey-label-panel ui-fluid">

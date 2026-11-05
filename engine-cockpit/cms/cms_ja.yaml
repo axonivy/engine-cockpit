@@ -324,10 +324,13 @@ common:
 configuration:
   ApplicationConfiguration: アプリケーションの設定
   ConfigReset: '''${config}'' リセット'
+  ConfigResetOverridden: '''${config}'' を ''${target}'' から削除しましたが、''${source}'' の値が引き続き有効です'
   ConfigResetToDefault: '''${config}'' をデフォルトにリセット'
   ConfigSaved: '''${config}'' を保存しました'
+  ConfigSavedOverridden: '''${config}'' を ''${target}'' に保存しましたが、''${source}'' によって上書きされているため反映されません'
   ConfigurationDialogDefaultTitle: 設定
   EditConfigurationInfoMessage: このプロパティを変更する場合、エンジンを再起動する必要があります
+  EditConfigurationOverriddenMessage: '''${source}'' によって上書きされています。変更は ''${target}'' に保存されますが、反映されません。'
   Examples: 例
   Filter: フィルター：
   GoEditVariableValueLink: 移動して変数値を編集する

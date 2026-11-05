@@ -201,6 +201,10 @@ public class ConfigProperty {
     return file != null;
   }
 
+  public Path getFile() {
+    return file;
+  }
+
   public String getFileContent() {
     if (!fileExist()) {
       return "";

@@ -323,10 +323,13 @@ common:
 configuration:
   ApplicationConfiguration: Configuration
   ConfigReset: '''${config}'' reset'
+  ConfigResetOverridden: '''${config}'' removed from ''${target}'', but the value from ''${source}'' is still effective'
   ConfigResetToDefault: '''${config}'' reset to default'
   ConfigSaved: '''${config}'' saved'
+  ConfigSavedOverridden: '''${config}'' saved to ''${target}'', but it does not take effect because ''${source}'' overrides it'
   ConfigurationDialogDefaultTitle: configuration
   EditConfigurationInfoMessage: If you change this property, you have to restart you engine
+  EditConfigurationOverriddenMessage: 'Overridden by ''${source}''. Changes are saved to ''${target}'' but will not take effect.'
   Examples: Examples
   Filter: 'Filter:'
   GoEditVariableValueLink: Go and edit the Variable value
