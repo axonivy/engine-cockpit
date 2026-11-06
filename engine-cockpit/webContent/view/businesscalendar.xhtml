@@ -20,7 +20,9 @@
     </ui:define>
 
     <ui:define name="topbar-items">
-      <cc:TopBarItem styleClass="editor-link" href="#{businessCalendarBean.editUrl}" icon="ti ti-pencil" title="#{ivy.cm.co('/businessCalendarDetail/EditAppYamlFile')}" external="false" />
+      <ui:fragment rendered="#{accessBean.hasAccess('system')}">
+        <cc:TopBarItem styleClass="editor-link" href="#{businessCalendarBean.editUrl}" icon="ti ti-pencil" title="#{ivy.cm.co('/businessCalendarDetail/EditAppYamlFile')}" external="false" />
+      </ui:fragment>
       <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}configuration.html#business-calendar" />
     </ui:define>
 
