@@ -125,7 +125,7 @@ common:
   Chart: Diagramm
   Check: Überprüfen
   Choose: Wähle
-  Clear: Löschen
+  Clear: Leeren
   Close: Schliessen
   Cluster: Kluster
   Cockpit: Cockpit
@@ -213,7 +213,7 @@ common:
   MoreOptions: Mehr Optionen
   Name: Name
   Next: Nächstes
-  'No': Nein
+  No: Nein
   NoData: Keine Daten
   NoDataAvailable: Keine Daten verfügbar
   NoRecordsFound: Keine Daten gefunden.
@@ -319,7 +319,7 @@ common:
   WebServiceProcesses: Web Service-Prozesse
   Workflow: Arbeitsablauf
   Write: Schreiben
-  'Yes': Ja
+  Yes: Ja
 configuration:
   ApplicationConfiguration: Applikationskonfiguration
   ConfigReset: '''${config} zurücksetzen'
@@ -708,6 +708,8 @@ monitor:
     CacheMaxTooltip: 'Max: Maximale Anzahl von Bytes oder Zeichen, die zwischengespeichert werden.'
     CacheTTITooltip: 'TTI: Leerlaufzeit. Die maximale Zeit, die ein Objekt im Cache bleibt, nachdem es zuletzt gelesen wurde.'
     CacheTTLTooltip: 'TTL: Lebensdauer. Die maximale Zeit, die ein Objekt im Cache bleibt, nachdem es zuerst gelesen wurde.'
+    ClearAllCaches: Alle Caches der Systemdatenbank  leeren
+    ClearAllCachesConfirmMessage: Möchten Sie wirklich alle Caches der Systemdatenbank leeren?
     CountTooltip: Die Anzahl der Objekte, die derzeit im Speicher zwischengespeichert werden
     LimitTooltip: Die Anzahl der Objekte im Cache (siehe Anzahl) wird periodisch auf diesen Wert reduziert
     MoreCacheLimitsTooltip: 'Weitere Cache-Grenzen:'
@@ -1410,8 +1412,8 @@ userDetailInformation:
   Password: Passwort
   Synch: Synchronisieren
   UserDeleteHintMessage: Anstatt diesen Benutzer zu löschen, können Sie ihn auch deaktivieren, damit Sie nicht seine Workflow-Geschichte verlieren.
-  UserDeleteHintMessageWithPersonalTasks: Der Benutzer '${user}' hat ${tasks} persönliche Aufgaben. Wenn Sie diesen Benutzer löschen, kann kein anderer Benutzer an diesen Aufgaben arbeiten. Anstatt den Benutzer zu löschen, können Sie ihn deaktivieren, damit Sie seine Workflow-Geschichte nicht verlieren.
   UserDeleteHintMessagePersonalTasksCountUnavailable: Die Anzahl der persönlichen Aufgaben dieses Benutzers konnte nicht geladen werden. Das Löschen dieses Benutzers kann persönliche Aufgaben betreffen.
+  UserDeleteHintMessageWithPersonalTasks: Der Benutzer '${user}' hat ${tasks} persönliche Aufgaben. Wenn Sie diesen Benutzer löschen, kann kein anderer Benutzer an diesen Aufgaben arbeiten. Anstatt den Benutzer zu löschen, können Sie ihn deaktivieren, damit Sie seine Workflow-Geschichte nicht verlieren.
   UserInExternalSecuritySystemMessage: Dieser Benutzer wird von einem externen Sicherheitssystem verwaltet
   UserInformation: Benutzerinformationen
   UserInformationChangesSavedMessage: Benutzerinformationsänderungen gespeichert
