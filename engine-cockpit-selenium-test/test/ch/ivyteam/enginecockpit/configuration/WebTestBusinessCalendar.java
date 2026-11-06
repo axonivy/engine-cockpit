@@ -1,13 +1,17 @@
 package ch.ivyteam.enginecockpit.configuration;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.texts;
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.open;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -15,6 +19,7 @@ import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.ElementsCollection;
 
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
@@ -26,6 +31,11 @@ class WebTestBusinessCalendar {
     login();
     Navigation.toBusinessCalendar();
     Tab.APP.switchToDefault();
+  }
+
+  @AfterEach
+  void afterEach() {
+    EngineCockpitUtil.setPaaSMode(false);
   }
 
   @Test
@@ -47,6 +57,17 @@ class WebTestBusinessCalendar {
   }
 
   @Test
+  void paasModeHidesBusinessCalendarEditorLink() {
+    setPaaSMode(true);
+    Navigation.toBusinessCalendarDetail("Luzern");
+    $(".editor-link").shouldNot(exist);
+
+    setPaaSMode(false);
+    Navigation.toBusinessCalendarDetail("Luzern");
+    $(".editor-link").shouldBe(visible);
+  }
+
+  @Test
   void testExpandCollapseTree() {
     getVisibleTreeNodes().shouldBe(size(3));
     $(By.id(getFormId() + ":collapseAll")).shouldBe(visible).click();
@@ -61,5 +82,10 @@ class WebTestBusinessCalendar {
 
   private String getFormId() {
     return "apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":treeForm";
+  }
+
+  private void setPaaSMode(boolean enabled) {
+    EngineCockpitUtil.setPaaSMode(enabled);
+    open(viewUrl("dashboard.xhtml"));
   }
 }
