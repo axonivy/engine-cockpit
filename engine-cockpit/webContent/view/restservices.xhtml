@@ -3,6 +3,10 @@
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
   xmlns:pe="primefaces.extensions" xmlns:cc="jakarta.faces.composite/composite">
 <h:body>
+  <f:metadata>
+    <f:viewAction action="#{managerBean.selectApplication(param.app)}" />
+  </f:metadata>
+
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">

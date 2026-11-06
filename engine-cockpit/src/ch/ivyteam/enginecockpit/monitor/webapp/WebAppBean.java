@@ -3,21 +3,18 @@ package ch.ivyteam.enginecockpit.monitor.webapp;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import org.apache.commons.lang3.ClassUtils;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.application.ApplicationVersionBean;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
-import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.webserver.monitor.WebAppMonitor;
 import ch.ivyteam.ivy.webserver.monitor.WebContext;
 import ch.ivyteam.ivy.webserver.monitor.WebContext.Kind;
 import ch.ivyteam.ivy.webserver.monitor.WebServlet;
 import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.DispatcherType;
 import jakarta.ws.rs.core.UriBuilder;
@@ -28,9 +25,6 @@ public class WebAppBean implements Serializable {
 
   private static final String WEB_SERVICE_SERVLET = "ch.ivyteam.ivy.webserver.internal.jaxws.IvyWebServiceServlet";
   private static final String REST_SERVLET = "org.glassfish.jersey.servlet.ServletContainer";
-
-  @Inject
-  private ManagerBean managerBean;
 
   private List<WebContext> contexts = List.of();
   private String path;
@@ -153,7 +147,7 @@ public class WebAppBean implements Serializable {
     return (double) servlet.processingTimeMillis() / servlet.requestCount();
   }
 
-  public String servicesPage(WebServlet servlet) {
+  public String servicesLink(WebServlet servlet) {
     if (context.kind() != Kind.APP) {
       return null;
     }
@@ -162,26 +156,9 @@ public class WebAppBean implements Serializable {
       case REST_SERVLET -> "restservices.xhtml";
       default -> null;
     };
-    if (page == null || servicesAppIndex() < 0) {
+    if (page == null) {
       return null;
     }
-    return page;
-  }
-
-  public String showServices(WebServlet servlet) {
-    managerBean.setSelectedApplicationIndex(servicesAppIndex());
-    return servicesPage(servlet) + "?faces-redirect=true";
-  }
-
-  private int servicesAppIndex() {
-    var apps = managerBean.getApplications();
-    for (var app : apps) {
-      if (app.name().equals(context.app())
-          && app.securityContext().name().equals(context.securitySystem())
-          && Objects.equals(context.version(), app.version())) {
-        return apps.indexOf(app);
-      }
-    }
-    return -1;
+    return UriBuilder.fromPath(page).queryParam("app", context.app()).build().toString();
   }
 }

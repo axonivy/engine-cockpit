@@ -102,6 +102,14 @@ public class ManagerBean implements Serializable {
     }
   }
 
+  public void selectApplication(String name) {
+    for (var app : getApplications()) {
+      if (app.name().equals(name)) {
+        setSelectedApplicationIndex(applications.indexOf(app));
+      }
+    }
+  }
+
   public void updateSelectedSecuritySystem(TabChangeEvent<?> event) {
     for (var securitySystem : securitySystems) {
       if (securitySystem.getSecuritySystemName().equals(event.getTab().getTitle())) {
