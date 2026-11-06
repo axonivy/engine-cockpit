@@ -125,7 +125,7 @@ common:
   Chart: Diagramm
   Check: Überprüfen
   Choose: Wähle
-  Clear: Löschen
+  Clear: Leeren
   Close: Schliessen
   Cluster: Kluster
   Cockpit: Cockpit
@@ -706,6 +706,8 @@ monitor:
   Write: Schreiben
   cache:
     CacheMaxTooltip: 'Max: Maximale Anzahl von Bytes oder Zeichen, die zwischengespeichert werden.'
+    ClearAllCaches: Alle System Datenbank Caches leeren
+    ClearAllCachesConfirmMessage: Möchten Sie wirklich alle System Datenbank Caches leeeren?
     CacheTTITooltip: 'TTI: Leerlaufzeit. Die maximale Zeit, die ein Objekt im Cache bleibt, nachdem es zuletzt gelesen wurde.'
     CacheTTLTooltip: 'TTL: Lebensdauer. Die maximale Zeit, die ein Objekt im Cache bleibt, nachdem es zuerst gelesen wurde.'
     CountTooltip: Die Anzahl der Objekte, die derzeit im Speicher zwischengespeichert werden

@@ -706,6 +706,8 @@ monitor:
   Write: Write
   cache:
     CacheMaxTooltip: 'Max: Maximum number of bytes or characters that are cached.'
+    ClearAllCaches: Clear All System Database Caches
+    ClearAllCachesConfirmMessage: Are you sure you want to clear all system database caches?
     CacheTTITooltip: 'TTI: Time to idle. The maximum time an object will stay in the cache after it was last read.'
     CacheTTLTooltip: 'TTL: Time to live. The maximum time an object will stay in the cache after it was first read.'
     CountTooltip: The number of objects that are currently cached in memory

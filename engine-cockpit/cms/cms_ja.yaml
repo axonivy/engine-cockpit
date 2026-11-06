@@ -705,6 +705,8 @@ monitor:
   Write: 書き込み
   cache:
     CacheMaxTooltip: 最大：キャッシュされるバイトまたは文字の最大数。
+    ClearAllCaches: システムデータベースのすべてのキャッシュをクリア
+    ClearAllCachesConfirmMessage: システムデータベースのすべてのキャッシュをクリアしてもよろしいですか？
     CacheTTITooltip: TTI：Time to idle（アイドルタイム）。オブジェクトが最後に読み込まれてからキャッシュに滞在する最大時間。
     CacheTTLTooltip: TTL：Time to live（存続時間）。オブジェクトが最初に読み込まれてからキャッシュに滞在する最大時間。
     CountTooltip: 現在メモリにキャッシュされているオブジェクトの数

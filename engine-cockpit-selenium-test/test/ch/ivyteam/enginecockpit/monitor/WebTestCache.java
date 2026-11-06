@@ -1,9 +1,12 @@
 package ch.ivyteam.enginecockpit.monitor;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static org.openqa.selenium.By.id;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,5 +52,16 @@ class WebTestCache {
     table.row("WorkflowEvent Long Characaters").should(exist);
     table.tableEntry("WorkflowEvent Long Characaters", 3).shouldHave(Condition.text("n.a."));
     table.tableEntry("WorkflowEvent Long Characaters", 7).shouldHave(Condition.text("max=32768"));
+  }
+
+  @Test
+  void clearAllCaches() {
+    table.tableEntry("AccessControl Entities", 2).shouldNotHave(Condition.text("0"));
+
+    $(id("form:clearAllButton")).shouldBe(visible, enabled).click();
+    $(id("clearAllCachesConfirmDialog")).shouldHave(Condition.text("Are you sure you want to clear all system database caches?"));
+    $(id("clearAllCachesConfirmDialog:clearAllConfirmButton")).click();
+
+    table.tableEntry("AccessControl Entities", 2).shouldHave(Condition.text("0"));
   }
 }

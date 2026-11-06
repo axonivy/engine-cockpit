@@ -61,6 +61,15 @@ public class CacheBean implements Serializable {
     this.filter = filter;
   }
 
+  public void clearAll() {
+    try {
+      var systemDatabase = new ObjectName("ivy Engine:type=Database Persistency Service");
+      ManagementFactory.getPlatformMBeanServer().invoke(systemDatabase, "clearCache", Cache.PARAMS, Cache.SIGNATURE);
+    } catch (MalformedObjectNameException | InstanceNotFoundException | ReflectionException | MBeanException ex) {
+      LOGGER.error("Could not clear all system database caches", ex);
+    }
+  }
+
   public static final class Cache {
     private static final String[] SIGNATURE = {};
     private static final Object[] PARAMS = {};

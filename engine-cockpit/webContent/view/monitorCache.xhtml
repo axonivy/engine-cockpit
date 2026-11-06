@@ -23,11 +23,15 @@
 
     <ui:define name="content">
       <div class="card">
-        <div class="flex align-items-center mb-3">
-          <i class="pr-2 ti ti-device-desktop-search card-title-icon"></i>
-          <h2 class="m-0">#{ivy.cm.co('/monitor/Caches')}</h2>
-        </div>
         <h:form id="form" style="overflow: auto;">
+          <div class="flex align-items-center mb-3">
+            <i class="pr-2 ti ti-device-desktop-search card-title-icon"></i>
+            <h2 class="m-0">#{ivy.cm.co('/monitor/Caches')}</h2>
+            <p:commandButton id="clearAllButton" type="button"
+              title="#{ivy.cm.co('/monitor/cache/ClearAllCaches')}" icon="ti ti-trash"
+              styleClass="flex-shrink-0 ml-auto ui-button-danger rounded-button"
+              onclick="PF('clearAllCachesConfirmDialog').show()" />
+          </div>
           <p:dataTable var="cache" value="#{cacheBean.caches}"
             widgetVar="cacheTable" styleClass="ui-fluid"
             filteredValue="#{cacheBean.filteredCaches}"
@@ -109,6 +113,18 @@
             
           </p:dataTable>
         </h:form>
+        <p:dialog id="clearAllCachesConfirmDialog"
+        style="min-width: 300px;" header="#{ivy.cm.co('/monitor/cache/ClearAllCaches')}" 
+            widgetVar="clearAllCachesConfirmDialog" responsive="true" closeOnEscape="true">
+          <h:form id="clearCaches" styleClass="custom-dialog-form">
+            <p:staticMessage severity="warn" detail="#{ivy.cm.co('/monitor/cache/ClearAllCachesConfirmMessage')}" />
+            <div class="custom-dialog-footer">
+              <p:commandButton id="cancel" type="button" onclick="PF('clearAllCachesConfirmDialog').hide();" value="#{ivy.cm.co('/common/Cancel')}" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+              <p:commandButton id="clearAllConfirmButton" onclick="PF('clearAllCachesConfirmDialog').hide();" value="#{ivy.cm.co('/common/Clear')}" icon="ti ti-trash"
+                styleClass="modal-input-button" actionListener="#{cacheBean.clearAll}" update="form"/>
+            </div>
+          </h:form>
+        </p:dialog>
       </div>
     </ui:define>
   </ui:composition>
