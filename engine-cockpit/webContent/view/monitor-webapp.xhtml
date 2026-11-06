@@ -76,9 +76,8 @@
                 <div class="text-sm text-color-secondary">#{servlet.className}</div>
               </p:column>
               <p:column headerText="#{ivy.cm.co('/monitor/webApp/Mappings')}" filterBy="#{servlet.mappings}">
-                <h:outputText value="#{webAppBean.join(servlet.mappings)}" rendered="#{empty webAppBean.servicesPage(servlet)}" />
-                <p:commandLink value="#{webAppBean.join(servlet.mappings)}" action="#{webAppBean.showServices(servlet)}" ajax="false"
-                  rendered="#{not empty webAppBean.servicesPage(servlet)}" />
+                <h:outputText value="#{webAppBean.join(servlet.mappings)}" rendered="#{empty webAppBean.servicesLink(servlet)}" />
+                <h:outputLink value="#{webAppBean.servicesLink(servlet)}" rendered="#{not empty webAppBean.servicesLink(servlet)}">#{webAppBean.join(servlet.mappings)}</h:outputLink>
               </p:column>
               <p:column sortBy="#{servlet.loaded}" style="width: 90px;">
                 <f:facet name="header">
