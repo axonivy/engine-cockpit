@@ -388,7 +388,8 @@ deployment:
   DeployTestUsers: Deploy Test Users
   DeployToApp: Deploy to App
   FileFormat: File Format
-  Options: Options
+  RedeploymentWarning: Deployment can stop and restart the target application version. Active user sessions may be terminated and unsaved work may be lost.
+  TestUsersDescription: Test users defined in the uploaded projects.
   VersionRange: Version Range
   errors:
     InvalidFile:
@@ -397,6 +398,10 @@ deployment:
     UploadError:
       detail: 'There was an error uploading the file: '
       title: Upload Error
+  testUsers:
+    AUTO: Deploy test users only when the engine runs in demo mode.
+    'FALSE': Do not deploy test users.
+    'TRUE': Deploy test users regardless of the engine mode.
 directoryBrowser:
   DirectoryBrowserDialogHeader: Directory Browser
   NodePropertiesEmptyMessage: Select a node to see its attributes

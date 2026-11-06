@@ -16,6 +16,9 @@ import jakarta.inject.Named;
 import org.primefaces.model.file.UploadedFile;
 
 import ch.ivyteam.io.TemporaryDirectory;
+import ch.ivyteam.ivy.application.app.Application;
+import ch.ivyteam.ivy.application.app.ApplicationRepository;
+import ch.ivyteam.ivy.application.app.state.ActivityState;
 import ch.ivyteam.ivy.deployment.DeployLog;
 import ch.ivyteam.ivy.deployment.DeployTarget;
 import ch.ivyteam.ivy.deployment.DeployTarget.DeployAppVersion;
@@ -24,6 +27,7 @@ import ch.ivyteam.ivy.deployment.DeploymentOptions;
 import ch.ivyteam.ivy.deployment.DeploymentRunner;
 import ch.ivyteam.ivy.deployment.log.impl.Log4j2DeploymentLogger;
 import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
 @Named
 @ViewScoped
@@ -34,7 +38,6 @@ public class DeploymentBean implements Serializable {
 
   private DeployOptions deployOptions = new DeployOptions();
   private CockpitDeploymentLogger deploymentLogger;
-  private boolean showDeployOptions = false;
   private boolean showDeployLogs = false;
   private UploadedFile file;
   private Path uploadedFile;
@@ -42,6 +45,7 @@ public class DeploymentBean implements Serializable {
   private String securityContextNameFromView;
   private String appNameFromView;
   private String appVersionFromView;
+  private Application targetApplication;
   private final DeploymentStatus status = new DeploymentStatus();
 
   public String getDropZoneText() {
@@ -56,6 +60,17 @@ public class DeploymentBean implements Serializable {
     this.securityContextNameFromView = securityContextName;
     this.appNameFromView = appName;
     this.appVersionFromView = appVersion;
+    var context = ISecurityContextRepository.instance().get(securityContextName);
+    this.targetApplication = ApplicationRepository.of(context)
+        .findByNameAndVersion(appName, Integer.parseInt(appVersion)).orElseThrow();
+  }
+
+  public boolean isApplicationRestartRequired() {
+    if (targetApplication == null) {
+      return false;
+    }
+    var state = targetApplication.state();
+    return state.active() || state.canChangeTo(ActivityState.ACTIVE);
   }
 
   public String getAppVersion() {
@@ -147,14 +162,6 @@ public class DeploymentBean implements Serializable {
     return ALLOWED_EXTENSIONS.stream().anyMatch(lower::endsWith);
   }
 
-  public Boolean getShowDeployOptions() {
-    return showDeployOptions;
-  }
-
-  public void toggleDeployOptions() {
-    this.showDeployOptions = !showDeployOptions;
-  }
-
   public DeployOptions getDeployOptions() {
     return deployOptions;
   }
@@ -189,7 +196,6 @@ public class DeploymentBean implements Serializable {
     this.file = null;
     this.uploadedFile = null;
     this.showDeployLogs = false;
-    this.showDeployOptions = false;
     this.status.idle();
   }
 
