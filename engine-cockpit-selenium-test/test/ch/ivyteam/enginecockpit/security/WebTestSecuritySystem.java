@@ -52,7 +52,8 @@ class WebTestSecuritySystem {
     $("#newSecuritySystemForm\\:newSecuritySystemNameMessage").shouldBe(empty);
     $("#newSecuritySystemModal").shouldNotBe(visible);
     $("#form\\:msgs_container .ui-growl-message")
-        .shouldHave(text("Security Context Name 'invalid?!' must match pattern"));
+        .shouldHave(text("Invalid input 'invalid?!'. Checks <Security Context Name> with RegEx"))
+        .shouldHave(text("Invalid character '?' at position 8 in 'invalid?!'"));
   }
 
   @Test
