@@ -50,9 +50,9 @@
                   <i class="ti ti-help-circle" style="font-size: 1.1rem"></i>
                 </p:link>
                 <p:tooltip for="testUsersHelp" position="top" showEvent="mouseenter focus" hideEvent="mouseleave blur">
-                  <ui:repeat value="#{deploymentBean.deployOptions.deployTestUsersValues}" var="testUser">
-                    <div>#{testUser}: #{ivy.cm.co('/deployment/testUsers/'.concat(testUser.name()))}</div>
-                  </ui:repeat>
+                  <div>AUTO: #{ivy.cm.co('/deployment/testUsers/AUTO')}</div>
+                  <div>FALSE: #{ivy.cm.co('/deployment/testUsers/FALSE')}</div>
+                  <div>TRUE: #{ivy.cm.co('/deployment/testUsers/TRUE')}</div>
                 </p:tooltip>
               </small>
             </h:panelGroup>
