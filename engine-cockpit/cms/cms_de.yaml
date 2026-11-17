@@ -213,7 +213,7 @@ common:
   MoreOptions: Mehr Optionen
   Name: Name
   Next: Nächstes
-  No: Nein
+  'No': 'Nein'
   NoData: Keine Daten
   NoDataAvailable: Keine Daten verfügbar
   NoRecordsFound: Keine Daten gefunden.
@@ -319,7 +319,7 @@ common:
   WebServiceProcesses: Web Service-Prozesse
   Workflow: Arbeitsablauf
   Write: Schreiben
-  Yes: Ja
+  'Yes': 'Ja'
 configuration:
   ApplicationConfiguration: Konfiguration
   ConfigReset: '''${config} zurücksetzen'
