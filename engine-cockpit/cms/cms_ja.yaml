@@ -24,6 +24,7 @@ applications:
   LastChangeDate: 最終変更日：
   LibraryVersion: ライブラリバージョン：
   Released: リリース済み
+  ReleaseButtonTitle: リリース
 applicationTabs:
   CreateApplication: アプリケーションの作成
   NoConfiguredApplication: There are no applications released.
@@ -104,7 +105,7 @@ clusterNodeInfo:
   OperatingSystemVersion: オペレーティング システムのバージョン
 common:
   Activate: アクティブ化
-  Activity: アクティビティ
+  Activity: ステータス
   Add: 追加
   Administrators: 管理者
   Algorithm: アルゴリスム
@@ -322,7 +323,7 @@ common:
   Write: 書き込み
   'Yes': はい
 configuration:
-  ApplicationConfiguration: アプリケーションの設定
+  ApplicationConfiguration: 仕様
   ConfigReset: '''${config}'' リセット'
   ConfigResetOverridden: '''${config}'' を ''${target}'' から削除しましたが、''${source}'' の値が引き続き有効です'
   ConfigResetToDefault: '''${config}'' をデフォルトにリセット'
@@ -513,7 +514,7 @@ info:
   ShutdownEngineMessage: Axon Ivy Engine をシャットダウンしています。ウィンドウを閉じてください。
 information:
   ApplicationHome: アプリケーション ホーム
-  ApplicationInformation: アプリケーション情報
+  ApplicationInformation: インフォメーション
   FileDirectory: ファイルディレクトリ
   WorkflowUI: ワークフロー UI
 infoTemplate:
@@ -1156,7 +1157,7 @@ searchEngineInformation:
   FloodStage: フラッドステージ
   FloodStageInfo: 検索エンジンは、利用可能なディスク容量がこの値を下回った場合、インデックスを読み取り専用モードにします。この設定は、ノードがディスク容量不足に陥るのを防ぐための最終手段です。ディスク使用率がハイウォーターマークを下回ると、インデックスブロックは自動的に解除されます。
   FloodStageWarning: 利用可能なディスク容量がフラッドステージを下回った場合、検索エンジンは新しいドキュメントのインデックス作成を停止し、既存のインデックスを読み取り専用モードに切り替えます
-  NotSupportESVersionMessage: このエラスティックサーチバージョンはサポートされていません
+  NotSupportESVersionMessage: このOpenSearchバージョンはサポートされていません
   WatermarkHigh: ハイウォーターマーク
   WatermarkHighInfo: 検索エンジンは、利用可能なディスク容量がこの値を下回るノードからシャードを移動しようと試みます。この設定は、すでに割り当てられているシャードかどうかに関わらず、すべてのシャードの割り当てに影響します。
   WatermarkLow: ローウォーターマーク
@@ -1196,8 +1197,7 @@ securitySystemMerge:
   CompareButton: 比較
   CompareButtonTitle: 対象となるセキュリティシステムとソースを比較します。変更は一切行われません。
   ComparisonReport: 比較レポート
-  ComparisonReportInfo: アプリケーションをソースのセキュリティシステムからターゲットのセキュリティシステムへ移行するには、ソースシステムと同じユーザーおよびロールがターゲットのセキュリティシステム内に存在する必要があります。すべての CREATE 操作を実行することで、不足しているユーザーおよびロールがターゲットのセキュリティシステムに作成されます。UPDATE 操作や DELETE 操作を実行する必要はありませんが、必要に応じてこれらの操作を用いてターゲットのセキュリティシステムをクリーンアップすることもできます。ただし、ロールがすでに存在していても、実際には同一のロールではない可能性があります。その場合、対象のセキュリティシステム内のロールと
-    Axon Ivy プロジェクト内のロールの名前を手動で変更してから、Axon Ivy プロジェクトを再展開する必要があります。
+  ComparisonReportInfo: アプリケーションをソースのセキュリティシステムからターゲットのセキュリティシステムへ移行するには、ソースシステムと同じユーザーおよびロールがターゲットのセキュリティシステム内に存在する必要があります。すべての CREATE 操作を実行することで、不足しているユーザーおよびロールがターゲットのセキュリティシステムに作成されます。UPDATE 操作や DELETE 操作を実行する必要はありませんが、必要に応じてこれらの操作を用いてターゲットのセキュリティシステムをクリーンアップすることもできます。ただし、ロールがすでに存在していても、実際には同一のロールではない可能性があります。その場合、対象のセキュリティシステム内のロールと Axon Ivy プロジェクト内のロールの名前を手動で変更してから、Axon Ivy プロジェクトを再展開する必要があります。
   CreateSolveHintMessage: ターゲットセキュリティシステム ${securitySystem} でエントリを作成します
   DeleteSolveHintMessage: ターゲットセキュリティシステム ${securitySystem} でエントリを削除します
   ExceutionFailed: 実行できませんでした
