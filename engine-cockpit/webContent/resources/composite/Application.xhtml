@@ -81,12 +81,12 @@
 
           <p:commandButton id="activateBtn" icon="ti ti-player-play" title="#{ivy.cm.co('/common/Activate')}"
             disabled="#{not version.state.activatable}" styleClass="ml-1 ui-button-success rounded-button">
-            <p:ajax listener="#{version.state.activate}" update="@form:versionsTable" />
+            <p:ajax listener="#{version.state.activate}" update="@form:versionsTable :home :workflow" />
           </p:commandButton>
 
           <p:commandButton id="deactivateBtn" icon="ti ti-player-stop" title="#{ivy.cm.co('/common/Deactivate')}"
             disabled="#{not version.state.deactivatable}" styleClass="ml-1 ui-button-danger rounded-button">
-            <p:ajax listener="#{version.state.deactivate}" update="@form:versionsTable" />
+            <p:ajax listener="#{version.state.deactivate}" update="@form:versionsTable :home :workflow" />
           </p:commandButton>
 
           <p:commandButton title="#{ivy.cm.co('/common/More')}" id="tasksButton" type="button" icon="ti ti-menu-2"

@@ -115,6 +115,37 @@ class WebTestApplication {
   }
 
   @Test
+  void launchLinksFollowApplicationActivationWithoutReload() {
+    var activate = $(By.id(BUTTON_ID + ":activateBtn"));
+    var deactivate = $(By.id(BUTTON_ID + ":deactivateBtn"));
+    var home = $(By.id("home"));
+    var workflow = $(By.id("workflow"));
+
+    table.rows().shouldHave(size(1));
+    var releaseState = $(By.id(BUTTON_ID + ":releaseState")).shouldBe(visible);
+    if (releaseState.has(text("DEPRECATED"))) {
+      $(By.id(BUTTON_ID + ":tasksButton")).shouldBe(visible).click();
+      $(By.id(BUTTON_ID + ":releaseBtn")).shouldBe(visible).click();
+      releaseState.shouldHave(text("RELEASED"));
+      Navigation.toApplication("demo-portal");
+    }
+    releaseState.shouldHave(text("RELEASED"));
+    home.shouldNotHave(cssClass("ui-state-disabled"));
+    workflow.shouldNotHave(cssClass("ui-state-disabled"));
+
+    deactivate.shouldBe(visible).click();
+    try {
+      home.shouldHave(cssClass("ui-state-disabled"));
+      workflow.shouldHave(cssClass("ui-state-disabled"));
+    } finally {
+      activate.shouldNotBe(disabled).click();
+    }
+
+    home.shouldNotHave(cssClass("ui-state-disabled"));
+    workflow.shouldNotHave(cssClass("ui-state-disabled"));
+  }
+
+  @Test
   void home() {
     var home = $(By.id("home"));
     home.$("a").shouldHave(Condition.href("demo-portal/1"));
