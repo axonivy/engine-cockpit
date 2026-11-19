@@ -134,6 +134,6 @@ public class AppStateDto {
   }
 
   public String getErrorMessage() {
-    return state.errorMessage();
+    return state.operationStateMessage();
   }
 }
