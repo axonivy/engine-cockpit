@@ -26,7 +26,7 @@ public class ProjectStateDto {
     return switch (state.mode()) {
       case UNKNOWN -> "ti ti-circle-minus";
       case OK, RUNNABLE -> "ti ti-circle-check";
-      case MISSING, OUTDATED, TOO_OLD, TOO_NEW -> "ti ti-circle-x";
+      case ERROR, OUTDATED, TOO_OLD, TOO_NEW -> "ti ti-circle-x";
     };
   }
 }
