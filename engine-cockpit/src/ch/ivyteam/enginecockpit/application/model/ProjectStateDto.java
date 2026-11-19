@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.application.model;
 
 import ch.ivyteam.ivy.application.project.ProjectState;
+import ch.ivyteam.ivy.application.project.ProjectState.ProjectMode;
 
 public class ProjectStateDto {
 
@@ -15,6 +16,9 @@ public class ProjectStateDto {
   }
 
   public String getProjectStateMessage() {
+    if (state.mode() == ProjectMode.ERROR) {
+      return state.errorMessage();
+    }
     return state.mode().message();
   }
 
