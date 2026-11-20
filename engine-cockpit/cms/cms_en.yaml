@@ -31,7 +31,11 @@ applicationVersion:
   DeleteProjectDialogHeader: Delete project ${name}
   DeleteProjectDialogMessage: Are you sure you want to delete project ${name}?
   LastChange: Last Change
+  MigrateCases: Migrate cases
+  MigrateCasesInfo: Moves all open business cases of this version with their sub cases, tasks and documents to the selected version.
   Projects: Projects
+  StartMigration: Start
+  TargetVersion: Target version
 axonivy:
   AxonIvyAG: Axon Ivy AG
   Build: Build

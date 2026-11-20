@@ -46,6 +46,10 @@
                       value="#{ivy.cm.co('/common/Deployment')}" styleClass="ml-auto ui-button-primary" process="@this"
                       actionListener="#{deploymentBean.setAppNameAndVersion(applicationVersionBean.context, applicationVersionBean.app, applicationVersionBean.version)}"
                       update=":deployPanel" oncomplete="PF('fileUploadModal').show();" />
+                    <p:commandButton id="migrateCasesButton" icon="ti ti-arrows-exchange" title="#{ivy.cm.co('/applicationVersion/MigrateCases')}"
+                      value="#{ivy.cm.co('/applicationVersion/MigrateCases')}" styleClass="ml-2 ui-button-secondary" process="@this"
+                      actionListener="#{caseMigrationBean.prepare(applicationVersionBean.context, applicationVersionBean.app, applicationVersionBean.version)}"
+                      update=":migrateCasesForm" oncomplete="PF('migrateCasesDialog').show();" />
                   </div>
                 </div>
 
@@ -113,6 +117,35 @@
       <h:panelGroup id="deployPanel">
         <cc:Deployment id="deployment" onClose="#{applicationVersionBean.onload}" update=":versionProjectsForm:projectsTable" />
       </h:panelGroup>
+      <p:dialog id="migrateCasesDialog" widgetVar="migrateCasesDialog" header="#{ivy.cm.co('/applicationVersion/MigrateCases')}"
+        modal="true" resizable="false" responsive="true" closeOnEscape="true" style="min-width: 550px; max-width: 700px;">
+        <h:form id="migrateCasesForm">
+          <h:panelGroup rendered="#{!caseMigrationBean.started}" layout="block" styleClass="ui-fluid">
+            <p:staticMessage severity="info" styleClass="w-full mb-3" detail="#{ivy.cm.co('/applicationVersion/MigrateCasesInfo')}" />
+            <p:panelGrid columns="2" columnClasses="col-4, col-8" layout="flex" contentStyleClass="align-items-center" styleClass="grey-label-panel">
+              <p:outputLabel for="targetVersion" value="#{ivy.cm.co('/applicationVersion/TargetVersion')}" />
+              <p:selectOneMenu id="targetVersion" value="#{caseMigrationBean.targetVersion}">
+                <f:selectItems value="#{caseMigrationBean.targetVersions}" />
+              </p:selectOneMenu>
+            </p:panelGrid>
+          </h:panelGroup>
+          <h:panelGroup rendered="#{caseMigrationBean.started}" layout="block">
+            <p:progressBar id="migrateProgress" value="#{caseMigrationBean.progress}" labelTemplate="{value}%" displayOnly="true" />
+            <div class="mt-2">
+              <h:outputText id="migrateStatus" value="#{caseMigrationBean.processed} / #{caseMigrationBean.total} (#{caseMigrationBean.failed} failed)" />
+            </div>
+            <pre id="migrateLog" class="upload-log"><h:outputText value="#{caseMigrationBean.logs}" /></pre>
+          </h:panelGroup>
+          <p:poll autoStart="#{caseMigrationBean.running}" interval="1" listener="#{caseMigrationBean.step}" update="@form" />
+          <div class="flex justify-content-end mt-4">
+            <p:commandButton id="closeMigrationBtn" type="button" onclick="PF('migrateCasesDialog').hide();" value="#{ivy.cm.co('/common/Close')}"
+              styleClass="ui-button-secondary ui-button-outlined mr-2" />
+            <p:commandButton id="startMigrationBtn" icon="ti ti-player-play" value="#{ivy.cm.co('/applicationVersion/StartMigration')}"
+              rendered="#{!caseMigrationBean.started}" disabled="#{empty caseMigrationBean.targetVersions}"
+              actionListener="#{caseMigrationBean.start}" update="@form" />
+          </div>
+        </h:form>
+      </p:dialog>
     </ui:define>
   </ui:composition>
 </h:body>
