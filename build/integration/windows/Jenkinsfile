@@ -7,7 +7,7 @@ pipeline {
   }
 
    tools {
-    jdk 'temurin-jdk-17.0.21.9'
+    jdk 'temurin-jdk-17.0.21.1.2'
     maven '3.8'
   }
 
