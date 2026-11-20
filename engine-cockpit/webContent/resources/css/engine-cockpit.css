@@ -339,6 +339,14 @@ body .ui-datatable thead th[class*="table-btn"] {
   max-width: 10em;
 }
 
+.project-state-message {
+  display: block;
+  margin-top: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .state-project-ok,
 .state-project-runnable,
 .state-app-released,

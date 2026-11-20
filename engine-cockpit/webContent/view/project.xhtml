@@ -52,11 +52,17 @@
                 <label>#{ivy.cm.co('/projectDetail/ProjectVersion')}</label>
                 <h:outputText value="#{projectBean.project.projectVersion}" />
                 <label>State</label>
-                <h:panelGroup id="projectState" layout="block" styleClass="#{projectBean.project.state.projectStateStyleClass}">
-                  <i class="#{projectBean.project.state.projectStateIcon}" title="#{projectBean.project.state.projectState}"></i>
-                  <h:outputText value="#{projectBean.project.state.projectState}" />
-                  <p:tooltip for="projectState" value="#{projectBean.project.state.projectStateMessage}"
-                    styleClass="pre-tooltip" position="top" />
+                <h:panelGroup layout="block">
+                  <h:panelGroup id="projectState" layout="block"
+                    styleClass="#{projectBean.project.state.projectStateStyleClass}">
+                    <i class="#{projectBean.project.state.projectStateIcon}"
+                      title="#{projectBean.project.state.projectState}"></i>
+                    <h:outputText value="#{projectBean.project.state.projectState}" />
+                    <p:tooltip for="projectState" value="#{projectBean.project.state.projectStateMessage}"
+                      styleClass="pre-tooltip" position="top" />
+                  </h:panelGroup>
+                  <h:outputText id="projectStateMessage" value="#{projectBean.project.state.projectStateMessage}"
+                    styleClass="project-state-message" />
                 </h:panelGroup>
               </p:panelGrid>
             </div>
