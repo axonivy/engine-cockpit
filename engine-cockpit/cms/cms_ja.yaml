@@ -1080,6 +1080,7 @@ projectDetail:
   OperationState: 操作状態
   Project: プロジェクト
   ProjectInformation: 情報
+  ProjectStateMessage: プロジェクト状態メッセージ
   ProjectVersion: プロジェクトバージョン
   ReleaseState: リリース状態
   Resolved: 解決済み

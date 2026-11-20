@@ -58,6 +58,8 @@
                   <p:tooltip for="projectState" value="#{projectBean.project.state.projectStateMessage}"
                     styleClass="pre-tooltip" position="top" />
                 </h:panelGroup>
+                <label>#{ivy.cm.co('/projectDetail/ProjectStateMessage')}</label>
+                <h:outputText value="#{projectBean.project.state.projectStateMessage}" styleClass="white-space-nowrap" />
               </p:panelGrid>
             </div>
           </div>

@@ -1081,6 +1081,7 @@ projectDetail:
   OperationState: Operation State
   Project: Project
   ProjectInformation: Information
+  ProjectStateMessage: Project State Message
   ProjectVersion: Project Version
   ReleaseState: Release state
   Resolved: Resolved

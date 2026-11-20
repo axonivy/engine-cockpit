@@ -1061,6 +1061,7 @@ projectDetail:
   OperationState: Betriebszustand
   Project: Projekt
   ProjectInformation: Information
+  ProjectStateMessage: Projekt Status Meldung
   ProjectVersion: Projektversion
   ReleaseState: Freigabezustand
   Resolved: Aufgelöst
