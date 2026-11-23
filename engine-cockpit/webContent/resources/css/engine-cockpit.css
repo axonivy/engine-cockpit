@@ -380,6 +380,7 @@ body .ui-datatable thead th[class*="table-btn"] {
   color: #1B1B1B;
 }
 
+.state-project-error,
 .state-app-failed,
 .state-log-error,
 .state-log-fatal {
