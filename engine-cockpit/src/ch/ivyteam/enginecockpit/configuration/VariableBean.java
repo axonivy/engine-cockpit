@@ -13,11 +13,12 @@ import ch.ivyteam.enginecockpit.configuration.model.ConfigView;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.app.Application;
 import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.variables.application.ApplicationVariables;
 import ch.ivyteam.ivy.vars.Variables;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
-import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -49,7 +50,7 @@ public class VariableBean implements ConfigView, Serializable {
     variables = variables().all().stream()
         .filter(Objects::nonNull)
         .map(ConfigProperty::new)
-        .collect(Collectors.toList());    
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -115,6 +116,6 @@ public class VariableBean implements ConfigView, Serializable {
   }
 
   private Variables variables() {
-    return Variables.of(app);
+    return ApplicationVariables.of(app);
   }
 }
