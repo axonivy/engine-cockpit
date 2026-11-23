@@ -23,8 +23,8 @@ applications:
   Deprecated: 非推奨
   LastChangeDate: 最終変更日：
   LibraryVersion: ライブラリバージョン：
-  Released: リリース済み
   ReleaseButtonTitle: リリース
+  Released: リリース済み
 applicationTabs:
   CreateApplication: アプリケーションの作成
   NoConfiguredApplication: There are no applications released.
@@ -215,7 +215,7 @@ common:
   MoreOptions: その他のオプション
   Name: 名前
   Next: 次へ
-  'No': いいえ
+  No: いいえ
   NoData: データなし
   NoDataAvailable: 利用可能なデータがありません
   NoRecordsFound: レコードが見つかりませんでした。
@@ -227,6 +227,7 @@ common:
   NotificationChannels: 通知チャネル
   OK: OK
   Object: オブジェクト
+  OpenCases: 実行中のケース
   Order: 順序
   PM: PM
   Password: パスワード
@@ -321,7 +322,7 @@ common:
   WebServiceProcesses: Web サービスプロセス
   Workflow: ワークフロー
   Write: 書き込み
-  'Yes': はい
+  Yes: はい
 configuration:
   ApplicationConfiguration: 仕様
   ConfigReset: '''${config}'' リセット'
@@ -402,8 +403,8 @@ deployment:
       title: アップロードエラー
   testUsers:
     AUTO: エンジンがデモモードで実行されている場合のみ、テストユーザーをデプロイします。
-    'FALSE': テストユーザーをデプロイしません。
-    'TRUE': エンジンのモードに関係なく、テストユーザーをデプロイします。
+    FALSE: テストユーザーをデプロイしません。
+    TRUE: エンジンのモードに関係なく、テストユーザーをデプロイします。
 directoryBrowser:
   DirectoryBrowserDialogHeader: ディレクトリブラウザー
   NodePropertiesEmptyMessage: 属性を表示するノードを選択してください
@@ -714,10 +715,10 @@ monitor:
   Write: 書き込み
   cache:
     CacheMaxTooltip: 最大：キャッシュされるバイトまたは文字の最大数。
-    ClearAllCaches: システムデータベースのすべてのキャッシュをクリア
-    ClearAllCachesConfirmMessage: システムデータベースのすべてのキャッシュをクリアしてもよろしいですか？
     CacheTTITooltip: TTI：Time to idle（アイドルタイム）。オブジェクトが最後に読み込まれてからキャッシュに滞在する最大時間。
     CacheTTLTooltip: TTL：Time to live（存続時間）。オブジェクトが最初に読み込まれてからキャッシュに滞在する最大時間。
+    ClearAllCaches: システムデータベースのすべてのキャッシュをクリア
+    ClearAllCachesConfirmMessage: システムデータベースのすべてのキャッシュをクリアしてもよろしいですか？
     CountTooltip: 現在メモリにキャッシュされているオブジェクトの数
     LimitTooltip: キャッシュ内のオブジェクトの数（カウント参照）は、定期的にこの値まで削減されます
     MoreCacheLimitsTooltip: その他のキャッシュ制限：
@@ -1076,7 +1077,6 @@ projectDetail:
   LastDeployed: 最終展開
   MavenID: Maven ID
   MavenVersion: Maven バージョン
-  OpenCases: 実行中のケース
   OperationState: 操作状態
   Project: プロジェクト
   ProjectInformation: 情報
@@ -1198,7 +1198,8 @@ securitySystemMerge:
   CompareButton: 比較
   CompareButtonTitle: 対象となるセキュリティシステムとソースを比較します。変更は一切行われません。
   ComparisonReport: 比較レポート
-  ComparisonReportInfo: アプリケーションをソースのセキュリティシステムからターゲットのセキュリティシステムへ移行するには、ソースシステムと同じユーザーおよびロールがターゲットのセキュリティシステム内に存在する必要があります。すべての CREATE 操作を実行することで、不足しているユーザーおよびロールがターゲットのセキュリティシステムに作成されます。UPDATE 操作や DELETE 操作を実行する必要はありませんが、必要に応じてこれらの操作を用いてターゲットのセキュリティシステムをクリーンアップすることもできます。ただし、ロールがすでに存在していても、実際には同一のロールではない可能性があります。その場合、対象のセキュリティシステム内のロールと Axon Ivy プロジェクト内のロールの名前を手動で変更してから、Axon Ivy プロジェクトを再展開する必要があります。
+  ComparisonReportInfo: アプリケーションをソースのセキュリティシステムからターゲットのセキュリティシステムへ移行するには、ソースシステムと同じユーザーおよびロールがターゲットのセキュリティシステム内に存在する必要があります。すべての CREATE 操作を実行することで、不足しているユーザーおよびロールがターゲットのセキュリティシステムに作成されます。UPDATE 操作や DELETE 操作を実行する必要はありませんが、必要に応じてこれらの操作を用いてターゲットのセキュリティシステムをクリーンアップすることもできます。ただし、ロールがすでに存在していても、実際には同一のロールではない可能性があります。その場合、対象のセキュリティシステム内のロールと
+    Axon Ivy プロジェクト内のロールの名前を手動で変更してから、Axon Ivy プロジェクトを再展開する必要があります。
   CreateSolveHintMessage: ターゲットセキュリティシステム ${securitySystem} でエントリを作成します
   DeleteSolveHintMessage: ターゲットセキュリティシステム ${securitySystem} でエントリを削除します
   ExceutionFailed: 実行できませんでした
@@ -1430,8 +1431,8 @@ userDetailInformation:
   Password: パスワード
   Synch: 同期
   UserDeleteHintMessage: このユーザーを削除するのではなく無効にすることを検討してください。削除すると、ワークフロー履歴の一部が失われる可能性があります。
-  UserDeleteHintMessageWithPersonalTasks: ユーザー '${user}' には ${tasks} 件の個人タスクがあります。このユーザーを削除すると、他のユーザーはこれらのタスクを処理できなくなります。削除するのではなく、このユーザーを無効にすることを検討してください。削除すると、ワークフロー履歴の一部が失われる可能性があります。
   UserDeleteHintMessagePersonalTasksCountUnavailable: このユーザーの個人タスク数を読み込めませんでした。このユーザーを削除すると、個人タスクに影響する可能性があります。
+  UserDeleteHintMessageWithPersonalTasks: ユーザー '${user}' には ${tasks} 件の個人タスクがあります。このユーザーを削除すると、他のユーザーはこれらのタスクを処理できなくなります。削除するのではなく、このユーザーを無効にすることを検討してください。削除すると、ワークフロー履歴の一部が失われる可能性があります。
   UserInExternalSecuritySystemMessage: このユーザーは外部セキュリティシステムによって管理されています
   UserInformation: ユーザー情報
   UserInformationChangesSavedMessage: ユーザー情報の変更を保存しました

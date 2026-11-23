@@ -213,7 +213,7 @@ common:
   MoreOptions: More Options
   Name: Name
   Next: Next
-  'No': 'No'
+  No: No
   NoData: No Data
   NoDataAvailable: No data available
   NoRecordsFound: No records found.
@@ -225,6 +225,7 @@ common:
   NotificationChannels: Notification Channels
   OK: OK
   Object: Object
+  OpenCases: Open Cases
   Order: Order
   PM: PM
   Password: Password
@@ -319,7 +320,7 @@ common:
   WebServiceProcesses: Web Service Processes
   Workflow: Workflow
   Write: Write
-  'Yes': 'Yes'
+  Yes: Yes
 configuration:
   ApplicationConfiguration: Configuration
   ConfigReset: '''${config}'' reset'
@@ -329,7 +330,7 @@ configuration:
   ConfigSavedOverridden: '''${config}'' saved to ''${target}'', but it does not take effect because ''${source}'' overrides it'
   ConfigurationDialogDefaultTitle: configuration
   EditConfigurationInfoMessage: If you change this property, you have to restart you engine
-  EditConfigurationOverriddenMessage: 'Overridden by ''${source}''. Changes are saved to ''${target}'' but will not take effect.'
+  EditConfigurationOverriddenMessage: Overridden by '${source}'. Changes are saved to '${target}' but will not take effect.
   Examples: Examples
   Filter: 'Filter:'
   GoEditVariableValueLink: Go and edit the Variable value
@@ -400,8 +401,8 @@ deployment:
       title: Upload Error
   testUsers:
     AUTO: Deploy test users only when the engine runs in demo mode.
-    'FALSE': Do not deploy test users.
-    'TRUE': Deploy test users regardless of the engine mode.
+    FALSE: Do not deploy test users.
+    TRUE: Deploy test users regardless of the engine mode.
 directoryBrowser:
   DirectoryBrowserDialogHeader: Directory Browser
   NodePropertiesEmptyMessage: Select a node to see its attributes
@@ -714,10 +715,10 @@ monitor:
   Write: Write
   cache:
     CacheMaxTooltip: 'Max: Maximum number of bytes or characters that are cached.'
-    ClearAllCaches: Clear All System Database Caches
-    ClearAllCachesConfirmMessage: Are you sure you want to clear all system database caches?
     CacheTTITooltip: 'TTI: Time to idle. The maximum time an object will stay in the cache after it was last read.'
     CacheTTLTooltip: 'TTL: Time to live. The maximum time an object will stay in the cache after it was first read.'
+    ClearAllCaches: Clear All System Database Caches
+    ClearAllCachesConfirmMessage: Are you sure you want to clear all system database caches?
     CountTooltip: The number of objects that are currently cached in memory
     LimitTooltip: The number of objects in the cache (see count) is periodically reduced to this value
     MoreCacheLimitsTooltip: 'More cache limits:'
@@ -1077,7 +1078,6 @@ projectDetail:
   LastDeployed: Last changed
   MavenID: Maven ID
   MavenVersion: Maven Version
-  OpenCases: Open Cases
   OperationState: Operation State
   Project: Project
   ProjectInformation: Information
@@ -1435,8 +1435,8 @@ userDetailInformation:
   Password: Password
   Synch: Synch
   UserDeleteHintMessage: You may want to disable this user instead of deleting it, you could lose part of the workflow history.
-  UserDeleteHintMessageWithPersonalTasks: The user '${user}' has ${tasks} personal tasks. If you delete this user, no other user can work on these tasks. You may want to disable this user instead of deleting it, you could lose part of the workflow history.
   UserDeleteHintMessagePersonalTasksCountUnavailable: Could not load this user's personal task count. Deleting this user may affect personal tasks.
+  UserDeleteHintMessageWithPersonalTasks: The user '${user}' has ${tasks} personal tasks. If you delete this user, no other user can work on these tasks. You may want to disable this user instead of deleting it, you could lose part of the workflow history.
   UserInExternalSecuritySystemMessage: This user is managed by the external security system
   UserInformation: User information
   UserInformationChangesSavedMessage: User information changes saved
