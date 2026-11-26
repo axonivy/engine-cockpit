@@ -30,6 +30,7 @@ public class CaseMigrationBean implements Serializable {
   private List<Long> caseIds = List.of();
   private int moved;
   private int failed;
+  private boolean aborted;
   private final List<String> logs = new ArrayList<>();
 
   public void prepare(String contextName, String appName, int version) {
@@ -48,6 +49,7 @@ public class CaseMigrationBean implements Serializable {
     caseIds = List.of();
     moved = 0;
     failed = 0;
+    aborted = false;
     logs.clear();
   }
 
@@ -68,16 +70,29 @@ public class CaseMigrationBean implements Serializable {
   }
 
   public void step() {
+    if (!isRunning()) {
+      return;
+    }
     var workflow = IWorkflowContext.of(source.securityContext());
     var from = getProcessed();
-    for (var id : caseIds.subList(from, Math.min(from + BATCH_SIZE, caseIds.size()))) {
-      try {
-        Sudo.run(() -> workflow.findCase(id).move(target));
-        moved++;
-        logs.add("Case " + id + " moved");
-      } catch (RuntimeException ex) {
-        failed++;
-        logs.add(ex.getMessage());
+    var completed = false;
+    try {
+      for (var id : caseIds.subList(from, Math.min(from + BATCH_SIZE, caseIds.size()))) {
+        try {
+          Sudo.run(() -> workflow.findCase(id).move(target));
+          moved++;
+          logs.add("Case " + id + " moved");
+        } catch (RuntimeException ex) {
+          failed++;
+          logs.add(ex.getMessage());
+        }
+      }
+      completed = true;
+    } finally {
+      if (!completed) {
+        // stops the poll, otherwise it repeats the same failure every second
+        aborted = true;
+        logs.add("Aborted, see the engine log");
       }
     }
     finishIfDone();
@@ -94,7 +109,7 @@ public class CaseMigrationBean implements Serializable {
   }
 
   public boolean isRunning() {
-    return isStarted() && getProcessed() < caseIds.size();
+    return isStarted() && !aborted && getProcessed() < caseIds.size();
   }
 
   public int getProcessed() {
